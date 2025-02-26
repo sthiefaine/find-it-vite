@@ -1,0 +1,16 @@
+.gridContainer {
+  background-color: yellow;
+  width: 360px;
+  height: 360px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.canvasGameBoard {
+  background-color: aquamarine;
+  width: 360px;
+  height: 360px;
+}
