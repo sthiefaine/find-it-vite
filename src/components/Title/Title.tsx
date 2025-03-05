@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Title.css"
 export const Title = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [showHiddenChar, setShowHiddenChar] = useState(false);
+  const [_showHiddenChar, setShowHiddenChar] = useState(false);
   const [magnifyPosition, setMagnifyPosition] = useState(0);
   const [bounceEffect, setBounceEffect] = useState(false);
 

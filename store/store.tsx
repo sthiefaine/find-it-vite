@@ -71,7 +71,7 @@ export const defaultInitState: GameState = {
   pauseTimer: false,
   wantedCharacter: null,
   animationLevelLoading: false,
-  debug: true,
+  debug: false,
   level: 6,
   gameState: GameStateEnum.INIT,
   timeLeft: 0,

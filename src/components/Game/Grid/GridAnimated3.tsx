@@ -54,14 +54,14 @@ interface GridAnimated3Props {
 
 const GridAnimated3 = ({
   difficulty = 2,
-  characterCount = 80,
+  characterCount = 180,
   useBackgroundGrid = false,
   backgroundGridJitter = 2,
   moveBackgroundCharacters = true,
   sameDirectionForAll = false,
   differentLayersDirection = true,
   lowerLayerSpeed = 0.6,
-  upperLayerSpeed = 0.6,
+  upperLayerSpeed = 0.0,
   edgeBehavior = "wrap",
   wantedZIndexBelow = false,
   wantedCharacterSpeed = 0.5,
@@ -755,7 +755,7 @@ const GridAnimated3 = ({
         }
       };
     }
-  }, [
+  },  [
     grid,
     wantedCharacter,
     difficulty,

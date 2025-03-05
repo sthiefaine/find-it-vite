@@ -18,9 +18,9 @@ const Game = () => {
   return (
     <div className="gameContainer">
       <GameHeader />
-      {level && <GameGrid />}
+      {!level && <GameGrid />}
       {!level && <GridAnimated />}
-      {!level && <GridAnimated2 />}
+      {level && <GridAnimated2 />}
       {!level && <GridAnimated3 />}
 
       <InGameActionButton />

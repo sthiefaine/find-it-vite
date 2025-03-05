@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import styles from "./countdown.module.css";
+import styles from "./Countdown.module.css";
 import { useShallow } from "zustand/react/shallow";
 import { gameConstants, GameStateEnum, useGameStore } from "../../../store/store";
 import { randomIntFromInterval } from "../../helpers/gameUtils";

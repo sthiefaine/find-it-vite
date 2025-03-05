@@ -76,8 +76,8 @@ export function getLevelConfig(level: number, maxSize?: number): LevelConfig {
 }
 
 export function generateGrid(
-  cellSize: number,
-  gridSize: number,
+  _cellSize: number,
+  _gridSize: number,
   level: number,
   maxCellsPerRow: number,
   wanted: CharacterDetails
