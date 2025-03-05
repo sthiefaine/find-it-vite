@@ -1,58 +1,117 @@
-import { useEffect, useRef } from "react";
-import { CharacterDetails } from "../../../helpers/characters";
+import { useEffect, useRef, useState } from "react";
+import "@pixi/events";
 import "./GameHeader.css";
+import { GameStateEnum, useGameStore } from "../../../../store/store";
+import { useShallow } from "zustand/shallow";
+import { Timer } from "./Timer/Timer";
+import ScoreDisplay from "./ScoreDisplay/ScoreDisplay";
+import { Sprite, Stage } from "@pixi/react";
+import { Countdown } from "../../Countdown/Countdown";
 
-type GameHeaderProps = {
-  level: number;
-  wantedCharacter: CharacterDetails | null;
-  timer: number;
-  score: number;
-  showWanted: boolean;
-};
+export const GameHeader = () => {
+  const { animationLevelLoading, wantedCharacter, score, gameState } = useGameStore(
+    useShallow((state) => {
+      return {
+        wantedCharacter: state.wantedCharacter,
+        animationLevelLoading: state.animationLevelLoading,
+        score: state.score,
+        gameState: state.gameState
+      };
+    })
+  );
 
-export const GameHeader = ({ level, wantedCharacter, timer, score, showWanted }: GameHeaderProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [spriteAlpha, setSpriteAlpha] = useState(0);
+  const [flashEffect, setFlashEffect] = useState(false);
+
+  const spriteRef = useRef(null);
+  const PixiRef = useRef<Stage | null>(null);
+  const animationFrameId = useRef<number | null>(null);
 
   useEffect(() => {
-    if (!wantedCharacter || !showWanted || !canvasRef.current) return;
+    if (wantedCharacter && !animationLevelLoading) {
+      setFlashEffect(true);
+      setSpriteAlpha(0);
+      setIsAnimating(true);
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+      setTimeout(() => setFlashEffect(false), 800);
 
-    const image = new Image();
-    image.src = wantedCharacter.imageSrc;
-    image.onload = () => {
-      const wrh = (image.width / image.height);
-      let newWidth = canvas.width;
-      let newHeight = (newWidth / wrh);
-      if (newHeight > canvas.height) {
-        newHeight = canvas.height - image.height;
-        newWidth = canvas.width - image.width;
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
       }
-      var xOffset = newWidth < canvas.width ? ((canvas.width - newWidth) / 2) : 0;
-      var yOffset = newHeight < canvas.height ? ((canvas.height - newHeight) / 2) : 0;
 
-      ctx.drawImage(image, xOffset, yOffset, newWidth, newHeight);
+      const startTime = performance.now();
+      const duration = 1000;
+
+      const animate = (currentTime: number) => {
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+
+        setSpriteAlpha(Math.min(progress * 2, 1));
+
+        if (progress < 1) {
+          animationFrameId.current = requestAnimationFrame(animate);
+        } else {
+          setIsAnimating(false);
+          animationFrameId.current = null;
+        }
+      };
+
+      animationFrameId.current = requestAnimationFrame(animate);
+    }
+
+    return () => {
+      if (animationFrameId.current) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
     };
-  }, [wantedCharacter, showWanted]);
+  }, [wantedCharacter, animationLevelLoading]);
 
   return (
-    <div className="container">
-      <h1 className="title">Recherché</h1>
-      <div className="poster">
-        <div className="imageSquare">
-          {showWanted && wantedCharacter && (
-            <canvas ref={canvasRef} className="canvas">
-            </canvas>
-          )}
+    <div className="header-container">
+      <div className="header-content">
+        <Timer />
+
+        <div className={`wanted-poster ${flashEffect ? "flash-effect" : ""}`}>
+          <div className="wanted-image-container">
+          {(animationLevelLoading && gameState === GameStateEnum.PLAYING && score === 0) && <Countdown />}
+            <Stage
+              ref={PixiRef}
+              width={60}
+              height={60}
+              options={{
+                backgroundAlpha: 0,
+                antialias: true,
+                resolution: window.devicePixelRatio || 1,
+                autoDensity: true,
+              }}
+            >
+
+              {!animationLevelLoading && wantedCharacter && (
+                <Sprite
+                  ref={spriteRef}
+                  image={wantedCharacter.imageSrc}
+                  width={60}
+                  height={60}
+                  alpha={spriteAlpha}
+                  eventMode="static"
+                />
+              )}
+            </Stage>
+            <div className="wanted-stamp">⚠️</div>
+            {isAnimating && <div className="character-glow"></div>}
+          </div>
+          <div className="wanted-name-container">
+            <p className={`wanted-name ${isAnimating ? "name-appear" : ""}`}>
+              {!animationLevelLoading && wantedCharacter
+                ? wantedCharacter.name
+                : "???"}
+            </p>
+          </div>
         </div>
-        <p className="wantedName">
-          {showWanted && wantedCharacter ? wantedCharacter.name : "???"}
-        </p>
+
+        <ScoreDisplay score={score} />
       </div>
-      <p className="timer">{timer}</p>
-      <p className="score">Score: {score}</p>
     </div>
   );
 };

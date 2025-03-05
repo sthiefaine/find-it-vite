@@ -1,0 +1,11 @@
+export const playCountdownSound = "./src/assets/sounds/countdown.mp3";
+export const playStartSound = "./src/assets/sounds/start.wav";
+export const playHitGoldenSound = "./src/assets/sounds/hitGold.wav";
+export const playPopSound = "./src/assets/sounds/pop.mp3";
+export const playHitBombSound = "./src/assets/sounds/popMetal.wav";
+export const playPunchLootSound = "./src/assets/sounds/punchWin.wav";
+export const playClickSound = "./src/assets/sounds/click.mp3";
+export const playNewHihScoreSound = "./src/assets/sounds/gg.wav";
+export const playPunchSound = "./src/assets/sounds/pop.mp3";
+export const playSound = "./src/assets/sounds/pop.mp3";
+export const playFinishSound = "./src/assets/sounds/score.wav";

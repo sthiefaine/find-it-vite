@@ -1,0 +1,33 @@
+.header {
+  background: rgb(16, 15, 16);
+  color: rgba(255, 255, 255, 0.96);
+  position: sticky;
+  top: 0px;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: flex-start;
+  z-index: 2;
+}
+
+.header-logo {
+  background: #8739f9;
+  height: 40px;
+  width: 40px;
+  margin: 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-button-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

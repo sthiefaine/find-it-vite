@@ -1,15 +1,24 @@
-import { useNavigate } from "react-router-dom";
+import { ButtonXL } from "../../components/Buttons/ButtonXL";
+import { Play } from "lucide-react";
 import "./Home.css";
+import { Title } from "../../components/Title/Title";
 
 const Home = () => {
-  const navigate = useNavigate();
-
   return (
-    <div className="homeContainer">
-      <h1 className="homeTitle">Bienvenue dans le Jeu</h1>
-      <button className="startButton" onClick={() => navigate("/game")}>
-        Démarrer le jeu
-      </button>
+    <div className="home-container">
+      <main className="home-main">
+        <div className="home-logo">
+          <Title />
+        </div>
+        <div className="home-buttons">
+          <ButtonXL text="Jouer" link="./game" variant="bling">
+            <Play />
+          </ButtonXL>
+          <ButtonXL text="Options" link="./option" variant="normal" disabled={true}>
+            <Play />
+          </ButtonXL>
+        </div>
+      </main>
     </div>
   );
 };

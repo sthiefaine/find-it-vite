@@ -1,0 +1,100 @@
+.find-it-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  padding: 1rem 0;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.hidden-char {
+  position: absolute;
+  font-size: 2.5rem;
+  top: 40%;
+  left: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  filter: drop-shadow(0 0 10px gold);
+  transition: all 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+  z-index: 3;
+}
+
+.hidden-char.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.2);
+}
+
+.logo-text {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.find-text,
+.it-text {
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  text-transform: uppercase;
+  position: relative;
+  letter-spacing: -0.05em;
+}
+
+.find-text {
+  background: linear-gradient(to right, #ffd700, #ff8c00);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 3px 0px rgba(0, 0, 0, 0.2), 0px 14px 10px rgba(0, 0, 0, 0.15);
+  transform: rotateY(-15deg);
+  margin-right: 0.2em;
+}
+
+.it-text {
+  background: linear-gradient(to right, #ff8c00, #ff4500);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0px 3px 0px rgba(0, 0, 0, 0.2), 0px 14px 10px rgba(0, 0, 0, 0.15);
+  transform: rotateY(15deg);
+}
+
+.magnify-glass {
+  position: absolute;
+  top: 0;
+  font-size: 2.5rem;
+  z-index: 6;
+  filter: drop-shadow(0 5px 15px rgba(255, 255, 255, 0.4));
+  animation: wobble 1s ease-in-out infinite alternate;
+  transform: scale(1.5) rotate(-10deg);
+}
+
+@keyframes wobble {
+  0% {
+    transform: scale(1.5) rotate(-10deg);
+  }
+  100% {
+    transform: scale(1.6) rotate(-15deg);
+  }
+}
+
+.tagline {
+  font-size: 1.2rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

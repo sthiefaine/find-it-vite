@@ -1,0 +1,9 @@
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 2px 0;
+  align-self: center;
+  width: 90%;
+  max-width: 500px;
+  height: 60px;
+}

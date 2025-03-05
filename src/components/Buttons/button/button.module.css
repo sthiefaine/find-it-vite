@@ -1,0 +1,59 @@
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+  height: 50px;
+  max-width: 160px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.buttonSmall {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.icon {
+  display: block;
+  margin-right: 5px;
+}
+
+.text {
+  display: block;
+  margin-left: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.shake {
+  animation: shake 0.8s infinite alternate;
+}
+
+@keyframes shake {
+  from {
+    transform: rotateZ(-1deg);
+  }
+
+  to {
+    transform: rotateZ(1deg);
+  }
+}

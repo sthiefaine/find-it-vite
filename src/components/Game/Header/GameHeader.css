@@ -1,82 +1,182 @@
-.container {
-  background-color: #1e90ff;
-  width: 100%;
-  padding: 20px;
+.header-container {
+  background: rgba(0, 0, 0, 0.9);
+  width: 100vw;
+  padding: 5px 10px 2px 10px;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   position: relative;
   border-bottom: 4px solid #ffd700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
-.title {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 15px;
-  text-shadow: 2px 2px 2px black;
+.header-content {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding-top: 10px;
+  justify-content: center;
 }
 
-.poster {
-  background-color: #f5f5dc;
-  width: 240px;
-  height: 200px;
+.wanted-poster {
+  background: linear-gradient(to bottom, #f5f5dc, #e6e6cc);
+  width: 200px;
   border-radius: 10px;
   border: 3px solid #8b4513;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  padding: 15px 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  position: relative;
+  transition: transform 0.3s ease;
 }
 
-.imageSquare {
+.wanted-poster.flash-effect {
+  animation: posterFlash 0.8s ease-out;
+}
+
+@keyframes posterFlash {
+  0%,
+  100% {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transform: scale(1);
+  }
+  30% {
+    box-shadow: 0 0 25px 10px rgba(255, 215, 0, 0.8);
+    transform: scale(1.05);
+  }
+  70% {
+    box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+.wanted-image-container {
   position: relative;
+  min-width: 80px;
+  min-height: 80px;
   width: 80px;
   height: 80px;
-  background-color: white;
-  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid #ffd700;
-}
-.canvas {
-  width: 80px;
-  height: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 50%;
 }
 
-.wantedName {
+.wanted-canvas {
+  display: block;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+}
+
+.character-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: inset 0 0 15px 5px rgba(255, 215, 0, 0.6);
+  animation: glowPulse 1s ease-out;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: inset 0 0 5px 0px rgba(255, 215, 0, 0);
+    opacity: 0;
+  }
+  50% {
+    box-shadow: inset 0 0 25px 10px rgba(255, 215, 0, 0.8);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: inset 0 0 15px 5px rgba(255, 215, 0, 0.3);
+    opacity: 0.5;
+  }
+}
+
+.wanted-stamp {
+  position: absolute;
+  top: -6px;
+  right: -30px;
+  transform: rotate(15deg);
+  background-color: #ff0000;
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  z-index: 3;
+}
+
+.wanted-name-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 8px;
+  text-transform: capitalize;
+}
+
+.wanted-name {
   font-size: 18px;
   font-weight: bold;
   color: #8b4513;
   text-align: center;
   margin-bottom: 5px;
-  min-width: 50%;
-  border: 1px solid black;
+  min-width: 80%;
+  background-color: #fffbf0;
+  border: 1px solid #8b4513;
+  padding: 3px 8px;
+  border-radius: 3px;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
+  transition: all 0.3s ease;
 }
 
-.timer {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 1px 1px 1px black;
+.wanted-name.name-appear {
+  animation: nameAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.score {
+@keyframes nameAppear {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+    letter-spacing: -2px;
+  }
+  60% {
+    letter-spacing: 2px;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+    letter-spacing: normal;
+  }
+}
+
+.wanted-image-container::after {
+  content: "";
   position: absolute;
-  bottom: 10px;
-  right: 10px;
-  font-size: 18px;
-  font-weight: bold;
-  color: white;
-  text-shadow: 1px 1px 1px black;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 2px solid #8b4513;
+
+  pointer-events: none;
+  z-index: 2;
+}
+
+.wanted-image-container canvas {
+  background: transparent;
 }

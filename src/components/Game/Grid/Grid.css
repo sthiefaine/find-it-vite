@@ -1,16 +1,58 @@
+* {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 .gridContainer {
-  background-color: yellow;
-  width: 360px;
-  height: 360px;
+  background-color: black;
+  width: 100dvw;
+  max-width: 450px;
+  min-width: 300px;
+  height: 100dvw;
+  max-height: 450px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   cursor: pointer;
+  position: relative;
 }
 
 .canvasGameBoard {
-  background-color: aquamarine;
-  width: 360px;
-  height: 360px;
+  width: 100dvw;
+  max-width: 450px;
+  height: 100%;
+  max-height: 450px;
+  touch-action: manipulation !important;
+  pointer-events: auto !important;
+  overflow: hidden;
+}
+
+:root {
+  --color-white: rgb(255, 255, 255);
+  --color-black: rgb(0, 0, 0);
+}
+
+.pointsDisplay {
+  font-size: 1.2rem;
+  position: absolute;
+  font-weight: 900;
+  pointer-events: none;
+  animation: fadeOut 1s ease-out;
+  -webkit-text-stroke: 0.1vmin var(--color-black);
+  opacity: 0;
+  text-shadow: 3px 3px 0 var(--color-white), -1px -1px 0 var(--color-white),
+    1px -1px 0 var(--color-white), -1px 1px 0 var(--color-white),
+    1px 1px 0 var(--color-white);
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
 }
