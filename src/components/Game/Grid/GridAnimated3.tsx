@@ -50,28 +50,38 @@ interface GridAnimated3Props {
   wantedCharacterSpeed?: number;
   otherCharactersSpeed?: number;
   wantedZIndexBelow?: boolean;
+  ensureWantedCharacter?: boolean; // Ensure wanted character is placed
+  forceRestartOnMissingWanted?: boolean; // Force restart of animation if wanted character goes missing
 }
 
 const GridAnimated3 = ({
   difficulty = 2,
-  characterCount = 180,
+  characterCount = 50,
   useBackgroundGrid = false,
   backgroundGridJitter = 2,
   moveBackgroundCharacters = true,
   sameDirectionForAll = false,
-  differentLayersDirection = true,
-  lowerLayerSpeed = 0.6,
+  differentLayersDirection = false,
+  lowerLayerSpeed = 0.4,
   upperLayerSpeed = 0.0,
   edgeBehavior = "wrap",
   wantedZIndexBelow = false,
-  wantedCharacterSpeed = 0.5,
-  otherCharactersSpeed = 0.5,
+  wantedCharacterSpeed = 0.2,
+  otherCharactersSpeed = 0.4,
+  ensureWantedCharacter = true,
+  forceRestartOnMissingWanted = true,
 }: GridAnimated3Props) => {
   const localCanvasRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Stage>(null);
   const animationFrameRef = useRef<number | null>(null);
   const lastTimeRef = useRef<number>(0);
+  const wantedCharacterPlacedRef = useRef<boolean>(false); // Track if wanted character is placed
+  const wantedCharacterVisibleRef = useRef<boolean>(true); // Track if wanted character is currently visible
 
+  const [isInitializing, setIsInitializing] = useState(true);
+  const [wantedCharacterMissing, setWantedCharacterMissing] = useState(false);
+  const checkMissingInterval = useRef<NodeJS.Timeout | null>(null);
+  
   const {
     canvasRef,
     disableClick,
@@ -82,7 +92,7 @@ const GridAnimated3 = ({
     handleCharacterClick: hookHandleCharacterClick
   } = useCharacterInteraction();
 
-  // Synchroniser notre canvas ref local avec celle du hook
+  // Synchronize our local canvas ref with the hook
   useEffect(() => {
     if (localCanvasRef.current) {
       canvasRef.current = localCanvasRef.current;
@@ -90,7 +100,6 @@ const GridAnimated3 = ({
   }, [localCanvasRef.current]);
 
   const [placedCharacters, setPlacedCharacters] = useState<PlacedCharacter[]>([]);
-  const [isInitializing, setIsInitializing] = useState(true);
 
   const gridSize = Math.min(window.innerWidth, 450);
   const GRID_SIZE_WIDTH = gridSize;
@@ -119,7 +128,7 @@ const GridAnimated3 = ({
     }))
   );
 
-  // Fonction d'adaptation pour convertir notre type vers celui attendu par le hook
+  // Function to adapt our character type to the one expected by the hook
   const adaptCharacterToHook = (character: PlacedCharacter) => {
     return {
       id: character.id,
@@ -136,11 +145,11 @@ const GridAnimated3 = ({
     };
   };
   
-  // Fonction adaptateur pour gérer le clic
+  // Adapter function to handle clicks
   const handleCharacterClick = (e: FederatedPointerEvent, character: PlacedCharacter) => {
     if (disableClick) return;
     
-    // Convertir notre type de personnage vers celui attendu par le hook
+    // Convert our character type to the one expected by the hook
     const adaptedCharacter = adaptCharacterToHook(character);
     hookHandleCharacterClick(e, adaptedCharacter);
   };
@@ -179,10 +188,8 @@ const GridAnimated3 = ({
 
   const generateRandomVelocity = (speed: number) => {
     const angle = Math.random() * Math.PI * 2;
-
     const velocityX = Math.cos(angle) * speed;
     const velocityY = Math.sin(angle) * speed;
-
     return { velocityX, velocityY };
   };
 
@@ -296,6 +303,28 @@ const GridAnimated3 = ({
     return backgroundChars;
   };
 
+  const checkIfWantedCharacterOnScreen = (characterList: PlacedCharacter[]) => {
+    const wantedCharacter = characterList.find(char => char.isWanted);
+    
+    if (!wantedCharacter) {
+      wantedCharacterVisibleRef.current = false;
+      return false;
+    }
+    
+    // Vérifier si au moins une partie du personnage est visible à l'écran
+    const { x, y } = wantedCharacter;
+    const halfCell = CELL_SIZE / 2;
+    
+    const onScreen = 
+      x + halfCell > 0 && 
+      x - halfCell < GRID_SIZE_WIDTH && 
+      y + halfCell > 0 && 
+      y - halfCell < GRID_SIZE_HEIGHT;
+    
+    wantedCharacterVisibleRef.current = onScreen;
+    return onScreen;
+  };
+
   const placeCharacters = () => {
     if (!grid || !wantedCharacter) return;
 
@@ -308,7 +337,11 @@ const GridAnimated3 = ({
     const wantedCell = availableCharacters.find(
       (cell) => cell?.name === wantedCharacter.name
     );
-    if (!wantedCell) return;
+    
+    if (!wantedCell) {
+      console.error("Wanted character not found in grid!");
+      return;
+    }
 
     let commonDirection = null;
     let layersDirections = null;
@@ -322,16 +355,8 @@ const GridAnimated3 = ({
       layersDirections = generateLayersDirections();
     }
 
-    let wantedPosition;
-
-    if (difficulty <= 1) {
-      wantedPosition = {
-        x: CENTER_X + randomIntFromInterval(-50, 50),
-        y: CENTER_Y + randomIntFromInterval(-50, 50),
-      };
-    } else {
-      wantedPosition = generateRandomPosition();
-    }
+    // Place wanted character in a visible position to start
+    const wantedPosition = generateRandomPosition();
 
     const wantedZones = createWantedZones(
       wantedCell.id,
@@ -339,31 +364,34 @@ const GridAnimated3 = ({
       wantedPosition.y
     );
 
-    const wantedZIndex =
-      difficulty <= 1
-        ? wantedZIndexBelow
-          ? -1
-          : 80
-        : wantedZIndexBelow
-        ? -1
-        : randomIntFromInterval(20, 60);
-
-    let wantedVelocityX, wantedVelocityY;
-
-    if (commonDirection) {
-      const speedRatio = wantedCharacterSpeed / otherCharactersSpeed;
-      wantedVelocityX = commonDirection.velocityX * speedRatio;
-      wantedVelocityY = commonDirection.velocityY * speedRatio;
-    } else if (layersDirections) {
-      const direction =
-        wantedZIndex < 40
-          ? layersDirections.lowerLayerDirection
-          : layersDirections.upperLayerDirection;
-      const layerSpeed = wantedZIndex < 40 ? lowerLayerSpeed : upperLayerSpeed;
-      const speedRatio = wantedCharacterSpeed / layerSpeed;
-      wantedVelocityX = direction.velocityX * speedRatio;
-      wantedVelocityY = direction.velocityY * speedRatio;
+    // Donner au personnage recherché un z-index aléatoire pour qu'il soit parfois caché
+    // Permettre un z-index selon la difficulté
+    let wantedZIndex;
+    if (difficulty <= 1) {
+      // Plus facile: personnage recherché au-dessus
+      wantedZIndex = randomIntFromInterval(70, 90);
+    } else if (difficulty <= 3) {
+      // Difficulté moyenne: personnage recherché dans la moitié supérieure
+      wantedZIndex = randomIntFromInterval(50, 80);
     } else {
+      // Difficulté élevée: personnage recherché peut être n'importe où
+      wantedZIndex = randomIntFromInterval(20, 90);
+    }
+
+    // Si wantedZIndexBelow est true, forcer le personnage recherché à être en dessous
+    if (wantedZIndexBelow) {
+      wantedZIndex = randomIntFromInterval(10, 30);
+    }
+
+    // Générer la vitesse pour le personnage recherché
+    let wantedVelocityX, wantedVelocityY;
+    
+    if (commonDirection) {
+      // Utilisez la même direction que les autres mais avec une vitesse ajustée
+      wantedVelocityX = commonDirection.velocityX * (wantedCharacterSpeed / otherCharactersSpeed);
+      wantedVelocityY = commonDirection.velocityY * (wantedCharacterSpeed / otherCharactersSpeed);
+    } else {
+      // Vitesse aléatoire
       const velocity = generateRandomVelocity(wantedCharacterSpeed);
       wantedVelocityX = velocity.velocityX;
       wantedVelocityY = velocity.velocityY;
@@ -382,11 +410,19 @@ const GridAnimated3 = ({
       velocityY: wantedVelocityY,
     };
 
+    // Mark that we've placed the wanted character
+    wantedCharacterPlacedRef.current = true;
+    wantedCharacterVisibleRef.current = true;
+
     let allPlacedCharacters: PlacedCharacter[] = [placedWanted];
 
     if (useBackgroundGrid) {
+      const backgroundAvailableCharacters = availableCharacters.filter(
+        (char) => char?.name !== wantedCharacter.name
+      );
+
       const backgroundCharacters = createBackgroundGrid(
-        availableCharacters,
+        backgroundAvailableCharacters,
         1000000,
         commonDirection,
         layersDirections
@@ -395,23 +431,30 @@ const GridAnimated3 = ({
       allPlacedCharacters = [...allPlacedCharacters, ...backgroundCharacters];
     }
 
+    // Calculate how many regular characters to place
+    // If characterCount is 100, we've already placed 1 wanted character, so we need 99 more
+    const remainingCharactersToPlace = Math.max(0, characterCount - 1);
+
     let otherCharacters = availableCharacters
       .filter((cell) => cell?.name !== wantedCharacter.name)
       .sort(() => Math.random() - 0.5);
 
+    // If we don't have enough unique characters, duplicate them to reach desired count
     const uniqueOthers = [...otherCharacters];
-    while (otherCharacters.length < characterCount - 1) {
+    while (otherCharacters.length < remainingCharactersToPlace) {
       const nextBatch = uniqueOthers.map((char) => ({
         ...char,
-        id: char?.id ?? 0 + otherCharacters.length * 1000,
+        id: (char?.id ?? 0) + otherCharacters.length * 1000,
         name: char?.name ?? "",
         imageSrc: char?.imageSrc ?? "",
       }));
       otherCharacters = [...otherCharacters, ...nextBatch];
     }
 
-    otherCharacters = otherCharacters.slice(0, characterCount - 1);
+    // Take only the number we need
+    otherCharacters = otherCharacters.slice(0, remainingCharactersToPlace);
 
+    // Place the other characters
     for (let i = 0; i < otherCharacters.length; i++) {
       const character = otherCharacters[i];
       if (!character) continue;
@@ -462,204 +505,9 @@ const GridAnimated3 = ({
       });
     }
 
-    const charactersInZones: PlacedCharacter[][] = [[], [], []];
-
-    allPlacedCharacters.forEach((character) => {
-      if (character.isWanted) return;
-
-      for (let zoneIndex = 0; zoneIndex < wantedZones.length; zoneIndex++) {
-        const zone = wantedZones[zoneIndex];
-
-        if (isPositionInZone({ x: character.x, y: character.y }, zone)) {
-          charactersInZones[zoneIndex].push(character);
-        }
-      }
-    });
-
-    let zonesToClear: number;
-    if (difficulty <= 0) {
-      zonesToClear = 3;
-    } else if (difficulty <= 1) {
-      zonesToClear = 2;
-    } else if (difficulty <= 2) {
-      zonesToClear = 1;
-    } else {
-      zonesToClear = 1;
-    }
-
-    const finalPlacedCharacters: PlacedCharacter[] = [...allPlacedCharacters];
-
-    if (zonesToClear > 0) {
-      const zoneIndicesInOrderOfClearing = [0, 2, 1];
-
-      for (let i = 0; i < zonesToClear && i < 3; i++) {
-        const zoneIndexToClear = zoneIndicesInOrderOfClearing[i];
-
-        charactersInZones[zoneIndexToClear].forEach((character) => {
-          if (character.isBackground && difficulty <= 1) {
-            const index = finalPlacedCharacters.findIndex(
-              (c) => c.id === character.id
-            );
-            if (index !== -1) {
-              finalPlacedCharacters.splice(index, 1);
-            }
-            return;
-          }
-
-          if (character.zIndex <= placedWanted.zIndex) {
-            return;
-          }
-
-          const index = finalPlacedCharacters.findIndex(
-            (c) => c.id === character.id
-          );
-          if (index === -1) return;
-
-          let newX = character.x;
-          let newY = character.y;
-
-          const dx = character.x - wantedPosition.x;
-          const dy = character.y - wantedPosition.y;
-
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          const nx = distance > 0 ? dx / distance : 0;
-          const ny = distance > 0 ? dy / distance : 0;
-
-          newX += (nx * CELL_SIZE) / randomIntFromInterval(1.2, 2);
-          newY += (ny * CELL_SIZE) / randomIntFromInterval(1.2, 2);
-
-          newX = Math.max(
-            CELL_SIZE / 2,
-            Math.min(GRID_SIZE_WIDTH - CELL_SIZE / 2, newX)
-          );
-          newY = Math.max(
-            CELL_SIZE / 2,
-            Math.min(GRID_SIZE_HEIGHT - CELL_SIZE / 2, newY)
-          );
-
-          finalPlacedCharacters[index] = {
-            ...finalPlacedCharacters[index],
-            x: newX,
-            y: newY,
-            noOverlapZones: [
-              {
-                x: newX,
-                y: newY,
-                radius: CELL_SIZE / 4,
-                characterId: character.id,
-                zoneIndex: 0,
-              },
-            ],
-          };
-        });
-      }
-    }
-
-    // Vérification pour s'assurer qu'au moins une zone du personnage recherché est visible
-    const ensureWantedCharacterVisibility = (
-      allCharacters: PlacedCharacter[],
-      wantedCharacter: PlacedCharacter
-    ): PlacedCharacter[] => {
-      const updatedCharacters = [...allCharacters];
-      
-      const wantedZones = wantedCharacter.noOverlapZones;
-      
-      // Pour chaque zone, vérifier si elle est couverte par un personnage avec zIndex plus élevé
-      const zoneCoverageStatus: boolean[] = wantedZones.map((zone) => {
-        const blockingCharacters = updatedCharacters.filter(char => 
-          !char.isWanted && 
-          !char.isBackground &&
-          char.zIndex > wantedCharacter.zIndex &&
-          isPositionInZone({ x: char.x, y: char.y }, zone)
-        );
-        
-        return blockingCharacters.length > 0;
-      });
-      
-      // Vérifier si toutes les zones sont couvertes
-      const allZonesCovered = zoneCoverageStatus.every(status => status === true);
-      
-      // Si toutes les zones sont couvertes, on doit libérer au moins une zone
-      if (allZonesCovered) {
-        // Priorités des zones à libérer
-        const zonePriorities = [1, 0, 2]; // Centre, Haut, Bas
-        
-        for (const zoneIndex of zonePriorities) {
-          const zone = wantedZones[zoneIndex];
-          
-          // Récupérer les personnages qui bloquent cette zone
-          const blockingCharacters = updatedCharacters.filter(char => 
-            !char.isWanted && 
-            !char.isBackground &&
-            char.zIndex > wantedCharacter.zIndex &&
-            isPositionInZone({ x: char.x, y: char.y }, zone)
-          );
-          
-          // Pour chaque personnage bloquant
-          blockingCharacters.forEach(blocker => {
-            const characterIndex = updatedCharacters.findIndex(c => c.id === blocker.id);
-            if (characterIndex !== -1) {
-              // Modifier la position pour déplacer le personnage hors de la zone
-              let newX = blocker.x;
-              let newY = blocker.y;
-              
-              const dx = blocker.x - zone.x;
-              const dy = blocker.y - zone.y;
-              
-              const distance = Math.sqrt(dx * dx + dy * dy);
-              const nx = distance > 0 ? dx / distance : (Math.random() * 2 - 1);
-              const ny = distance > 0 ? dy / distance : (Math.random() * 2 - 1);
-              
-              // Force de déplacement plus importante
-              const pushFactor = CELL_SIZE * 1.5;
-              
-              newX += nx * pushFactor;
-              newY += ny * pushFactor;
-              
-              // S'assurer que le personnage reste dans les limites
-              newX = Math.max(CELL_SIZE / 2, Math.min(GRID_SIZE_WIDTH - CELL_SIZE / 2, newX));
-              newY = Math.max(CELL_SIZE / 2, Math.min(GRID_SIZE_HEIGHT - CELL_SIZE / 2, newY));
-              
-              updatedCharacters[characterIndex] = {
-                ...updatedCharacters[characterIndex],
-                x: newX,
-                y: newY,
-                noOverlapZones: [
-                  {
-                    x: newX,
-                    y: newY,
-                    radius: CELL_SIZE / 4,
-                    characterId: blocker.id,
-                    zoneIndex: 0,
-                  },
-                ],
-              };
-            }
-          });
-          
-          // Une fois qu'on a libéré une zone, on peut sortir
-          break;
-        }
-      }
-      
-      return updatedCharacters;
-    };
-
-    // Vérifier que le personnage recherché est visible
-    const wantedCharacterObj = finalPlacedCharacters.find(char => char.isWanted);
-    if (wantedCharacterObj) {
-      const updatedPlacedCharacters = ensureWantedCharacterVisibility(
-        finalPlacedCharacters,
-        wantedCharacterObj
-      );
-      
-      // Trier à nouveau par z-index
-      updatedPlacedCharacters.sort((a, b) => a.zIndex - b.zIndex);
-      setPlacedCharacters(updatedPlacedCharacters);
-    } else {
-      finalPlacedCharacters.sort((a, b) => a.zIndex - b.zIndex);
-      setPlacedCharacters(finalPlacedCharacters);
-    }
+    // Always sort by zIndex so rendering order is correct
+    allPlacedCharacters.sort((a, b) => a.zIndex - b.zIndex);
+    setPlacedCharacters(allPlacedCharacters);
   };
 
   const animateCharacters = (timestamp: number) => {
@@ -678,7 +526,18 @@ const GridAnimated3 = ({
     }
 
     setPlacedCharacters((prevCharacters) => {
+      // Vérifier si le personnage recherché est toujours présent
+      const wantedExists = prevCharacters.some(char => char.isWanted);
+      
+      // Si le personnage recherché est absent, marquer comme manquant
+      if (!wantedExists && forceRestartOnMissingWanted) {
+        setWantedCharacterMissing(true);
+        return prevCharacters;
+      }
+      
+      // Traiter normalement tous les personnages, y compris le recherché
       return prevCharacters.map((character) => {
+        // Personnages statiques (background)
         if (character.isBackground && !moveBackgroundCharacters) {
           return character;
         }
@@ -726,11 +585,55 @@ const GridAnimated3 = ({
     animationFrameRef.current = requestAnimationFrame(animateCharacters);
   };
 
+  // Effet pour surveiller si le personnage recherché manque et le recréer si nécessaire
   useEffect(() => {
+    if (wantedCharacterMissing && forceRestartOnMissingWanted) {
+      console.log("Personnage recherché manquant, réinitialisation...");
+      // Réinitialiser l'état
+      setWantedCharacterMissing(false);
+      // Replacer les personnages
+      placeCharacters();
+    }
+  }, [wantedCharacterMissing]);
+
+  // Vérifier périodiquement si le personnage recherché est toujours visible
+  useEffect(() => {
+    if (forceRestartOnMissingWanted && !isInitializing && !animationLevelLoading && gameState === GameStateEnum.PLAYING) {
+      // Vérifier toutes les 5 secondes si le personnage est toujours visible
+      const checkInterval = setInterval(() => {
+        if (!wantedCharacterVisibleRef.current) {
+          const visibleNow = checkIfWantedCharacterOnScreen(placedCharacters);
+          if (!visibleNow) {
+            console.log("Personnage recherché non visible depuis plus de 5 secondes, réinitialisation...");
+            setWantedCharacterMissing(true);
+          }
+        } else {
+          // Mise à jour du statut
+          checkIfWantedCharacterOnScreen(placedCharacters);
+        }
+      }, 5000);
+      
+      checkMissingInterval.current = checkInterval;
+      
+      return () => {
+        if (checkMissingInterval.current) {
+          clearInterval(checkMissingInterval.current);
+          checkMissingInterval.current = null;
+        }
+      };
+    }
+  }, [isInitializing, animationLevelLoading, gameState, placedCharacters]);
+
+  useEffect(() => {
+    // Reset the flag that tracks if the wanted character is placed
+    wantedCharacterPlacedRef.current = false;
+    wantedCharacterVisibleRef.current = false;
+    
     if (grid && wantedCharacter && !animationLevelLoading) {
       setDisableClick(true);
       setIsInitializing(true);
 
+      // Place characters (including wanted character)
       placeCharacters();
 
       if (animationFrameRef.current) {
@@ -739,6 +642,12 @@ const GridAnimated3 = ({
       }
 
       const initTimer = setTimeout(() => {
+        // Check if wanted character is placed successfully
+        if (ensureWantedCharacter && !wantedCharacterPlacedRef.current) {
+          console.error("Wanted character not placed! Trying again...");
+          placeCharacters(); // Try placing characters again
+        }
+
         setIsInitializing(false);
         setDisableClick(false);
 
@@ -753,9 +662,13 @@ const GridAnimated3 = ({
         if (animationFrameRef.current) {
           cancelAnimationFrame(animationFrameRef.current);
         }
+        if (checkMissingInterval.current) {
+          clearInterval(checkMissingInterval.current);
+          checkMissingInterval.current = null;
+        }
       };
     }
-  },  [
+  }, [
     grid,
     wantedCharacter,
     difficulty,
@@ -771,9 +684,10 @@ const GridAnimated3 = ({
     edgeBehavior,
     wantedCharacterSpeed,
     otherCharactersSpeed,
+    ensureWantedCharacter,
   ]);
 
-  // Gestionnaire pour la fin de la sélection
+  // Handler for completion of selection
   useEffect(() => {
     if (isCorrectSelection) {
       setTimeout(() => {
@@ -783,6 +697,7 @@ const GridAnimated3 = ({
     }
   }, [isCorrectSelection]);
 
+  // If grid is not loaded or level is loading, show empty container
   if (!grid || animationLevelLoading) {
     return <div className="gridContainer"></div>;
   }
@@ -790,6 +705,13 @@ const GridAnimated3 = ({
   const wantedCharacterWithZones = placedCharacters.find(
     (char) => char.isWanted
   );
+
+  // If wanted character is still not placed after initialization, we have a problem
+  if (!wantedCharacterWithZones && !isInitializing) {
+    console.error("Wanted character missing from grid! Emergency re-initialization.");
+    // Emergency re-initialization
+    placeCharacters();
+  }
 
   const showOnlyWantedCharacter =
     isCorrectSelection ||
@@ -813,6 +735,7 @@ const GridAnimated3 = ({
         <Container>
           {!isInitializing &&
             placedCharacters.map((character) => {
+              // Skip blinking characters
               if (
                 selectedCharacterId === character.id &&
                 !isCorrectSelection &&
@@ -821,6 +744,7 @@ const GridAnimated3 = ({
                 return null;
               }
 
+              // In end game state, only show wanted character
               if (showOnlyWantedCharacter && !character.isWanted) {
                 return null;
               }

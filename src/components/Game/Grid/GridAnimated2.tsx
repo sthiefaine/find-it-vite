@@ -125,7 +125,7 @@ const GridAnimated2 = ({
     x: number,
     y: number
   ): NoOverlapZone[] => {
-    const halfSize = CELL_SIZE / 3.5;
+    const halfSize = CELL_SIZE / 3.2;
 
     return [
       {
