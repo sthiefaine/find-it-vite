@@ -1,9 +1,4 @@
-import {
-  CircleStop,
-  RefreshCw,
-  Volume2,
-  VolumeX,
-} from "lucide-react";
+import { CircleStop, Volume2, VolumeX } from "lucide-react";
 import styles from "./inGameActionButton.module.css";
 import { motion } from "framer-motion";
 import { useShallow } from "zustand/react/shallow";
@@ -63,23 +58,7 @@ export default function InGameActionButton() {
           </motion.div>
         </>
       )}
-
-      {(gameState === GameStateEnum.END || gameState === GameStateEnum.FINISH) && (
-        <>
-          <motion.div
-            style={{ width: "100%" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Button
-              icon={<RefreshCw />}
-              text="Rejouer"
-              gameState={GameStateEnum.RESET}
-            />
-          </motion.div>
-        </>
-      )}
+      {/* En fin de partie, Rejouer est sur l'écran de fin (components/Results) */}
     </div>
   );
 }

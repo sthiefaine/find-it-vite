@@ -24,6 +24,7 @@ export function IsPlaying() {
     level,
     setGrid,
     animationLevelLoading,
+    submitGameResult,
   } = useGameStore(
     useShallow((state) => {
       return {
@@ -39,6 +40,7 @@ export function IsPlaying() {
         level: state.level,
         setGrid: state.setGrid,
         animationLevelLoading: state.animationLevelLoading,
+        submitGameResult: state.submitGameResult,
       };
     })
   );
@@ -72,7 +74,8 @@ export function IsPlaying() {
   };
 
   useEffect(() => {
-    if (gameState !== GameStateEnum.INIT) {
+    // pas de nouveau niveau si la partie s'est terminée pendant la transition
+    if (useGameStore.getState().gameState === GameStateEnum.PLAYING) {
       setAnimationLevelLoading(true);
       setupLevel();
     }
@@ -119,6 +122,16 @@ export function IsPlaying() {
       setGameState(GameStateEnum.NONE);
     }
   }, [pathName, setGameState, gameState]);
+
+  // Fin de partie (chrono à 0 ou bouton Arrêter) : on enregistre le résultat
+  useEffect(() => {
+    if (
+      pathName === "/game" &&
+      (gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END)
+    ) {
+      submitGameResult();
+    }
+  }, [gameState, pathName]);
 
   useEffect(() => {
     if (gameState === GameStateEnum.PLAYING && !animationLevelLoading) {

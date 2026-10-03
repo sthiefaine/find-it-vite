@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
-import { GameStateEnum, useGameStore } from "../../store/store";
+import { gameConstants, GameStateEnum, useGameStore } from "../../store/store";
 import { pointColorsArray, randomIntFromInterval } from "../helpers/gameUtils";
 import { showPointsEffect } from "../helpers/animationUtils";
 import { playPopSound } from "../helpers/sounds";
@@ -29,6 +29,8 @@ export const useCharacterInteraction = () => {
     setPauseTimer,
     setLevel,
     setSoundSrc,
+    recordFound,
+    recordMiss,
   } = useGameStore(
     useShallow((state) => ({
       wantedCharacter: state.wantedCharacter,
@@ -38,6 +40,8 @@ export const useCharacterInteraction = () => {
       setPauseTimer: state.setPauseTimer,
       setLevel: state.setLevel,
       setSoundSrc: state.setSoundSrc,
+      recordFound: state.recordFound,
+      recordMiss: state.recordMiss,
     }))
   );
 
@@ -73,8 +77,9 @@ export const useCharacterInteraction = () => {
 
         showPointsEffect(canvasRef.current, position, true, randomColor);
 
+        recordFound();
         setScore(+1);
-        setTimeLeft(+4);
+        setTimeLeft(+gameConstants.FOUND_BONUS_S);
         setPauseTimer(true);
 
         setTimeout(() => {
@@ -88,7 +93,8 @@ export const useCharacterInteraction = () => {
 
         showPointsEffect(canvasRef.current, position, false, "red");
 
-        setTimeLeft(-5);
+        recordMiss();
+        setTimeLeft(-gameConstants.MISS_PENALTY_S);
 
         if (blinkIntervalRef.current) {
           clearInterval(blinkIntervalRef.current);

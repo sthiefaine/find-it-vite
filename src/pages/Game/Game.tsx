@@ -1,7 +1,9 @@
 import GameHeader from "../../components/Game/Header/GameHeader.tsx";
 import "./Game.css";
 import GameGrid from "../../components/Game/Grid/Grid.tsx";
-import { useGameStore } from "../../../store/store.tsx";
+import { GameStateEnum, useGameStore } from "../../../store/store.tsx";
+import { AnimatePresence } from "framer-motion";
+import Results from "../../components/Results/Results.tsx";
 import { useShallow } from "zustand/shallow";
 import GridAnimated from "../../components/Game/Grid/GridAnimated.tsx";
 import GridAnimated2 from "../../components/Game/Grid/GridAnimated2.tsx";
@@ -10,11 +12,14 @@ import InGameActionButton from "../../components/Game/InGameActionButton/inGameA
 import { getLevelConfig, GridType } from "../../helpers/gameUtils.ts";
 
 const Game = () => {
-  const { level } = useGameStore(
+  const { level, gameState } = useGameStore(
     useShallow((state) => ({
       level: state.level,
+      gameState: state.gameState,
     }))
   );
+  const isOver =
+    gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END;
 
   // Get the level configuration which includes all necessary parameters
   const levelConfig = getLevelConfig(level);
@@ -80,6 +85,7 @@ const Game = () => {
       <GameHeader />
       {renderGrid()}
       <InGameActionButton />
+      <AnimatePresence>{isOver && <Results key="results" />}</AnimatePresence>
     </div>
   );
 };

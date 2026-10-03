@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { CharacterDetails } from "../src/helpers/characters";
 import { GridCell } from "../src/helpers/gameUtils";
+import { useSaveStore } from "../src/save/saveStore";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -13,6 +14,8 @@ export const gameConstants = {
   MINIMUM_SCORE: 5,
   DECREASE_SCORE: -5,
   MAX_PLAY_TIME: 60,
+  FOUND_BONUS_S: 4, // secondes gagnées par bonne réponse
+  MISS_PENALTY_S: 3, // secondes perdues par erreur
 };
 
 export enum GameStateEnum {
@@ -28,6 +31,20 @@ export enum GameStateEnum {
 
 type AnimateTime = "-" | "+" | "";
 
+export type GameStats = {
+  found: number;
+  misses: number;
+  fastestFoundMs: number | null; // entre l'apparition du niveau et le bon toucher
+};
+
+// Résultat enregistré dans la sauvegarde à la fin de la partie
+export type GameRecord = {
+  score: number;
+  level: number;
+  isNewRecord: boolean;
+  bestScore: number;
+};
+
 type GameState = {
   grid: GridCell[] | null;
   pauseTimer: boolean;
@@ -39,12 +56,13 @@ type GameState = {
   timeLeft: number;
   score: number;
   animateTime?: AnimateTime;
-  highScoreSubmitted?: boolean;
-  isHighScore?: boolean;
   soundSrc: string;
   sound: boolean;
   maxCellPerRow: number;
-
+  stats: GameStats;
+  levelShownAt: number | null;
+  wantedFound: boolean; // le perso du niveau en cours a été trouvé
+  gameRecord: GameRecord | null; // non nul une fois la partie enregistrée
 };
 
 export type GameActions = {
@@ -61,7 +79,9 @@ export type GameActions = {
   setMaxCellPerRow: (maxCellPerRow: number) => void;
   setSound: (sound: boolean) => void;
   setSoundSrc: (soundSrc: string) => void;
-
+  recordFound: () => void;
+  recordMiss: () => void;
+  submitGameResult: () => void;
 };
 
 export type GameStore = GameState & GameActions;
@@ -78,23 +98,35 @@ export const defaultInitState: GameState = {
   score: 0,
   animateTime: "",
   maxCellPerRow: 10,
-  sound: true,
+  sound: useSaveStore.getState().save.settings.sound,
   soundSrc: "",
+  stats: { found: 0, misses: 0, fastestFoundMs: null },
+  levelShownAt: null,
+  wantedFound: false,
+  gameRecord: null,
 };
+
+const now = () => performance.now();
 
 export const useGameStore = create<GameStore>((set, get) => ({
   ...defaultInitState,
   setSoundSrc: (data) => set({soundSrc: data}),
-  setSound: (data) => set({sound: data}),
+  setSound: (data) => {
+    set({ sound: data });
+    useSaveStore.getState().setSound(data);
+  },
   setGrid: (data) => set({ grid: data }),
   setMaxCellPerRow: (data) => set({ maxCellPerRow: data }),
   setPauseTimer: (pause: boolean) => set({ pauseTimer: pause }),
   setWantedCharacter: (data: CharacterDetails | null) =>
-    set({ wantedCharacter: data }),
+    set({ wantedCharacter: data, wantedFound: false }),
   setLevel: (level: number) => set({ level: get().level + level }),
   setGameState: (gameState: GameStateEnum) => set({ gameState }),
   setAnimationLevelLoading: (animationLevelLoading: boolean) =>
-    set({ animationLevelLoading }),
+    set({
+      animationLevelLoading,
+      levelShownAt: animationLevelLoading ? null : now(),
+    }),
   setScore: (score: number) =>
     set({ score: get().score + score <= 0 ? 0 : get().score + score }),
   setTimeLeft: (timeLeft: number) =>
@@ -107,5 +139,47 @@ export const useGameStore = create<GameStore>((set, get) => ({
           : get().timeLeft + timeLeft,
     }),
   setTimeLeftValue: (timeLeft: number) => set({ timeLeft: timeLeft }),
-  setClearGameStore: () => set({ ...defaultInitState, sound: get().sound }),
+  setClearGameStore: () =>
+    set({ ...defaultInitState, stats: { ...defaultInitState.stats }, sound: get().sound }),
+  recordFound: () => {
+    const { stats, levelShownAt } = get();
+    const elapsed = levelShownAt === null ? null : Math.round(now() - levelShownAt);
+    set({
+      wantedFound: true,
+      stats: {
+        ...stats,
+        found: stats.found + 1,
+        fastestFoundMs:
+          elapsed === null
+            ? stats.fastestFoundMs
+            : Math.min(elapsed, stats.fastestFoundMs ?? Infinity),
+      },
+    });
+  },
+  recordMiss: () => {
+    const { stats } = get();
+    set({ stats: { ...stats, misses: stats.misses + 1 } });
+  },
+  // Une seule fois par partie
+  submitGameResult: () => {
+    if (get().gameRecord) return;
+    const { score, level, stats } = get();
+    const outcome = useSaveStore
+      .getState()
+      .recordGame({ score, level, found: stats.found });
+    set({
+      gameRecord: {
+        score,
+        level,
+        isNewRecord: outcome.isNewRecord,
+        bestScore: outcome.bestScore,
+      },
+    });
+  },
 }));
+
+// Le réglage son vient de la sauvegarde, chargée en asynchrone au démarrage
+useSaveStore.subscribe((state) => {
+  const sound = state.save.settings.sound;
+  if (useGameStore.getState().sound !== sound) useGameStore.setState({ sound });
+});
