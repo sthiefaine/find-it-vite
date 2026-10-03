@@ -3,7 +3,8 @@ import { defaultSave, Save, SAVE_KEY, SAVE_VERSION, starsKey } from "./schema";
 import type { FrameId } from "./schema";
 import type { Tier } from "../engine/types";
 import { getSaveVersion, migrate } from "./migrations";
-import { localStorageAdapter, StorageAdapter } from "./storage";
+import type { StorageAdapter } from "./storage";
+import { platformStorage } from "../platform/storage";
 
 export type GameResult = {
   score: number;
@@ -193,7 +194,8 @@ export function createSaveStore(
   });
 }
 
-export const useSaveStore = createSaveStore(localStorageAdapter);
+// localStorage sur le web, Preferences dans l'app native
+export const useSaveStore = createSaveStore(platformStorage());
 
 if (typeof window !== "undefined") {
   void useSaveStore.getState().load();

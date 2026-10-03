@@ -51,3 +51,30 @@ button {
 a {
   text-decoration: none;
 }
+
+/* Zones sûres. Préfixe :root pour passer devant le CSS des composants. */
+:root .header {
+  height: calc(56px + var(--safe-top));
+  padding: var(--safe-top) calc(8px + var(--safe-right)) 0 calc(8px + var(--safe-left));
+}
+
+/* L'accueil n'a pas d'en-tête : l'écran lui-même évite l'encoche */
+:root .home-screen {
+  padding-top: var(--safe-top);
+}
+
+:root .fi-screen {
+  padding-bottom: var(--safe-bottom);
+}
+
+:root .gameActions {
+  padding-bottom: calc(6px + var(--safe-bottom));
+}
+
+:root .results-overlay,
+:root .profile-overlay,
+:root .album-overlay,
+:root .discovery-backdrop {
+  padding-top: calc(16px + var(--safe-top));
+  padding-bottom: calc(16px + var(--safe-bottom));
+}

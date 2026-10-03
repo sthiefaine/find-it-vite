@@ -9,3 +9,8 @@ dist
 *.local
 Dockerfile
 .dockerignore
+# Projets natifs Capacitor et sources d'icônes : inutiles pour le site
+android
+ios
+resources
+shots

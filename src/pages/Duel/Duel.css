@@ -19,6 +19,8 @@
   overscroll-behavior: none;
   overflow: hidden;
   font-family: inherit;
+  /* plein écran : on garde les deux moitiés hors de l'encoche et de la barre d'accueil */
+  padding: var(--safe-top) var(--safe-right) var(--safe-bottom) var(--safe-left);
 }
 
 .duel * {

@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import "./index.css";
 import App from "./App.tsx";
+import { initNativeShell } from "./platform/init";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -12,3 +13,5 @@ createRoot(document.getElementById("root")!).render(
     </Router>
   </StrictMode>
 );
+
+void initNativeShell();

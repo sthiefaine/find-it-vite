@@ -25,6 +25,7 @@ import {
 } from "./duelLogic";
 import type { DuelRound, DuelState, DuelTarget, Player } from "./duelLogic";
 import { playDuelSound } from "./sound";
+import * as haptics from "../../platform/haptics";
 import "./Duel.css";
 
 type Phase = "setup" | "ready" | "countdown" | "playing" | "victory";
@@ -137,17 +138,20 @@ export default function Duel() {
     setDuelState(state);
     if (result === "miss") {
       playDuelSound(playHitBombSound, 0.4);
+      haptics.error();
       setLocked((l) => ({ ...l, [player]: true }));
       setMissKey((k) => ({ ...k, [player]: k[player] + 1 }));
       later(() => setLocked((l) => ({ ...l, [player]: false })), LOCK_MS);
       return;
     }
     playDuelSound(playPopSound);
+    haptics.tapLight();
     later(() => {
       const winner = winnerOf(state.score, target);
       setLocked({ top: false, bottom: false });
       if (winner) {
         playDuelSound(playNewHihScoreSound);
+        haptics.success();
         setPhase("victory");
         return;
       }

@@ -5,6 +5,7 @@ import { pointColorsArray, randomIntFromInterval } from "../helpers/gameUtils";
 import { showPointsEffect } from "../helpers/animationUtils";
 import { playHitGoldenSound, playPopSound } from "../helpers/sounds";
 import { resolveTap } from "../game/session";
+import * as haptics from "../platform/haptics";
 
 // Perso touché, tel que renvoyé par pickCharacterAt (helpers/hitTest.ts)
 export type TappedCharacter = {
@@ -80,6 +81,8 @@ export const useCharacterInteraction = () => {
         : pointColorsArray[randomIntFromInterval(0, pointColorsArray.length - 1)];
       if (canvas) showPointsEffect(canvas, position, true, color);
 
+      if (result.levelDone) haptics.success();
+      else haptics.tapLight();
       recordTargetFound(character.id, result.levelDone);
       setScore(+result.points);
       if (!result.levelDone) return; // cible suivante : on continue tout de suite
@@ -104,6 +107,7 @@ export const useCharacterInteraction = () => {
     }
 
     setSoundSrc(playPopSound);
+    haptics.error();
     setIsCorrectSelection(false);
     // pendant un bonus, une erreur ne montre aucun « -1 »
     if (canvas && result.countsAsMiss) showPointsEffect(canvas, position, false, "red");

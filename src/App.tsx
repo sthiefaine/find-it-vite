@@ -13,11 +13,13 @@ import { IsPlaying } from "./components/Game/gameHelpers/isPlaying/isPlaying";
 import { AudioGestion } from "./components/Game/gameHelpers/audioGestion/audioGestion";
 import { animalsPack } from "./helpers/characters";
 import { ImagePreloader } from "./components/ImagesPreloader/ImagesPreloader";
+import { useAndroidBackButton } from "./platform/backButton";
 
 // Outil de test (window.__findIt), jamais inclus en production
 if (import.meta.env.DEV) void import("./helpers/devFindIt");
 
 function App() {
+  useAndroidBackButton();
   const defaultImgPack: string[] = animalsPack.map((c) => c.imageSrc);
 
   return (

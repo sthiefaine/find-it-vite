@@ -1,50 +1,54 @@
-# React + TypeScript + Vite
+# Find It
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Un jeu d'observation pour toute la famille : trouve l'animal recherché dans la foule avant la fin du temps imparti. Le jeu propose plusieurs modes :
 
-Currently, two official plugins are available:
+- Aventure, avec des mondes et des étoiles ;
+- Infini ;
+- Défi du jour ;
+- Duel à deux sur le même écran.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Les animaux trouvés remplissent un album.
 
-## Expanding the ESLint configuration
+Stack : React 18, Vite 6, TypeScript, Pixi.js 7 et Zustand. Le jeu est livré en PWA hors ligne et en app native avec Capacitor 7.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Scripts
 
-- Configure the top-level `parserOptions` property like this:
+| Commande | Rôle |
+| --- | --- |
+| `pnpm dev` | serveur de développement |
+| `pnpm build` | vérification TypeScript, puis build dans `dist/` (avec le service worker) |
+| `pnpm preview` | sert le build |
+| `pnpm test` | tests unitaires (Vitest) |
+| `pnpm lint` | ESLint |
+| `pnpm icons` | régénère les icônes depuis le capybara |
+| `pnpm cap:sync` | build, puis copie dans les projets natifs |
+| `pnpm cap:android` / `pnpm cap:ios` | ouvre Android Studio / Xcode |
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Structure
+
+- `src/engine` : génération des niveaux. Elle est pure et déterministe (graine) : règles, courbe de difficulté, validation.
+- `src/content` : les mondes de l'Aventure et le calcul de la progression (étoiles, déblocages).
+- `src/save` : la sauvegarde versionnée (schéma, migrations, store Zustand) et l'interface `StorageAdapter`.
+- `src/game` : les modes de jeu et la résolution d'un toucher pendant une partie.
+- `src/platform` : ce qui dépend de l'appareil (haptique, stockage natif, bouton retour Android, barre d'état). Ces modules ne font rien sur le web.
+- `src/pages`, `src/components` : l'interface (accueil, carte, partie, album, options, duel).
+- `public/assets` : les images et les sons. `public/icons` : les icônes PWA.
+
+## Déploiement web (Docker / Coolify)
+
+Le `Dockerfile` construit le jeu avec pnpm (lockfile figé), puis le sert avec nginx (`nginx.conf`) :
+
+- les routes de la SPA renvoient vers `index.html` ;
+- les fichiers hashés sont en cache pendant 1 an ;
+- `index.html`, `sw.js` et le manifeste ne sont jamais mis en cache longtemps ;
+- un fichier manquant sous `/assets/` renvoie une vraie 404.
+
+Dans Coolify, choisissez le build pack *Dockerfile* et le port 80.
+
+```bash
+docker build -t find-it . && docker run -p 8080:80 find-it
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Mobile
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+Pour la PWA, Android, iOS et la check-list des stores, voir [MOBILE.md](MOBILE.md).

@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# PWA (service worker du mode dev)
+dev-dist
+
+# Capacitor : les ignores natifs sont dans android/.gitignore et ios/.gitignore
