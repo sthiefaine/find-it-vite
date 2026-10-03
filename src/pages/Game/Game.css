@@ -72,3 +72,13 @@
 .boardWrap--flashlight .canvasGameBoard {
   touch-action: none !important;
 }
+
+/* Aventure : plateau légèrement transparent sur le décor du monde */
+.gameContainer--world .boardWrap {
+  border-radius: 12px;
+  box-shadow: 0 0 0 3px var(--world-accent, #ffd700), 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.gameContainer--world .gridContainer {
+  border-radius: 12px;
+  opacity: 0.85;
+}

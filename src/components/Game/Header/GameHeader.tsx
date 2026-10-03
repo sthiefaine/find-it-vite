@@ -12,6 +12,8 @@ import { Countdown } from "../../Countdown/Countdown";
 import { Discovery } from "../../Discovery/Discovery";
 import { MODIFIER_ICON, RULE_ICON, targetCount } from "../../../engine/rules";
 import type { LevelSpec } from "../../../engine/types";
+import { useSaveStore } from "../../../save/saveStore";
+import { MISSION_GOAL } from "../../../game/modes";
 
 const MEMORY_SHOW_MS = { easy: 2500, normal: 1500, expert: 1500 } as const;
 const MEMORY_PEEK_MS = 1000;
@@ -38,6 +40,8 @@ export const GameHeader = () => {
     pauseTimer,
     setPauseTimer,
     setTimeLeft,
+    mode,
+    missionFound,
   } = useGameStore(
     useShallow((state) => ({
       wantedCharacter: state.wantedCharacter,
@@ -51,8 +55,11 @@ export const GameHeader = () => {
       pauseTimer: state.pauseTimer,
       setPauseTimer: state.setPauseTimer,
       setTimeLeft: state.setTimeLeft,
+      mode: state.mode,
+      missionFound: state.missionFound,
     }))
   );
+  const frame = useSaveStore((s) => s.save.settings.frame);
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [spriteAlpha, setSpriteAlpha] = useState(0);
@@ -215,7 +222,7 @@ export const GameHeader = () => {
         <Timer />
 
         <div
-          className={`wanted-poster ${flashEffect ? "flash-effect" : ""} ${
+          className={`wanted-poster frame-${frame} ${flashEffect ? "flash-effect" : ""} ${
             isGold ? "wanted-gold" : ""
           } ${showBack && !flipping ? "wanted-tappable" : ""}`}
           onPointerDown={peek}
@@ -275,7 +282,17 @@ export const GameHeader = () => {
           </div>
         </div>
 
-        <ScoreDisplay score={score} />
+        <div className="score-column">
+          <ScoreDisplay score={score} />
+          {mode === "adventure" && (
+            <div className="mission-progress" aria-label={`${missionFound} avis sur ${MISSION_GOAL}`}>
+              <span key={missionFound} className="mission-count">
+                {missionFound}
+              </span>
+              /{MISSION_GOAL}
+            </div>
+          )}
+        </div>
       </div>
       {createPortal(
         <AnimatePresence>

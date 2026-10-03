@@ -1,7 +1,11 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home/Home";
 import Game from "./pages/Game/Game";
+import Adventure from "./pages/Adventure/Adventure";
+import Album from "./pages/Album/Album";
+import Options from "./pages/Options/Options";
+import Duel from "./pages/Duel/Duel";
 
 import "./App.css";
 import { Header } from "./components/Headers/Header";
@@ -24,6 +28,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/adventure" element={<Adventure />} />
+        <Route path="/album" element={<Album />} />
+        <Route path="/options" element={<Options />} />
+        <Route path="/duel" element={<Duel />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 
       <ImagePreloader imageUrls={defaultImgPack} />

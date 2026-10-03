@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { applyGameResult, createSaveStore } from "../saveStore";
+import { applyCollection, applyDaily, applyGameResult, applyStars, createSaveStore } from "../saveStore";
 import { createMemoryStorage } from "../storage";
 import { defaultSave, SAVE_KEY } from "../schema";
 
@@ -42,7 +42,7 @@ describe("useSaveStore", () => {
 
   it("charge le réglage son et le persiste", async () => {
     const storage = createMemoryStorage({
-      [SAVE_KEY]: JSON.stringify({ ...defaultSave(), settings: { sound: false } }),
+      [SAVE_KEY]: JSON.stringify({ ...defaultSave(), settings: { ...defaultSave().settings, sound: false } }),
     });
     const store = createSaveStore(storage, { debounceMs: 50 });
     await store.getState().load();
@@ -68,7 +68,8 @@ describe("useSaveStore", () => {
     store.getState().setProfileTier("easy");
     await store.getState().flush();
     const saved = JSON.parse(storage.data.get(SAVE_KEY)!);
-    expect(saved.version).toBe(3);
+    expect(saved.version).toBe(4);
+    expect(saved.settings).toEqual({ sound: true, calm: false, frame: "classic" });
     expect(saved.profile).toEqual({ tier: "easy" });
     expect(saved.seenMechanics).toEqual([]);
     expect(saved.progress.bestScore).toBe(4);
@@ -101,5 +102,67 @@ describe("useSaveStore", () => {
     await vi.advanceTimersByTimeAsync(50);
     await store.getState().flush();
     expect(storage.data.get(SAVE_KEY)).toBe(future);
+  });
+
+  it("persiste mode calme et cadre", async () => {
+    const storage = createMemoryStorage();
+    const store = createSaveStore(storage, { debounceMs: 20 });
+    await store.getState().load();
+    store.getState().setCalm(true);
+    store.getState().setFrame("neon");
+    await store.getState().flush();
+    expect(JSON.parse(storage.data.get(SAVE_KEY)!).settings).toEqual({ sound: true, calm: true, frame: "neon" });
+  });
+
+  it("recordStars, recordCollection et recordDaily sont persistés, resetSave efface tout", async () => {
+    const storage = createMemoryStorage();
+    const store = createSaveStore(storage, { debounceMs: 20 });
+    await store.getState().load();
+    const s = store.getState();
+    s.recordStars("ocean", 2, 2);
+    s.recordStars("ocean", 2, 1);
+    s.recordCollection("ocean-requin");
+    s.recordCollection("ocean-requin", 2);
+    s.recordDaily("2026-10-03", 40);
+    await store.getState().flush();
+    const saved = JSON.parse(storage.data.get(SAVE_KEY)!);
+    expect(saved.adventure.stars).toEqual({ "ocean:2": 2 });
+    expect(saved.collection).toEqual({ "ocean-requin": 3 });
+    expect(saved.daily).toEqual({ date: "2026-10-03", best: 40, played: 1 });
+
+    await store.getState().resetSave();
+    expect(store.getState().save).toEqual(defaultSave());
+    expect(storage.data.has(SAVE_KEY)).toBe(false);
+  });
+});
+
+describe("actions v4 (pures)", () => {
+  it("applyStars garde le meilleur résultat, borné à 0-3", () => {
+    let save = applyStars(defaultSave(), "dinos", 4, 1);
+    save = applyStars(save, "dinos", 4, 3);
+    expect(applyStars(save, "dinos", 4, 2)).toBe(save);
+    expect(save.adventure.stars).toEqual({ "dinos:4": 3 });
+    expect(applyStars(defaultSave(), "dinos", 1, 9).adventure.stars["dinos:1"]).toBe(3);
+    expect(applyStars(defaultSave(), "dinos", 1, 0).adventure.stars["dinos:1"]).toBe(0);
+    expect(applyStars(defaultSave(), "dinos", 1, NaN).adventure.stars).toEqual({});
+  });
+
+  it("applyCollection additionne les trouvailles", () => {
+    let save = applyCollection(defaultSave(), "chat");
+    save = applyCollection(save, "chat", 4);
+    save = applyCollection(save, "chien");
+    expect(save.collection).toEqual({ chat: 5, chien: 1 });
+    expect(applyCollection(save, "chat", 0)).toBe(save);
+    expect(applyCollection(save, "", 1)).toBe(save);
+  });
+
+  it("applyDaily garde le meilleur score du jour et repart à zéro un autre jour", () => {
+    let save = applyDaily(defaultSave(), "2026-10-03", 12);
+    save = applyDaily(save, "2026-10-03", 8);
+    expect(save.daily).toEqual({ date: "2026-10-03", best: 12, played: 2 });
+    save = applyDaily(save, "2026-10-03", 20);
+    expect(save.daily).toEqual({ date: "2026-10-03", best: 20, played: 3 });
+    save = applyDaily(save, "2026-10-04", 5);
+    expect(save.daily).toEqual({ date: "2026-10-04", best: 5, played: 1 });
   });
 });

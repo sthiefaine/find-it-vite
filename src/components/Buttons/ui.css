@@ -1,0 +1,47 @@
+/* Base commune des écrans de menu (accueil, carte, album, options) */
+.fi-screen {
+  --fi-yellow: #ffc800;
+  --fi-orange: #ff8a00;
+  --fi-purple: #8739f9;
+  --fi-purple-dark: #5f28af;
+  --fi-pink: #ff3d7f;
+  --fi-ink: #1c0840;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  color: #fff;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(255, 200, 0, 0.18), transparent 40%),
+    radial-gradient(circle at 90% 60%, rgba(255, 61, 127, 0.18), transparent 45%),
+    linear-gradient(180deg, #2d0d66 0%, #1c0840 100%);
+}
+
+.fi-inner {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* Pastille : étoiles, record, compteur */
+.fi-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  font-weight: 900;
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.fi-star {
+  color: var(--fi-yellow);
+  text-shadow: 0 0 8px rgba(255, 200, 0, 0.6);
+}

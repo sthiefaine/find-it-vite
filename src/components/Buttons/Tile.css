@@ -1,0 +1,90 @@
+.fi-tile {
+  --tile-bg: #8739f9;
+  --tile-edge: #5f28af;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 96px;
+  padding: 10px 6px 8px;
+  border-radius: 20px;
+  color: #fff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 55%), var(--tile-bg);
+  border: 3px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 0 var(--tile-edge), 0 8px 14px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.fi-tile:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 var(--tile-edge), 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.fi-tile-md {
+  min-height: 112px;
+}
+
+.fi-tile-icon {
+  font-size: 40px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
+}
+
+.fi-tile-sm .fi-tile-icon {
+  font-size: 34px;
+}
+
+.fi-tile-label {
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.1;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.fi-tile-sm .fi-tile-label {
+  font-size: 16px;
+}
+
+.fi-tile-sub {
+  font-size: 13px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.fi-tile-badge {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #ff3d7f;
+  border: 2px solid #fff;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  animation: fi-badge-wiggle 1.6s ease-in-out infinite;
+}
+
+@keyframes fi-badge-wiggle {
+  0%, 70%, 100% { transform: rotate(0); }
+  80% { transform: rotate(-8deg) scale(1.08); }
+  90% { transform: rotate(8deg) scale(1.08); }
+}
+
+.fi-tile-orange { --tile-bg: #ff8a00; --tile-edge: #b35a00; }
+.fi-tile-pink { --tile-bg: #ff3d7f; --tile-edge: #a8164d; }
+.fi-tile-teal { --tile-bg: #11b5a4; --tile-edge: #0a7368; }
+.fi-tile-purple { --tile-bg: #8739f9; --tile-edge: #5f28af; }
+.fi-tile-slate { --tile-bg: #4b3a78; --tile-edge: #2c2050; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fi-tile-badge { animation: none; }
+}

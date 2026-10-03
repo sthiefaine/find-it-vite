@@ -28,7 +28,7 @@ export const useCharacterInteraction = () => {
     setScore,
     setTimeLeft,
     setPauseTimer,
-    setLevel,
+    advanceLevel,
     setSoundSrc,
     recordTargetFound,
     recordMiss,
@@ -40,7 +40,7 @@ export const useCharacterInteraction = () => {
       setScore: state.setScore,
       setTimeLeft: state.setTimeLeft,
       setPauseTimer: state.setPauseTimer,
-      setLevel: state.setLevel,
+      advanceLevel: state.advanceLevel,
       setSoundSrc: state.setSoundSrc,
       recordTargetFound: state.recordTargetFound,
       recordMiss: state.recordMiss,
@@ -96,7 +96,7 @@ export const useCharacterInteraction = () => {
       setPauseTimer(true);
 
       setTimeout(() => {
-        setLevel(+1);
+        advanceLevel();
         setPauseTimer(false);
         setIsCorrectSelection(false);
       }, 1000);

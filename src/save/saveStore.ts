@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { defaultSave, Save, SAVE_KEY, SAVE_VERSION } from "./schema";
+import { defaultSave, Save, SAVE_KEY, SAVE_VERSION, starsKey } from "./schema";
+import type { FrameId } from "./schema";
 import type { Tier } from "../engine/types";
 import { getSaveVersion, migrate } from "./migrations";
 import { localStorageAdapter, StorageAdapter } from "./storage";
@@ -29,8 +30,15 @@ type SaveActions = {
   setSound: (sound: boolean) => void;
   setProfileTier: (tier: Tier) => void;
   markMechanicsSeen: (mechanics: string[]) => void;
+  setCalm: (calm: boolean) => void;
+  setFrame: (frame: FrameId) => void;
+  recordStars: (worldId: string, level: number, stars: number) => void;
+  recordCollection: (name: string, n?: number) => void;
+  recordDaily: (dateISO: string, score: number) => void;
   flush: () => Promise<void>;
   reset: () => Promise<void>;
+  // efface toute la progression (alias de reset)
+  resetSave: () => Promise<void>;
 };
 
 export type SaveStore = SaveState & SaveActions;
@@ -47,6 +55,31 @@ export function applyGameResult(save: Save, result: GameResult): Save {
       totalFound: progress.totalFound + Math.max(0, result.found),
     },
   };
+}
+
+// Garde le meilleur nombre d'étoiles (0 à 3) d'un niveau d'Aventure
+export function applyStars(save: Save, worldId: string, level: number, stars: number): Save {
+  const key = starsKey(worldId, level);
+  const value = Math.max(0, Math.min(3, Math.floor(stars)));
+  const previous = save.adventure.stars[key];
+  if (!Number.isFinite(value) || (previous !== undefined && previous >= value)) return save;
+  return { ...save, adventure: { ...save.adventure, stars: { ...save.adventure.stars, [key]: value } } };
+}
+
+export function applyCollection(save: Save, name: string, n = 1): Save {
+  const add = Math.floor(n);
+  if (!name || !(add > 0)) return save;
+  return { ...save, collection: { ...save.collection, [name]: (save.collection[name] ?? 0) + add } };
+}
+
+// Défi du jour : meilleur score et nombre de parties, remis à zéro chaque nouveau jour
+export function applyDaily(save: Save, dateISO: string, score: number): Save {
+  const s = Math.max(0, Math.floor(score) || 0);
+  const daily = save.daily;
+  if (daily && daily.date === dateISO) {
+    return { ...save, daily: { date: dateISO, best: Math.max(daily.best, s), played: daily.played + 1 } };
+  }
+  return { ...save, daily: { date: dateISO, best: s, played: 1 } };
 }
 
 export function createSaveStore(
@@ -68,6 +101,19 @@ export function createSaveStore(
       if (get().readOnly) return;
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => void write(), debounceMs);
+    };
+
+    const update = (save: Save) => {
+      if (save === get().save) return;
+      set({ save });
+      scheduleWrite();
+    };
+
+    const reset = async () => {
+      if (timer) clearTimeout(timer);
+      timer = null;
+      set({ save: defaultSave(), readOnly: false });
+      await storage.remove(SAVE_KEY);
     };
 
     return {
@@ -123,14 +169,26 @@ export function createSaveStore(
         scheduleWrite();
       },
 
+      setCalm: (calm) => {
+        if (get().save.settings.calm === calm) return;
+        set({ save: { ...get().save, settings: { ...get().save.settings, calm } } });
+        scheduleWrite();
+      },
+
+      setFrame: (frame) => {
+        if (get().save.settings.frame === frame) return;
+        set({ save: { ...get().save, settings: { ...get().save.settings, frame } } });
+        scheduleWrite();
+      },
+
+      recordStars: (worldId, level, stars) => update(applyStars(get().save, worldId, level, stars)),
+      recordCollection: (name, n = 1) => update(applyCollection(get().save, name, n)),
+      recordDaily: (dateISO, score) => update(applyDaily(get().save, dateISO, score)),
+
       flush: () => (timer ? write() : Promise.resolve()),
 
-      reset: async () => {
-        if (timer) clearTimeout(timer);
-        timer = null;
-        set({ save: defaultSave(), readOnly: false });
-        await storage.remove(SAVE_KEY);
-      },
+      reset,
+      resetSave: reset,
     };
   });
 }

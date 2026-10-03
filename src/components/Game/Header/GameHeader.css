@@ -331,3 +331,120 @@
   color: #fff;
   text-shadow: 0 0 3px #7a5200, 0 1px 2px #7a5200;
 }
+
+/* --- Cadres de l'avis (Options) ; classic = style de base --- */
+.wanted-poster.frame-neon:not(.wanted-gold) {
+  background: radial-gradient(circle at 50% 30%, #2a1450, #0d0620 75%);
+  border: 2px solid #3ff6ff;
+  box-shadow: 0 0 6px #3ff6ff, 0 0 16px rgba(255, 64, 214, 0.7), inset 0 0 10px rgba(63, 246, 255, 0.4);
+  animation: neonHum 2.4s ease-in-out infinite;
+}
+.frame-neon:not(.wanted-gold) .wanted-image-container::after {
+  border-color: #ff40d6;
+  box-shadow: 0 0 8px #ff40d6;
+}
+.frame-neon:not(.wanted-gold) .wanted-name {
+  color: #fff;
+  background: rgba(255, 64, 214, 0.18);
+  border-color: #ff40d6;
+  text-shadow: 0 0 6px #ff40d6, 0 0 2px #fff;
+  box-shadow: 0 0 6px rgba(255, 64, 214, 0.6);
+}
+@keyframes neonHum {
+  50% {
+    box-shadow: 0 0 9px #3ff6ff, 0 0 24px rgba(255, 64, 214, 0.9), inset 0 0 14px rgba(63, 246, 255, 0.5);
+  }
+}
+
+.wanted-poster.frame-gold:not(.wanted-gold) {
+  background: linear-gradient(160deg, #fff8d6 0%, #f3d77a 45%, #e8b923 70%, #fff1b0 100%);
+  border: 3px solid #b8860b;
+  outline: 2px solid #ffe680;
+  outline-offset: -7px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45), 0 0 12px rgba(255, 200, 40, 0.6);
+}
+.wanted-poster.frame-gold:not(.wanted-gold)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.75) 50%, transparent 65%);
+  background-size: 250% 100%;
+  animation: goldShine 3.2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.frame-gold:not(.wanted-gold) .wanted-image-container::after {
+  border: 3px solid #c99a06;
+  box-shadow: 0 0 0 2px #fff1b0;
+}
+.frame-gold:not(.wanted-gold) .wanted-name {
+  color: #6b4400;
+  background: linear-gradient(#fffbe8, #ffeaa0);
+  border-color: #b8860b;
+}
+@keyframes goldShine {
+  0% {
+    background-position: 150% 0;
+  }
+  60%,
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.wanted-poster.frame-ice:not(.wanted-gold) {
+  background: linear-gradient(170deg, #ffffff 0%, #dff4ff 45%, #a9dcf7 100%);
+  border: 3px solid #e9f9ff;
+  box-shadow: 0 0 0 2px #7cc6ea, 0 4px 10px rgba(0, 60, 100, 0.4), inset 0 0 14px rgba(255, 255, 255, 0.9);
+}
+.wanted-poster.frame-ice:not(.wanted-gold)::before {
+  content: "❄";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  font-size: 16px;
+  color: #7cc6ea;
+  pointer-events: none;
+}
+.frame-ice:not(.wanted-gold) .wanted-image-container::after {
+  border-color: #7cc6ea;
+  box-shadow: 0 0 8px rgba(124, 198, 234, 0.8);
+}
+.frame-ice:not(.wanted-gold) .wanted-name {
+  color: #1d5f86;
+  background: rgba(255, 255, 255, 0.85);
+  border-color: #7cc6ea;
+}
+
+/* --- Aventure : avis trouvés sous le score --- */
+.score-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.mission-progress {
+  font-size: 15px;
+  font-weight: 900;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid #ffd700;
+  border-radius: 999px;
+  padding: 0 10px;
+  line-height: 20px;
+}
+
+.mission-count {
+  display: inline-block;
+  color: #ffd700;
+  animation: countPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wanted-poster.frame-neon,
+  .wanted-poster.frame-gold::before {
+    animation: none;
+  }
+}

@@ -1,18 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef } from "react";
-import {
-  gameConstants,
-  GameStateEnum,
-  useGameStore,
-} from "../../../../../store/store";
+import { GameStateEnum, useGameStore } from "../../../../../store/store";
 import { useShallow } from "zustand/shallow";
 import { charactersDetails } from "../../../../helpers/characters";
 import { useLocation } from "react-router-dom";
-import { generateLevel, randomSeed, seedFromCode } from "../../../../engine";
-import type { Tier } from "../../../../engine";
+import { dailySeed, generateLevel, randomSeed, seedFromCode } from "../../../../engine";
+import type { Rule, Tier } from "../../../../engine";
+import type { CharacterDetails } from "../../../../helpers/characters";
 import { useSaveStore } from "../../../../save/saveStore";
 import { TIERS } from "../../../../save/schema";
 import { tickClock } from "../../../../game/session";
+import {
+  levelTarget,
+  MAX_PLAY_TIME_S,
+  MISSION_TIME_S,
+  missionSeed,
+  readModeParams,
+} from "../../../../game/modes";
+import type { GameMode } from "../../../../game/modes";
+import { getWorld } from "../../../../content/worlds";
+import { todayISO } from "../../../../content/progress";
 
 const TICK_MS = 100;
 const BONUS_GRACE_MS = 150;
@@ -37,6 +44,15 @@ export function readDebugParams(search: string): {
   const tier = TIERS.includes(rawTier as Tier) ? (rawTier as Tier) : undefined;
   return { seed, level, tier };
 }
+
+// Persos possibles : ceux du monde en Aventure, les 12 animaux en Défi
+function poolFor(mode: GameMode, worldId: string | null): CharacterDetails[] {
+  if (mode === "adventure" && worldId) return getWorld(worldId)?.characters ?? charactersDetails;
+  if (mode === "daily") return getWorld("animaux")?.characters ?? charactersDetails;
+  return charactersDetails;
+}
+
+const ADVENTURE_RULES: Rule[] = ["classic", "memory", "silhouette", "oddOneOut", "findAll"];
 
 export function IsPlaying() {
   const {
@@ -84,15 +100,22 @@ export function IsPlaying() {
   const location = useLocation();
   const pathName = location.pathname;
   const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Étape de la partie pour laquelle le niveau a été généré
+  const setupFor = useRef<string | null>(null);
 
-  // Le niveau courant est entièrement déterminé par (runSeed, level, tier, pool)
+  // Le niveau courant est entièrement déterminé par (mode, runSeed, level, tier, pool)
   const setupLevel = (isInitialSetup = false) => {
-    const { runSeed, tier, level } = useGameStore.getState();
-    const spec = generateLevel(level, {
-      seed: runSeed,
+    const { runSeed, tier, level, mode, worldId, adventureLevel } = useGameStore.getState();
+    const world = worldId ? getWorld(worldId) : undefined;
+    const target = levelTarget(mode, runSeed, level, world?.startIndex, adventureLevel);
+    const spec = generateLevel(target.index, {
+      seed: target.seed,
       tier,
-      pool: charactersDetails,
+      pool: poolFor(mode, worldId),
+      // En Aventure, un bonus doré figerait le chrono des 5 avis de la mission
+      ...(mode === "adventure" && { allowedRules: ADVENTURE_RULES }),
     });
+    setupFor.current = `${runSeed}:${level}`;
     setCurrentSpec(spec);
 
     if (loadingTimer.current) clearTimeout(loadingTimer.current);
@@ -107,22 +130,41 @@ export function IsPlaying() {
 
   const startGame = (savedTier: Tier) => {
     const debug = readDebugParams(location.search);
+    const params = readModeParams(location.search);
     setClearGameStore();
-    setTimeLeftValue(gameConstants.MAX_PLAY_TIME);
-    startRun({
-      runSeed: debug.seed ?? randomSeed(),
-      tier: debug.tier ?? savedTier,
-      level: debug.level ?? 1,
-    });
+    if (params.mode === "adventure") {
+      setTimeLeftValue(MISSION_TIME_S);
+      startRun({
+        mode: "adventure",
+        worldId: params.worldId,
+        adventureLevel: params.level,
+        runSeed: missionSeed(params.worldId, params.level),
+        tier: debug.tier ?? savedTier,
+        level: 1,
+      });
+    } else if (params.mode === "daily") {
+      const date = todayISO();
+      setTimeLeftValue(MAX_PLAY_TIME_S);
+      startRun({ mode: "daily", dailyDate: date, runSeed: dailySeed(date), tier: "normal", level: 1 });
+    } else {
+      setTimeLeftValue(MAX_PLAY_TIME_S);
+      startRun({
+        mode: "endless",
+        calm: useSaveStore.getState().save.settings.calm,
+        runSeed: debug.seed ?? randomSeed(),
+        tier: debug.tier ?? savedTier,
+        level: debug.level ?? 1,
+      });
+    }
     setupLevel(true);
     setAnimationLevelLoading(true);
     setGameState(GameStateEnum.PLAYING);
   };
 
   useEffect(() => {
-    const { gameState, currentSpec } = useGameStore.getState();
+    const { gameState, runSeed } = useGameStore.getState();
     // pas de nouveau niveau si la partie s'est terminée pendant la transition
-    if (gameState === GameStateEnum.PLAYING && currentSpec?.index !== level) {
+    if (gameState === GameStateEnum.PLAYING && setupFor.current !== `${runSeed}:${level}`) {
       setAnimationLevelLoading(true);
       setupLevel();
     }
@@ -160,6 +202,17 @@ export function IsPlaying() {
     }
   }, [pathName, setGameState, gameState, saveLoaded]);
 
+  // Autre mode ou autre niveau dans l'URL (« Niveau suivant », retour) : nouvelle partie
+  const lastSearch = useRef(location.search);
+  useEffect(() => {
+    if (lastSearch.current === location.search) return;
+    lastSearch.current = location.search;
+    if (pathName !== "/game") return;
+    const { gameState } = useGameStore.getState();
+    if (gameState !== GameStateEnum.NONE && gameState !== GameStateEnum.CHOOSE_PROFILE)
+      setGameState(GameStateEnum.RESET);
+  }, [location.search]);
+
   // Fin de partie (chrono à 0 ou bouton Arrêter) : on enregistre le résultat
   useEffect(() => {
     if (
@@ -180,7 +233,9 @@ export function IsPlaying() {
   // Décompte : arrêté pendant le chargement d'un niveau, une pause ou un bonus.
   // La fraction de seconde en cours est gardée d'une pause à l'autre.
   const clockAcc = useRef(0);
+  const calm = useGameStore((s) => s.calm);
   const clockRunning =
+    !calm &&
     gameState === GameStateEnum.PLAYING &&
     !animationLevelLoading &&
     !pauseTimer &&

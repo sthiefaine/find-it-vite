@@ -15,6 +15,7 @@ import { useSaveStore } from "../../save/saveStore.ts";
 import { getBoard } from "../../helpers/board.ts";
 import type { LevelSpec, Tier } from "../../engine/types.ts";
 import Flashlight from "../../components/Flashlight/Flashlight.tsx";
+import { getWorld } from "../../content/worlds.ts";
 
 const renderGrid = (spec: LevelSpec) => {
   switch (spec.layout) {
@@ -30,7 +31,7 @@ const renderGrid = (spec: LevelSpec) => {
 };
 
 const Game = () => {
-  const { spec, gameState, setGameState, tier, wantedFound, loading, pauseTimer } =
+  const { spec, gameState, setGameState, tier, wantedFound, loading, pauseTimer, mode, worldId } =
     useGameStore(
       useShallow((state) => ({
         spec: state.currentSpec,
@@ -40,6 +41,8 @@ const Game = () => {
         wantedFound: state.wantedFound,
         loading: state.animationLevelLoading,
         pauseTimer: state.pauseTimer,
+        mode: state.mode,
+        worldId: state.worldId,
       }))
     );
   const board = useMemo(() => getBoard(), []);
@@ -47,6 +50,8 @@ const Game = () => {
   const isOver =
     gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END;
   const hasFlashlight = !!spec?.modifiers.includes("flashlight");
+  // Aventure : la page prend le décor du monde
+  const world = mode === "adventure" && worldId ? getWorld(worldId) : undefined;
 
   const handlePickProfile = (tier: Tier) => {
     useSaveStore.getState().setProfileTier(tier);
@@ -55,11 +60,12 @@ const Game = () => {
 
   return (
     <div
-      className="gameContainer"
+      className={`gameContainer${world ? " gameContainer--world" : ""}`}
       style={
         {
           "--board-w": `${board.width}px`,
           "--board-h": `${board.height}px`,
+          ...(world && { background: world.background, "--world-accent": world.accent }),
         } as CSSProperties
       }
     >

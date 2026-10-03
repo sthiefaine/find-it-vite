@@ -41,3 +41,10 @@
     text-shadow: 0 0 16px rgba(255, 107, 107, 0.9);
   }
 }
+/* Mode calme : pas de limite de temps */
+.timer-calm .timer-value {
+  font-size: 30px;
+  line-height: 28px;
+  color: #9be7ff;
+  text-shadow: 0 0 8px rgba(155, 231, 255, 0.6);
+}

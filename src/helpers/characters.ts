@@ -1,4 +1,15 @@
-export type CharacterColor = "brown" | "grey" | "yellow" | "white" | "green";
+export type CharacterColor =
+  | "brown"
+  | "grey"
+  | "yellow"
+  | "white"
+  | "green"
+  | "blue"
+  | "red"
+  | "orange"
+  | "pink"
+  | "purple"
+  | "black";
 
 export type CharacterDetails = {
   imageSrc: string;
@@ -7,6 +18,7 @@ export type CharacterDetails = {
   serie: string;
   color: CharacterColor;
   family: string; // persos qui se ressemblent (utilisé pour les leurres)
+  emoji?: string; // persos dessinés à partir d'un emoji
 };
 
 export const animalsPack: CharacterDetails[] = [

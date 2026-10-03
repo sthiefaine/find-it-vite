@@ -4,6 +4,10 @@ import { useSaveStore } from "../src/save/saveStore";
 import type { LevelSpec, Tier } from "../src/engine/types";
 import { mechanicsOf } from "../src/engine/rules";
 import { newMechanics } from "../src/game/session";
+import { advanceMission, MISSION_GOAL, missionStars, nextTime } from "../src/game/modes";
+import type { GameMode } from "../src/game/modes";
+import type { WorldId } from "../src/content/worlds";
+import { todayISO } from "../src/content/progress";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -40,13 +44,38 @@ export type GameStats = {
 
 // Résultat enregistré dans la sauvegarde à la fin de la partie
 export type GameRecord = {
+  mode: GameMode;
   score: number;
   level: number;
   isNewRecord: boolean;
   bestScore: number;
+  calm: boolean; // Infini sans chrono : pas de record
+  won: boolean; // Aventure : mission réussie
+  stars: number; // Aventure : 0 à 3
+  newCharacters: CharacterDetails[]; // persos attrapés pour la 1re fois
+  dailyDate: string | null;
+  dailyBest: number;
+};
+
+export type RunConfig = {
+  runSeed: number;
+  tier: Tier;
+  level: number;
+  mode?: GameMode;
+  worldId?: WorldId | null;
+  adventureLevel?: number;
+  calm?: boolean;
+  dailyDate?: string | null;
 };
 
 type GameState = {
+  mode: GameMode;
+  worldId: WorldId | null; // Aventure
+  adventureLevel: number; // Aventure : niveau du monde (1 à 10)
+  missionFound: number; // Aventure : avis trouvés (0 à 5)
+  calm: boolean; // Infini sans chrono
+  dailyDate: string | null;
+  newCharacters: CharacterDetails[];
   runSeed: number; // graine de la partie : avec level et tier, fixe tout le niveau
   tier: Tier;
   currentSpec: LevelSpec | null;
@@ -72,7 +101,9 @@ type GameState = {
 };
 
 export type GameActions = {
-  startRun: (run: { runSeed: number; tier: Tier; level: number }) => void;
+  startRun: (run: RunConfig) => void;
+  // Niveau terminé, après l'animation : niveau suivant ou fin de mission
+  advanceLevel: () => void;
   setCurrentSpec: (spec: LevelSpec) => void;
   setPauseTimer: (pause: boolean) => void;
   setGameState: (gameState: GameStateEnum) => void;
@@ -96,6 +127,13 @@ export type GameActions = {
 export type GameStore = GameState & GameActions;
 
 export const defaultInitState: GameState = {
+  mode: "endless",
+  worldId: null,
+  adventureLevel: 1,
+  missionFound: 0,
+  calm: false,
+  dailyDate: null,
+  newCharacters: [],
   runSeed: 0,
   tier: "normal",
   currentSpec: null,
@@ -143,8 +181,29 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ sound: data });
     useSaveStore.getState().setSound(data);
   },
-  startRun: ({ runSeed, tier, level }) =>
-    set({ runSeed, tier, level, currentSpec: null }),
+  startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null }) =>
+    set({
+      runSeed,
+      tier,
+      level,
+      currentSpec: null,
+      mode,
+      worldId,
+      adventureLevel,
+      calm: mode === "endless" && calm,
+      dailyDate,
+      missionFound: 0,
+      newCharacters: [],
+    }),
+  advanceLevel: () => {
+    const { mode, missionFound, gameState, level } = get();
+    if (gameState !== GameStateEnum.PLAYING) return;
+    if (mode === "adventure" && missionFound >= MISSION_GOAL) {
+      set({ gameState: GameStateEnum.FINISH });
+      return;
+    }
+    set({ level: level + 1 });
+  },
   setCurrentSpec: (spec) =>
     set({
       currentSpec: spec,
@@ -165,21 +224,22 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }),
   setScore: (score: number) =>
     set({ score: get().score + score <= 0 ? 0 : get().score + score }),
-  setTimeLeft: (timeLeft: number) =>
-    set({
-      timeLeft:
-        get().timeLeft + timeLeft <= 0
-          ? 0
-          : get().timeLeft + timeLeft >= gameConstants.MAX_PLAY_TIME
-          ? gameConstants.MAX_PLAY_TIME
-          : get().timeLeft + timeLeft,
-    }),
+  // Mode calme : le chrono ne bouge pas (ni bonus ni pénalité)
+  setTimeLeft: (delta: number) => {
+    if (get().calm) return;
+    set({ timeLeft: nextTime(get().mode, get().timeLeft, delta) });
+  },
   setTimeLeftValue: (timeLeft: number) => set({ timeLeft: timeLeft }),
   setClearGameStore: () =>
     set({ ...defaultInitState, stats: { ...defaultInitState.stats }, sound: get().sound }),
   recordTargetFound: (id, levelDone) => {
-    const { stats, levelShownAt, foundIds, currentSpec } = get();
+    const { stats, levelShownAt, foundIds, currentSpec, wantedFound } = get();
     if (foundIds.includes(id)) return;
+    // un avis réussi (hors bonus doré) : collection et progression de mission
+    if (levelDone && !wantedFound && currentSpec && currentSpec.rule !== "goldRush") {
+      collect(currentSpec.wanted);
+      countMissionStep();
+    }
     // « plus rapide » : temps pour finir un niveau, hors bonus
     const timed = levelDone && currentSpec?.rule !== "goldRush";
     const elapsed =
@@ -205,7 +265,12 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const { bonusDone, currentSpec, gameState, level } = get();
     if (bonusDone || currentSpec?.rule !== "goldRush") return;
     set({ bonusEndsAt: null, bonusDone: true });
-    if (gameState === GameStateEnum.PLAYING) set({ level: level + 1 });
+    if (gameState !== GameStateEnum.PLAYING) return;
+    // le bonus compte comme un avis en Aventure
+    countMissionStep();
+    if (get().mode === "adventure" && get().missionFound >= MISSION_GOAL)
+      set({ gameState: GameStateEnum.FINISH });
+    else set({ level: level + 1 });
   },
   recordMiss: () => {
     const { stats } = get();
@@ -214,20 +279,59 @@ export const useGameStore = create<GameStore>((set, get) => ({
   // Une seule fois par partie
   submitGameResult: () => {
     if (get().gameRecord) return;
-    const { score, level, stats } = get();
-    const outcome = useSaveStore
-      .getState()
-      .recordGame({ score, level, found: stats.found });
-    set({
-      gameRecord: {
-        score,
-        level,
-        isNewRecord: outcome.isNewRecord,
-        bestScore: outcome.bestScore,
-      },
-    });
+    const { score, level, stats, mode, calm, missionFound, timeLeft, worldId, adventureLevel, newCharacters } =
+      get();
+    const save = useSaveStore.getState();
+    const record: GameRecord = {
+      mode,
+      score,
+      level,
+      isNewRecord: false,
+      bestScore: save.save.progress.bestScore,
+      calm,
+      won: false,
+      stars: 0,
+      newCharacters,
+      dailyDate: null,
+      dailyBest: 0,
+    };
+    if (mode === "adventure") {
+      record.level = adventureLevel;
+      record.won = missionFound >= MISSION_GOAL;
+      record.stars = missionStars(record.won, timeLeft);
+      if (record.won && worldId) save.recordStars(worldId, adventureLevel, record.stars);
+    } else if (!calm) {
+      const outcome = save.recordGame({ score, level, found: stats.found });
+      record.isNewRecord = mode === "endless" && outcome.isNewRecord;
+      record.bestScore = outcome.bestScore;
+      if (mode === "daily") {
+        const date = get().dailyDate ?? todayISO();
+        save.recordDaily(date, score);
+        const daily = useSaveStore.getState().save.daily;
+        record.dailyDate = date;
+        record.dailyBest = daily && daily.date === date ? daily.best : score;
+      }
+    }
+    set({ gameRecord: record });
   },
 }));
+
+// Ajoute le recherché à la collection ; retient s'il est attrapé pour la 1re fois
+function collect(wanted: CharacterDetails) {
+  const save = useSaveStore.getState();
+  const before = save.save.collection[wanted.name] ?? 0;
+  save.recordCollection(wanted.name);
+  if (before > 0) return;
+  const { newCharacters } = useGameStore.getState();
+  if (!newCharacters.some((c) => c.name === wanted.name))
+    useGameStore.setState({ newCharacters: [...newCharacters, wanted] });
+}
+
+function countMissionStep() {
+  const { mode, missionFound } = useGameStore.getState();
+  if (mode !== "adventure") return;
+  useGameStore.setState({ missionFound: advanceMission(missionFound, MISSION_GOAL).found });
+}
 
 // Le réglage son vient de la sauvegarde, chargée en asynchrone au démarrage
 useSaveStore.subscribe((state) => {

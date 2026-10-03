@@ -1,4 +1,5 @@
-import { defaultSave, Save, SAVE_VERSION, TIERS } from "./schema";
+import { defaultSave, FRAME_IDS, Save, SAVE_VERSION, TIERS } from "./schema";
+import type { FrameId, SaveDaily } from "./schema";
 import type { Tier } from "../engine/types";
 
 type RawObject = Record<string, unknown>;
@@ -9,6 +10,15 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
   1: (data) => ({ ...data, version: 2, profile: { tier: null } }),
   // v3 : mécaniques découvertes, aucune pour un joueur existant
   2: (data) => ({ ...data, version: 3, seenMechanics: [] }),
+  // v4 : réglages calme/cadre, Aventure, collection et défi du jour vierges
+  3: (data) => ({
+    ...data,
+    version: 4,
+    settings: { ...(isObject(data.settings) ? data.settings : {}), calm: false, frame: "classic" },
+    adventure: { stars: {} },
+    collection: {},
+    daily: null,
+  }),
 };
 
 const isObject = (value: unknown): value is RawObject =>
@@ -46,6 +56,35 @@ const count = (value: unknown, fallback: number, min = 0) =>
     ? Math.floor(value)
     : fallback;
 
+const STARS_KEY = /^[a-z]+:([1-9]\d*)$/;
+const DATE_ISO = /^\d{4}-\d{2}-\d{2}$/;
+
+function sanitizeStars(raw: unknown): Record<string, number> {
+  const out: Record<string, number> = {};
+  if (!isObject(raw)) return out;
+  for (const [key, value] of Object.entries(raw)) {
+    if (!STARS_KEY.test(key)) continue;
+    const stars = count(value, -1);
+    if (stars >= 0) out[key] = Math.min(3, stars);
+  }
+  return out;
+}
+
+function sanitizeCollection(raw: unknown): Record<string, number> {
+  const out: Record<string, number> = {};
+  if (!isObject(raw)) return out;
+  for (const [name, value] of Object.entries(raw)) {
+    const n = count(value, 0);
+    if (name.length > 0 && n > 0) out[name] = n;
+  }
+  return out;
+}
+
+function sanitizeDaily(raw: unknown): SaveDaily | null {
+  if (!isObject(raw) || typeof raw.date !== "string" || !DATE_ISO.test(raw.date)) return null;
+  return { date: raw.date, best: count(raw.best, 0), played: count(raw.played, 0) };
+}
+
 // Garde les champs valides, remplace les autres par la valeur par défaut
 function sanitize(data: RawObject): Save {
   const base = defaultSave();
@@ -58,6 +97,10 @@ function sanitize(data: RawObject): Save {
     settings: {
       sound:
         typeof settings.sound === "boolean" ? settings.sound : base.settings.sound,
+      calm: typeof settings.calm === "boolean" ? settings.calm : base.settings.calm,
+      frame: FRAME_IDS.includes(settings.frame as FrameId)
+        ? (settings.frame as FrameId)
+        : base.settings.frame,
     },
     progress: {
       bestScore: count(progress.bestScore, base.progress.bestScore),
@@ -69,6 +112,9 @@ function sanitize(data: RawObject): Save {
     seenMechanics: Array.isArray(data.seenMechanics)
       ? [...new Set(data.seenMechanics.filter((m): m is string => typeof m === "string" && m.length > 0))]
       : [],
+    adventure: { stars: sanitizeStars(isObject(data.adventure) ? data.adventure.stars : null) },
+    collection: sanitizeCollection(data.collection),
+    daily: sanitizeDaily(data.daily),
   };
 }
 

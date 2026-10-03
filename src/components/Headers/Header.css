@@ -1,33 +1,54 @@
 .header {
-  background: rgb(16, 15, 16);
-  color: rgba(255, 255, 255, 0.96);
+  background: #1c0840;
+  color: #fff;
   position: sticky;
-  top: 0px;
-  height: 50px;
+  top: 0;
+  height: 56px;
   width: 100%;
+  flex: none;
   display: flex;
-  -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: center;
-  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 8px;
   z-index: 2;
 }
 
-.header-logo {
+.header-back {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
   background: #8739f9;
-  height: 40px;
-  width: 40px;
-  margin: 10px;
-  border-radius: 12px;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 3px 0 #5f28af;
 }
 
-.header-button-icon {
-  width: 32px;
-  height: 32px;
+.header-back:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #5f28af;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.header-stars {
+  margin-left: auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.header-stars span {
+  color: #ffc800;
 }

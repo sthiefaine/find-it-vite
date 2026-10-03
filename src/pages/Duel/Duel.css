@@ -1,0 +1,328 @@
+.duel {
+  --top: #ff7a00;
+  --bottom: #2f7bff;
+  --mid-h: 52px;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  height: 100vh;
+  height: 100dvh;
+  width: 100vw;
+  display: grid;
+  grid-template-rows: 1fr var(--mid-h) 1fr;
+  background: #1c1b2b;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.duel * {
+  touch-action: none;
+}
+
+.duel img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.duel-c-top {
+  color: var(--top);
+}
+.duel-c-bottom {
+  color: var(--bottom);
+}
+
+/* ─── Moitiés ─── */
+.duel-half {
+  position: relative;
+  container-type: size;
+  overflow: hidden;
+  min-height: 0;
+}
+.duel-half--top {
+  transform: rotate(180deg);
+  background: linear-gradient(180deg, #fff3e6, #ffe0bf);
+}
+.duel-half--bottom {
+  background: linear-gradient(180deg, #e8f0ff, #cfdfff);
+}
+
+/* ─── Barre du milieu ─── */
+.duel-middle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 10px;
+  background: #1c1b2b;
+  color: white;
+  z-index: 2;
+}
+.duel-score {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-weight: 800;
+  min-width: 0;
+}
+.duel-score--top {
+  transform: rotate(180deg);
+}
+.duel-score-own {
+  font-size: 32px;
+}
+.duel-score-sep {
+  font-size: 20px;
+  opacity: 0.6;
+}
+.duel-score-opp {
+  font-size: 22px;
+}
+.duel-score-target {
+  font-size: 13px;
+  opacity: 0.7;
+  font-weight: 600;
+}
+.duel-quit {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* ─── Panneaux (menu, prêt, 3-2-1, victoire) ─── */
+.duel-panel {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 16px;
+  text-align: center;
+}
+.duel-title {
+  font-size: clamp(32px, 11cqmin, 64px);
+  font-weight: 900;
+  color: #1c1b2b;
+}
+.duel-sub {
+  font-size: 20px;
+  font-weight: 700;
+  color: #4a4860;
+}
+.duel-wait {
+  font-size: 22px;
+  font-weight: 800;
+  color: #2a9d55;
+}
+.duel-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.duel-btn {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 20px;
+  font-size: 18px;
+  font-weight: 800;
+  background: white;
+  color: #1c1b2b;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+}
+.duel-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.18);
+}
+.duel-btn--big {
+  background: #8739f9;
+  color: white;
+  font-size: 20px;
+  padding: 16px 22px;
+}
+.duel-btn--danger {
+  background: #e5484d;
+  color: white;
+}
+.duel-btn--ready {
+  background: #2a9d55;
+  color: white;
+  font-size: 30px;
+  padding: 22px 48px;
+  border-radius: 24px;
+}
+.duel-half--top .duel-btn--ready {
+  background: var(--top);
+}
+.duel-half--bottom .duel-btn--ready {
+  background: var(--bottom);
+}
+.duel-count {
+  font-size: clamp(90px, 40cqmin, 220px);
+  font-weight: 900;
+  color: #1c1b2b;
+}
+.duel-trophy {
+  font-size: 64px;
+}
+
+/* ─── Manche ─── */
+.duel-play {
+  --poster: 56px;
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  transition: filter 0.15s;
+}
+.duel-play.is-locked {
+  filter: grayscale(1) brightness(0.85);
+}
+.duel-poster {
+  height: var(--poster);
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 14px 4px 10px;
+  background: #fffbe8;
+  border: 3px solid #1c1b2b;
+  border-radius: 14px;
+}
+.duel-poster-label {
+  font-weight: 900;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #b3261e;
+}
+.duel-poster img {
+  height: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+.duel-grid {
+  --g: min(calc(100cqw - 16px), calc(100cqh - var(--poster) - 24px));
+  width: var(--g);
+  height: var(--g);
+  flex: none;
+  display: grid;
+  gap: 4px;
+}
+.duel-cell {
+  position: relative;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  cursor: pointer;
+}
+.duel-cell img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+.duel-cell.is-target {
+  background: #fff;
+  box-shadow: 0 0 0 4px #2a9d55, 0 0 18px 6px rgba(42, 157, 85, 0.6);
+  z-index: 1;
+  animation: duel-pulse 0.5s ease-in-out infinite alternate;
+}
+@keyframes duel-pulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+
+/* Tablette ou moitié plus large que haute : avis à gauche */
+@container (min-aspect-ratio: 5/4) {
+  .duel-play {
+    --poster: 96px;
+    flex-direction: row;
+  }
+  .duel-poster {
+    height: auto;
+    width: var(--poster);
+    flex-direction: column;
+    padding: 10px 6px;
+  }
+  .duel-poster img {
+    width: 100%;
+    height: auto;
+  }
+  .duel-grid {
+    --g: min(calc(100cqw - var(--poster) - 24px), calc(100cqh - 16px));
+  }
+}
+
+/* Messages sur la moitié */
+.duel-flag {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  padding: 10px 22px;
+  border-radius: 18px;
+  font-weight: 900;
+  font-size: 30px;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 3;
+}
+.duel-flag--miss {
+  background: #e5484d;
+  color: white;
+}
+.duel-flag--win {
+  background: #2a9d55;
+  color: white;
+  font-size: 48px;
+}
+.duel-flag--lost {
+  background: rgba(28, 27, 43, 0.85);
+  color: white;
+  font-size: 22px;
+  top: auto;
+  bottom: 8px;
+  translate: -50% 0;
+}
+
+/* Confirmation pour quitter */
+.duel-confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(28, 27, 43, 0.75);
+  color: white;
+  font-size: 24px;
+  font-weight: 800;
+}

@@ -16,3 +16,10 @@ export function formatSeconds(ms: number | null): string {
   });
   return `${seconds} s`;
 }
+
+// Mission pas finie : encourageant, jamais culpabilisant
+export function retryMessage(found: number, goal: number): string {
+  if (found <= 0) return "Tu vas y arriver !";
+  if (found >= goal - 2) return `${found}/${goal} avis · tu y es presque !`;
+  return `${found}/${goal} avis · continue !`;
+}

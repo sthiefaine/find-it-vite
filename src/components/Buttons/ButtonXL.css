@@ -1,27 +1,26 @@
 .button-xl-wrapper {
   position: relative;
-  display: inline-block;
-  min-width: 300px;
+  display: block;
+  width: 100%;
   max-width: 400px;
-  width: 90%;
-  margin: 1rem auto;
+  margin: 0 auto;
 }
 
 .button-xl {
   background: rgb(135, 57, 249);
   color: rgba(255, 255, 255, 0.96);
-  min-width: 300px;
-  max-width: 400px;
-  margin: 1rem auto;
+  min-height: 76px;
+  margin: 0;
   z-index: 6;
-  width: 90%;
-  padding: 1rem 1.2rem;
-  border-radius: 1rem;
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  border-radius: 22px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 2.2rem;
-  font-weight: 600;
+  font-size: 2.4rem;
+  font-weight: 900;
+  text-transform: uppercase;
   box-shadow: 0 4px 0 rgb(95, 40, 175), 0 8px 12px rgba(0, 0, 0, 0.2);
   border: none;
   cursor: pointer;
@@ -92,10 +91,7 @@
 .bling-bling-button {
   background: linear-gradient(135deg, #FFC800, #FF8A00);
   color: white;
-  text-shadow: 
-    0 1px 1px #000,
-    0 0 5px rgba(255, 215, 0, 0.5),
-    0 0 10px rgba(255, 215, 0, 0.3);
+  text-shadow: 0 3px 0 #a84f00, 0 0 10px rgba(120, 50, 0, 0.4);
   letter-spacing: 0.05em;
   animation: gold-pulse 2s infinite;
   border: 2px solid rgba(255, 215, 0, 0.4);
