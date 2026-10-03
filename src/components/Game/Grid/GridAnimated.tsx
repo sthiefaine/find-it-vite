@@ -1,103 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Stage, Container, Sprite } from "@pixi/react";
 import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
-import {
-  CELL_SIZE,
-  GridCell,
-  randomIntFromInterval,
-} from "../../../helpers/gameUtils";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
 import { HitCandidate, pickCharacterAt } from "../../../helpers/hitTest";
 import { FederatedPointerEvent } from "@pixi/events";
 import { Rectangle } from "pixi.js";
+import { getBoard } from "../../../helpers/board";
+import { createRng } from "../../../engine/rng";
+import type { LevelSpec } from "../../../engine/types";
+import { placeCrowd } from "./Grid";
 
 import "./Grid.css";
 
-type ScrollDirection = "horizontal" | "vertical";
-
-type CellPosition = {
-  rowIndex: number;
-  colIndex: number;
-  offsetX: number;
-  offsetY: number;
-};
-
-type PlacedCharacter = {
-  id: number;
-  name: string;
-  imageSrc: string;
-  position: CellPosition;
-  isWanted: boolean;
-  zIndex: number;
-};
-
-type RowConfig = {
-  speed: number;
-  offset: number;
-};
-
-type ColConfig = {
-  speed: number;
-  offset: number;
-};
-
-interface GridAnimatedProps {
-  difficulty?: number;
-  scrollDirection?: ScrollDirection;
-  minSpeed?: number;
-  maxSpeed?: number;
-  sameDirection?: boolean;
-  alternateDirection?: boolean;
-  addLine?: number;
-}
-
-const GridAnimated = ({
-  difficulty = 2,
-  scrollDirection = "horizontal",
-  minSpeed = 0.3,
-  maxSpeed = 1.8,
-  sameDirection = false,
-  alternateDirection = false,
-  addLine = 0,
-}: GridAnimatedProps) => {
-  const stageRef = useRef<Stage>(null);
+// Disposition "scroll" : des lignes (ou colonnes) qui défilent en boucle.
+const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
+  const board = useMemo(() => getBoard(), []);
   const animationFrameRef = useRef<number | null>(null);
-  const lastTimeRef = useRef<number>(0);
 
-  const [blinkState, setBlinkState] = useState<boolean>(true);
-  const [placedCharacters, setPlacedCharacters] = useState<PlacedCharacter[]>(
-    []
+  const { gameState, animationLevelLoading } = useGameStore(
+    useShallow((state) => ({
+      gameState: state.gameState,
+      animationLevelLoading: state.animationLevelLoading,
+    }))
   );
-  const [rowConfigs, setRowConfigs] = useState<RowConfig[]>([]);
-  const [colConfigs, setColConfigs] = useState<ColConfig[]>([]);
-  const blinkIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const [isInitializing, setIsInitializing] = useState(true);
-
-  const gridSize = Math.min(window.innerWidth, 450);
-  const GRID_SIZE_WIDTH = gridSize;
-  const GRID_SIZE_HEIGHT = gridSize;
-
-  const rowCount =
-    Math.floor(GRID_SIZE_HEIGHT / CELL_SIZE) +
-    (scrollDirection === "horizontal" ? addLine : 0);
-  const colCount =
-    Math.floor(GRID_SIZE_WIDTH / CELL_SIZE) +
-    (scrollDirection === "vertical" ? addLine : 0);
-
-  const { grid, wantedCharacter, gameState, animationLevelLoading } =
-    useGameStore(
-      useShallow((state) => ({
-        grid: state.grid,
-        wantedCharacter: state.wantedCharacter,
-        gameState: state.gameState,
-        animationLevelLoading: state.animationLevelLoading,
-        setScore: state.setScore,
-        setTimeLeft: state.setTimeLeft,
-        setPauseTimer: state.setPauseTimer,
-        setLevel: state.setLevel,
-      }))
-    );
 
   const {
     canvasRef,
@@ -106,322 +32,94 @@ const GridAnimated = ({
     disableClick,
     setDisableClick,
     handleCharacterClick,
+    blinkState,
   } = useCharacterInteraction();
 
-  const generateRowColConfigs = () => {
-    const baseDirection = Math.random() > 0.5 ? 1 : -1;
+  // Placement, géométrie et vitesses : figés pour la durée du niveau (monté avec key={spec.seed})
+  const layout = useMemo(() => {
+    const rng = createRng(spec.seed).fork("place");
+    const horizontal = (spec.params.scrollDirection ?? "horizontal") === "horizontal";
+    const size = spec.spriteSize * board.scale;
+    const extra = Math.max(0, Math.round(spec.params.extraLines ?? 0));
 
-    const newRowConfigs: RowConfig[] = [];
-    for (let i = 0; i < rowCount; i++) {
-      let direction: number;
+    // Axe du défilement : têtes réparties régulièrement sur une période = côté du plateau
+    const period = horizontal ? board.width : board.height;
+    const cross = horizontal ? board.height : board.width;
+    const perLine = Math.max(1, Math.floor(period / size));
+    const lineCount = Math.max(1, Math.floor(cross / size)) + extra;
+    const mainStep = period / perLine;
+    const crossStep = cross / lineCount;
 
-      if (sameDirection) {
-        direction = baseDirection;
-      } else if (alternateDirection) {
-        direction = i % 2 === 0 ? 1 : -1;
-      } else {
-        direction = Math.random() > 0.5 ? 1 : -1;
-      }
+    // Vitesse par ligne : spec.params.speed est le maximum, chaque ligne entre 60 % et 100 %
+    const baseSpeed = (spec.params.speed ?? 1) * board.scale;
+    const baseDir = rng.chance(0.5) ? 1 : -1;
+    const speeds = Array.from({ length: lineCount }, (_, i) => {
+      const dir = spec.params.alternateDirection
+        ? i % 2 === 0
+          ? baseDir
+          : -baseDir
+        : rng.chance(0.5)
+        ? 1
+        : -1;
+      return baseSpeed * (0.6 + 0.4 * rng.next()) * dir;
+    });
 
-      const speed =
-        (minSpeed + Math.random() * (maxSpeed - minSpeed)) * direction;
-      newRowConfigs.push({ speed, offset: 0 });
-    }
+    const slots = placeCrowd(spec, lineCount * perLine, rng).map((slot) => ({
+      ...slot,
+      line: Math.floor(slot.id / perLine),
+      main: (slot.id % perLine + 0.5) * mainStep, // centre, le long du défilement
+      cross: (Math.floor(slot.id / perLine) + 0.5) * crossStep, // centre, en travers
+    }));
 
-    const newColConfigs: ColConfig[] = [];
-    for (let i = 0; i < colCount; i++) {
-      let direction: number;
+    return { horizontal, size, period, speeds, slots };
+  }, [spec, board]);
 
-      if (sameDirection) {
-        direction = baseDirection;
-      } else if (alternateDirection) {
-        direction = i % 2 === 0 ? 1 : -1;
-      } else {
-        direction = Math.random() > 0.5 ? 1 : -1;
-      }
+  const [offsets, setOffsets] = useState<number[]>(() =>
+    layout.speeds.map(() => 0)
+  );
 
-      const speed =
-        (minSpeed + Math.random() * (maxSpeed - minSpeed)) * direction;
-      newColConfigs.push({ speed, offset: 0 });
-    }
-
-    setRowConfigs(newRowConfigs);
-    setColConfigs(newColConfigs);
-
-    return { newRowConfigs, newColConfigs };
-  };
-
-  const placeCharacters = () => {
-    if (!grid || !wantedCharacter) return;
-
-    const availableCharacters = grid.filter(
-      (cell): cell is GridCell => cell !== null && cell !== undefined
-    );
-
-    if (availableCharacters.length === 0) return;
-
-    const wantedCell = availableCharacters.find(
-      (cell) => cell?.name === wantedCharacter.name
-    );
-
-    if (!wantedCell) return;
-
-    generateRowColConfigs();
-
-    const charactersGrid: PlacedCharacter[] = [];
-
-    let wantedRowIndex: number, wantedColIndex: number;
-
-    if (difficulty <= 1) {
-      wantedRowIndex = Math.floor(rowCount / 2) + randomIntFromInterval(-1, 1);
-      wantedColIndex = Math.floor(colCount / 2) + randomIntFromInterval(-1, 1);
-    } else {
-      wantedRowIndex = randomIntFromInterval(0, rowCount - 1);
-      wantedColIndex = randomIntFromInterval(0, colCount - 1);
-    }
-
-    wantedRowIndex = Math.max(0, Math.min(rowCount - 1, wantedRowIndex));
-    wantedColIndex = Math.max(0, Math.min(colCount - 1, wantedColIndex));
-
-    for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-      for (let colIndex = 0; colIndex < colCount; colIndex++) {
-        const isWantedPosition =
-          rowIndex === wantedRowIndex && colIndex === wantedColIndex;
-
-        let character: GridCell;
-
-        if (isWantedPosition) {
-          character = wantedCell;
-        } else {
-          const otherCharacters = availableCharacters.filter(
-            (cell) => cell?.name !== wantedCharacter.name
-          );
-          const randomIndex = randomIntFromInterval(
-            0,
-            otherCharacters.length - 1
-          );
-          character = otherCharacters[randomIndex];
-        }
-
-        if (!character) continue;
-
-        charactersGrid.push({
-          id: character.id + rowIndex * 1000 + Math.random() * 10,
-          name: character.name,
-          imageSrc: character.imageSrc,
-          position: {
-            rowIndex,
-            colIndex,
-            offsetX: 0,
-            offsetY: 0,
-          },
-          isWanted: isWantedPosition,
-          zIndex: isWantedPosition ? 50 : randomIntFromInterval(10, 90),
-        });
-      }
-    }
-
-    setPlacedCharacters(charactersGrid);
-  };
-
-  const animateGrid = (timestamp: number) => {
-    if (!lastTimeRef.current) lastTimeRef.current = timestamp;
-
-    const deltaTime = (timestamp - lastTimeRef.current) / 1000;
-    lastTimeRef.current = timestamp;
-
-    if (gameState === GameStateEnum.END) {
-      return;
-    }
-
-    if (isCorrectSelection) {
-      animationFrameRef.current = requestAnimationFrame(animateGrid);
-      return;
-    }
-
-    if (scrollDirection === "horizontal") {
-      setRowConfigs((prev) =>
-        prev.map((config) => {
-          let newOffset = config.offset + config.speed * deltaTime * 60;
-
-          if (newOffset > GRID_SIZE_WIDTH) {
-            newOffset -= GRID_SIZE_WIDTH;
-          } else if (newOffset < -GRID_SIZE_WIDTH) {
-            newOffset += GRID_SIZE_WIDTH;
-          }
-
-          return { ...config, offset: newOffset };
-        })
-      );
-    } else {
-      setColConfigs((prev) =>
-        prev.map((config) => {
-          let newOffset = config.offset + config.speed * deltaTime * 60;
-
-          if (newOffset > GRID_SIZE_HEIGHT) {
-            newOffset -= GRID_SIZE_HEIGHT;
-          } else if (newOffset < -GRID_SIZE_HEIGHT) {
-            newOffset += GRID_SIZE_HEIGHT;
-          }
-
-          return { ...config, offset: newOffset };
-        })
-      );
-    }
-
-    animationFrameRef.current = requestAnimationFrame(animateGrid);
-  };
+  // Lus par la boucle d'animation sans la relancer
+  const frozenRef = useRef(false);
+  frozenRef.current =
+    isCorrectSelection ||
+    gameState === GameStateEnum.END ||
+    gameState === GameStateEnum.FINISH ||
+    gameState === GameStateEnum.PAUSED;
 
   useEffect(() => {
-    if (grid && wantedCharacter && !animationLevelLoading) {
-      setDisableClick(true);
-      setIsInitializing(true);
+    setDisableClick(false);
+    if (animationLevelLoading) return;
 
-      placeCharacters();
-
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-        animationFrameRef.current = null;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min((now - last) / 1000, 0.1);
+      last = now;
+      if (!frozenRef.current) {
+        setOffsets((prev) =>
+          prev.map((o, i) => (o + layout.speeds[i] * dt * 60) % layout.period)
+        );
       }
-
-      const initTimer = setTimeout(() => {
-        setIsInitializing(false);
-        setDisableClick(false);
-
-        if (!animationLevelLoading) {
-          lastTimeRef.current = performance.now();
-          animationFrameRef.current = requestAnimationFrame(animateGrid);
-        }
-      }, 100);
-
-      return () => {
-        clearTimeout(initTimer);
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-        }
-      };
-    }
-  }, [
-    grid,
-    wantedCharacter,
-    difficulty,
-    scrollDirection,
-    minSpeed,
-    maxSpeed,
-    sameDirection,
-    alternateDirection,
-    animationLevelLoading,
-  ]);
-
-  useEffect(() => {
-    if (blinkIntervalRef.current) {
-      clearInterval(blinkIntervalRef.current);
-      blinkIntervalRef.current = null;
-    }
-
-    if (selectedCharacterId !== null && !isCorrectSelection) {
-      let count = 0;
-      blinkIntervalRef.current = setInterval(() => {
-        setBlinkState((prev) => !prev);
-        count++;
-
-        if (count >= 4) {
-          if (blinkIntervalRef.current) {
-            clearInterval(blinkIntervalRef.current);
-            blinkIntervalRef.current = null;
-          }
-          setBlinkState(true);
-        }
-      }, 125);
-    }
+      animationFrameRef.current = requestAnimationFrame(tick);
+    };
+    animationFrameRef.current = requestAnimationFrame(tick);
 
     return () => {
-      if (blinkIntervalRef.current) {
-        clearInterval(blinkIntervalRef.current);
-        blinkIntervalRef.current = null;
-      }
+      if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
     };
-  }, [selectedCharacterId, isCorrectSelection]);
+  }, [layout, animationLevelLoading]);
 
-  const calculateSpacing = () => {
-    const elementsPerRow = Math.min(placedCharacters.length, colCount);
-    const elementsPerCol = Math.min(placedCharacters.length, rowCount);
-
-    const availableSpaceWidth = GRID_SIZE_WIDTH - elementsPerRow * CELL_SIZE;
-    const availableSpaceHeight = GRID_SIZE_HEIGHT - elementsPerCol * CELL_SIZE;
-
-    const horizontalSpacing =
-      elementsPerRow > 1 ? availableSpaceWidth / (elementsPerRow - 1) : 0;
-    const verticalSpacing =
-      elementsPerCol > 1 ? availableSpaceHeight / (elementsPerCol - 1) : 0;
-
-    const offsetX =
-      elementsPerRow < colCount
-        ? (GRID_SIZE_WIDTH - elementsPerRow * CELL_SIZE) / 2
-        : 0;
-    const offsetY =
-      elementsPerCol < rowCount
-        ? (GRID_SIZE_HEIGHT - elementsPerCol * CELL_SIZE) / 2
-        : 0;
-
-    return { horizontalSpacing, verticalSpacing, offsetX, offsetY };
+  const containerStyle = {
+    width: board.width,
+    height: board.height,
+    maxHeight: "none",
   };
 
-  const getCharacterPosition = (character: PlacedCharacter) => {
-    const { rowIndex, colIndex } = character.position;
-    const { horizontalSpacing, verticalSpacing } = calculateSpacing();
-
-    const { offsetX, offsetY } = calculateSpacing();
-    let x =
-      offsetX + colIndex * (CELL_SIZE + horizontalSpacing) + CELL_SIZE / 2;
-    let y = offsetY + rowIndex * (CELL_SIZE + verticalSpacing) + CELL_SIZE / 2;
-
-    if (scrollDirection === "horizontal" && rowConfigs[rowIndex]) {
-      x += rowConfigs[rowIndex].offset;
-
-      while (x < -CELL_SIZE / 2) x += GRID_SIZE_WIDTH;
-      while (x > GRID_SIZE_WIDTH + CELL_SIZE / 2) x -= GRID_SIZE_WIDTH;
-    } else if (scrollDirection === "vertical" && colConfigs[colIndex]) {
-      y += colConfigs[colIndex].offset;
-
-      while (y < -CELL_SIZE / 2) y += GRID_SIZE_HEIGHT;
-      while (y > GRID_SIZE_HEIGHT + CELL_SIZE / 2) y -= GRID_SIZE_HEIGHT;
-    }
-
-    return { x, y };
-  };
-  const needsClone = (character: PlacedCharacter) => {
-    const { x, y } = getCharacterPosition(character);
-
-    if (scrollDirection === "horizontal") {
-      return x < CELL_SIZE || x > GRID_SIZE_WIDTH - CELL_SIZE;
-    } else {
-      return y < CELL_SIZE || y > GRID_SIZE_HEIGHT - CELL_SIZE;
-    }
-  };
-
-  const getClonePosition = (character: PlacedCharacter) => {
-    const { x, y } = getCharacterPosition(character);
-
-    if (scrollDirection === "horizontal") {
-      if (x < CELL_SIZE) {
-        return { x: x + GRID_SIZE_WIDTH, y };
-      } else {
-        return { x: x - GRID_SIZE_WIDTH, y };
-      }
-    } else {
-      if (y < CELL_SIZE) {
-        return { x, y: y + GRID_SIZE_HEIGHT };
-      } else {
-        return { x, y: y - GRID_SIZE_HEIGHT };
-      }
-    }
-  };
-
-  if (!grid || animationLevelLoading) {
-    return <div className="gridContainer"></div>;
+  if (animationLevelLoading) {
+    return <div className="gridContainer" style={containerStyle} />;
   }
 
+  const { horizontal, size, period, slots } = layout;
   const showOnlyWantedCharacter =
     isCorrectSelection ||
     gameState === GameStateEnum.END ||
@@ -429,10 +127,10 @@ const GridAnimated = ({
 
   // Persos touchables (copies comprises), remplis pendant le rendu ci-dessous
   const candidates: HitCandidate[] = [];
-  const hitArea = new Rectangle(0, 0, GRID_SIZE_WIDTH, GRID_SIZE_HEIGHT);
+  const hitArea = new Rectangle(0, 0, board.width, board.height);
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
-    if (disableClick || isInitializing || showOnlyWantedCharacter) return;
+    if (disableClick || showOnlyWantedCharacter) return;
     const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
     if (!hit) return;
     handleCharacterClick(
@@ -442,12 +140,12 @@ const GridAnimated = ({
   };
 
   return (
-    <div ref={canvasRef} className="gridContainer">
+    <div ref={canvasRef} className="gridContainer" style={containerStyle}>
       <Stage
-        ref={stageRef}
-        width={GRID_SIZE_WIDTH}
-        height={GRID_SIZE_HEIGHT}
+        width={board.width}
+        height={board.height}
         className="canvasGameBoard"
+        style={containerStyle}
         options={{
           powerPreference: "high-performance",
           antialias: true,
@@ -456,61 +154,47 @@ const GridAnimated = ({
         }}
       >
         <Container>
-          {!isInitializing &&
-            placedCharacters.map((character) => {
-              const isBlinking =
-                selectedCharacterId === character.id &&
-                !isCorrectSelection &&
-                !blinkState;
+          {slots.map((slot) => {
+            if (showOnlyWantedCharacter && !slot.isWanted) return null;
+            // Clignotement du perso touché par erreur
+            if (selectedCharacterId === slot.id && !blinkState) return null;
 
-              if (isBlinking) {
-                return null;
-              }
+            // Position le long du défilement, ramenée dans [0, période)
+            let main = (slot.main + (offsets[slot.line] ?? 0)) % period;
+            if (main < 0) main += period;
 
-              if (showOnlyWantedCharacter && !character.isWanted) {
-                return null;
-              }
+            // Copie de l'autre côté quand la tête déborde d'un bord
+            const mains = [main];
+            if (main < size) mains.push(main + period);
+            else if (main > period - size) mains.push(main - period);
 
-              const { x, y } = getCharacterPosition(character);
-
-              const renderItems = [
-                { key: `character-${character.id}`, x, y, isClone: false },
-              ];
-
-              if (needsClone(character)) {
-                const { x: cloneX, y: cloneY } = getClonePosition(character);
-                renderItems.push({
-                  key: `character-clone-${character.id}`,
-                  x: cloneX,
-                  y: cloneY,
-                  isClone: true,
-                });
-              }
-
+            return mains.map((m, k) => {
+              const cx = horizontal ? m : slot.cross;
+              const cy = horizontal ? slot.cross : m;
               // Une copie compte comme le perso d'origine (même id, même isWanted)
-              renderItems.forEach((item) => {
+              if (!showOnlyWantedCharacter) {
                 candidates.push({
-                  id: character.id,
-                  cx: item.x,
-                  cy: item.y,
-                  size: CELL_SIZE,
+                  id: slot.id,
+                  cx,
+                  cy,
+                  size,
                   z: candidates.length,
-                  isWanted: character.isWanted,
+                  isWanted: slot.isWanted,
                 });
-              });
-
-              return renderItems.map((item) => (
+              }
+              return (
                 <Sprite
-                  key={item.key}
-                  image={character.imageSrc}
-                  x={item.x - CELL_SIZE / 2}
-                  y={item.y - CELL_SIZE / 2}
-                  width={CELL_SIZE}
-                  height={CELL_SIZE}
+                  key={`${slot.id}-${k}`}
+                  image={slot.character.imageSrc}
+                  x={cx - size / 2}
+                  y={cy - size / 2}
+                  width={size}
+                  height={size}
                   eventMode="none"
                 />
-              ));
-            })}
+              );
+            });
+          })}
         </Container>
         {/* Zone de toucher unique, au-dessus des sprites */}
         <Container

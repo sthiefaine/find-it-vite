@@ -1,0 +1,278 @@
+// Génération d'un niveau : fonction pure de (index, contexte).
+import type { CharacterDetails } from "../helpers/characters";
+import {
+  allowedModifiers,
+  allowedRules,
+  budgetFor,
+  difficultyOf,
+  FLASHLIGHT_INTRO,
+  introAt,
+  isGoldRushSlot,
+  layoutFor,
+  LOOKALIKE_THRESHOLD,
+  lookalikeRatio,
+  maxModifiers,
+  mechanicWeight,
+  RULE_INTRO,
+  SCROLL_FAST,
+  slotOf,
+  SWARM_FAST,
+  zoneOf,
+} from "./curve";
+import { createRng, hash32, weightedPick } from "./rng";
+import type { Rng } from "./rng";
+import { BOARD, GEN_VERSION } from "./types";
+import type { GenContext, Layout, LayoutParams, LevelSpec, Modifier, Rule, Slot, Tier } from "./types";
+import { LIMITS, validateSpec } from "./validate";
+
+export const MIN_POOL_SIZE = 3;
+const MAX_ATTEMPTS = 8;
+const DECOY_SLOTS = 20; // longueur de la liste pondérée de leurres
+const SUB_THRESHOLD_RHO = 0.35; // ρ utilisé quand lookalikes doit rester absent
+
+const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
+const round2 = (v: number) => Math.round(v * 100) / 100;
+
+export const levelSeedOf = (index: number, ctx: GenContext) => hash32(GEN_VERSION, ctx.seed, index);
+
+// ─── Recherché : sac mélangé par bloc de |pool| niveaux ───
+function rawBag(block: number, ctx: GenContext): CharacterDetails[] {
+  return createRng(hash32(GEN_VERSION, ctx.seed, "bag", block)).shuffle(ctx.pool);
+}
+
+export function wantedAt(index: number, ctx: GenContext): CharacterDetails {
+  const pool = ctx.pool;
+  const P = pool.length;
+  if (P < MIN_POOL_SIZE) throw new Error(`generateLevel : il faut au moins ${MIN_POOL_SIZE} persos dans le pool`);
+  if (P < 6) {
+    // petit pool : un ordre fixe parcouru en boucle (distinct des 2 précédents car P ≥ 3)
+    const order = createRng(hash32(GEN_VERSION, ctx.seed, "order")).shuffle(pool);
+    return order[(index - 1) % P];
+  }
+  const block = Math.floor((index - 1) / P);
+  const bag = rawBag(block, ctx);
+  if (block > 0) {
+    // Les 2 dernières places d'un sac ne sont jamais retouchées : on peut les recalculer
+    const prev = rawBag(block - 1, ctx);
+    const last2 = new Set([prev[P - 1].name, prev[P - 2].name]);
+    for (let i = 0; i < 2; i++) {
+      if (!last2.has(bag[i].name)) continue;
+      for (let j = 2; j <= P - 3; j++) {
+        if (!last2.has(bag[j].name)) {
+          [bag[i], bag[j]] = [bag[j], bag[i]];
+          break;
+        }
+      }
+    }
+  }
+  return bag[(index - 1) % P];
+}
+
+// ─── Leurres ───
+function buildDecoys(wanted: CharacterDetails, rho: number, pool: CharacterDetails[], rng: Rng): CharacterDetails[] {
+  const family = rng.shuffle(pool.filter((c) => c.family === wanted.family && c.name !== wanted.name));
+  const others = rng.shuffle(pool.filter((c) => c.family !== wanted.family && c.name !== wanted.name));
+  let famSlots = Math.round(rho * DECOY_SLOTS);
+  if (family.length === 0) famSlots = 0;
+  else if (others.length === 0) famSlots = DECOY_SLOTS;
+  const out: CharacterDetails[] = [];
+  for (let i = 0; i < famSlots; i++) out.push(family[i % family.length]);
+  for (let i = 0; i < DECOY_SLOTS - famSlots; i++) out.push(others[i % others.length]);
+  return out;
+}
+
+// ─── Règle ───
+function pickRule(n: number, ctx: GenContext, slot: Slot, layout: Layout, rng: Rng): Rule {
+  const intro = introAt(n, ctx);
+  if (intro) return intro.kind === "rule" ? intro.rule : "classic";
+  const rules = allowedRules(ctx);
+  if (isGoldRushSlot(n) && rules.has("goldRush")) return "goldRush";
+  const factor = slot === "breather" ? 0.5 : slot === "boss" ? 1.2 : 1;
+  const items: [Rule, number][] = [["classic", 1.5]];
+  for (const [r, at] of Object.entries(RULE_INTRO) as [Rule, number][]) {
+    if (!rules.has(r)) continue;
+    if (r === "oddOneOut" && layout !== "grid" && layout !== "pile") continue;
+    items.push([r, mechanicWeight(n, at + 1) * factor]);
+  }
+  return weightedPick(rng, items) ?? "classic";
+}
+
+// ─── Paramètres de disposition ───
+function buildParams(
+  layout: Layout,
+  n: number,
+  tier: Tier,
+  d: number,
+  flashlight: boolean,
+  rng: Rng,
+): { params: LayoutParams; spriteSize: number } {
+  const easy = tier === "easy";
+  const L = LIMITS;
+  switch (layout) {
+    case "grid": {
+      const max = easy ? (n === 1 ? L.grid.maxEasyLevel1 : L.grid.maxEasy) : L.grid.max;
+      const gridSize = clamp(Math.round(2.6 + 6 * d), L.grid.min, max);
+      const spriteSize = clamp(Math.floor(BOARD.w / gridSize), easy ? L.sprite.minEasyGrid : L.sprite.min, L.sprite.max);
+      return { params: { gridSize }, spriteSize };
+    }
+    case "scroll": {
+      let speed = clamp(round2(0.4 + 1.2 * d), L.scroll.speedMin, easy ? L.scroll.speedMaxEasy : L.scroll.speedMax);
+      if (flashlight) speed = Math.min(speed, SCROLL_FAST);
+      return {
+        params: {
+          speed,
+          extraLines: clamp(Math.floor(d * 4), 0, L.scroll.extraLinesMax),
+          scrollDirection: rng.chance(0.5) ? "horizontal" : "vertical",
+          alternateDirection: rng.chance(0.3 + 0.4 * d),
+        },
+        spriteSize: clamp(Math.round(84 - 32 * d), L.sprite.min, L.sprite.max),
+      };
+    }
+    case "pile": {
+      const count = clamp(Math.round(30 + 130 * d), L.pile.countMin, L.pile.countMax);
+      return {
+        params: {
+          count,
+          jitter: clamp(Math.round((2 + 4 * d) * 10) / 10, L.pile.jitterMin, L.pile.jitterMax),
+          wantedBelow: !easy && n >= L.pile.wantedBelowFrom && rng.chance(0.25 + 0.35 * d),
+          backgroundGrid: count >= L.pile.backgroundGridFrom,
+        },
+        spriteSize: clamp(Math.round(76 - 28 * d), L.sprite.min, L.sprite.max),
+      };
+    }
+    case "swarm": {
+      let speed = clamp(round2(0.2 + 0.4 * d), L.swarm.speedMin, easy ? L.swarm.speedMaxEasy : L.swarm.speedMax);
+      if (flashlight) speed = Math.min(speed, SWARM_FAST);
+      return {
+        params: {
+          count: clamp(Math.round(20 + 40 * d), L.swarm.countMin, L.swarm.countMax),
+          speed,
+          edgeBehavior: rng.chance(0.5) ? "bounce" : "wrap",
+        },
+        spriteSize: clamp(Math.round(80 - 30 * d), L.sprite.min, L.sprite.max),
+      };
+    }
+  }
+}
+
+// ─── Temps ───
+const BASE_REWARD: Record<Slot, number> = { intro: 4, normal: 4, breather: 3, boss: 6 };
+const PENALTY: Record<Tier, number> = { easy: 2, normal: 3, expert: 5 };
+export const rewardFor = (slot: Slot, tier: Tier) =>
+  tier === "easy" ? Math.round(BASE_REWARD[slot] * 1.15) : BASE_REWARD[slot];
+
+function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): LevelSpec {
+  const tier = ctx.tier;
+  const slot = slotOf(index);
+  const intro = introAt(index, ctx);
+  const layout = layoutFor(index, ctx);
+  const rule = pickRule(index, ctx, slot, layout, rng.fork("rule"));
+  const wanted = wantedAt(index, ctx);
+  const mods = allowedModifiers(ctx);
+
+  // Modificateurs
+  let rho = lookalikeRatio(index, tier, slot);
+  if (intro || rule === "goldRush" || !mods.has("lookalikes")) rho = Math.min(rho, SUB_THRESHOLD_RHO);
+  let flashlight = false;
+  if (mods.has("flashlight")) {
+    if (intro?.kind === "modifier" && intro.modifier === "flashlight") flashlight = true;
+    else if (!intro && rule !== "goldRush" && slot !== "breather" && index > FLASHLIGHT_INTRO)
+      flashlight = rng.fork("flashlight").chance(mechanicWeight(index, FLASHLIGHT_INTRO + 1) * (slot === "boss" ? 0.4 : 0.25));
+  }
+  if (flashlight && rho >= LOOKALIKE_THRESHOLD && maxModifiers(slot, tier) < 2) rho = SUB_THRESHOLD_RHO;
+  const modifiers: Modifier[] = [];
+  if (flashlight) modifiers.push("flashlight");
+  if (rho >= LOOKALIKE_THRESHOLD) modifiers.push("lookalikes");
+
+  // Difficulté
+  const budget = budgetFor(index, tier, intro !== null);
+  const pr = rng.fork("params");
+  let d = difficultyOf(budget) * (0.92 + 0.16 * pr.next());
+  if (flashlight) d *= 0.85;
+  const familyEmpty = !ctx.pool.some((c) => c.family === wanted.family && c.name !== wanted.name);
+  if (familyEmpty) d *= 1 + 0.3 * rho; // pas de sosie possible : plus de monde à la place
+  d = clamp(d, 0, 1);
+  const { params, spriteSize } = buildParams(layout, index, tier, d, flashlight, pr);
+
+  const decoys = rule === "oddOneOut" ? [wanted] : buildDecoys(wanted, rho, ctx.pool, rng.fork("decoys"));
+
+  const spec: LevelSpec = {
+    genVersion: GEN_VERSION,
+    seed,
+    index,
+    zone: zoneOf(index),
+    slot,
+    layout,
+    rule,
+    modifiers,
+    wanted,
+    decoys,
+    params,
+    spriteSize,
+    findCount: rule === "findAll" ? (tier === "easy" ? 2 : 3) : 1,
+    rewardS: rewardFor(slot, tier),
+    penaltyS: PENALTY[tier],
+    lookalikeRatio: round2(rho),
+    budget: round2(budget),
+  };
+  if (rule === "goldRush") spec.durationS = LIMITS.goldRushDurationS;
+  return spec;
+}
+
+// Grille de secours : la plus simple possible
+function fallbackLevel(index: number, ctx: GenContext, seed: number): LevelSpec {
+  const wanted = wantedAt(index, ctx);
+  const slot = slotOf(index);
+  const gridSize = 3;
+  return {
+    genVersion: GEN_VERSION,
+    seed,
+    index,
+    zone: zoneOf(index),
+    slot,
+    layout: "grid",
+    rule: "classic",
+    modifiers: [],
+    wanted,
+    decoys: ctx.pool.filter((c) => c.name !== wanted.name),
+    params: { gridSize },
+    spriteSize: clamp(Math.floor(BOARD.w / gridSize), LIMITS.sprite.minEasyGrid, LIMITS.sprite.max),
+    findCount: 1,
+    rewardS: rewardFor(slot, ctx.tier),
+    penaltyS: PENALTY[ctx.tier],
+    lookalikeRatio: 0,
+  };
+}
+
+export function generateLevel(index: number, ctx: GenContext): LevelSpec {
+  if (!Number.isInteger(index) || index < 1) throw new Error(`generateLevel : index invalide ${index}`);
+  const seed = levelSeedOf(index, ctx);
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    const rng = createRng(attempt === 0 ? seed : hash32(seed, "retry", attempt));
+    const spec = buildLevel(index, ctx, seed, rng);
+    if (validateSpec(spec, ctx).ok) return spec;
+  }
+  return fallbackLevel(index, ctx, seed);
+}
+
+export function describeLevel(spec: LevelSpec): string {
+  const p = spec.params;
+  const parts: string[] = [];
+  if (p.gridSize !== undefined) parts.push(`${p.gridSize}×${p.gridSize}`);
+  if (p.count !== undefined) parts.push(`n=${p.count}`);
+  if (p.speed !== undefined) parts.push(`v=${p.speed}`);
+  if (p.extraLines) parts.push(`+${p.extraLines}l`);
+  if (p.jitter !== undefined) parts.push(`j=${p.jitter}`);
+  if (p.wantedBelow) parts.push("dessous");
+  if (p.backgroundGrid) parts.push("fond");
+  if (p.scrollDirection) parts.push(p.scrollDirection[0] + (p.alternateDirection ? "~" : ""));
+  if (p.edgeBehavior) parts.push(p.edgeBehavior);
+  const mods = spec.modifiers.length ? ` +${spec.modifiers.join("+")}` : "";
+  const find = spec.findCount > 1 ? ` ×${spec.findCount}` : "";
+  const dur = spec.durationS ? ` ${spec.durationS}s` : "";
+  return (
+    `#${spec.index} Z${spec.zone} ${spec.slot} | ${spec.layout}/${spec.rule}${find}${mods} | ` +
+    `${spec.wanted.name} ρ=${spec.lookalikeRatio ?? "?"} | ${parts.join(" ")} | ${spec.spriteSize}px | ` +
+    `+${spec.rewardS}s/-${spec.penaltyS}s${dur}`
+  );
+}

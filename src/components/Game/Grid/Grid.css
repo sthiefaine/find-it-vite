@@ -3,29 +3,23 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Plateau getBoard() : largeur et hauteur posées en style par les grilles */
 .gridContainer {
   background-color: black;
-  width: 100dvw;
-  max-width: 450px;
-  min-width: 300px;
-  height: 100dvw;
-  max-height: 450px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+  /* taille par défaut (posée par Game.tsx), les grilles peuvent la redonner en style */
+  width: var(--board-w, 100%);
+  height: var(--board-h, auto);
+  flex: none;
+  max-width: 100%;
   cursor: pointer;
   position: relative;
+  overflow: hidden;
 }
 
 .canvasGameBoard {
-  width: 100dvw;
-  max-width: 450px;
-  height: 100%;
-  max-height: 450px;
+  display: block;
   touch-action: manipulation !important;
   pointer-events: auto !important;
-  overflow: hidden;
 }
 
 :root {

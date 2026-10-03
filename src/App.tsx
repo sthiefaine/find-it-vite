@@ -10,6 +10,9 @@ import { AudioGestion } from "./components/Game/gameHelpers/audioGestion/audioGe
 import { animalsPack } from "./helpers/characters";
 import { ImagePreloader } from "./components/ImagesPreloader/ImagesPreloader";
 
+// Outil de test (window.__findIt), jamais inclus en production
+if (import.meta.env.DEV) void import("./helpers/devFindIt");
+
 function App() {
   const defaultImgPack: string[] = animalsPack.map((c) => c.imageSrc);
 

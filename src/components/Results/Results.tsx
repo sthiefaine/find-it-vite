@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { useShallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
 import NumberFlow from "@number-flow/react";
@@ -20,6 +20,9 @@ import {
   playNewHihScoreSound,
 } from "../../helpers/sounds";
 import { formatSeconds, scoreMessage } from "./resultsHelpers";
+import ProfilePicker from "../ProfilePicker/ProfilePicker";
+import { useSaveStore } from "../../save/saveStore";
+import type { Tier } from "../../engine/types";
 import "./Results.css";
 
 // Apparition des blocs les uns après les autres
@@ -80,6 +83,8 @@ export default function Results() {
     }))
   );
   const [shownScore, setShownScore] = useState(0);
+  const [choosingProfile, setChoosingProfile] = useState(false);
+  const profileTier = useSaveStore((s) => s.save.profile.tier);
 
   const score = gameRecord?.score ?? 0;
   const isNewRecord = gameRecord?.isNewRecord ?? false;
@@ -104,6 +109,14 @@ export default function Results() {
 
   const handleReplay = () => {
     setSoundSrc(playClickSound);
+    setGameState(GameStateEnum.RESET);
+  };
+
+  // Nouveau profil : on relance tout de suite une partie à ce niveau
+  const handlePickProfile = (tier: Tier) => {
+    setSoundSrc(playClickSound);
+    useSaveStore.getState().setProfileTier(tier);
+    setChoosingProfile(false);
     setGameState(GameStateEnum.RESET);
   };
 
@@ -218,7 +231,25 @@ export default function Results() {
             <House size={22} /> Accueil
           </motion.button>
         </motion.div>
+
+        <motion.button
+          className="results-profile"
+          variants={item}
+          onClick={() => setChoosingProfile(true)}
+        >
+          Changer de joueur
+        </motion.button>
       </motion.div>
+      <AnimatePresence>
+        {choosingProfile && (
+          <ProfilePicker
+            key="profile"
+            current={profileTier}
+            onPick={handlePickProfile}
+            onCancel={() => setChoosingProfile(false)}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

@@ -1,9 +1,13 @@
-import { defaultSave, Save, SAVE_VERSION } from "./schema";
+import { defaultSave, Save, SAVE_VERSION, TIERS } from "./schema";
+import type { Tier } from "../engine/types";
 
 type RawObject = Record<string, unknown>;
 
 // Migrations d'une version à la suivante : migrations[1] transforme une v1 en v2, etc.
-const migrations: Record<number, (data: RawObject) => RawObject> = {};
+const migrations: Record<number, (data: RawObject) => RawObject> = {
+  // v2 : ajout du profil « Qui joue ? », pas encore choisi
+  1: (data) => ({ ...data, version: 2, profile: { tier: null } }),
+};
 
 const isObject = (value: unknown): value is RawObject =>
   typeof value === "object" && value !== null && !Array.isArray(value);
@@ -45,6 +49,8 @@ function sanitize(data: RawObject): Save {
   const base = defaultSave();
   const settings = isObject(data.settings) ? data.settings : {};
   const progress = isObject(data.progress) ? data.progress : {};
+  const profile = isObject(data.profile) ? data.profile : {};
+  const tier = TIERS.includes(profile.tier as Tier) ? (profile.tier as Tier) : null;
   return {
     version: SAVE_VERSION,
     settings: {
@@ -57,6 +63,7 @@ function sanitize(data: RawObject): Save {
       gamesPlayed: count(progress.gamesPlayed, base.progress.gamesPlayed),
       totalFound: count(progress.totalFound, base.progress.totalFound),
     },
+    profile: { tier },
   };
 }
 

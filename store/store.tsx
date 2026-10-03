@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { CharacterDetails } from "../src/helpers/characters";
-import { GridCell } from "../src/helpers/gameUtils";
 import { useSaveStore } from "../src/save/saveStore";
+import type { LevelSpec, Tier } from "../src/engine/types";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -14,13 +14,12 @@ export const gameConstants = {
   MINIMUM_SCORE: 5,
   DECREASE_SCORE: -5,
   MAX_PLAY_TIME: 60,
-  FOUND_BONUS_S: 4, // secondes gagnées par bonne réponse
-  MISS_PENALTY_S: 3, // secondes perdues par erreur
 };
 
 export enum GameStateEnum {
   NONE = "NONE",
   INIT = "INIT",
+  CHOOSE_PROFILE = "CHOOSE_PROFILE", // fenêtre « Qui joue ? » avant la partie
   PLAYING = "PLAYING",
   PAUSED = "PAUSED",
   END = "END",
@@ -46,7 +45,9 @@ export type GameRecord = {
 };
 
 type GameState = {
-  grid: GridCell[] | null;
+  runSeed: number; // graine de la partie : avec level et tier, fixe tout le niveau
+  tier: Tier;
+  currentSpec: LevelSpec | null;
   pauseTimer: boolean;
   wantedCharacter: CharacterDetails | null;
   animationLevelLoading?: boolean;
@@ -58,7 +59,6 @@ type GameState = {
   animateTime?: AnimateTime;
   soundSrc: string;
   sound: boolean;
-  maxCellPerRow: number;
   stats: GameStats;
   levelShownAt: number | null;
   wantedFound: boolean; // le perso du niveau en cours a été trouvé
@@ -66,9 +66,9 @@ type GameState = {
 };
 
 export type GameActions = {
-  setGrid: (GridCell: GridCell[] | null) => void;
+  startRun: (run: { runSeed: number; tier: Tier; level: number }) => void;
+  setCurrentSpec: (spec: LevelSpec) => void;
   setPauseTimer: (pause: boolean) => void;
-  setWantedCharacter: (data: CharacterDetails | null) => void;
   setGameState: (gameState: GameStateEnum) => void;
   setAnimationLevelLoading: (animationLevelLoading: boolean) => void;
   setLevel: (level: number) => void;
@@ -76,7 +76,6 @@ export type GameActions = {
   setTimeLeft: (timeLeft: number) => void;
   setTimeLeftValue: (timeLeft: number) => void;
   setClearGameStore: () => void;
-  setMaxCellPerRow: (maxCellPerRow: number) => void;
   setSound: (sound: boolean) => void;
   setSoundSrc: (soundSrc: string) => void;
   recordFound: () => void;
@@ -87,7 +86,9 @@ export type GameActions = {
 export type GameStore = GameState & GameActions;
 
 export const defaultInitState: GameState = {
-  grid: null,
+  runSeed: 0,
+  tier: "normal",
+  currentSpec: null,
   pauseTimer: false,
   wantedCharacter: null,
   animationLevelLoading: false,
@@ -97,7 +98,6 @@ export const defaultInitState: GameState = {
   timeLeft: 0,
   score: 0,
   animateTime: "",
-  maxCellPerRow: 10,
   sound: useSaveStore.getState().save.settings.sound,
   soundSrc: "",
   stats: { found: 0, misses: 0, fastestFoundMs: null },
@@ -115,11 +115,11 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ sound: data });
     useSaveStore.getState().setSound(data);
   },
-  setGrid: (data) => set({ grid: data }),
-  setMaxCellPerRow: (data) => set({ maxCellPerRow: data }),
+  startRun: ({ runSeed, tier, level }) =>
+    set({ runSeed, tier, level, currentSpec: null }),
+  setCurrentSpec: (spec) =>
+    set({ currentSpec: spec, wantedCharacter: spec.wanted, wantedFound: false }),
   setPauseTimer: (pause: boolean) => set({ pauseTimer: pause }),
-  setWantedCharacter: (data: CharacterDetails | null) =>
-    set({ wantedCharacter: data, wantedFound: false }),
   setLevel: (level: number) => set({ level: get().level + level }),
   setGameState: (gameState: GameStateEnum) => set({ gameState }),
   setAnimationLevelLoading: (animationLevelLoading: boolean) =>

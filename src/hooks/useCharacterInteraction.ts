@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
-import { gameConstants, GameStateEnum, useGameStore } from "../../store/store";
+import { GameStateEnum, useGameStore } from "../../store/store";
 import { pointColorsArray, randomIntFromInterval } from "../helpers/gameUtils";
 import { showPointsEffect } from "../helpers/animationUtils";
 import { playPopSound } from "../helpers/sounds";
@@ -22,7 +22,7 @@ export const useCharacterInteraction = () => {
   const blinkIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const {
-    wantedCharacter,
+    spec,
     gameState,
     setScore,
     setTimeLeft,
@@ -33,7 +33,7 @@ export const useCharacterInteraction = () => {
     recordMiss,
   } = useGameStore(
     useShallow((state) => ({
-      wantedCharacter: state.wantedCharacter,
+      spec: state.currentSpec,
       gameState: state.gameState,
       setScore: state.setScore,
       setTimeLeft: state.setTimeLeft,
@@ -54,7 +54,7 @@ export const useCharacterInteraction = () => {
       gameState === GameStateEnum.END ||
       gameState === GameStateEnum.FINISH ||
       gameState === GameStateEnum.PAUSED ||
-      !wantedCharacter ||
+      !spec ||
       disableClick
     ) {
       return;
@@ -65,57 +65,55 @@ export const useCharacterInteraction = () => {
 
     const position = { x: point.x - 10, y: point.y - 30 };
 
-    if (canvasRef.current) {
-      if (character.isWanted) {
-        setSoundSrc(playPopSound);
-        setIsCorrectSelection(true);
+    // Le canvas ne sert qu'à l'effet visuel : le jeu continue sans lui
+    const canvas = canvasRef.current;
 
-        const randomColor =
-          pointColorsArray[
-            randomIntFromInterval(0, pointColorsArray.length - 1)
-          ];
+    if (character.isWanted) {
+      setSoundSrc(playPopSound);
+      setIsCorrectSelection(true);
 
-        showPointsEffect(canvasRef.current, position, true, randomColor);
+      const randomColor =
+        pointColorsArray[randomIntFromInterval(0, pointColorsArray.length - 1)];
+      if (canvas) showPointsEffect(canvas, position, true, randomColor);
 
-        recordFound();
-        setScore(+1);
-        setTimeLeft(+gameConstants.FOUND_BONUS_S);
-        setPauseTimer(true);
+      recordFound();
+      setScore(+1);
+      setTimeLeft(+spec.rewardS); // plafonné à MAX_PLAY_TIME par le store
+      setPauseTimer(true);
 
-        setTimeout(() => {
-          setLevel(+1);
-          setPauseTimer(false);
-          setIsCorrectSelection(false);
-        }, 1000);
-      } else {
-        setSoundSrc(playPopSound);
+      setTimeout(() => {
+        setLevel(+1);
+        setPauseTimer(false);
         setIsCorrectSelection(false);
+      }, 1000);
+    } else {
+      setSoundSrc(playPopSound);
+      setIsCorrectSelection(false);
 
-        showPointsEffect(canvasRef.current, position, false, "red");
+      if (canvas) showPointsEffect(canvas, position, false, "red");
 
-        recordMiss();
-        setTimeLeft(-gameConstants.MISS_PENALTY_S);
+      recordMiss();
+      setTimeLeft(-spec.penaltyS);
 
-        if (blinkIntervalRef.current) {
-          clearInterval(blinkIntervalRef.current);
-        }
-
-        let count = 0;
-        blinkIntervalRef.current = setInterval(() => {
-          setBlinkState((prev) => !prev);
-          count++;
-
-          if (count >= 4) {
-            if (blinkIntervalRef.current) {
-              clearInterval(blinkIntervalRef.current);
-              blinkIntervalRef.current = null;
-            }
-            setBlinkState(true);
-            setDisableClick(false);
-            setSelectedCharacterId(null);
-          }
-        }, 125);
+      if (blinkIntervalRef.current) {
+        clearInterval(blinkIntervalRef.current);
       }
+
+      let count = 0;
+      blinkIntervalRef.current = setInterval(() => {
+        setBlinkState((prev) => !prev);
+        count++;
+
+        if (count >= 4) {
+          if (blinkIntervalRef.current) {
+            clearInterval(blinkIntervalRef.current);
+            blinkIntervalRef.current = null;
+          }
+          setBlinkState(true);
+          setDisableClick(false);
+          setSelectedCharacterId(null);
+        }
+      }, 125);
     }
   };
 

@@ -9,19 +9,38 @@ describe("migrate", () => {
     }
   });
 
-  it("relit une sauvegarde v1 valide, en chaîne ou en objet", () => {
-    const save = {
+  it("migre une sauvegarde v1 en v2, en chaîne ou en objet, sans profil choisi", () => {
+    const v1 = {
       version: 1,
       settings: { sound: false },
       progress: { bestScore: 12, bestLevel: 7, gamesPlayed: 3, totalFound: 20 },
     };
-    expect(migrate(save)).toEqual(save);
-    expect(migrate(JSON.stringify(save))).toEqual(save);
+    const expected = { ...v1, version: 2, profile: { tier: null } };
+    expect(migrate(v1)).toEqual(expected);
+    expect(migrate(JSON.stringify(v1))).toEqual(expected);
+  });
+
+  it("une v1 qui contenait déjà un champ profile repart sans profil", () => {
+    const v1 = { version: 1, settings: { sound: true }, progress: {}, profile: { tier: "expert" } };
+    expect(migrate(v1).profile).toEqual({ tier: null });
+  });
+
+  it("relit une sauvegarde v2 valide avec son profil", () => {
+    for (const tier of ["easy", "normal", "expert"] as const) {
+      const save = { ...defaultSave(), profile: { tier } };
+      expect(migrate(JSON.stringify(save))).toEqual(save);
+    }
+  });
+
+  it("ignore un profil inconnu", () => {
+    for (const profile of [{ tier: "bébé" }, { tier: 3 }, "expert", null]) {
+      expect(migrate({ ...defaultSave(), profile }).profile).toEqual({ tier: null });
+    }
   });
 
   it("répare les champs abîmés sans perdre les bons", () => {
     const result = migrate({
-      version: 1,
+      version: 2,
       settings: { sound: "oui" },
       progress: { bestScore: 9, bestLevel: -2, gamesPlayed: NaN, totalFound: 4.7 },
     });

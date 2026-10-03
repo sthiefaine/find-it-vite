@@ -1,3 +1,4 @@
+import { CSSProperties, useMemo } from "react";
 import GameHeader from "../../components/Game/Header/GameHeader.tsx";
 import "./Game.css";
 import GameGrid from "../../components/Game/Grid/Grid.tsx";
@@ -9,83 +10,66 @@ import GridAnimated from "../../components/Game/Grid/GridAnimated.tsx";
 import GridAnimated2 from "../../components/Game/Grid/GridAnimated2.tsx";
 import GridAnimated3 from "../../components/Game/Grid/GridAnimated3.tsx";
 import InGameActionButton from "../../components/Game/InGameActionButton/inGameActionButton.tsx";
-import { getLevelConfig, GridType } from "../../helpers/gameUtils.ts";
+import ProfilePicker from "../../components/ProfilePicker/ProfilePicker.tsx";
+import { useSaveStore } from "../../save/saveStore.ts";
+import { getBoard } from "../../helpers/board.ts";
+import type { LevelSpec, Tier } from "../../engine/types.ts";
+
+const renderGrid = (spec: LevelSpec) => {
+  switch (spec.layout) {
+    case "grid":
+      return <GameGrid spec={spec} key={spec.seed} />;
+    case "scroll":
+      return <GridAnimated spec={spec} key={spec.seed} />;
+    case "pile":
+      return <GridAnimated2 spec={spec} key={spec.seed} />;
+    case "swarm":
+      return <GridAnimated3 spec={spec} key={spec.seed} />;
+  }
+};
 
 const Game = () => {
-  const { level, gameState } = useGameStore(
+  const { spec, gameState, setGameState } = useGameStore(
     useShallow((state) => ({
-      level: state.level,
+      spec: state.currentSpec,
       gameState: state.gameState,
+      setGameState: state.setGameState,
     }))
   );
+  const board = useMemo(() => getBoard(), []);
   const isOver =
     gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END;
 
-  // Get the level configuration which includes all necessary parameters
-  const levelConfig = getLevelConfig(level);
-
-  // Render the appropriate grid based on the grid type defined in the level config
-  const renderGrid = () => {
-    switch (levelConfig.gridType) {
-      case GridType.BASIC:
-        return <GameGrid />;
-        
-      case GridType.ANIMATED_SCROLL:
-        return (
-          <GridAnimated 
-            difficulty={levelConfig.difficulty}
-            scrollDirection={levelConfig.additionalParams?.scrollDirection || "horizontal"}
-            minSpeed={(levelConfig.speed || 0.5) * 0.7}
-            maxSpeed={levelConfig.speed || 0.8}
-            alternateDirection={levelConfig.additionalParams?.alternateDirection || false}
-            sameDirection={levelConfig.additionalParams?.sameDirection || false}
-            addLine={Math.min(3, Math.floor(level / 4))}
-          />
-        );
-        
-      case GridType.ANIMATED_COMPLEX:
-        return (
-          <GridAnimated2 
-            difficulty={levelConfig.difficulty}
-            characterCount={levelConfig.characterCount || 100}
-            useBackgroundGrid={levelConfig.additionalParams?.useBackgroundGrid || false}
-            backgroundGridJitter={levelConfig.additionalParams?.backgroundGridJitter || 2}
-          />
-        );
-        
-      case GridType.ANIMATED_MOVING:
-        return (
-          <GridAnimated3 
-            difficulty={levelConfig.difficulty}
-            characterCount={
-              levelConfig.additionalParams?.edgeBehavior === "bounce" 
-                ? Math.min(50, levelConfig.characterCount || 40) 
-                : levelConfig.characterCount || 50
-            }
-            wantedCharacterSpeed={levelConfig.additionalParams?.wantedCharacterSpeed || 0.25}
-            otherCharactersSpeed={levelConfig.additionalParams?.otherCharactersSpeed || 0.3}
-            differentLayersDirection={levelConfig.additionalParams?.differentLayersDirection || false}
-            edgeBehavior={levelConfig.additionalParams?.edgeBehavior || "bounce"}
-            moveBackgroundCharacters={true}
-            useBackgroundGrid={false}
-            wantedZIndexBelow={levelConfig.additionalParams?.wantedZIndexBelow || false}
-            ensureWantedCharacter={true}
-            forceRestartOnMissingWanted={true}
-          />
-        );
-        
-      default:
-        // Fallback to basic grid
-        return <GameGrid />;
-    }
+  const handlePickProfile = (tier: Tier) => {
+    useSaveStore.getState().setProfileTier(tier);
+    setGameState(GameStateEnum.INIT);
   };
 
   return (
-    <div className="gameContainer">
+    <div
+      className="gameContainer"
+      style={
+        {
+          "--board-w": `${board.width}px`,
+          "--board-h": `${board.height}px`,
+        } as CSSProperties
+      }
+    >
       <GameHeader />
-      {renderGrid()}
-      <InGameActionButton />
-      <AnimatePresence>{isOver && <Results key="results" />}</AnimatePresence>
+      {spec ? (
+        renderGrid(spec)
+      ) : (
+        <div className="gridContainer" />
+      )}
+      <div className="gameActions">
+        <InGameActionButton />
+      </div>
+      <AnimatePresence>
+        {isOver && <Results key="results" />}
+        {gameState === GameStateEnum.CHOOSE_PROFILE && (
+          <ProfilePicker key="profile" onPick={handlePickProfile} />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -1,28 +1,51 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   gameConstants,
   GameStateEnum,
   useGameStore,
 } from "../../../../../store/store";
 import { useShallow } from "zustand/shallow";
-import { generateGrid, getRandomNumber } from "../../../../helpers/gameUtils";
 import { charactersDetails } from "../../../../helpers/characters";
 import { useLocation } from "react-router-dom";
+import { generateLevel, randomSeed, seedFromCode } from "../../../../engine";
+import type { Tier } from "../../../../engine";
+import { useSaveStore } from "../../../../save/saveStore";
+import { TIERS } from "../../../../save/schema";
+
+// Debug : /game?seed=123&level=8 (seed en nombre ou en code), &tier=expert en option
+export function readDebugParams(search: string): {
+  seed?: number;
+  level?: number;
+  tier?: Tier;
+} {
+  const params = new URLSearchParams(search);
+  const rawSeed = params.get("seed");
+  const rawLevel = params.get("level");
+  const rawTier = params.get("tier");
+  let seed: number | undefined;
+  if (rawSeed) {
+    seed = /^\d+$/.test(rawSeed)
+      ? Number(rawSeed) >>> 0
+      : seedFromCode(rawSeed) ?? undefined;
+  }
+  const level = rawLevel && /^\d+$/.test(rawLevel) ? Math.max(1, Number(rawLevel)) : undefined;
+  const tier = TIERS.includes(rawTier as Tier) ? (rawTier as Tier) : undefined;
+  return { seed, level, tier };
+}
 
 export function IsPlaying() {
   const {
     gameState,
     setGameState,
     setTimeLeft,
-    setScore,
     setClearGameStore,
     timeLeft,
     setAnimationLevelLoading,
     setTimeLeftValue,
-    setWantedCharacter,
+    setCurrentSpec,
+    startRun,
     level,
-    setGrid,
     animationLevelLoading,
     submitGameResult,
   } = useGameStore(
@@ -31,97 +54,99 @@ export function IsPlaying() {
         gameState: state.gameState,
         setGameState: state.setGameState,
         setTimeLeft: state.setTimeLeft,
-        setScore: state.setScore,
         setClearGameStore: state.setClearGameStore,
         timeLeft: state.timeLeft,
         setTimeLeftValue: state.setTimeLeftValue,
         setAnimationLevelLoading: state.setAnimationLevelLoading,
-        setWantedCharacter: state.setWantedCharacter,
+        setCurrentSpec: state.setCurrentSpec,
+        startRun: state.startRun,
         level: state.level,
-        setGrid: state.setGrid,
         animationLevelLoading: state.animationLevelLoading,
         submitGameResult: state.submitGameResult,
       };
     })
   );
+  const saveLoaded = useSaveStore((s) => s.loaded);
   const location = useLocation();
   const pathName = location.pathname;
+  const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // Le niveau courant est entièrement déterminé par (runSeed, level, tier, pool)
   const setupLevel = (isInitialSetup = false) => {
-    if (isInitialSetup) {
-      setGameState(GameStateEnum.INIT);
-      setClearGameStore();
-      setTimeLeftValue(gameConstants.MAX_PLAY_TIME);
-    }
-    const charactersToChooseFrom = charactersDetails;
-    const newWanted =
-      charactersToChooseFrom[
-        getRandomNumber(0, charactersToChooseFrom.length - 1)
-      ];
-    setWantedCharacter(newWanted);
+    const { runSeed, tier, level } = useGameStore.getState();
+    const spec = generateLevel(level, {
+      seed: runSeed,
+      tier,
+      pool: charactersDetails,
+      allowedRules: ["classic"],
+      allowedModifiers: ["lookalikes"],
+    });
+    setCurrentSpec(spec);
 
-    const gridSize = Math.min(window.innerWidth, 450);
-    const maxCellPerRow = Math.floor((gridSize / 375) * 13);
-    const newGrid = generateGrid(45, gridSize, level, maxCellPerRow, newWanted);
-    setGrid(newGrid);
-
-    setTimeout(
+    if (loadingTimer.current) clearTimeout(loadingTimer.current);
+    loadingTimer.current = setTimeout(
       () => {
+        loadingTimer.current = null;
         setAnimationLevelLoading(false);
       },
       isInitialSetup ? 3000 : 1000
     );
   };
 
+  const startGame = (savedTier: Tier) => {
+    const debug = readDebugParams(location.search);
+    setClearGameStore();
+    setTimeLeftValue(gameConstants.MAX_PLAY_TIME);
+    startRun({
+      runSeed: debug.seed ?? randomSeed(),
+      tier: debug.tier ?? savedTier,
+      level: debug.level ?? 1,
+    });
+    setupLevel(true);
+    setAnimationLevelLoading(true);
+    setGameState(GameStateEnum.PLAYING);
+  };
+
   useEffect(() => {
+    const { gameState, currentSpec } = useGameStore.getState();
     // pas de nouveau niveau si la partie s'est terminée pendant la transition
-    if (useGameStore.getState().gameState === GameStateEnum.PLAYING) {
+    if (gameState === GameStateEnum.PLAYING && currentSpec?.index !== level) {
       setAnimationLevelLoading(true);
       setupLevel();
     }
   }, [level]);
 
   useEffect(() => {
-    console.log("===>", pathName, level, animationLevelLoading);
     if (pathName === "/game") {
-      if (
-        gameState === GameStateEnum.END ||
-        gameState === GameStateEnum.RESET ||
-        gameState === GameStateEnum.NONE
-      ) {
-        setGameState(GameStateEnum.INIT);
-      }
       switch (gameState) {
-        case GameStateEnum.INIT:
-          setScore(0);
-          setupLevel(true);
-          setAnimationLevelLoading(true);
-          setGameState(GameStateEnum.PLAYING);
+        case GameStateEnum.NONE:
+          setGameState(GameStateEnum.INIT);
           break;
-        case GameStateEnum.PLAYING: {
+        case GameStateEnum.INIT: {
+          // la sauvegarde est lue en asynchrone : on attend de connaître le profil
+          if (!saveLoaded) break;
+          const savedTier = useSaveStore.getState().save.profile.tier;
+          if (!savedTier) {
+            setGameState(GameStateEnum.CHOOSE_PROFILE);
+            break;
+          }
+          startGame(savedTier);
           break;
         }
-        case GameStateEnum.END:
-          setGameState(GameStateEnum.END);
-          break;
         case GameStateEnum.RESET: {
           setClearGameStore();
           setGameState(GameStateEnum.INIT);
-          break;
-        }
-        case GameStateEnum.PAUSED: {
-          setGameState(GameStateEnum.PAUSED);
           break;
         }
         default:
           break;
       }
     } else {
-      console.log("END");
+      if (loadingTimer.current) clearTimeout(loadingTimer.current);
       setClearGameStore();
       setGameState(GameStateEnum.NONE);
     }
-  }, [pathName, setGameState, gameState]);
+  }, [pathName, setGameState, gameState, saveLoaded]);
 
   // Fin de partie (chrono à 0 ou bouton Arrêter) : on enregistre le résultat
   useEffect(() => {

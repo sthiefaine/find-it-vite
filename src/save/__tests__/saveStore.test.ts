@@ -53,6 +53,26 @@ describe("useSaveStore", () => {
     expect(JSON.parse(storage.data.get(SAVE_KEY)!).settings.sound).toBe(true);
   });
 
+  it("enregistre le profil choisi et réécrit une v1 au format v2", async () => {
+    const storage = createMemoryStorage({
+      [SAVE_KEY]: JSON.stringify({
+        version: 1,
+        settings: { sound: true },
+        progress: { bestScore: 4, bestLevel: 2, gamesPlayed: 1, totalFound: 4 },
+      }),
+    });
+    const store = createSaveStore(storage, { debounceMs: 20 });
+    await store.getState().load();
+    expect(store.getState().save.profile.tier).toBeNull();
+
+    store.getState().setProfileTier("easy");
+    await store.getState().flush();
+    const saved = JSON.parse(storage.data.get(SAVE_KEY)!);
+    expect(saved.version).toBe(2);
+    expect(saved.profile).toEqual({ tier: "easy" });
+    expect(saved.progress.bestScore).toBe(4);
+  });
+
   it("n'écrase jamais une sauvegarde d'une version future", async () => {
     const future = JSON.stringify({ version: 99, progress: { bestScore: 40 }, album: [1, 2] });
     const storage = createMemoryStorage({ [SAVE_KEY]: future });

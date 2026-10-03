@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { defaultSave, Save, SAVE_KEY, SAVE_VERSION } from "./schema";
+import type { Tier } from "../engine/types";
 import { getSaveVersion, migrate } from "./migrations";
 import { localStorageAdapter, StorageAdapter } from "./storage";
 
@@ -26,6 +27,7 @@ type SaveActions = {
   load: () => Promise<void>;
   recordGame: (result: GameResult) => RecordOutcome;
   setSound: (sound: boolean) => void;
+  setProfileTier: (tier: Tier) => void;
   flush: () => Promise<void>;
   reset: () => Promise<void>;
 };
@@ -103,6 +105,12 @@ export function createSaveStore(
       setSound: (sound) => {
         if (get().save.settings.sound === sound) return;
         set({ save: { ...get().save, settings: { ...get().save.settings, sound } } });
+        scheduleWrite();
+      },
+
+      setProfileTier: (tier) => {
+        if (get().save.profile.tier === tier) return;
+        set({ save: { ...get().save, profile: { ...get().save.profile, tier } } });
         scheduleWrite();
       },
 

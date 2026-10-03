@@ -1,0 +1,76 @@
+// Contrat du moteur de niveaux : TypeScript pur, sans React, Pixi ni DOM.
+import type { CharacterDetails } from "../helpers/characters";
+
+export const GEN_VERSION = 1;
+
+// Plateau logique de référence (le renderer met à l'échelle de l'écran)
+export const BOARD = { w: 390, h: 520 } as const;
+
+// Disposition de la foule (les 4 grilles existantes)
+export type Layout = "grid" | "scroll" | "pile" | "swarm";
+
+// Ce que le joueur doit faire
+export type Rule =
+  | "classic" // trouver le perso de l'avis
+  | "memory" // l'avis se retourne après quelques secondes
+  | "silhouette" // l'avis montre une ombre
+  | "oddOneOut" // tous identiques sauf un (à l'envers / teinté)
+  | "findAll" // trouver les N exemplaires
+  | "goldRush"; // bonus : toucher un maximum de persos dorés
+
+// Ce qui gêne, combinable avec une règle
+export type Modifier = "flashlight" | "lookalikes";
+
+// Place du niveau dans une zone de 10
+export type Slot = "intro" | "normal" | "breather" | "boss";
+
+export type Tier = "easy" | "normal" | "expert";
+
+export type GameMode = "endless" | "daily" | "adventure";
+
+export type LayoutParams = {
+  // grid
+  gridSize?: number; // côté de la grille (gridSize × gridSize)
+  // scroll
+  scrollDirection?: "horizontal" | "vertical";
+  alternateDirection?: boolean;
+  extraLines?: number;
+  // pile + swarm
+  count?: number; // nombre de persos
+  backgroundGrid?: boolean;
+  jitter?: number;
+  wantedBelow?: boolean; // le recherché peut être partiellement recouvert
+  // scroll + swarm : vitesse en px par frame à 60 fps (≈ ancienne échelle)
+  speed?: number;
+  edgeBehavior?: "bounce" | "wrap";
+};
+
+export interface LevelSpec {
+  genVersion: number;
+  seed: number; // graine du niveau (dérivée de la graine de partie + index)
+  index: number; // numéro du niveau dans la partie, à partir de 1
+  zone: number; // bloc de 10 niveaux (1, 2, …)
+  slot: Slot;
+  layout: Layout;
+  rule: Rule;
+  modifiers: Modifier[];
+  wanted: CharacterDetails;
+  // Leurres possibles, avec répétition : un perso présent 3 fois sort 3 fois plus souvent
+  decoys: CharacterDetails[];
+  params: LayoutParams;
+  spriteSize: number; // taille d'une tête en px logiques
+  findCount: number; // nombre d'exemplaires à trouver (findAll), 1 sinon
+  rewardS: number; // secondes gagnées sur une bonne réponse
+  penaltyS: number; // secondes perdues sur une erreur
+  durationS?: number; // durée imposée (goldRush)
+  lookalikeRatio?: number; // part ρ des leurres pris dans la famille du recherché
+  budget?: number; // budget de difficulté utilisé (debug)
+}
+
+export interface GenContext {
+  seed: number; // graine de la partie
+  tier: Tier;
+  pool: CharacterDetails[]; // persos disponibles (thème / déblocages)
+  allowedRules?: Rule[]; // règles débloquées (par défaut : toutes)
+  allowedModifiers?: Modifier[];
+}
