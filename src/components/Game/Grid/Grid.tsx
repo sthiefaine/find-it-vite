@@ -6,6 +6,8 @@ import { GameStateEnum, useGameStore } from "../../../../store/store";
 import { useShallow } from "zustand/shallow";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
 import { FederatedPointerEvent } from "@pixi/events";
+import { Rectangle } from "pixi.js";
+import { HitCandidate, pickCharacterAt } from "../../../helpers/hitTest";
 
 const GameGrid = () => {
   const PixiRef = useRef<Stage | null>(null);
@@ -45,46 +47,22 @@ const GameGrid = () => {
 
     const gridCopy = [...grid].filter((cell) => cell !== null) as GridCell[];
 
-    if (level >= 5 && wantedCharacter) {
-      const wantedCell = gridCopy.find(
-        (cell) => cell?.name === wantedCharacter.name
-      );
-      const otherCells = gridCopy.filter(
-        (cell) => cell?.name !== wantedCharacter.name
-      );
-      return [wantedCell, ...shuffleArray(otherCells)].filter(
-        (cell) => cell !== undefined
-      ) as GridCell[];
-    } else {
-      return shuffleArray(gridCopy);
-    }
+    // Le perso recherché est dessiné en dernier : jamais recouvert
+    const wantedCell = gridCopy.find(
+      (cell) => cell?.name === wantedCharacter.name
+    );
+    const otherCells = gridCopy.filter(
+      (cell) => cell?.name !== wantedCharacter.name
+    );
+    return [...shuffleArray(otherCells), wantedCell].filter(
+      (cell) => cell !== undefined
+    ) as GridCell[];
   };
 
   useEffect(() => {
     const newSortedGrid = prepareSortedGrid();
     setSortedGrid(newSortedGrid);
   }, [grid, wantedCharacter, level]);
-
-  const handleCellClick = (e: FederatedPointerEvent, cell: GridCell) => {
-    if (cell) {
-      const adaptedCharacter = {
-        id: cell?.id,
-        name: cell?.name,
-        imageSrc: cell?.imageSrc,
-        position: {
-          rowIndex: 0,
-          colIndex: 0,
-          offsetX: 0,
-          offsetY: 0,
-        },
-        isWanted: cell?.name === wantedCharacter?.name,
-        zIndex: 0,
-      };
-
-      return handleCharacterClick(e, adaptedCharacter);
-    }
-    return;
-  };
 
   useEffect(() => {
     setDisableClick(false);
@@ -149,6 +127,27 @@ const GameGrid = () => {
     return <div className="gridContainer"></div>;
   }
 
+  // Persos touchables, remplis pendant le rendu ci-dessous
+  const candidates: HitCandidate[] = [];
+  const hitArea = new Rectangle(0, 0, GRID_SIZE_WIDTH, GRID_SIZE_HEIGHT);
+
+  const handlePointerDown = (e: FederatedPointerEvent) => {
+    if (
+      disableClick ||
+      isCorrectSelection ||
+      gameState === GameStateEnum.END ||
+      gameState === GameStateEnum.FINISH
+    ) {
+      return;
+    }
+    const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
+    if (!hit) return;
+    handleCharacterClick(
+      { x: e.global.x, y: e.global.y },
+      { id: hit.id, isWanted: hit.isWanted }
+    );
+  };
+
   return (
     <div ref={canvasRef} className="gridContainer">
       <Stage
@@ -202,6 +201,15 @@ const GameGrid = () => {
               return null; // Ne pas afficher ce personnage pendant la phase de clignotement
             }
 
+            candidates.push({
+              id: cell.id,
+              cx: pos.x + CELL_SIZE / 2,
+              cy: pos.y + CELL_SIZE / 2,
+              size: CELL_SIZE,
+              z: index,
+              isWanted: cell.name === wantedCharacter?.name,
+            });
+
             return (
               <Sprite
                 key={`${cell.id}-${index}`}
@@ -210,14 +218,17 @@ const GameGrid = () => {
                 y={pos.y}
                 width={CELL_SIZE}
                 height={CELL_SIZE}
-                eventMode={disableClick ? "none" : "static"}
-                pointerdown={
-                  !disableClick ? (e) => handleCellClick(e, cell) : undefined
-                }
+                eventMode="none"
               />
             );
           })}
         </Container>
+        {/* Zone de toucher unique, au-dessus des sprites */}
+        <Container
+          eventMode="static"
+          hitArea={hitArea}
+          pointerdown={handlePointerDown}
+        />
       </Stage>
     </div>
   );

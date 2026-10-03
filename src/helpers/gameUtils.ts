@@ -2,6 +2,10 @@ import { CharacterDetails, charactersDetails } from "./characters";
 
 export const CELL_SIZE = 45;
 
+// Plafonds de difficulté pour les niveaux générés au-delà du niveau 12
+export const MAX_SCROLL_SPEED = 2;
+export const MAX_PILE_COUNT = 180;
+
 export const pointColorsArray = [
   "#ffbe0b",
   "#fb5607",
@@ -245,8 +249,10 @@ export function getLevelConfig(level: number, maxSize?: number): LevelConfig {
   const levelFactor = (level - 12) / 8; // Slower scaling factor for levels above 12
   const scaledDifficulty = Math.min(5, baseConfig.difficulty + Math.floor(levelFactor));
   
-  // Slower speed increases
-  const scaledSpeed = baseConfig.speed ? baseConfig.speed * (1 + levelFactor * 0.2) : undefined;
+  // Vitesse plafonnée : au-delà, les niveaux deviennent injouables
+  const scaledSpeed = baseConfig.speed
+    ? Math.min(MAX_SCROLL_SPEED, baseConfig.speed * (1 + levelFactor * 0.2))
+    : undefined;
   
   // Much more controlled character count scaling for moving grid - fewer characters for bounce
   const scaledCharacterCount = baseConfig.characterCount 
@@ -257,7 +263,7 @@ export function getLevelConfig(level: number, maxSize?: number): LevelConfig {
           // Use fewer characters for bounce mode to prevent overwhelming screen
           baseConfig.additionalParams?.edgeBehavior === "bounce" ? 70 : 100
         ) 
-      : Math.floor(baseConfig.characterCount * (1 + levelFactor * 0.15))
+      : Math.min(MAX_PILE_COUNT, Math.floor(baseConfig.characterCount * (1 + levelFactor * 0.15)))
     : undefined;
   
   // Create the new level config with scaled values

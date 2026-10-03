@@ -10,7 +10,16 @@ import {
 } from "../../../helpers/gameUtils";
 import "./Grid.css";
 import "@pixi/events";
+import { Rectangle } from "pixi.js";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
+import {
+  HIT_RADIUS_RATIO,
+  HitCandidate,
+  pickCharacterAt,
+} from "../../../helpers/hitTest";
+
+// Part minimale de la tête du recherché qui doit rester visible
+const MIN_VISIBLE_HEAD_RATIO = 0.55;
 
 type NoOverlapZone = {
   x: number;
@@ -56,7 +65,7 @@ const GridAnimated2 = ({
     selectedCharacterId,
     blinkState,
     isCorrectSelection,
-    handleCharacterClick: hookHandleCharacterClick,
+    handleCharacterClick,
   } = useCharacterInteraction();
 
   useEffect(() => {
@@ -82,32 +91,6 @@ const GridAnimated2 = ({
         debug: state.debug,
       }))
     );
-
-  const adaptCharacterToHook = (character: CharacterType) => {
-    return {
-      id: character.id,
-      name: character.name,
-      imageSrc: character.imageSrc,
-      position: {
-        rowIndex: 0,
-        colIndex: 0,
-        offsetX: character.x,
-        offsetY: character.y,
-      },
-      isWanted: character.isWanted,
-      zIndex: character.zIndex,
-    };
-  };
-
-  const handleCharacterClick = (
-    e: FederatedPointerEvent,
-    character: CharacterType
-  ) => {
-    if (disableClick) return;
-
-    const adaptedCharacter = adaptCharacterToHook(character);
-    hookHandleCharacterClick(e, adaptedCharacter);
-  };
 
   const isPositionInZone = (
     position: { x: number; y: number },
@@ -231,23 +214,22 @@ const GridAnimated2 = ({
     const distance = Math.sqrt(dx * dx + dy * dy);
 
     if (distance < minDistance) {
-      const nx = distance > 0 ? dx / distance : Math.random() * 2 - 1;
-      const ny = distance > 0 ? dy / distance : Math.random() * 2 - 1;
+      const clampX = (v: number) =>
+        Math.max(CELL_SIZE / 2, Math.min(GRID_SIZE_WIDTH - CELL_SIZE / 2, v));
+      const clampY = (v: number) =>
+        Math.max(CELL_SIZE / 2, Math.min(GRID_SIZE_HEIGHT - CELL_SIZE / 2, v));
 
-      // Force de déplacement plus importante pour assurer qu'il sorte des deux zones
-      const pushFactor = CELL_SIZE * Math.min(1, Math.random() * 0.5);
-
-      newX += nx * pushFactor;
-      newY += ny * pushFactor;
-
-      newX = Math.max(
-        CELL_SIZE / 2,
-        Math.min(GRID_SIZE_WIDTH - CELL_SIZE / 2, newX)
-      );
-      newY = Math.max(
-        CELL_SIZE / 2,
-        Math.min(GRID_SIZE_HEIGHT - CELL_SIZE / 2, newY)
-      );
+      // On place le perso au-delà de minDistance (+ un peu d'aléatoire).
+      // Si le bord le ramène trop près, on essaie une autre direction.
+      let angle =
+        distance > 0 ? Math.atan2(dy, dx) : Math.random() * Math.PI * 2;
+      for (let attempt = 0; attempt < 8; attempt++) {
+        const target = minDistance + Math.random() * CELL_SIZE * 0.2;
+        newX = clampX(fromX + Math.cos(angle) * target);
+        newY = clampY(fromY + Math.sin(angle) * target);
+        if (Math.hypot(newX - fromX, newY - fromY) >= minDistance) break;
+        angle = Math.random() * Math.PI * 2;
+      }
     }
 
     return {
@@ -264,6 +246,78 @@ const GridAnimated2 = ({
         },
       ],
     };
+  };
+
+  // Part de la tête du recherché non recouverte par les persos dessinés au-dessus.
+  // La tête est un disque de rayon HIT_RADIUS_RATIO × CELL_SIZE (comme le toucher).
+  const HEAD_SAMPLES = (() => {
+    const r = CELL_SIZE * HIT_RADIUS_RATIO;
+    const pts: { dx: number; dy: number }[] = [];
+    const step = r / 4;
+    for (let dx = -r; dx <= r; dx += step) {
+      for (let dy = -r; dy <= r; dy += step) {
+        if (dx * dx + dy * dy <= r * r) pts.push({ dx, dy });
+      }
+    }
+    return pts;
+  })();
+
+  // Dessinés au-dessus : zIndex >= (tri stable, le recherché est inséré en premier)
+  const isAboveWanted = (char: CharacterType, wanted: CharacterType) =>
+    !char.isWanted && char.zIndex >= wanted.zIndex;
+
+  const ensureHeadVisible = (
+    characters: CharacterType[],
+    wanted: CharacterType,
+    minVisible: number
+  ): CharacterType[] => {
+    const result = [...characters];
+    const r = CELL_SIZE * HIT_RADIUS_RATIO;
+
+    for (let iteration = 0; iteration < 30; iteration++) {
+      const blockers = result.filter(
+        (c) =>
+          isAboveWanted(c, wanted) &&
+          Math.hypot(c.x - wanted.x, c.y - wanted.y) < 2 * r
+      );
+      const coverCount = new Map<number, number>();
+      let visible = 0;
+
+      for (const { dx, dy } of HEAD_SAMPLES) {
+        const px = wanted.x + dx;
+        const py = wanted.y + dy;
+        let covered = false;
+        for (const b of blockers) {
+          if ((px - b.x) ** 2 + (py - b.y) ** 2 <= r * r) {
+            covered = true;
+            coverCount.set(b.id, (coverCount.get(b.id) ?? 0) + 1);
+          }
+        }
+        if (!covered) visible++;
+      }
+
+      if (visible / HEAD_SAMPLES.length >= minVisible) break;
+
+      // On écarte le perso qui cache le plus de surface
+      let worstId = -1;
+      let worstCount = 0;
+      coverCount.forEach((count, id) => {
+        if (count > worstCount) {
+          worstCount = count;
+          worstId = id;
+        }
+      });
+      const index = result.findIndex((c) => c.id === worstId);
+      if (index === -1) break;
+      result[index] = moveCharacterAwayFrom(
+        result[index],
+        wanted.x,
+        wanted.y,
+        2 * r
+      );
+    }
+
+    return result;
   };
 
   const placeCharacters = () => {
@@ -333,7 +387,7 @@ const GridAnimated2 = ({
     while (otherCharacters.length < characterCount - 1) {
       const nextBatch = uniqueOthers.map((char) => ({
         ...char,
-        id: char?.id ?? 0 + otherCharacters.length * 1000,
+        id: (char?.id ?? 0) + otherCharacters.length * 1000,
         name: char?.name ?? "",
         imageSrc: char?.imageSrc ?? "",
       }));
@@ -404,15 +458,20 @@ const GridAnimated2 = ({
         const index = finalPlacedCharacters.findIndex(
           (c) => c.id === characterId
         );
-        if (index !== -1) {
-          // Déplacement plus fort pour les personnages dans plusieurs zones
-          finalPlacedCharacters[index] = moveCharacterAwayFrom(
-            finalPlacedCharacters[index],
-            wantedPosition.x,
-            wantedPosition.y,
-            10
-          );
+        if (index === -1) continue;
+        if (
+          difficulty > 1 &&
+          finalPlacedCharacters[index].zIndex < placedWanted.zIndex
+        ) {
+          continue;
         }
+        // Déplacement plus fort pour les personnages dans plusieurs zones
+        finalPlacedCharacters[index] = moveCharacterAwayFrom(
+          finalPlacedCharacters[index],
+          wantedPosition.x,
+          wantedPosition.y,
+          CELL_SIZE * 0.6
+        );
       }
     }
 
@@ -433,7 +492,7 @@ const GridAnimated2 = ({
         const zoneIndexToClear = zoneIndicesInOrderOfClearing[i];
         charactersInZones[zoneIndexToClear].forEach((character) => {
           // Ne pas traiter les personnages déjà déplacés car dans plusieurs zones
-          if (characterZoneCount.get(character.id) ?? 0 >= 2) {
+          if ((characterZoneCount.get(character.id) ?? 0) >= 2) {
             return;
           }
 
@@ -447,7 +506,7 @@ const GridAnimated2 = ({
             return;
           }
 
-          if (character.zIndex <= placedWanted.zIndex && difficulty > 1) {
+          if (character.zIndex < placedWanted.zIndex && difficulty > 1) {
             return;
           }
 
@@ -456,11 +515,13 @@ const GridAnimated2 = ({
           );
           if (index === -1) return;
 
+          // Sortir le perso de la zone (même règle que isPositionInZone)
+          const zone = wantedZones[zoneIndexToClear];
           const updatedCharacter = moveCharacterAwayFrom(
             finalPlacedCharacters[index],
-            wantedPosition.x,
-            wantedPosition.y,
-            randomIntFromInterval(5, 10)
+            zone.x,
+            zone.y,
+            zone.radius + CELL_SIZE / 2
           );
 
           finalPlacedCharacters[index] = updatedCharacter;
@@ -479,7 +540,7 @@ const GridAnimated2 = ({
       const potentialBlockers = finalPlacedCharacters.filter(
         (char) =>
           !char.isWanted &&
-          char.zIndex > placedWanted.zIndex &&
+          char.zIndex >= placedWanted.zIndex &&
           Math.sqrt(
             Math.pow(char.x - wantedPosition.x, 2) +
               Math.pow(char.y - wantedPosition.y, 2)
@@ -563,7 +624,7 @@ const GridAnimated2 = ({
 
           // D'abord, déplacer les personnages qui sont dans 2 zones ou plus
           const multiZoneBlockers = blockingCharacters.filter(
-            (blocker) => finalCharacterZoneCount.get(blocker.id) ?? 0 >= 2
+            (blocker) => (finalCharacterZoneCount.get(blocker.id) ?? 0) >= 2
           );
 
           multiZoneBlockers.forEach((blocker) => {
@@ -610,9 +671,13 @@ const GridAnimated2 = ({
       (char) => char.isWanted
     );
     if (wantedCharacterObj) {
-      const updatedPlacedCharacters = ensureWantedCharacterVisibility(
-        finalPlacedCharacters,
-        wantedCharacterObj
+      const updatedPlacedCharacters = ensureHeadVisible(
+        ensureWantedCharacterVisibility(
+          finalPlacedCharacters,
+          wantedCharacterObj
+        ),
+        wantedCharacterObj,
+        MIN_VISIBLE_HEAD_RATIO
       );
 
       updatedPlacedCharacters.sort((a, b) => a.zIndex - b.zIndex);
@@ -650,6 +715,20 @@ const GridAnimated2 = ({
   const showOnlyWantedCharacter =
     isCorrectSelection || gameState === GameStateEnum.END || gameState === GameStateEnum.FINISH;
 
+  // Persos touchables, remplis pendant le rendu ci-dessous (z = ordre de dessin)
+  const candidates: HitCandidate[] = [];
+  const hitArea = new Rectangle(0, 0, GRID_SIZE_WIDTH, GRID_SIZE_HEIGHT);
+
+  const handlePointerDown = (e: FederatedPointerEvent) => {
+    if (disableClick || showOnlyWantedCharacter) return;
+    const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
+    if (!hit) return;
+    handleCharacterClick(
+      { x: e.global.x, y: e.global.y },
+      { id: hit.id, isWanted: hit.isWanted }
+    );
+  };
+
   return (
     <div ref={localCanvasRef} className="gridContainer">
       <Stage
@@ -665,7 +744,7 @@ const GridAnimated2 = ({
         }}
       >
         <Container>
-          {placedCharacters.map((character) => {
+          {placedCharacters.map((character, index) => {
             if (
               selectedCharacterId === character.id &&
               !isCorrectSelection &&
@@ -678,6 +757,15 @@ const GridAnimated2 = ({
               return null;
             }
 
+            candidates.push({
+              id: character.id,
+              cx: character.x,
+              cy: character.y,
+              size: CELL_SIZE,
+              z: index,
+              isWanted: character.isWanted,
+            });
+
             return (
               <Sprite
                 key={`character-${character.id}`}
@@ -686,13 +774,7 @@ const GridAnimated2 = ({
                 y={character.y - CELL_SIZE / 2}
                 width={CELL_SIZE}
                 height={CELL_SIZE}
-                eventMode={disableClick ? "none" : "static"}
-                pointerdown={
-                  !disableClick
-                    ? (e) => handleCharacterClick(e, character)
-                    : undefined
-                }
-                alpha={character.isBackground ? 1 : 1}
+                eventMode="none"
               />
             );
           })}
@@ -718,6 +800,12 @@ const GridAnimated2 = ({
               </Container>
             ))}
         </Container>
+        {/* Zone de toucher unique, au-dessus des sprites */}
+        <Container
+          eventMode="static"
+          hitArea={hitArea}
+          pointerdown={handlePointerDown}
+        />
       </Stage>
     </div>
   );

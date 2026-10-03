@@ -104,7 +104,7 @@ export const GameHeader = () => {
           <div className="wanted-name-container">
             <p className={`wanted-name ${isAnimating ? "name-appear" : ""}`}>
               {!animationLevelLoading && wantedCharacter
-                ? wantedCharacter.name
+                ? wantedCharacter.label
                 : "???"}
             </p>
           </div>

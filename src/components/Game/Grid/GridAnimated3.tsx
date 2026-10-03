@@ -9,7 +9,9 @@ import {
   randomIntFromInterval,
 } from "../../../helpers/gameUtils";
 import "./Grid.css";
+import { Rectangle } from "pixi.js";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
+import { HitCandidate, pickCharacterAt } from "../../../helpers/hitTest";
 
 type NoOverlapZone = {
   x: number;
@@ -44,9 +46,11 @@ interface GridAnimated3Props {
   moveBackgroundCharacters?: boolean;
   sameDirectionForAll?: boolean;
   differentLayersDirection?: boolean;
+  // Vitesses des couches (si differentLayersDirection) ; par défaut otherCharactersSpeed
   lowerLayerSpeed?: number;
   upperLayerSpeed?: number;
   edgeBehavior?: EdgeBehavior;
+  // Ignoré : le recherché suit la même loi de mouvement que les leurres
   wantedCharacterSpeed?: number;
   otherCharactersSpeed?: number;
   wantedZIndexBelow?: boolean;
@@ -62,11 +66,10 @@ const GridAnimated3 = ({
   moveBackgroundCharacters = true,
   sameDirectionForAll = false,
   differentLayersDirection = false,
-  lowerLayerSpeed = 0.4,
-  upperLayerSpeed = 0.0,
+  lowerLayerSpeed,
+  upperLayerSpeed,
   edgeBehavior = "wrap",
   wantedZIndexBelow = false,
-  wantedCharacterSpeed = 0.2,
   otherCharactersSpeed = 0.4,
   ensureWantedCharacter = true,
   forceRestartOnMissingWanted = true,
@@ -89,8 +92,12 @@ const GridAnimated3 = ({
     selectedCharacterId,
     blinkState,
     isCorrectSelection,
-    handleCharacterClick: hookHandleCharacterClick
+    handleCharacterClick,
   } = useCharacterInteraction();
+
+  // La boucle d'animation lit ces valeurs via des refs (sinon closure figée)
+  const isCorrectSelectionRef = useRef(isCorrectSelection);
+  isCorrectSelectionRef.current = isCorrectSelection;
 
   // Synchronize our local canvas ref with the hook
   useEffect(() => {
@@ -108,51 +115,21 @@ const GridAnimated3 = ({
   const CENTER_X = GRID_SIZE_WIDTH / 2;
   const CENTER_Y = GRID_SIZE_HEIGHT / 2;
 
-  const {
-    grid,
-    wantedCharacter,
-    gameState,
-    animationLevelLoading,
-    setLevel,
-    setPauseTimer,
-    debug,
-  } = useGameStore(
-    useShallow((state) => ({
-      grid: state.grid,
-      wantedCharacter: state.wantedCharacter,
-      gameState: state.gameState,
-      animationLevelLoading: state.animationLevelLoading,
-      setLevel: state.setLevel,
-      setPauseTimer: state.setPauseTimer,
-      debug: state.debug,
-    }))
-  );
+  const { grid, wantedCharacter, gameState, animationLevelLoading, debug } =
+    useGameStore(
+      useShallow((state) => ({
+        grid: state.grid,
+        wantedCharacter: state.wantedCharacter,
+        gameState: state.gameState,
+        animationLevelLoading: state.animationLevelLoading,
+        debug: state.debug,
+      }))
+    );
 
-  // Function to adapt our character type to the one expected by the hook
-  const adaptCharacterToHook = (character: PlacedCharacter) => {
-    return {
-      id: character.id,
-      name: character.name,
-      imageSrc: character.imageSrc,
-      position: {
-        rowIndex: 0,
-        colIndex: 0,
-        offsetX: character.x,
-        offsetY: character.y
-      },
-      isWanted: character.isWanted,
-      zIndex: character.zIndex
-    };
-  };
-  
-  // Adapter function to handle clicks
-  const handleCharacterClick = (e: FederatedPointerEvent, character: PlacedCharacter) => {
-    if (disableClick) return;
-    
-    // Convert our character type to the one expected by the hook
-    const adaptedCharacter = adaptCharacterToHook(character);
-    hookHandleCharacterClick(e, adaptedCharacter);
-  };
+  const gameStateRef = useRef(gameState);
+  gameStateRef.current = gameState;
+  const placedCharactersRef = useRef<PlacedCharacter[]>([]);
+  placedCharactersRef.current = placedCharacters;
 
   const isPositionInZone = (
     position: { x: number; y: number },
@@ -202,18 +179,34 @@ const GridAnimated3 = ({
   };
 
   const generateLayersDirections = () => {
-    const lowerLayerDirection = generateCommonDirection(lowerLayerSpeed);
-
-    const upperLayerDirection = differentLayersDirection
-      ? generateCommonDirection(upperLayerSpeed)
-      : {
-          velocityX:
-            lowerLayerDirection.velocityX * (upperLayerSpeed / lowerLayerSpeed),
-          velocityY:
-            lowerLayerDirection.velocityY * (upperLayerSpeed / lowerLayerSpeed),
-        };
-
+    const lowerLayerDirection = generateCommonDirection(
+      lowerLayerSpeed ?? otherCharactersSpeed
+    );
+    const upperLayerDirection = generateCommonDirection(
+      upperLayerSpeed ?? otherCharactersSpeed
+    );
     return { lowerLayerDirection, upperLayerDirection };
+  };
+
+  // Loi de mouvement commune à tous les persos de la foule (recherché compris)
+  const LOWER_LAYER_MAX_Z = 40;
+  const pickVelocity = (
+    zIndex: number,
+    commonDirection: { velocityX: number; velocityY: number } | null,
+    layersDirections: {
+      lowerLayerDirection: { velocityX: number; velocityY: number };
+      upperLayerDirection: { velocityX: number; velocityY: number };
+    } | null
+  ) => {
+    if (commonDirection) return { ...commonDirection };
+    if (layersDirections) {
+      return {
+        ...(zIndex < LOWER_LAYER_MAX_Z
+          ? layersDirections.lowerLayerDirection
+          : layersDirections.upperLayerDirection),
+      };
+    }
+    return generateRandomVelocity(otherCharactersSpeed);
   };
 
   const createBackgroundGrid = (
@@ -263,17 +256,9 @@ const GridAnimated3 = ({
         let velocityY = 0;
 
         if (moveBackgroundCharacters) {
-          if (commonDirection) {
-            velocityX = commonDirection.velocityX;
-            velocityY = commonDirection.velocityY;
-          } else if (layersDirections) {
-            velocityX = layersDirections.lowerLayerDirection.velocityX;
-            velocityY = layersDirections.lowerLayerDirection.velocityY;
-          } else {
-            const velocity = generateRandomVelocity(otherCharactersSpeed / 2);
-            velocityX = velocity.velocityX;
-            velocityY = velocity.velocityY;
-          }
+          const velocity = pickVelocity(0, commonDirection, layersDirections);
+          velocityX = velocity.velocityX;
+          velocityY = velocity.velocityY;
         }
 
         backgroundChars.push({
@@ -338,20 +323,14 @@ const GridAnimated3 = ({
       (cell) => cell?.name === wantedCharacter.name
     );
     
-    if (!wantedCell) {
-      console.error("Wanted character not found in grid!");
-      return;
-    }
+    if (!wantedCell) return;
 
     let commonDirection = null;
     let layersDirections = null;
 
     if (sameDirectionForAll) {
       commonDirection = generateCommonDirection(otherCharactersSpeed);
-    } else if (
-      differentLayersDirection ||
-      lowerLayerSpeed !== upperLayerSpeed
-    ) {
+    } else if (differentLayersDirection) {
       layersDirections = generateLayersDirections();
     }
 
@@ -383,19 +362,12 @@ const GridAnimated3 = ({
       wantedZIndex = randomIntFromInterval(10, 30);
     }
 
-    // Générer la vitesse pour le personnage recherché
-    let wantedVelocityX, wantedVelocityY;
-    
-    if (commonDirection) {
-      // Utilisez la même direction que les autres mais avec une vitesse ajustée
-      wantedVelocityX = commonDirection.velocityX * (wantedCharacterSpeed / otherCharactersSpeed);
-      wantedVelocityY = commonDirection.velocityY * (wantedCharacterSpeed / otherCharactersSpeed);
-    } else {
-      // Vitesse aléatoire
-      const velocity = generateRandomVelocity(wantedCharacterSpeed);
-      wantedVelocityX = velocity.velocityX;
-      wantedVelocityY = velocity.velocityY;
-    }
+    // Même loi que les leurres de sa couche : aucun indice par le mouvement
+    const wantedVelocity = pickVelocity(
+      wantedZIndex,
+      commonDirection,
+      layersDirections
+    );
 
     const placedWanted: PlacedCharacter = {
       id: wantedCell.id,
@@ -406,8 +378,8 @@ const GridAnimated3 = ({
       noOverlapZones: wantedZones,
       isWanted: true,
       zIndex: wantedZIndex,
-      velocityX: wantedVelocityX,
-      velocityY: wantedVelocityY,
+      velocityX: wantedVelocity.velocityX,
+      velocityY: wantedVelocity.velocityY,
     };
 
     // Mark that we've placed the wanted character
@@ -473,23 +445,11 @@ const GridAnimated3 = ({
 
       const zIndex = randomIntFromInterval(10, 90);
 
-      let velocityX, velocityY;
-
-      if (commonDirection) {
-        velocityX = commonDirection.velocityX;
-        velocityY = commonDirection.velocityY;
-      } else if (layersDirections) {
-        const direction =
-          zIndex < 40
-            ? layersDirections.lowerLayerDirection
-            : layersDirections.upperLayerDirection;
-        velocityX = direction.velocityX;
-        velocityY = direction.velocityY;
-      } else {
-        const velocity = generateRandomVelocity(otherCharactersSpeed);
-        velocityX = velocity.velocityX;
-        velocityY = velocity.velocityY;
-      }
+      const { velocityX, velocityY } = pickVelocity(
+        zIndex,
+        commonDirection,
+        layersDirections
+      );
 
       allPlacedCharacters.push({
         id: character.id + i * 1000,
@@ -516,11 +476,11 @@ const GridAnimated3 = ({
     const deltaTime = (timestamp - lastTimeRef.current) / 1000;
     lastTimeRef.current = timestamp;
 
-    if (gameState === GameStateEnum.END) {
+    if (gameStateRef.current === GameStateEnum.END) {
       return;
     }
 
-    if (isCorrectSelection) {
+    if (isCorrectSelectionRef.current) {
       animationFrameRef.current = requestAnimationFrame(animateCharacters);
       return;
     }
@@ -588,7 +548,6 @@ const GridAnimated3 = ({
   // Effet pour surveiller si le personnage recherché manque et le recréer si nécessaire
   useEffect(() => {
     if (wantedCharacterMissing && forceRestartOnMissingWanted) {
-      console.log("Personnage recherché manquant, réinitialisation...");
       // Réinitialiser l'état
       setWantedCharacterMissing(false);
       // Replacer les personnages
@@ -601,15 +560,15 @@ const GridAnimated3 = ({
     if (forceRestartOnMissingWanted && !isInitializing && !animationLevelLoading && gameState === GameStateEnum.PLAYING) {
       // Vérifier toutes les 5 secondes si le personnage est toujours visible
       const checkInterval = setInterval(() => {
+        const characters = placedCharactersRef.current;
         if (!wantedCharacterVisibleRef.current) {
-          const visibleNow = checkIfWantedCharacterOnScreen(placedCharacters);
+          const visibleNow = checkIfWantedCharacterOnScreen(characters);
           if (!visibleNow) {
-            console.log("Personnage recherché non visible depuis plus de 5 secondes, réinitialisation...");
             setWantedCharacterMissing(true);
           }
         } else {
           // Mise à jour du statut
-          checkIfWantedCharacterOnScreen(placedCharacters);
+          checkIfWantedCharacterOnScreen(characters);
         }
       }, 5000);
       
@@ -622,7 +581,7 @@ const GridAnimated3 = ({
         }
       };
     }
-  }, [isInitializing, animationLevelLoading, gameState, placedCharacters]);
+  }, [isInitializing, animationLevelLoading, gameState]);
 
   useEffect(() => {
     // Reset the flag that tracks if the wanted character is placed
@@ -644,7 +603,6 @@ const GridAnimated3 = ({
       const initTimer = setTimeout(() => {
         // Check if wanted character is placed successfully
         if (ensureWantedCharacter && !wantedCharacterPlacedRef.current) {
-          console.error("Wanted character not placed! Trying again...");
           placeCharacters(); // Try placing characters again
         }
 
@@ -682,20 +640,9 @@ const GridAnimated3 = ({
     lowerLayerSpeed,
     upperLayerSpeed,
     edgeBehavior,
-    wantedCharacterSpeed,
     otherCharactersSpeed,
     ensureWantedCharacter,
   ]);
-
-  // Handler for completion of selection
-  useEffect(() => {
-    if (isCorrectSelection) {
-      setTimeout(() => {
-        setLevel(+1);
-        setPauseTimer(false);
-      }, 1000);
-    }
-  }, [isCorrectSelection]);
 
   // If grid is not loaded or level is loading, show empty container
   if (!grid || animationLevelLoading) {
@@ -708,7 +655,6 @@ const GridAnimated3 = ({
 
   // If wanted character is still not placed after initialization, we have a problem
   if (!wantedCharacterWithZones && !isInitializing) {
-    console.error("Wanted character missing from grid! Emergency re-initialization.");
     // Emergency re-initialization
     placeCharacters();
   }
@@ -717,6 +663,20 @@ const GridAnimated3 = ({
     isCorrectSelection ||
     gameState === GameStateEnum.END ||
     gameState === GameStateEnum.FINISH;
+
+  // Persos touchables aux positions courantes, remplis pendant le rendu (z = ordre de dessin)
+  const candidates: HitCandidate[] = [];
+  const hitArea = new Rectangle(0, 0, GRID_SIZE_WIDTH, GRID_SIZE_HEIGHT);
+
+  const handlePointerDown = (e: FederatedPointerEvent) => {
+    if (disableClick || isInitializing || showOnlyWantedCharacter) return;
+    const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
+    if (!hit) return;
+    handleCharacterClick(
+      { x: e.global.x, y: e.global.y },
+      { id: hit.id, isWanted: hit.isWanted }
+    );
+  };
 
   return (
     <div ref={localCanvasRef} className="gridContainer">
@@ -734,7 +694,7 @@ const GridAnimated3 = ({
       >
         <Container>
           {!isInitializing &&
-            placedCharacters.map((character) => {
+            placedCharacters.map((character, index) => {
               // Skip blinking characters
               if (
                 selectedCharacterId === character.id &&
@@ -749,6 +709,15 @@ const GridAnimated3 = ({
                 return null;
               }
 
+              candidates.push({
+                id: character.id,
+                cx: character.x,
+                cy: character.y,
+                size: CELL_SIZE,
+                z: index,
+                isWanted: character.isWanted,
+              });
+
               return (
                 <Sprite
                   key={`character-${character.id}`}
@@ -757,8 +726,7 @@ const GridAnimated3 = ({
                   y={character.y - CELL_SIZE / 2}
                   width={CELL_SIZE}
                   height={CELL_SIZE}
-                  eventMode={disableClick ? "none" : "static"}
-                  pointerdown={!disableClick ? (e) => handleCharacterClick(e, character) : undefined}
+                  eventMode="none"
                   alpha={character.isBackground ? 0.9 : 1}
                 />
               );
@@ -786,6 +754,12 @@ const GridAnimated3 = ({
               </Container>
             ))}
         </Container>
+        {/* Zone de toucher unique, au-dessus des sprites */}
+        <Container
+          eventMode="static"
+          hitArea={hitArea}
+          pointerdown={handlePointerDown}
+        />
       </Stage>
     </div>
   );

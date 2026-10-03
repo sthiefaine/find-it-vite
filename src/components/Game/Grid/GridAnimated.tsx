@@ -8,6 +8,9 @@ import {
   randomIntFromInterval,
 } from "../../../helpers/gameUtils";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
+import { HitCandidate, pickCharacterAt } from "../../../helpers/hitTest";
+import { FederatedPointerEvent } from "@pixi/events";
+import { Rectangle } from "pixi.js";
 
 import "./Grid.css";
 
@@ -100,6 +103,7 @@ const GridAnimated = ({
     canvasRef,
     selectedCharacterId,
     isCorrectSelection,
+    disableClick,
     setDisableClick,
     handleCharacterClick,
   } = useCharacterInteraction();
@@ -423,6 +427,20 @@ const GridAnimated = ({
     gameState === GameStateEnum.END ||
     gameState === GameStateEnum.FINISH;
 
+  // Persos touchables (copies comprises), remplis pendant le rendu ci-dessous
+  const candidates: HitCandidate[] = [];
+  const hitArea = new Rectangle(0, 0, GRID_SIZE_WIDTH, GRID_SIZE_HEIGHT);
+
+  const handlePointerDown = (e: FederatedPointerEvent) => {
+    if (disableClick || isInitializing || showOnlyWantedCharacter) return;
+    const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
+    if (!hit) return;
+    handleCharacterClick(
+      { x: e.global.x, y: e.global.y },
+      { id: hit.id, isWanted: hit.isWanted }
+    );
+  };
+
   return (
     <div ref={canvasRef} className="gridContainer">
       <Stage
@@ -469,6 +487,18 @@ const GridAnimated = ({
                 });
               }
 
+              // Une copie compte comme le perso d'origine (même id, même isWanted)
+              renderItems.forEach((item) => {
+                candidates.push({
+                  id: character.id,
+                  cx: item.x,
+                  cy: item.y,
+                  size: CELL_SIZE,
+                  z: candidates.length,
+                  isWanted: character.isWanted,
+                });
+              });
+
               return renderItems.map((item) => (
                 <Sprite
                   key={item.key}
@@ -477,17 +507,17 @@ const GridAnimated = ({
                   y={item.y - CELL_SIZE / 2}
                   width={CELL_SIZE}
                   height={CELL_SIZE}
-                  eventMode={item.isClone ? "none" : "static"}
-                  pointerdown={
-                    item.isClone
-                      ? undefined
-                      : (e) => handleCharacterClick(e, character)
-                  }
-                  alpha={item.isClone ? 1 : 1}
+                  eventMode="none"
                 />
               ));
             })}
         </Container>
+        {/* Zone de toucher unique, au-dessus des sprites */}
+        <Container
+          eventMode="static"
+          hitArea={hitArea}
+          pointerdown={handlePointerDown}
+        />
       </Stage>
     </div>
   );

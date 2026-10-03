@@ -57,7 +57,7 @@ export default function InGameActionButton() {
           >
             <Button
               icon={<CircleStop />}
-              text="Arreter"
+              text="Arrêter"
               gameState={GameStateEnum.END}
             />
           </motion.div>

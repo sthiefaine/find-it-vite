@@ -1,4 +1,3 @@
-import { FederatedPointerEvent } from "@pixi/events";
 import { useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../store/store";
@@ -6,20 +5,10 @@ import { pointColorsArray, randomIntFromInterval } from "../helpers/gameUtils";
 import { showPointsEffect } from "../helpers/animationUtils";
 import { playPopSound } from "../helpers/sounds";
 
-type CellPosition = {
-  rowIndex: number;
-  colIndex: number;
-  offsetX: number;
-  offsetY: number;
-};
-
-type PlacedCharacter = {
+// Perso touché, tel que renvoyé par pickCharacterAt (helpers/hitTest.ts)
+export type TappedCharacter = {
   id: number;
-  name: string;
-  imageSrc: string;
-  position: CellPosition;
   isWanted: boolean;
-  zIndex: number;
 };
 
 export const useCharacterInteraction = () => {
@@ -52,9 +41,10 @@ export const useCharacterInteraction = () => {
     }))
   );
 
+  // point : position du toucher en px dans le canvas
   const handleCharacterClick = (
-    e: FederatedPointerEvent,
-    character: PlacedCharacter
+    point: { x: number; y: number },
+    character: TappedCharacter
   ) => {
     if (
       gameState === GameStateEnum.END ||
@@ -69,10 +59,7 @@ export const useCharacterInteraction = () => {
     setDisableClick(true);
     setSelectedCharacterId(character.id);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const sprite = e.target as any;
-    const bounds = sprite.getBounds();
-    const position = { x: bounds.x, y: bounds.y - 10 };
+    const position = { x: point.x - 10, y: point.y - 30 };
 
     if (canvasRef.current) {
       if (character.isWanted) {
