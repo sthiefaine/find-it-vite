@@ -2,7 +2,16 @@ import { describe, expect, it } from "vitest";
 import { charactersDetails } from "../../helpers/characters";
 import { generateLevel, GOLD_RUSH_TARGETS } from "../../engine";
 import type { LevelSpec, Rule } from "../../engine";
-import { isLevelComplete, newMechanics, resolveTap, tickClock } from "../session";
+import {
+  bonusRemainingMs,
+  isLevelComplete,
+  MAX_TICK_DELTA_MS,
+  newMechanics,
+  resolveTap,
+  resumeBonusAt,
+  sameLevel,
+  tickClock,
+} from "../session";
 
 const base = generateLevel(1, { seed: 123, tier: "normal", pool: charactersDetails });
 const specOf = (rule: Rule, extra: Partial<LevelSpec> = {}): LevelSpec => ({
@@ -98,12 +107,36 @@ describe("tickClock", () => {
   it("décompte les secondes entières sans perdre la fraction", () => {
     let acc = 0;
     let total = 0;
-    for (const delta of [400, 400, 400, 900, 100, -50]) {
+    for (const delta of [200, 200, 200, 200, 200, 250, 250, 250, 250, 250, 50, -50]) {
       const r = tickClock(acc, delta);
       acc = r.accMs;
       total += r.seconds;
     }
     expect(total).toBe(2);
-    expect(acc).toBe(200);
+    expect(acc).toBe(300);
+  });
+
+  it("plafonne un écart trop grand (veille, arrière-plan)", () => {
+    expect(tickClock(0, 60_000)).toEqual({ seconds: 0, accMs: MAX_TICK_DELTA_MS });
+    expect(tickClock(900, 5_000)).toEqual({ seconds: 1, accMs: 900 + MAX_TICK_DELTA_MS - 1000 });
+    expect(MAX_TICK_DELTA_MS).toBeLessThanOrEqual(250);
+  });
+});
+
+describe("bonus en pause", () => {
+  it("garde le temps restant et recale l'échéance à la reprise", () => {
+    const left = bonusRemainingMs(10_000, 7_000);
+    expect(left).toBe(3_000);
+    // 1 minute en arrière-plan : il reste toujours 3 s
+    expect(resumeBonusAt(left, 67_000)).toBe(70_000);
+    expect(bonusRemainingMs(10_000, 12_000)).toBe(0);
+  });
+});
+
+describe("sameLevel", () => {
+  it("même partie et même étape seulement", () => {
+    expect(sameLevel({ runSeed: 1, level: 2 }, { runSeed: 1, level: 2 })).toBe(true);
+    expect(sameLevel({ runSeed: 1, level: 2 }, { runSeed: 1, level: 3 })).toBe(false);
+    expect(sameLevel({ runSeed: 1, level: 2 }, { runSeed: 9, level: 2 })).toBe(false);
   });
 });

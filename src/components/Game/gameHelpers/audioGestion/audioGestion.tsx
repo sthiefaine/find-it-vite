@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useGameStore } from "../../../../../store/store";
+import { isPlayInterrupted, nextPoolIndex } from "./audioPool";
 
-// AudioGestion est un composant qui permet de gérer la lecture des sons
-// cela à été crée pour éviter les problèmes de lecture audio sur IOS
-// sur IOS le delay de lecture audio est plus long
-// voire de faire crasher le navigateur
+// Nombre d'éléments <audio> : deux sons rapprochés ne se coupent pas
+const POOL_SIZE = 3;
+
+// AudioGestion joue les sons demandés via le store (soundSrc).
+// Créé pour iOS, où la lecture audio peut tarder, voire faire planter le navigateur :
+// on attend un premier geste du joueur avant de jouer quoi que ce soit.
 export function AudioGestion() {
   const { sound, soundSrc, setSoundSrc } = useGameStore(
     useShallow((state) => {
@@ -17,8 +20,8 @@ export function AudioGestion() {
     })
   );
   const [userInteracted, setUserInteracted] = useState(false);
-  const [isSafariOnIPad, setIsSafariOnIPad] = useState(false);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRefs = useRef<(HTMLAudioElement | null)[]>([]);
+  const nextIndex = useRef(0);
 
   useEffect(() => {
     const handleUserInteraction = () => {
@@ -30,14 +33,6 @@ export function AudioGestion() {
     document.addEventListener("click", handleUserInteraction, { once: true });
     document.addEventListener("keydown", handleUserInteraction, { once: true });
 
-    // Détection de Safari et iphone ou ipad
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
-    const isIOSDevice = /ipad|iphone/i.test(userAgent);
-    if (isSafari && isIOSDevice) {
-      setIsSafariOnIPad(true);
-    }
-
     return () => {
       document.removeEventListener("click", handleUserInteraction);
       document.removeEventListener("keydown", handleUserInteraction);
@@ -45,49 +40,39 @@ export function AudioGestion() {
   }, []);
 
   useEffect(() => {
-    let currentAudio = audioRef.current;
+    if (!sound || !soundSrc || !userInteracted) return;
 
-    if (!sound) {
-      return;
-    }
-
-    if (!soundSrc || !userInteracted) {
-      return;
-    }
-
-    if (currentAudio) {
-      currentAudio.src = soundSrc;
-      currentAudio.volume = 1;
-      currentAudio.play().catch((error) => {
+    // élément libre de préférence, sinon le plus ancien
+    const audios = audioRefs.current.slice(0, POOL_SIZE);
+    const index = nextPoolIndex(
+      audios.map((a) => !a || a.paused || a.ended),
+      nextIndex.current
+    );
+    nextIndex.current = (index + 1) % POOL_SIZE;
+    const audio = audios[index];
+    if (audio) {
+      audio.src = soundSrc;
+      audio.volume = 1;
+      audio.play().catch((error) => {
+        // son remplacé par un autre avant de démarrer : normal, pas une erreur
+        if (isPlayInterrupted(error)) return;
         console.error("Erreur lors de la lecture audio :", error);
       });
-      setSoundSrc("");
     }
-
-    if (isSafariOnIPad) {
-      const timeout = setTimeout(() => {
-        currentAudio = audioRef.current;
-        if (currentAudio) {
-          currentAudio.src = soundSrc;
-          currentAudio.volume = 1;
-          currentAudio.play();
-          setSoundSrc("");
-        }
-      }, 3000);
-
-      return () => {
-        clearTimeout(timeout);
-      };
-    }
-  }, [soundSrc, userInteracted, setSoundSrc, isSafariOnIPad, sound]);
+    setSoundSrc("");
+  }, [soundSrc, userInteracted, setSoundSrc, sound]);
 
   return (
-    <audio
-      style={{
-        display: "none",
-        height: 0,
-      }}
-      ref={audioRef}
-    />
+    <>
+      {Array.from({ length: POOL_SIZE }, (_, i) => (
+        <audio
+          key={i}
+          style={{ display: "none", height: 0 }}
+          ref={(el) => {
+            audioRefs.current[i] = el;
+          }}
+        />
+      ))}
+    </>
   );
 }

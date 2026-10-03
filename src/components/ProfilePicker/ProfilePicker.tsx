@@ -1,3 +1,4 @@
+import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
 import type { Tier } from "../../engine/types";
 import "./ProfilePicker.css";
@@ -14,11 +15,13 @@ type Props = {
   current?: Tier | null;
 };
 
-// Fenêtre « Qui joue ? » : règle la difficulté de la partie
+// Fenêtre « Qui joue ? » : règle la difficulté de la partie.
+// Rendue dans <body> pour que le voile couvre tout l'écran, en-tête compris
+// (sinon le bouton retour reste visible au-dessus, mais intouchable).
 export default function ProfilePicker({ onPick, onCancel, current }: Props) {
-  return (
+  return createPortal(
     <motion.div
-      className="profile-overlay"
+      className={`profile-overlay${onCancel ? "" : " profile-overlay-first"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -63,6 +66,7 @@ export default function ProfilePicker({ onPick, onCancel, current }: Props) {
           </button>
         )}
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body
   );
 }

@@ -3,7 +3,7 @@ import { CharacterDetails } from "../src/helpers/characters";
 import { useSaveStore } from "../src/save/saveStore";
 import type { LevelSpec, Tier } from "../src/engine/types";
 import { mechanicsOf } from "../src/engine/rules";
-import { newMechanics } from "../src/game/session";
+import { bonusRemainingMs, newMechanics, resumeBonusAt } from "../src/game/session";
 import { advanceMission, MISSION_GOAL, missionStars, nextTime } from "../src/game/modes";
 import type { GameMode } from "../src/game/modes";
 import type { WorldId } from "../src/content/worlds";
@@ -96,7 +96,9 @@ type GameState = {
   gameRecord: GameRecord | null; // non nul une fois la partie enregistrée
   foundIds: number[]; // cibles déjà trouvées dans le niveau en cours
   isDiscovery: boolean; // le niveau contient une mécanique jamais vue
+  freshMechanics: string[]; // mécaniques nouvelles du niveau (vide hors découverte)
   bonusEndsAt: number | null; // fin du goldRush en cours (Date.now()), null sinon
+  bonusPausedMs: number | null; // goldRush en pause (app en arrière-plan) : temps restant
   bonusDone: boolean; // le goldRush du niveau est terminé
 };
 
@@ -121,6 +123,11 @@ export type GameActions = {
   startBonus: (durationS: number) => void;
   // Fin du bonus (chrono écoulé ou tout trouvé) : niveau suivant, une seule fois
   endBonus: () => void;
+  // App en arrière-plan / de retour : le goldRush garde son temps restant
+  pauseBonus: () => void;
+  resumeBonus: () => void;
+  // Carte de découverte fermée : les mécaniques du niveau sont désormais vues
+  markDiscoverySeen: () => void;
   submitGameResult: () => void;
 };
 
@@ -154,24 +161,28 @@ export const defaultInitState: GameState = {
   gameRecord: null,
   foundIds: [],
   isDiscovery: false,
+  freshMechanics: [],
   bonusEndsAt: null,
+  bonusPausedMs: null,
   bonusDone: false,
 };
 
 const now = () => performance.now();
 
-// Découverte calculée une seule fois par niveau (StrictMode peut rejouer setCurrentSpec)
-let lastDiscovery: { spec: LevelSpec; isDiscovery: boolean } | null = null;
+type Discovery = { isDiscovery: boolean; freshMechanics: string[] };
 
-function discoveryOf(spec: LevelSpec): boolean {
+// Découverte calculée une seule fois par niveau (StrictMode peut rejouer setCurrentSpec).
+// Rien n'est marqué « vu » ici : voir markDiscoverySeen.
+let lastDiscovery: { spec: LevelSpec; discovery: Discovery } | null = null;
+
+function discoveryOf(spec: LevelSpec): Discovery {
   const prev = lastDiscovery?.spec;
   if (prev && prev.seed === spec.seed && prev.index === spec.index && prev.layout === spec.layout)
-    return lastDiscovery!.isDiscovery;
-  const save = useSaveStore.getState();
-  const fresh = newMechanics(mechanicsOf(spec), save.save.seenMechanics);
-  if (fresh.length > 0) save.markMechanicsSeen(fresh);
-  lastDiscovery = { spec, isDiscovery: fresh.length > 0 };
-  return lastDiscovery.isDiscovery;
+    return lastDiscovery!.discovery;
+  const fresh = newMechanics(mechanicsOf(spec), useSaveStore.getState().save.seenMechanics);
+  const discovery = { isDiscovery: fresh.length > 0, freshMechanics: fresh };
+  lastDiscovery = { spec, discovery };
+  return discovery;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -204,16 +215,24 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
     set({ level: level + 1 });
   },
-  setCurrentSpec: (spec) =>
+  setCurrentSpec: (spec) => {
+    const { isDiscovery, freshMechanics } = discoveryOf(spec);
     set({
       currentSpec: spec,
       wantedCharacter: spec.wanted,
       wantedFound: false,
       foundIds: [],
       bonusEndsAt: null,
+      bonusPausedMs: null,
       bonusDone: false,
-      isDiscovery: discoveryOf(spec),
-    }),
+      isDiscovery,
+      freshMechanics,
+    });
+  },
+  markDiscoverySeen: () => {
+    const { freshMechanics } = get();
+    if (freshMechanics.length > 0) useSaveStore.getState().markMechanicsSeen(freshMechanics);
+  },
   setPauseTimer: (pause: boolean) => set({ pauseTimer: pause }),
   setLevel: (level: number) => set({ level: get().level + level }),
   setGameState: (gameState: GameStateEnum) => set({ gameState }),
@@ -230,8 +249,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ timeLeft: nextTime(get().mode, get().timeLeft, delta) });
   },
   setTimeLeftValue: (timeLeft: number) => set({ timeLeft: timeLeft }),
-  setClearGameStore: () =>
-    set({ ...defaultInitState, stats: { ...defaultInitState.stats }, sound: get().sound }),
+  setClearGameStore: () => {
+    lastDiscovery = null;
+    set({
+      ...defaultInitState,
+      stats: { ...defaultInitState.stats },
+      freshMechanics: [],
+      sound: get().sound,
+    });
+  },
   recordTargetFound: (id, levelDone) => {
     const { stats, levelShownAt, foundIds, currentSpec, wantedFound } = get();
     if (foundIds.includes(id)) return;
@@ -241,6 +267,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       countMissionStep();
     }
     // « plus rapide » : temps pour finir un niveau, hors bonus
+    // niveau réussi sans fermer la carte de découverte : mécaniques vues quand même
+    if (levelDone) get().markDiscoverySeen();
     const timed = levelDone && currentSpec?.rule !== "goldRush";
     const elapsed =
       !timed || levelShownAt === null ? null : Math.round(now() - levelShownAt);
@@ -259,12 +287,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
   },
   startBonus: (durationS) => {
     if (get().bonusDone || get().bonusEndsAt !== null) return;
-    set({ bonusEndsAt: Date.now() + durationS * 1000 });
+    set({ bonusEndsAt: Date.now() + durationS * 1000, bonusPausedMs: null });
+  },
+  pauseBonus: () => {
+    const { bonusEndsAt, bonusPausedMs, bonusDone } = get();
+    if (bonusDone || bonusEndsAt === null || bonusPausedMs !== null) return;
+    set({ bonusPausedMs: bonusRemainingMs(bonusEndsAt, Date.now()) });
+  },
+  resumeBonus: () => {
+    const { bonusEndsAt, bonusPausedMs } = get();
+    if (bonusEndsAt === null || bonusPausedMs === null) return;
+    set({ bonusEndsAt: resumeBonusAt(bonusPausedMs, Date.now()), bonusPausedMs: null });
   },
   endBonus: () => {
     const { bonusDone, currentSpec, gameState, level } = get();
     if (bonusDone || currentSpec?.rule !== "goldRush") return;
-    set({ bonusEndsAt: null, bonusDone: true });
+    set({ bonusEndsAt: null, bonusPausedMs: null, bonusDone: true });
+    get().markDiscoverySeen();
     if (gameState !== GameStateEnum.PLAYING) return;
     // le bonus compte comme un avis en Aventure
     countMissionStep();
@@ -279,6 +318,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
   // Une seule fois par partie
   submitGameResult: () => {
     if (get().gameRecord) return;
+    // partie finie sans fermer la carte de découverte : mécaniques vues quand même
+    get().markDiscoverySeen();
     const { score, level, stats, mode, calm, missionFound, timeLeft, worldId, adventureLevel, newCharacters } =
       get();
     const save = useSaveStore.getState();
@@ -300,17 +341,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
       record.won = missionFound >= MISSION_GOAL;
       record.stars = missionStars(record.won, timeLeft);
       if (record.won && worldId) save.recordStars(worldId, adventureLevel, record.stars);
-    } else if (!calm) {
+    } else if (mode === "daily") {
+      // le Défi a son propre meilleur score : il ne touche pas au record Infini
+      const date = get().dailyDate ?? todayISO();
+      save.recordDaily(date, score);
+      const daily = useSaveStore.getState().save.daily;
+      record.dailyDate = date;
+      record.dailyBest = daily && daily.date === date ? daily.best : score;
+    } else if (mode === "endless" && !calm) {
       const outcome = save.recordGame({ score, level, found: stats.found });
-      record.isNewRecord = mode === "endless" && outcome.isNewRecord;
+      record.isNewRecord = outcome.isNewRecord;
       record.bestScore = outcome.bestScore;
-      if (mode === "daily") {
-        const date = get().dailyDate ?? todayISO();
-        save.recordDaily(date, score);
-        const daily = useSaveStore.getState().save.daily;
-        record.dailyDate = date;
-        record.dailyBest = daily && daily.date === date ? daily.best : score;
-      }
     }
     set({ gameRecord: record });
   },

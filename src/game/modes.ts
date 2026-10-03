@@ -1,6 +1,10 @@
 // Modes de partie (Infini, Défi du jour, Aventure) : logique pure, sans React.
 import { hash32 } from "../engine/rng";
+import { wantedAt } from "../engine/generateLevel";
 import type { GameMode } from "../engine/types";
+import type { CharacterDetails } from "../helpers/characters";
+import { isLevelUnlocked } from "../content/progress";
+import type { Save } from "../save/schema";
 import { getWorld, LEVELS_PER_WORLD, WORLDS } from "../content/worlds";
 import type { WorldId } from "../content/worlds";
 
@@ -43,6 +47,40 @@ export function subLevelSeed(seed: number, step: number): number {
   return hash32(seed, step - 1);
 }
 
+// Essais par avis pour trouver un recherché encore jamais vu dans la mission
+const SUB_SEED_TRIES = 24;
+const SUB_SEED_STRIDE = 100;
+
+// Sous-graines des avis 1 à `count` : déterministes, et le recherché de chaque avis
+// diffère du précédent, et si possible de tous ceux déjà vus dans la mission.
+// Essai j de l'avis k : hash32(seed, k - 1 + 100·j) (j = 0 : subLevelSeed).
+// Le recherché ne dépend que de la graine, de l'index et du pool (pas du tier).
+export function missionSubSeeds(
+  seed: number,
+  index: number,
+  pool: CharacterDetails[],
+  count: number = MISSION_GOAL
+): number[] {
+  const seeds: number[] = [];
+  const used = new Set<string>();
+  let previous: string | null = null;
+  for (let step = 1; step <= count; step++) {
+    let fallback: { seed: number; name: string } | null = null;
+    let chosen: { seed: number; name: string } | null = null;
+    for (let j = 0; j < SUB_SEED_TRIES && !chosen; j++) {
+      const candidate = hash32(seed, step - 1 + SUB_SEED_STRIDE * j);
+      const name = wantedAt(index, { seed: candidate, tier: "normal", pool }).name;
+      if (!used.has(name)) chosen = { seed: candidate, name };
+      else if (!fallback && name !== previous) fallback = { seed: candidate, name };
+    }
+    const pick: { seed: number; name: string } = chosen ?? fallback ?? { seed: subLevelSeed(seed, step), name: previous ?? "" };
+    seeds.push(pick.seed);
+    used.add(pick.name);
+    previous = pick.name;
+  }
+  return seeds;
+}
+
 // Index moteur du niveau L d'un monde
 export function missionEngineIndex(startIndex: number, level: number): number {
   return startIndex + level - 1;
@@ -54,13 +92,17 @@ export function levelTarget(
   runSeed: number,
   level: number,
   startIndex = 1,
-  adventureLevel = 1
+  adventureLevel = 1,
+  pool?: CharacterDetails[]
 ): { index: number; seed: number } {
-  if (mode === "adventure")
-    return {
-      index: missionEngineIndex(startIndex, adventureLevel),
-      seed: subLevelSeed(runSeed, level),
-    };
+  if (mode === "adventure") {
+    const index = missionEngineIndex(startIndex, adventureLevel);
+    // avec le pool, chaque avis a un recherché différent
+    const seed = pool
+      ? missionSubSeeds(runSeed, index, pool, Math.max(1, level))[Math.max(1, level) - 1]
+      : subLevelSeed(runSeed, level);
+    return { index, seed };
+  }
   return { index: level, seed: runSeed };
 }
 
@@ -95,6 +137,19 @@ export function nextMissionUrl(worldId: string, level: number): string | null {
   const i = WORLDS.findIndex((w) => w.id === worldId);
   const next = i >= 0 ? WORLDS[i + 1] : undefined;
   return next ? adventureUrl(next.id, 1) : null;
+}
+
+// « Niveau suivant », seulement s'il est déjà débloqué ; null sinon
+export function nextUnlockedMissionUrl(
+  save: Pick<Save, "adventure">,
+  worldId: string,
+  level: number
+): string | null {
+  const url = nextMissionUrl(worldId, level);
+  if (!url) return null;
+  const next = readModeParams(url.slice(url.indexOf("?")));
+  if (next.mode !== "adventure" || !isLevelUnlocked(save, next.worldId, next.level)) return null;
+  return url;
 }
 
 // « Find It – Défi du 03/10 : 23 trouvés ! »

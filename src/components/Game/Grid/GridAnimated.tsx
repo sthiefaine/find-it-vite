@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Stage, Container, Sprite } from "@pixi/react";
+import { Stage, Container } from "@pixi/react";
 import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
@@ -7,17 +7,20 @@ import { HitCandidate } from "../../../helpers/hitTest";
 import { FederatedPointerEvent } from "@pixi/events";
 import { Rectangle } from "pixi.js";
 import { getBoard } from "../../../helpers/board";
-import { createRng } from "../../../engine/rng";
 import type { LevelSpec } from "../../../engine/types";
-import { placeCrowd } from "./Grid";
-import { pickTap, targetName, useFoundIds } from "./crowd";
+import { pickTap, targetName } from "./crowd";
+import { layoutScroll } from "./layouts";
+import { useFoundIds } from "./useFoundIds";
 import { CrowdSprite, FoundMarker } from "./CrowdSprite";
+import { useReleaseStage } from "./useReleaseStage";
 
 import "./Grid.css";
 
 // Disposition "scroll" : des lignes (ou colonnes) qui défilent en boucle.
+// Placement et défilement en px logiques (layoutScroll), rendu × board.scale.
 const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
   const board = useMemo(() => getBoard(), []);
+  const releaseStage = useReleaseStage();
   const animationFrameRef = useRef<number | null>(null);
 
   const { gameState, animationLevelLoading } = useGameStore(
@@ -39,44 +42,9 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
 
   const foundIds = useFoundIds();
 
-  // Placement, géométrie et vitesses : figés pour la durée du niveau (monté avec key={spec.seed})
-  const layout = useMemo(() => {
-    const rng = createRng(spec.seed).fork("place");
-    const horizontal = (spec.params.scrollDirection ?? "horizontal") === "horizontal";
-    const size = spec.spriteSize * board.scale;
-    const extra = Math.max(0, Math.round(spec.params.extraLines ?? 0));
-
-    // Axe du défilement : têtes réparties régulièrement sur une période = côté du plateau
-    const period = horizontal ? board.width : board.height;
-    const cross = horizontal ? board.height : board.width;
-    const perLine = Math.max(1, Math.floor(period / size));
-    const lineCount = Math.max(1, Math.floor(cross / size)) + extra;
-    const mainStep = period / perLine;
-    const crossStep = cross / lineCount;
-
-    // Vitesse par ligne : spec.params.speed est le maximum, chaque ligne entre 60 % et 100 %
-    const baseSpeed = (spec.params.speed ?? 1) * board.scale;
-    const baseDir = rng.chance(0.5) ? 1 : -1;
-    const speeds = Array.from({ length: lineCount }, (_, i) => {
-      const dir = spec.params.alternateDirection
-        ? i % 2 === 0
-          ? baseDir
-          : -baseDir
-        : rng.chance(0.5)
-        ? 1
-        : -1;
-      return baseSpeed * (0.6 + 0.4 * rng.next()) * dir;
-    });
-
-    const slots = placeCrowd(spec, lineCount * perLine, rng).map((slot) => ({
-      ...slot,
-      line: Math.floor(slot.id / perLine),
-      main: (slot.id % perLine + 0.5) * mainStep, // centre, le long du défilement
-      cross: (Math.floor(slot.id / perLine) + 0.5) * crossStep, // centre, en travers
-    }));
-
-    return { horizontal, size, period, speeds, slots };
-  }, [spec, board]);
+  // Placement, géométrie et vitesses en px logiques : figés pour la durée du niveau
+  // (monté avec key={spec.seed}), indépendants de l'écran
+  const layout = useMemo(() => layoutScroll(spec), [spec]);
 
   const [offsets, setOffsets] = useState<number[]>(() =>
     layout.speeds.map(() => 0)
@@ -137,7 +105,8 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
     if (disableClick || showOnlyWantedCharacter) return;
-    const hit = pickTap(e.global.x, e.global.y, candidates, foundSpots);
+    // Toucher en px de l'écran → px logiques
+    const hit = pickTap(e.global.x / board.scale, e.global.y / board.scale, candidates, foundSpots);
     if (!hit) return;
     handleCharacterClick(
       { x: e.global.x, y: e.global.y },
@@ -148,6 +117,7 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
   return (
     <div ref={canvasRef} className="gridContainer" style={containerStyle}>
       <Stage
+        onMount={releaseStage}
         width={board.width}
         height={board.height}
         className="canvasGameBoard"
@@ -159,7 +129,7 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
           autoDensity: true,
         }}
       >
-        <Container>
+        <Container scale={board.scale}>
           {slots.map((slot) => {
             if (showOnlyWantedCharacter && !slot.isWanted) return null;
             const found = slot.isWanted && foundIds.has(slot.id);

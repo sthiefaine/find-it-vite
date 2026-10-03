@@ -49,7 +49,7 @@ const Home = () => {
           <Tile to="/game" icon="♾️" label="Infini" sub={best > 0 ? `🏆 ${best}` : undefined} color="orange" />
           <Tile
             to="/game?mode=daily"
-            icon="📅"
+            icon="🎯"
             label="Défi du jour"
             sub={save.daily?.date === todayISO() ? `🏆 ${save.daily.best}` : undefined}
             badge={dailyNew ? "Nouveau" : undefined}

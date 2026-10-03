@@ -98,6 +98,9 @@ function pickRule(n: number, ctx: GenContext, slot: Slot, layout: Layout, rng: R
 }
 
 // ─── Paramètres de disposition ───
+const gridSpriteSize = (gridSize: number, tier: Tier) =>
+  clamp(Math.floor(BOARD.w / gridSize), tier === "easy" ? LIMITS.sprite.minEasyGrid : LIMITS.sprite.min, LIMITS.sprite.max);
+
 function buildParams(
   layout: Layout,
   n: number,
@@ -112,8 +115,7 @@ function buildParams(
     case "grid": {
       const max = easy ? (n === 1 ? L.grid.maxEasyLevel1 : L.grid.maxEasy) : L.grid.max;
       const gridSize = clamp(Math.round(2.6 + 6 * d), L.grid.min, max);
-      const spriteSize = clamp(Math.floor(BOARD.w / gridSize), easy ? L.sprite.minEasyGrid : L.sprite.min, L.sprite.max);
-      return { params: { gridSize }, spriteSize };
+      return { params: { gridSize }, spriteSize: gridSpriteSize(gridSize, tier) };
     }
     case "scroll": {
       let speed = clamp(round2(0.4 + 1.2 * d), L.scroll.speedMin, easy ? L.scroll.speedMaxEasy : L.scroll.speedMax);
@@ -192,7 +194,14 @@ function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): Lev
   const familyEmpty = !ctx.pool.some((c) => c.family === wanted.family && c.name !== wanted.name);
   if (familyEmpty) d *= 1 + 0.3 * rho; // pas de sosie possible : plus de monde à la place
   d = clamp(d, 0, 1);
-  const { params, spriteSize } = buildParams(layout, index, tier, d, flashlight, pr);
+  const built = buildParams(layout, index, tier, d, flashlight, pr);
+  const { params } = built;
+  let { spriteSize } = built;
+  // goldRush en grille : 10 dorés à placer, il faut au moins 4×4 cases (même en easy)
+  if (rule === "goldRush" && layout === "grid" && (params.gridSize ?? 0) < LIMITS.grid.minGoldRush) {
+    params.gridSize = LIMITS.grid.minGoldRush;
+    spriteSize = gridSpriteSize(params.gridSize, tier);
+  }
 
   const decoys = rule === "oddOneOut" ? [wanted] : buildDecoys(wanted, rho, ctx.pool, rng.fork("decoys"));
 

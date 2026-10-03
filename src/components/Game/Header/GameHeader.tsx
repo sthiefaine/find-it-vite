@@ -36,8 +36,9 @@ export const GameHeader = () => {
     spec,
     tier,
     isDiscovery,
+    freshMechanics,
+    markDiscoverySeen,
     foundCount,
-    pauseTimer,
     setPauseTimer,
     setTimeLeft,
     mode,
@@ -51,8 +52,9 @@ export const GameHeader = () => {
       spec: state.currentSpec,
       tier: state.tier,
       isDiscovery: state.isDiscovery,
+      freshMechanics: state.freshMechanics,
+      markDiscoverySeen: state.markDiscoverySeen,
       foundCount: state.foundIds.length,
-      pauseTimer: state.pauseTimer,
       setPauseTimer: state.setPauseTimer,
       setTimeLeft: state.setTimeLeft,
       mode: state.mode,
@@ -174,17 +176,19 @@ export const GameHeader = () => {
     later(() => setPeeking(false), 2 * FLIP_MS + MEMORY_PEEK_MS);
   };
 
-  // --- goldRush : compte à rebours purement visuel ---
-  const [bonusLeft, setBonusLeft] = useState(0);
+  // --- goldRush : compte à rebours calculé depuis la vraie fin du bonus ---
+  // (bonusPausedMs : bonus figé pendant que l'app est en arrière-plan)
+  const bonusEndsAt = useGameStore((s) => s.bonusEndsAt);
+  const bonusPausedMs = useGameStore((s) => s.bonusPausedMs);
+  const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
-    setBonusLeft(spec?.durationS ?? 0);
-  }, [levelKey, spec?.durationS]);
-  const bonusTicking = rule === "goldRush" && ready && !pauseTimer && bonusLeft > 0;
-  useEffect(() => {
-    if (!bonusTicking) return;
-    const t = setTimeout(() => setBonusLeft((s) => Math.max(0, s - 1)), 1000);
-    return () => clearTimeout(t);
-  }, [bonusTicking, bonusLeft]);
+    if (bonusEndsAt === null || bonusPausedMs !== null) return;
+    setNow(Date.now());
+    const interval = setInterval(() => setNow(Date.now()), 200);
+    return () => clearInterval(interval);
+  }, [bonusEndsAt, bonusPausedMs]);
+  const bonusMs = bonusPausedMs ?? (bonusEndsAt === null ? null : bonusEndsAt - now);
+  const bonusLeft = bonusMs === null ? null : Math.max(0, Math.ceil(bonusMs / 1000));
 
   // --- Nom affiché sous le portrait ---
   const remaining = spec ? Math.max(0, targetCount(spec) - foundCount) : 0;
@@ -268,7 +272,9 @@ export const GameHeader = () => {
             {isGold && (
               <div className="gold-face">
                 <span className="gold-star">⭐</span>
-                <span className="gold-count">{bonusLeft}</span>
+                {bonusLeft !== null && (
+                  <span className="gold-count">{bonusLeft}</span>
+                )}
               </div>
             )}
             {peeking && <div className="peek-cost">−{MEMORY_PEEK_COST_S} s</div>}
@@ -300,7 +306,11 @@ export const GameHeader = () => {
             <Discovery
               key={levelKey}
               spec={spec}
-              onClose={() => setDismissedKey(levelKey)}
+              freshMechanics={freshMechanics}
+              onClose={() => {
+                markDiscoverySeen();
+                setDismissedKey(levelKey);
+              }}
             />
           )}
         </AnimatePresence>,

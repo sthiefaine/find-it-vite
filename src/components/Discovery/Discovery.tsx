@@ -8,12 +8,13 @@ const AUTO_CLOSE_MS = 3000;
 
 type Props = {
   spec: LevelSpec;
+  freshMechanics: string[]; // mécaniques jamais vues de ce niveau
   onClose: () => void;
 };
 
 // Le parent met le chrono en pause tant que la fenêtre est affichée
-export const Discovery = ({ spec, onClose }: Props) => {
-  const { icon, hint, gesture } = discoveryContent(spec);
+export const Discovery = ({ spec, freshMechanics, onClose }: Props) => {
+  const { icon, hint, gesture } = discoveryContent(spec, freshMechanics);
   const closed = useRef(false);
 
   const close = () => {

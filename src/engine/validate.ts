@@ -8,7 +8,7 @@ export interface ValidationResult {
 }
 
 export const LIMITS = {
-  grid: { min: 2, max: 8, maxEasy: 7, maxEasyLevel1: 3 },
+  grid: { min: 2, max: 8, maxEasy: 7, maxEasyLevel1: 3, minGoldRush: 4 },
   sprite: { min: 44, max: 96, minEasyGrid: 52 },
   scroll: { speedMin: 0.4, speedMax: 1.6, speedMaxEasy: 1.0, extraLinesMax: 3 },
   pile: { countMin: 30, countMax: 160, jitterMin: 2, jitterMax: 6, wantedBelowFrom: 20, backgroundGridFrom: 100 },
@@ -38,6 +38,8 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
     case "grid": {
       const max = easy ? (spec.index === 1 ? L.grid.maxEasyLevel1 : L.grid.maxEasy) : L.grid.max;
       inRange("gridSize", p.gridSize, L.grid.min, max, true);
+      // goldRush : 10 dorés + un peu de foule, il faut au moins 4×4 cases
+      if (spec.rule === "goldRush" && (p.gridSize ?? 0) < L.grid.minGoldRush) err("goldRush : gridSize < 4");
       inRange("spriteSize", spec.spriteSize, easy ? L.sprite.minEasyGrid : L.sprite.min, L.sprite.max);
       break;
     }

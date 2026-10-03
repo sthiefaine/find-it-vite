@@ -6,7 +6,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f0f0f0;
+  /* Thème sombre (Infini, Défi) jusqu'en bas, barre de boutons comprise.
+     L'Aventure remplace ce fond par le décor du monde (style en ligne). */
+  background: #120826;
   gap: 6px;
   overflow: hidden;
 }
@@ -63,6 +65,8 @@
   position: relative;
   flex: none;
   max-width: 100%;
+  /* plateau mis à l'échelle (voir helpers/board.ts) : centré, bandes sombres sur les côtés */
+  align-self: center;
 }
 
 /* Lampe torche : glisser le doigt déplace la lumière au lieu de faire défiler la page

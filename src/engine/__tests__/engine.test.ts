@@ -145,3 +145,38 @@ describe("generateLevel", () => {
     expect(performance.now() - t0).toBeLessThan(500);
   });
 });
+
+describe("goldRush en grille", () => {
+  it("gridSize ≥ 4 dans tous les tiers : les 10 dorés et un peu de foule tiennent", async () => {
+    const { targetCount, LIMITS } = await import("../index");
+    let seen = 0;
+    for (const tier of TIERS) {
+      for (let s = 0; s < 40; s++) {
+        const ctx = ctxOf(hash32("gold", s), tier);
+        for (let n = 1; n <= 200; n++) {
+          if (!isGoldRushSlot(n)) continue;
+          const spec = generateLevel(n, ctx);
+          if (spec.rule !== "goldRush" || spec.layout !== "grid") continue;
+          seen++;
+          const g = spec.params.gridSize!;
+          expect(g).toBeGreaterThanOrEqual(LIMITS.grid.minGoldRush);
+          expect(g * g).toBeGreaterThan(targetCount(spec));
+          expect(validateSpec(spec, ctx).ok).toBe(true);
+        }
+      }
+    }
+    expect(seen).toBeGreaterThan(0);
+  });
+
+  it("validateSpec refuse un goldRush en grille 3×3", () => {
+    const ctx = ctxOf(1, "easy");
+    for (let n = 1; n <= 400; n++) {
+      const spec = generateLevel(n, ctx);
+      if (spec.rule !== "goldRush" || spec.layout !== "grid") continue;
+      const bad = { ...spec, params: { ...spec.params, gridSize: 3 } };
+      expect(validateSpec(bad, ctx).errors).toContain("goldRush : gridSize < 4");
+      return;
+    }
+    throw new Error("aucun goldRush en grille trouvé");
+  });
+});

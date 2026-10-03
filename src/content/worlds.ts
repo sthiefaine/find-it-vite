@@ -18,6 +18,27 @@ export type World = {
 
 export const LEVELS_PER_WORLD = 10;
 
+// Emoji ≤ 12.0 seulement (Unicode 12, 2019) : Android 10 et moins n'ont pas
+// les glyphes plus récents (🦤, 🪶, 🦭… en Emoji 13.0) et les dessinent tous
+// en carrés vides identiques, impossibles à distinguer en jeu. Pas de séquence
+// ZWJ non plus (🐻‍❄️, 🐈‍⬛… sont en 13.0). Vérifié par isEmojiAfter12 dans les tests.
+const EMOJI_13_PLUS: [number, number][] = [
+  [0x1f6d6, 0x1f6d7], [0x1f6dc, 0x1f6df], [0x1f6fb, 0x1f6fc], [0x1f7f0, 0x1f7f0],
+  [0x1f90c, 0x1f90c], [0x1f972, 0x1f972], [0x1f977, 0x1f979], [0x1f9a3, 0x1f9a4],
+  [0x1f9ab, 0x1f9ad], [0x1f9cb, 0x1f9cc], [0x1fa74, 0x1fa77], [0x1fa7b, 0x1fa7f],
+  [0x1fa83, 0x1fa8f], [0x1fa96, 0x1faff],
+];
+
+// Vrai si l'emoji demande Emoji 13.0 ou plus (codepoint récent ou séquence ZWJ)
+export function isEmojiAfter12(emoji: string): boolean {
+  for (const ch of emoji) {
+    const cp = ch.codePointAt(0)!;
+    if (cp === 0x200d) return true;
+    if (EMOJI_13_PLUS.some(([a, b]) => cp >= a && cp <= b)) return true;
+  }
+  return false;
+}
+
 type EmojiDef = [slug: string, emoji: string, label: string, color: CharacterColor, family: string];
 
 // L'image est dessinée au premier accès à imageSrc (rien n'est dessiné à l'import)
@@ -39,7 +60,7 @@ function emojiCharacters(world: WorldId, defs: EmojiDef[]): CharacterDetails[] {
 const ocean = emojiCharacters("ocean", [
   ["requin", "🦈", "Requin", "grey", "gris"],
   ["dauphin", "🐬", "Dauphin", "grey", "gris"],
-  ["phoque", "🦭", "Phoque", "grey", "gris"],
+  ["poisson-bleu", "🐟", "Poisson bleu", "blue", "poisson"],
   ["baleine", "🐳", "Baleine", "blue", "baleine"],
   ["rorqual", "🐋", "Rorqual", "blue", "baleine"],
   ["poulpe", "🐙", "Poulpe", "pink", "tentacules"],
@@ -62,8 +83,8 @@ const dinos = emojiCharacters("dinos", [
   ["grenouille", "🐸", "Grenouille", "green", "petit-vert"],
   ["oeuf", "🥚", "Œuf", "white", "fossile"],
   ["os", "🦴", "Os", "white", "fossile"],
-  ["dodo", "🦤", "Dodo", "grey", "oiseau"],
-  ["plume", "🪶", "Plume", "grey", "oiseau"],
+  ["aigle", "🦅", "Aigle", "brown", "oiseau"],
+  ["perroquet", "🦜", "Perroquet", "red", "oiseau"],
 ]);
 
 const halloween = emojiCharacters("halloween", [

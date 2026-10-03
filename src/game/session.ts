@@ -64,10 +64,36 @@ export function newMechanics(mechanics: readonly string[], seen: readonly string
   return mechanics.filter((m) => !known.has(m));
 }
 
+// Plus grand écart pris en compte entre deux ticks : après une mise en veille
+// ou un onglet en arrière-plan, le chrono ne saute pas d'un coup.
+export const MAX_TICK_DELTA_MS = 250;
+
 // Chrono : accumule le temps écoulé et rend les secondes entières à décompter,
 // sans perdre la fraction restante.
-export function tickClock(accMs: number, deltaMs: number): { seconds: number; accMs: number } {
-  const total = accMs + Math.max(0, deltaMs);
+export function tickClock(
+  accMs: number,
+  deltaMs: number,
+  maxDeltaMs: number = MAX_TICK_DELTA_MS
+): { seconds: number; accMs: number } {
+  const total = accMs + Math.min(maxDeltaMs, Math.max(0, deltaMs));
   const seconds = Math.floor(total / 1000);
   return { seconds, accMs: total - seconds * 1000 };
+}
+
+// Bonus en pause (app en arrière-plan) : on garde le temps restant…
+export function bonusRemainingMs(endsAt: number, now: number): number {
+  return Math.max(0, endsAt - now);
+}
+
+// … et on recale l'échéance à la reprise
+export function resumeBonusAt(remainingMs: number, now: number): number {
+  return now + Math.max(0, remainingMs);
+}
+
+// Le niveau en cours est-il toujours celui d'avant ? (même partie, même étape)
+export function sameLevel(
+  a: { runSeed: number; level: number },
+  b: { runSeed: number; level: number }
+): boolean {
+  return a.runSeed === b.runSeed && a.level === b.level;
 }

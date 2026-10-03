@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSaveStore } from "../../save/saveStore";
 import { FRAMES, isFrameUnlocked } from "../../content/progress";
 import type { Tier } from "../../engine/types";
@@ -30,6 +30,11 @@ const Options = () => {
   const { setSound, setCalm, setFrame, setProfileTier, resetSave } = useSaveStore.getState();
   const [confirmReset, setConfirmReset] = useState(false);
   const { sound, calm, frame } = save.settings;
+  // Sur petit écran, la confirmation tombe sous le bord : on la fait défiler dans la vue
+  const confirmRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (confirmReset) confirmRef.current?.scrollIntoView?.({ behavior: "smooth", block: "end" });
+  }, [confirmReset]);
 
   return (
     <div className="fi-screen">
@@ -97,7 +102,7 @@ const Options = () => {
               🗑️ Tout effacer
             </button>
           ) : (
-            <div className="opt-confirm">
+            <div className="opt-confirm" ref={confirmRef}>
               <p>Sûr ? Étoiles et album seront perdus.</p>
               <div className="opt-confirm-btns">
                 <button className="opt-no" onClick={() => setConfirmReset(false)}>

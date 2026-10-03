@@ -24,11 +24,17 @@ import {
   playNewHihScoreSound,
   playPunchLootSound,
 } from "../../helpers/sounds";
-import { formatSeconds, retryMessage, scoreMessage } from "./resultsHelpers";
+import {
+  formatSeconds,
+  frenchSpacing,
+  resultsTitle,
+  retryMessage,
+  scoreMessage,
+} from "./resultsHelpers";
 import ProfilePicker from "../ProfilePicker/ProfilePicker";
 import { useSaveStore } from "../../save/saveStore";
 import type { Tier } from "../../engine/types";
-import { dailyShareText, MISSION_GOAL, nextMissionUrl } from "../../game/modes";
+import { dailyShareText, MISSION_GOAL, nextUnlockedMissionUrl } from "../../game/modes";
 import { getWorld } from "../../content/worlds";
 import "./Results.css";
 
@@ -120,6 +126,7 @@ export default function Results() {
   const [copied, setCopied] = useState(false);
   const [choosingProfile, setChoosingProfile] = useState(false);
   const profileTier = useSaveStore((s) => s.save.profile.tier);
+  const adventureSave = useSaveStore((s) => s.save.adventure);
 
   const mode = gameRecord?.mode ?? "endless";
   const score = gameRecord?.score ?? 0;
@@ -198,21 +205,23 @@ export default function Results() {
   };
 
   const world = worldId ? getWorld(worldId) : undefined;
+  // « Niveau suivant » seulement s'il est débloqué ; sinon la Carte est mise en avant
   const nextUrl =
-    mode === "adventure" && won && worldId ? nextMissionUrl(worldId, gameRecord.level) : null;
+    mode === "adventure" && won && worldId
+      ? nextUnlockedMissionUrl({ adventure: adventureSave }, worldId, gameRecord.level)
+      : null;
+  const mapFirst = mode === "adventure" && won && !nextUrl;
 
-  const title = () => {
-    if (mode === "adventure") return won ? "Bravo !" : "Encore un essai !";
-    if (mode === "daily") return dailyLabel(gameRecord);
-    return "Bravo !";
-  };
+  const title = () => resultsTitle(mode, { won, score, dailyLabel: dailyLabel(gameRecord) });
 
   const message = () => {
     if (mode === "adventure") {
       const name = world ? `${world.emoji} ${world.name} ${gameRecord.level}` : "";
-      return won ? `Mission réussie · ${name}` : retryMessage(missionFound, MISSION_GOAL);
+      return frenchSpacing(
+        won ? `Mission réussie · ${name}` : retryMessage(missionFound, MISSION_GOAL)
+      );
     }
-    return scoreMessage(score);
+    return frenchSpacing(scoreMessage(score));
   };
 
   const showSparkles = mode !== "adventure" || won;
@@ -266,7 +275,11 @@ export default function Results() {
                     animate={i <= litStars ? { scale: [0.4, 1.35, 1], rotate: [-25, 10, 0] } : {}}
                     transition={{ duration: 0.45 }}
                   >
-                    <Star size={i === 2 ? 58 : 46} fill="currentColor" strokeWidth={1.5} />
+                    <Star
+                      size={i === 2 ? 58 : 46}
+                      fill={i <= litStars ? "currentColor" : "none"}
+                      strokeWidth={i <= litStars ? 1.5 : 2.5}
+                    />
                   </motion.span>
                 ))}
               </motion.div>
@@ -303,7 +316,7 @@ export default function Results() {
             <motion.div variants={item}>
               {mode === "daily" ? (
                 <div className="results-record">
-                  <Trophy size={18} /> Meilleur du jour : {gameRecord.dailyBest}
+                  <Trophy size={18} /> Meilleur du jour&nbsp;: {gameRecord.dailyBest}
                 </div>
               ) : gameRecord.calm ? (
                 <div className="results-record">∞ Mode calme</div>
@@ -313,11 +326,11 @@ export default function Results() {
                   animate={{ scale: [1, 1.08, 1] }}
                   transition={{ delay: 1, duration: 0.6, repeat: 2 }}
                 >
-                  <Trophy size={22} /> Nouveau record !
+                  <Trophy size={22} /> Nouveau record&nbsp;!
                 </motion.div>
               ) : (
                 <div className="results-record">
-                  <Trophy size={18} /> Record : {gameRecord.bestScore}
+                  <Trophy size={18} /> Record&nbsp;: {gameRecord.bestScore}
                 </div>
               )}
             </motion.div>
@@ -360,7 +373,9 @@ export default function Results() {
             }}
           >
             <span className="results-new-label">
-              {gameRecord.newCharacters.length > 1 ? "Nouveaux persos !" : "Nouveau perso !"}
+              {frenchSpacing(
+                gameRecord.newCharacters.length > 1 ? "Nouveaux persos !" : "Nouveau perso !"
+              )}
             </span>
             <div className="results-new-list">
               {gameRecord.newCharacters.slice(0, 5).map((c) => (
@@ -391,7 +406,17 @@ export default function Results() {
               whileTap={{ scale: 0.94 }}
               autoFocus
             >
-              <Share2 size={26} /> {copied ? "Copié !" : "Partager"}
+              <Share2 size={26} /> {copied ? frenchSpacing("Copié !") : "Partager"}
+            </motion.button>
+          )}
+          {mapFirst && (
+            <motion.button
+              className="results-btn results-btn-replay"
+              onClick={() => goTo("/adventure")}
+              whileTap={{ scale: 0.94 }}
+              autoFocus
+            >
+              <MapIcon size={28} /> Carte
             </motion.button>
           )}
           {nextUrl && (
@@ -406,16 +431,16 @@ export default function Results() {
           )}
           <motion.button
             className={`results-btn ${
-              mode === "daily" || nextUrl ? "results-btn-second" : "results-btn-replay"
+              mode === "daily" || nextUrl || mapFirst ? "results-btn-second" : "results-btn-replay"
             }`}
             onClick={handleReplay}
             whileTap={{ scale: 0.94 }}
-            autoFocus={mode !== "daily" && !nextUrl}
+            autoFocus={mode !== "daily" && !nextUrl && !mapFirst}
           >
-            <RefreshCw size={nextUrl || mode === "daily" ? 22 : 28} /> Rejouer
+            <RefreshCw size={nextUrl || mapFirst || mode === "daily" ? 22 : 28} /> Rejouer
           </motion.button>
           <div className="results-row">
-            {mode !== "daily" && (
+            {mode !== "daily" && !mapFirst && (
               <motion.button
                 className="results-btn results-btn-home results-btn-map"
                 onClick={() => goTo("/adventure")}

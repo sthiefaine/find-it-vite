@@ -85,11 +85,15 @@ export function CrowdSprite({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const haloDraw = useCallback(drawHalo(w), [w]);
 
+  // `name` seulement s'il est défini : @pixi/react avertit (à chaque rendu) quand une prop
+  // passe à undefined sur un objet Pixi où elle vaut null
+  const named = name !== undefined ? { name } : {};
+
   // Gardé invisible pour devFindIt (position de la cible)
-  if (gone) return <Container name={name} x={cx} y={cy} visible={false} />;
+  if (gone) return <Container {...named} x={cx} y={cy} visible={false} />;
 
   return (
-    <Container ref={outer} name={name} x={cx} y={cy} alpha={alpha}>
+    <Container ref={outer} {...named} x={cx} y={cy} alpha={alpha}>
       {gold && <Graphics draw={haloDraw} />}
       <Container rotation={look.rotation} scale={[look.flip ? -1 : 1, 1]}>
         <Sprite image={image} anchor={0.5} width={w} height={w} tint={look.tint} eventMode="none" />

@@ -212,6 +212,11 @@
   box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
 }
 
+.opt-confirm {
+  /* marge gardée sous les boutons quand on la fait défiler dans la vue */
+  scroll-margin-bottom: 24px;
+}
+
 .opt-confirm p {
   font-size: 17px;
   font-weight: 800;

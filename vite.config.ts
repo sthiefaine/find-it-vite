@@ -14,7 +14,8 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      // enregistré à la main dans main.tsx, seulement hors app native (Capacitor)
+      injectRegister: false,
       includeAssets: ['icons/apple-touch-icon.png', 'icons/favicon-64.png'],
       manifest: {
         name: 'Find It',

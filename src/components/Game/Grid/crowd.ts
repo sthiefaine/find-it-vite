@@ -1,6 +1,5 @@
 // Règles communes aux 4 dispositions : cibles, intrus, ruée vers l'or, toucher.
-import { useMemo } from "react";
-import { useGameStore } from "../../../../store/store";
+// Pur (sans React ni store) : testable sous Vitest.
 import { createRng, Rng } from "../../../engine/rng";
 import { RULE_INTRO } from "../../../engine/curve";
 import { GOLD_TINT, targetCount } from "../../../engine/rules";
@@ -105,15 +104,6 @@ export function placeTargets(
     spots.push(best);
   }
   return spots;
-}
-
-// Ids des cibles déjà trouvées dans le niveau (contrat du store, voir useCharacterInteraction)
-const NONE: number[] = [];
-export function useFoundIds(): Set<number> {
-  const ids = useGameStore((s) =>
-    "foundIds" in s ? ((s.foundIds as number[] | undefined) ?? NONE) : NONE
-  );
-  return useMemo(() => new Set(ids), [ids]);
 }
 
 // Toucher : comme pickCharacterAt, mais une cible déjà trouvée absorbe le toucher

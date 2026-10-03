@@ -9,7 +9,9 @@ import {
   missionEngineIndex,
   missionSeed,
   missionStars,
+  missionSubSeeds,
   nextMissionUrl,
+  nextUnlockedMissionUrl,
   nextTime,
   readModeParams,
   subLevelSeed,
@@ -113,5 +115,51 @@ describe("dailyShareText", () => {
   it("formate la date en jour/mois", () => {
     expect(dailyShareText("2026-10-03", 23)).toBe("Find It – Défi du 03/10 : 23 trouvés !");
     expect(dailyShareText("2026-10-03", 1)).toBe("Find It – Défi du 03/10 : 1 trouvé !");
+  });
+});
+
+describe("missionSubSeeds", () => {
+  it("le recherché change à chaque avis, et n'apparaît qu'une fois par mission", () => {
+    for (const world of ["animaux", "ocean", "dinos", "halloween", "espace"]) {
+      const w = getWorld(world)!;
+      for (let level = 1; level <= 10; level++) {
+        const seed = missionSeed(world, level);
+        const index = missionEngineIndex(w.startIndex, level);
+        const names = [1, 2, 3, 4, 5].map((step) => {
+          const t = levelTarget("adventure", seed, step, w.startIndex, level, w.characters);
+          return generateLevel(t.index, { seed: t.seed, tier: "normal", pool: w.characters }).wanted.name;
+        });
+        expect(new Set(names).size, `${world} ${level}`).toBe(Math.min(5, w.characters.length));
+        expect(missionSubSeeds(seed, index, w.characters)).toHaveLength(5);
+      }
+    }
+  });
+
+  it("déterministe, et l'avis 1 garde la sous-graine d'origine", () => {
+    const w = getWorld("ocean")!;
+    const seed = missionSeed("ocean", 2);
+    const a = missionSubSeeds(seed, 12, w.characters);
+    expect(missionSubSeeds(seed, 12, w.characters)).toEqual(a);
+    expect(a[0]).toBe(subLevelSeed(seed, 1));
+    // les avis déjà joués ne changent pas quand on en calcule davantage
+    expect(missionSubSeeds(seed, 12, w.characters, 3)).toEqual(a.slice(0, 3));
+  });
+});
+
+describe("nextUnlockedMissionUrl", () => {
+  const save = (stars: Record<string, number>) => ({ adventure: { stars } }) as never;
+
+  it("propose le niveau suivant une fois le niveau réussi", () => {
+    expect(nextUnlockedMissionUrl(save({ "animaux:1": 1 }), "animaux", 1)).toBe(
+      "/game?mode=adventure&world=animaux&level=2"
+    );
+  });
+
+  it("rien si le niveau suivant est verrouillé (monde suivant sans assez d'étoiles)", () => {
+    expect(nextUnlockedMissionUrl(save({}), "animaux", 1)).toBeNull();
+    expect(nextUnlockedMissionUrl(save({ "animaux:10": 1 }), "animaux", 10)).toBe(
+      getWorld("ocean")!.unlockStars <= 1 ? "/game?mode=adventure&world=ocean&level=1" : null
+    );
+    expect(nextUnlockedMissionUrl(save({ "espace:10": 3 }), "espace", 10)).toBeNull();
   });
 });

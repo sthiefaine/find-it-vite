@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GameStateEnum, useGameStore } from "../../../../../store/store";
 import { useShallow } from "zustand/shallow";
 import { charactersDetails } from "../../../../helpers/characters";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { dailySeed, generateLevel, randomSeed, seedFromCode } from "../../../../engine";
 import type { Rule, Tier } from "../../../../engine";
 import type { CharacterDetails } from "../../../../helpers/characters";
@@ -19,17 +19,23 @@ import {
 } from "../../../../game/modes";
 import type { GameMode } from "../../../../game/modes";
 import { getWorld } from "../../../../content/worlds";
-import { todayISO } from "../../../../content/progress";
+import { isLevelUnlocked, todayISO } from "../../../../content/progress";
+import { isPageVisible, subscribeAppActive } from "../../../../platform/appLifecycle";
 
 const TICK_MS = 100;
 const BONUS_GRACE_MS = 150;
 
-// Debug : /game?seed=123&level=8 (seed en nombre ou en code), &tier=expert en option
-export function readDebugParams(search: string): {
+// Debug (dev seulement) : /game?seed=123&level=8 (seed en nombre ou en code), &tier=expert
+// en option. En prod, ces paramètres sont ignorés.
+export function readDebugParams(
+  search: string,
+  dev: boolean = import.meta.env.DEV
+): {
   seed?: number;
   level?: number;
   tier?: Tier;
 } {
+  if (!dev) return {};
   const params = new URLSearchParams(search);
   const rawSeed = params.get("seed");
   const rawLevel = params.get("level");
@@ -70,9 +76,12 @@ export function IsPlaying() {
     submitGameResult,
     pauseTimer,
     bonusEndsAt,
+    bonusPausedMs,
     currentSpec,
     startBonus,
     endBonus,
+    pauseBonus,
+    resumeBonus,
   } = useGameStore(
     useShallow((state) => {
       return {
@@ -90,14 +99,18 @@ export function IsPlaying() {
         submitGameResult: state.submitGameResult,
         pauseTimer: state.pauseTimer,
         bonusEndsAt: state.bonusEndsAt,
+        bonusPausedMs: state.bonusPausedMs,
         currentSpec: state.currentSpec,
         startBonus: state.startBonus,
         endBonus: state.endBonus,
+        pauseBonus: state.pauseBonus,
+        resumeBonus: state.resumeBonus,
       };
     })
   );
   const saveLoaded = useSaveStore((s) => s.loaded);
   const location = useLocation();
+  const navigate = useNavigate();
   const pathName = location.pathname;
   const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Étape de la partie pour laquelle le niveau a été généré
@@ -107,11 +120,13 @@ export function IsPlaying() {
   const setupLevel = (isInitialSetup = false) => {
     const { runSeed, tier, level, mode, worldId, adventureLevel } = useGameStore.getState();
     const world = worldId ? getWorld(worldId) : undefined;
-    const target = levelTarget(mode, runSeed, level, world?.startIndex, adventureLevel);
+    const pool = poolFor(mode, worldId);
+    // en Aventure, le pool sert à éviter deux fois le même recherché dans une mission
+    const target = levelTarget(mode, runSeed, level, world?.startIndex, adventureLevel, pool);
     const spec = generateLevel(target.index, {
       seed: target.seed,
       tier,
-      pool: poolFor(mode, worldId),
+      pool,
       // En Aventure, un bonus doré figerait le chrono des 5 avis de la mission
       ...(mode === "adventure" && { allowedRules: ADVENTURE_RULES }),
     });
@@ -129,8 +144,19 @@ export function IsPlaying() {
   };
 
   const startGame = (savedTier: Tier) => {
+    // Idempotent : en dev, StrictMode rejoue l'effet avec un état périmé ; on ne relance
+    // pas une partie déjà démarrée (Rejouer repasse par RESET → INIT, donc reste possible).
+    if (useGameStore.getState().gameState !== GameStateEnum.INIT) return;
     const debug = readDebugParams(location.search);
     const params = readModeParams(location.search);
+    // Mission verrouillée (URL tapée à la main, lien partagé…) : retour à la carte
+    if (
+      params.mode === "adventure" &&
+      !isLevelUnlocked(useSaveStore.getState().save, params.worldId, params.level)
+    ) {
+      navigate("/adventure", { replace: true });
+      return;
+    }
     setClearGameStore();
     if (params.mode === "adventure") {
       setTimeLeftValue(MISSION_TIME_S);
@@ -234,8 +260,16 @@ export function IsPlaying() {
   // La fraction de seconde en cours est gardée d'une pause à l'autre.
   const clockAcc = useRef(0);
   const calm = useGameStore((s) => s.calm);
+  // App en arrière-plan (onglet caché, app native en pause) : chrono et bonus en pause
+  const [appActive, setAppActive] = useState(isPageVisible);
+  useEffect(() => subscribeAppActive(setAppActive), []);
+  useEffect(() => {
+    if (appActive) resumeBonus();
+    else pauseBonus();
+  }, [appActive, bonusEndsAt]);
   const clockRunning =
     !calm &&
+    appActive &&
     gameState === GameStateEnum.PLAYING &&
     !animationLevelLoading &&
     !pauseTimer &&
@@ -265,16 +299,17 @@ export function IsPlaying() {
     if (bonusSeed === null || gameState !== GameStateEnum.PLAYING) return;
     if (animationLevelLoading) return;
     if (bonusEndsAt === null) {
-      if (pauseTimer) return;
+      if (pauseTimer || !appActive) return;
       const start = setTimeout(() => {
         const { pauseTimer, currentSpec } = useGameStore.getState();
-        if (!pauseTimer && currentSpec?.seed === bonusSeed) startBonus(currentSpec.durationS ?? 8);
+        if (!pauseTimer && isPageVisible() && currentSpec?.seed === bonusSeed) startBonus(currentSpec.durationS ?? 8);
       }, BONUS_GRACE_MS);
       return () => clearTimeout(start);
     }
+    if (bonusPausedMs !== null || !appActive) return; // en pause : échéance recalée à la reprise
     const timeout = setTimeout(endBonus, Math.max(0, bonusEndsAt - Date.now()));
     return () => clearTimeout(timeout);
-  }, [bonusSeed, gameState, animationLevelLoading, pauseTimer, bonusEndsAt]);
+  }, [bonusSeed, gameState, animationLevelLoading, pauseTimer, bonusEndsAt, bonusPausedMs, appActive]);
 
   return null;
 }

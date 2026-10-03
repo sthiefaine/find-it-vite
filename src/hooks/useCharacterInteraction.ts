@@ -1,10 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../store/store";
 import { pointColorsArray, randomIntFromInterval } from "../helpers/gameUtils";
 import { showPointsEffect } from "../helpers/animationUtils";
 import { playHitGoldenSound, playPopSound } from "../helpers/sounds";
-import { resolveTap } from "../game/session";
+import { resolveTap, sameLevel } from "../game/session";
 import * as haptics from "../platform/haptics";
 
 // Perso touché, tel que renvoyé par pickCharacterAt (helpers/hitTest.ts)
@@ -22,6 +22,8 @@ export const useCharacterInteraction = () => {
   );
   const [isCorrectSelection, setIsCorrectSelection] = useState(false);
   const blinkIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  // Délai d'1 s après une bonne réponse, avant le niveau suivant
+  const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const {
     spec,
@@ -98,10 +100,24 @@ export const useCharacterInteraction = () => {
       if (result.timeDelta) setTimeLeft(result.timeDelta); // plafonné par le store
       setPauseTimer(true);
 
-      setTimeout(() => {
+      // on n'avance que si la partie n'a pas changé entre-temps (Rejouer, autre niveau…)
+      const { runSeed, level, currentSpec } = useGameStore.getState();
+      const startedFor = { runSeed, level };
+      clearAdvanceTimeout();
+      advanceTimeoutRef.current = setTimeout(() => {
+        advanceTimeoutRef.current = null;
+        setIsCorrectSelection(false);
+        const now = useGameStore.getState();
+        // même graine et même étape, mais aussi même niveau généré (Rejouer une mission
+        // garde la graine) et partie toujours en cours
+        if (
+          !sameLevel(startedFor, now) ||
+          now.currentSpec !== currentSpec ||
+          now.gameState !== GameStateEnum.PLAYING
+        )
+          return;
         advanceLevel();
         setPauseTimer(false);
-        setIsCorrectSelection(false);
       }, 1000);
       return;
     }
@@ -137,6 +153,31 @@ export const useCharacterInteraction = () => {
       }
     }, 125);
   };
+
+  function clearAdvanceTimeout() {
+    if (advanceTimeoutRef.current) {
+      clearTimeout(advanceTimeoutRef.current);
+      advanceTimeoutRef.current = null;
+    }
+  }
+
+  // Rejouer (RESET) : le délai en cours ne doit pas faire avancer la nouvelle partie
+  useEffect(
+    () =>
+      useGameStore.subscribe((state) => {
+        if (state.gameState === GameStateEnum.RESET) clearAdvanceTimeout();
+      }),
+    []
+  );
+
+  // Démontage : plus de délai ni de clignotement en attente
+  useEffect(
+    () => () => {
+      clearAdvanceTimeout();
+      if (blinkIntervalRef.current) clearInterval(blinkIntervalRef.current);
+    },
+    []
+  );
 
   const cleanupBlinkEffect = () => {
     if (blinkIntervalRef.current) {

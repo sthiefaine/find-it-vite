@@ -261,22 +261,28 @@
   padding: 4px 0;
 }
 
+/* Étoile éteinte : grise et creuse */
 .results-star {
   display: inline-flex;
-  color: rgba(139, 69, 19, 0.25);
+  color: #a7a29a;
+}
+
+.results-star svg {
+  stroke: currentColor;
 }
 
 .results-star:nth-child(2) {
   transform: translateY(-10px);
 }
 
+/* Étoile allumée : dorée, pleine, avec un léger éclat */
 .results-star-lit {
-  color: #fff6b0;
-  filter: drop-shadow(0 0 6px #fff) drop-shadow(0 2px 0 #b06a00);
+  color: #ffc21a;
+  filter: drop-shadow(0 0 5px rgba(255, 200, 40, 0.75)) drop-shadow(0 2px 0 #a85d00);
 }
 
 .results-star-lit svg {
-  stroke: #b06a00;
+  stroke: #b86a00;
 }
 
 .results-new {

@@ -27,4 +27,28 @@ describe("discoveryContent", () => {
     expect(discoveryContent({ ...base, layout: "pile", rule: "classic", modifiers: [] }).hint).toBe("Ils sont tous en tas !");
     expect(discoveryContent({ ...base, layout: "swarm", rule: "classic", modifiers: [] }).hint).toBe("Ils bougent !");
   });
+
+  describe("avec les mécaniques nouvelles", () => {
+    it("ne montre pas une règle déjà vue : la disposition nouvelle à la place", () => {
+      const spec = { ...base, layout: "swarm" as const, rule: "memory" as const, modifiers: [] };
+      expect(discoveryContent(spec, ["layout:swarm"]).hint).toBe("Ils bougent !");
+    });
+
+    it("préfère un modificateur nouveau à une règle déjà vue", () => {
+      const spec = { ...base, layout: "grid" as const, rule: "memory" as const, modifiers: ["flashlight" as const] };
+      const c = discoveryContent(spec, ["modifier:flashlight"]);
+      expect(c.icon).toBe("🔦");
+      expect(c.gesture).toBe("swipe");
+    });
+
+    it("préfère une règle nouvelle à une disposition nouvelle", () => {
+      const spec = { ...base, layout: "pile" as const, rule: "memory" as const, modifiers: [] };
+      expect(discoveryContent(spec, ["layout:pile", "rule:memory"]).icon).toBe("🧠");
+    });
+
+    it("ignore les mécaniques qui ne sont pas dans le niveau", () => {
+      const spec = { ...base, layout: "scroll" as const, rule: "classic" as const, modifiers: [] };
+      expect(discoveryContent(spec, ["rule:memory", "layout:scroll"]).hint).toBe("Ils défilent !");
+    });
+  });
 });

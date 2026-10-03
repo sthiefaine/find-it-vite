@@ -20,10 +20,16 @@ const LAYOUT_CONTENT: Record<Layout, { icon: string; hint: string }> = {
 // Espace insécable avant « ! » et « ? » pour ne pas les laisser seuls à la ligne
 export const nbsp = (text: string) => text.replace(/ ([!?])/g, "\u00a0$1");
 
-// Première mécanique « règle » ou « modificateur », sinon la disposition
-export function discoveryContent(spec: LevelSpec): DiscoveryContent {
-  const mechanics = mechanicsOf(spec);
-  const main = mechanics.find((m) => !m.startsWith("layout:")) ?? mechanics[0];
+// Ce qu'on présente : une règle ou un modificateur NOUVEAU en priorité,
+// sinon la disposition nouvelle. Une mécanique déjà vue n'est jamais montrée
+// (sauf si rien n'est nouveau : alors la première mécanique du niveau).
+export function discoveryContent(
+  spec: LevelSpec,
+  freshMechanics: readonly string[] = mechanicsOf(spec)
+): DiscoveryContent {
+  const fresh = mechanicsOf(spec).filter((m) => freshMechanics.includes(m));
+  const pool = fresh.length > 0 ? fresh : mechanicsOf(spec);
+  const main = pool.find((m) => !m.startsWith("layout:")) ?? pool[0];
   const [kind, value] = main.split(":");
   if (kind === "rule") {
     const rule = value as Rule;

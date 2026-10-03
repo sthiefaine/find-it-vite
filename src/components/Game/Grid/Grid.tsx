@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { Stage, Container, Sprite } from "@pixi/react";
+import { Stage, Container } from "@pixi/react";
 import "./Grid.css";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
 import { useShallow } from "zustand/shallow";
@@ -8,57 +8,17 @@ import { FederatedPointerEvent } from "@pixi/events";
 import { Rectangle } from "pixi.js";
 import { HitCandidate } from "../../../helpers/hitTest";
 import { getBoard } from "../../../helpers/board";
-import { createRng, Rng } from "../../../engine/rng";
 import type { LevelSpec } from "../../../engine/types";
-import type { CharacterDetails } from "../../../helpers/characters";
-import {
-  Look,
-  PLAIN_LOOK,
-  crowdPool,
-  crowdSize,
-  pickTap,
-  planTargets,
-  targetName,
-  useFoundIds,
-} from "./crowd";
+import { pickTap, targetName } from "./crowd";
+import { layoutGrid } from "./layouts";
+import { useFoundIds } from "./useFoundIds";
 import { CrowdSprite, FoundMarker } from "./CrowdSprite";
+import { useReleaseStage } from "./useReleaseStage";
 
-export type CrowdSlot = {
-  id: number; // index de la case, unique dans le niveau
-  character: CharacterDetails;
-  isWanted: boolean;
-  look: Look;
-  gold: boolean;
-};
-
-// Remplit `cellCount` cases : les cibles sur des cases tirées au sort, la foule ailleurs
-// (en ruée vers l'or, quelques cases restent vides).
-export function placeCrowd(
-  spec: LevelSpec,
-  cellCount: number,
-  rng: Rng
-): CrowdSlot[] {
-  const targets = planTargets(spec).slice(0, cellCount);
-  const order = rng.shuffle(Array.from({ length: cellCount }, (_, i) => i));
-  const targetAt = new Map(order.slice(0, targets.length).map((cell, i) => [cell, targets[i]]));
-  const filled = new Set(
-    order.slice(targets.length, targets.length + crowdSize(spec, cellCount - targets.length))
-  );
-  const pool = crowdPool(spec);
-  const slots: CrowdSlot[] = [];
-  for (let i = 0; i < cellCount; i++) {
-    const target = targetAt.get(i);
-    if (target) {
-      slots.push({ id: i, ...target, isWanted: true });
-    } else if (filled.has(i) && pool.length) {
-      slots.push({ id: i, character: rng.pick(pool), isWanted: false, look: PLAIN_LOOK, gold: false });
-    }
-  }
-  return slots;
-}
-
+// Disposition "grid". Placement en px logiques (layoutGrid), rendu × board.scale.
 const GameGrid = ({ spec }: { spec: LevelSpec }) => {
   const board = useMemo(() => getBoard(), []);
+  const releaseStage = useReleaseStage();
 
   const {
     canvasRef,
@@ -77,32 +37,8 @@ const GameGrid = ({ spec }: { spec: LevelSpec }) => {
     }))
   );
 
-  // Placement et géométrie : figés pour la durée du niveau (monté avec key={spec.seed})
-  const { cells, size } = useMemo(() => {
-    const rng = createRng(spec.seed).fork("place");
-    const n = Math.max(1, Math.round(spec.params.gridSize ?? 4));
-
-    // Pas d'une case : la grille carrée tient dans le plateau
-    const pitch = Math.min(board.width, board.height) / n;
-    const size = Math.min(spec.spriteSize * board.scale, pitch * 0.92);
-    // Petit espacement entre les têtes, sans dépasser le pas disponible
-    const step = Math.min(pitch, size * 1.08);
-    const total = (n - 1) * step + size;
-    const x0 = (board.width - total) / 2;
-    const y0 = (board.height - total) / 2;
-
-    // Positions au centre des cases (rotation autour du centre)
-    const slots = placeCrowd(spec, n * n, rng);
-    const placed = slots.map((slot) => ({
-      ...slot,
-      cx: x0 + (slot.id % n) * step + size / 2,
-      cy: y0 + Math.floor(slot.id / n) * step + size / 2,
-    }));
-
-    // Les cibles sont dessinées en dernier : jamais recouvertes
-    const others = rng.shuffle(placed.filter((c) => !c.isWanted));
-    return { cells: [...others, ...placed.filter((c) => c.isWanted)], size };
-  }, [spec, board]);
+  // Placement : figé pour la durée du niveau (monté avec key={spec.seed}), indépendant de l'écran
+  const { cells, size } = useMemo(() => layoutGrid(spec), [spec]);
 
   const foundIds = useFoundIds();
 
@@ -130,7 +66,8 @@ const GameGrid = ({ spec }: { spec: LevelSpec }) => {
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
     if (disableClick || showOnlyWanted) return;
-    const hit = pickTap(e.global.x, e.global.y, candidates, foundSpots);
+    // Toucher en px de l'écran → px logiques
+    const hit = pickTap(e.global.x / board.scale, e.global.y / board.scale, candidates, foundSpots);
     if (!hit) return;
     handleCharacterClick(
       { x: e.global.x, y: e.global.y },
@@ -145,6 +82,7 @@ const GameGrid = ({ spec }: { spec: LevelSpec }) => {
       style={{ width: board.width, height: board.height, maxHeight: "none" }}
     >
       <Stage
+        onMount={releaseStage}
         width={board.width}
         height={board.height}
         className="canvasGameBoard"
@@ -155,7 +93,7 @@ const GameGrid = ({ spec }: { spec: LevelSpec }) => {
           autoDensity: true,
         }}
       >
-        <Container>
+        <Container scale={board.scale}>
           {cells.map((cell, index) => {
             if (showOnlyWanted && !cell.isWanted) return null;
             const found = cell.isWanted && foundIds.has(cell.id);

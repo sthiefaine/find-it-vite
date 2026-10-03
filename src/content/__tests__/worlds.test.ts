@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { animalsPack, charactersDetails } from "../../helpers/characters";
 import { generateLevel, validateSpec } from "../../engine";
 import type { Tier } from "../../engine";
-import { allCharacters, getWorld, LEVELS_PER_WORLD, WORLDS, worldOfCharacter } from "../worlds";
+import { allCharacters, getWorld, isEmojiAfter12, LEVELS_PER_WORLD, WORLDS, worldOfCharacter } from "../worlds";
 
 // Familles volontairement seules (pas de sosie dans le monde)
 const SOLO_FAMILIES = new Set(["animaux/raye", "animaux/vert", "ocean/tortue"]);
@@ -39,6 +39,15 @@ describe("mondes", () => {
         expect(c.name.startsWith(`${w.id}-`)).toBe(true);
         expect(c.emoji).toBeTruthy();
       }
+    }
+  });
+
+  it("emoji ≤ 12.0 seulement (lisibles sur Android 10 et moins)", () => {
+    for (const e of ["🦤", "🪶", "🦭", "🐻‍❄️", "🥲"]) expect(isEmojiAfter12(e), e).toBe(true);
+    for (const e of ["🪐", "🦦", "🦈", "🕷️", "⭐"]) expect(isEmojiAfter12(e), e).toBe(false);
+    for (const w of WORLDS) {
+      expect(isEmojiAfter12(w.emoji), w.emoji).toBe(false);
+      for (const c of w.characters) if (c.emoji) expect(isEmojiAfter12(c.emoji), c.name).toBe(false);
     }
   });
 

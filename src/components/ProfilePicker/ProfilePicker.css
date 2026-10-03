@@ -1,13 +1,18 @@
 .profile-overlay {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 1100;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 12px 16px;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(20, 8, 48, 0.94);
   overflow-y: auto;
+}
+
+/* Premier lancement : rien derrière (ni en-tête ni bouton retour fantôme) */
+.profile-overlay-first {
+  background: radial-gradient(circle at 50% 30%, #3a1680 0%, #1c0840 70%);
 }
 
 .profile-card {

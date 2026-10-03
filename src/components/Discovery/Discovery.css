@@ -27,16 +27,19 @@
   overflow: hidden;
 }
 
+/* Étiquette en coin, entièrement dans la carte (un ruban débordait à gauche en 360 px) */
 .discovery-badge {
   position: absolute;
-  top: 10px;
-  left: -34px;
-  transform: rotate(-30deg);
+  top: 16px;
+  left: 10px;
+  transform: rotate(-12deg);
   background: #ff3b3b;
   color: #fff;
   font-weight: 900;
   font-size: 13px;
-  padding: 3px 36px;
+  padding: 3px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
