@@ -18,7 +18,7 @@
 
 .canvasGameBoard {
   display: block;
-  touch-action: manipulation !important;
+  touch-action: none !important;
   pointer-events: auto !important;
 }
 

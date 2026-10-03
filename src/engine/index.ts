@@ -35,3 +35,4 @@ export type { Intro } from "./curve";
 export { generateLevel, describeLevel, wantedAt, levelSeedOf, MIN_POOL_SIZE } from "./generateLevel";
 export { validateSpec, LIMITS } from "./validate";
 export type { ValidationResult } from "./validate";
+export * from "./rules";

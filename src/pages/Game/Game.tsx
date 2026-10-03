@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from "react";
+import { CSSProperties, useMemo, useRef } from "react";
 import GameHeader from "../../components/Game/Header/GameHeader.tsx";
 import "./Game.css";
 import GameGrid from "../../components/Game/Grid/Grid.tsx";
@@ -14,6 +14,7 @@ import ProfilePicker from "../../components/ProfilePicker/ProfilePicker.tsx";
 import { useSaveStore } from "../../save/saveStore.ts";
 import { getBoard } from "../../helpers/board.ts";
 import type { LevelSpec, Tier } from "../../engine/types.ts";
+import Flashlight from "../../components/Flashlight/Flashlight.tsx";
 
 const renderGrid = (spec: LevelSpec) => {
   switch (spec.layout) {
@@ -29,16 +30,23 @@ const renderGrid = (spec: LevelSpec) => {
 };
 
 const Game = () => {
-  const { spec, gameState, setGameState } = useGameStore(
-    useShallow((state) => ({
-      spec: state.currentSpec,
-      gameState: state.gameState,
-      setGameState: state.setGameState,
-    }))
-  );
+  const { spec, gameState, setGameState, tier, wantedFound, loading, pauseTimer } =
+    useGameStore(
+      useShallow((state) => ({
+        spec: state.currentSpec,
+        gameState: state.gameState,
+        setGameState: state.setGameState,
+        tier: state.tier,
+        wantedFound: state.wantedFound,
+        loading: state.animationLevelLoading,
+        pauseTimer: state.pauseTimer,
+      }))
+    );
   const board = useMemo(() => getBoard(), []);
+  const boardRef = useRef<HTMLDivElement>(null);
   const isOver =
     gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END;
+  const hasFlashlight = !!spec?.modifiers.includes("flashlight");
 
   const handlePickProfile = (tier: Tier) => {
     useSaveStore.getState().setProfileTier(tier);
@@ -56,11 +64,25 @@ const Game = () => {
       }
     >
       <GameHeader />
-      {spec ? (
-        renderGrid(spec)
-      ) : (
-        <div className="gridContainer" />
-      )}
+      <div
+        ref={boardRef}
+        className={`boardWrap${hasFlashlight ? " boardWrap--flashlight" : ""}`}
+      >
+        {spec ? renderGrid(spec) : <div className="gridContainer" />}
+        {spec && hasFlashlight && (
+          <Flashlight
+            key={`flashlight-${spec.seed}`}
+            boardRef={boardRef}
+            width={board.width}
+            height={board.height}
+            scale={board.scale}
+            tier={tier}
+            // Chrono en pause pendant la carte de découverte : la pulsation attend
+            active={!loading && !pauseTimer}
+            hidden={wantedFound || isOver}
+          />
+        )}
+      </div>
       <div className="gameActions">
         <InGameActionButton />
       </div>

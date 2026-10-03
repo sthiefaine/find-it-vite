@@ -3,13 +3,15 @@ import { Stage, Container, Sprite } from "@pixi/react";
 import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
-import { HitCandidate, pickCharacterAt } from "../../../helpers/hitTest";
+import { HitCandidate } from "../../../helpers/hitTest";
 import { FederatedPointerEvent } from "@pixi/events";
 import { Rectangle } from "pixi.js";
 import { getBoard } from "../../../helpers/board";
 import { createRng } from "../../../engine/rng";
 import type { LevelSpec } from "../../../engine/types";
 import { placeCrowd } from "./Grid";
+import { pickTap, targetName, useFoundIds } from "./crowd";
+import { CrowdSprite, FoundMarker } from "./CrowdSprite";
 
 import "./Grid.css";
 
@@ -34,6 +36,8 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
     handleCharacterClick,
     blinkState,
   } = useCharacterInteraction();
+
+  const foundIds = useFoundIds();
 
   // Placement, géométrie et vitesses : figés pour la durée du niveau (monté avec key={spec.seed})
   const layout = useMemo(() => {
@@ -127,11 +131,13 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
 
   // Persos touchables (copies comprises), remplis pendant le rendu ci-dessous
   const candidates: HitCandidate[] = [];
+  const foundSpots: HitCandidate[] = [];
+  const markers: { key: string; cx: number; cy: number }[] = [];
   const hitArea = new Rectangle(0, 0, board.width, board.height);
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
     if (disableClick || showOnlyWantedCharacter) return;
-    const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
+    const hit = pickTap(e.global.x, e.global.y, candidates, foundSpots);
     if (!hit) return;
     handleCharacterClick(
       { x: e.global.x, y: e.global.y },
@@ -156,8 +162,9 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
         <Container>
           {slots.map((slot) => {
             if (showOnlyWantedCharacter && !slot.isWanted) return null;
+            const found = slot.isWanted && foundIds.has(slot.id);
             // Clignotement du perso touché par erreur
-            if (selectedCharacterId === slot.id && !blinkState) return null;
+            if (selectedCharacterId === slot.id && !blinkState && !found) return null;
 
             // Position le long du défilement, ramenée dans [0, période)
             let main = (slot.main + (offsets[slot.line] ?? 0)) % period;
@@ -172,29 +179,37 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
               const cx = horizontal ? m : slot.cross;
               const cy = horizontal ? slot.cross : m;
               // Une copie compte comme le perso d'origine (même id, même isWanted)
-              if (!showOnlyWantedCharacter) {
-                candidates.push({
-                  id: slot.id,
-                  cx,
-                  cy,
-                  size,
-                  z: candidates.length,
-                  isWanted: slot.isWanted,
-                });
-              }
+              const hit = {
+                id: slot.id,
+                cx,
+                cy,
+                size: size * slot.look.scale,
+                z: candidates.length + foundSpots.length,
+                isWanted: slot.isWanted,
+              };
+              if (found) {
+                foundSpots.push(hit);
+                if (!slot.gold) markers.push({ key: `${slot.id}-${k}`, cx, cy });
+              } else if (!showOnlyWantedCharacter) candidates.push(hit);
               return (
-                <Sprite
+                <CrowdSprite
                   key={`${slot.id}-${k}`}
+                  name={slot.isWanted ? targetName(slot.id) : undefined}
+                  cx={cx}
+                  cy={cy}
+                  size={size}
                   image={slot.character.imageSrc}
-                  x={cx - size / 2}
-                  y={cy - size / 2}
-                  width={size}
-                  height={size}
-                  eventMode="none"
+                  look={slot.look}
+                  gold={slot.gold}
+                  found={slot.gold && found}
+                  phase={slot.id}
                 />
               );
             });
           })}
+          {markers.map((m) => (
+            <FoundMarker key={`found-${m.key}`} cx={m.cx} cy={m.cy} size={size} />
+          ))}
         </Container>
         {/* Zone de toucher unique, au-dessus des sprites */}
         <Container

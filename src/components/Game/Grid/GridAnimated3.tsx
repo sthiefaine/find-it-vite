@@ -1,20 +1,28 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Stage, Container, Sprite, Graphics } from "@pixi/react";
+import { Stage, Container, Graphics } from "@pixi/react";
 import { FederatedPointerEvent } from "@pixi/events";
 import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
 import "./Grid.css";
 import { Rectangle } from "pixi.js";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
-import {
-  HIT_RADIUS_RATIO,
-  HitCandidate,
-  pickCharacterAt,
-} from "../../../helpers/hitTest";
+import { HIT_RADIUS_RATIO, HitCandidate } from "../../../helpers/hitTest";
 import { getBoard } from "../../../helpers/board";
 import { createRng, Rng } from "../../../engine/rng";
 import type { LayoutParams, LevelSpec } from "../../../engine/types";
 import type { CharacterDetails } from "../../../helpers/characters";
+import {
+  Look,
+  PLAIN_LOOK,
+  crowdPool,
+  crowdSize,
+  pickTap,
+  placeTargets,
+  planTargets,
+  targetName,
+  useFoundIds,
+} from "./crowd";
+import { CrowdSprite, FoundMarker } from "./CrowdSprite";
 
 // Disposition "swarm" : persos en mouvement.
 // Positions et vitesses en px logiques (plateau 390 de large), × scale à l'affichage.
@@ -42,13 +50,11 @@ type SwarmCharacter = Velocity & {
   isWanted: boolean;
   zIndex: number;
   isBackground?: boolean;
+  look: Look;
+  gold: boolean;
 };
 
 type Area = { w: number; h: number; size: number };
-
-// Nombre d'exemplaires du recherché (findAll : plusieurs, plus tard géré par le hook)
-const wantedCopies = (spec: LevelSpec) =>
-  spec.rule === "findAll" ? Math.max(1, spec.findCount) : 1;
 
 const randomPosition = (rng: Rng, { w, h, size }: Area) => {
   const margin = size / 2;
@@ -65,7 +71,9 @@ const placeSwarm = (spec: LevelSpec, area: Area): SwarmCharacter[] => {
   const { params } = spec;
   const count = params.count ?? DEFAULT_COUNT;
   const speed = params.speed ?? DEFAULT_SPEED;
-  const wantedBelow = params.wantedBelow ?? false;
+  // Les cibles dorées ne se cachent pas dessous
+  const wantedBelow = (params.wantedBelow ?? false) && spec.rule !== "goldRush";
+  const pool = crowdPool(spec);
 
   // Recherché caché dessous : les deux couches filent dans deux directions
   const layers = wantedBelow
@@ -80,32 +88,40 @@ const placeSwarm = (spec: LevelSpec, area: Area): SwarmCharacter[] => {
 
   const all: SwarmCharacter[] = [];
 
-  for (let i = 0; i < wantedCopies(spec); i++) {
+  // Cibles : ids 0..N-1, sans chevauchement au départ
+  const targets = planTargets(spec);
+  const spots = placeTargets(rng, targets.length, area);
+  targets.forEach((t, i) => {
     const zIndex = rng.int(...(wantedBelow ? WANTED_BELOW_Z : WANTED_Z));
     all.push({
       id: i,
-      ...randomPosition(rng, area),
-      imageSrc: spec.wanted.imageSrc,
+      ...spots[i],
+      imageSrc: t.character.imageSrc,
       isWanted: true,
       zIndex,
+      look: t.look,
+      gold: t.gold,
       ...pickVelocity(zIndex),
     });
-  }
+  });
   const wantedCount = all.length;
 
   if (params.backgroundGrid) {
-    all.push(...createBackgroundGrid(rng, spec.decoys, params.jitter ?? DEFAULT_JITTER, area, pickVelocity));
+    all.push(...createBackgroundGrid(rng, pool, params.jitter ?? DEFAULT_JITTER, area, pickVelocity));
   }
 
-  if (spec.decoys.length) {
-    for (let i = 0; i < count - wantedCount; i++) {
+  if (pool.length) {
+    const n = crowdSize(spec, count - wantedCount);
+    for (let i = 0; i < n; i++) {
       const zIndex = rng.int(...DECOY_Z);
       all.push({
         id: DECOY_ID_BASE + i,
         ...randomPosition(rng, area),
-        imageSrc: rng.pick(spec.decoys).imageSrc,
+        imageSrc: rng.pick(pool).imageSrc,
         isWanted: false,
         zIndex,
+        look: PLAIN_LOOK,
+        gold: false,
         ...pickVelocity(zIndex),
       });
     }
@@ -135,6 +151,8 @@ const createBackgroundGrid = (
         isWanted: false,
         zIndex: 0,
         isBackground: true,
+        look: PLAIN_LOOK,
+        gold: false,
         ...pickVelocity(0),
       });
     }
@@ -208,6 +226,8 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
     () => placeSwarm(spec, area)
   );
 
+  const foundIds = useFoundIds();
+
   const { gameState, animationLevelLoading, debug } = useGameStore(
     useShallow((state) => ({
       gameState: state.gameState,
@@ -262,11 +282,12 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
 
   // Persos touchables aux positions courantes, remplis pendant le rendu (z = ordre de dessin)
   const candidates: HitCandidate[] = [];
+  const foundSpots: HitCandidate[] = [];
   const hitArea = new Rectangle(0, 0, board.width, board.height);
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
     if (disableClick || showOnlyWantedCharacter) return;
-    const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
+    const hit = pickTap(e.global.x, e.global.y, candidates, foundSpots);
     if (!hit) return;
     handleCharacterClick(
       { x: e.global.x, y: e.global.y },
@@ -290,10 +311,12 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
       >
         <Container>
           {placedCharacters.map((character, index) => {
+            const found = character.isWanted && foundIds.has(character.id);
             if (
               selectedCharacterId === character.id &&
               !isCorrectSelection &&
-              !blinkState
+              !blinkState &&
+              !found
             ) {
               return null;
             }
@@ -304,28 +327,45 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
 
             const cx = character.x * scale;
             const cy = character.y * scale;
-            candidates.push({
+            const hit = {
               id: character.id,
               cx,
               cy,
-              size,
+              size: size * character.look.scale,
               z: index,
               isWanted: character.isWanted,
-            });
+            };
+            if (found) foundSpots.push(hit);
+            else candidates.push(hit);
 
             return (
-              <Sprite
+              <CrowdSprite
                 key={`character-${character.id}`}
+                name={character.isWanted ? targetName(character.id) : undefined}
+                cx={cx}
+                cy={cy}
+                size={size}
                 image={character.imageSrc}
-                x={cx - size / 2}
-                y={cy - size / 2}
-                width={size}
-                height={size}
-                eventMode="none"
+                look={character.look}
+                gold={character.gold}
+                found={character.gold && found}
                 alpha={character.isBackground ? 0.9 : 1}
+                phase={character.id}
               />
             );
           })}
+
+          {/* Cibles trouvées : marqueur au-dessus de la foule */}
+          {placedCharacters
+            .filter((c) => c.isWanted && !c.gold && foundIds.has(c.id))
+            .map((c) => (
+              <FoundMarker
+                key={`found-${c.id}`}
+                cx={c.x * scale}
+                cy={c.y * scale}
+                size={size}
+              />
+            ))}
 
           {/* Debug : disque de tête du recherché (zone de toucher) */}
           {debug &&

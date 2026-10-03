@@ -7,6 +7,8 @@ type RawObject = Record<string, unknown>;
 const migrations: Record<number, (data: RawObject) => RawObject> = {
   // v2 : ajout du profil « Qui joue ? », pas encore choisi
   1: (data) => ({ ...data, version: 2, profile: { tier: null } }),
+  // v3 : mécaniques découvertes, aucune pour un joueur existant
+  2: (data) => ({ ...data, version: 3, seenMechanics: [] }),
 };
 
 const isObject = (value: unknown): value is RawObject =>
@@ -64,6 +66,9 @@ function sanitize(data: RawObject): Save {
       totalFound: count(progress.totalFound, base.progress.totalFound),
     },
     profile: { tier },
+    seenMechanics: Array.isArray(data.seenMechanics)
+      ? [...new Set(data.seenMechanics.filter((m): m is string => typeof m === "string" && m.length > 0))]
+      : [],
   };
 }
 

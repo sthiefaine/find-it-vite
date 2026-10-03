@@ -12,6 +12,10 @@ import { generateLevel, randomSeed, seedFromCode } from "../../../../engine";
 import type { Tier } from "../../../../engine";
 import { useSaveStore } from "../../../../save/saveStore";
 import { TIERS } from "../../../../save/schema";
+import { tickClock } from "../../../../game/session";
+
+const TICK_MS = 100;
+const BONUS_GRACE_MS = 150;
 
 // Debug : /game?seed=123&level=8 (seed en nombre ou en code), &tier=expert en option
 export function readDebugParams(search: string): {
@@ -48,6 +52,11 @@ export function IsPlaying() {
     level,
     animationLevelLoading,
     submitGameResult,
+    pauseTimer,
+    bonusEndsAt,
+    currentSpec,
+    startBonus,
+    endBonus,
   } = useGameStore(
     useShallow((state) => {
       return {
@@ -63,6 +72,11 @@ export function IsPlaying() {
         level: state.level,
         animationLevelLoading: state.animationLevelLoading,
         submitGameResult: state.submitGameResult,
+        pauseTimer: state.pauseTimer,
+        bonusEndsAt: state.bonusEndsAt,
+        currentSpec: state.currentSpec,
+        startBonus: state.startBonus,
+        endBonus: state.endBonus,
       };
     })
   );
@@ -78,8 +92,6 @@ export function IsPlaying() {
       seed: runSeed,
       tier,
       pool: charactersDetails,
-      allowedRules: ["classic"],
-      allowedModifiers: ["lookalikes"],
     });
     setCurrentSpec(spec);
 
@@ -158,28 +170,56 @@ export function IsPlaying() {
     }
   }, [gameState, pathName]);
 
+  // Chrono à 0 : fin de partie
   useEffect(() => {
-    if (gameState === GameStateEnum.PLAYING && !animationLevelLoading) {
-      if (timeLeft < 0) {
-        setTimeLeftValue(0);
-      }
+    if (gameState !== GameStateEnum.PLAYING) return;
+    if (timeLeft < 0) setTimeLeftValue(0);
+    else if (timeLeft === 0 && !animationLevelLoading) setGameState(GameStateEnum.FINISH);
+  }, [gameState, timeLeft, animationLevelLoading]);
 
-      if (timeLeft === 0) {
-        setGameState(GameStateEnum.FINISH);
-      }
+  // Décompte : arrêté pendant le chargement d'un niveau, une pause ou un bonus.
+  // La fraction de seconde en cours est gardée d'une pause à l'autre.
+  const clockAcc = useRef(0);
+  const clockRunning =
+    gameState === GameStateEnum.PLAYING &&
+    !animationLevelLoading &&
+    !pauseTimer &&
+    bonusEndsAt === null;
+  useEffect(() => {
+    if (gameState !== GameStateEnum.PLAYING) clockAcc.current = 0;
+    if (!clockRunning) return;
+    let last = performance.now();
+    const interval = setInterval(() => {
+      const t = performance.now();
+      const { seconds, accMs } = tickClock(clockAcc.current, t - last);
+      last = t;
+      clockAcc.current = accMs;
+      if (seconds > 0) setTimeLeft(-seconds);
+    }, TICK_MS);
+    return () => {
+      // on garde le temps écoulé depuis le dernier tick
+      clockAcc.current = tickClock(clockAcc.current, Math.min(performance.now() - last, TICK_MS)).accMs;
+      clearInterval(interval);
+    };
+  }, [clockRunning, gameState]);
 
-      const interval = setInterval(() => {
-        if (timeLeft === 1) {
-          setTimeLeftValue(0);
-          clearInterval(interval);
-          return;
-        }
-        setTimeLeft(-1);
-      }, 1000);
-
-      return () => clearInterval(interval);
+  // goldRush : démarre quand le niveau est visible et hors pause (écran de découverte),
+  // après un court délai pour laisser cette pause s'installer ; puis niveau suivant
+  const bonusSeed = currentSpec?.rule === "goldRush" ? currentSpec.seed : null;
+  useEffect(() => {
+    if (bonusSeed === null || gameState !== GameStateEnum.PLAYING) return;
+    if (animationLevelLoading) return;
+    if (bonusEndsAt === null) {
+      if (pauseTimer) return;
+      const start = setTimeout(() => {
+        const { pauseTimer, currentSpec } = useGameStore.getState();
+        if (!pauseTimer && currentSpec?.seed === bonusSeed) startBonus(currentSpec.durationS ?? 8);
+      }, BONUS_GRACE_MS);
+      return () => clearTimeout(start);
     }
-  }, [gameState, timeLeft, setTimeLeft, animationLevelLoading]);
+    const timeout = setTimeout(endBonus, Math.max(0, bonusEndsAt - Date.now()));
+    return () => clearTimeout(timeout);
+  }, [bonusSeed, gameState, animationLevelLoading, pauseTimer, bonusEndsAt]);
 
   return null;
 }

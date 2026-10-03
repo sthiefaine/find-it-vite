@@ -1,9 +1,10 @@
 // Outil de test, chargé en dev seulement (voir App.tsx) :
-// window.__findIt.spec : niveau en cours ; window.__findIt.positions() : où est le recherché.
-import { Container, DisplayObject, Renderer, Sprite } from "pixi.js";
+// window.__findIt.spec : niveau en cours ; window.__findIt.positions() : où sont les cibles.
+import { Container, DisplayObject, Renderer } from "pixi.js";
 import { useGameStore } from "../../store/store";
 
-type Rect = { x: number; y: number; width: number; height: number };
+// Cible : centre (x, y) et taille en px CSS de la page
+type TargetPos = { id: number; x: number; y: number; width: number; height: number; found: boolean };
 
 // Chaque rendu Pixi passe par Renderer.render : on retient la scène de chaque canvas
 const scenes = new Map<HTMLCanvasElement, DisplayObject>();
@@ -14,27 +15,22 @@ Renderer.prototype.render = function (this: Renderer, displayObject, options) {
   return originalRender.call(this, displayObject, options);
 };
 
-const textureUrl = (sprite: Sprite): string | undefined => {
-  const resource = sprite.texture?.baseTexture?.resource as
-    | { url?: string; src?: string }
-    | undefined;
-  return resource?.url ?? resource?.src;
-};
-
-const absolute = (url: string) => new URL(url, window.location.href).href;
-
-function collectSprites(node: DisplayObject, out: Sprite[]) {
-  if (!node.visible) return;
-  if (node instanceof Sprite) out.push(node);
-  if (node instanceof Container) node.children.forEach((c) => collectSprites(c, out));
+// Conteneurs nommés « target:<id> » par les grilles (voir Grid/crowd.ts), même invisibles
+function collectTargets(node: DisplayObject, out: DisplayObject[]) {
+  if (node.name?.startsWith("target:")) out.push(node);
+  if (node instanceof Container) node.children.forEach((c) => collectTargets(c, out));
 }
 
-// Rectangles (en px de la page) des sprites du recherché sur le plateau
-function positions(): Rect[] {
-  const spec = useGameStore.getState().currentSpec;
-  if (!spec) return [];
-  const wanted = absolute(spec.wanted.imageSrc);
-  const rects: Rect[] = [];
+const foundIds = (): number[] => {
+  const s = useGameStore.getState();
+  return "foundIds" in s ? ((s.foundIds as number[] | undefined) ?? []) : [];
+};
+
+// Toutes les cibles du plateau. En défilement, une cible qui passe un bord a deux copies :
+// on garde la plus à l'intérieur du plateau.
+function positions(): TargetPos[] {
+  const found = new Set(foundIds());
+  const best = new Map<number, { pos: TargetPos; inside: number }>();
   for (const [canvas, root] of scenes) {
     if (!canvas.isConnected) {
       scenes.delete(canvas);
@@ -42,16 +38,26 @@ function positions(): Rect[] {
     }
     if (!canvas.closest(".gridContainer")) continue;
     const box = canvas.getBoundingClientRect();
-    const sprites: Sprite[] = [];
-    collectSprites(root, sprites);
-    for (const sprite of sprites) {
-      const url = textureUrl(sprite);
-      if (!url || absolute(url) !== wanted || sprite.worldAlpha === 0) continue;
-      const b = sprite.getBounds();
-      rects.push({ x: box.left + b.x, y: box.top + b.y, width: b.width, height: b.height });
+    const nodes: DisplayObject[] = [];
+    collectTargets(root, nodes);
+    for (const node of nodes) {
+      const id = Number(node.name!.slice("target:".length));
+      const c = node.toGlobal({ x: 0, y: 0 });
+      const b = node.visible ? node.getBounds() : null;
+      const inside = Math.min(c.x, c.y, box.width - c.x, box.height - c.y);
+      const pos: TargetPos = {
+        id,
+        x: box.left + c.x,
+        y: box.top + c.y,
+        width: b?.width ?? 0,
+        height: b?.height ?? 0,
+        found: found.has(id),
+      };
+      const prev = best.get(id);
+      if (!prev || inside > prev.inside) best.set(id, { pos, inside });
     }
   }
-  return rects;
+  return [...best.values()].map((v) => v.pos).sort((a, b) => a.id - b.id);
 }
 
 declare global {

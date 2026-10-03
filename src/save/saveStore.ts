@@ -28,6 +28,7 @@ type SaveActions = {
   recordGame: (result: GameResult) => RecordOutcome;
   setSound: (sound: boolean) => void;
   setProfileTier: (tier: Tier) => void;
+  markMechanicsSeen: (mechanics: string[]) => void;
   flush: () => Promise<void>;
   reset: () => Promise<void>;
 };
@@ -111,6 +112,14 @@ export function createSaveStore(
       setProfileTier: (tier) => {
         if (get().save.profile.tier === tier) return;
         set({ save: { ...get().save, profile: { ...get().save.profile, tier } } });
+        scheduleWrite();
+      },
+
+      markMechanicsSeen: (mechanics) => {
+        const seen = get().save.seenMechanics;
+        const added = mechanics.filter((m, i) => !seen.includes(m) && mechanics.indexOf(m) === i);
+        if (added.length === 0) return;
+        set({ save: { ...get().save, seenMechanics: [...seen, ...added] } });
         scheduleWrite();
       },
 

@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { CharacterDetails } from "../src/helpers/characters";
 import { useSaveStore } from "../src/save/saveStore";
 import type { LevelSpec, Tier } from "../src/engine/types";
+import { mechanicsOf } from "../src/engine/rules";
+import { newMechanics } from "../src/game/session";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -63,6 +65,10 @@ type GameState = {
   levelShownAt: number | null;
   wantedFound: boolean; // le perso du niveau en cours a été trouvé
   gameRecord: GameRecord | null; // non nul une fois la partie enregistrée
+  foundIds: number[]; // cibles déjà trouvées dans le niveau en cours
+  isDiscovery: boolean; // le niveau contient une mécanique jamais vue
+  bonusEndsAt: number | null; // fin du goldRush en cours (Date.now()), null sinon
+  bonusDone: boolean; // le goldRush du niveau est terminé
 };
 
 export type GameActions = {
@@ -78,8 +84,12 @@ export type GameActions = {
   setClearGameStore: () => void;
   setSound: (sound: boolean) => void;
   setSoundSrc: (soundSrc: string) => void;
-  recordFound: () => void;
+  // Cible trouvée : levelDone met à jour wantedFound et le « plus rapide »
+  recordTargetFound: (id: number, levelDone: boolean) => void;
   recordMiss: () => void;
+  startBonus: (durationS: number) => void;
+  // Fin du bonus (chrono écoulé ou tout trouvé) : niveau suivant, une seule fois
+  endBonus: () => void;
   submitGameResult: () => void;
 };
 
@@ -104,9 +114,27 @@ export const defaultInitState: GameState = {
   levelShownAt: null,
   wantedFound: false,
   gameRecord: null,
+  foundIds: [],
+  isDiscovery: false,
+  bonusEndsAt: null,
+  bonusDone: false,
 };
 
 const now = () => performance.now();
+
+// Découverte calculée une seule fois par niveau (StrictMode peut rejouer setCurrentSpec)
+let lastDiscovery: { spec: LevelSpec; isDiscovery: boolean } | null = null;
+
+function discoveryOf(spec: LevelSpec): boolean {
+  const prev = lastDiscovery?.spec;
+  if (prev && prev.seed === spec.seed && prev.index === spec.index && prev.layout === spec.layout)
+    return lastDiscovery!.isDiscovery;
+  const save = useSaveStore.getState();
+  const fresh = newMechanics(mechanicsOf(spec), save.save.seenMechanics);
+  if (fresh.length > 0) save.markMechanicsSeen(fresh);
+  lastDiscovery = { spec, isDiscovery: fresh.length > 0 };
+  return lastDiscovery.isDiscovery;
+}
 
 export const useGameStore = create<GameStore>((set, get) => ({
   ...defaultInitState,
@@ -118,7 +146,15 @@ export const useGameStore = create<GameStore>((set, get) => ({
   startRun: ({ runSeed, tier, level }) =>
     set({ runSeed, tier, level, currentSpec: null }),
   setCurrentSpec: (spec) =>
-    set({ currentSpec: spec, wantedCharacter: spec.wanted, wantedFound: false }),
+    set({
+      currentSpec: spec,
+      wantedCharacter: spec.wanted,
+      wantedFound: false,
+      foundIds: [],
+      bonusEndsAt: null,
+      bonusDone: false,
+      isDiscovery: discoveryOf(spec),
+    }),
   setPauseTimer: (pause: boolean) => set({ pauseTimer: pause }),
   setLevel: (level: number) => set({ level: get().level + level }),
   setGameState: (gameState: GameStateEnum) => set({ gameState }),
@@ -141,11 +177,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
   setTimeLeftValue: (timeLeft: number) => set({ timeLeft: timeLeft }),
   setClearGameStore: () =>
     set({ ...defaultInitState, stats: { ...defaultInitState.stats }, sound: get().sound }),
-  recordFound: () => {
-    const { stats, levelShownAt } = get();
-    const elapsed = levelShownAt === null ? null : Math.round(now() - levelShownAt);
+  recordTargetFound: (id, levelDone) => {
+    const { stats, levelShownAt, foundIds, currentSpec } = get();
+    if (foundIds.includes(id)) return;
+    // « plus rapide » : temps pour finir un niveau, hors bonus
+    const timed = levelDone && currentSpec?.rule !== "goldRush";
+    const elapsed =
+      !timed || levelShownAt === null ? null : Math.round(now() - levelShownAt);
     set({
-      wantedFound: true,
+      foundIds: [...foundIds, id],
+      wantedFound: get().wantedFound || levelDone,
       stats: {
         ...stats,
         found: stats.found + 1,
@@ -155,6 +196,16 @@ export const useGameStore = create<GameStore>((set, get) => ({
             : Math.min(elapsed, stats.fastestFoundMs ?? Infinity),
       },
     });
+  },
+  startBonus: (durationS) => {
+    if (get().bonusDone || get().bonusEndsAt !== null) return;
+    set({ bonusEndsAt: Date.now() + durationS * 1000 });
+  },
+  endBonus: () => {
+    const { bonusDone, currentSpec, gameState, level } = get();
+    if (bonusDone || currentSpec?.rule !== "goldRush") return;
+    set({ bonusEndsAt: null, bonusDone: true });
+    if (gameState === GameStateEnum.PLAYING) set({ level: level + 1 });
   },
   recordMiss: () => {
     const { stats } = get();

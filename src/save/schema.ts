@@ -4,7 +4,7 @@
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
 
-export const SAVE_VERSION = 2 as const;
+export const SAVE_VERSION = 3 as const;
 export const SAVE_KEY = "find-it:save";
 
 export type SaveSettings = {
@@ -36,16 +36,26 @@ export type SaveV2 = {
   profile: SaveProfile;
 };
 
+// v3 : mécaniques déjà découvertes (voir mechanicsOf dans engine/rules.ts)
+export type SaveV3 = {
+  version: 3;
+  settings: SaveSettings;
+  progress: SaveProgress;
+  profile: SaveProfile;
+  seenMechanics: string[];
+};
+
 export const TIERS: readonly Tier[] = ["easy", "normal", "expert"];
 
 // Format courant
-export type Save = SaveV2;
+export type Save = SaveV3;
 
-export function defaultSave(): SaveV2 {
+export function defaultSave(): SaveV3 {
   return {
     version: SAVE_VERSION,
     settings: { sound: true },
     progress: { bestScore: 0, bestLevel: 1, gamesPlayed: 0, totalFound: 0 },
     profile: { tier: null },
+    seenMechanics: [],
   };
 }

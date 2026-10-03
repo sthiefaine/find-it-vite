@@ -178,3 +178,156 @@
 .wanted-image-container canvas {
   background: transparent;
 }
+
+/* --- Mécaniques sur l'avis de recherche --- */
+.wanted-stamp {
+  font-size: 14px;
+  padding: 2px 7px;
+  line-height: 1.2;
+}
+
+.wanted-poster.wanted-tappable {
+  cursor: pointer;
+}
+
+/* memory : la carte se retourne */
+.wanted-image-container.card-flipping {
+  animation: cardFlip 0.4s ease-in-out;
+}
+
+@keyframes cardFlip {
+  0%,
+  100% {
+    transform: perspective(300px) rotateY(0deg);
+  }
+  50% {
+    transform: perspective(300px) rotateY(90deg);
+  }
+}
+
+.card-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-linear-gradient(45deg, #8b4513 0 6px, #a0522d 6px 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.card-back span {
+  font-size: 38px;
+  font-weight: 900;
+  color: #ffd700;
+  text-shadow: 0 2px 0 #5d2e0c;
+  animation: backPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes backPulse {
+  50% {
+    transform: scale(1.15);
+  }
+}
+
+.peek-cost {
+  position: absolute;
+  right: 100%;
+  top: 20px;
+  margin-right: 2px;
+  color: #ff3b3b;
+  font-weight: 900;
+  font-size: 16px;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 #fff;
+  z-index: 4;
+  pointer-events: none;
+  animation: peekCost 1.4s ease-out forwards;
+}
+
+@keyframes peekCost {
+  0% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-14px);
+  }
+}
+
+/* oddOneOut */
+.odd-sign {
+  position: absolute;
+  left: -22px;
+  bottom: -6px;
+  font-size: 34px;
+  font-weight: 900;
+  line-height: 1;
+  color: #d32f2f;
+  text-shadow: 0 0 3px #fff, 0 0 3px #fff;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* findAll */
+.wanted-count {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: #d32f2f;
+  color: #fff;
+  text-transform: none;
+  animation: countPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes countPop {
+  0% {
+    transform: scale(1.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* goldRush */
+.wanted-poster.wanted-gold {
+  background: linear-gradient(to bottom, #fff3b0, #ffc93c);
+  border-color: #c58b00;
+}
+
+.wanted-gold .wanted-name {
+  color: #fff;
+  background: #e0a100;
+  border-color: #a06c00;
+  text-shadow: 0 1px 0 #7a5200;
+}
+
+.gold-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff7c2, #ffd54a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.gold-star {
+  font-size: 38px;
+  animation: backPulse 1s ease-in-out infinite;
+}
+
+.gold-count {
+  position: absolute;
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 3px #7a5200, 0 1px 2px #7a5200;
+}

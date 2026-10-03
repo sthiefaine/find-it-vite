@@ -58,3 +58,17 @@
 .backButton:hover {
   background-color: #4169e1;
 }
+/* Conteneur du plateau : sert d'ancre aux calques (lampe torche) */
+.boardWrap {
+  position: relative;
+  flex: none;
+  max-width: 100%;
+}
+
+/* Lampe torche : glisser le doigt déplace la lumière au lieu de faire défiler la page
+   (Grid.css force `manipulation` sur le canvas, d'où le !important) */
+.boardWrap--flashlight,
+.boardWrap--flashlight .gridContainer,
+.boardWrap--flashlight .canvasGameBoard {
+  touch-action: none !important;
+}

@@ -53,7 +53,7 @@ describe("useSaveStore", () => {
     expect(JSON.parse(storage.data.get(SAVE_KEY)!).settings.sound).toBe(true);
   });
 
-  it("enregistre le profil choisi et réécrit une v1 au format v2", async () => {
+  it("enregistre le profil choisi et réécrit une v1 au format courant", async () => {
     const storage = createMemoryStorage({
       [SAVE_KEY]: JSON.stringify({
         version: 1,
@@ -68,9 +68,26 @@ describe("useSaveStore", () => {
     store.getState().setProfileTier("easy");
     await store.getState().flush();
     const saved = JSON.parse(storage.data.get(SAVE_KEY)!);
-    expect(saved.version).toBe(2);
+    expect(saved.version).toBe(3);
     expect(saved.profile).toEqual({ tier: "easy" });
+    expect(saved.seenMechanics).toEqual([]);
     expect(saved.progress.bestScore).toBe(4);
+  });
+
+  it("persiste les mécaniques vues, sans doublon", async () => {
+    const storage = createMemoryStorage();
+    const store = createSaveStore(storage, { debounceMs: 20 });
+    await store.getState().load();
+
+    store.getState().markMechanicsSeen(["layout:grid", "rule:findAll", "layout:grid"]);
+    store.getState().markMechanicsSeen(["layout:grid"]);
+    expect(store.getState().save.seenMechanics).toEqual(["layout:grid", "rule:findAll"]);
+    await store.getState().flush();
+    expect(JSON.parse(storage.data.get(SAVE_KEY)!).seenMechanics).toEqual(["layout:grid", "rule:findAll"]);
+
+    const reloaded = createSaveStore(storage);
+    await reloaded.getState().load();
+    expect(reloaded.getState().save.seenMechanics).toEqual(["layout:grid", "rule:findAll"]);
   });
 
   it("n'écrase jamais une sauvegarde d'une version future", async () => {

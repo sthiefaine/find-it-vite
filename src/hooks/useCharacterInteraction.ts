@@ -3,7 +3,8 @@ import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../store/store";
 import { pointColorsArray, randomIntFromInterval } from "../helpers/gameUtils";
 import { showPointsEffect } from "../helpers/animationUtils";
-import { playPopSound } from "../helpers/sounds";
+import { playHitGoldenSound, playPopSound } from "../helpers/sounds";
+import { resolveTap } from "../game/session";
 
 // Perso touché, tel que renvoyé par pickCharacterAt (helpers/hitTest.ts)
 export type TappedCharacter = {
@@ -29,8 +30,9 @@ export const useCharacterInteraction = () => {
     setPauseTimer,
     setLevel,
     setSoundSrc,
-    recordFound,
+    recordTargetFound,
     recordMiss,
+    endBonus,
   } = useGameStore(
     useShallow((state) => ({
       spec: state.currentSpec,
@@ -40,8 +42,9 @@ export const useCharacterInteraction = () => {
       setPauseTimer: state.setPauseTimer,
       setLevel: state.setLevel,
       setSoundSrc: state.setSoundSrc,
-      recordFound: state.recordFound,
+      recordTargetFound: state.recordTargetFound,
       recordMiss: state.recordMiss,
+      endBonus: state.endBonus,
     }))
   );
 
@@ -60,25 +63,36 @@ export const useCharacterInteraction = () => {
       return;
     }
 
-    setDisableClick(true);
-    setSelectedCharacterId(character.id);
+    // État lu à l'instant du toucher : deux touchers rapprochés ne comptent qu'une fois
+    const { foundIds, isDiscovery, bonusDone } = useGameStore.getState();
+    if (bonusDone) return;
+    const result = resolveTap(spec, foundIds, character, { isDiscovery });
+    if (result.kind === "ignored") return;
 
     const position = { x: point.x - 10, y: point.y - 30 };
-
     // Le canvas ne sert qu'à l'effet visuel : le jeu continue sans lui
     const canvas = canvasRef.current;
 
-    if (character.isWanted) {
-      setSoundSrc(playPopSound);
+    if (result.kind === "target") {
+      setSoundSrc(result.golden ? playHitGoldenSound : playPopSound);
+      const color = result.golden
+        ? "#ffd54a"
+        : pointColorsArray[randomIntFromInterval(0, pointColorsArray.length - 1)];
+      if (canvas) showPointsEffect(canvas, position, true, color);
+
+      recordTargetFound(character.id, result.levelDone);
+      setScore(+result.points);
+      if (!result.levelDone) return; // cible suivante : on continue tout de suite
+
+      if (result.golden) {
+        endBonus(); // tout trouvé avant la fin du bonus
+        return;
+      }
+
+      setDisableClick(true);
+      setSelectedCharacterId(character.id);
       setIsCorrectSelection(true);
-
-      const randomColor =
-        pointColorsArray[randomIntFromInterval(0, pointColorsArray.length - 1)];
-      if (canvas) showPointsEffect(canvas, position, true, randomColor);
-
-      recordFound();
-      setScore(+1);
-      setTimeLeft(+spec.rewardS); // plafonné à MAX_PLAY_TIME par le store
+      if (result.timeDelta) setTimeLeft(result.timeDelta); // plafonné par le store
       setPauseTimer(true);
 
       setTimeout(() => {
@@ -86,35 +100,38 @@ export const useCharacterInteraction = () => {
         setPauseTimer(false);
         setIsCorrectSelection(false);
       }, 1000);
-    } else {
-      setSoundSrc(playPopSound);
-      setIsCorrectSelection(false);
-
-      if (canvas) showPointsEffect(canvas, position, false, "red");
-
-      recordMiss();
-      setTimeLeft(-spec.penaltyS);
-
-      if (blinkIntervalRef.current) {
-        clearInterval(blinkIntervalRef.current);
-      }
-
-      let count = 0;
-      blinkIntervalRef.current = setInterval(() => {
-        setBlinkState((prev) => !prev);
-        count++;
-
-        if (count >= 4) {
-          if (blinkIntervalRef.current) {
-            clearInterval(blinkIntervalRef.current);
-            blinkIntervalRef.current = null;
-          }
-          setBlinkState(true);
-          setDisableClick(false);
-          setSelectedCharacterId(null);
-        }
-      }, 125);
+      return;
     }
+
+    setSoundSrc(playPopSound);
+    setIsCorrectSelection(false);
+    // pendant un bonus, une erreur ne montre aucun « -1 »
+    if (canvas && result.countsAsMiss) showPointsEffect(canvas, position, false, "red");
+    if (result.countsAsMiss) recordMiss();
+    if (result.timeDelta) setTimeLeft(result.timeDelta);
+    if (!result.blink) return;
+
+    setDisableClick(true);
+    setSelectedCharacterId(character.id);
+    if (blinkIntervalRef.current) {
+      clearInterval(blinkIntervalRef.current);
+    }
+
+    let count = 0;
+    blinkIntervalRef.current = setInterval(() => {
+      setBlinkState((prev) => !prev);
+      count++;
+
+      if (count >= 4) {
+        if (blinkIntervalRef.current) {
+          clearInterval(blinkIntervalRef.current);
+          blinkIntervalRef.current = null;
+        }
+        setBlinkState(true);
+        setDisableClick(false);
+        setSelectedCharacterId(null);
+      }
+    }, 125);
   };
 
   const cleanupBlinkEffect = () => {

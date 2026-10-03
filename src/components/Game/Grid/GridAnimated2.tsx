@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Stage, Container, Sprite, Graphics } from "@pixi/react";
+import { Stage, Container, Graphics } from "@pixi/react";
 import { FederatedPointerEvent } from "@pixi/events";
 import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
@@ -7,15 +7,23 @@ import "./Grid.css";
 import "@pixi/events";
 import { Rectangle } from "pixi.js";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
-import {
-  HIT_RADIUS_RATIO,
-  HitCandidate,
-  pickCharacterAt,
-} from "../../../helpers/hitTest";
+import { HIT_RADIUS_RATIO, HitCandidate } from "../../../helpers/hitTest";
 import { getBoard } from "../../../helpers/board";
 import { createRng, Rng } from "../../../engine/rng";
 import type { LevelSpec } from "../../../engine/types";
 import type { CharacterDetails } from "../../../helpers/characters";
+import {
+  Look,
+  PLAIN_LOOK,
+  crowdPool,
+  crowdSize,
+  pickTap,
+  placeTargets,
+  planTargets,
+  targetName,
+  useFoundIds,
+} from "./crowd";
+import { CrowdSprite, FoundMarker } from "./CrowdSprite";
 
 // Disposition "pile" : un tas de persos qui se chevauchent.
 // Tout le placement se fait en px logiques (plateau 390 de large), puis × scale à l'affichage.
@@ -40,13 +48,11 @@ type PileCharacter = {
   isWanted: boolean;
   zIndex: number;
   isBackground?: boolean;
+  look: Look;
+  gold: boolean;
 };
 
 type Area = { w: number; h: number; size: number };
-
-// Nombre d'exemplaires du recherché (findAll : plusieurs, plus tard géré par le hook)
-const wantedCopies = (spec: LevelSpec) =>
-  spec.rule === "findAll" ? Math.max(1, spec.findCount) : 1;
 
 const randomPosition = (rng: Rng, { w, h, size }: Area) => {
   const margin = size / 2;
@@ -73,6 +79,8 @@ const createBackgroundGrid = (
         isWanted: false,
         zIndex: 0,
         isBackground: true,
+        look: PLAIN_LOOK,
+        gold: false,
       });
     }
   }
@@ -197,46 +205,51 @@ const placePile = (spec: LevelSpec, area: Area): PileCharacter[] => {
   const rng = createRng(spec.seed).fork("place");
   const { params } = spec;
   const count = params.count ?? DEFAULT_COUNT;
-  const wantedBelow = params.wantedBelow ?? false;
+  // Les cibles dorées restent au-dessus
+  const wantedBelow = (params.wantedBelow ?? false) && spec.rule !== "goldRush";
+  const pool = crowdPool(spec);
 
-  const wanted: PileCharacter[] = [];
-  for (let i = 0; i < wantedCopies(spec); i++) {
-    wanted.push({
-      id: i,
-      ...randomPosition(rng, area),
-      imageSrc: spec.wanted.imageSrc,
-      isWanted: true,
-      zIndex: wantedBelow ? rng.int(...WANTED_BELOW_Z) : WANTED_TOP_Z,
-    });
-  }
+  // Cibles : ids 0..N-1, sans chevauchement entre elles
+  const targets = planTargets(spec);
+  const spots = placeTargets(rng, targets.length, area);
+  const wanted: PileCharacter[] = targets.map((t, i) => ({
+    id: i,
+    ...spots[i],
+    imageSrc: t.character.imageSrc,
+    isWanted: true,
+    zIndex: wantedBelow ? rng.int(...WANTED_BELOW_Z) : WANTED_TOP_Z,
+    look: t.look,
+    gold: t.gold,
+  }));
 
   let all: PileCharacter[] = [...wanted];
 
   if (params.backgroundGrid) {
     all.push(
-      ...createBackgroundGrid(
-        rng,
-        spec.decoys,
-        params.jitter ?? DEFAULT_JITTER,
-        area
-      )
+      ...createBackgroundGrid(rng, pool, params.jitter ?? DEFAULT_JITTER, area)
     );
   }
 
-  if (spec.decoys.length) {
-    for (let i = 0; i < count - wanted.length; i++) {
+  if (pool.length) {
+    const n = crowdSize(spec, count - wanted.length);
+    for (let i = 0; i < n; i++) {
       all.push({
         id: DECOY_ID_BASE + i,
         ...randomPosition(rng, area),
-        imageSrc: rng.pick(spec.decoys).imageSrc,
+        imageSrc: rng.pick(pool).imageSrc,
         isWanted: false,
         zIndex: rng.int(...DECOY_Z),
+        look: PLAIN_LOOK,
+        gold: false,
       });
     }
   }
 
-  for (const w of wanted) {
-    all = ensureHeadVisible(rng, all, w, MIN_VISIBLE_HEAD_RATIO, area);
+  // Deux passes : écarter un leurre d'une cible peut le pousser sur une autre
+  for (let pass = 0; pass < 2; pass++) {
+    for (const w of wanted) {
+      all = ensureHeadVisible(rng, all, w, MIN_VISIBLE_HEAD_RATIO, area);
+    }
   }
 
   // Tri stable : à zIndex égal, les recherchés (en tête) restent dessous
@@ -269,6 +282,8 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
   );
   const placedCharacters = useMemo(() => placePile(spec, area), [spec, area]);
 
+  const foundIds = useFoundIds();
+
   const { gameState, animationLevelLoading, debug } = useGameStore(
     useShallow((state) => ({
       gameState: state.gameState,
@@ -294,11 +309,12 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
 
   // Persos touchables, remplis pendant le rendu ci-dessous (z = ordre de dessin)
   const candidates: HitCandidate[] = [];
+  const foundSpots: HitCandidate[] = [];
   const hitArea = new Rectangle(0, 0, board.width, board.height);
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
     if (disableClick || showOnlyWantedCharacter) return;
-    const hit = pickCharacterAt(e.global.x, e.global.y, candidates);
+    const hit = pickTap(e.global.x, e.global.y, candidates, foundSpots);
     if (!hit) return;
     handleCharacterClick(
       { x: e.global.x, y: e.global.y },
@@ -322,10 +338,12 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
       >
         <Container>
           {placedCharacters.map((character, index) => {
+            const found = character.isWanted && foundIds.has(character.id);
             if (
               selectedCharacterId === character.id &&
               !isCorrectSelection &&
-              !blinkState
+              !blinkState &&
+              !found
             ) {
               return null;
             }
@@ -336,27 +354,44 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
 
             const cx = character.x * scale;
             const cy = character.y * scale;
-            candidates.push({
+            const hit = {
               id: character.id,
               cx,
               cy,
-              size,
+              size: size * character.look.scale,
               z: index,
               isWanted: character.isWanted,
-            });
+            };
+            if (found) foundSpots.push(hit);
+            else candidates.push(hit);
 
             return (
-              <Sprite
+              <CrowdSprite
                 key={`character-${character.id}`}
+                name={character.isWanted ? targetName(character.id) : undefined}
+                cx={cx}
+                cy={cy}
+                size={size}
                 image={character.imageSrc}
-                x={cx - size / 2}
-                y={cy - size / 2}
-                width={size}
-                height={size}
-                eventMode="none"
+                look={character.look}
+                gold={character.gold}
+                found={character.gold && found}
+                phase={character.id}
               />
             );
           })}
+
+          {/* Cibles trouvées : marqueur au-dessus du tas */}
+          {placedCharacters
+            .filter((c) => c.isWanted && !c.gold && foundIds.has(c.id))
+            .map((c) => (
+              <FoundMarker
+                key={`found-${c.id}`}
+                cx={c.x * scale}
+                cy={c.y * scale}
+                size={size}
+              />
+            ))}
 
           {/* Debug : disque de tête du recherché (zone de toucher) */}
           {debug &&
