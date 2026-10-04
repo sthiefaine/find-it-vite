@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { preloadImages } from "../../game/assetReadiness";
 
 export type ImagesPreloaderProps = {
   imageUrls: string[];
@@ -6,16 +7,9 @@ export type ImagesPreloaderProps = {
 
 export const ImagePreloader = ({ imageUrls }: ImagesPreloaderProps) => {
   useEffect(() => {
-    const totalImages = imageUrls.length;
-
-    if (totalImages === 0) {
-      return;
-    }
-
-    imageUrls.forEach((url) => {
-      const img = new Image();
-      img.src = url;
-    });
+    // Réutilisé par le chargement bloquant du niveau. Un échec de préchauffage
+    // reste récupérable : le niveau réessaiera et affichera son propre message.
+    void preloadImages(imageUrls).catch(() => undefined);
   }, [imageUrls]);
 
   return null;

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { motion, Variants } from "framer-motion";
+import { motion, useReducedMotion, Variants } from "framer-motion";
 import { useShallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
 import NumberFlow from "@number-flow/react";
 import {
-  CircleCheck,
   CircleX,
   Compass,
   Flag,
@@ -13,8 +12,6 @@ import {
   RefreshCw,
   Share2,
   Sparkles,
-  Star,
-  Trophy,
   Zap,
 } from "lucide-react";
 import { GameStateEnum, GameRecord, useGameStore } from "../../../store/store";
@@ -31,10 +28,11 @@ import {
   scoreMessage,
 } from "./resultsHelpers";
 import { dailyShareText } from "../../game/modes";
+import { GameIcon } from "../Icons/GameIcon";
 import "./Results.css";
 
 // Apparition des blocs les uns après les autres
-const STEP_S = 0.3;
+const STEP_S = 0.08;
 const RECORD_STEP = 2;
 
 const list: Variants = {
@@ -43,31 +41,22 @@ const list: Variants = {
 };
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.9 },
+  hidden: { opacity: 0, y: 10 },
   show: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    transition: { type: "spring", stiffness: 380, damping: 22 },
+    transition: { duration: 0.24 },
   },
 };
 
 const pop: Variants = {
-  hidden: { opacity: 0, scale: 0.3, rotate: -8 },
+  hidden: { opacity: 0, scale: 0.85 },
   show: {
     opacity: 1,
     scale: 1,
-    rotate: 0,
-    transition: { type: "spring", stiffness: 420, damping: 12 },
+    transition: { type: "spring", stiffness: 320, damping: 22 },
   },
 };
-
-const SPARKLES = [
-  { x: -120, y: -10, d: 0.1 },
-  { x: 120, y: -14, d: 0.2 },
-  { x: -95, y: 26, d: 0.3 },
-  { x: 100, y: 28, d: 0.15 },
-];
 
 // Presse-papier, avec repli pour les navigateurs sans API clipboard
 async function copyText(text: string): Promise<boolean> {
@@ -89,6 +78,7 @@ async function copyText(text: string): Promise<boolean> {
 
 export default function Results() {
   const navigate = useNavigate();
+  const reducedMotion = useReducedMotion();
   const {
     gameState,
     gameRecord,
@@ -126,7 +116,7 @@ export default function Results() {
   useEffect(() => {
     if (!gameRecord) return;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    timers.push(setTimeout(() => setShownScore(shownValue), 450));
+    timers.push(setTimeout(() => setShownScore(shownValue), reducedMotion ? 0 : 250));
     timers.push(
       setTimeout(
         () => setSoundSrc(isNewRecord ? playNewHihScoreSound : playFinishSound),
@@ -134,7 +124,7 @@ export default function Results() {
       )
     );
     return () => timers.forEach(clearTimeout);
-  }, [gameRecord, shownValue, isNewRecord, setSoundSrc]);
+  }, [gameRecord, shownValue, isNewRecord, setSoundSrc, reducedMotion]);
 
   if (!gameRecord) return null;
 
@@ -171,53 +161,51 @@ export default function Results() {
   const title = () => resultsTitle(mode, { won, score, dailyLabel: dailyLabel(gameRecord) });
 
   const message = () => {
-    if (mode === "adventure" && run) return adventureRunMessage(run);
+    if (mode === "adventure" && run) return adventureRunMessage({ ...run, phases: [] });
     return frenchSpacing(scoreMessage(score));
   };
 
-  const showSparkles = mode !== "adventure" || won;
+  const celebration = mode === "adventure" ? won : score > 0;
+  const tap = reducedMotion ? undefined : { scale: 0.97 };
 
   return (
     <motion.div
       className={`results-overlay results-${mode}`}
-      initial={{ opacity: 0 }}
+      initial={reducedMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: reducedMotion ? 0 : 0.2 }}
       role="dialog"
       aria-modal="true"
-      aria-label="Fin de la partie"
+      aria-labelledby="results-title"
+      aria-describedby="results-message"
     >
       <motion.div
         className="results-card"
         variants={list}
-        initial="hidden"
+        initial={reducedMotion ? false : "hidden"}
         animate="show"
       >
-        <motion.div className="results-title" variants={pop}>
-          <h2 className={title().length > 10 ? "results-title-long" : ""}>{title()}</h2>
-          {showSparkles &&
-            SPARKLES.map((s, i) => (
-              <motion.span
-                key={i}
-                className="results-sparkle"
-                initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-                animate={{ opacity: [0, 1, 0.8], scale: [0, 1.3, 1], x: s.x, y: s.y }}
-                transition={{ delay: 0.25 + s.d, duration: 0.6 }}
-              >
-                <Star size={18} fill="currentColor" />
-              </motion.span>
-            ))}
-          <p className="results-message">{message()}</p>
-        </motion.div>
+        <motion.header className="results-title" variants={pop}>
+          <div className="results-emblem" aria-hidden="true">
+            <GameIcon name={celebration ? "trophy" : "paw"} />
+            {celebration && <>
+              <GameIcon name="star" className="results-sparkle results-sparkle-left" />
+              <GameIcon name="star" className="results-sparkle results-sparkle-right" />
+            </>}
+          </div>
+          <h2 id="results-title" className={title().length > 10 ? "results-title-long" : ""}>{title()}</h2>
+          <p id="results-message" className="results-message">{message()}</p>
+        </motion.header>
 
         {mode === "adventure" && run ? (
           <>
             <motion.div className="results-score" variants={item} aria-label={`${run.starsEarned} étoiles gagnées`}>
-              <Star className="results-score-star" size={34} fill="currentColor" />
-              <span className="results-score-value">
-                <NumberFlow value={shownScore} />
-              </span>
+              <GameIcon name="star" className="results-score-star" />
+              <div className="results-score-total">
+                <span className="results-score-value"><NumberFlow value={shownScore} animated={!reducedMotion} /></span>
+                <span className="results-score-label">étoiles gagnées</span>
+              </div>
             </motion.div>
             <motion.ul className="results-stats" variants={item}>
               <li className="stat-level">
@@ -226,7 +214,7 @@ export default function Results() {
                 <span>{run.stepsCleared > 1 ? "étapes" : "étape"}</span>
               </li>
               <li className="stat-found">
-                <CircleCheck size={22} />
+                <GameIcon name="check" />
                 <strong>{stats.found}</strong>
                 <span>trouvés</span>
               </li>
@@ -245,37 +233,38 @@ export default function Results() {
         ) : (
           <>
             <motion.div className="results-score" variants={item}>
-              <Star className="results-score-star" size={34} fill="currentColor" />
-              <span className="results-score-value">
-                <NumberFlow value={shownScore} />
-              </span>
+              <GameIcon name="star" className="results-score-star" />
+              <div className="results-score-total">
+                <span className="results-score-value"><NumberFlow value={shownScore} animated={!reducedMotion} /></span>
+                <span className="results-score-label">{score > 1 ? "points" : "point"}</span>
+              </div>
             </motion.div>
 
             <motion.div variants={item}>
               {mode === "daily" ? (
                 <div className="results-record">
-                  <Trophy size={18} /> Meilleur du jour&nbsp;: {gameRecord.dailyBest}
+                  <GameIcon name="trophy" /> Meilleur du jour&nbsp;: {gameRecord.dailyBest}
                 </div>
               ) : gameRecord.calm ? (
-                <div className="results-record">∞ Mode calme</div>
+                <div className="results-record"><GameIcon name="infinity" /> Mode calme</div>
               ) : isNewRecord ? (
                 <motion.div
                   className="results-record results-record-new"
-                  animate={{ scale: [1, 1.08, 1] }}
-                  transition={{ delay: 1, duration: 0.6, repeat: 2 }}
+                  animate={reducedMotion ? undefined : { scale: [1, 1.03, 1] }}
+                  transition={{ delay: 0.6, duration: 0.5 }}
                 >
-                  <Trophy size={22} /> Nouveau record&nbsp;!
+                  <GameIcon name="trophy" /> Nouveau record&nbsp;!
                 </motion.div>
               ) : (
                 <div className="results-record">
-                  <Trophy size={18} /> Record&nbsp;: {gameRecord.bestScore}
+                  <GameIcon name="trophy" /> Record&nbsp;: {gameRecord.bestScore}
                 </div>
               )}
             </motion.div>
 
             <motion.ul className="results-stats" variants={item}>
               <li className="stat-found">
-                <CircleCheck size={22} />
+                <GameIcon name="check" />
                 <strong>{stats.found}</strong>
                 <span>trouvés</span>
               </li>
@@ -301,25 +290,18 @@ export default function Results() {
         {mode === "adventure" && gameRecord.newCharacters.length > 0 && (
           <motion.div
             className="results-new"
-            initial={{ opacity: 0, scale: 0.6, rotate: -6 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{
-              delay: 1.2,
-              type: "spring",
-              stiffness: 300,
-              damping: 14,
-            }}
+            variants={item}
           >
-            <span className="results-new-label">
+            <span className="results-new-label"><GameIcon name="album" />
               {frenchSpacing(
-                gameRecord.newCharacters.length > 1 ? "Nouveaux persos !" : "Nouveau perso !"
+                gameRecord.newCharacters.length > 1 ? "Nouvelles découvertes !" : "Nouvelle découverte !"
               )}
             </span>
             <div className="results-new-list">
               {gameRecord.newCharacters.slice(0, 5).map((c) => (
                 <figure key={c.name}>
                   <img src={c.imageSrc} alt="" width={48} height={48} />
-                  <figcaption>{c.label}</figcaption>
+                  <figcaption lang="fr">{c.label}</figcaption>
                 </figure>
               ))}
             </div>
@@ -331,7 +313,7 @@ export default function Results() {
             <img src={wantedCharacter.imageSrc} alt="" width={52} height={52} />
             <div>
               <span>Il t'a échappé</span>
-              <strong>{wantedCharacter.label}</strong>
+              <strong lang="fr">{wantedCharacter.label}</strong>
             </div>
           </motion.div>
         )}
@@ -341,7 +323,7 @@ export default function Results() {
             <motion.button
               className="results-btn results-btn-share"
               onClick={handleShare}
-              whileTap={{ scale: 0.94 }}
+              whileTap={tap}
               autoFocus
             >
               <Share2 size={26} /> {copied ? frenchSpacing("Copié !") : "Partager"}
@@ -350,7 +332,7 @@ export default function Results() {
           <motion.button
             className={`results-btn ${mode === "daily" ? "results-btn-second" : "results-btn-replay"}`}
             onClick={handleReplay}
-            whileTap={{ scale: 0.94 }}
+            whileTap={tap}
             autoFocus={mode !== "daily"}
           >
             <RefreshCw size={mode === "daily" ? 22 : 28} /> Rejouer
@@ -360,7 +342,7 @@ export default function Results() {
               <motion.button
                 className="results-btn results-btn-home results-btn-map"
                 onClick={() => goTo("/adventure")}
-                whileTap={{ scale: 0.94 }}
+                whileTap={tap}
               >
                 <MapIcon size={22} /> Carte
               </motion.button>
@@ -368,7 +350,7 @@ export default function Results() {
             <motion.button
               className="results-btn results-btn-home"
               onClick={() => goTo("/")}
-              whileTap={{ scale: 0.94 }}
+              whileTap={tap}
             >
               <House size={22} /> Accueil
             </motion.button>

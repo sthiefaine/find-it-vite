@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef } from "react";
+import { useId, useLayoutEffect, useMemo, useRef } from "react";
 import type { CSSProperties, RefObject } from "react";
 import { GameStateEnum, useGameStore } from "../../../store/store";
 import { BOARD } from "../../engine/types";
@@ -8,6 +8,7 @@ import {
 } from "../../game/foliage";
 import type { FoliageDrag, FoliagePoint } from "../../game/foliage";
 import { isPageVisible, subscribeAppActive } from "../../platform/appLifecycle";
+import { preparedImage } from "../../game/assetReadiness";
 import "./Foliage.css";
 
 const IMAGE = "/assets/images/obstacles/foliage.png";
@@ -17,27 +18,35 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
   const layerRef = useRef<HTMLDivElement>(null);
   const keyboardClear = useRef<(id: number) => void>(() => undefined);
   const tier = useGameStore(state => state.tier);
+  const loading = useGameStore(state => state.animationLevelLoading);
   const density = spec.scene?.foliage;
   const seed = spec.seed;
   const instructionsId = useId();
   const patches = useMemo(() => density ? makeFoliage(seed, density, tier) : [], [seed, density, tier]);
 
-  useEffect(() => {
+  // La source est déjà décodée : préparer le masque avant la première peinture
+  // évite une frame sans feuilles au moment de découvrir le plateau.
+  useLayoutEffect(() => {
     const board = boardRef.current;
     const layer = layerRef.current;
-    if (!board || !layer || !patches.length) return;
+    const img = preparedImage(IMAGE);
+    if (loading || !board || !layer || !patches.length || !img) return;
     const buttons = Array.from(layer.querySelectorAll<HTMLButtonElement>(".foliage-patch"));
     const cleared = new Set<number>();
     const offsets = patches.map(() => ({ ...ORIGIN }));
     const frames = new Map<number, number>();
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let drag: FoliageDrag | null = null;
-    let ready = false;
     let visible = isPageVisible();
-    let alive = true;
-    let alpha: Uint8ClampedArray | null = null;
     const maskSize = 128;
-    const img = new Image();
+    const mask = document.createElement("canvas");
+    mask.width = maskSize;
+    mask.height = maskSize;
+    const context = mask.getContext("2d", { willReadFrequently: true });
+    if (!context) return;
+    context.drawImage(img, 0, 0, maskSize, maskSize);
+    const alpha = context.getImageData(0, 0, maskSize, maskSize).data;
+    layer.dataset.ready = "true";
     board.classList.add("foliage-board");
 
     const isActive = () => {
@@ -95,22 +104,8 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       const active = isActive();
       layer.dataset.active = String(active);
       if (!active) cancelDrag();
-      for (const patch of patches) buttons[patch.id].tabIndex = active && ready && !cleared.has(patch.id) ? 0 : -1;
+      for (const patch of patches) buttons[patch.id].tabIndex = active && !cleared.has(patch.id) ? 0 : -1;
     };
-    img.onload = () => {
-      if (!alive) return;
-      const canvas = document.createElement("canvas");
-      canvas.width = maskSize;
-      canvas.height = maskSize;
-      const context = canvas.getContext("2d", { willReadFrequently: true });
-      if (!context) return;
-      context.drawImage(img, 0, 0, maskSize, maskSize);
-      alpha = context.getImageData(0, 0, maskSize, maskSize).data;
-      ready = true;
-      layer.dataset.ready = "true";
-      syncActive();
-    };
-    img.src = IMAGE;
 
     const pointOf = (event: PointerEvent): FoliagePoint => {
       const box = board.getBoundingClientRect();
@@ -121,7 +116,7 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       event.stopImmediatePropagation();
     };
     const pointerDown = (event: PointerEvent) => {
-      if (!ready || !alpha || !isActive() || event.button !== 0 || useGameStore.getState().obstacleBlocking) return;
+      if (!isActive() || event.button !== 0 || useGameStore.getState().obstacleBlocking) return;
       if (event.target instanceof Element && event.target.closest(".seagulls-preview")) return;
       if (drag) { swallow(event); return; }
       const point = pointOf(event);
@@ -158,7 +153,7 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       if (drag?.pointerId === event.pointerId) cancelDrag();
     };
     keyboardClear.current = id => {
-      if (!ready || !isActive() || useGameStore.getState().obstacleBlocking) return;
+      if (!isActive() || useGameStore.getState().obstacleBlocking) return;
       cancelDrag();
       clearPatch(id, ORIGIN);
       const next = patches.find(patch => !cleared.has(patch.id));
@@ -180,7 +175,6 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
     syncActive();
 
     return () => {
-      alive = false;
       cancelDrag();
       frames.forEach(cancelAnimationFrame);
       unsubscribeVisibility();
@@ -191,13 +185,12 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       board.removeEventListener("pointerup", pointerEnd, true);
       board.removeEventListener("pointercancel", pointerEnd, true);
       board.removeEventListener("lostpointercapture", lostCapture);
-      img.onload = null;
       layer.dataset.ready = "false";
       keyboardClear.current = () => undefined;
     };
-  }, [boardRef, patches, seed]);
+  }, [boardRef, patches, seed, loading]);
 
-  if (!density) return null;
+  if (!density || loading) return null;
   return <div ref={layerRef} className="foliage-layer" data-ready="false" data-active="false" aria-label="Feuillages à écarter">
     <span id={instructionsId} className="foliage-instructions">Fais glisser les feuilles pour regarder dessous. Au clavier, appuie sur Entrée ou Espace pour les écarter.</span>
     {patches.map(patch => <button

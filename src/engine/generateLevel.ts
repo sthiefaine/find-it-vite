@@ -24,7 +24,7 @@ import type { Rng } from "./rng";
 import { GEN_VERSION, SPRITE_SIZE } from "./types";
 import type { GenContext, Layout, LayoutParams, LevelSpec, Modifier, Rule, Slot, Tier } from "./types";
 import { LIMITS, validateSpec } from "./validate";
-import { animalSimilarity, selectAnimalDecoys } from "./animalSimilarity";
+import { animalConfusionRisk, selectAnimalDecoys } from "./animalSimilarity";
 
 export const MIN_POOL_SIZE = 3;
 const MAX_ATTEMPTS = 8;
@@ -70,8 +70,10 @@ export function wantedAt(index: number, ctx: GenContext): CharacterDetails {
 }
 
 // ─── Leurres ───
-function buildDecoys(wanted: CharacterDetails, rho: number, pool: CharacterDetails[], rng: Rng): CharacterDetails[] {
-  return selectAnimalDecoys(wanted, rho, pool, rng, DECOY_SLOTS);
+function buildDecoys(
+  wanted: CharacterDetails, rho: number, pool: CharacterDetails[], rng: Rng, index: number, tier: Tier,
+): CharacterDetails[] {
+  return selectAnimalDecoys(wanted, rho, pool, rng, { index, tier }, DECOY_SLOTS);
 }
 
 // ─── Règle ───
@@ -155,8 +157,8 @@ function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): Lev
   const mods = allowedModifiers(ctx);
 
   // Modificateurs
-  let rho = lookalikeRatio(index, tier, slot);
-  if (intro || rule === "goldRush" || !mods.has("lookalikes")) rho = Math.min(rho, SUB_THRESHOLD_RHO);
+  let rho = round2(lookalikeRatio(index, tier, slot));
+  if (intro || rule === "goldRush" || !mods.has("lookalikes")) rho = 0;
   let flashlight = false;
   if (mods.has("flashlight")) {
     if (intro?.kind === "modifier" && intro.modifier === "flashlight") flashlight = true;
@@ -173,7 +175,7 @@ function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): Lev
   const pr = rng.fork("params");
   let d = difficultyOf(budget) * (0.92 + 0.16 * pr.next());
   if (flashlight) d *= 0.85;
-  const hasLookalike = ctx.pool.some((c) => c.name !== wanted.name && animalSimilarity(wanted, c) > 0);
+  const hasLookalike = ctx.pool.some((c) => c.name !== wanted.name && animalConfusionRisk(wanted, c) > 0);
   if (!hasLookalike) d *= 1 + 0.3 * rho; // pas de sosie possible : plus de monde à la place
   d = clamp(d, 0, 1);
   const params = buildParams(layout, index, tier, d, flashlight, pr);
@@ -182,7 +184,7 @@ function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): Lev
     params.gridSize = LIMITS.grid.minGoldRush;
   }
 
-  const decoys = rule === "oddOneOut" ? [wanted] : buildDecoys(wanted, rho, ctx.pool, rng.fork("decoys"));
+  const decoys = rule === "oddOneOut" ? [wanted] : buildDecoys(wanted, rho, ctx.pool, rng.fork("decoys"), index, tier);
 
   const spec: LevelSpec = {
     genVersion: GEN_VERSION,
@@ -222,7 +224,7 @@ function fallbackLevel(index: number, ctx: GenContext, seed: number): LevelSpec 
     rule: "classic",
     modifiers: [],
     wanted,
-    decoys: ctx.pool.filter((c) => c.name !== wanted.name),
+    decoys: buildDecoys(wanted, 0, ctx.pool, createRng(hash32(seed, "fallback-decoys")), index, ctx.tier),
     params: { gridSize },
     spriteSize: SPRITE_SIZE,
     findCount: 1,

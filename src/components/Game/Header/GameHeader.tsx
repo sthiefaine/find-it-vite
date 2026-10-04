@@ -4,13 +4,16 @@ import { GameStateEnum, useGameStore } from "../../../../store/store";
 import { useShallow } from "zustand/shallow";
 import { Timer } from "./Timer/Timer";
 import ScoreDisplay from "./ScoreDisplay/ScoreDisplay";
-import { Countdown } from "../../Countdown/Countdown";
 import { MODIFIER_ICON, RULE_ICON, targetCount } from "../../../engine/rules";
 import type { LevelSpec } from "../../../engine/types";
 import { useSaveStore } from "../../../save/saveStore";
 import { MISSION_GOAL } from "../../../game/modes";
 import { AnimalPortrait } from "../../AnimalPortrait/AnimalPortrait";
+import { Countdown } from "../../Countdown/Countdown";
+import { GameIcon } from "../../Icons/GameIcon";
 import { getAccessory } from "../../../content/accessories";
+import { preloadImages } from "../../../game/assetReadiness";
+import { levelCountdownUntil } from "../../../game/levelPreparation";
 
 const MEMORY_SHOW_MS = { easy: 2500, normal: 1500, expert: 1500 } as const;
 const MEMORY_PEEK_MS = 1000;
@@ -53,6 +56,16 @@ export const GameHeader = () => {
     }))
   );
   const frame = useSaveStore((s) => s.save.settings.frame);
+  const [preparedPortrait, setPreparedPortrait] = useState<LevelSpec | null>(null);
+  useEffect(() => {
+    if (!spec || !animationLevelLoading) return;
+    const controller = new AbortController();
+    const accessory = getAccessory(spec.accessories?.target);
+    void preloadImages([spec.wanted.imageSrc, ...(accessory ? [accessory.imageSrc] : [])], controller.signal).then(() => {
+      if (!controller.signal.aborted) setPreparedPortrait(spec);
+    }, () => undefined);
+    return () => controller.abort();
+  }, [spec, animationLevelLoading]);
 
   // Apparition du portrait : pilotée par une classe CSS (opacité 0 dès la première frame)
   // et non plus par un état React mis à jour après coup, qui laissait passer une frame à
@@ -65,34 +78,11 @@ export const GameHeader = () => {
     return () => clearTimeout(t);
   }, [wantedCharacter, animationLevelLoading]);
 
-  // Précharge l'image pendant le chargement du niveau : elle est décodée avant d'être montrée
-  const imageSrc = wantedCharacter?.imageSrc;
-  const accessorySrc = getAccessory(spec?.accessories?.target)?.imageSrc;
-  useEffect(() => {
-    if (!imageSrc) return;
-    const img = new Image();
-    img.src = imageSrc;
-  }, [imageSrc]);
-  useEffect(() => {
-    if (!accessorySrc) return;
-    const img = new Image();
-    img.src = accessorySrc;
-  }, [accessorySrc]);
-
-  // Le 3-2-1 n'est joué qu'au début de la partie, pas aux changements de niveau
-  const countdownDone = useRef(false);
-  useEffect(() => {
-    if (gameState !== GameStateEnum.PLAYING) countdownDone.current = false;
-  }, [gameState]);
-  useEffect(() => {
-    if (!animationLevelLoading && wantedCharacter) countdownDone.current = true;
-  }, [animationLevelLoading, wantedCharacter]);
-
   const levelKey = spec ? `${spec.seed}-${spec.index}` : "";
   const rule = spec?.rule ?? "classic";
-  const shown = !animationLevelLoading && !!wantedCharacter;
+  const shown = !!wantedCharacter && (!animationLevelLoading || preparedPortrait === spec);
 
-  const ready = shown && gameState === GameStateEnum.PLAYING;
+  const ready = shown && !animationLevelLoading && gameState === GameStateEnum.PLAYING;
 
   // Plus de fenêtre de découverte : le jeu reste fluide, les indices de l'avis suffisent
   // (tampon de la règle, silhouette, intrus, ×N, carte mémoire). Les nouvelles mécaniques
@@ -166,6 +156,7 @@ export const GameHeader = () => {
   // --- Nom affiché sous le portrait ---
   const remaining = spec ? Math.max(0, targetCount(spec) - foundCount) : 0;
   const renderName = () => {
+    if (animationLevelLoading && wantedCharacter && rule === "classic") return wantedCharacter.label;
     if (!shown) return "???";
     switch (rule) {
       case "silhouette":
@@ -204,15 +195,16 @@ export const GameHeader = () => {
           }${showBack && !flipping ? " wanted-tappable" : ""}`}
           onPointerDown={peek}
         >
+          {animationLevelLoading && spec && <span className="wanted-level">Niveau {spec.index}</span>}
           <div
             className={`wanted-image-container${flipping ? " card-flipping" : ""}`}
           >
-            {animationLevelLoading &&
-              gameState === GameStateEnum.PLAYING &&
-              !countdownDone.current && <Countdown />}
-            {wantedCharacter && (
-              // Monté pendant le chargement (caché) : l'image est prête quand elle apparaît.
-              // La clé change avec le niveau : jamais l'ancien perso sous le nouveau.
+            {animationLevelLoading && !shown && <GameIcon name="paw" className="wanted-loading-paw" />}
+            {animationLevelLoading && spec && gameState === GameStateEnum.PLAYING && <div className="wanted-countdown">
+              <Countdown key={levelKey} until={levelCountdownUntil(spec) ?? 0} />
+            </div>}
+            {shown && wantedCharacter && (
+              // Les images sont décodées avant le montage, y compris après un nouvel essai.
               <AnimalPortrait
                 key={`${levelKey}-${wantedCharacter.imageSrc}`}
                 className={`wanted-portrait${shown ? " portrait-in" : ""}${
@@ -247,7 +239,7 @@ export const GameHeader = () => {
             {stampIcon(spec)}
           </div>
           <div className="wanted-name-container">
-            <p className={`wanted-name${isAnimating ? " name-appear" : ""}`}>
+            <p lang="fr" className={`wanted-name${isAnimating ? " name-appear" : ""}`}>
               {renderName()}
             </p>
           </div>

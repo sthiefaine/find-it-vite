@@ -11,7 +11,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const stars = useSaveStore((s) => totalStars(s.save));
 
-  if (location.pathname === "/") return null;
+  if (location.pathname === "/" || location.pathname === "/multiplayer") return null;
 
   const title = headerTitle(location.pathname);
 

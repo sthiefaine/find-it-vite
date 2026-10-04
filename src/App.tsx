@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home/Home";
@@ -15,6 +16,8 @@ import { AudioGestion } from "./components/Game/gameHelpers/audioGestion/audioGe
 import { animalsPack } from "./helpers/characters";
 import { ImagePreloader } from "./components/ImagesPreloader/ImagesPreloader";
 import { useAndroidBackButton } from "./platform/backButton";
+
+const Multiplayer = lazy(() => import("./pages/Multiplayer/Multiplayer"));
 
 // Outil de test (window.__findIt), jamais inclus en production
 if (import.meta.env.DEV) void import("./helpers/devFindIt");
@@ -36,6 +39,7 @@ function App() {
         <Route path="/options" element={<Options />} />
         <Route path="/duel" element={<Duel />} />
         <Route path="/play" element={<PlaySetup />} />
+        <Route path="/multiplayer" element={<Suspense fallback={null}><Multiplayer /></Suspense>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

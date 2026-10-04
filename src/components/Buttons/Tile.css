@@ -30,9 +30,22 @@
 }
 
 .fi-tile-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 40px;
   line-height: 1;
   filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.35));
+}
+
+.fi-tile-icon .game-icon {
+  width: 48px;
+  height: 48px;
+}
+
+.fi-tile-sm .fi-tile-icon .game-icon {
+  width: 42px;
+  height: 42px;
 }
 
 .fi-tile-sm .fi-tile-icon {
@@ -51,11 +64,21 @@
 }
 
 .fi-tile-sub {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   font-size: 13px;
   font-weight: 800;
   padding: 3px 8px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.28);
+}
+
+.fi-tile-sub .game-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
 }
 
 .fi-tile-badge {

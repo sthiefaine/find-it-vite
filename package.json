@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "vite",
     "dev host": "vite --host",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && tsc -p server/tsconfig.json && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "studio": "vite --mode studio --host 127.0.0.1 --port 5174 --strictPort --open /studio.html",
@@ -17,7 +17,10 @@
     "cap:sync": "pnpm build && npx cap sync",
     "cap:android": "npx cap open android",
     "cap:ios": "npx cap open ios",
-    "android:debug": "pnpm build && pnpm exec cap sync android && node scripts/build-android.mjs"
+    "android:debug": "pnpm build && pnpm exec cap sync android && node scripts/build-android.mjs",
+    "multiplayer": "tsx server/index.ts",
+    "multiplayer:dev": "tsx watch server/index.ts",
+    "multiplayer:check": "tsc -p server/tsconfig.json"
   },
   "dependencies": {
     "@capacitor/android": "^7.6.9",
@@ -34,17 +37,22 @@
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.477.0",
     "pixi.js": "7",
+    "qrcode": "1.5.4",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^7.2.0",
+    "tsx": "4.23.15",
+    "ws": "8.22.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@capacitor/cli": "^7.6.9",
     "@eslint/js": "^9.21.0",
     "@types/node": "^22.13.5",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^18.0.10",
     "@types/react-dom": "^18.0.4",
+    "@types/ws": "^8.18.2",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",
     "eslint-plugin-react-hooks": "^5.0.0",

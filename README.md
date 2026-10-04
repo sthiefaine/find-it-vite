@@ -5,7 +5,7 @@ Un jeu d'observation pour toute la famille : trouve l'animal recherché dans la 
 - Aventure, avec des mondes et des étoiles ;
 - Infini ;
 - Défi du jour ;
-- Duel à deux sur le même écran.
+- Duel à deux en salon en ligne ou sur le même écran.
 
 Les animaux trouvés remplissent un album.
 
@@ -24,7 +24,7 @@ sont conservés par la migration de sauvegarde v7.
 
 Les étapes introduisent séparément le défilement, les **feuilles à écarter** (6),
 les **vagues** (7), les oiseaux (9), les **rondes** (11) et les **départs/arrêts**
-(12). Des étapes plus calmes alternent avec les combinaisons avancées. Enfant
+(12), puis les **groupes traversants** (18). Des étapes plus calmes alternent avec les combinaisons avancées. Enfant
 réduit le nombre d’animaux, leur vitesse et les feuillages ; les feuilles et les
 oiseaux ne s’y cumulent jamais.
 
@@ -32,17 +32,25 @@ Les défilements des étapes 4 et 10, puis tous ceux à partir de l’étape 13,
 remplissent leurs rangées. Les premières découvertes (3, 7 et 12) restent plus
 espacées. Des grilles fixes remplissent aussi le plateau : 88 portraits alignés,
 ou 93 en quinconce avec des demi-têtes de leurres sur les côtés. La cible reste
-toujours entièrement visible. Les tas denses retrouvent leur fond de 88 animaux
-et leurs portraits superposés aléatoirement. Le nom et la description de la scène
+entière dans les grilles fixes. Certains défilements ajoutent deux demi-rangées
+aux bords transverses : leurs leurres restent coupés, la cible est dans les rangées
+intérieures. Les tas denses retrouvent leur fond de 88 animaux et leurs portraits
+superposés aléatoirement. Dans les tas sans feuilles, la cible peut être largement
+recouverte : 18–65 % de sa zone centrale visible en Normal, 15–50 % en Expert
+(estimation conservatrice par les carrés des sprites). Une ouverture cliquable
+reste garantie ; les trois cercles historiques sont disponibles en debug. Le nom et la description de la scène
 ne prennent plus de place au-dessus du plateau.
 
-Après l’étape 40, chaque cycle de douze étapes alterne trois grilles pleines,
-quatre défilements pleins, trois tas et deux foules mobiles, dont une seule ronde.
-Les petites grilles d’introduction ne reviennent plus. En Normal, les tas dépassent
-210 portraits et les rondes dépassent 100 ; les portraits et positions changent
-avec chaque graine. Les rondes denses parcourent cinq boucles à coins arrondis,
-jusqu’au centre et aux bords, à vitesse régulière. L’Enfant conserve des grilles
-plus petites, des tas sans fond supplémentaire et au maximum 60 animaux mobiles.
+Après l’étape 40, chaque cycle de seize étapes alterne quatre grilles pleines,
+quatre défilements pleins, quatre tas et quatre foules mobiles, dont une ronde
+et deux traversées par vagues. Les petites grilles d’introduction ne reviennent
+plus. Les tas dépassent 380 portraits (plafond de 340 + 88 en fond), les rondes
+avancées dépassent 140. Leurs pistes décentrées se recoupent, avec des oscillations
+individuelles ; les petites rondes Enfant gardent trois ellipses simples. Les vagues
+traversantes arrivent des deux côtés, avec des groupes asynchrones et des courbes
+seedées renouvelées hors écran. La cible suit les mêmes lois que les leurres.
+L’Enfant conserve des grilles plus petites, des tas sans fond supplémentaire et
+au maximum 60 animaux mobiles.
 
 Dans les scènes concernées, des goélands traversent le plateau : un seul, 2–3,
 7–8 ou un géant. Délais, sens, positions et tailles varient avec la graine de la
@@ -66,7 +74,19 @@ réservés au serveur de développement. Le sprite transparent se trouve dans
 `public/assets/images/obstacles/seagull.png` ; son prompt et sa provenance dans
 `content/sprites/seagull.prompt.txt`. Pour tester les feuilles, ouvrir
 `http://127.0.0.1:5174/game?seed=42&level=6` ; les vagues sont à l’étape 7,
-les rondes à 11 et les arrêts à 12. Ces raccourcis sont réservés au développement.
+les rondes à 11 et les arrêts à 12. Pour les foules avancées : tas caché à 43,
+demi-colonnes à 46, rondes croisées à 47 et groupes traversants à 53. Ces raccourcis
+sont réservés au développement.
+
+À chaque niveau, les images sont téléchargées et décodées et leurs textures Pixi
+sont préparées avant de libérer le chrono et le plateau. Le délai minimal reste
+de 3 secondes à chaque avis, avec le portrait, son nom complet et le décompte
+3–2–1 dans le cadre Wanted. La grille reste vide pendant cette transition. Le
+niveau suivant est préchargé pendant le niveau courant, sans faire avancer la partie. Une erreur ou un délai de 15 secondes
+permet de réessayer ou de revenir à l’accueil ; un ancien chargement ne peut pas
+débloquer un nouveau niveau. Le Duel attend aussi le décodage de son pool avant
+la première manche. Les noms complets se répartissent sur plusieurs lignes dans
+l’avis de recherche.
 
 Le catalogue contient 48 têtes animales, toutes au format PNG transparent 512 × 512.
 Les 14 anciens portraits ont été redessinés avec imagegen d’après les références
@@ -78,6 +98,11 @@ préserver l’album et la progression. Leurs PNG sont dans
 provenance dans `content/sprites/<animal>.v2.prompt.txt`. Les nouvelles espèces
 conservent leur prompt et leur provenance dans `content/sprites/<animal>.prompt.txt`.
 Le sprite de feuilles est dans `public/assets/images/obstacles/foliage.png`.
+
+L’accueil réunit six portraits autour du capybara, avec un mouvement léger
+désactivé si les animations sont réduites. Ses boutons, trophées et aperçus de
+thèmes utilisent les SVG personnalisés de `src/components/Icons/GameIcon.tsx` ;
+les portraits restent les sprites du catalogue.
 
 ## Collections, pelages et déguisements
 
@@ -109,9 +134,13 @@ animaux. L’ancien paramètre `serie` ne permet pas de contourner les déblocag
 
 Chaque animal possède une espèce, une race/variété facultative, une couleur
 principale, jusqu’à trois couleurs dominantes et plusieurs catégories. Le catalogue
-et l’album se filtrent par espèce, catégorie ou couleur. Le générateur privilégie
-les autres races de la même espèce comme sosies ; les familles visuelles et les
-couleurs prennent le relais. Les suggestions de races dans l’atelier sont des
+et l’album se filtrent par espèce, catégorie ou couleur. Le moteur distingue
+la ressemblance des couleurs du risque de confusion. En Normal, les silhouettes
+voisines arrivent à partir de 9, les races contrastées à 21, les quasi-sosies
+(guépard/léopard, coq/poule, loup/husky…) à 41, avec des quotas progressifs. Enfant
+repousse ces seuils à 15/36/71 ; Expert les avance à 5/13/25. Les boss respectent
+ces seuils. Un petit pool de races utilise les portraits disponibles les moins
+confondables, sans ajouter d’animal verrouillé. Les suggestions de races dans l’atelier sont des
 pistes de création : elles ne remplacent pas les portraits à générer et importer.
 
 Cinq accessoires sont disponibles : **casquette, bob, lunettes de soleil,
@@ -216,3 +245,66 @@ docker build -t find-it . && docker run -p 8080:80 find-it
 ## Mobile
 
 Pour la PWA, Android, iOS et la check-list des stores, voir [MOBILE.md](MOBILE.md).
+
+
+## Salons multijoueurs
+
+Le bouton **Duel** propose **En ligne** (chacun son appareil) ou **Côte à côte**
+(le duel existant sur un seul écran). L’hôte choisit un thème puis crée un salon
+privé de deux joueurs ; son code comporte cinq lettres/chiffres sans caractères
+ambigus. Le QR et le lien d’invitation contiennent ce code, jamais le jeton privé
+de reconnexion.
+
+Les deux joueurs cherchent sur **la même grille**, avec les mêmes positions et
+mouvements. Le premier qui trouve marque un point et fait passer les deux joueurs
+au niveau suivant. Chacun commence avec trois vies et un chrono personnel de
+60 secondes. Une erreur enlève une vie ; trouver rapporte 5 secondes, sans dépasser
+60. Dès que les vies ou le chrono d’un joueur atteignent zéro, la partie se termine
+immédiatement et l’autre gagne, quel que soit le score. Si les deux chronos expirent
+exactement ensemble, la partie est une égalité. Les temps restants sont conservés
+pendant le chargement commun et le décompte 3–2–1 dans le cadre Wanted ; le plateau
+reste vide jusqu’au départ synchronisé. Un abandon ou une déconnexion de plus de
+20 secondes donne la victoire à l’autre joueur. Le serveur décide des scores,
+vies, délais et changements de niveau : aucun score déclaré par le client
+n’est accepté. Les grilles, tas, défilements, rondes et accessoires sont présents ;
+les feuilles et goélands restent pour l’instant réservés aux parties solo.
+
+Pour développer, garder deux terminaux ouverts :
+
+```sh
+pnpm multiplayer:dev
+pnpm studio
+```
+
+Le serveur écoute par défaut `127.0.0.1:3001`. Vite relaie `/ws` vers lui,
+y compris sur le studio à `http://127.0.0.1:5174`. `MULTIPLAYER_PROXY_TARGET`
+permet de changer cette cible de développement.
+
+Pour essayer sur deux appareils du même réseau, servir le jeu compilé directement
+avec le serveur multijoueur (cela n’expose pas le backoffice du studio) :
+
+```sh
+pnpm build
+HOST=0.0.0.0 PORT=3001 pnpm multiplayer
+```
+
+Ouvrir `http://ADRESSE_RESEAU_DU_MAC:3001` sur les deux appareils. Le lien et le
+QR sont construits depuis cette adresse ; un lien `127.0.0.1` ne peut pas inviter
+un autre appareil.
+
+Pour une mise en ligne, le serveur Node doit tourner en continu avec HTTPS et
+WebSocket (`/ws`). L’image dédiée sert à la fois les fichiers du jeu et les salons :
+
+```sh
+docker build -f server/Dockerfile -t find-it-multiplayer .
+docker run --rm -p 3001:3001 find-it-multiplayer
+```
+
+Le contrôle de santé est `GET /health`. Si le frontend reste sur Vercel ou un
+hébergeur statique, construire avec `VITE_MULTIPLAYER_URL=wss://SERVEUR/ws` et
+configurer `MULTIPLAYER_ALLOWED_ORIGINS=https://DOMAINE_DU_JEU` sur le serveur
+(liste séparée par virgules). Sans cette variable, seule l’origine de même hôte
+est acceptée pour les navigateurs. `TRUST_PROXY=1` ne s’active que derrière un
+proxy de confiance qui remplace `X-Forwarded-For`. Les salons sont en mémoire :
+un redémarrage les termine. Une seule instance est prévue pour cette version.
+Le push Git seul ne déploie pas ce nouveau service sur un hébergeur statique.

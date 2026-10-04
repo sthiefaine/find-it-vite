@@ -9,6 +9,7 @@ describe("backTarget", () => {
     expect(backTarget("/game", "")).toBe("/play?mode=endless");
     expect(backTarget("/game", "?theme=ferme")).toBe("/play?mode=endless");
     expect(backTarget("/duel", "?theme=foret")).toBe("/play?mode=duel");
+    expect(backTarget("/multiplayer", "?room=A2BCD")).toBe("/play?mode=duel");
   });
   it("ramène à l'accueil depuis le défi et les menus", () => {
     expect(backTarget("/game", "?mode=daily")).toBe("/");

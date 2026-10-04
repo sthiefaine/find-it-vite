@@ -1,16 +1,7 @@
 node_modules
 dist
 .git
-.gitignore
-.vscode
-.idea
-.DS_Store
-*.log
-*.local
-Dockerfile
-.dockerignore
-# Projets natifs Capacitor et sources d'icônes : inutiles pour le site
+.env*
+artifacts
 android
 ios
-resources
-shots

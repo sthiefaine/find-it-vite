@@ -5,7 +5,7 @@ export function backTarget(pathname: string, search: string): string {
     if (mode === "adventure") return "/adventure";
     if (mode !== "daily") return "/play?mode=endless";
   }
-  if (pathname === "/duel") return "/play?mode=duel";
+  if ((pathname === "/duel" || pathname === "/multiplayer")) return "/play?mode=duel";
   return "/";
 }
 
@@ -14,6 +14,7 @@ const TITLES: Record<string, string> = {
   "/album": "Album",
   "/options": "Options",
   "/duel": "Duel",
+  "/multiplayer": "Duel en ligne",
   "/play": "Choisir un thème",
 };
 

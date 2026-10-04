@@ -26,23 +26,27 @@ function sceneParams(scene: SceneDefinition, index: number, tier: Tier): LayoutP
         // Les trois premières découvertes restent aérées ; ensuite les lignes
         // retrouvent leur occupation historique, même en vagues ou en arrêts.
         scrollFill: scene.fullRows || index >= 13 ? 1 : clamp(easy ? .21 + density * .45 : .33 + density * .75, .15, 1),
-        extraLines: clamp(Math.floor(density * 4), 0, LIMITS.scroll.extraLinesMax),
+        extraLines: clamp(Math.floor(density * 4), scene.edgeRows && !easy ? 1 : 0, LIMITS.scroll.extraLinesMax),
+        ...(scene.edgeRows && !easy ? { edgeRows: true } : {}),
         scrollDirection: scene.direction ?? "horizontal",
         alternateDirection: scene.alternate ?? false,
       };
     case "pile": {
-      const count = clamp(Math.round(30 + density * 130), LIMITS.pile.countMin, LIMITS.pile.countMax);
+      const count = clamp(Math.round(easy || index < 20 ? 30 + density * 130 : 120 + density * 220), LIMITS.pile.countMin, LIMITS.pile.countMax);
+      const wantedBelow = !easy && index >= LIMITS.pile.wantedBelowFrom && !scene.foliage;
       return {
         count,
         jitter: rounded(2 + density * 4),
-        wantedBelow: !easy && index >= LIMITS.pile.wantedBelowFrom && !scene.foliage,
+        wantedBelow,
+        ...(wantedBelow ? { pileVisibility: tier === "expert" ? { min: .15, max: .5 } : { min: .18, max: .65 } } : {}),
         backgroundGrid: !easy && count >= LIMITS.pile.backgroundGridFrom,
       };
     }
     case "swarm":
       return {
         movement: scene.movement,
-        count: clamp(Math.round(easy ? 20 + density * 55 : 32 + density * 88), LIMITS.swarm.countMin, easy ? LIMITS.swarm.countMaxEasy : LIMITS.swarm.countMax),
+        count: clamp(Math.round(easy ? 20 + density * 55 : scene.movement === "orbit" && index >= 20
+          ? 60 + density * 105 : scene.movement === "crossing" ? 60 + density * 85 : 32 + density * 88), LIMITS.swarm.countMin, easy ? LIMITS.swarm.countMaxEasy : LIMITS.swarm.countMax),
         speed: clamp(rounded(.2 + density * .5), LIMITS.swarm.speedMin, easy ? LIMITS.swarm.speedMaxEasy : LIMITS.swarm.speedMax),
         edgeBehavior: "bounce",
       };

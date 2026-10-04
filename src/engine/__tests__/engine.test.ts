@@ -114,7 +114,8 @@ describe("generateLevel", () => {
         expect([fl.layout, fl.rule, fl.modifiers]).toEqual(["grid", "classic", ["flashlight"]]);
       }
     }
-  });
+  // 18 000 générations et leurs assertions ; la performance a son test dédié.
+  }, 15_000);
 
   it("allowedRules: ['classic'] ⇒ uniquement classic", () => {
     const ctx = ctxOf(99, "normal", { allowedRules: ["classic"], allowedModifiers: [] });

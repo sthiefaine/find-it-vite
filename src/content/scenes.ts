@@ -9,6 +9,7 @@ export type SceneDefinition = LevelScene & {
   direction?: LayoutParams["scrollDirection"];
   alternate?: boolean;
   fullRows?: boolean; // rangées de défilement complètes, sans cases vides
+  edgeRows?: boolean; // demi-rangées transverses supplémentaires
   fullGrid?: boolean; // grille rectangulaire sur toute la surface du plateau
   staggered?: boolean; // rangées en quinconce, avec demi-têtes sur les bords
   breather?: boolean;
@@ -44,16 +45,16 @@ export const SCENES: readonly SceneDefinition[] = [
   scene({ id: "grande-parade", name: "Grande parade", hint: "Retrouve ton animal entre les passages.", palette: "sunset", layout: "scroll", movement: "linear", direction: "horizontal", fullRows: true, density: .38, seagulls: true }),
   scene({ id: "ronde", name: "La ronde", hint: "Suis les animaux qui tournent.", palette: "meadow", layout: "swarm", movement: "orbit", density: .2 }),
   scene({ id: "petits-arrets", name: "Petits arrêts", hint: "Profite des arrêts pour observer.", palette: "forest", layout: "scroll", movement: "stopGo", direction: "vertical", density: .3 }),
-  scene({ id: "brise-legere", name: "Brise légère", hint: "Les rangées ondulent en sens inverse.", palette: "meadow", layout: "scroll", movement: "wave", direction: "horizontal", alternate: true, density: .36 }),
+  scene({ id: "brise-legere", edgeRows: true, name: "Brise légère", hint: "Les rangées ondulent en sens inverse.", palette: "meadow", layout: "scroll", movement: "wave", direction: "horizontal", alternate: true, density: .36 }),
   scene({ id: "canopee", name: "La canopée", hint: "Ouvre un passage dans les feuilles.", palette: "forest", layout: "pile", density: .56, foliage: "dense" }),
   scene({ id: "sieste", name: "La sieste", hint: "Prends le temps de bien regarder.", palette: "sunset", layout: "grid", density: .16, breather: true }),
   scene({ id: "ronde-feuillue", name: "Ronde feuillue", hint: "Écarte les feuilles puis suis la ronde.", palette: "forest", layout: "swarm", movement: "orbit", density: .34, foliage: "light" }),
   scene({ id: "vol-en-bande", name: "Vol en bande", hint: "Repère ton animal pendant les arrêts.", palette: "sunset", layout: "scroll", movement: "stopGo", direction: "horizontal", density: .4, seagulls: true }),
-  scene({ id: "course-herbe", name: "Dans l’herbe", hint: "Suis les animaux qui se croisent.", palette: "meadow", layout: "swarm", movement: "linear", density: .46 }),
+  scene({ id: "course-herbe", name: "Dans l’herbe", hint: "Suis les groupes qui traversent la prairie.", palette: "meadow", layout: "swarm", movement: "crossing", density: .46 }),
   scene({ id: "foret-animee", name: "Forêt animée", hint: "Dégage les feuilles et garde ton animal en vue.", palette: "forest", layout: "scroll", movement: "wave", direction: "horizontal", density: .32, foliage: "light", seagulls: true }),
   scene({ id: "grand-rendez-vous", name: "Le rendez-vous", hint: "Suis la ronde malgré les oiseaux.", palette: "sunset", layout: "swarm", movement: "orbit", density: .5, seagulls: true }),
   scene({ id: "lagon-bleu", name: "Lagon bleu", hint: "Découvre les visages du lagon.", palette: "lagoon", layout: "grid", density: .48, fullGrid: true, staggered: true }),
-  scene({ id: "courant", name: "Le courant", hint: "Suis les animaux emportés par le courant.", palette: "reef", layout: "scroll", movement: "linear", direction: "vertical", fullRows: true, density: .34 }),
+  scene({ id: "courant", edgeRows: true, name: "Le courant", hint: "Suis les animaux emportés par le courant.", palette: "reef", layout: "scroll", movement: "linear", direction: "vertical", fullRows: true, density: .34 }),
   scene({ id: "vague-douce", name: "Vague douce", hint: "Suis le mouvement des vagues.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "horizontal", density: .38 }),
   scene({ id: "jardin-marin", name: "Jardin marin", hint: "Écarte les feuilles pour explorer le lagon.", palette: "lagoon", layout: "grid", density: .5, fullGrid: true, foliage: "light" }),
   scene({ id: "banc-sable", name: "Banc de sable", hint: "Un coin tranquille pour observer.", palette: "sand", layout: "grid", density: .18, breather: true }),
@@ -62,10 +63,10 @@ export const SCENES: readonly SceneDefinition[] = [
   scene({ id: "sous-palmes", name: "Sous les palmes", hint: "Écarte les feuilles pour fouiller la foule.", palette: "sand", layout: "pile", density: .72, foliage: "dense" }),
   scene({ id: "vol-large", name: "Le vol du large", hint: "Garde ton animal en vue entre les oiseaux.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "horizontal", density: .44, seagulls: true }),
   scene({ id: "traversee", name: "La traversée", hint: "Suis la foule malgré les passages.", palette: "reef", layout: "swarm", movement: "linear", density: .54, seagulls: true }),
-  scene({ id: "courants-croises", name: "Courants croisés", hint: "Deux courants vont en sens inverse.", palette: "lagoon", layout: "scroll", movement: "linear", direction: "vertical", alternate: true, fullRows: true, density: .46 }),
+  scene({ id: "courants-croises", edgeRows: true, name: "Courants croisés", hint: "Deux courants vont en sens inverse.", palette: "lagoon", layout: "scroll", movement: "linear", direction: "vertical", alternate: true, fullRows: true, density: .46 }),
   scene({ id: "baie-oiseaux", name: "Baie des oiseaux", hint: "Retrouve ton animal entre deux vols.", palette: "sand", layout: "grid", density: .62, fullGrid: true, staggered: true, seagulls: true }),
   scene({ id: "recif-tournant", name: "Récif tournant", hint: "Dégage les feuilles et suis la ronde.", palette: "reef", layout: "swarm", movement: "orbit", density: .5, foliage: "light" }),
-  scene({ id: "ressac", name: "Le ressac", hint: "Suis les vagues qui remontent.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "vertical", alternate: true, density: .54 }),
+  scene({ id: "ressac", edgeRows: true, name: "Le ressac", hint: "Suis les vagues qui remontent.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "vertical", alternate: true, density: .54 }),
   scene({ id: "crique-secrete", name: "Crique secrète", hint: "Une dernière escale au calme.", palette: "sand", layout: "grid", density: .22, breather: true }),
   scene({ id: "banc-pause", name: "Banc en pause", hint: "Profite des arrêts de la foule.", palette: "reef", layout: "swarm", movement: "stopGo", density: .5 }),
   scene({ id: "tempete-plumes", name: "Plumes au vent", hint: "Suis les vagues entre les vols.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "horizontal", alternate: true, density: .54, seagulls: true }),
@@ -74,23 +75,27 @@ export const SCENES: readonly SceneDefinition[] = [
   scene({ id: "fete-lagon", name: "Fête du lagon", hint: "Suis ton animal au milieu de la fête.", palette: "lagoon", layout: "swarm", movement: "orbit", density: .54, foliage: "light", seagulls: true }),
 ];
 
-// Les longues parties gardent toutes les foules classiques : trois grilles
-// pleines, quatre défilements pleins, trois tas et deux foules mobiles par cycle.
-// Une seule ronde sur douze ; les introductions clairsemées ne reviennent plus.
+// Les longues parties alternent quatre grilles pleines, quatre défilements,
+// quatre tas et quatre foules mobiles, dont deux traversées par vagues.
+// Une seule ronde sur seize ; les introductions clairsemées ne reviennent plus.
 // Les graines du moteur renouvellent les portraits et leurs positions à chaque passage.
 export const ADVANCED_SCENES: readonly SceneDefinition[] = [
   scene({ id: "foule-quinconce", name: "En quinconce", hint: "Scrute les rangées décalées.", palette: "meadow", layout: "grid", density: .72, fullGrid: true, staggered: true }),
-  scene({ id: "lignes-serrees", name: "Lignes serrées", hint: "Suis les rangées complètes qui se croisent.", palette: "sunset", layout: "scroll", movement: "linear", direction: "horizontal", alternate: true, fullRows: true, density: .75 }),
+  scene({ id: "lignes-serrees", edgeRows: true, name: "Lignes serrées", hint: "Suis les rangées complètes qui se croisent.", palette: "sunset", layout: "scroll", movement: "linear", direction: "horizontal", alternate: true, fullRows: true, density: .75 }),
   scene({ id: "grand-tas", name: "Le grand tas", hint: "Cherche parmi les animaux superposés.", palette: "forest", layout: "pile", density: .78 }),
   scene({ id: "foule-mobile", name: "Foule en mouvement", hint: "Suis les animaux qui traversent la foule.", palette: "meadow", layout: "swarm", movement: "linear", density: .74 }),
   scene({ id: "plein-plateau", name: "Plein plateau", hint: "Examine les portraits jusqu’aux bords.", palette: "lagoon", layout: "grid", density: .82, fullGrid: true }),
-  scene({ id: "colonnes-pleines", name: "Colonnes pleines", hint: "Observe les colonnes qui défilent.", palette: "reef", layout: "scroll", movement: "linear", direction: "vertical", fullRows: true, density: .8 }),
+  scene({ id: "colonnes-pleines", edgeRows: true, name: "Colonnes pleines", hint: "Observe les colonnes qui défilent.", palette: "reef", layout: "scroll", movement: "linear", direction: "vertical", fullRows: true, density: .8 }),
   scene({ id: "grandes-rondes", name: "Les grandes rondes", hint: "Retrouve le portrait parmi les rondes serrées.", palette: "sand", layout: "swarm", movement: "orbit", density: .82 }),
   scene({ id: "foule-feuillue", name: "Foule feuillue", hint: "Écarte les feuilles pour examiner le tas.", palette: "forest", layout: "pile", density: .84, foliage: "light" }),
-  scene({ id: "vagues-serrees", name: "Vagues serrées", hint: "Suis les vagues dans les rangées pleines.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "horizontal", alternate: true, fullRows: true, density: .85 }),
+  scene({ id: "vagues-serrees", edgeRows: true, name: "Vagues serrées", hint: "Suis les vagues dans les rangées pleines.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "horizontal", alternate: true, fullRows: true, density: .85 }),
   scene({ id: "portraits-buissons", name: "Portraits cachés", hint: "Dégage les feuilles au milieu des rangées.", palette: "forest", layout: "grid", density: .8, fullGrid: true, staggered: true, foliage: "light" }),
   scene({ id: "foule-oiseaux", name: "Foule et oiseaux", hint: "Cherche dans le tas malgré les passages.", palette: "sunset", layout: "pile", density: .9, seagulls: true }),
-  scene({ id: "departs-groupes", name: "Départs groupés", hint: "Profite des arrêts des colonnes complètes.", palette: "reef", layout: "scroll", movement: "stopGo", direction: "vertical", alternate: true, fullRows: true, density: .85 }),
+  scene({ id: "departs-groupes", edgeRows: true, name: "Départs groupés", hint: "Profite des arrêts des colonnes complètes.", palette: "reef", layout: "scroll", movement: "stopGo", direction: "vertical", alternate: true, fullRows: true, density: .85 }),
+  scene({ id: "vagues-croisees", name: "Vagues croisées", hint: "Repère ton animal dans les groupes qui arrivent de chaque côté.", palette: "lagoon", layout: "swarm", movement: "crossing", density: .82 }),
+  scene({ id: "damier-vivant", name: "Damier vivant", hint: "Scrute les portraits jusqu’au dernier rang.", palette: "sunset", layout: "grid", density: .88, fullGrid: true, staggered: true }),
+  scene({ id: "grand-fouillis", name: "Le grand fouillis", hint: "Repère le petit morceau de visage qui dépasse.", palette: "meadow", layout: "pile", density: .94 }),
+  scene({ id: "vagues-du-large", name: "Vagues du large", hint: "Suis les groupes d’animaux entre les vols.", palette: "reef", layout: "swarm", movement: "crossing", density: .9, seagulls: true }),
 ];
 
 export function sceneForIndex(index: number): SceneDefinition {

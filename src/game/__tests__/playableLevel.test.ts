@@ -76,7 +76,7 @@ describe("objectif unique des parties", () => {
   it("alterne les lignes complètes et espacées, y compris lors des reprises", () => {
     for (const tier of ["easy", "normal", "expert"] as const) {
       const context = { seed: 42, tier, pool: charactersDetails };
-      for (const index of [4, 10, 13, 17, 19, 22, 23, 26, 29, 31, 34, 37, 39, 42, 46, 49, 52, 54, 58, 61, 64]) {
+      for (const index of [4, 10, 13, 17, 19, 22, 23, 26, 29, 31, 34, 37, 39, 42, 46, 49, 52, 58, 62, 65, 68]) {
         const spec = generatePlayableLevel(index, context);
         const crowd = layoutScroll(spec);
         const original = layoutScroll({ ...spec, params: { ...spec.params, scrollFill: undefined } });
@@ -111,20 +111,40 @@ describe("objectif unique des parties", () => {
         } else if (spec.layout === "pile") {
           const crowd = placePile(spec);
           expect(spec.params.backgroundGrid).toBe(true);
-          expect(crowd.length).toBeGreaterThanOrEqual(210);
+          expect(crowd.length).toBeGreaterThanOrEqual(380);
           expect(crowd.filter((animal) => animal.isBackground)).toHaveLength(88);
           expect(crowd.filter((animal) => animal.isWanted)).toHaveLength(1);
           expect(spec.params.wantedBelow).toBe(!spec.scene?.foliage);
+          if (spec.params.wantedBelow) expect(spec.params.pileVisibility?.min).toBeLessThan(.2);
         } else if (spec.layout === "swarm") {
           expect(placeSwarm(spec).length).toBeGreaterThanOrEqual(99);
-          expect(spec.params.count).toBeLessThanOrEqual(120);
+          expect(spec.params.count).toBeLessThanOrEqual(160);
         }
         expect(validateSpec(spec, context).errors).toEqual([]);
       }
-      const level53 = generatePlayableLevel(53, context);
-      expect(level53.params).toMatchObject({ fullGrid: true, staggered: true });
-      expect(layoutGrid(level53).cells.length).toBe(93);
+      const level54 = generatePlayableLevel(54, context);
+      expect(level54.params).toMatchObject({ fullGrid: true, staggered: true });
+      expect(layoutGrid(level54).cells.length).toBe(93);
     }
+  });
+
+  it("introduit les demi-rangées et les traversées sans raréfier les foules avancées", () => {
+    const context = { seed: 42, tier: "normal" as const, pool: charactersDetails };
+    for (const index of [13, 22, 31, 34, 42, 46, 49, 52]) {
+      const spec = generatePlayableLevel(index, context);
+      expect(spec.params.edgeRows).toBe(true);
+      expect(spec.params.extraLines).toBeGreaterThanOrEqual(1);
+      const layout = layoutScroll(spec);
+      const wanted = layout.slots.find(slot => slot.isWanted)!;
+      expect(wanted.line).toBeGreaterThan(0);
+      expect(wanted.line).toBeLessThan(layout.speeds.length - 1);
+    }
+    for (const index of [18, 53, 56]) {
+      const spec = generatePlayableLevel(index, context);
+      expect(spec.params.movement).toBe("crossing");
+      expect(placeSwarm(spec).length).toBeGreaterThanOrEqual(99);
+    }
+    expect(generatePlayableLevel(47, context).params.count).toBeGreaterThanOrEqual(140);
   });
 
   it("place moins d'animaux en défilement Enfant dans la campagne et les reprises", () => {

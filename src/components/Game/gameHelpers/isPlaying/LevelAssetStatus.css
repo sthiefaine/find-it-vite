@@ -1,0 +1,22 @@
+.level-asset-status {
+  position: fixed;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  width: min(300px, calc(100vw - 40px));
+  padding: 20px;
+  border: 3px solid #f3d98e;
+  border-radius: 22px;
+  color: #432460;
+  background: linear-gradient(150deg, #fffdf3, #fff0cb);
+  box-shadow: 0 6px 0 #b18543, 0 12px 30px #18082965;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.level-asset-status p { margin: 0; }
+.level-asset-status__actions { display: flex; gap: 8px; margin-top: 14px; justify-content: center; }
+.level-asset-status__actions button { border: 2px solid #60377d; border-radius: 12px; min-height: 44px; padding: 8px 12px; font: inherit; font-weight: 800; cursor: pointer; background: #633984; color: #fff5d4; box-shadow: 0 3px 0 #39224d; }
+.level-asset-status__actions button + button { background: #fff8e7; color: #633984; }
+.level-asset-status__actions button:focus-visible { outline: 3px solid #744998; outline-offset: 3px; }

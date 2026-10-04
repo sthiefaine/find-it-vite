@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
+import type { ReactNode } from "react";
 import "./Tile.css";
 
 export type TileProps = {
   to: string;
-  icon: string;
+  icon: ReactNode;
   label: string;
-  sub?: string;
+  sub?: ReactNode;
   badge?: string;
   color: "orange" | "pink" | "teal" | "purple" | "slate";
   size?: "md" | "sm";

@@ -33,7 +33,7 @@ export type Tier = "easy" | "normal" | "expert";
 
 export type GameMode = "endless" | "daily" | "adventure";
 
-export type MovementPattern = "linear" | "wave" | "stopGo" | "orbit";
+export type MovementPattern = "linear" | "wave" | "stopGo" | "orbit" | "crossing";
 
 export type LevelScene = {
   id: string;
@@ -55,12 +55,14 @@ export type LayoutParams = {
   scrollDirection?: "horizontal" | "vertical";
   alternateDirection?: boolean;
   extraLines?: number;
+  edgeRows?: boolean; // demi-rangées supplémentaires aux deux bords transverses
   scrollFill?: number; // occupation des cases, de 0.15 à 1 ; absent = foule historique
   // pile + swarm
   count?: number; // nombre de persos
   backgroundGrid?: boolean;
   jitter?: number;
   wantedBelow?: boolean; // le recherché peut être partiellement recouvert
+  pileVisibility?: { min: number; max: number }; // part visible variable quand la cible est sous la foule
   // scroll + swarm : vitesse en px par frame à 60 fps (≈ ancienne échelle)
   speed?: number;
   edgeBehavior?: "bounce" | "wrap";

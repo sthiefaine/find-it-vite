@@ -9,6 +9,7 @@ import type { CharacterDetails } from "../../../helpers/characters";
 import { HIT_RADIUS_RATIO } from "../../../helpers/hitTest";
 import { Look, PLAIN_LOOK, crowdPool, crowdSize, placeTargets, planTargets } from "./crowd";
 import { dressCrowd } from "../../../game/accessories";
+import { placeHiddenPileTarget } from "./pileVisibility";
 
 // ─── Cases (grid, scroll) ───
 
@@ -143,10 +144,11 @@ export function layoutScroll(spec: LevelSpec): ScrollLayout {
   const period = horizontal ? BOARD.w : BOARD.h;
   const cross = horizontal ? BOARD.h : BOARD.w;
   const perLine = Math.max(1, Math.floor(period / size));
+  const edgeRows = spec.params.edgeRows === true;
   let lineCount = Math.max(1, Math.floor(cross / size)) + extra;
-  while (lineCount * perLine < targetCount(spec)) lineCount++;
+  while ((lineCount - (edgeRows ? 2 : 0)) * perLine < targetCount(spec)) lineCount++;
   const mainStep = period / perLine;
-  const crossStep = cross / lineCount;
+  const crossStep = cross / (edgeRows ? lineCount - 1 : lineCount);
 
   // Vitesse par ligne : spec.params.speed est le maximum, chaque ligne entre 60 % et 100 %
   const baseSpeed = spec.params.speed ?? 1;
@@ -162,11 +164,26 @@ export function layoutScroll(spec: LevelSpec): ScrollLayout {
     return baseSpeed * (0.6 + 0.4 * rng.next()) * dir;
   });
 
-  let slots = placeCrowd(spec, lineCount * perLine, rng).map((slot) => ({
+  const crowd = placeCrowd(spec, lineCount * perLine, rng);
+  const replacements = new Map<number, CrowdSlot>();
+  if (edgeRows) {
+    // Les rangées de bord restent coupées pendant tout le passage : elles
+    // contiennent uniquement des leurres. On échange les contenus des cases,
+    // sans ajouter de cible ni modifier les tirages des vitesses.
+    const atEdge = (slot: CrowdSlot) => slot.id < perLine || slot.id >= (lineCount - 1) * perLine;
+    const targetsAtEdge = crowd.filter((slot) => slot.isWanted && atEdge(slot));
+    const safeDecoys = rng.fork("edge-row-targets").shuffle(crowd.filter((slot) => !slot.isWanted && !atEdge(slot)));
+    targetsAtEdge.forEach((target, index) => {
+      const decoy = safeDecoys[index];
+      replacements.set(target.id, { ...decoy, id: target.id });
+      replacements.set(decoy.id, { ...target, id: decoy.id });
+    });
+  }
+  let slots = crowd.map((slot) => replacements.get(slot.id) ?? slot).map((slot) => ({
     ...slot,
     line: Math.floor(slot.id / perLine),
     main: ((slot.id % perLine) + 0.5) * mainStep, // centre, le long du défilement
-    cross: (Math.floor(slot.id / perLine) + 0.5) * crossStep, // centre, en travers
+    cross: (Math.floor(slot.id / perLine) + (edgeRows ? 0 : 0.5)) * crossStep,
   }));
 
   if (spec.params.scrollFill !== undefined) {
@@ -399,10 +416,14 @@ export function placePile(spec: LevelSpec): CrowdCharacter[] {
     }
   }
 
-  // Deux passes : écarter un leurre d'une cible peut le pousser sur une autre
-  for (let pass = 0; pass < 2; pass++) {
-    for (const w of wanted) {
-      all = ensureHeadVisible(rng, all, w, MIN_VISIBLE_HEAD_RATIO, area);
+  if (wantedBelow && params.pileVisibility && spec.rule === "classic") {
+    all = placeHiddenPileTarget(all, wanted[0], params.pileVisibility, rng.fork("pile-visibility"), area);
+  } else {
+    // Deux passes : écarter un leurre d'une cible peut le pousser sur une autre
+    for (let pass = 0; pass < 2; pass++) {
+      for (const w of wanted) {
+        all = ensureHeadVisible(rng, all, w, MIN_VISIBLE_HEAD_RATIO, area);
+      }
     }
   }
 

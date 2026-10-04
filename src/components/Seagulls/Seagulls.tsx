@@ -5,6 +5,7 @@ import { BOARD } from "../../engine/types";
 import { birdPose, SeagullDirector } from "../../game/seagulls";
 import type { FlightKind } from "../../game/seagulls";
 import { isPageVisible, subscribeAppActive } from "../../platform/appLifecycle";
+import { preparedImage } from "../../game/assetReadiness";
 import "./Seagulls.css";
 
 const IMAGE = "/assets/images/obstacles/seagull.png";
@@ -39,10 +40,6 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
     context.scale(pixelScale, pixelScale);
     let director = new SeagullDirector(seed, tier);
     directorRef.current = director;
-    const img = new Image();
-    let ready = false;
-    img.onload = () => { ready = true; };
-    img.src = IMAGE;
     let visible = isPageVisible();
     const unsubscribeVisibility = subscribeAppActive(active => { visible = active; });
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -98,7 +95,8 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
         director.cancel();
         clear();
       } else {
-        const active = visible && ready && state.gameState === GameStateEnum.PLAYING && !state.pauseTimer && !state.worldBanner;
+        const img = preparedImage(IMAGE);
+        const active = visible && !!img && state.gameState === GameStateEnum.PLAYING && !state.pauseTimer && !state.worldBanner;
         const frame = director.advance(dt, active, eligible);
         context.clearRect(0, 0, BOARD.w, BOARD.h);
         canvas.dataset.flight = frame?.flight.kind ?? "none";
@@ -106,7 +104,7 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
           const progress = frame ? frame.ageMs / frame.flight.durationMs : 0;
           canvas.dataset.flightPhase = !frame ? "none" : progress < 0.4 ? "enter" : progress < 0.6 ? "middle" : "leave";
         }
-        if (frame && ready) {
+        if (frame && img) {
           for (const bird of frame.flight.birds) {
             const pose = birdPose(bird, frame.flight, frame.ageMs);
             if (!pose) continue;
@@ -139,7 +137,6 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
       unsubscribeRun();
       motion.removeEventListener("change", onMotion);
       inputRoot.removeEventListener("pointerdown", intercept, true);
-      img.onload = null;
       directorRef.current = null;
       setBlocked(false);
     };

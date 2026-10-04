@@ -26,10 +26,12 @@ import {
 } from "./duelLogic";
 import type { DuelRound, DuelState, DuelTarget, Player } from "./duelLogic";
 import { playDuelSound } from "./sound";
+import { preloadImages } from "../../game/assetReadiness";
 import * as haptics from "../../platform/haptics";
 import "./Duel.css";
 
 type Phase = "setup" | "ready" | "countdown" | "playing" | "victory";
+type AssetsStatus = "loading" | "ready" | "error";
 const COUNT_STEP_MS = 800;
 
 export default function Duel() {
@@ -52,6 +54,8 @@ function DuelSession({ theme }: { theme: PlayThemeId }) {
   const [locked, setLocked] = useState<Record<Player, boolean>>({ top: false, bottom: false });
   const [missKey, setMissKey] = useState<Record<Player, number>>({ top: 0, bottom: 0 });
   const [confirmQuit, setConfirmQuit] = useState(false);
+  const [assetsStatus, setAssetsStatus] = useState<AssetsStatus>("loading");
+  const [loadAttempt, setLoadAttempt] = useState(0);
 
   // Miroirs pour les touchers simultanés (pas d'état périmé)
   const duelRef = useRef(duel);
@@ -99,21 +103,34 @@ function DuelSession({ theme }: { theme: PlayThemeId }) {
   }, []);
 
   useEffect(() => {
-    // Précharger seulement les portraits du thème joué, y compris l'Océan.
-    pool.forEach((character) => { const image = new Image(); image.src = character.imageSrc; });
-  }, [pool]);
+    // Le pool entier reste prêt pour toutes les manches et les revanches.
+    // Le cache est partagé avec le jeu solo ; aucun téléchargement par manche.
+    const controller = new AbortController();
+    setAssetsStatus("loading");
+    void preloadImages(pool.map(character => character.imageSrc), controller.signal).then(
+      () => { if (!controller.signal.aborted) setAssetsStatus("ready"); },
+      () => { if (!controller.signal.aborted) setAssetsStatus("error"); },
+    );
+    return () => controller.abort();
+  }, [pool, loadAttempt]);
 
   // 3-2-1
   useEffect(() => {
-    if (phase !== "countdown") return;
-    if (count <= 0) {
-      playDuelSound(playStartSound);
-      setPhase("playing");
-      return;
-    }
+    if (phase !== "countdown" || count <= 0) return;
     const t = window.setTimeout(() => setCount((c) => c - 1), COUNT_STEP_MS);
     return () => window.clearTimeout(t);
   }, [phase, count]);
+
+  useEffect(() => {
+    if (phase !== "countdown" || count > 0 || assetsStatus !== "ready") return;
+    playDuelSound(playStartSound);
+    setPhase("playing");
+  }, [phase, count, assetsStatus]);
+
+  const retryAssets = () => {
+    setAssetsStatus("loading");
+    setLoadAttempt(attempt => attempt + 1);
+  };
 
   const startCountdown = () => {
     seedRef.current = randomSeed();
@@ -142,7 +159,7 @@ function DuelSession({ theme }: { theme: PlayThemeId }) {
 
   const onCell = (player: Player, cellIndex: number) => {
     const r = roundRef.current;
-    if (phaseRef.current !== "playing" || confirmRef.current || !r) return;
+    if (phaseRef.current !== "playing" || assetsStatus !== "ready" || confirmRef.current || !r) return;
     const { state, result } = tap(duelRef.current, player, cellIndex, r.wantedIndex, performance.now());
     if (result === "ignored") return;
     setDuelState(state);
@@ -195,8 +212,8 @@ function DuelSession({ theme }: { theme: PlayThemeId }) {
     if (phase === "setup") content = <SetupPanel onChoose={chooseTarget} />;
     else if (phase === "ready")
       content = <ReadyPanel target={target} isReady={ready[p]} otherReady={ready[other(p)]} onReady={() => pressReady(p)} />;
-    else if (phase === "countdown") content = <CountdownPanel count={count} />;
-    else if (phase === "playing" && round)
+    else if (phase === "countdown") content = <CountdownPanel count={count} assetsStatus={assetsStatus} onRetry={retryAssets} />;
+    else if (phase === "playing" && round && assetsStatus === "ready")
       content = (
         <PlayPanel
           round={round}
@@ -291,7 +308,14 @@ function ReadyPanel(props: { target: number; isReady: boolean; otherReady: boole
   );
 }
 
-function CountdownPanel({ count }: { count: number }) {
+function CountdownPanel({ count, assetsStatus, onRetry }: { count: number; assetsStatus: AssetsStatus; onRetry: () => void }) {
+  if (count <= 0 && assetsStatus !== "ready") {
+    const failed = assetsStatus === "error";
+    return <div className="duel-panel duel-assets" role={failed ? "alert" : "status"}>
+      <p>{failed ? "Certaines images n’ont pas pu être chargées." : "Préparation du duel…"}</p>
+      {failed && <button type="button" className="duel-btn" onClick={onRetry}>Réessayer</button>}
+    </div>;
+  }
   return (
     <div className="duel-panel">
       <AnimatePresence mode="popLayout">

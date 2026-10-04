@@ -7,7 +7,7 @@ import "./Grid.css";
 import "@pixi/events";
 import { Rectangle } from "pixi.js";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
-import { HIT_RADIUS_RATIO, HitCandidate } from "../../../helpers/hitTest";
+import type { HitCandidate } from "../../../helpers/hitTest";
 import { getBoard } from "../../../helpers/board";
 import type { LevelSpec } from "../../../engine/types";
 import { pickTap, targetName } from "./crowd";
@@ -15,6 +15,7 @@ import { placePile } from "./layouts";
 import { useFoundIds } from "./useFoundIds";
 import { CrowdSprite, FoundMarker } from "./CrowdSprite";
 import { useReleaseStage } from "./useReleaseStage";
+import { pileDebugZones } from "./pileVisibility";
 
 // Disposition "pile" : un tas de persos qui se chevauchent.
 // Placement en px logiques sur le plateau fixe 390×520 (placePile), rendu × board.scale.
@@ -48,7 +49,7 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
 
   useEffect(() => {
     if (!animationLevelLoading) setDisableClick(false);
-  }, [animationLevelLoading]);
+  }, [animationLevelLoading, setDisableClick]);
 
   const containerStyle = { width: board.width, height: board.height, maxHeight: "none" };
 
@@ -152,22 +153,23 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
               />
             ))}
 
-          {/* Debug : disque de tête du recherché (zone de toucher) */}
+          {/* Debug historique : trois zones de visibilité rouge, verte et bleue. */}
           {debug &&
             placedCharacters
               .filter((c) => c.isWanted)
-              .map((c) => (
+              .flatMap((c) => pileDebugZones(c.x, c.y, size).map((zone, index) => (
                 <Graphics
-                  key={`debug-${c.id}`}
-                  x={c.x}
-                  y={c.y}
+                  key={`debug-${c.id}-${index}`}
+                  x={zone.x}
+                  y={zone.y}
+                  eventMode="none"
                   draw={(g) => {
                     g.clear();
-                    g.lineStyle(2, 0xff0000, 0.6);
-                    g.drawCircle(0, 0, size * HIT_RADIUS_RATIO);
+                    g.lineStyle(2, zone.color, 0.6);
+                    g.drawCircle(0, 0, zone.radius);
                   }}
                 />
-              ))}
+              )))}
         </Container>
         {/* Zone de toucher unique, au-dessus des sprites */}
         <Container

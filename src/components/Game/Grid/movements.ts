@@ -3,6 +3,8 @@
 import { createRng, type Rng } from "../../../engine/rng";
 import { BOARD, type LayoutParams, type LevelSpec } from "../../../engine/types";
 import type { Area, ScrollLayout, ScrollSlot, SwarmCharacter } from "./layouts";
+import { createCrossingRoutes, crossingCharacterAt, type CrossingRoute } from "./crossingMovement";
+import { createOrbitRoutes, orbitCharacterAt, type OrbitRoute } from "./orbitMovement";
 
 const TAU = 2 * Math.PI;
 export const MAX_MOVEMENT_FRAME_S = 0.1;
@@ -70,27 +72,19 @@ export function scrollOffsetAt(movement: ScrollMovement, line: number, speed: nu
 // La phase varie le long du couloir : les animaux ne se déplacent pas en bloc.
 // Les copies de bord reçoivent le même cross, donc la boucle reste continue.
 export function scrollCrossAt(movement: ScrollMovement, slot: ScrollSlot, main: number, period: number, size: number): number {
-  if (movement.pattern !== "wave") return slot.cross;
+  if (movement.pattern !== "wave" || slot.cross <= 1e-6 || slot.cross >= movement.crossLength - 1e-6) return slot.cross;
   const half = size / 2;
   const baseline = Math.max(half, Math.min(movement.crossLength - half, slot.cross));
   const amplitude = Math.max(0, Math.min(movement.waveAmplitude, baseline - half, movement.crossLength - half - baseline));
   return baseline + amplitude * Math.sin(TAU * main / period + movement.lines[slot.line].wavePhase);
 }
 
-type OrbitRoute = {
-  kind: "orbit";
-  character: SwarmCharacter;
-  radiusX: number;
-  radiusY: number;
-  angle: number;
-  angularSpeed: number;
-  rounded?: { cornerRadius: number; perimeter: number };
-};
 type StopGoRoute = { kind: "stopGo"; character: SwarmCharacter; cadence: StopGoCadence };
-export type SwarmRoute = OrbitRoute | StopGoRoute;
+export type SwarmRoute = OrbitRoute | StopGoRoute | CrossingRoute;
 
 export function createSwarmMovement(spec: LevelSpec, characters: SwarmCharacter[], area: Area): SwarmRoute[] | null {
   const pattern = spec.params.movement;
+  if (pattern === "crossing") return createCrossingRoutes(spec, characters, area);
   if (pattern !== "orbit" && pattern !== "stopGo") return null;
   const rng = createRng(spec.seed).fork("swarm-movement");
   if (pattern === "stopGo") {
@@ -99,65 +93,7 @@ export function createSwarmMovement(spec: LevelSpec, characters: SwarmCharacter[
     return characters.map((character) => ({ kind: "stopGo", character, cadence: rng.pick(cadences) }));
   }
 
-  // Une foule dense sur trois ellipses remplirait seulement trois lignes.
-  // Cinq boucles arrondies occupent aussi le centre et les coins du plateau.
-  // Le choix est fixé à la génération : aucune transition de forme en mouvement.
-  const dense = characters.length > 60;
-  const radii = dense ? [0.10, 0.32, 0.54, 0.76, 0.98] : [0.28, 0.62, 0.95];
-  const totalRadius = radii.reduce((sum, radius) => sum + radius, 0);
-  const shuffled = rng.shuffle(characters);
-  const routes: SwarmRoute[] = [];
-  const direction = rng.chance(0.5) ? 1 : -1;
-  let used = 0;
-  for (let ring = 0; ring < radii.length; ring++) {
-    const count = ring === radii.length - 1 ? shuffled.length - used : Math.round(shuffled.length * radii[ring] / totalRadius);
-    const radiusX = (area.w - area.size) / 2 * radii[ring];
-    const radiusY = (area.h - area.size) / 2 * radii[ring];
-    const start = rng.next() * TAU;
-    const cornerRadius = Math.min(radiusX, radiusY) * 0.35;
-    const rounded = dense ? {
-      cornerRadius,
-      perimeter: 4 * (radiusX + radiusY - 2 * cornerRadius) + TAU * cornerRadius,
-    } : undefined;
-    // Les boucles denses avancent à vitesse constante le long du périmètre,
-    // y compris dans les coins. Les ellipses gardent leur vitesse historique.
-    const angularSpeed = (ring % 2 === 0 ? direction : -direction) * (spec.params.speed ?? 0.4) * 60
-      * (rounded ? TAU / rounded.perimeter : 1 / Math.max(radiusX, radiusY));
-    for (let index = 0; index < count; index++) {
-      routes.push({ kind: "orbit", character: shuffled[used++], radiusX, radiusY, angle: start + TAU * index / count, angularSpeed, ...(rounded ? { rounded } : {}) });
-    }
-  }
-  // Les anneaux peuvent devenir denses ; aucune tête ne masque la cible.
-  return routes.sort((a, b) => Number(a.character.isWanted) - Number(b.character.isWanted) || a.character.zIndex - b.character.zIndex);
-}
-
-function roundedOrbitPosition(route: OrbitRoute, angle: number): { x: number; y: number } {
-  const { cornerRadius: radius, perimeter } = route.rounded!;
-  const halfWidth = route.radiusX - radius;
-  const halfHeight = route.radiusY - radius;
-  const horizontal = halfWidth * 2;
-  const vertical = halfHeight * 2;
-  const arc = Math.PI / 2 * radius;
-  let distance = positiveModulo(angle, TAU) / TAU * perimeter;
-  const onCorner = (x: number, y: number, start: number) => ({
-    x: x + radius * Math.cos(start + distance / radius),
-    y: y + radius * Math.sin(start + distance / radius),
-  });
-  if (distance <= horizontal) return { x: -halfWidth + distance, y: -route.radiusY };
-  distance -= horizontal;
-  if (distance <= arc) return onCorner(halfWidth, -halfHeight, -Math.PI / 2);
-  distance -= arc;
-  if (distance <= vertical) return { x: route.radiusX, y: -halfHeight + distance };
-  distance -= vertical;
-  if (distance <= arc) return onCorner(halfWidth, halfHeight, 0);
-  distance -= arc;
-  if (distance <= horizontal) return { x: halfWidth - distance, y: route.radiusY };
-  distance -= horizontal;
-  if (distance <= arc) return onCorner(-halfWidth, halfHeight, Math.PI / 2);
-  distance -= arc;
-  if (distance <= vertical) return { x: -route.radiusX, y: halfHeight - distance };
-  distance -= vertical;
-  return onCorner(-halfWidth, -halfHeight, Math.PI);
+  return createOrbitRoutes(spec, characters, area, rng);
 }
 
 function positionOnAxis(initial: number, distance: number, length: number, size: number, edge: NonNullable<LayoutParams["edgeBehavior"]>): number {
@@ -169,15 +105,9 @@ function positionOnAxis(initial: number, distance: number, length: number, size:
 }
 
 export function swarmCharacterAt(route: SwarmRoute, time: number, area: Area, edge: NonNullable<LayoutParams["edgeBehavior"]>): SwarmCharacter {
+  if (route.kind === "crossing") return crossingCharacterAt(route, time, area);
   const character = route.character;
-  if (route.kind === "orbit") {
-    const angle = route.angle + route.angularSpeed * time;
-    if (route.rounded) {
-      const offset = roundedOrbitPosition(route, angle);
-      return { ...character, x: area.w / 2 + offset.x, y: area.h / 2 + offset.y };
-    }
-    return { ...character, x: area.w / 2 + route.radiusX * Math.cos(angle), y: area.h / 2 + route.radiusY * Math.sin(angle) };
-  }
+  if (route.kind === "orbit") return orbitCharacterAt(route, time, area);
   const travel = stopGoTime(time, route.cadence) * 60;
   return {
     ...character,

@@ -128,14 +128,50 @@ export function layoutFor(n: number, ctx: GenContext): Layout {
   return rawLayout(n, ctx, own);
 }
 
-// ─── Leurres de la même famille (modificateur lookalikes) ───
+// ─── Budget de confusion visuelle ───
 export const LOOKALIKE_CAP: Record<Tier, number> = { easy: 0.4, normal: 0.7, expert: 1 };
 export const LOOKALIKE_THRESHOLD = 0.4;
 
+export type VisualConfusionBudget = {
+  related: number; // silhouettes voisines, espèces différentes
+  breed: number; // même espèce, portraits contrastés
+  close: number; // races très proches ou paire connue de sosies
+};
+
+type ConfusionStage = { from: number; ramp: number; cap: number };
+const CONFUSION_STAGES: Record<Tier, Record<keyof VisualConfusionBudget, ConfusionStage>> = {
+  easy: {
+    related: { from: 15, ramp: 20, cap: .2 },
+    breed: { from: 36, ramp: 35, cap: .15 },
+    close: { from: 71, ramp: 60, cap: .15 },
+  },
+  normal: {
+    related: { from: 9, ramp: 16, cap: .25 },
+    breed: { from: 21, ramp: 24, cap: .3 },
+    close: { from: 41, ramp: 40, cap: .35 },
+  },
+  expert: {
+    related: { from: 5, ramp: 10, cap: .3 },
+    breed: { from: 13, ramp: 16, cap: .35 },
+    close: { from: 25, ramp: 30, cap: .45 },
+  },
+};
+
+// Parts maximales dans la liste pondérée des leurres. Chaque catégorie arrive
+// avec une seule place sur vingt ; un boss ne peut pas avancer son introduction.
+export function visualConfusionBudget(n: number, tier: Tier): VisualConfusionBudget {
+  const stages = CONFUSION_STAGES[tier];
+  const portion = ({ from, ramp, cap }: ConfusionStage) => n < from
+    ? 0 : Math.min(cap, .05 + (cap - .05) * (n - from) / ramp);
+  return { related: portion(stages.related), breed: portion(stages.breed), close: portion(stages.close) };
+}
+
 export function lookalikeRatio(n: number, tier: Tier, slot: Slot): number {
   const cap = LOOKALIKE_CAP[tier];
-  if (slot === "boss") return cap;
-  return Math.min(cap, 0.1 + 0.5 * (1 - Math.exp(-n / 40)));
+  const budget = visualConfusionBudget(n, tier);
+  const allowed = budget.related + budget.breed + budget.close;
+  const requested = slot === "boss" ? cap : 0.1 + 0.5 * (1 - Math.exp(-n / 40));
+  return Math.min(cap, allowed, requested);
 }
 
 export const maxModifiers = (slot: Slot, tier: Tier) => (slot === "boss" && tier === "expert" ? 2 : 1);

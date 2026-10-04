@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useRef, useState } from "react";
+import { createElement, useEffect, useRef, useState } from "react";
 import { GameStateEnum, useGameStore } from "../../../../../store/store";
 import { useShallow } from "zustand/shallow";
 import { useLocation, useNavigate } from "react-router-dom";
 import { dailySeed, randomSeed, seedFromCode } from "../../../../engine";
-import type { Tier } from "../../../../engine";
-import { generatePlayableLevel } from "../../../../game/playableLevel";
+import type { LevelSpec, Tier } from "../../../../engine";
 import { useSaveStore } from "../../../../save/saveStore";
 import { DEFAULT_TIER, TIERS } from "../../../../save/schema";
 import { MAX_TICK_DELTA_MS, tickClock } from "../../../../game/session";
-import { levelTarget, MAX_PLAY_TIME_S, missionSeed, readModeParams } from "../../../../game/modes";
-import { stepTarget, WORLD_BANNER_MS } from "../../../../game/adventureRun";
+import { MAX_PLAY_TIME_S, missionSeed, readModeParams } from "../../../../game/modes";
+import { WORLD_BANNER_MS } from "../../../../game/adventureRun";
 import { isLevelUnlocked, todayISO } from "../../../../content/progress";
 import { isPageVisible, subscribeAppActive } from "../../../../platform/appLifecycle";
-import { characterPoolFor } from "../../../../game/characterPool";
-import { playThemeFromSearch } from "../../../../content/playThemes";
-import { readAccessoryPreview, withAccessoryPreview } from "../../../../game/accessories";
+import { levelAssetUrls, preloadImages, startLevelAssetLoad } from "../../../../game/assetReadiness";
+import { beginLevelCountdown, generateRunLevel, levelCountdownUntil, nextRunLevel } from "../../../../game/levelPreparation";
+import { playStartSound } from "../../../../helpers/sounds";
+import { LevelAssetStatus } from "./LevelAssetStatus";
 
 const TICK_MS = 100;
 const BONUS_GRACE_MS = 150;
@@ -98,37 +98,58 @@ export function IsPlaying() {
   const location = useLocation();
   const navigate = useNavigate();
   const pathName = location.pathname;
-  const loadingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const [failedSpec, setFailedSpec] = useState<LevelSpec | null>(null);
   // Étape de la partie pour laquelle le niveau a été généré
   const setupFor = useRef<string | null>(null);
 
   // Le niveau courant est entièrement déterminé par (mode, runSeed, level, tier, pool)
-  const setupLevel = (isInitialSetup = false) => {
-    const { runSeed, tier, level, mode, adventureStep, missionFound } = useGameStore.getState();
-    const pool = characterPoolFor(mode, adventureStep, useSaveStore.getState().save, playThemeFromSearch(location.search));
-    // en Aventure : index de l'étape, une graine par avis, jamais deux fois le même recherché
-    const target =
-      mode === "adventure"
-        ? stepTarget(adventureStep, missionFound + 1, pool)
-        : levelTarget(mode, runSeed, level);
-    const generated = generatePlayableLevel(target.index, {
-      seed: target.seed,
-      tier,
-      pool,
-    });
-    const spec = withAccessoryPreview(generated, readAccessoryPreview(location.search, import.meta.env.DEV));
+  const setupLevel = () => {
+    const state = useGameStore.getState();
+    const { runSeed, level } = state;
+    const spec = generateRunLevel(state, useSaveStore.getState().save, location.search, import.meta.env.DEV);
     setupFor.current = `${runSeed}:${level}`;
+    beginLevelCountdown(spec, performance.now());
+    setAnimationLevelLoading(true);
     setCurrentSpec(spec);
-
-    if (loadingTimer.current) clearTimeout(loadingTimer.current);
-    loadingTimer.current = setTimeout(
-      () => {
-        loadingTimer.current = null;
-        setAnimationLevelLoading(false);
-      },
-      isInitialSetup ? 3000 : 1000
-    );
   };
+
+  const inGame = pathName === "/game" && (gameState === GameStateEnum.PLAYING || gameState === GameStateEnum.PAUSED);
+  useEffect(() => {
+    if (!inGame || !currentSpec || !animationLevelLoading) return;
+    const spec = currentSpec;
+    setFailedSpec(null);
+    const minimumMs = Math.max(0, (levelCountdownUntil(spec) ?? 0) - performance.now());
+    return startLevelAssetLoad(spec, {
+      minimumMs,
+      previewBirds: import.meta.env.DEV && new URLSearchParams(location.search).get("birds") === "1",
+    }, {
+      isCurrent: () => {
+        const state = useGameStore.getState();
+        return state.currentSpec === spec &&
+          (state.gameState === GameStateEnum.PLAYING || state.gameState === GameStateEnum.PAUSED);
+      },
+      onReady: () => {
+        setAnimationLevelLoading(false);
+        if (useGameStore.getState().gameState === GameStateEnum.PLAYING) useGameStore.getState().setSoundSrc(playStartSound);
+      },
+      onError: () => setFailedSpec(spec),
+    });
+  }, [inGame, currentSpec, animationLevelLoading, loadAttempt, location.search]);
+
+  // Pendant la recherche, on prépare déjà tous les portraits et les obstacles
+  // du prochain avis. Une fin de partie annule l'attente, jamais le cache partagé.
+  useEffect(() => {
+    if (!inGame || !currentSpec || animationLevelLoading) return;
+    const state = useGameStore.getState();
+    if (state.wantedFound || state.bonusDone) return;
+    const next = generateRunLevel(nextRunLevel(state), useSaveStore.getState().save, location.search, import.meta.env.DEV);
+    const controller = new AbortController();
+    const birds = import.meta.env.DEV && new URLSearchParams(location.search).get("birds") === "1";
+    // Un préchargement raté sera retenté par la barrière du prochain niveau.
+    void preloadImages(levelAssetUrls(next, birds), controller.signal).catch(() => undefined);
+    return () => controller.abort();
+  }, [inGame, currentSpec, animationLevelLoading, location.search]);
 
   const startGame = (savedTier: Tier) => {
     // Idempotent : en dev, StrictMode rejoue l'effet avec un état périmé ; on ne relance
@@ -170,8 +191,7 @@ export function IsPlaying() {
         level: debug.level ?? 1,
       });
     }
-    setupLevel(true);
-    setAnimationLevelLoading(true);
+    setupLevel();
     setGameState(GameStateEnum.PLAYING);
   };
 
@@ -179,7 +199,6 @@ export function IsPlaying() {
     const { gameState, runSeed } = useGameStore.getState();
     // pas de nouveau niveau si la partie s'est terminée pendant la transition
     if (gameState === GameStateEnum.PLAYING && setupFor.current !== `${runSeed}:${level}`) {
-      setAnimationLevelLoading(true);
       setupLevel();
     }
   }, [level]);
@@ -206,7 +225,6 @@ export function IsPlaying() {
           break;
       }
     } else {
-      if (loadingTimer.current) clearTimeout(loadingTimer.current);
       setClearGameStore();
       setGameState(GameStateEnum.NONE);
     }
@@ -322,5 +340,9 @@ export function IsPlaying() {
     return () => clearTimeout(timeout);
   }, [bonusSeed, gameState, animationLevelLoading, pauseTimer, bonusEndsAt, bonusPausedMs, appActive]);
 
-  return null;
+  return inGame && gameState === GameStateEnum.PLAYING && currentSpec && animationLevelLoading && failedSpec === currentSpec ? createElement(LevelAssetStatus, {
+    key: `${currentSpec.seed}:${currentSpec.index}`,
+    onRetry: () => { setFailedSpec(null); setLoadAttempt(attempt => attempt + 1); },
+    onExit: () => navigate("/"),
+  }) : null;
 }

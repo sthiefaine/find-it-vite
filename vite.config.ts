@@ -1,12 +1,17 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path';
 import { studioPlugin } from './scripts/studioPlugin';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  server: mode === 'studio' ? { host: '127.0.0.1', port: 5174, strictPort: true } : undefined,
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  return {
+  server: {
+    ...(mode === 'studio' ? { host: '127.0.0.1', port: 5174, strictPort: true } : {}),
+    proxy: { '/ws': { target: env.MULTIPLAYER_PROXY_TARGET || 'ws://127.0.0.1:3001', ws: true } },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -47,4 +52,5 @@ export default defineConfig(({ mode }) => ({
       },
     }),
   ],
-}))
+};
+})

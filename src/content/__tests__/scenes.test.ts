@@ -35,19 +35,20 @@ describe("campagne de scènes", () => {
   it("garde les mouvements compatibles avec leur disposition", () => {
     for (const scene of [...SCENES, ...ADVANCED_SCENES]) {
       if (scene.movement === "wave") expect(scene.layout).toBe("scroll");
-      if (scene.movement === "orbit") expect(scene.layout).toBe("swarm");
+      if (scene.movement === "orbit" || scene.movement === "crossing") expect(scene.layout).toBe("swarm");
       if (scene.movement === "stopGo") expect(["scroll", "swarm"]).toContain(scene.layout);
     }
   });
 
-  it("garde toutes les foules denses dans chaque fenêtre de douze étapes après la campagne", () => {
+  it("garde toutes les foules denses dans chaque fenêtre de seize étapes après la campagne", () => {
     for (let start = 41; start <= 150; start++) {
-      const replay = Array.from({ length: 12 }, (_, i) => sceneForIndex(start + i));
-      expect(new Set(replay.map((scene) => scene.id)).size).toBe(12);
-      expect(replay.filter((scene) => scene.layout === "grid" && scene.fullGrid)).toHaveLength(3);
+      const replay = Array.from({ length: 16 }, (_, i) => sceneForIndex(start + i));
+      expect(new Set(replay.map((scene) => scene.id)).size).toBe(16);
+      expect(replay.filter((scene) => scene.layout === "grid" && scene.fullGrid)).toHaveLength(4);
       expect(replay.filter((scene) => scene.layout === "scroll" && scene.fullRows)).toHaveLength(4);
-      expect(replay.filter((scene) => scene.layout === "pile")).toHaveLength(3);
+      expect(replay.filter((scene) => scene.layout === "pile")).toHaveLength(4);
       expect(replay.filter((scene) => scene.movement === "orbit")).toHaveLength(1);
+      expect(replay.filter((scene) => scene.movement === "crossing")).toHaveLength(2);
       expect(replay.every((scene) => !scene.breather)).toBe(true);
     }
     expect(sceneForIndex(4000)).toEqual(sceneForIndex(4000));

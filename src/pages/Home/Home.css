@@ -15,33 +15,122 @@
   justify-content: flex-end;
 }
 
-.home-mascot {
-  position: relative;
-  width: clamp(120px, 34vw, 150px);
-  aspect-ratio: 1;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
+.home-star-icon {
+  width: 24px;
+  height: 24px;
 }
 
-.home-mascot img {
+.home-animals {
+  position: relative;
+  width: min(100%, 390px);
+  height: clamp(152px, 46vw, 184px);
+  flex: 0 0 auto;
+  isolation: isolate;
+}
+
+.home-animals-decor {
+  position: absolute;
+  inset: -6% -2%;
+  width: 104%;
+  height: 106%;
+  pointer-events: none;
+}
+
+.home-animal {
+  position: absolute;
+  aspect-ratio: 1;
+  animation: home-animal-float var(--float-duration, 4s) var(--float-delay, 0s) ease-in-out infinite;
+  pointer-events: none;
+}
+
+.home-animal img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 6px 0 rgba(0, 0, 0, 0.25));
+  transform: rotate(var(--animal-tilt, 0deg));
+  filter: drop-shadow(0 4px 1px rgba(24, 7, 44, 0.36));
   user-select: none;
   -webkit-user-drag: none;
 }
 
-.home-mascot-shadow {
-  width: 90px;
-  height: 12px;
-  margin-top: -16px;
+.home-animal-cow {
+  left: 4%;
+  bottom: 29%;
+  width: 26%;
+  --animal-tilt: -13deg;
+  --float-duration: 4.6s;
+  --float-delay: -1.4s;
+}
+
+.home-animal-cat {
+  left: 24%;
+  bottom: 46%;
+  width: 25%;
+  --animal-tilt: -6deg;
+  --float-duration: 4.2s;
+  --float-delay: -2.8s;
+}
+
+.home-animal-sheep {
+  left: 51%;
+  bottom: 43%;
+  width: 27%;
+  --animal-tilt: 9deg;
+  --float-duration: 4.8s;
+  --float-delay: -3.3s;
+}
+
+.home-animal-fox {
+  left: 73%;
+  bottom: 22%;
+  width: 26%;
+  --animal-tilt: 13deg;
+  --float-duration: 4.1s;
+  --float-delay: -.8s;
+}
+
+.home-animal-dog {
+  left: 15%;
+  bottom: 1%;
+  width: 32%;
+  --animal-tilt: -8deg;
+  --float-duration: 4.4s;
+  --float-delay: -2s;
+}
+
+.home-animal-capybara {
+  left: 40%;
+  bottom: 0;
+  width: 37%;
+  --animal-tilt: 4deg;
+  --float-duration: 3.8s;
+  --float-delay: -.4s;
+}
+
+.home-animals-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 17%;
+  width: 68%;
+  height: 14%;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
+  background: radial-gradient(ellipse, rgba(12, 2, 32, .46), transparent 70%);
+}
+
+@keyframes home-animal-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 
 .home-play {
   width: 100%;
+}
+
+.home-play .game-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .home-tiles-2,
@@ -57,4 +146,23 @@
 
 .home-tiles-3 {
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-height: 720px) {
+  .home-main {
+    gap: 8px;
+    padding-top: 8px;
+    padding-bottom: 14px;
+  }
+
+  .home-animals {
+    height: clamp(138px, 42vw, 158px);
+    width: min(100%, 350px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-animal {
+    animation: none;
+  }
 }

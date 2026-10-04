@@ -17,7 +17,7 @@ describe("plateau et zones sûres", () => {
     vi.stubGlobal("getComputedStyle", computedStyle);
 
     // Écran court : le plateau laisse la place aux commandes et aux deux insets verticaux.
-    expect(getBoard().height).toBeCloseTo(321);
+    expect(getBoard().height).toBeCloseTo(303);
     expect(computedStyle).toHaveBeenCalledWith(root);
 
     // Écran haut : les deux marges latérales bornent cette fois la largeur.
@@ -27,6 +27,6 @@ describe("plateau et zones sûres", () => {
     // Pas de variables de zones sûres, comme dans un document sans la feuille globale.
     for (const name of Object.keys(insets)) delete insets[name];
     viewport.innerHeight = 667;
-    expect(getBoard().height).toBeCloseTo(399);
+    expect(getBoard().height).toBeCloseTo(381);
   });
 });

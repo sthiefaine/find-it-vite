@@ -12,8 +12,8 @@ export const LIMITS = {
   grid: { min: 2, max: Math.floor(BOARD.w / SPRITE_SIZE), maxEasy: 7, maxEasyLevel1: 3, minGoldRush: 4 },
   sprite: SPRITE_SIZE,
   scroll: { speedMin: 0.4, speedMax: 1.6, speedMaxEasy: 1.0, extraLinesMax: 3, fillMin: 0.15, fillMax: 1 },
-  pile: { countMin: 30, countMax: 160, jitterMin: 2, jitterMax: 6, wantedBelowFrom: 20, backgroundGridFrom: 100 },
-  swarm: { countMin: 20, countMax: 120, countMaxEasy: 60, speedMin: 0.2, speedMax: 0.6, speedMaxEasy: 0.35 },
+  pile: { countMin: 30, countMax: 340, jitterMin: 2, jitterMax: 6, wantedBelowFrom: 20, backgroundGridFrom: 100 },
+  swarm: { countMin: 20, countMax: 160, countMaxEasy: 60, speedMin: 0.2, speedMax: 0.6, speedMaxEasy: 0.35 },
   goldRushDurationS: 8,
 } as const;
 
@@ -46,6 +46,7 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
     case "scroll":
       inRange("speed", p.speed, L.scroll.speedMin, easy ? L.scroll.speedMaxEasy : L.scroll.speedMax);
       inRange("extraLines", p.extraLines, 0, L.scroll.extraLinesMax, true);
+      if (p.edgeRows && (p.extraLines ?? 0) < 1) err("edgeRows sans rangée supplémentaire");
       if (p.scrollFill !== undefined) inRange("scrollFill", p.scrollFill, L.scroll.fillMin, L.scroll.fillMax);
       if (p.scrollDirection !== "horizontal" && p.scrollDirection !== "vertical") err("scrollDirection manquante");
       break;
@@ -54,6 +55,12 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
       inRange("jitter", p.jitter, L.pile.jitterMin, L.pile.jitterMax);
       if (p.wantedBelow && (easy || spec.index < L.pile.wantedBelowFrom)) err("wantedBelow interdit ici");
       if (p.backgroundGrid && (p.count ?? 0) < L.pile.backgroundGridFrom) err("backgroundGrid avec count < 100");
+      if (p.pileVisibility) {
+        inRange("pileVisibility.min", p.pileVisibility.min, .15, 1);
+        inRange("pileVisibility.max", p.pileVisibility.max, .15, 1);
+        if (p.pileVisibility.min > p.pileVisibility.max) err("pileVisibility : min > max");
+        if (!p.wantedBelow) err("pileVisibility sans wantedBelow");
+      }
       break;
     case "swarm":
       inRange("count", p.count, L.swarm.countMin, easy ? L.swarm.countMaxEasy : L.swarm.countMax, true);

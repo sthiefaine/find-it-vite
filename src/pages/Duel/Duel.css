@@ -182,6 +182,13 @@
 .duel-trophy {
   font-size: 64px;
 }
+.duel-assets {
+  color: #1c1b2b;
+  font-size: clamp(18px, 6cqmin, 24px);
+  font-weight: 700;
+}
+.duel-assets p { max-width: 300px; margin: 0; }
+.duel-assets .duel-btn:focus-visible { outline: 3px solid #8739f9; outline-offset: 3px; }
 
 /* ─── Manche ─── */
 .duel-play {

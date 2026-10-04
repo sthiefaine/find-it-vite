@@ -1,11 +1,11 @@
-import { Play } from "lucide-react";
-import { motion, useReducedMotion } from "framer-motion";
 import { ButtonXL } from "../../components/Buttons/ButtonXL";
 import { Tile } from "../../components/Buttons/Tile";
+import { GameIcon } from "../../components/Icons/GameIcon";
 import { Title } from "../../components/Title/Title";
 import { useSaveStore } from "../../save/saveStore";
 import { todayISO, totalStars } from "../../content/progress";
 import { caughtCount } from "../Album/albumLogic";
+import { HomeAnimals } from "./HomeAnimals";
 import "../../components/Buttons/ui.css";
 import "./Home.css";
 
@@ -15,50 +15,47 @@ const Home = () => {
   const { caught, total } = caughtCount(save);
   const dailyNew = save.daily?.date !== todayISO();
   const best = save.progress.bestScore;
-  const reducedMotion = useReducedMotion();
 
   return (
     <div className="fi-screen home-screen">
       <main className="fi-inner home-main">
         <div className="home-top">
           <span className="fi-chip" aria-label={`${stars} étoiles`}>
-            <span className="fi-star">★</span> {stars}
+            <GameIcon name="star" className="home-star-icon" /> {stars}
           </span>
         </div>
 
         <Title tagline={false} />
 
-        <motion.div
-          className="home-mascot"
-          animate={reducedMotion ? undefined : { y: [0, -5, 0] }}
-          transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
-          whileTap={{ scale: 0.88, rotate: -6 }}
-        >
-          <img src="/assets/images/characters/animals/capybara.png" alt="La mascotte capybara" draggable={false} />
-        </motion.div>
-        <div className="home-mascot-shadow" aria-hidden="true" />
+        <HomeAnimals />
 
         <div className="home-play">
           <ButtonXL text="Jouer" link="/adventure" variant="bling">
-            <Play size={38} fill="currentColor" />
+            <GameIcon name="play" />
           </ButtonXL>
         </div>
 
         <div className="home-tiles-2">
-          <Tile to="/play?mode=endless" icon="♾️" label="Infini" sub={best > 0 ? `🏆 ${best}` : undefined} color="orange" />
+          <Tile
+            to="/play?mode=endless"
+            icon={<GameIcon name="infinity" />}
+            label="Infini"
+            sub={best > 0 ? <><GameIcon name="trophy" /> {best}</> : undefined}
+            color="orange"
+          />
           <Tile
             to="/game?mode=daily"
-            icon="🎯"
+            icon={<GameIcon name="daily" />}
             label="Défi du jour"
-            sub={save.daily?.date === todayISO() ? `🏆 ${save.daily.best}` : undefined}
+            sub={save.daily?.date === todayISO() ? <><GameIcon name="trophy" /> {save.daily.best}</> : undefined}
             badge={dailyNew ? "Nouveau" : undefined}
             color="pink"
           />
         </div>
         <div className="home-tiles-3">
-          <Tile to="/play?mode=duel" icon="👥" label="Duel" color="teal" size="sm" />
-          <Tile to="/album" icon="📖" label="Album" sub={`${caught}/${total}`} color="purple" size="sm" />
-          <Tile to="/options" icon="⚙️" label="Options" color="slate" size="sm" />
+          <Tile to="/play?mode=duel" icon={<GameIcon name="duel" />} label="Duel" color="teal" size="sm" />
+          <Tile to="/album" icon={<GameIcon name="album" />} label="Album" sub={`${caught}/${total}`} color="purple" size="sm" />
+          <Tile to="/options" icon={<GameIcon name="settings" />} label="Options" color="slate" size="sm" />
         </div>
       </main>
     </div>

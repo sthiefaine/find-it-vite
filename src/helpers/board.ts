@@ -5,7 +5,7 @@ import { BOARD } from "../engine/types";
 // Le rendu est ensuite mis à l'échelle uniformément (× scale) et centré.
 export type Board = { width: number; height: number; scale: number };
 
-const HEADER_AND_BUTTONS = 268; // navigation, avis de recherche, espacements et boutons, en px
+const HEADER_AND_BUTTONS = 286; // navigation, avis avec nom sur deux lignes, espacements et boutons
 const MAX_WIDTH = 450;
 
 // Fonction pure : plateau pour une fenêtre de viewW × viewH px CSS
