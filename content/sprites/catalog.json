@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": 6,
+  "revision": 7,
   "themes": [
     {
       "id": "animaux",
@@ -476,6 +476,308 @@
       "status": "ready",
       "source": "/assets/images/characters/animals/poule.png",
       "notes": "Portrait généré avec image_gen. PNG transparent 512 × 512, optimisé pour le jeu. Collection À la ferme."
+    },
+    {
+      "id": "koala",
+      "themeId": "animaux",
+      "label": "Koala",
+      "subject": "koala gris et blanc au grand nez noir",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/koala.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/koala.prompt.txt.",
+      "species": "koala",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "ane",
+      "themeId": "ferme",
+      "label": "Âne",
+      "subject": "un âne gris au museau clair",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ane.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/ane.prompt.txt.",
+      "species": "ane",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "canard",
+      "themeId": "ferme",
+      "label": "Canard colvert",
+      "subject": "un canard colvert à tête verte et bec jaune",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/canard.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/canard.prompt.txt.",
+      "species": "canard",
+      "breed": "Colvert",
+      "dominantColors": [
+        "green",
+        "yellow"
+      ],
+      "tags": [
+        "ferme",
+        "oiseaux"
+      ]
+    },
+    {
+      "id": "oie",
+      "themeId": "ferme",
+      "label": "Oie",
+      "subject": "une oie blanche au bec orange",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/oie.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/oie.prompt.txt.",
+      "species": "oie",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "orange"
+      ],
+      "tags": [
+        "ferme",
+        "oiseaux",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "dinde",
+      "themeId": "ferme",
+      "label": "Dinde",
+      "subject": "une dinde aux caroncules rouges",
+      "color": "red",
+      "family": "rouge",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/dinde.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/dinde.prompt.txt.",
+      "species": "dinde",
+      "breed": "",
+      "dominantColors": [
+        "red",
+        "blue",
+        "brown"
+      ],
+      "tags": [
+        "ferme",
+        "oiseaux",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "tigre",
+      "themeId": "animaux",
+      "label": "Tigre",
+      "subject": "un tigre orange aux rayures noires et aux joues blanches",
+      "color": "orange",
+      "family": "raye",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/tigre.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/tigre.prompt.txt.",
+      "species": "tigre",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "black",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "felins",
+        "foret"
+      ]
+    },
+    {
+      "id": "ours",
+      "themeId": "animaux",
+      "label": "Ours brun",
+      "subject": "un ours brun au museau fauve",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ours.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/ours.prompt.txt.",
+      "species": "ours",
+      "breed": "Ours brun",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "loup",
+      "themeId": "animaux",
+      "label": "Loup gris",
+      "subject": "un loup gris et blanc aux oreilles droites",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/loup.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/loup.prompt.txt.",
+      "species": "loup",
+      "breed": "Loup gris",
+      "dominantColors": [
+        "grey",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "canides",
+        "foret"
+      ]
+    },
+    {
+      "id": "singe",
+      "themeId": "animaux",
+      "label": "Singe capucin",
+      "subject": "un singe capucin brun au masque crème",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/singe.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/singe.prompt.txt.",
+      "species": "singe",
+      "breed": "Capucin brun",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "ecureuil",
+      "themeId": "animaux",
+      "label": "Écureuil",
+      "subject": "écureuil roux",
+      "color": "orange",
+      "family": "roux",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ecureuil.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/ecureuil.prompt.txt.",
+      "species": "ecureuil",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "white"
+      ],
+      "tags": [
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "herisson",
+      "themeId": "animaux",
+      "label": "Hérisson",
+      "subject": "hérisson brun au museau crème",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/herisson.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/herisson.prompt.txt.",
+      "species": "herisson",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "hibou",
+      "themeId": "animaux",
+      "label": "Hibou",
+      "subject": "hibou brun et crème",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/hibou.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/hibou.prompt.txt.",
+      "species": "hibou",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "foret",
+        "oiseaux",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "raton-laveur",
+      "themeId": "animaux",
+      "label": "Raton laveur",
+      "subject": "raton laveur gris au masque noir",
+      "color": "grey",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/raton-laveur.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/raton-laveur.prompt.txt.",
+      "species": "raton-laveur",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "black",
+        "white"
+      ],
+      "tags": [
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "crocodile",
+      "themeId": "animaux",
+      "label": "Crocodile",
+      "subject": "crocodile vert olive au museau doux",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/crocodile.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme. PNG transparent 512 × 512. Prompt : content/sprites/crocodile.prompt.txt.",
+      "species": "crocodile",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "yellow"
+      ],
+      "tags": [
+        "reptiles",
+        "sauvages"
+      ]
     }
   ]
 }

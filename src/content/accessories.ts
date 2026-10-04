@@ -51,6 +51,20 @@ const ANIMAL_PROFILES: Readonly<Record<string, AnimalAccessoryProfile>> = {
   chevre: { eyesY: .43, muzzleY: .71 },
   poule: { eyesY: .46, muzzleY: .71 },
   lapin: { eyesY: .61, muzzleY: .80, hat: { centerY: .385, scale: .8 }, chin: { centerY: .90, scale: .7 } },
+  koala: { eyesY: 0.51, muzzleY: 0.74 },
+  ane: { eyesY: 0.56, muzzleY: 0.82, hat: { centerY: 0.37, scale: 0.75 }, chin: { centerY: 0.91, scale: 0.7 } },
+  canard: { eyesY: 0.445, muzzleY: 0.69 },
+  oie: { eyesY: 0.435, muzzleY: 0.69 },
+  dinde: { eyesY: 0.34, muzzleY: 0.57 },
+  tigre: { eyesY: 0.45, muzzleY: 0.73 },
+  ours: { eyesY: 0.46, muzzleY: 0.72 },
+  loup: { eyesY: 0.51, muzzleY: 0.85, hat: { centerY: 0.265, scale: 0.9 } },
+  singe: { eyesY: 0.49, muzzleY: 0.73 },
+  ecureuil: { eyesY: 0.53, muzzleY: 0.755, hat: { centerY: 0.28, scale: 1 } },
+  herisson: { eyesY: 0.57, muzzleY: 0.77 },
+  hibou: { eyesY: 0.485, muzzleY: 0.7 },
+  "raton-laveur": { eyesY: 0.51, muzzleY: 0.755 },
+  crocodile: { eyesY: 0.4, muzzleY: 0.72 },
 };
 
 export function getAccessoryBox(accessory: Accessory, imageSrc: string, fitting?: AnimalAccessoryProfile): Accessory["box"] {

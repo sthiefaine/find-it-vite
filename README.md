@@ -52,21 +52,25 @@ réservés au serveur de développement. Le sprite transparent se trouve dans
 `http://127.0.0.1:5174/game?seed=42&level=6` ; les vagues sont à l’étape 7,
 les rondes à 11 et les arrêts à 12. Ces raccourcis sont réservés au développement.
 
-Le catalogue contient 20 têtes animales, toutes au format PNG transparent 512 × 512.
+Le catalogue contient 34 têtes animales, toutes au format PNG transparent 512 × 512.
 Les 14 anciens portraits ont été redessinés avec imagegen d’après les références
 de la série ferme : tête seule de face, textures fines, finition mate et couleurs
 naturelles. Les identifiants et chemins des personnages sont conservés pour
 préserver l’album et la progression. Leurs PNG sont dans
 `public/assets/images/characters/animals/`. La charte commune est conservée dans
 `content/sprites/animal-style.prompt.txt`, et chaque prompt de refonte avec sa
-provenance dans `content/sprites/<animal>.v2.prompt.txt`.
+provenance dans `content/sprites/<animal>.v2.prompt.txt`. Les nouvelles espèces
+conservent leur prompt et leur provenance dans `content/sprites/<animal>.prompt.txt`.
 Le sprite de feuilles est dans `public/assets/images/obstacles/foliage.png`.
 
 ## Collections, pelages et déguisements
 
-La première série **À la ferme** ajoute une vache Holstein, un cochon, un mouton,
-une chèvre, un lapin et une poule. Avec le coq existant, sept portraits sont
-disponibles dans cette catégorie. Depuis l’accueil, choisir une série puis **Infini**
+La série **À la ferme** réunit une vache Holstein, un cochon, un mouton,
+une chèvre, un lapin, une poule, un coq, un âne, un canard colvert, une oie et une dinde.
+Le tigre, l’ours, le loup, le singe capucin, l’écureuil, le hérisson, le hibou,
+le raton laveur, le crocodile et le koala complètent les animaux sauvages.
+Les catégories **Oiseaux** et **Forêt** contiennent désormais assez de portraits
+pour leurs propres parties. Depuis l’accueil, choisir une série puis **Infini**
 pour jouer uniquement avec ses animaux (`/game?serie=ferme`). Une catégorie devient
 jouable lorsqu’elle contient au moins cinq portraits validés. Le Défi du jour et
 l’Aventure conservent leurs catalogues communs.

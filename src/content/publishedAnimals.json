@@ -363,5 +363,265 @@
       "oiseaux",
       "domestiques"
     ]
+  },
+  {
+    "name": "koala",
+    "label": "Koala",
+    "imageSrc": "/assets/images/characters/animals/koala.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "koala",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "ane",
+    "label": "Âne",
+    "imageSrc": "/assets/images/characters/animals/ane.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "ane",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "canard",
+    "label": "Canard colvert",
+    "imageSrc": "/assets/images/characters/animals/canard.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "vert",
+    "species": "canard",
+    "breed": "Colvert",
+    "dominantColors": [
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "ferme",
+      "oiseaux"
+    ]
+  },
+  {
+    "name": "oie",
+    "label": "Oie",
+    "imageSrc": "/assets/images/characters/animals/oie.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "oie",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "orange"
+    ],
+    "tags": [
+      "ferme",
+      "oiseaux",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "dinde",
+    "label": "Dinde",
+    "imageSrc": "/assets/images/characters/animals/dinde.png",
+    "serie": "animal",
+    "color": "red",
+    "family": "rouge",
+    "species": "dinde",
+    "breed": "",
+    "dominantColors": [
+      "red",
+      "blue",
+      "brown"
+    ],
+    "tags": [
+      "ferme",
+      "oiseaux",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "tigre",
+    "label": "Tigre",
+    "imageSrc": "/assets/images/characters/animals/tigre.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "raye",
+    "species": "tigre",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "felins",
+      "foret"
+    ]
+  },
+  {
+    "name": "ours",
+    "label": "Ours brun",
+    "imageSrc": "/assets/images/characters/animals/ours.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "ours",
+    "breed": "Ours brun",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "loup",
+    "label": "Loup gris",
+    "imageSrc": "/assets/images/characters/animals/loup.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "loup",
+    "breed": "Loup gris",
+    "dominantColors": [
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "canides",
+      "foret"
+    ]
+  },
+  {
+    "name": "singe",
+    "label": "Singe capucin",
+    "imageSrc": "/assets/images/characters/animals/singe.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "singe",
+    "breed": "Capucin brun",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "ecureuil",
+    "label": "Écureuil",
+    "imageSrc": "/assets/images/characters/animals/ecureuil.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "roux",
+    "species": "ecureuil",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "white"
+    ],
+    "tags": [
+      "foret",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "herisson",
+    "label": "Hérisson",
+    "imageSrc": "/assets/images/characters/animals/herisson.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "herisson",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "foret",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "hibou",
+    "label": "Hibou",
+    "imageSrc": "/assets/images/characters/animals/hibou.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "hibou",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "foret",
+      "oiseaux",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "raton-laveur",
+    "label": "Raton laveur",
+    "imageSrc": "/assets/images/characters/animals/raton-laveur.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "noir-blanc",
+    "species": "raton-laveur",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "foret",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "crocodile",
+    "label": "Crocodile",
+    "imageSrc": "/assets/images/characters/animals/crocodile.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "vert",
+    "species": "crocodile",
+    "breed": "",
+    "dominantColors": [
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "reptiles",
+      "sauvages"
+    ]
   }
 ]

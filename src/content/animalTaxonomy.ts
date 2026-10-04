@@ -29,7 +29,9 @@ export const ANIMAL_SPECIES: Record<string, string> = {
   lapin: "Lapin", poule: "Poule", coq: "Coq", canard: "Canard", oie: "Oie",
   renard: "Renard", panda: "Panda", capybara: "Capybara", elephant: "Éléphant",
   hippopotame: "Hippopotame", pigeon: "Pigeon", girafe: "Girafe", leopard: "Léopard",
-  guepard: "Guépard", zebre: "Zèbre",
+  guepard: "Guépard", zebre: "Zèbre", dinde: "Dinde", lion: "Lion", tigre: "Tigre",
+  ours: "Ours", loup: "Loup", singe: "Singe", ecureuil: "Écureuil", herisson: "Hérisson",
+  hibou: "Hibou", "raton-laveur": "Raton laveur", crocodile: "Crocodile", koala: "Koala",
 };
 
 /** Creative starting points; adding a suggestion never adds a sprite to the game. */
