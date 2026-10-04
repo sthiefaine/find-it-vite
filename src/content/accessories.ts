@@ -1,4 +1,4 @@
-export type AccessoryId = "cap" | "bucket-hat" | "sunglasses" | "bandana" | "bow-tie" | "moustache";
+export type AccessoryId = "cap" | "bucket-hat" | "sunglasses" | "bow-tie" | "moustache";
 
 export type Accessory = {
   id: AccessoryId;
@@ -12,7 +12,6 @@ export const ACCESSORIES: readonly Accessory[] = [
   { id: "cap", label: "Casquette", imageSrc: "/assets/images/accessories/cap.png", box: { x: .17, y: .02, width: .66, height: .4125 } },
   { id: "bucket-hat", label: "Bob", imageSrc: "/assets/images/accessories/bucket-hat.png", box: { x: .12, y: .025, width: .76, height: .3978125 } },
   { id: "sunglasses", label: "Lunettes de soleil", imageSrc: "/assets/images/accessories/sunglasses.png", box: { x: .17, y: .40, width: .66, height: .1546875 } },
-  { id: "bandana", label: "Bandana", imageSrc: "/assets/images/accessories/bandana.png", box: { x: .21, y: .74, width: .58, height: .2571484375 } },
   { id: "bow-tie", label: "Nœud papillon", imageSrc: "/assets/images/accessories/bow-tie.png", box: { x: .31, y: .80, width: .38, height: .18109375 } },
   { id: "moustache", label: "Fausse moustache", imageSrc: "/assets/images/accessories/moustache.png", box: { x: .24, y: .66, width: .52, height: .114765625 } },
 ];
@@ -71,7 +70,6 @@ export function getAccessoryBox(accessory: Accessory, imageSrc: string, fitting?
       centerY = profile.hat?.centerY ?? box.y + box.height * scale / 2;
       break;
     }
-    case "bandana":
     case "bow-tie":
       if (profile.chin) ({ centerY, scale } = profile.chin);
       break;

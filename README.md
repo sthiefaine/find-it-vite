@@ -78,7 +78,7 @@ les autres races de la même espèce comme sosies ; les familles visuelles et le
 couleurs prennent le relais. Les suggestions de races dans l’atelier sont des
 pistes de création : elles ne remplacent pas les portraits à générer et importer.
 
-Six accessoires sont disponibles : **casquette, bob, lunettes de soleil, bandana,
+Cinq accessoires sont disponibles : **casquette, bob, lunettes de soleil,
 nœud papillon et fausse moustache**. Ce sont des PNG transparents réutilisables,
 composés avec les têtes au moment de l’affichage. L’atelier permet de les essayer
 sur chaque animal, en grand et à 45 pixels. Le placement est partagé par l’aperçu,

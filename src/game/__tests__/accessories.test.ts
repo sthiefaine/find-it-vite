@@ -42,8 +42,8 @@ describe("accessoires réutilisables", () => {
     expect(withAccessoryPreview(spec, undefined)).toBe(spec);
     expect(withAccessoryPreview(spec, "moustache").accessories?.target).toBe("moustache");
   });
-  it("propose les six accessoires dont la fausse moustache, dans le carré du portrait", () => {
-    expect(new Set(ACCESSORIES.map((a) => a.id)).size).toBe(6);
+  it("propose les cinq accessoires dont la fausse moustache, dans le carré du portrait", () => {
+    expect(new Set(ACCESSORIES.map((a) => a.id)).size).toBe(5);
     expect(ACCESSORIES.some((a) => a.id === "moustache")).toBe(true);
     for (const { box } of ACCESSORIES) {
       expect(box.x).toBeGreaterThanOrEqual(0);
