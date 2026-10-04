@@ -32,13 +32,27 @@ export type Tier = "easy" | "normal" | "expert";
 
 export type GameMode = "endless" | "daily" | "adventure";
 
+export type MovementPattern = "linear" | "wave" | "stopGo" | "orbit";
+
+export type LevelScene = {
+  id: string;
+  name: string;
+  hint: string;
+  background: string;
+  accent: string;
+  foliage?: "light" | "dense";
+  seagulls: boolean;
+};
+
 export type LayoutParams = {
+  movement?: MovementPattern;
   // grid
   gridSize?: number; // côté de la grille (gridSize × gridSize)
   // scroll
   scrollDirection?: "horizontal" | "vertical";
   alternateDirection?: boolean;
   extraLines?: number;
+  scrollFill?: number; // occupation des cases, de 0.15 à 1 ; absent = foule historique
   // pile + swarm
   count?: number; // nombre de persos
   backgroundGrid?: boolean;
@@ -50,6 +64,7 @@ export type LayoutParams = {
 };
 
 export interface LevelSpec {
+  scene?: LevelScene;
   genVersion: number;
   seed: number; // graine du niveau (dérivée de la graine de partie + index)
   index: number; // numéro du niveau dans la partie, à partir de 1

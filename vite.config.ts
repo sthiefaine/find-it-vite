@@ -2,9 +2,11 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path';
+import { studioPlugin } from './scripts/studioPlugin';
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  server: mode === 'studio' ? { host: '127.0.0.1', port: 5174, strictPort: true } : undefined,
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -12,6 +14,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    ...(mode === 'studio' ? [studioPlugin()] : []),
     VitePWA({
       registerType: 'autoUpdate',
       // enregistré à la main dans main.tsx, seulement hors app native (Capacitor)
@@ -44,4 +47,4 @@ export default defineConfig({
       },
     }),
   ],
-})
+}))

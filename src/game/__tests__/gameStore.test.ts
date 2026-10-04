@@ -13,6 +13,19 @@ beforeEach(() => {
   useGameStore.getState().setClearGameStore();
 });
 
+describe("masque de premier plan", () => {
+  it("ne modifie pas la pause du joueur et se réinitialise entre les parties", () => {
+    const store = useGameStore.getState();
+    store.setPauseTimer(true);
+    store.setObstacleBlocking(true);
+    store.setObstacleBlocking(false);
+    expect(useGameStore.getState().pauseTimer).toBe(true);
+    store.setObstacleBlocking(true);
+    store.setClearGameStore();
+    expect(useGameStore.getState().obstacleBlocking).toBe(false);
+  });
+});
+
 describe("submitGameResult", () => {
   it("le Défi du jour ne touche pas au record Infini", () => {
     const save = useSaveStore.getState();
@@ -141,22 +154,22 @@ describe("Aventure continue", () => {
     expect(useSaveStore.getState().save.adventure.stars["animaux:1"]).toBe(3);
   });
 
-  it("après l'étape 10, passe au monde suivant avec un bandeau, et l'océan est ouvert", () => {
-    startAdventure("animaux", 10);
+  it("après l'étape 20, passe au monde suivant avec un bandeau, et l'océan est ouvert", () => {
+    startAdventure("animaux", 20);
     for (let i = 0; i < 5; i++) findAvis(5000); // 25 s
     const s = useGameStore.getState();
-    expect(s).toMatchObject({ adventureStep: 11, worldId: "ocean", adventureLevel: 1 });
+    expect(s).toMatchObject({ adventureStep: 21, worldId: "ocean", adventureLevel: 1 });
     expect(s.worldBanner).toMatchObject({ phase: "ocean" });
     expect(s.runPhases).toEqual(["animaux", "ocean"]);
-    expect(useSaveStore.getState().save.adventure.stars["animaux:10"]).toBe(3);
+    expect(useSaveStore.getState().save.adventure.stars["animaux:20"]).toBe(3);
     s.hideWorldBanner();
     expect(useGameStore.getState().worldBanner).toBeNull();
 
     useGameStore.setState({ gameState: GameStateEnum.FINISH });
     useGameStore.getState().submitGameResult();
     expect(useGameStore.getState().gameRecord?.adventure).toMatchObject({
-      startStep: 10,
-      endStep: 11,
+      startStep: 20,
+      endStep: 21,
       stepsCleared: 1,
       starsEarned: 3,
       discoveredWorlds: ["ocean"],

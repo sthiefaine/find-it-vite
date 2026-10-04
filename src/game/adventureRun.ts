@@ -25,10 +25,10 @@ export const MIX_PHASE = "melange" as const;
 export type PhaseId = WorldId | typeof MIX_PHASE;
 
 export type StepInfo = {
-  step: number; // étape globale (1 = animaux 1, 11 = océan 1, 51 = Grand Mélange)
+  step: number; // étape globale ; le Grand Mélange commence après les mondes actifs
   phase: PhaseId;
   worldId: WorldId | null; // null dans le Grand Mélange
-  level: number; // étape dans le monde (1 à 10), ou étape globale dans le Mélange
+  level: number; // étape dans le monde (1 à 20), ou étape globale dans le Mélange
   index: number; // index moteur : la difficulté monte d'une étape à l'autre
   name: string;
   emoji: string;
@@ -65,7 +65,7 @@ export function globalStep(worldId: string, level: number): number {
 export function stepInfo(step: number): StepInfo {
   const g = Math.max(1, Math.floor(step));
   if (g > WORLD_STEPS) {
-    // après l'Espace : tous les persos, et l'index moteur continue de monter
+    // Après les mondes animaliers : tous leurs persos, la difficulté continue de monter.
     return { step: g, phase: MIX_PHASE, worldId: null, level: g, index: g, ...MIX };
   }
   const world: World = WORLDS[Math.floor((g - 1) / LEVELS_PER_WORLD)];

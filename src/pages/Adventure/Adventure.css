@@ -125,6 +125,24 @@
   font-weight: 900;
 }
 
+.adv-node-name {
+  width: max-content;
+  max-width: 132px;
+  padding: 3px 7px;
+  border-radius: 8px;
+  background: rgba(28, 8, 64, 0.82);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+  text-wrap: balance;
+}
+
+@media (max-width: 360px) {
+  .adv-node-name { max-width: 112px; }
+}
+
 .adv-node-boss .adv-node-disc {
   width: 72px;
   height: 72px;

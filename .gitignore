@@ -25,5 +25,8 @@ dist-ssr
 
 # PWA (service worker du mode dev)
 dev-dist
+artifacts/
+*.jks
+*.keystore
 
 # Capacitor : les ignores natifs sont dans android/.gitignore et ios/.gitignore

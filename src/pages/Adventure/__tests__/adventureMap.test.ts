@@ -13,16 +13,16 @@ describe("nextLevel (Continuer l'aventure)", () => {
     expect(nextLevel(save({ "animaux:1": 3, "animaux:2": 1 }))).toEqual({ worldId: "animaux", level: 3 });
   });
 
-  it("passe au monde suivant une fois l'étape 10 franchie, quelles que soient les étoiles", () => {
+  it("passe au monde suivant une fois l'étape 20 franchie, quelles que soient les étoiles", () => {
     const stars: Record<string, number> = {};
     for (let l = 1; l <= LEVELS_PER_WORLD; l++) stars[`animaux:${l}`] = 1;
     expect(nextLevel(save(stars))).toEqual({ worldId: WORLDS[1].id, level: 1 });
   });
 
-  it("tout fini : la dernière étape de l'Espace (puis le Grand Mélange en jeu)", () => {
+  it("tout fini : la dernière étape active (puis le Grand Mélange en jeu)", () => {
     const stars: Record<string, number> = {};
     for (const w of WORLDS) for (let l = 1; l <= LEVELS_PER_WORLD; l++) stars[`${w.id}:${l}`] = 2;
-    expect(nextLevel(save(stars))).toEqual({ worldId: "espace", level: LEVELS_PER_WORLD });
+    expect(nextLevel(save(stars))).toEqual({ worldId: WORLDS[WORLDS.length - 1].id, level: LEVELS_PER_WORLD });
   });
 
   it("monde gardé ouvert par l'ancienne règle", () => {
@@ -33,7 +33,7 @@ describe("nextLevel (Continuer l'aventure)", () => {
 describe("autres calculs", () => {
   it("indice d'un monde fermé et étoiles d'un monde", () => {
     const s = save({ "animaux:1": 3, "animaux:2": 2 });
-    expect(unlockHint(WORLDS[1])).toBe("Finis 🦁 Animaux 10");
+    expect(unlockHint(WORLDS[1])).toBe("Finis 🦁 Animaux 20");
     expect(unlockHint(WORLDS[0])).toBe("");
     expect(worldStars(s, WORLDS[0])).toBe(5);
   });

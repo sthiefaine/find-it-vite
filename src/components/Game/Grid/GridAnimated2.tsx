@@ -88,6 +88,7 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
         className="canvasGameBoard"
         style={containerStyle}
         options={{
+          backgroundAlpha: 0,
           powerPreference: "high-performance",
           antialias: true,
           resolution: window.devicePixelRatio || 1,

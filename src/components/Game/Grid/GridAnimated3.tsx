@@ -14,16 +14,18 @@ import { SwarmCharacter, areaOf, placeSwarm, stepSwarm } from "./layouts";
 import { useFoundIds } from "./useFoundIds";
 import { CrowdSprite, FoundMarker } from "./CrowdSprite";
 import { useReleaseStage } from "./useReleaseStage";
+import { isPageVisible, subscribeAppActive } from "../../../platform/appLifecycle";
+import { advanceMovementClock, createMovementClock, createSwarmMovement, suspendMovementClock, swarmCharacterAt } from "./movements";
 
 // Disposition "swarm" : persos en mouvement.
 // Positions et vitesses en px logiques sur le plateau fixe 390×520 (placeSwarm), rendu × board.scale.
 
 const DEFAULT_EDGE: NonNullable<LayoutParams["edgeBehavior"]> = "bounce";
-const MAX_FRAME_DT = 0.1; // s : évite un saut après un onglet en arrière-plan
 
 const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
   const animationFrameRef = useRef<number | null>(null);
-  const lastTimeRef = useRef<number>(0);
+  const appActiveRef = useRef(isPageVisible());
+  const movementClock = useRef(createMovementClock());
 
   const {
     canvasRef,
@@ -44,9 +46,12 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
   const releaseStage = useReleaseStage();
   const area = useMemo(() => areaOf(spec), [spec]);
   const edge = spec.params.edgeBehavior ?? DEFAULT_EDGE;
+  const initialCharacters = useMemo(() => placeSwarm(spec), [spec]);
+  const routes = useMemo(() => createSwarmMovement(spec, initialCharacters, area), [spec, initialCharacters, area]);
+  const hitArea = useMemo(() => new Rectangle(0, 0, board.width, board.height), [board]);
 
   const [placedCharacters, setPlacedCharacters] = useState<SwarmCharacter[]>(
-    () => placeSwarm(spec)
+    () => routes ? routes.map((route) => swarmCharacterAt(route, 0, area, edge)) : initialCharacters
   );
 
   const foundIds = useFoundIds();
@@ -62,27 +67,26 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
   const gameStateRef = useRef(gameState);
   gameStateRef.current = gameState;
 
-  const animateCharacters = (timestamp: number) => {
-    if (!lastTimeRef.current) lastTimeRef.current = timestamp;
-    const dt = Math.min(MAX_FRAME_DT, (timestamp - lastTimeRef.current) / 1000);
-    lastTimeRef.current = timestamp;
-
-    if (gameStateRef.current === GameStateEnum.END) return;
-
-    // Bonne réponse : on fige la foule le temps de l'effet
-    if (!isCorrectSelectionRef.current) {
-      setPlacedCharacters((prev) =>
-        prev.map((c) => stepSwarm(c, dt, edge, area))
-      );
-    }
-
-    animationFrameRef.current = requestAnimationFrame(animateCharacters);
-  };
+  useEffect(() => subscribeAppActive((active) => {
+    appActiveRef.current = active;
+    suspendMovementClock(movementClock.current);
+  }), []);
 
   useEffect(() => {
     if (animationLevelLoading) return;
     setDisableClick(false);
-    lastTimeRef.current = performance.now();
+    suspendMovementClock(movementClock.current);
+    const animateCharacters = (timestamp: number) => {
+      const active = !isCorrectSelectionRef.current && gameStateRef.current === GameStateEnum.PLAYING && appActiveRef.current;
+      const dt = advanceMovementClock(movementClock.current, timestamp, active);
+      if (dt > 0) {
+        const time = movementClock.current.elapsed;
+        setPlacedCharacters((prev) => routes
+          ? routes.map((route) => swarmCharacterAt(route, time, area, edge))
+          : prev.map((character) => stepSwarm(character, dt, edge, area)));
+      }
+      animationFrameRef.current = requestAnimationFrame(animateCharacters);
+    };
     animationFrameRef.current = requestAnimationFrame(animateCharacters);
     return () => {
       if (animationFrameRef.current) {
@@ -90,7 +94,7 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
         animationFrameRef.current = null;
       }
     };
-  }, [animationLevelLoading]);
+  }, [animationLevelLoading, routes, area, edge, setDisableClick]);
 
   const containerStyle = { width: board.width, height: board.height, maxHeight: "none" };
 
@@ -108,7 +112,6 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
   // Persos touchables aux positions courantes, remplis pendant le rendu (z = ordre de dessin)
   const candidates: HitCandidate[] = [];
   const foundSpots: HitCandidate[] = [];
-  const hitArea = new Rectangle(0, 0, board.width, board.height);
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
     if (disableClick || showOnlyWantedCharacter) return;
@@ -130,6 +133,7 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
         className="canvasGameBoard"
         style={containerStyle}
         options={{
+          backgroundAlpha: 0,
           powerPreference: "high-performance",
           antialias: true,
           resolution: window.devicePixelRatio || 1,

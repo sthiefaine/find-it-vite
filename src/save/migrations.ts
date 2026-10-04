@@ -33,6 +33,20 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
       .map(([id]) => id);
     return { ...data, version: 6, adventure: { ...adventure, unlocked } };
   },
+  // v7 : la campagne passe de 10 à 20 étapes par monde. Ne refermer aucun monde
+  // déjà ouvert, y compris une sauvegarde qui n'a conservé que ses étoiles.
+  6: (data) => {
+    const adventure = isObject(data.adventure) ? data.adventure : {};
+    const stars = sanitizeStars(adventure.stars);
+    const unlocked = new Set(sanitizeUnlocked(adventure.unlocked));
+    for (let i = 1; i < ADVENTURE_WORLD_IDS.length; i++) {
+      const world = ADVENTURE_WORLD_IDS[i];
+      const prior = ADVENTURE_WORLD_IDS[i - 1];
+      const alreadyPlayed = Object.entries(stars).some(([key, value]) => key.startsWith(`${world}:`) && value > 0);
+      if ((stars[`${prior}:10`] ?? 0) > 0 || alreadyPlayed) unlocked.add(world);
+    }
+    return { ...data, version: 7, adventure: { ...adventure, stars, unlocked: [...unlocked] } };
+  },
 };
 
 // Ancienne règle (v5) : étoiles à réunir pour ouvrir chaque monde

@@ -1,0 +1,114 @@
+[
+  {
+    "name": "chat",
+    "label": "Chat",
+    "imageSrc": "/assets/images/characters/animals/chat.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun"
+  },
+  {
+    "name": "chien",
+    "label": "Chien",
+    "imageSrc": "/assets/images/characters/animals/chien.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun"
+  },
+  {
+    "name": "capybara",
+    "label": "Capybara",
+    "imageSrc": "/assets/images/characters/animals/capybara.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun"
+  },
+  {
+    "name": "coq",
+    "label": "Coq",
+    "imageSrc": "/assets/images/characters/animals/coq.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun"
+  },
+  {
+    "name": "elephant",
+    "label": "Éléphant",
+    "imageSrc": "/assets/images/characters/animals/elephant.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris"
+  },
+  {
+    "name": "hippopotame",
+    "label": "Hippopotame",
+    "imageSrc": "/assets/images/characters/animals/hippopotame.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris"
+  },
+  {
+    "name": "pigeon",
+    "label": "Pigeon",
+    "imageSrc": "/assets/images/characters/animals/pigeon.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris"
+  },
+  {
+    "name": "giraffe",
+    "label": "Girafe",
+    "imageSrc": "/assets/images/characters/animals/giraffe.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "tachete"
+  },
+  {
+    "name": "leopard",
+    "label": "Léopard",
+    "imageSrc": "/assets/images/characters/animals/leopard.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "tachete"
+  },
+  {
+    "name": "guepard",
+    "label": "Guépard",
+    "imageSrc": "/assets/images/characters/animals/guepard.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "tachete"
+  },
+  {
+    "name": "zebre",
+    "label": "Zèbre",
+    "imageSrc": "/assets/images/characters/animals/zebre.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "raye"
+  },
+  {
+    "name": "serpent",
+    "label": "Serpent",
+    "imageSrc": "/assets/images/characters/animals/serpent.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "vert"
+  },
+  {
+    "name": "renard",
+    "label": "Renard",
+    "imageSrc": "/assets/images/characters/animals/renard.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "roux"
+  },
+  {
+    "name": "panda",
+    "label": "Panda",
+    "imageSrc": "/assets/images/characters/animals/panda.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "noir-blanc"
+  }
+]

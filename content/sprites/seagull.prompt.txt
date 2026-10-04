@@ -1,0 +1,11 @@
+Asset: public/assets/images/obstacles/seagull.png
+Generated with the built-in image_gen tool on 2026-10-04. Transparent alpha preserved.
+
+Use case: stylized-concept
+Asset type: transparent game sprite for a playful animal finding browser game.
+Primary request: One friendly expressive seagull flying toward the viewer, whole body visible, wings fully spread horizontally. Slight three-quarter bank so it looks dynamic gliding across the game. Big rounded white chest and cute large head, short yellow beak, warm expressive dark eyes, grey upper wings with charcoal feather tips, small tucked orange feet. Its broad body should be opaque and substantial enough to obscure the scene when scaled up.
+Style/medium: polished semi-realistic modern video game character illustration, gently stylized proportions, detailed fine feather texture, smooth matte finish, nostalgic charm. Natural rich colors.
+Composition/framing: single isolated bird, centered, landscape framing close around extended wings with a narrow transparent margin; complete wings and tail inside the frame. No other objects.
+Lighting: flat diffuse color, no dramatic light, no shiny reflections, no cast shadow.
+Background: genuinely transparent alpha, no white rectangle, no ground, no sky.
+Constraints: one bird only, no text, no watermark, no outline, no motion blur. Sharp clean edges, high resolution.

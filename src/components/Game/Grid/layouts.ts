@@ -121,12 +121,22 @@ export function layoutScroll(spec: LevelSpec): ScrollLayout {
     return baseSpeed * (0.6 + 0.4 * rng.next()) * dir;
   });
 
-  const slots = placeCrowd(spec, lineCount * perLine, rng).map((slot) => ({
+  let slots = placeCrowd(spec, lineCount * perLine, rng).map((slot) => ({
     ...slot,
     line: Math.floor(slot.id / perLine),
     main: ((slot.id % perLine) + 0.5) * mainStep, // centre, le long du défilement
     cross: (Math.floor(slot.id / perLine) + 0.5) * crossStep, // centre, en travers
   }));
+
+  if (spec.params.scrollFill !== undefined) {
+    // On ne touche ni aux positions, ni aux vitesses, ni à la cible : seules
+    // quelques cases de leurres sont vidées, après tous les tirages historiques.
+    const fill = Number.isFinite(spec.params.scrollFill) ? Math.max(0.15, Math.min(1, spec.params.scrollFill)) : 1;
+    const targetSlots = slots.filter((slot) => slot.isWanted).length;
+    const decoysToKeep = Math.max(0, Math.round(fill * lineCount * perLine) - targetSlots);
+    const kept = new Set(rng.fork("scroll-fill").shuffle(slots.filter((slot) => !slot.isWanted)).slice(0, decoysToKeep).map((slot) => slot.id));
+    slots = slots.filter((slot) => slot.isWanted || kept.has(slot.id));
+  }
 
   return { horizontal, size, period, speeds, slots };
 }

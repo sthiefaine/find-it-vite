@@ -17,9 +17,9 @@ export function starsFor(save: StarsSave, worldId: string, level: number): numbe
   return save.adventure.stars[starsKey(worldId, level)] ?? 0;
 }
 
-// Le premier monde est toujours ouvert ; les suivants s'ouvrent quand l'étape 10
+// Le premier monde est toujours ouvert ; les suivants s'ouvrent quand la dernière étape
 // du monde précédent a été franchie au moins une fois. Les mondes ouverts avec
-// l'ancienne règle (total d'étoiles) restent ouverts : adventure.unlocked.
+// une ancienne campagne restent ouverts : adventure.unlocked (migration v7).
 export function isWorldUnlocked(save: StarsSave, world: World): boolean {
   const i = WORLDS.findIndex((w) => w.id === world.id);
   if (i <= 0) return i === 0;

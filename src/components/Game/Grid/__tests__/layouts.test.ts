@@ -5,6 +5,8 @@ import { pickCharacterAt } from "../../../../helpers/hitTest";
 import { BOARD, generateLevel, targetCount } from "../../../../engine";
 import type { Layout, LevelSpec } from "../../../../engine";
 import { GRID_GAP, layoutGrid, layoutScroll, placePile, placeSwarm } from "../layouts";
+import { validateSpec } from "../../../../engine/validate";
+import { createScrollMovement, scrollCrossAt, scrollOffsetAt } from "../movements";
 
 const VIEWPORTS: [number, number][] = [
   [390, 844],
@@ -137,5 +139,79 @@ describe("grille compacte à taille d'origine", () => {
     const x0 = (BOARD.w - total) / 2;
     const xs = new Set(layoutGrid(spec).cells.map((c) => c.cx));
     for (const x of xs) expect([0, 1, 2].map((i) => x0 + i * step + 22.5)).toContain(x);
+  });
+});
+
+describe("occupation des couloirs", () => {
+  const context = { seed: 42, tier: "normal" as const, pool: charactersDetails };
+  const base = generateLevel(4, context);
+
+  it("conserve les tirages et le placement historiques sans scrollFill", () => {
+    const original = layoutScroll(base);
+    expect(original.slots).toHaveLength(88);
+    expect(original.speeds).toEqual([
+      0.3190330231608823, 0.3764605345614255, 0.4621710599064827, -0.4763448340864852,
+      0.39445520094409586, -0.38578145996481183, -0.4132431412693113, -0.36564242184441537,
+    ]);
+    expect(original.slots.filter((slot) => slot.isWanted).map(({ id, line, main, cross }) => ({ id, line, main, cross })))
+      .toEqual([{ id: 30, line: 2, main: 401.8181818181818, cross: 121.875 }]);
+    expect(layoutScroll({ ...base, params: { ...base.params, scrollFill: 1 } })).toEqual(original);
+  });
+
+  it("retire seulement les leurres, avec un nombre exact et toutes les cibles préservées", () => {
+    for (const seed of [1, 42, 777]) {
+      for (const scrollDirection of ["horizontal", "vertical"] as const) {
+        for (const findCount of [1, 3, 80]) {
+          const spec: LevelSpec = { ...base, seed, rule: findCount === 1 ? "classic" : "findAll", findCount, params: { ...base.params, scrollDirection } };
+          const full = layoutScroll(spec);
+          for (const scrollFill of [0.15, 0.247, 0.42, 1]) {
+            const reducedSpec = { ...spec, params: { ...spec.params, scrollFill } };
+            const reduced = layoutScroll(reducedSpec);
+            expect(layoutScroll(reducedSpec)).toEqual(reduced);
+            expect(reduced.slots).toHaveLength(Math.max(findCount, Math.round(scrollFill * full.slots.length)));
+            expect(reduced.slots.filter((slot) => slot.isWanted)).toEqual(full.slots.filter((slot) => slot.isWanted));
+            expect(reduced.speeds).toEqual(full.speeds);
+            expect(reduced.size).toBe(45);
+            for (const slot of reduced.slots) expect(slot).toEqual(full.slots.find((candidate) => candidate.id === slot.id));
+          }
+        }
+      }
+    }
+    const withFill = (seed: number) => layoutScroll({ ...base, seed, params: { ...base.params, scrollFill: .3 } }).slots.map((slot) => slot.id);
+    expect(withFill(1)).not.toEqual(withFill(2));
+  });
+
+  it("garde le toucher sur la cible de 45 px pendant les nouveaux déplacements", () => {
+    for (const scrollDirection of ["horizontal", "vertical"] as const) {
+      for (const movement of ["linear", "wave", "stopGo"] as const) {
+        const spec = { ...base, params: { ...base.params, scrollDirection, movement, scrollFill: .247 } };
+        const layout = layoutScroll(spec);
+        const plan = createScrollMovement(spec, layout);
+        for (const time of [0, 2.4, 19, 120]) {
+          const candidates = layout.slots.map((slot, z) => {
+            const main = ((slot.main + scrollOffsetAt(plan, slot.line, layout.speeds[slot.line], time)) % layout.period + layout.period) % layout.period;
+            const cross = scrollCrossAt(plan, slot, main, layout.period, layout.size);
+            return { id: slot.id, cx: layout.horizontal ? main : cross, cy: layout.horizontal ? cross : main, size: layout.size, z, isWanted: slot.isWanted };
+          });
+          const wanted = candidates.find((candidate) => candidate.isWanted)!;
+          expect(wanted.cx).toBeGreaterThanOrEqual(0);
+          expect(wanted.cx).toBeLessThanOrEqual(BOARD.w);
+          expect(wanted.cy).toBeGreaterThanOrEqual(0);
+          expect(wanted.cy).toBeLessThanOrEqual(BOARD.h);
+          expect(pickCharacterAt(wanted.cx, wanted.cy, candidates)?.id).toBe(wanted.id);
+        }
+      }
+    }
+  });
+
+  it("valide l'option seulement lorsqu'elle est présente et refuse les valeurs hors bornes", () => {
+    expect(validateSpec(base, context).ok).toBe(true);
+    for (const scrollFill of [.15, .5, 1]) {
+      expect(validateSpec({ ...base, params: { ...base.params, scrollFill } }, context).ok).toBe(true);
+    }
+    for (const scrollFill of [0, .149, 1.001, Infinity, NaN]) {
+      const validation = validateSpec({ ...base, params: { ...base.params, scrollFill } }, context);
+      expect(validation.errors.some((error) => error.includes("scrollFill"))).toBe(true);
+    }
   });
 });

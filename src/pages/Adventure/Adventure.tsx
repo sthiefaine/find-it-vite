@@ -5,13 +5,14 @@ import { useSaveStore } from "../../save/saveStore";
 import { getWorld, LEVELS_PER_WORLD, WORLDS } from "../../content/worlds";
 import type { World } from "../../content/worlds";
 import { isLevelUnlocked, isWorldUnlocked, starsFor } from "../../content/progress";
+import { sceneForIndex } from "../../content/scenes";
 import type { Save } from "../../save/schema";
 import { levelUrl, nextLevel, nodeX, unlockHint, worldStars } from "./adventureMap";
 import type { LevelRef } from "./adventureMap";
 import "../../components/Buttons/ui.css";
 import "./Adventure.css";
 
-const STEP = 92; // écart vertical entre deux ronds (px)
+const STEP = 120; // place pour le nom de l'étape et ses étoiles, même sur mobile
 const LEVELS = Array.from({ length: LEVELS_PER_WORLD }, (_, i) => i + 1);
 
 // Chemin en S qui relie les ronds (x en %, y en px)
@@ -71,6 +72,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
           const stars = starsFor(save, world.id, level);
           const isCurrent = current?.worldId === world.id && current.level === level;
           const boss = level === LEVELS_PER_WORLD;
+          const scene = sceneForIndex(world.startIndex + level - 1);
           return (
             <button
               key={level}
@@ -78,7 +80,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
               className={`adv-node${unlocked ? "" : " adv-node-locked"}${isCurrent ? " adv-node-current" : ""}${boss ? " adv-node-boss" : ""}`}
               style={{ left: `${nodeX(level)}%`, top: STEP / 2 + i * STEP, ["--accent" as string]: world.accent }}
               disabled={!unlocked}
-              aria-label={unlocked ? `Étape ${level}` : `Étape ${level}, fermée`}
+              aria-label={`Étape ${level} : ${scene.name}${unlocked ? "" : ", fermée"}`}
               onClick={() => navigate(levelUrl(world.id, level))}
             >
               {isCurrent && (
@@ -87,6 +89,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
               <span className="adv-node-disc">
                 {unlocked ? <span className="adv-node-num">{boss ? "👑" : level}</span> : <Lock size={24} strokeWidth={3} />}
               </span>
+              <span className="adv-node-name">{scene.name}</span>
               {unlocked && <Stars n={stars} />}
             </button>
           );
@@ -127,7 +130,7 @@ const Adventure = () => {
           <span className="adv-continue-text">
             <strong>Continuer l'aventure</strong>
             <small>
-              {currentWorld?.emoji} {currentWorld?.name} · étape {current.level}
+              {currentWorld?.emoji} {currentWorld ? sceneForIndex(currentWorld.startIndex + current.level - 1).name : `Étape ${current.level}`}
             </small>
           </span>
         </button>

@@ -90,3 +90,30 @@
   border-radius: 12px;
   opacity: 0.85;
 }
+
+.gameScene {
+  min-height: 38px;
+  flex: none;
+  width: min(100% - 24px, 420px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+  text-shadow: 0 1px 4px #000a;
+}
+.gameScene strong { font-size: 15px; line-height: 1.1; }
+.gameScene span { font-size: 11px; line-height: 1.2; color: #fff; }
+.gameContainer--scene .gameScene { color: #183b3c; text-shadow: none; }
+.gameContainer--scene .gameScene span { color: #234c4d; }
+.gameContainer--scene .boardWrap {
+  border-radius: 16px;
+  background: linear-gradient(155deg, #122f32e8, #101729f5);
+  box-shadow: 0 0 0 2px var(--world-accent), 0 10px 30px #07152055;
+}
+.gameContainer--scene .gridContainer {
+  background: transparent;
+  border-radius: inherit;
+  opacity: 1;
+}

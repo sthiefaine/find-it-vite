@@ -1,0 +1,204 @@
+{
+  "version": 1,
+  "revision": 3,
+  "themes": [
+    {
+      "id": "animaux",
+      "name": "Les animaux",
+      "category": "animals",
+      "destination": "game"
+    },
+    {
+      "id": "ocean",
+      "name": "Vie marine",
+      "category": "animals",
+      "destination": "game"
+    },
+    {
+      "id": "personnes",
+      "name": "Personnes",
+      "category": "people",
+      "destination": "fun"
+    },
+    {
+      "id": "histoire",
+      "name": "Figures historiques",
+      "category": "history",
+      "destination": "fun"
+    },
+    {
+      "id": "politique",
+      "name": "Figures politiques",
+      "category": "politics",
+      "destination": "fun"
+    },
+    {
+      "id": "drapeaux",
+      "name": "Drapeaux du monde",
+      "category": "flags",
+      "destination": "fun"
+    },
+    {
+      "id": "imaginaire",
+      "name": "Imaginaire",
+      "category": "fantasy",
+      "destination": "fun"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "chat",
+      "themeId": "animaux",
+      "label": "Chat",
+      "subject": "chat",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chat.png",
+      "notes": "Référence de style : visage de face, sans cou, finition mate. Fond transparent pour le jeu ; fond blanc pour une image de référence."
+    },
+    {
+      "id": "chien",
+      "themeId": "animaux",
+      "label": "Chien",
+      "subject": "chien",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chien.png",
+      "notes": ""
+    },
+    {
+      "id": "capybara",
+      "themeId": "animaux",
+      "label": "Capybara",
+      "subject": "capybara",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/capybara.png",
+      "notes": ""
+    },
+    {
+      "id": "coq",
+      "themeId": "animaux",
+      "label": "Coq",
+      "subject": "coq",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/coq.png",
+      "notes": ""
+    },
+    {
+      "id": "elephant",
+      "themeId": "animaux",
+      "label": "Éléphant",
+      "subject": "éléphant",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/elephant.png",
+      "notes": ""
+    },
+    {
+      "id": "hippopotame",
+      "themeId": "animaux",
+      "label": "Hippopotame",
+      "subject": "un hippopotame",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/hippopotame.png",
+      "notes": "Référence du prompt fourni : tête de face, sans cou, petites oreilles, finition mate. Fond blanc pour les références ; fond transparent pour le jeu."
+    },
+    {
+      "id": "pigeon",
+      "themeId": "animaux",
+      "label": "Pigeon",
+      "subject": "pigeon",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/pigeon.png",
+      "notes": ""
+    },
+    {
+      "id": "giraffe",
+      "themeId": "animaux",
+      "label": "Girafe",
+      "subject": "girafe",
+      "color": "yellow",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/giraffe.png",
+      "notes": ""
+    },
+    {
+      "id": "leopard",
+      "themeId": "animaux",
+      "label": "Léopard",
+      "subject": "léopard",
+      "color": "yellow",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/leopard.png",
+      "notes": ""
+    },
+    {
+      "id": "guepard",
+      "themeId": "animaux",
+      "label": "Guépard",
+      "subject": "guépard",
+      "color": "yellow",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/guepard.png",
+      "notes": ""
+    },
+    {
+      "id": "zebre",
+      "themeId": "animaux",
+      "label": "Zèbre",
+      "subject": "zèbre",
+      "color": "white",
+      "family": "raye",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/zebre.png",
+      "notes": ""
+    },
+    {
+      "id": "serpent",
+      "themeId": "animaux",
+      "label": "Serpent",
+      "subject": "serpent",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/serpent.png",
+      "notes": ""
+    },
+    {
+      "id": "renard",
+      "themeId": "animaux",
+      "label": "Renard",
+      "subject": "un renard",
+      "color": "orange",
+      "family": "roux",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/renard.png",
+      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/renard.prompt.txt."
+    },
+    {
+      "id": "panda",
+      "themeId": "animaux",
+      "label": "Panda",
+      "subject": "un panda",
+      "color": "white",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/panda.png",
+      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/panda.prompt.txt."
+    }
+  ]
+}

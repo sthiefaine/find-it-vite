@@ -88,8 +88,8 @@ export type RunConfig = {
 type GameState = {
   mode: GameMode;
   worldId: WorldId | null; // Aventure
-  adventureLevel: number; // Aventure : étape dans le monde (1 à 10)
-  adventureStep: number; // Aventure : étape globale (1 = animaux 1, 51+ = Grand Mélange)
+  adventureLevel: number; // Aventure : étape dans le monde (1 à 20)
+  adventureStep: number; // Aventure : étape globale, puis Grand Mélange après les mondes actifs
   startStep: number; // Aventure : étape de départ de la partie
   missionFound: number; // Aventure : avis trouvés dans l'étape en cours (0 à 5)
   stepPlayMs: number; // Aventure : temps de jeu réel de l'étape en cours (hors pauses)
@@ -105,6 +105,7 @@ type GameState = {
   tier: Tier;
   currentSpec: LevelSpec | null;
   pauseTimer: boolean;
+  obstacleBlocking: boolean; // masque de premier plan : touchers bloqués, chrono et foule toujours actifs
   wantedCharacter: CharacterDetails | null;
   animationLevelLoading?: boolean;
   debug?: boolean;
@@ -136,6 +137,7 @@ export type GameActions = {
   advanceLevel: () => void;
   setCurrentSpec: (spec: LevelSpec) => void;
   setPauseTimer: (pause: boolean) => void;
+  setObstacleBlocking: (blocked: boolean) => void;
   setGameState: (gameState: GameStateEnum) => void;
   setAnimationLevelLoading: (animationLevelLoading: boolean) => void;
   setLevel: (level: number) => void;
@@ -181,6 +183,7 @@ export const defaultInitState: GameState = {
   tier: "normal",
   currentSpec: null,
   pauseTimer: false,
+  obstacleBlocking: false,
   wantedCharacter: null,
   animationLevelLoading: false,
   debug: false,
@@ -304,6 +307,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (freshMechanics.length > 0) useSaveStore.getState().markMechanicsSeen(freshMechanics);
   },
   setPauseTimer: (pause: boolean) => set({ pauseTimer: pause }),
+  setObstacleBlocking: (blocked: boolean) => set({ obstacleBlocking: blocked }),
   setLevel: (level: number) => set({ level: get().level + level }),
   setGameState: (gameState: GameStateEnum) => set({ gameState }),
   setAnimationLevelLoading: (animationLevelLoading: boolean) =>

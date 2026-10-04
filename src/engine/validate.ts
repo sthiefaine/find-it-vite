@@ -11,7 +11,7 @@ export const LIMITS = {
   // max : la grille la plus large dont les têtes (45 px) tiennent dans la largeur (390 ⇒ 8)
   grid: { min: 2, max: Math.floor(BOARD.w / SPRITE_SIZE), maxEasy: 7, maxEasyLevel1: 3, minGoldRush: 4 },
   sprite: SPRITE_SIZE,
-  scroll: { speedMin: 0.4, speedMax: 1.6, speedMaxEasy: 1.0, extraLinesMax: 3 },
+  scroll: { speedMin: 0.4, speedMax: 1.6, speedMaxEasy: 1.0, extraLinesMax: 3, fillMin: 0.15, fillMax: 1 },
   pile: { countMin: 30, countMax: 160, jitterMin: 2, jitterMax: 6, wantedBelowFrom: 20, backgroundGridFrom: 100 },
   swarm: { countMin: 20, countMax: 60, speedMin: 0.2, speedMax: 0.6, speedMaxEasy: 0.35 },
   goldRushDurationS: 8,
@@ -46,6 +46,7 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
     case "scroll":
       inRange("speed", p.speed, L.scroll.speedMin, easy ? L.scroll.speedMaxEasy : L.scroll.speedMax);
       inRange("extraLines", p.extraLines, 0, L.scroll.extraLinesMax, true);
+      if (p.scrollFill !== undefined) inRange("scrollFill", p.scrollFill, L.scroll.fillMin, L.scroll.fillMax);
       if (p.scrollDirection !== "horizontal" && p.scrollDirection !== "vertical") err("scrollDirection manquante");
       break;
     case "pile":

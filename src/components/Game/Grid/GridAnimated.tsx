@@ -13,6 +13,8 @@ import { layoutScroll } from "./layouts";
 import { useFoundIds } from "./useFoundIds";
 import { CrowdSprite, FoundMarker } from "./CrowdSprite";
 import { useReleaseStage } from "./useReleaseStage";
+import { isPageVisible, subscribeAppActive } from "../../../platform/appLifecycle";
+import { advanceMovementClock, createMovementClock, createScrollMovement, scrollCrossAt, scrollOffsetAt, suspendMovementClock } from "./movements";
 
 import "./Grid.css";
 
@@ -22,6 +24,8 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
   const board = useMemo(() => getBoard(), []);
   const releaseStage = useReleaseStage();
   const animationFrameRef = useRef<number | null>(null);
+  const appActiveRef = useRef(isPageVisible());
+  const movementClock = useRef(createMovementClock());
 
   const { gameState, animationLevelLoading } = useGameStore(
     useShallow((state) => ({
@@ -45,32 +49,30 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
   // Placement, géométrie et vitesses en px logiques : figés pour la durée du niveau
   // (monté avec key={spec.seed}), indépendants de l'écran
   const layout = useMemo(() => layoutScroll(spec), [spec]);
-
-  const [offsets, setOffsets] = useState<number[]>(() =>
-    layout.speeds.map(() => 0)
-  );
+  const movement = useMemo(() => createScrollMovement(spec, layout), [spec, layout]);
+  const [elapsed, setElapsed] = useState(0);
+  const offsets = layout.speeds.map((speed, line) => scrollOffsetAt(movement, line, speed, elapsed));
+  const hitArea = useMemo(() => new Rectangle(0, 0, board.width, board.height), [board]);
 
   // Lus par la boucle d'animation sans la relancer
   const frozenRef = useRef(false);
   frozenRef.current =
     isCorrectSelection ||
-    gameState === GameStateEnum.END ||
-    gameState === GameStateEnum.FINISH ||
-    gameState === GameStateEnum.PAUSED;
+    gameState !== GameStateEnum.PLAYING;
+
+  useEffect(() => subscribeAppActive((active) => {
+    appActiveRef.current = active;
+    suspendMovementClock(movementClock.current);
+  }), []);
 
   useEffect(() => {
     setDisableClick(false);
     if (animationLevelLoading) return;
 
-    let last = performance.now();
+    suspendMovementClock(movementClock.current);
     const tick = (now: number) => {
-      const dt = Math.min((now - last) / 1000, 0.1);
-      last = now;
-      if (!frozenRef.current) {
-        setOffsets((prev) =>
-          prev.map((o, i) => (o + layout.speeds[i] * dt * 60) % layout.period)
-        );
-      }
+      const dt = advanceMovementClock(movementClock.current, now, !frozenRef.current && appActiveRef.current);
+      if (dt > 0) setElapsed(movementClock.current.elapsed);
       animationFrameRef.current = requestAnimationFrame(tick);
     };
     animationFrameRef.current = requestAnimationFrame(tick);
@@ -79,7 +81,7 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
       if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = null;
     };
-  }, [layout, animationLevelLoading]);
+  }, [animationLevelLoading, setDisableClick]);
 
   const containerStyle = {
     width: board.width,
@@ -101,7 +103,6 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
   const candidates: HitCandidate[] = [];
   const foundSpots: HitCandidate[] = [];
   const markers: { key: string; cx: number; cy: number }[] = [];
-  const hitArea = new Rectangle(0, 0, board.width, board.height);
 
   const handlePointerDown = (e: FederatedPointerEvent) => {
     if (disableClick || showOnlyWantedCharacter) return;
@@ -123,6 +124,7 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
         className="canvasGameBoard"
         style={containerStyle}
         options={{
+          backgroundAlpha: 0,
           powerPreference: "high-performance",
           antialias: true,
           resolution: window.devicePixelRatio || 1,
@@ -139,6 +141,7 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
             // Position le long du défilement, ramenée dans [0, période)
             let main = (slot.main + (offsets[slot.line] ?? 0)) % period;
             if (main < 0) main += period;
+            const cross = scrollCrossAt(movement, slot, main, period, size);
 
             // Copie de l'autre côté quand la tête déborde d'un bord
             const mains = [main];
@@ -146,8 +149,8 @@ const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
             else if (main > period - size) mains.push(main - period);
 
             return mains.map((m, k) => {
-              const cx = horizontal ? m : slot.cross;
-              const cy = horizontal ? slot.cross : m;
+              const cx = horizontal ? m : cross;
+              const cy = horizontal ? cross : m;
               // Une copie compte comme le perso d'origine (même id, même isWanted)
               const hit = {
                 id: slot.id,

@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { isFutureVersion, migrate } from "../migrations";
 import { defaultSave, SAVE_VERSION } from "../schema";
+import { isLevelUnlocked, isWorldUnlocked } from "../../content/progress";
+import { getWorld } from "../../content/worlds";
 
 // Champs ajoutés par la v4, tels qu'une migration les crée
 const V4_EXTRA = { adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
@@ -104,7 +106,7 @@ describe("migrate", () => {
       expect(migrate(JSON.stringify({ ...v4, profile: { tier: null } }))).toEqual({
         ...v4,
         version: SAVE_VERSION,
-        adventure: { stars: { "ocean:2": 3 }, unlocked: [] },
+        adventure: { stars: { "ocean:2": 3 }, unlocked: ["ocean"] },
         profile: { tier: "normal" },
       });
     });
@@ -222,6 +224,33 @@ describe("migrate", () => {
       const raw = { ...defaultSave(), adventure: { stars: {}, unlocked: ["ocean", "lune", 3, "ocean"] } };
       expect(migrate(raw).adventure.unlocked).toEqual(["ocean"]);
       expect(migrate({ ...defaultSave(), adventure: { stars: {}, unlocked: "ocean" } }).adventure.unlocked).toEqual([]);
+    });
+  });
+
+  describe("v6 → v7 (40 étapes)", () => {
+    it("garde Océan ouvert après l'ancien final Animaux sans déplacer les étoiles", () => {
+      const stars = { "animaux:1": 3, "animaux:10": 1, "dinos:5": 2 };
+      const save = migrate({ ...defaultSave(), version: 6, adventure: { stars, unlocked: [] } });
+      expect(save.version).toBe(7);
+      expect(save.adventure.stars).toEqual(stars);
+      expect(isWorldUnlocked(save, getWorld("ocean")!)).toBe(true);
+      expect(isLevelUnlocked(save, "ocean", 1)).toBe(true);
+      expect(isLevelUnlocked(save, "animaux", 11)).toBe(true);
+      expect(migrate(save)).toEqual(save);
+    });
+
+    it("garde un monde déjà joué ou explicitement débloqué, même sans l'ancien final", () => {
+      const played = migrate({ ...defaultSave(), version: 6, adventure: { stars: { "ocean:3": 2 } } });
+      expect(played.adventure.unlocked).toContain("ocean");
+      const explicit = migrate({ ...defaultSave(), version: 6, adventure: { stars: {}, unlocked: ["ocean"] } });
+      expect(explicit.adventure.unlocked).toEqual(["ocean"]);
+    });
+
+    it("n'ouvre pas Océan aux nouveaux joueurs à l'étape 10", () => {
+      const fresh = { ...defaultSave(), adventure: { stars: { "animaux:10": 3 }, unlocked: [] } };
+      expect(isWorldUnlocked(migrate(fresh), getWorld("ocean")!)).toBe(false);
+      const incomplete = migrate({ ...defaultSave(), version: 6, adventure: { stars: { "animaux:10": 0 } } });
+      expect(incomplete.adventure.unlocked).not.toContain("ocean");
     });
   });
 });

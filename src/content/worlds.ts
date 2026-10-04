@@ -1,4 +1,4 @@
-// Mondes du mode Aventure : 10 niveaux chacun, débloqués avec les étoiles.
+// Mondes du mode Aventure : 20 étapes chacun, débloqués en terminant le précédent.
 import { animalsPack } from "../helpers/characters";
 import type { CharacterColor, CharacterDetails } from "../helpers/characters";
 import { emojiImage } from "../helpers/emojiImage";
@@ -16,7 +16,7 @@ export type World = {
   unlockStars: number;
 };
 
-export const LEVELS_PER_WORLD = 10;
+export const LEVELS_PER_WORLD = 20;
 
 // Emoji ≤ 12.0 seulement (Unicode 12, 2019) : Android 10 et moins n'ont pas
 // les glyphes plus récents (🦤, 🪶, 🦭… en Emoji 13.0) et les dessinent tous
@@ -117,7 +117,7 @@ const espace = emojiCharacters("espace", [
   ["comete", "☄️", "Comète", "orange", "feu"],
 ]);
 
-export const WORLDS: World[] = [
+const ORIGINAL_WORLDS: World[] = [
   {
     id: "animaux",
     name: "Animaux",
@@ -132,7 +132,7 @@ export const WORLDS: World[] = [
     id: "ocean",
     name: "Océan",
     emoji: "🐳",
-    startIndex: 11,
+    startIndex: 21,
     characters: ocean,
     background: "linear-gradient(160deg, #7fd8ff 0%, #2e8fd8 55%, #15467f 100%)",
     accent: "#1f7ae0",
@@ -169,6 +169,11 @@ export const WORLDS: World[] = [
     unlockStars: 48,
   },
 ];
+
+// Le jeu principal reste animalier. Les anciens thèmes expérimentaux sont
+// conservés séparément ; ils ne participent ni à l’Aventure ni au Grand Mélange.
+export const WORLDS = ORIGINAL_WORLDS.filter((world) => world.id === "animaux" || world.id === "ocean");
+export const FUN_WORLDS = ORIGINAL_WORLDS.filter((world) => !WORLDS.includes(world));
 
 export function getWorld(id: string): World | undefined {
   return WORLDS.find((w) => w.id === id);

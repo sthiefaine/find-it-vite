@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { generateLevel, hash32 } from "../../engine";
-import { getWorld } from "../../content/worlds";
+import { getWorld, LEVELS_PER_WORLD } from "../../content/worlds";
 import {
   advanceMission,
   dailyShareText,
@@ -54,7 +54,7 @@ describe("graines de mission", () => {
       return generateLevel(t.index, { seed: t.seed, tier: "normal", pool: world.characters });
     });
     expect(new Set(specs.map((s) => s.seed)).size).toBe(5);
-    expect(new Set(specs.map((s) => s.index))).toEqual(new Set([missionEngineIndex(11, 4)]));
+    expect(new Set(specs.map((s) => s.index))).toEqual(new Set([missionEngineIndex(world.startIndex, 4)]));
     expect(specs.every((s) => s.wanted.serie === "ocean")).toBe(true);
   });
 
@@ -74,7 +74,7 @@ describe("readModeParams", () => {
       worldId: "ocean",
       level: 3,
     });
-    expect(readModeParams("?mode=adventure&world=ocean&level=99")).toMatchObject({ level: 10 });
+    expect(readModeParams("?mode=adventure&world=ocean&level=99")).toMatchObject({ level: 20 });
     expect(readModeParams("?mode=adventure&world=lune&level=3")).toEqual({ mode: "endless" });
   });
 });
@@ -97,9 +97,9 @@ describe("dailyShareText", () => {
 
 describe("missionSubSeeds", () => {
   it("le recherché change à chaque avis, et n'apparaît qu'une fois par mission", () => {
-    for (const world of ["animaux", "ocean", "dinos", "halloween", "espace"]) {
+    for (const world of ["animaux", "ocean"]) {
       const w = getWorld(world)!;
-      for (let level = 1; level <= 10; level++) {
+      for (let level = 1; level <= LEVELS_PER_WORLD; level++) {
         const seed = missionSeed(world, level);
         const index = missionEngineIndex(w.startIndex, level);
         const names = [1, 2, 3, 4, 5].map((step) => {

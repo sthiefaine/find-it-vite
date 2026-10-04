@@ -2,17 +2,22 @@ import { describe, expect, it } from "vitest";
 import { animalsPack, charactersDetails } from "../../helpers/characters";
 import { generateLevel, validateSpec } from "../../engine";
 import type { Tier } from "../../engine";
-import { allCharacters, getWorld, isEmojiAfter12, LEVELS_PER_WORLD, WORLDS, worldOfCharacter } from "../worlds";
+import { allCharacters, FUN_WORLDS, getWorld, isEmojiAfter12, LEVELS_PER_WORLD, WORLDS, worldOfCharacter } from "../worlds";
 
 // Familles volontairement seules (pas de sosie dans le monde)
 const SOLO_FAMILIES = new Set(["animaux/raye", "animaux/vert", "ocean/tortue"]);
 
 describe("mondes", () => {
-  it("5 mondes dans l'ordre, startIndex et unlockStars corrects", () => {
-    expect(WORLDS.map((w) => w.id)).toEqual(["animaux", "ocean", "dinos", "halloween", "espace"]);
-    expect(WORLDS.map((w) => w.startIndex)).toEqual([1, 11, 21, 31, 41]);
-    expect(WORLDS.map((w) => w.unlockStars)).toEqual([0, 12, 24, 36, 48]);
-    expect(LEVELS_PER_WORLD).toBe(10);
+  it("seuls les mondes animaliers sont proposés dans le jeu principal", () => {
+    expect(WORLDS.map((w) => w.id)).toEqual(["animaux", "ocean"]);
+    expect(WORLDS.map((w) => w.startIndex)).toEqual([1, 21]);
+    expect(WORLDS.map((w) => w.unlockStars)).toEqual([0, 12]);
+    const playableNames = new Set(allCharacters().map((c) => c.name));
+    for (const world of FUN_WORLDS) {
+      expect(getWorld(world.id)).toBeUndefined();
+      for (const character of world.characters) expect(playableNames.has(character.name)).toBe(false);
+    }
+    expect(LEVELS_PER_WORLD).toBe(20);
     for (const w of WORLDS) {
       expect(w.background).toMatch(/gradient\(/);
       expect(w.accent).toMatch(/^#[0-9a-f]{6}$/i);
@@ -20,18 +25,17 @@ describe("mondes", () => {
     }
   });
 
-  it("12 persos par monde, name uniques et sans accent", () => {
-    for (const w of WORLDS) expect(w.characters).toHaveLength(12);
+  it("assez de personnages par monde, identifiants uniques et sans accent", () => {
+    for (const w of WORLDS) expect(w.characters.length).toBeGreaterThanOrEqual(5);
     const names = allCharacters().map((c) => c.name);
-    expect(names).toHaveLength(60);
-    expect(new Set(names).size).toBe(60);
+    expect(new Set(names).size).toBe(names.length);
     for (const c of allCharacters()) {
       expect(c.name).toMatch(/^[a-z0-9-]+$/);
       expect(c.label.length).toBeGreaterThan(0);
     }
   });
 
-  it("animaux = les 12 images actuelles, préfixe de monde pour les autres", () => {
+  it("animaux = le catalogue publié, préfixe de monde pour les autres", () => {
     expect(getWorld("animaux")!.characters).toEqual(animalsPack);
     expect(charactersDetails).toEqual(animalsPack);
     for (const w of WORLDS.slice(1)) {
@@ -51,12 +55,15 @@ describe("mondes", () => {
     }
   });
 
-  it("chaque famille a au moins 2 membres, sauf exceptions assumées", () => {
+  it("familles renseignées ; sosies du monde Océan conservés", () => {
     for (const w of WORLDS) {
       const sizes = new Map<string, number>();
-      for (const c of w.characters) sizes.set(c.family, (sizes.get(c.family) ?? 0) + 1);
+      for (const c of w.characters) {
+        expect(c.family.trim().length).toBeGreaterThan(0);
+        sizes.set(c.family, (sizes.get(c.family) ?? 0) + 1);
+      }
       for (const [family, n] of sizes) {
-        if (!SOLO_FAMILIES.has(`${w.id}/${family}`)) expect(n, `${w.id}/${family}`).toBeGreaterThanOrEqual(2);
+        if (w.id !== "animaux" && !SOLO_FAMILIES.has(`${w.id}/${family}`)) expect(n, `${w.id}/${family}`).toBeGreaterThanOrEqual(2);
       }
     }
   });
@@ -66,17 +73,17 @@ describe("mondes", () => {
   });
 
   it("getWorld et worldOfCharacter", () => {
-    expect(getWorld("dinos")?.name).toBe("Dinosaures");
+    expect(getWorld("ocean")?.name).toBe("Océan");
     expect(getWorld("lune")).toBeUndefined();
     expect(worldOfCharacter("chat")?.id).toBe("animaux");
-    expect(worldOfCharacter("espace-fusee")?.id).toBe("espace");
+    expect(worldOfCharacter("espace-fusee")).toBeUndefined();
     expect(worldOfCharacter("inconnu")).toBeUndefined();
   });
 });
 
 describe("moteur avec le pool de chaque monde", () => {
   const tiers: Tier[] = ["easy", "normal", "expert"];
-  it("generateLevel produit des niveaux valides sur startIndex..startIndex+9", () => {
+  it("generateLevel produit des niveaux valides sur les 20 étapes de chaque monde", () => {
     for (const w of WORLDS) {
       for (const tier of tiers) {
         for (const seed of [1, 42, 2026]) {

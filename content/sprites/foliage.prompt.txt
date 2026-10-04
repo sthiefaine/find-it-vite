@@ -1,0 +1,11 @@
+Generated 2026-10-04 with the built-in image_gen tool; transparent_background: true.
+Source: /Users/thief/.codex/generated_images/01a1074c-52f8-7141-98bc-26315006f749/exec-5b1595be-736c-4ae2-a67f-430768bf2ada.png
+Project asset: public/assets/images/obstacles/foliage.png
+
+Use case: stylized-concept.
+Asset type: transparent raster game sprite for Find It, a cute animal search game. One draggable bunch of foliage that partially hides small animal faces.
+Subject: ONE compact fan-shaped spray of 7 to 9 broad oval jungle leaves, overlapping densely around a small hidden central stem. Front view, roughly round silhouette, almost as wide as tall. Individual leaf tips spread outward organically. Rich natural olive, emerald and fresh green colors, subtle fine veins. No flowers, fruit, animal, pot or ground.
+Style: softly stylized semi-realistic modern casual video-game art, smooth detailed matte surfaces with gentle form shading; nostalgic charm, friendly rounded shapes, clear crisp silhouette. Not flat vector, not pixel art, not photographic.
+Composition: centered single isolated bunch filling most of a square image, all leaf tips fully inside canvas, very narrow transparent margin. Opaque overlapping leaves in the central 65% so this works as a movable visual obstacle. Preserve natural transparent spaces only at the outside silhouette.
+Background: genuinely transparent alpha; no white backdrop, no cast shadow, no checkerboard.
+Constraints: no text, no watermark, no neon glow, no glossy specular highlights, no outline sticker border. High resolution, clean antialiased edges.

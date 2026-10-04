@@ -15,6 +15,8 @@ import type { LevelSpec } from "../../engine/types.ts";
 import Flashlight from "../../components/Flashlight/Flashlight.tsx";
 import { stepInfo } from "../../game/adventureRun.ts";
 import StepToast from "../../components/StepToast/StepToast.tsx";
+import Seagulls from "../../components/Seagulls/Seagulls.tsx";
+import Foliage from "../../components/Foliage/Foliage.tsx";
 
 const renderGrid = (spec: LevelSpec) => {
   switch (spec.layout) {
@@ -50,19 +52,24 @@ const Game = () => {
   const hasFlashlight = !!spec?.modifiers.includes("flashlight");
   // Aventure : la page prend le décor du monde (ou du Grand Mélange)
   const world = mode === "adventure" ? stepInfo(adventureStep) : undefined;
+  const scene = spec?.scene;
 
   return (
     <div
-      className={`gameContainer${world ? " gameContainer--world" : ""}`}
+      className={`gameContainer${world ? " gameContainer--world" : ""}${scene ? " gameContainer--scene" : ""}`}
       style={
         {
           "--board-w": `${board.width}px`,
           "--board-h": `${board.height}px`,
           ...(world && { background: world.background, "--world-accent": world.accent }),
+          ...(scene && { background: scene.background, "--world-accent": scene.accent }),
         } as CSSProperties
       }
     >
       <GameHeader />
+      <div className="gameScene">
+        {scene && <><strong>{scene.name}</strong><span>{scene.hint}</span></>}
+      </div>
       <div
         ref={boardRef}
         className={`boardWrap${hasFlashlight ? " boardWrap--flashlight" : ""}`}
@@ -81,6 +88,8 @@ const Game = () => {
             hidden={wantedFound || isOver}
           />
         )}
+        <Seagulls boardRef={boardRef} />
+        {spec?.scene?.foliage && <Foliage key={`foliage-${spec.seed}`} boardRef={boardRef} spec={spec} />}
         {mode === "adventure" && !isOver && <StepToast />}
       </div>
       <div className="gameActions">

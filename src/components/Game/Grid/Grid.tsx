@@ -88,6 +88,7 @@ const GameGrid = ({ spec }: { spec: LevelSpec }) => {
         className="canvasGameBoard"
         style={{ width: board.width, height: board.height, maxHeight: "none" }}
         options={{
+          backgroundAlpha: 0,
           antialias: true,
           resolution: window.devicePixelRatio || 1,
           autoDensity: true,

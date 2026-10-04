@@ -4,8 +4,9 @@ import { GameStateEnum, useGameStore } from "../../../../../store/store";
 import { useShallow } from "zustand/shallow";
 import { charactersDetails } from "../../../../helpers/characters";
 import { useLocation, useNavigate } from "react-router-dom";
-import { dailySeed, generateLevel, randomSeed, seedFromCode } from "../../../../engine";
-import type { Rule, Tier } from "../../../../engine";
+import { dailySeed, randomSeed, seedFromCode } from "../../../../engine";
+import type { Tier } from "../../../../engine";
+import { generatePlayableLevel } from "../../../../game/playableLevel";
 import type { CharacterDetails } from "../../../../helpers/characters";
 import { useSaveStore } from "../../../../save/saveStore";
 import { DEFAULT_TIER, TIERS } from "../../../../save/schema";
@@ -52,8 +53,6 @@ function poolFor(mode: GameMode, step: number): CharacterDetails[] {
   if (mode === "daily") return getWorld("animaux")?.characters ?? charactersDetails;
   return charactersDetails;
 }
-
-const ADVENTURE_RULES: Rule[] = ["classic", "memory", "silhouette", "oddOneOut", "findAll"];
 
 export function IsPlaying() {
   const {
@@ -120,12 +119,10 @@ export function IsPlaying() {
       mode === "adventure"
         ? stepTarget(adventureStep, missionFound + 1, pool)
         : levelTarget(mode, runSeed, level);
-    const spec = generateLevel(target.index, {
+    const spec = generatePlayableLevel(target.index, {
       seed: target.seed,
       tier,
       pool,
-      // En Aventure, pas de bonus doré : il fausserait le temps d'une étape
-      ...(mode === "adventure" && { allowedRules: ADVENTURE_RULES }),
     });
     setupFor.current = `${runSeed}:${level}`;
     setCurrentSpec(spec);

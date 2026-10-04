@@ -22,8 +22,8 @@ describe("étapes globales", () => {
   it("monde + étape ↔ étape globale", () => {
     expect(globalStep("animaux", 1)).toBe(1);
     expect(globalStep("animaux", 10)).toBe(10);
-    expect(globalStep("ocean", 1)).toBe(11);
-    expect(globalStep("espace", 10)).toBe(WORLD_STEPS);
+    expect(globalStep("ocean", 1)).toBe(21);
+    expect(globalStep(WORLDS[WORLDS.length - 1].id, LEVELS_PER_WORLD)).toBe(WORLD_STEPS);
     for (let g = 1; g <= WORLD_STEPS; g++) {
       const info = stepInfo(g);
       expect(globalStep(info.worldId!, info.level)).toBe(g);
@@ -33,15 +33,15 @@ describe("étapes globales", () => {
   it("l'index moteur suit startIndex + étape - 1, puis continue de monter", () => {
     expect(stepInfo(3)).toMatchObject({ worldId: "animaux", level: 3, index: 3 });
     const ocean = getWorld("ocean")!;
-    expect(stepInfo(14)).toMatchObject({ worldId: "ocean", level: 4, index: ocean.startIndex + 3 });
+    expect(stepInfo(24)).toMatchObject({ worldId: "ocean", level: 4, index: ocean.startIndex + 3 });
     expect(stepInfo(WORLD_STEPS + 1)).toMatchObject({ phase: MIX_PHASE, worldId: null, index: WORLD_STEPS + 1 });
     expect(stepInfo(200).index).toBe(200);
   });
 
-  it("change de monde après l'étape 10, puis passe au Grand Mélange après l'Espace", () => {
-    expect(entersNewPhase(9)).toBe(false);
-    expect(entersNewPhase(10)).toBe(true);
-    expect(stepInfo(11).phase).toBe("ocean");
+  it("change de monde après l'étape 20, puis passe au Grand Mélange après les mondes actifs", () => {
+    expect(entersNewPhase(19)).toBe(false);
+    expect(entersNewPhase(20)).toBe(true);
+    expect(stepInfo(21).phase).toBe("ocean");
     expect(entersNewPhase(WORLD_STEPS)).toBe(true);
     expect(stepInfo(WORLD_STEPS + 1).phase).toBe(MIX_PHASE);
     expect(entersNewPhase(WORLD_STEPS + 1)).toBe(false);
@@ -50,7 +50,7 @@ describe("étapes globales", () => {
 
   it("pool : celui du monde, puis tous les persos", () => {
     expect(poolOfStep(1)).toBe(WORLDS[0].characters);
-    expect(poolOfStep(25)).toBe(getWorld("dinos")!.characters);
+    expect(poolOfStep(25)).toBe(getWorld("ocean")!.characters);
     expect(poolOfStep(WORLD_STEPS + 3)).toHaveLength(allCharacters().length);
   });
 
@@ -72,10 +72,10 @@ describe("stepTarget", () => {
     }
   });
 
-  it("garde les sous-graines des missions d'avant (mêmes niveaux qu'avant)", () => {
+  it("garde les sous-graines cohérentes avec les missions de chaque monde", () => {
     const w = getWorld("ocean")!;
     const seeds = missionSubSeeds(missionSeed("ocean", 2), w.startIndex + 1, w.characters);
-    expect([1, 2, 3, 4, 5].map((k) => stepTarget(12, k).seed)).toEqual(seeds);
+    expect([1, 2, 3, 4, 5].map((k) => stepTarget(22, k).seed)).toEqual(seeds);
   });
 
   it("le Grand Mélange génère des niveaux valides loin dans la partie", () => {

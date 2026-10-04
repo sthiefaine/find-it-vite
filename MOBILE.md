@@ -39,6 +39,32 @@ Dans `capacitor.config.ts`, remplacez `com.findit.game` par votre domaine invers
 
 ## 3. Android (Google Play)
 
+### Construire une version de test
+
+```bash
+nvm use
+corepack pnpm android:debug
+```
+
+Le script construit le web, synchronise Capacitor puis produit
+`artifacts/find-it-debug.apk`. Sur macOS, il utilise le JDK 21 intégré à Android Studio
+si le Java courant est trop ancien, sans modifier la configuration du terminal.
+Il utilise le SDK dans `~/Library/Android/sdk` lorsque `ANDROID_HOME` n’est pas défini.
+Sur les autres systèmes, définir `JAVA_HOME` (JDK 21) et `ANDROID_HOME`.
+
+Brancher un téléphone Android autorisé pour le débogage USB, puis :
+
+```bash
+adb install -r artifacts/find-it-debug.apk
+```
+
+Cette APK est signée avec la clé de développement. Elle sert aux tests et ne remplace
+pas l’App Bundle de production signé pour Google Play. L’atelier local des sprites
+(`pnpm studio`) ne fait pas partie de l’application. Toute modification du catalogue
+publié nécessite une nouvelle compilation pour apparaître sur le téléphone.
+
+### Préparer la publication
+
 1. Installez Android Studio (avec le JDK 21 fourni) et le SDK Android 35.
 2. Lancez `pnpm cap:sync`, qui fait le build web puis la copie dans `android/`.
 3. Lancez `pnpm cap:android` pour ouvrir le projet dans Android Studio. Testez sur un émulateur ou un téléphone en USB.
