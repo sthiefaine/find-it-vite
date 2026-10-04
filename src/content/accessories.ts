@@ -16,6 +16,16 @@ export const ACCESSORIES: readonly Accessory[] = [
   { id: "moustache", label: "Fausse moustache", imageSrc: "/assets/images/accessories/moustache.png", box: { x: .24, y: .66, width: .52, height: .114765625 } },
 ];
 
+// Accessoires faciles à confondre à 45 px : deux couvre-chefs, deux barres
+// horizontales sur le visage, deux formes sous le museau.
+export const ACCESSORY_LOOKALIKES: Readonly<Record<AccessoryId, readonly AccessoryId[]>> = {
+  cap: ["bucket-hat"],
+  "bucket-hat": ["cap"],
+  sunglasses: ["moustache"],
+  moustache: ["sunglasses", "bow-tie"],
+  "bow-tie": ["moustache"],
+};
+
 const BY_ID = new Map(ACCESSORIES.map((accessory) => [accessory.id, accessory]));
 export const getAccessory = (id: AccessoryId | null | undefined): Accessory | undefined => id ? BY_ID.get(id) : undefined;
 export const isAccessoryId = (id: string): id is AccessoryId => BY_ID.has(id as AccessoryId);

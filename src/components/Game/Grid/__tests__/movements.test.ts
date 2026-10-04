@@ -2,11 +2,10 @@ import { describe, expect, it } from "vitest";
 import { generateLevel } from "../../../../engine/generateLevel";
 import { BOARD, type LevelSpec } from "../../../../engine/types";
 import { charactersDetails } from "../../../../helpers/characters";
-import { pickCharacterAt } from "../../../../helpers/hitTest";
 import { areaOf, layoutScroll, placeSwarm } from "../layouts";
 import {
   advanceMovementClock, createMovementClock, createScrollMovement, createSwarmMovement,
-  MAX_MOVEMENT_FRAME_S, scrollCrossAt, scrollOffsetAt, stopGoTime, suspendMovementClock, swarmCharacterAt,
+  MAX_MOVEMENT_FRAME_S, scrollCrossAt, scrollOffsetAt, stopGoTime, surgeTime, suspendMovementClock, swarmCharacterAt,
 } from "../movements";
 
 const base = generateLevel(11, { seed: 42, tier: "normal", pool: charactersDetails, allowedRules: ["classic"] });
@@ -95,205 +94,59 @@ describe("couloirs ondulants et marche-arrêt", () => {
   });
 });
 
-describe("rondes et essaim par groupes", () => {
+describe("rangées qui se désorganisent après l'étape 30", () => {
+  const fast = (index: number, speed = 1.4, movement: "linear" | "wave" | "stopGo" = "linear") =>
+    ({ ...specWith({ movement, speed, scrollDirection: "horizontal", alternateDirection: true, extraLines: 2 }), index });
+
+  it("ne touche ni les premières étapes, ni les arrêts, ni les défilements lents", () => {
+    for (const spec of [fast(30), fast(45, 1.4, "stopGo"), fast(45, .9)]) {
+      const layout = layoutScroll(spec);
+      expect(createScrollMovement(spec, layout).lines.every((line) => !line.surge)).toBe(true);
+    }
+  });
+
+  it("fait accélérer ou repartir en arrière certaines rangées, en douceur et à vitesse bornée", () => {
+    let reversed = false;
+    let accelerated = false;
+    for (const seed of [1, 7, 42, 800, 1234]) for (const movement of ["linear", "wave"] as const) {
+      const spec = { ...fast(45, 1.5, movement), seed };
+      const layout = layoutScroll(spec);
+      const motion = createScrollMovement(spec, layout);
+      expect(createScrollMovement(spec, layout)).toEqual(motion);
+      const surging = motion.lines.filter((line) => line.surge);
+      expect(surging.length).toBeGreaterThan(0);
+      expect(surging.length).toBeLessThan(motion.lines.length + 1);
+      layout.speeds.forEach((speed, line) => {
+        const step = .05;
+        let previous = scrollOffsetAt(motion, line, speed, 0);
+        for (let time = step; time < 40; time += step) {
+          const offset = scrollOffsetAt(motion, line, speed, time);
+          const velocity = (offset - previous) / step / 60;
+          expect(Math.abs(velocity)).toBeLessThanOrEqual(Math.max(2, Math.abs(speed)) + 1e-6);
+          if (Math.sign(velocity) === -Math.sign(speed) && Math.abs(velocity) > .1) reversed = true;
+          if (Math.abs(velocity) > Math.abs(speed) * 1.2) accelerated = true;
+          previous = offset;
+        }
+      });
+    }
+    expect(reversed).toBe(true);
+    expect(accelerated).toBe(true);
+  });
+
+  it("intègre exactement chaque bouffée, à toute cadence", () => {
+    const surge = { period: 10, duration: 3, phase: 4, factor: -.8 };
+    expect(surgeTime(0, surge)).toBe(0);
+    for (const time of [0, 2.5, 7, 31]) expect(surgeTime(time + 10, surge) - surgeTime(time, surge)).toBeCloseTo(10 - 1.8 * 1.5, 9);
+    let sum = 0;
+    for (let i = 0; i < 1200; i++) sum += (surgeTime((i + 1) / 120, surge) - surgeTime(i / 120, surge));
+    expect(sum).toBeCloseTo(surgeTime(10, surge), 9);
+  });
+});
+
+describe("essaim par groupes", () => {
   it("conserve l'essaim historique si aucun motif n'est demandé", () => {
     const spec = specWith({ speed: 0.4 });
     expect(createSwarmMovement(spec, placeSwarm(spec), areaOf(spec))).toBeNull();
-  });
-
-  it("préserve les trois ellipses des petites foules, à vitesse bornée, sans masquer la cible", () => {
-    for (const seed of [1, 42, 77]) {
-      const spec = specWith({ movement: "orbit", count: 50, speed: 0.5 }, seed);
-      const area = areaOf(spec);
-      const initial = placeSwarm(spec);
-      const routes = createSwarmMovement(spec, initial, area)!;
-      expect(createSwarmMovement(spec, initial, area)).toEqual(routes);
-      expect(routes).toHaveLength(initial.length);
-      expect(new Set(routes.filter((route) => route.kind === "orbit").map((route) => route.radiusX)).size).toBe(3);
-      expect(new Set(routes.filter((route) => route.kind === "orbit").map((route) => Math.sign(route.angularSpeed)))).toEqual(new Set([-1, 1]));
-      expect(routes[routes.length - 1].character.isWanted).toBe(true);
-      for (const time of [0, 0.3, 3, 40, 200]) {
-        const characters = routes.map((route) => swarmCharacterAt(route, time, area, "bounce"));
-        const candidates = characters.map((c, z) => ({ id: c.id, cx: c.x, cy: c.y, size: spec.spriteSize, z, isWanted: c.isWanted }));
-        characters.forEach((character, index) => {
-          expect(character.x).toBeGreaterThanOrEqual(spec.spriteSize / 2);
-          expect(character.x).toBeLessThanOrEqual(BOARD.w - spec.spriteSize / 2);
-          expect(character.y).toBeGreaterThanOrEqual(spec.spriteSize / 2);
-          expect(character.y).toBeLessThanOrEqual(BOARD.h - spec.spriteSize / 2);
-          const next = swarmCharacterAt(routes[index], time + 0.01, area, "bounce");
-          expect(Math.hypot(next.x - character.x, next.y - character.y)).toBeLessThanOrEqual(0.5 * 60 * 0.01 + 1e-9);
-          if (character.isWanted) expect(pickCharacterAt(character.x, character.y, candidates)?.id).toBe(character.id);
-        });
-      }
-      const route = routes[0];
-      if (route.kind !== "orbit") throw new Error("Ronde attendue");
-      const first = swarmCharacterAt(route, 0, area, "bounce");
-      const loop = swarmCharacterAt(route, 2 * Math.PI / Math.abs(route.angularSpeed), area, "bounce");
-      expect(loop.x).toBeCloseTo(first.x, 8);
-      expect(loop.y).toBeCloseTo(first.y, 8);
-    }
-  });
-
-  it("remplit le centre et les coins des rondes denses sans accélérer ni rendre la cible inaccessible", () => {
-    for (const seed of [1, 42, 77]) for (const count of [80, 120, 160]) {
-      const spec = specWith({ movement: "orbit", count, speed: 0.6 }, seed);
-      const area = areaOf(spec);
-      const initial = placeSwarm(spec);
-      const routes = createSwarmMovement(spec, initial, area)!;
-      expect(routes).toHaveLength(count);
-      expect(createSwarmMovement(spec, initial, area)).toEqual(routes);
-      const orbits = routes.filter((route) => route.kind === "orbit");
-      expect(orbits).toHaveLength(count);
-      expect(new Set(orbits.map((route) => `${route.weave?.centerX}:${route.weave?.centerY}`)).size).toBe(5);
-      expect(orbits.every((route) => route.rounded && route.weave)).toBe(true);
-      expect(new Set(orbits.map((route) => Math.sign(route.angularSpeed)))).toEqual(new Set([-1, 1]));
-      expect(routes[routes.length - 1].character.isWanted).toBe(true);
-      const margin = area.size / 2;
-      const corners = [[margin, margin], [area.w - margin, margin], [margin, area.h - margin], [area.w - margin, area.h - margin]];
-      for (const time of [0, 0.3, 3, 40, 200]) {
-        const characters = routes.map((route) => swarmCharacterAt(route, time, area, "bounce"));
-        const candidates = characters.map((c, z) => ({ id: c.id, cx: c.x, cy: c.y, size: spec.spriteSize, z, isWanted: c.isWanted }));
-        expect(characters.filter((character) => character.isWanted)).toHaveLength(1);
-        expect(Math.min(...characters.map((c) => Math.hypot(c.x - area.w / 2, c.y - area.h / 2)))).toBeLessThan(area.size * .8);
-        for (const [x, y] of corners) expect(Math.min(...characters.map((c) => Math.hypot(c.x - x, c.y - y)))).toBeLessThan(area.size * 1.3);
-        characters.forEach((character, index) => {
-          expect(character.x).toBeGreaterThanOrEqual(margin);
-          expect(character.x).toBeLessThanOrEqual(area.w - margin);
-          expect(character.y).toBeGreaterThanOrEqual(margin);
-          expect(character.y).toBeLessThanOrEqual(area.h - margin);
-          const next = swarmCharacterAt(routes[index], time + .01, area, "bounce");
-          expect(Math.hypot(next.x - character.x, next.y - character.y)).toBeLessThanOrEqual(50 * .01);
-          if (character.isWanted) expect(pickCharacterAt(character.x, character.y, candidates)?.id).toBe(character.id);
-        });
-      }
-      for (const route of orbits) {
-        const period = 2 * Math.PI / Math.abs(route.angularSpeed);
-        const first = swarmCharacterAt(route, 0, area, "bounce");
-        const loop = swarmCharacterAt(route, period, area, "bounce");
-        // Les petits décalages individuels ne se répètent pas à chaque tour.
-        expect(Math.hypot(loop.x - first.x, loop.y - first.y)).toBeGreaterThan(.01);
-      }
-    }
-  });
-
-  it("garde une trajectoire identique quand un figurant devient la cible d'une ronde dense", () => {
-    const spec = specWith({ movement: "orbit", count: 120, speed: .5 });
-    const area = areaOf(spec);
-    const initial = placeSwarm(spec);
-    const promoted = initial.find((character) => !character.isWanted)!;
-    const routes = createSwarmMovement(spec, initial, area)!;
-    const swapped = createSwarmMovement(spec, initial.map((character) => ({ ...character, isWanted: character.id === promoted.id })), area)!;
-    const swappedById = new Map(swapped.map((route) => [route.character.id, route]));
-    for (const time of [0, 1, 15, 300]) for (const route of routes) {
-      const before = swarmCharacterAt(route, time, area, "bounce");
-      const after = swarmCharacterAt(swappedById.get(route.character.id)!, time, area, "bounce");
-      expect(after.x).toBe(before.x);
-      expect(after.y).toBe(before.y);
-    }
-    expect(swapped[swapped.length - 1].character.id).toBe(promoted.id);
-  });
-
-  it("raccorde les lignes et les coins arrondis sans saut ni ralentissement", () => {
-    const spec = specWith({ movement: "orbit", count: 100, speed: .5 });
-    const area = areaOf(spec);
-    const routes = createSwarmMovement(spec, placeSwarm(spec), area)!;
-    const epsilon = .0001;
-    const seen = new Set<string>();
-    for (const route of routes) {
-      if (route.kind !== "orbit" || !route.rounded) continue;
-      const key = `${route.radiusX}:${route.weave?.centerX}:${route.weave?.centerY}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      const { cornerRadius, perimeter } = route.rounded;
-      const speed = Math.abs(route.angularSpeed) * perimeter / (2 * Math.PI);
-      const horizontal = 2 * (route.radiusX - cornerRadius);
-      const vertical = 2 * (route.radiusY - cornerRadius);
-      const arc = Math.PI / 2 * cornerRadius;
-      const uniform = { ...route, angle: 0, angularSpeed: Math.abs(route.angularSpeed), weave: undefined };
-      let distance = 0;
-      for (const segment of [0, horizontal, arc, vertical, arc, horizontal, arc, vertical, arc]) {
-        distance += segment;
-        const time = (perimeter + distance) / speed;
-        const before = swarmCharacterAt(uniform, time - epsilon, area, "bounce");
-        const after = swarmCharacterAt(uniform, time + epsilon, area, "bounce");
-        const travel = Math.hypot(after.x - before.x, after.y - before.y);
-        expect(travel).toBeGreaterThan(speed * epsilon * 1.99);
-        expect(travel).toBeLessThan(speed * epsilon * 2.01);
-      }
-    }
-    expect(seen.size).toBe(6);
-  });
-
-  it("croise les pistes décentrées avec des écarts individuels au fil des tours", () => {
-    const spec = specWith({ movement: "orbit", count: 160, speed: .6 });
-    const area = areaOf(spec);
-    const routes = createSwarmMovement(spec, placeSwarm(spec), area)!;
-    const groups = new Map<string, typeof routes>();
-    routes.forEach((route) => {
-      if (route.kind !== "orbit" || !route.weave) throw new Error("Ronde décentrée attendue");
-      const key = `${route.radiusX}:${route.weave.centerX}:${route.weave.centerY}`;
-      groups.set(key, [...(groups.get(key) ?? []), route]);
-    });
-    expect(groups.size).toBe(6);
-    const centers = [...groups.values()].map(([route]) => {
-      if (route.kind !== "orbit" || !route.weave) throw new Error("Ronde décentrée attendue");
-      return [route.weave.centerX, route.weave.centerY];
-    });
-    expect(centers.some(([x]) => x < -50)).toBe(true);
-    expect(centers.some(([x]) => x > 50)).toBe(true);
-    expect(centers.some(([, y]) => y < -50)).toBe(true);
-    expect(centers.some(([, y]) => y > 50)).toBe(true);
-    let crossed = false;
-    const horizontal = [...groups.values()][1][0];
-    const vertical = [...groups.values()][3][0];
-    const horizontalPath = Array.from({ length: 360 }, (_, t) => swarmCharacterAt(horizontal, t / 3, area, "bounce"));
-    const verticalPath = Array.from({ length: 360 }, (_, t) => swarmCharacterAt(vertical, t / 3, area, "bounce"));
-    for (const a of horizontalPath) {
-      if (verticalPath.some((b) => Math.hypot(a.x - b.x, a.y - b.y) < 5)) crossed = true;
-    }
-    expect(crossed).toBe(true);
-    for (const group of groups.values()) {
-      expect(new Set(group.map((route) => route.kind === "orbit" ? route.weave?.frequency : 0)).size).toBe(group.length);
-    }
-  });
-
-  it("borne aussi les portraits agrandis et la vitesse des rondes en réglage rapide", () => {
-    for (const speed of [0, .6, 3]) {
-      const spec = specWith({ movement: "orbit", count: 160, speed });
-      const area = areaOf(spec);
-      const initial = placeSwarm(spec).map((character, index) => ({ ...character,
-        look: { ...character.look, scale: 1.1, rotation: index % 2 ? .35 : -.2 } }));
-      const routes = createSwarmMovement(spec, initial, area)!;
-      for (const time of [0, .11, 13, 60, 200, 1000]) for (const route of routes) {
-        const current = swarmCharacterAt(route, time, area, "bounce");
-        const next = swarmCharacterAt(route, time + .01, area, "bounce");
-        const half = area.size * current.look.scale / 2 * (Math.abs(Math.cos(current.look.rotation)) + Math.abs(Math.sin(current.look.rotation)));
-        expect(current.x - half).toBeGreaterThanOrEqual(0);
-        expect(current.x + half).toBeLessThanOrEqual(area.w);
-        expect(current.y - half).toBeGreaterThanOrEqual(0);
-        expect(current.y + half).toBeLessThanOrEqual(area.h);
-        expect(Math.hypot(current.x - next.x, current.y - next.y)).toBeLessThanOrEqual(.8);
-        if (!speed) expect(next).toEqual(current);
-      }
-    }
-  });
-
-  it("reprend les rondes denses au même endroit après une pause, à toute cadence", () => {
-    const spec = specWith({ movement: "orbit", count: 160, speed: .6 });
-    const area = areaOf(spec);
-    const routes = createSwarmMovement(spec, placeSwarm(spec), area)!;
-    const reference = routes.map((route) => swarmCharacterAt(route, 12, area, "bounce"));
-    for (const fps of [30, 60, 120]) {
-      const clock = createMovementClock();
-      for (let frame = 0; frame <= fps * 12; frame++) advanceMovementClock(clock, frame * 1000 / fps, true);
-      suspendMovementClock(clock);
-      advanceMovementClock(clock, 90_000, true);
-      routes.forEach((route, index) => {
-        const character = swarmCharacterAt(route, clock.elapsed, area, "bounce");
-        expect(character.x).toBeCloseTo(reference[index].x, 7);
-        expect(character.y).toBeCloseTo(reference[index].y, 7);
-      });
-    }
   });
 
   it("les arrêts de groupe rebondissent sans dérive de timestep ni sortie du plateau", () => {

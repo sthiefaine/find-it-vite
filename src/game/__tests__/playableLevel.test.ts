@@ -76,7 +76,7 @@ describe("objectif unique des parties", () => {
   it("alterne les lignes complètes et espacées, y compris lors des reprises", () => {
     for (const tier of ["easy", "normal", "expert"] as const) {
       const context = { seed: 42, tier, pool: charactersDetails };
-      for (const index of [4, 10, 13, 17, 19, 22, 23, 26, 29, 31, 34, 37, 39, 42, 46, 49, 52, 58, 62, 65, 68]) {
+      for (const index of [4, 10, 13, 17, 19, 22, 26, 29, 31, 34, 37, 39, 42, 46, 49, 52, 58, 62, 65, 68]) {
         const spec = generatePlayableLevel(index, context);
         const crowd = layoutScroll(spec);
         const original = layoutScroll({ ...spec, params: { ...spec.params, scrollFill: undefined } });
@@ -114,7 +114,8 @@ describe("objectif unique des parties", () => {
           expect(crowd.length).toBeGreaterThanOrEqual(380);
           expect(crowd.filter((animal) => animal.isBackground)).toHaveLength(88);
           expect(crowd.filter((animal) => animal.isWanted)).toHaveLength(1);
-          expect(spec.params.wantedBelow).toBe(!spec.scene?.foliage);
+          // Les variantes de foule gardent la cible au-dessus du tas.
+          expect(Boolean(spec.params.wantedBelow)).toBe(!spec.scene?.foliage && !spec.crowdVariant);
           if (spec.params.wantedBelow) expect(spec.params.pileVisibility?.min).toBeLessThan(.2);
         } else if (spec.layout === "swarm") {
           expect(placeSwarm(spec).length).toBeGreaterThanOrEqual(99);
@@ -131,7 +132,8 @@ describe("objectif unique des parties", () => {
   it("introduit les demi-rangées et les traversées sans raréfier les foules avancées", () => {
     const context = { seed: 42, tier: "normal" as const, pool: charactersDetails };
     for (const index of [13, 22, 31, 34, 42, 46, 49, 52]) {
-      const spec = generatePlayableLevel(index, context);
+      // Sans variante « sans accessoire », qui retire les demi-rangées coupées.
+      const spec = generatePlayableLevel(index, context, { crowdVariants: false });
       expect(spec.params.edgeRows).toBe(true);
       expect(spec.params.extraLines).toBeGreaterThanOrEqual(1);
       const layout = layoutScroll(spec);
@@ -161,5 +163,34 @@ describe("objectif unique des parties", () => {
         expect(normalCrowd.filter((c) => c.isWanted)).toHaveLength(1);
       }
     }
+  });
+
+  it("programme la dispersion à partir de 20 (30 en Enfant), de plus en plus souvent, et densifie les rondes", () => {
+    const share = (tier: "easy" | "normal", movement: string, from: number, to: number) => {
+      let hits = 0;
+      for (let index = from; index <= to; index++) {
+        const spec = generatePlayableLevel(index, { seed: 42, tier, pool: charactersDetails });
+        if (spec.params.movement === movement) hits++;
+      }
+      return hits / (to - from + 1);
+    };
+    for (let index = 1; index <= 200; index++) {
+      for (const tier of ["easy", "normal", "expert"] as const) {
+        const spec = generatePlayableLevel(index, { seed: 42, tier, pool: charactersDetails });
+        if (spec.params.movement === "scatter") {
+          expect(spec.layout).toBe("swarm");
+          expect(index).toBeGreaterThanOrEqual(tier === "easy" ? 30 : 20);
+          expect(spec.params.count).toBeGreaterThanOrEqual(20);
+          expect(spec.params.speed).toBeGreaterThan(0);
+        }
+      }
+    }
+    expect(generatePlayableLevel(23, { seed: 1, tier: "normal", pool: charactersDetails }).params.movement).toBe("scatter");
+    expect(generatePlayableLevel(23, { seed: 1, tier: "easy", pool: charactersDetails }).params.movement).toBe("linear");
+    expect(generatePlayableLevel(30, { seed: 1, tier: "easy", pool: charactersDetails }).params.movement).toBe("scatter");
+    expect(share("normal", "scatter", 121, 200)).toBeGreaterThan(share("normal", "scatter", 41, 120));
+    expect(share("normal", "orbit", 121, 200)).toBeGreaterThan(share("normal", "orbit", 41, 120));
+    // Les rondes Normal dépassent 100 têtes dès le rendez-vous de l'étape 20.
+    expect(generatePlayableLevel(20, { seed: 1, tier: "normal", pool: charactersDetails }).params.count).toBeGreaterThan(100);
   });
 });

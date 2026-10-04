@@ -18,7 +18,7 @@ export function multiplayerPool(theme: MultiplayerTheme): CharacterDetails[] {
 }
 
 export function multiplayerLevel(index: number, seed: number, theme: MultiplayerTheme): LevelSpec {
-  const spec = generatePlayableLevel(index, { seed, tier: "normal", pool: multiplayerPool(theme) });
+  const spec = generatePlayableLevel(index, { seed, tier: "normal", pool: multiplayerPool(theme) }, { crowdVariants: false });
   // Multiplayer owns its clock and renderer, including their independent state.
   // The same four layouts/accessories stay deterministic on both devices.
   return { ...spec, scene: spec.scene ? { ...spec.scene, foliage: undefined, seagulls: false } : undefined };

@@ -79,6 +79,22 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
   if (spec.decoys.some((d) => !names.has(d.name))) err("leurre hors du pool");
   if (spec.rule === "oddOneOut") {
     if (spec.decoys.some((d) => d.name !== spec.wanted.name)) err("oddOneOut : tous les leurres doivent être le recherché");
+  } else if (spec.crowdVariant) {
+    // Tous pareils / deux espèces : la foule contient l'espèce recherchée (et un sosie),
+    // la cible reste unique grâce au plan d'accessoires.
+    const variant = spec.crowdVariant;
+    const species = new Set(spec.decoys.map((d) => d.name));
+    if (spec.rule !== "classic") err("variante de foule hors règle classique");
+    if (!species.has(spec.wanted.name)) err("variante : l'espèce recherchée manque dans la foule");
+    if (variant.species === "same" && species.size !== 1) err("variante « tous pareils » : une seule espèce attendue");
+    if (variant.species === "two") {
+      if (!variant.partner || variant.partner === spec.wanted.name) err("variante « deux espèces » : sosie invalide");
+      if (species.size !== 2 || (variant.partner && !species.has(variant.partner))) err("variante « deux espèces » : deux espèces attendues");
+    }
+    if (!spec.accessories) err("variante sans plan d'accessoires");
+    else if ((variant.dress === "bare") !== (spec.accessories.target === null)) err("variante : accessoire de la cible incohérent");
+    if (p.wantedBelow || p.pileVisibility) err("variante : la cible ne se cache pas sous la foule");
+    if (variant.dress === "bare" && p.edgeRows) err("variante sans accessoire : pas de demi-rangées");
   } else if (spec.decoys.some((d) => d.name === spec.wanted.name)) {
     err("le recherché figure parmi les leurres");
   }

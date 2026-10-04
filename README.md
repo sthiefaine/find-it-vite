@@ -42,8 +42,8 @@ reste garantie ; les trois cercles historiques sont disponibles en debug. Le nom
 ne prennent plus de place au-dessus du plateau.
 
 Après l’étape 40, chaque cycle de seize étapes alterne quatre grilles pleines,
-quatre défilements pleins, quatre tas et quatre foules mobiles, dont une ronde
-et deux traversées par vagues. Les petites grilles d’introduction ne reviennent
+quatre défilements pleins, quatre tas et quatre foules mobiles, dont une ronde,
+une dispersion et deux traversées par vagues. Les petites grilles d’introduction ne reviennent
 plus. Les tas dépassent 380 portraits (plafond de 340 + 88 en fond), les rondes
 avancées dépassent 140. Leurs pistes décentrées se recoupent, avec des oscillations
 individuelles ; les petites rondes Enfant gardent trois ellipses simples. Les vagues
@@ -155,6 +155,31 @@ portent aussi l’accessoire recherché. L’objectif reste de retrouver l’uni
 affiché ; le chrono ne change pas. Pour un aperçu local forcé, ouvrir
 `http://127.0.0.1:5174/game?seed=42&level=13&accessory=moustache`.
 Le paramètre `accessory` est ignoré en production.
+
+### Plancher de difficulté et variantes de foule
+
+Un plancher (`src/engine/difficultyFloor.ts`) monte avec le niveau, quelle que soit
+la densité de la scène : en Normal, pas de grille sous 6×6 après 10, ni sous 7×7
+après 20, et grille pleine après 50 ; les tas, essaims, remplissages et rangées
+de défilement ont aussi leur minimum. Enfant monte plus doucement ; les
+respirations restent plus légères, sans grille de moins de 6×6 après 20.
+
+Des variantes de foule se mêlent ensuite aux niveaux classiques
+(`src/game/crowdVariants.ts`), toujours avec une seule cible :
+**tous pareils** (toute la foule est de l’espèce recherchée) ou **deux espèces**
+(elle et un sosie), combinées à trois plans d’accessoires : A, seule la cible
+porte l’accessoire de l’avis parmi son espèce (dès 15) ; B, tout le monde est
+habillé sauf la cible, et l’avis porte un badge « sans accessoire » (dès 25, jamais
+dans les tas) ; C, tout le monde est habillé et les autres de son espèce portent
+d’autres accessoires, parfois ressemblants (dès 35). Les deux espèces arrivent à 20 ;
+Enfant décale tout de dix niveaux. Leur fréquence monte avec le niveau et une même
+variante ne sort jamais trois fois de suite. Les salons en ligne n’en ont pas.
+Aperçu local forcé : `/game?seed=42&level=30&variant=same-bare` (`same|two` ×
+`single|bare|mixed`).
+
+Les essaims « dispersion » (`scatter`) arrivent à 20 (30 en Enfant) ; après le
+premier cycle de reprises, les traversées deviennent de plus en plus souvent des
+rondes ou des dispersions, et les rondes sont plus denses.
 
 Les accessoires sont dans `public/assets/images/accessories/`, leurs rectangles
 de placement dans `src/content/accessories.ts`, et leurs prompts avec provenance

@@ -182,6 +182,8 @@ export const GameHeader = () => {
   };
 
   const showBack = isMemory && shown && cardHidden;
+  // Variante B : toute l'espèce est habillée sauf la cible, l'avis le dit en clair.
+  const bareTarget = rule === "classic" && spec?.crowdVariant?.dress === "bare";
   const isGold = rule === "goldRush" && shown;
 
   return (
@@ -212,7 +214,7 @@ export const GameHeader = () => {
                 }`}
                 imageSrc={wantedCharacter.imageSrc}
                 size={62}
-                label={wantedCharacter.label}
+                label={bareTarget ? `${wantedCharacter.label}, sans accessoire` : wantedCharacter.label}
                 accessoryId={spec?.accessories?.target}
                 hidden={showBack || isGold}
               />
@@ -223,6 +225,11 @@ export const GameHeader = () => {
               </div>
             )}
             {rule === "oddOneOut" && shown && <div className="odd-sign">≠</div>}
+            {bareTarget && shown && !showBack && (
+              <div className="wanted-bare-badge" aria-hidden>
+                <span className="wanted-bare-icon">∅</span>sans accessoire
+              </div>
+            )}
             {isGold && (
               <div className="gold-face">
                 <span className="gold-star">⭐</span>

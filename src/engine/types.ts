@@ -33,7 +33,16 @@ export type Tier = "easy" | "normal" | "expert";
 
 export type GameMode = "endless" | "daily" | "adventure";
 
-export type MovementPattern = "linear" | "wave" | "stopGo" | "orbit" | "crossing";
+export type MovementPattern = "linear" | "wave" | "stopGo" | "orbit" | "crossing" | "scatter";
+
+// Variantes de foule (toujours une seule cible) :
+// - species "same" : toute la foule est de l'espèce recherchée ; "two" : elle et un sosie ;
+// - dress "single" (A) : seule la cible porte l'accessoire de l'avis parmi son espèce ;
+//   "bare" (B) : toute son espèce est habillée sauf la cible, qui n'a rien ;
+//   "mixed" (C) : toute la foule est habillée, son espèce porte d'autres accessoires.
+export type CrowdSpecies = "same" | "two";
+export type CrowdDress = "single" | "bare" | "mixed";
+export type CrowdVariant = { species: CrowdSpecies; dress: CrowdDress; partner?: string };
 
 export type LevelScene = {
   id: string;
@@ -70,6 +79,7 @@ export type LayoutParams = {
 
 export interface LevelSpec {
   accessories?: AccessoryPlan;
+  crowdVariant?: CrowdVariant; // foule à une ou deux espèces ; decoys contient alors le recherché
   scene?: LevelScene;
   genVersion: number;
   seed: number; // graine du niveau (dérivée de la graine de partie + index)

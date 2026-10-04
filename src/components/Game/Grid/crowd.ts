@@ -56,9 +56,12 @@ export function oddLook(spec: LevelSpec): Look {
   }
 }
 
-// Persos « normaux » de la foule
+// Persos « normaux » de la foule. Une variante « tous pareils » ou « deux espèces »
+// garde l'espèce recherchée parmi les leurres : seuls les accessoires les distinguent
+// (voir dressCrowd), jamais deux persos ne correspondent à l'avis.
 export function crowdPool(spec: LevelSpec): CharacterDetails[] {
   if (spec.rule === "oddOneOut") return [spec.wanted];
+  if (spec.crowdVariant && spec.rule === "classic") return spec.decoys;
   return spec.decoys.filter((c) => c.name !== spec.wanted.name);
 }
 

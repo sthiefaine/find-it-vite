@@ -6,6 +6,7 @@ import { stepTarget } from "./adventureRun";
 import { levelTarget, MISSION_GOAL } from "./modes";
 import { generatePlayableLevel } from "./playableLevel";
 import { readAccessoryPreview, withAccessoryPreview } from "./accessories";
+import { readVariantPreview } from "./crowdVariants";
 
 export const LEVEL_COUNTDOWN_MS = 3000;
 
@@ -49,7 +50,11 @@ export function generateRunLevel(position: RunLevelPosition, save: AnimalUnlockS
   const { mode, adventureStep, missionFound, runSeed, level, tier } = position;
   const pool = characterPoolFor(mode, adventureStep, save, playThemeFromSearch(search));
   const target = mode === "adventure" ? stepTarget(adventureStep, missionFound + 1, pool) : levelTarget(mode, runSeed, level);
-  const spec = generatePlayableLevel(target.index, { seed: target.seed, tier, pool });
+  // Les variantes de foule suivent les avis de la partie (jamais trois fois la même de suite).
+  const spec = generatePlayableLevel(target.index, { seed: target.seed, tier, pool }, {
+    variantStream: { seed: runSeed, position: level },
+    forceVariant: readVariantPreview(search, development),
+  });
   return withAccessoryPreview(spec, readAccessoryPreview(search, development));
 }
 
