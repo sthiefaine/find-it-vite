@@ -35,16 +35,17 @@ export const Countdown = () => {
     }
   }, [countdown, setGameState, setSoundSrc]);
 
+  // Couleurs des menus : violet, orange, rose
   const getColor = (countdownValue: number) => {
     switch (countdownValue) {
       case 3:
-        return "rgb(102, 126, 234)";
+        return "#8739f9";
       case 2:
-        return "rgb(49, 90, 231)";
+        return "#ff8a00";
       case 1:
-        return "rgb(68, 178, 232)";
+        return "#ff3d7f";
       default:
-        return "#ffffff";
+        return "#8739f9";
     }
   };
 
@@ -55,17 +56,10 @@ export const Countdown = () => {
       <motion.span
         className={styles.timer}
         key={countdown}
-        initial={{
-          scale: 0.5,
-          rotate: rotate,
-          color: getColor(countdown / 1000),
-        }}
-        animate={{
-          scale: 1,
-          rotate: rotateOrigin,
-          color: getColor(countdown / 1000),
-        }}
-        transition={{ duration: 1 }}
+        style={{ backgroundColor: getColor(countdown / 1000) }}
+        initial={{ scale: 0.4, rotate: rotate }}
+        animate={{ scale: 1, rotate: rotateOrigin }}
+        transition={{ type: "spring", stiffness: 300, damping: 14 }}
       >
         {countdown / 1000}
       </motion.span>

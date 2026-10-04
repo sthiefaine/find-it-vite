@@ -1,191 +1,236 @@
+/* En-tête de partie : même famille que les menus (voir Buttons/ui.css, Tile.css) :
+   violets #2d0d66 → #1c0840, jaune #ffc800, orange #ff8a00, violet #8739f9, rose #ff3d7f,
+   cartes arrondies, bord épais, ombre « 3D » sous la carte, texte blanc très gras. */
 .header-container {
-  background: rgba(0, 0, 0, 0.9);
+  --fi-yellow: #ffc800;
+  --fi-orange: #ff8a00;
+  --fi-purple: #8739f9;
+  --fi-purple-dark: #5f28af;
+  --fi-pink: #ff3d7f;
+  --fi-ink: #1c0840;
   width: 100%;
-  padding: 6px 10px;
+  padding: 6px 10px 9px;
   display: flex;
   flex: none;
   flex-direction: column;
   align-items: center;
   position: relative;
-  border-bottom: 3px solid #ffd700;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  color: #fff;
+  background: linear-gradient(180deg, rgba(28, 8, 64, 0.85), rgba(28, 8, 64, 0.55));
+  border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0 0 22px 22px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
 
 .header-content {
   width: 100%;
+  max-width: 480px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  justify-content: center;
+  gap: 8px;
+  justify-content: space-between;
 }
 
+/* --- Avis de recherche : une carte de jeu --- */
 .wanted-poster {
-  background: linear-gradient(to bottom, #f5f5dc, #e6e6cc);
-  width: 170px;
-  border-radius: 10px;
-  border: 3px solid #8b4513;
+  --card-bg: linear-gradient(180deg, #ffffff 0%, #f1e8ff 100%);
+  --card-edge: #b79cf0;
+  --card-border: #ffffff;
+  --ring: var(--fi-purple);
+  --name-bg: var(--fi-purple);
+  --name-fg: #fff;
+  position: relative;
+  flex: 0 1 152px;
+  min-width: 128px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 6px 8px 4px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-  position: relative;
-  transition: transform 0.3s ease;
+  gap: 4px;
+  padding: 4px 8px 5px;
+  border-radius: 20px;
+  background: var(--card-bg);
+  border: 3px solid var(--card-border);
+  box-shadow: 0 5px 0 var(--card-edge), 0 8px 14px rgba(0, 0, 0, 0.35);
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.wanted-poster.flash-effect {
-  animation: posterFlash 0.8s ease-out;
+/* Petit « pop » quand un nouveau perso est affiché */
+.wanted-poster.poster-pop {
+  animation: posterPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-@keyframes posterFlash {
-  0%,
+@keyframes posterPop {
+  0% {
+    transform: scale(0.94);
+  }
+  60% {
+    transform: scale(1.04);
+  }
   100% {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     transform: scale(1);
-  }
-  30% {
-    box-shadow: 0 0 25px 10px rgba(255, 215, 0, 0.8);
-    transform: scale(1.05);
-  }
-  70% {
-    box-shadow: 0 0 15px 5px rgba(255, 215, 0, 0.6);
-    transform: scale(1.02);
   }
 }
 
 .wanted-image-container {
   position: relative;
-  min-width: 64px;
-  min-height: 64px;
-  width: 64px;
-  height: 64px;
+  z-index: 1;
+  width: 68px;
+  height: 68px;
+  flex: none;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #ffffff 0%, #efe6ff 70%, #dccbff 100%);
+  box-shadow: 0 0 0 3px var(--ring), 0 3px 0 3px rgba(0, 0, 0, 0.18);
 }
 
-.wanted-canvas {
+.wanted-portrait {
   display: block;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  width: 62px;
+  height: 62px;
+  object-fit: contain;
   border-radius: 50%;
+  pointer-events: none;
+  /* invisible tant que le niveau charge (l'image est déjà là, décodée) */
+  opacity: 0;
+}
+
+.wanted-portrait[hidden] {
+  display: none;
+}
+
+/* `both` : opacité 0 dès la première frame, pas de flash */
+.wanted-portrait.portrait-in {
+  animation: portraitIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes portraitIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* silhouette : l'ombre du perso */
+.wanted-portrait.portrait-silhouette {
+  filter: brightness(0);
 }
 
 .character-glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: -3px;
   border-radius: 50%;
-  background: transparent;
-  box-shadow: inset 0 0 15px 5px rgba(255, 215, 0, 0.6);
-  animation: glowPulse 1s ease-out;
-  z-index: 1;
+  box-shadow: 0 0 0 3px var(--fi-yellow), 0 0 16px 4px rgba(255, 200, 0, 0.7);
+  animation: glowPulse 0.9s ease-out forwards;
+  z-index: 2;
   pointer-events: none;
 }
 
 @keyframes glowPulse {
   0% {
-    box-shadow: inset 0 0 5px 0px rgba(255, 215, 0, 0);
     opacity: 0;
+    transform: scale(0.9);
   }
-  50% {
-    box-shadow: inset 0 0 25px 10px rgba(255, 215, 0, 0.8);
+  40% {
     opacity: 1;
+    transform: scale(1.06);
   }
   100% {
-    box-shadow: inset 0 0 15px 5px rgba(255, 215, 0, 0.3);
-    opacity: 0.5;
+    opacity: 0;
+    transform: scale(1);
   }
 }
 
+/* Tampon : icône de la règle, en pastille rose comme les badges des menus */
 .wanted-stamp {
   position: absolute;
-  top: -6px;
-  right: -30px;
-  transform: rotate(15deg);
-  background-color: #ff0000;
-  color: white;
-  font-size: 10px;
-  font-weight: bold;
-  padding: 3px 8px;
-  border-radius: 3px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  text-transform: uppercase;
-  z-index: 3;
+  top: -8px;
+  right: -8px;
+  z-index: 4;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--fi-pink);
+  border: 3px solid #fff;
+  box-shadow: 0 3px 0 #a8164d, 0 4px 8px rgba(0, 0, 0, 0.35);
+  font-size: 17px;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  transform: rotate(12deg);
+  pointer-events: none;
+  /* rejouée quand la règle change (clé = icône) */
+  animation: stampIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes stampIn {
+  0% {
+    opacity: 0;
+    transform: rotate(-30deg) scale(0.3);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(12deg) scale(1);
+  }
 }
 
 .wanted-name-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: relative;
+  z-index: 1;
   width: 100%;
-  margin-top: 4px;
-  text-transform: capitalize;
+  display: flex;
+  justify-content: center;
 }
 
 .wanted-name {
-  font-size: 17px;
-  font-weight: bold;
-  color: #8b4513;
+  max-width: 100%;
+  min-width: 70%;
+  margin: 0;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: var(--name-bg);
+  color: var(--name-fg);
+  font-size: 16px;
+  font-weight: 900;
+  line-height: 18px;
   text-align: center;
-  min-width: 80%;
-  background-color: #fffbf0;
-  border: 1px solid #8b4513;
-  padding: 3px 8px;
-  border-radius: 3px;
-  position: relative;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) inset;
-  transition: all 0.3s ease;
+  text-transform: capitalize;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
 }
 
 .wanted-name.name-appear {
-  animation: nameAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: nameAppear 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes nameAppear {
   0% {
-    transform: translateY(10px);
+    transform: translateY(6px);
     opacity: 0;
-    letter-spacing: -2px;
-  }
-  60% {
-    letter-spacing: 2px;
   }
   100% {
     transform: translateY(0);
     opacity: 1;
-    letter-spacing: normal;
   }
 }
 
-.wanted-image-container::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 50%;
-  border: 2px solid #8b4513;
-
-  pointer-events: none;
-  z-index: 2;
-}
-
-.wanted-image-container canvas {
-  background: transparent;
-}
-
 /* --- Mécaniques sur l'avis de recherche --- */
-.wanted-stamp {
-  font-size: 14px;
-  padding: 2px 7px;
-  line-height: 1.2;
-}
-
 .wanted-poster.wanted-tappable {
   cursor: pointer;
 }
@@ -209,7 +254,7 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: repeating-linear-gradient(45deg, #8b4513 0 6px, #a0522d 6px 12px);
+  background: repeating-linear-gradient(45deg, #8739f9 0 7px, #6a2bd0 7px 14px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,10 +262,10 @@
 }
 
 .card-back span {
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 900;
-  color: #ffd700;
-  text-shadow: 0 2px 0 #5d2e0c;
+  color: var(--fi-yellow);
+  text-shadow: 0 3px 0 #a84f00;
   animation: backPulse 1.2s ease-in-out infinite;
 }
 
@@ -233,13 +278,15 @@
 .peek-cost {
   position: absolute;
   right: 100%;
-  top: 20px;
-  margin-right: 2px;
-  color: #ff3b3b;
+  top: 18px;
+  margin-right: 6px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--fi-pink);
+  color: #fff;
   font-weight: 900;
-  font-size: 16px;
+  font-size: 15px;
   white-space: nowrap;
-  text-shadow: 0 1px 0 #fff;
   z-index: 4;
   pointer-events: none;
   animation: peekCost 1.4s ease-out forwards;
@@ -260,27 +307,35 @@
   }
 }
 
-/* oddOneOut */
+/* oddOneOut : pastille ≠ en bas à gauche du portrait */
 .odd-sign {
   position: absolute;
-  left: -22px;
+  left: -12px;
   bottom: -6px;
-  font-size: 34px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--fi-pink);
+  border: 3px solid #fff;
+  box-shadow: 0 3px 0 #a8164d;
+  font-size: 22px;
   font-weight: 900;
   line-height: 1;
-  color: #d32f2f;
-  text-shadow: 0 0 3px #fff, 0 0 3px #fff;
+  color: #fff;
   z-index: 3;
   pointer-events: none;
 }
 
-/* findAll */
+/* findAll : compteur ×N */
 .wanted-count {
   display: inline-block;
-  margin-left: 6px;
+  margin-left: 5px;
   padding: 0 6px;
-  border-radius: 10px;
-  background: #d32f2f;
+  border-radius: 999px;
+  background: var(--fi-pink);
   color: #fff;
   text-transform: none;
   animation: countPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -295,24 +350,28 @@
   }
 }
 
-/* goldRush */
+/* goldRush : la carte devient un bonus doré, quel que soit le cadre */
 .wanted-poster.wanted-gold {
-  background: linear-gradient(to bottom, #fff3b0, #ffc93c);
-  border-color: #c58b00;
+  --card-bg: linear-gradient(135deg, #ffe066 0%, #ffc800 45%, #ff8a00 100%);
+  --card-edge: #d78100;
+  --card-border: #fff3b0;
+  --ring: #fff3b0;
+  --name-bg: #a84f00;
+  --name-fg: #fff;
+  animation: goldPulse 1.6s ease-in-out infinite;
 }
 
-.wanted-gold .wanted-name {
-  color: #fff;
-  background: #e0a100;
-  border-color: #a06c00;
-  text-shadow: 0 1px 0 #7a5200;
+@keyframes goldPulse {
+  50% {
+    box-shadow: 0 5px 0 var(--card-edge), 0 8px 14px rgba(0, 0, 0, 0.35), 0 0 22px rgba(255, 200, 0, 0.9);
+  }
 }
 
 .gold-face {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background: radial-gradient(circle, #fff7c2, #ffd54a);
+  background: radial-gradient(circle, #fff7c2, #ffc800);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -320,68 +379,57 @@
 }
 
 .gold-star {
-  font-size: 38px;
+  font-size: 40px;
   animation: backPulse 1s ease-in-out infinite;
 }
 
 .gold-count {
   position: absolute;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 900;
   color: #fff;
-  text-shadow: 0 0 3px #7a5200, 0 1px 2px #7a5200;
+  text-shadow: 0 2px 0 #a84f00, 0 0 4px #a84f00;
 }
 
-/* --- Cadres de l'avis (Options) ; classic = style de base --- */
+/* --- Cadres de l'avis (Options) ; classic = carte blanche à liseré violet --- */
 .wanted-poster.frame-neon:not(.wanted-gold) {
-  background: radial-gradient(circle at 50% 30%, #2a1450, #0d0620 75%);
-  border: 2px solid #3ff6ff;
-  box-shadow: 0 0 6px #3ff6ff, 0 0 16px rgba(255, 64, 214, 0.7), inset 0 0 10px rgba(63, 246, 255, 0.4);
+  --card-bg: radial-gradient(circle at 50% 25%, #3a1380 0%, #1c0840 80%);
+  --card-edge: #0c0320;
+  --card-border: #3ff6ff;
+  --ring: #ff40d6;
+  --name-bg: #ff40d6;
+  box-shadow: 0 5px 0 var(--card-edge), 0 0 10px rgba(63, 246, 255, 0.8), 0 0 22px rgba(255, 64, 214, 0.55);
   animation: neonHum 2.4s ease-in-out infinite;
 }
-.frame-neon:not(.wanted-gold) .wanted-image-container::after {
-  border-color: #ff40d6;
-  box-shadow: 0 0 8px #ff40d6;
+.frame-neon:not(.wanted-gold) .wanted-image-container {
+  box-shadow: 0 0 0 3px var(--ring), 0 0 12px 2px rgba(255, 64, 214, 0.8);
 }
 .frame-neon:not(.wanted-gold) .wanted-name {
-  color: #fff;
-  background: rgba(255, 64, 214, 0.18);
-  border-color: #ff40d6;
-  text-shadow: 0 0 6px #ff40d6, 0 0 2px #fff;
-  box-shadow: 0 0 6px rgba(255, 64, 214, 0.6);
+  text-shadow: 0 0 6px #fff;
+  box-shadow: 0 0 10px rgba(255, 64, 214, 0.8);
 }
 @keyframes neonHum {
   50% {
-    box-shadow: 0 0 9px #3ff6ff, 0 0 24px rgba(255, 64, 214, 0.9), inset 0 0 14px rgba(63, 246, 255, 0.5);
+    box-shadow: 0 5px 0 var(--card-edge), 0 0 14px rgba(63, 246, 255, 1), 0 0 30px rgba(255, 64, 214, 0.85);
   }
 }
 
 .wanted-poster.frame-gold:not(.wanted-gold) {
-  background: linear-gradient(160deg, #fff8d6 0%, #f3d77a 45%, #e8b923 70%, #fff1b0 100%);
-  border: 3px solid #b8860b;
-  outline: 2px solid #ffe680;
-  outline-offset: -7px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.45), 0 0 12px rgba(255, 200, 40, 0.6);
+  --card-bg: linear-gradient(135deg, #fff1b0 0%, #ffc800 50%, #ff8a00 100%);
+  --card-edge: #d78100;
+  --card-border: #fff3b0;
+  --ring: #ffffff;
+  --name-bg: #a84f00;
 }
 .wanted-poster.frame-gold:not(.wanted-gold)::before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.75) 50%, transparent 65%);
+  border-radius: 17px;
+  background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.7) 50%, transparent 65%);
   background-size: 250% 100%;
   animation: goldShine 3.2s ease-in-out infinite;
   pointer-events: none;
-  z-index: 0;
-}
-.frame-gold:not(.wanted-gold) .wanted-image-container::after {
-  border: 3px solid #c99a06;
-  box-shadow: 0 0 0 2px #fff1b0;
-}
-.frame-gold:not(.wanted-gold) .wanted-name {
-  color: #6b4400;
-  background: linear-gradient(#fffbe8, #ffeaa0);
-  border-color: #b8860b;
 }
 @keyframes goldShine {
   0% {
@@ -394,57 +442,67 @@
 }
 
 .wanted-poster.frame-ice:not(.wanted-gold) {
-  background: linear-gradient(170deg, #ffffff 0%, #dff4ff 45%, #a9dcf7 100%);
-  border: 3px solid #e9f9ff;
-  box-shadow: 0 0 0 2px #7cc6ea, 0 4px 10px rgba(0, 60, 100, 0.4), inset 0 0 14px rgba(255, 255, 255, 0.9);
+  --card-bg: linear-gradient(170deg, #ffffff 0%, #dff4ff 45%, #9fdcff 100%);
+  --card-edge: #4aa8d8;
+  --card-border: #ffffff;
+  --ring: #4aa8d8;
+  --name-bg: #2b8fc4;
 }
 .wanted-poster.frame-ice:not(.wanted-gold)::before {
   content: "❄";
   position: absolute;
-  left: 6px;
-  top: 2px;
-  font-size: 16px;
-  color: #7cc6ea;
+  left: 7px;
+  top: 4px;
+  font-size: 18px;
+  line-height: 1;
+  color: #4aa8d8;
   pointer-events: none;
 }
-.frame-ice:not(.wanted-gold) .wanted-image-container::after {
-  border-color: #7cc6ea;
-  box-shadow: 0 0 8px rgba(124, 198, 234, 0.8);
-}
-.frame-ice:not(.wanted-gold) .wanted-name {
-  color: #1d5f86;
-  background: rgba(255, 255, 255, 0.85);
-  border-color: #7cc6ea;
-}
 
-/* --- Aventure : avis trouvés sous le score --- */
+/* --- Colonne de droite : score + avis trouvés (Aventure) --- */
 .score-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
 
 .mission-progress {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   font-size: 15px;
   font-weight: 900;
+  line-height: 18px;
   color: #fff;
-  background: rgba(255, 255, 255, 0.15);
-  border: 2px solid #ffd700;
-  border-radius: 999px;
-  padding: 0 10px;
-  line-height: 20px;
+  white-space: nowrap;
 }
 
 .mission-count {
   display: inline-block;
-  color: #ffd700;
+  color: var(--fi-yellow);
+  text-shadow: 0 0 8px rgba(255, 200, 0, 0.6);
   animation: countPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (max-width: 370px) {
+  .header-content {
+    gap: 6px;
+  }
+  .wanted-poster {
+    flex-basis: 140px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .wanted-poster.frame-neon,
-  .wanted-poster.frame-gold::before {
+  .wanted-poster.frame-gold::before,
+  .wanted-poster.wanted-gold,
+  .wanted-poster.poster-pop,
+  .wanted-stamp {
     animation: none;
   }
 }

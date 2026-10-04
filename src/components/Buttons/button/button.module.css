@@ -1,47 +1,78 @@
-.button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  width: 100%;
-  height: 50px;
-  max-width: 160px;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
+/* Boutons de la barre de jeu, dans le style des tuiles des menus (Tile.css) */
+.button,
 .buttonSmall {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-
+  justify-content: center;
+  gap: 8px;
+  height: 52px;
+  border-radius: 18px;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
 
-.button:hover {
-  background-color: #0056b3;
+/* Bouton icône (son) : carré arrondi violet, ombre 3D */
+.buttonSmall {
+  width: 52px;
+  flex: none;
+  padding: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 55%), #8739f9;
+  border: 3px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 0 5px 0 #5f28af, 0 8px 14px rgba(0, 0, 0, 0.35);
+}
+
+.buttonSmall:active {
+  transform: translateY(4px);
+  box-shadow: 0 1px 0 #5f28af, 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Bouton avec texte (Arrêter) : secondaire, discret, sans appel à cliquer */
+.button {
+  width: 100%;
+  max-width: 170px;
+  padding: 0 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.35);
+}
+
+.button:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+}
+
+.button:focus-visible,
+.buttonSmall:focus-visible {
+  outline: 3px solid #ffc800;
+  outline-offset: 2px;
 }
 
 .icon {
-  display: block;
-  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.25));
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+  stroke-width: 2.5;
+}
+
+.button .icon svg {
+  width: 20px;
+  height: 20px;
+  opacity: 0.85;
 }
 
 .text {
-  display: block;
-  margin-left: 10px;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 17px;
+  font-weight: 900;
+  opacity: 0.9;
 }
 
 .shake {

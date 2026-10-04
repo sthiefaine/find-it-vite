@@ -30,22 +30,16 @@ export default function InGameActionButton() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        {sound ? (
-          <Button
-            icon={<Volume2 />}
-            onClick={() => handleOnClickSoundButton()}
-          />
-        ) : (
-          <Button
-            icon={<VolumeX />}
-            onClick={() => handleOnClickSoundButton()}
-          />
-        )}
+        <Button
+          icon={sound ? <Volume2 /> : <VolumeX />}
+          label={sound ? "Couper le son" : "Activer le son"}
+          onClick={() => handleOnClickSoundButton()}
+        />
       </motion.div>
       {gameState === GameStateEnum.PLAYING && (
         <>
           <motion.div
-            style={{ width: "100%" }}
+            className={styles.stop}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}

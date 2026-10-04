@@ -8,7 +8,11 @@
   align-items: center;
   /* Thème sombre (Infini, Défi) jusqu'en bas, barre de boutons comprise.
      L'Aventure remplace ce fond par le décor du monde (style en ligne). */
-  background: #120826;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(255, 200, 0, 0.12), transparent 40%),
+    radial-gradient(circle at 90% 70%, rgba(255, 61, 127, 0.12), transparent 45%),
+    linear-gradient(180deg, #2d0d66 0%, #1c0840 100%);
+  color: #fff;
   gap: 6px;
   overflow: hidden;
 }
@@ -18,7 +22,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-bottom: 6px;
+  padding: 4px 0 8px;
 }
 
 .level {

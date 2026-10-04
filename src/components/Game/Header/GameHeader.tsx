@@ -1,15 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
-import { AnimatePresence } from "framer-motion";
-import "@pixi/events";
 import "./GameHeader.css";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
 import { useShallow } from "zustand/shallow";
 import { Timer } from "./Timer/Timer";
 import ScoreDisplay from "./ScoreDisplay/ScoreDisplay";
-import { Sprite, Stage } from "@pixi/react";
 import { Countdown } from "../../Countdown/Countdown";
-import { Discovery } from "../../Discovery/Discovery";
 import { MODIFIER_ICON, RULE_ICON, targetCount } from "../../../engine/rules";
 import type { LevelSpec } from "../../../engine/types";
 import { useSaveStore } from "../../../save/saveStore";
@@ -35,11 +30,8 @@ export const GameHeader = () => {
     gameState,
     spec,
     tier,
-    isDiscovery,
-    freshMechanics,
     markDiscoverySeen,
     foundCount,
-    setPauseTimer,
     setTimeLeft,
     mode,
     missionFound,
@@ -51,11 +43,8 @@ export const GameHeader = () => {
       gameState: state.gameState,
       spec: state.currentSpec,
       tier: state.tier,
-      isDiscovery: state.isDiscovery,
-      freshMechanics: state.freshMechanics,
       markDiscoverySeen: state.markDiscoverySeen,
       foundCount: state.foundIds.length,
-      setPauseTimer: state.setPauseTimer,
       setTimeLeft: state.setTimeLeft,
       mode: state.mode,
       missionFound: state.missionFound,
@@ -63,70 +52,46 @@ export const GameHeader = () => {
   );
   const frame = useSaveStore((s) => s.save.settings.frame);
 
+  // Apparition du portrait : pilotée par une classe CSS (opacité 0 dès la première frame)
+  // et non plus par un état React mis à jour après coup, qui laissait passer une frame à
+  // opacité 1 (le nouveau perso apparaissait, disparaissait puis revenait en fondu).
   const [isAnimating, setIsAnimating] = useState(false);
-  const [spriteAlpha, setSpriteAlpha] = useState(0);
-  const [flashEffect, setFlashEffect] = useState(false);
-
-  const spriteRef = useRef(null);
-  const PixiRef = useRef<Stage | null>(null);
-  const animationFrameId = useRef<number | null>(null);
-
   useEffect(() => {
-    if (wantedCharacter && !animationLevelLoading) {
-      setFlashEffect(true);
-      setSpriteAlpha(0);
-      setIsAnimating(true);
-
-      const flashTimeout = setTimeout(() => setFlashEffect(false), 800);
-
-      if (animationFrameId.current) {
-        cancelAnimationFrame(animationFrameId.current);
-      }
-
-      const startTime = performance.now();
-      const duration = 1000;
-
-      const animate = (currentTime: number) => {
-        const elapsedTime = currentTime - startTime;
-        const progress = Math.min(elapsedTime / duration, 1);
-
-        setSpriteAlpha(Math.min(progress * 2, 1));
-
-        if (progress < 1) {
-          animationFrameId.current = requestAnimationFrame(animate);
-        } else {
-          setIsAnimating(false);
-          animationFrameId.current = null;
-        }
-      };
-
-      animationFrameId.current = requestAnimationFrame(animate);
-      return () => {
-        clearTimeout(flashTimeout);
-        if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
-      };
-    }
+    if (!wantedCharacter || animationLevelLoading) return;
+    setIsAnimating(true);
+    const t = setTimeout(() => setIsAnimating(false), 900);
+    return () => clearTimeout(t);
   }, [wantedCharacter, animationLevelLoading]);
+
+  // Précharge l'image pendant le chargement du niveau : elle est décodée avant d'être montrée
+  const imageSrc = wantedCharacter?.imageSrc;
+  useEffect(() => {
+    if (!imageSrc) return;
+    const img = new Image();
+    img.src = imageSrc;
+  }, [imageSrc]);
+
+  // Le 3-2-1 n'est joué qu'au début de la partie, pas aux changements de niveau
+  const countdownDone = useRef(false);
+  useEffect(() => {
+    if (gameState !== GameStateEnum.PLAYING) countdownDone.current = false;
+  }, [gameState]);
+  useEffect(() => {
+    if (!animationLevelLoading && wantedCharacter) countdownDone.current = true;
+  }, [animationLevelLoading, wantedCharacter]);
 
   const levelKey = spec ? `${spec.seed}-${spec.index}` : "";
   const rule = spec?.rule ?? "classic";
   const shown = !animationLevelLoading && !!wantedCharacter;
 
-  // --- Découverte : une fois par niveau, après le chargement ---
-  const [dismissedKey, setDismissedKey] = useState<string | null>(null);
-  const showDiscovery =
-    !!spec &&
-    isDiscovery &&
-    shown &&
-    gameState === GameStateEnum.PLAYING &&
-    dismissedKey !== levelKey;
-  // Chrono en pause pendant la fenêtre de découverte
+  const ready = shown && gameState === GameStateEnum.PLAYING;
+
+  // Plus de fenêtre de découverte : le jeu reste fluide, les indices de l'avis suffisent
+  // (tampon de la règle, silhouette, intrus, ×N, carte mémoire). Les nouvelles mécaniques
+  // sont quand même marquées « vues » dès que le niveau est affiché.
   useEffect(() => {
-    if (!showDiscovery) return;
-    setPauseTimer(true);
-    return () => setPauseTimer(false);
-  }, [showDiscovery, levelKey, setPauseTimer]);
-  const ready = shown && !showDiscovery && gameState === GameStateEnum.PLAYING;
+    if (ready) markDiscoverySeen();
+  }, [ready, levelKey, markDiscoverySeen]);
 
   // --- memory : carte retournée ---
   const isMemory = rule === "memory";
@@ -226,49 +191,37 @@ export const GameHeader = () => {
         <Timer />
 
         <div
-          className={`wanted-poster frame-${frame} ${flashEffect ? "flash-effect" : ""} ${
-            isGold ? "wanted-gold" : ""
-          } ${showBack && !flipping ? "wanted-tappable" : ""}`}
+          className={`wanted-poster frame-${frame}${isAnimating ? " poster-pop" : ""}${
+            isGold ? " wanted-gold" : ""
+          }${showBack && !flipping ? " wanted-tappable" : ""}`}
           onPointerDown={peek}
         >
           <div
-            className={`wanted-image-container ${flipping ? "card-flipping" : ""}`}
+            className={`wanted-image-container${flipping ? " card-flipping" : ""}`}
           >
             {animationLevelLoading &&
               gameState === GameStateEnum.PLAYING &&
-              score === 0 && <Countdown />}
-            <Stage
-              ref={PixiRef}
-              width={60}
-              height={60}
-              options={{
-                backgroundAlpha: 0,
-                antialias: true,
-                resolution: window.devicePixelRatio || 1,
-                autoDensity: true,
-              }}
-            >
-              {shown && (
-                <Sprite
-                  ref={spriteRef}
-                  image={wantedCharacter!.imageSrc}
-                  width={60}
-                  height={60}
-                  alpha={spriteAlpha}
-                  tint={rule === "silhouette" ? 0x000000 : 0xffffff}
-                  visible={!showBack && !isGold}
-                  eventMode="static"
-                />
-              )}
-            </Stage>
+              !countdownDone.current && <Countdown />}
+            {wantedCharacter && (
+              // Monté pendant le chargement (caché) : l'image est prête quand elle apparaît.
+              // La clé change avec le niveau : jamais l'ancien perso sous le nouveau.
+              <img
+                key={`${levelKey}-${wantedCharacter.imageSrc}`}
+                className={`wanted-portrait${shown ? " portrait-in" : ""}${
+                  rule === "silhouette" ? " portrait-silhouette" : ""
+                }`}
+                src={wantedCharacter.imageSrc}
+                alt=""
+                draggable={false}
+                hidden={showBack || isGold}
+              />
+            )}
             {showBack && (
               <div className="card-back">
                 <span>?</span>
               </div>
             )}
-            {rule === "oddOneOut" && shown && (
-              <div className="odd-sign">≠</div>
-            )}
+            {rule === "oddOneOut" && shown && <div className="odd-sign">≠</div>}
             {isGold && (
               <div className="gold-face">
                 <span className="gold-star">⭐</span>
@@ -278,11 +231,14 @@ export const GameHeader = () => {
               </div>
             )}
             {peeking && <div className="peek-cost">−{MEMORY_PEEK_COST_S} s</div>}
-            <div className="wanted-stamp">{stampIcon(spec)}</div>
             {isAnimating && <div className="character-glow"></div>}
           </div>
+          {/* La clé change avec l'icône : petite apparition quand la règle change */}
+          <div key={stampIcon(spec)} className="wanted-stamp" aria-hidden>
+            {stampIcon(spec)}
+          </div>
           <div className="wanted-name-container">
-            <p className={`wanted-name ${isAnimating ? "name-appear" : ""}`}>
+            <p className={`wanted-name${isAnimating ? " name-appear" : ""}`}>
               {renderName()}
             </p>
           </div>
@@ -300,22 +256,6 @@ export const GameHeader = () => {
           )}
         </div>
       </div>
-      {createPortal(
-        <AnimatePresence>
-          {showDiscovery && spec && (
-            <Discovery
-              key={levelKey}
-              spec={spec}
-              freshMechanics={freshMechanics}
-              onClose={() => {
-                markDiscoverySeen();
-                setDismissedKey(levelKey);
-              }}
-            />
-          )}
-        </AnimatePresence>,
-        document.body
-      )}
     </div>
   );
 };

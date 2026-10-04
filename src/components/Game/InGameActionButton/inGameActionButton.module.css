@@ -1,9 +1,17 @@
+/* Barre du bas : son à gauche, Arrêter à droite */
 .container {
   display: flex;
-  gap: 20px;
-  padding: 2px 0;
-  align-self: center;
-  width: 90%;
-  max-width: 500px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 480px;
   height: 60px;
+  padding: 0 16px;
+}
+
+.stop {
+  display: flex;
+  justify-content: flex-end;
+  flex: 0 1 170px;
 }
