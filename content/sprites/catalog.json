@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": 5,
+  "revision": 6,
   "themes": [
     {
       "id": "animaux",
@@ -61,7 +61,7 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/chat.png",
-      "notes": "Référence de style : visage de face, sans cou, finition mate. Fond transparent pour le jeu ; fond blanc pour une image de référence.",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/chat.v2.prompt.txt.",
       "breed": "",
       "species": "chat",
       "dominantColors": [
@@ -82,7 +82,7 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/chien.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/chien.v2.prompt.txt.",
       "breed": "",
       "species": "chien",
       "dominantColors": [
@@ -103,7 +103,7 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/capybara.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/capybara.v2.prompt.txt.",
       "breed": "",
       "species": "capybara",
       "dominantColors": [
@@ -122,7 +122,7 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/coq.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/coq.v2.prompt.txt.",
       "breed": "",
       "species": "coq",
       "dominantColors": [
@@ -145,11 +145,12 @@
       "family": "gris",
       "status": "ready",
       "source": "/assets/images/characters/animals/elephant.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/elephant.v2.prompt.txt.",
       "breed": "",
       "species": "elephant",
       "dominantColors": [
-        "grey"
+        "grey",
+        "pink"
       ],
       "tags": [
         "sauvages",
@@ -165,7 +166,7 @@
       "family": "gris",
       "status": "ready",
       "source": "/assets/images/characters/animals/hippopotame.png",
-      "notes": "Référence du prompt fourni : tête de face, sans cou, petites oreilles, finition mate. Fond blanc pour les références ; fond transparent pour le jeu.",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/hippopotame.v2.prompt.txt.",
       "breed": "",
       "species": "hippopotame",
       "dominantColors": [
@@ -186,7 +187,7 @@
       "family": "gris",
       "status": "ready",
       "source": "/assets/images/characters/animals/pigeon.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/pigeon.v2.prompt.txt.",
       "breed": "",
       "species": "pigeon",
       "dominantColors": [
@@ -205,7 +206,7 @@
       "family": "tachete",
       "status": "ready",
       "source": "/assets/images/characters/animals/giraffe.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/giraffe.v2.prompt.txt.",
       "breed": "",
       "species": "girafe",
       "dominantColors": [
@@ -226,7 +227,7 @@
       "family": "tachete",
       "status": "ready",
       "source": "/assets/images/characters/animals/leopard.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/leopard.v2.prompt.txt.",
       "breed": "",
       "species": "leopard",
       "dominantColors": [
@@ -249,12 +250,13 @@
       "family": "tachete",
       "status": "ready",
       "source": "/assets/images/characters/animals/guepard.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/guepard.v2.prompt.txt.",
       "breed": "",
       "species": "guepard",
       "dominantColors": [
         "yellow",
-        "black"
+        "black",
+        "white"
       ],
       "tags": [
         "felins",
@@ -271,7 +273,7 @@
       "family": "raye",
       "status": "ready",
       "source": "/assets/images/characters/animals/zebre.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/zebre.v2.prompt.txt.",
       "breed": "",
       "species": "zebre",
       "dominantColors": [
@@ -292,11 +294,12 @@
       "family": "vert",
       "status": "ready",
       "source": "/assets/images/characters/animals/serpent.png",
-      "notes": "",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/serpent.v2.prompt.txt.",
       "breed": "",
       "species": "serpent",
       "dominantColors": [
-        "green"
+        "green",
+        "yellow"
       ],
       "tags": [
         "reptiles",
@@ -312,7 +315,7 @@
       "family": "roux",
       "status": "ready",
       "source": "/assets/images/characters/animals/renard.png",
-      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/renard.prompt.txt.",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/renard.v2.prompt.txt.",
       "breed": "",
       "species": "renard",
       "dominantColors": [
@@ -335,7 +338,7 @@
       "family": "noir-blanc",
       "status": "ready",
       "source": "/assets/images/characters/animals/panda.png",
-      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/panda.prompt.txt.",
+      "notes": "Portrait refait le 4 octobre 2026 avec image_gen dans la charte À la ferme : tête de face, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/panda.v2.prompt.txt.",
       "breed": "",
       "species": "panda",
       "dominantColors": [

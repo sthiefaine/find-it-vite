@@ -81,7 +81,8 @@
     "species": "elephant",
     "breed": "",
     "dominantColors": [
-      "grey"
+      "grey",
+      "pink"
     ],
     "tags": [
       "sauvages",
@@ -171,7 +172,8 @@
     "breed": "",
     "dominantColors": [
       "yellow",
-      "black"
+      "black",
+      "white"
     ],
     "tags": [
       "felins",
@@ -207,7 +209,8 @@
     "species": "serpent",
     "breed": "",
     "dominantColors": [
-      "green"
+      "green",
+      "yellow"
     ],
     "tags": [
       "reptiles",

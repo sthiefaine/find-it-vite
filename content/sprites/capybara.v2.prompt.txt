@@ -1,0 +1,15 @@
+Asset: public/assets/images/characters/animals/capybara.png
+Generated with the built-in image_gen tool on 2026-10-04; style refresh to match À la ferme.
+Output: 512 × 512 PNG; lossless compression after downscaling; transparent alpha preserved.
+Generated source: /Users/thief/.codex/generated_images/01a10769-c23c-78c3-995b-95742c34ec03/exec-e241808a-e870-481e-9359-00a1a88e4387.png
+Full-resolution local copy: artifacts/sprite-originals/style-refresh/capybara.png
+Old sprite backup: artifacts/sprites-before-style-refresh-2026-10-04/capybara.png
+
+Exact tool arguments:
+transparent_background: true
+referenced_image_paths: ["/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/vache.png","/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/mouton.png","/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/capybara.png"]
+
+Exact generation prompt:
+Use case: style-transfer. Asset type: a transparent square animal head sprite for Find It. Input image 1 (vache) and input image 2 (mouton) are STYLE REFERENCES ONLY: match their warm matte semi-realistic materials, very fine fur texture, rounded head proportions, gently expressive brown eyes and delicate eyelashes exactly. Input image 3 is the OLD ANIMAL TO REDESIGN: preserve its species and distinctive coat colors, but fully replace its old rendering style; do not preserve old shiny/plastic highlights. Do not copy cow or sheep anatomy into the target species. Rebuild the requested portrait so all three new portraits would look like one consistent illustrated collection.
+ONE friendly expressive animal FACE ONLY, perfectly straight-on front view. No neck, shoulders, body, background or props. Oversized rounded head filling almost the whole square, a tiny clear margin around every ear and other species-specific feature. Cute simplified proportions, softly rounded muzzle, warm brown eyes with delicate lashes. Semi-realistic finely textured fur, smoothly detailed modern game illustration, warm nostalgic charm. Natural rich coat colors, warm diffuse matte rendering with soft intrinsic volume. No hard shadows, plastic or metallic gloss, exaggerated specular eye reflections, directional light, cast shadows, rim light, human hairstyle, invented hair tuft, accessories, text, logos, outlines, watermark. Centered upright head on a genuinely transparent alpha background; no white rectangle, checkerboard drawing, halo or fringe. Clean sharp silhouette readable at 45×45 pixels. High resolution square image.
+Target: a friendly warm brown capybara, rounded broad head and characteristically broad blunt squared capybara muzzle, small rounded side ears, soft close brown fur and subtle short whiskers. Warm tan/brown coat, matte brown nose, expressive friendly brown eyes placed naturally. Remove the old spiky hair tuft completely: the crown has smooth natural short fur. Must remain unmistakably a capybara, not a bear or hamster.
