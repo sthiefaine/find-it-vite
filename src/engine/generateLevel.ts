@@ -21,7 +21,7 @@ import {
 } from "./curve";
 import { createRng, hash32, weightedPick } from "./rng";
 import type { Rng } from "./rng";
-import { BOARD, GEN_VERSION } from "./types";
+import { GEN_VERSION, SPRITE_SIZE } from "./types";
 import type { GenContext, Layout, LayoutParams, LevelSpec, Modifier, Rule, Slot, Tier } from "./types";
 import { LIMITS, validateSpec } from "./validate";
 
@@ -98,9 +98,7 @@ function pickRule(n: number, ctx: GenContext, slot: Slot, layout: Layout, rng: R
 }
 
 // ─── Paramètres de disposition ───
-const gridSpriteSize = (gridSize: number, tier: Tier) =>
-  clamp(Math.floor(BOARD.w / gridSize), tier === "easy" ? LIMITS.sprite.minEasyGrid : LIMITS.sprite.min, LIMITS.sprite.max);
-
+// La taille des têtes est fixe (SPRITE_SIZE) : la difficulté joue sur le nombre, les sosies, la vitesse…
 function buildParams(
   layout: Layout,
   n: number,
@@ -108,50 +106,41 @@ function buildParams(
   d: number,
   flashlight: boolean,
   rng: Rng,
-): { params: LayoutParams; spriteSize: number } {
+): LayoutParams {
   const easy = tier === "easy";
   const L = LIMITS;
   switch (layout) {
     case "grid": {
       const max = easy ? (n === 1 ? L.grid.maxEasyLevel1 : L.grid.maxEasy) : L.grid.max;
       const gridSize = clamp(Math.round(2.6 + 6 * d), L.grid.min, max);
-      return { params: { gridSize }, spriteSize: gridSpriteSize(gridSize, tier) };
+      return { gridSize };
     }
     case "scroll": {
       let speed = clamp(round2(0.4 + 1.2 * d), L.scroll.speedMin, easy ? L.scroll.speedMaxEasy : L.scroll.speedMax);
       if (flashlight) speed = Math.min(speed, SCROLL_FAST);
       return {
-        params: {
-          speed,
-          extraLines: clamp(Math.floor(d * 4), 0, L.scroll.extraLinesMax),
-          scrollDirection: rng.chance(0.5) ? "horizontal" : "vertical",
-          alternateDirection: rng.chance(0.3 + 0.4 * d),
-        },
-        spriteSize: clamp(Math.round(84 - 32 * d), L.sprite.min, L.sprite.max),
+        speed,
+        extraLines: clamp(Math.floor(d * 4), 0, L.scroll.extraLinesMax),
+        scrollDirection: rng.chance(0.5) ? "horizontal" : "vertical",
+        alternateDirection: rng.chance(0.3 + 0.4 * d),
       };
     }
     case "pile": {
       const count = clamp(Math.round(30 + 130 * d), L.pile.countMin, L.pile.countMax);
       return {
-        params: {
-          count,
-          jitter: clamp(Math.round((2 + 4 * d) * 10) / 10, L.pile.jitterMin, L.pile.jitterMax),
-          wantedBelow: !easy && n >= L.pile.wantedBelowFrom && rng.chance(0.25 + 0.35 * d),
-          backgroundGrid: count >= L.pile.backgroundGridFrom,
-        },
-        spriteSize: clamp(Math.round(76 - 28 * d), L.sprite.min, L.sprite.max),
+        count,
+        jitter: clamp(Math.round((2 + 4 * d) * 10) / 10, L.pile.jitterMin, L.pile.jitterMax),
+        wantedBelow: !easy && n >= L.pile.wantedBelowFrom && rng.chance(0.25 + 0.35 * d),
+        backgroundGrid: count >= L.pile.backgroundGridFrom,
       };
     }
     case "swarm": {
       let speed = clamp(round2(0.2 + 0.4 * d), L.swarm.speedMin, easy ? L.swarm.speedMaxEasy : L.swarm.speedMax);
       if (flashlight) speed = Math.min(speed, SWARM_FAST);
       return {
-        params: {
-          count: clamp(Math.round(20 + 40 * d), L.swarm.countMin, L.swarm.countMax),
-          speed,
-          edgeBehavior: rng.chance(0.5) ? "bounce" : "wrap",
-        },
-        spriteSize: clamp(Math.round(80 - 30 * d), L.sprite.min, L.sprite.max),
+        count: clamp(Math.round(20 + 40 * d), L.swarm.countMin, L.swarm.countMax),
+        speed,
+        edgeBehavior: rng.chance(0.5) ? "bounce" : "wrap",
       };
     }
   }
@@ -194,13 +183,10 @@ function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): Lev
   const familyEmpty = !ctx.pool.some((c) => c.family === wanted.family && c.name !== wanted.name);
   if (familyEmpty) d *= 1 + 0.3 * rho; // pas de sosie possible : plus de monde à la place
   d = clamp(d, 0, 1);
-  const built = buildParams(layout, index, tier, d, flashlight, pr);
-  const { params } = built;
-  let { spriteSize } = built;
+  const params = buildParams(layout, index, tier, d, flashlight, pr);
   // goldRush en grille : 10 dorés à placer, il faut au moins 4×4 cases (même en easy)
   if (rule === "goldRush" && layout === "grid" && (params.gridSize ?? 0) < LIMITS.grid.minGoldRush) {
     params.gridSize = LIMITS.grid.minGoldRush;
-    spriteSize = gridSpriteSize(params.gridSize, tier);
   }
 
   const decoys = rule === "oddOneOut" ? [wanted] : buildDecoys(wanted, rho, ctx.pool, rng.fork("decoys"));
@@ -217,7 +203,7 @@ function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): Lev
     wanted,
     decoys,
     params,
-    spriteSize,
+    spriteSize: SPRITE_SIZE,
     findCount: rule === "findAll" ? (tier === "easy" ? 2 : 3) : 1,
     rewardS: rewardFor(slot, tier),
     penaltyS: PENALTY[tier],
@@ -245,7 +231,7 @@ function fallbackLevel(index: number, ctx: GenContext, seed: number): LevelSpec 
     wanted,
     decoys: ctx.pool.filter((c) => c.name !== wanted.name),
     params: { gridSize },
-    spriteSize: clamp(Math.floor(BOARD.w / gridSize), LIMITS.sprite.minEasyGrid, LIMITS.sprite.max),
+    spriteSize: SPRITE_SIZE,
     findCount: 1,
     rewardS: rewardFor(slot, ctx.tier),
     penaltyS: PENALTY[ctx.tier],

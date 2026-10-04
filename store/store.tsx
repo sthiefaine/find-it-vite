@@ -25,7 +25,6 @@ export const gameConstants = {
 export enum GameStateEnum {
   NONE = "NONE",
   INIT = "INIT",
-  CHOOSE_PROFILE = "CHOOSE_PROFILE", // fenêtre « Qui joue ? » avant la partie
   PLAYING = "PLAYING",
   PAUSED = "PAUSED",
   END = "END",

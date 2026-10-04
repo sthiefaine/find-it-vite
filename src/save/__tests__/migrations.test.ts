@@ -13,7 +13,7 @@ describe("migrate", () => {
     }
   });
 
-  it("migre une sauvegarde v1 jusqu'à v4, en chaîne ou en objet, sans profil choisi", () => {
+  it("migre une sauvegarde v1 jusqu'à v5, en chaîne ou en objet, en profil Normal", () => {
     const v1 = {
       version: 1,
       settings: { sound: false },
@@ -22,35 +22,42 @@ describe("migrate", () => {
     const expected = {
       ...v1,
       ...V4_EXTRA,
-      version: 4,
+      version: 5,
       settings: v4Settings(false),
-      profile: { tier: null },
+      profile: { tier: "normal" },
       seenMechanics: [],
     };
     expect(migrate(v1)).toEqual(expected);
     expect(migrate(JSON.stringify(v1))).toEqual(expected);
   });
 
-  it("une v1 qui contenait déjà un champ profile repart sans profil", () => {
-    const v1 = { version: 1, settings: { sound: true }, progress: {}, profile: { tier: "expert" } };
-    expect(migrate(v1).profile).toEqual({ tier: null });
+  it("une v1 qui contenait déjà un champ profile repart en Normal", () => {
+    const v1 = { version: 1, settings: { sound: true }, progress: {}, profile: { tier: "easy" } };
+    expect(migrate(v1).profile).toEqual({ tier: "normal" });
   });
 
-  it("relit une sauvegarde v4 valide avec son profil", () => {
-    for (const tier of ["easy", "normal", "expert"] as const) {
+  it("relit une sauvegarde v5 valide avec son profil", () => {
+    for (const tier of ["easy", "normal"] as const) {
       const save = { ...defaultSave(), profile: { tier } };
       expect(migrate(JSON.stringify(save))).toEqual(save);
     }
   });
 
-  it("migre une v2 en v4 sans mécanique vue, en gardant le reste", () => {
+  it("migre une v2 en v5 sans mécanique vue, Expert devient Normal", () => {
     const v2 = {
       version: 2,
       settings: { sound: false },
       progress: { bestScore: 21, bestLevel: 18, gamesPlayed: 5, totalFound: 60 },
       profile: { tier: "expert" },
     };
-    const expected = { ...v2, ...V4_EXTRA, version: 4, settings: v4Settings(false), seenMechanics: [] };
+    const expected = {
+      ...v2,
+      ...V4_EXTRA,
+      version: 5,
+      settings: v4Settings(false),
+      profile: { tier: "normal" },
+      seenMechanics: [],
+    };
     expect(migrate(v2)).toEqual(expected);
     expect(migrate(JSON.stringify(v2))).toEqual(expected);
   });
@@ -72,15 +79,54 @@ describe("migrate", () => {
     }
   });
 
-  it("ignore un profil inconnu", () => {
-    for (const profile of [{ tier: "bébé" }, { tier: 3 }, "expert", null]) {
-      expect(migrate({ ...defaultSave(), profile }).profile).toEqual({ tier: null });
+  it("remplace un profil inconnu, absent ou Expert par Normal", () => {
+    for (const profile of [{ tier: "bébé" }, { tier: 3 }, { tier: null }, { tier: "expert" }, {}, "expert", null, undefined]) {
+      expect(migrate({ ...defaultSave(), profile }).profile).toEqual({ tier: "normal" });
     }
+  });
+
+  it("la sauvegarde par défaut joue en Normal", () => {
+    expect(defaultSave().profile).toEqual({ tier: "normal" });
+  });
+
+  describe("v4 → v5", () => {
+    const v4 = {
+      version: 4,
+      settings: { sound: false, calm: true, frame: "gold" },
+      progress: { bestScore: 40, bestLevel: 9, gamesPlayed: 6, totalFound: 33 },
+      seenMechanics: ["layout:grid"],
+      adventure: { stars: { "ocean:2": 3 } },
+      collection: { chat: 2 },
+      daily: { date: "2026-10-03", best: 8, played: 2 },
+    };
+
+    it("un profil pas encore choisi (null) devient Normal, le reste est gardé", () => {
+      expect(migrate(JSON.stringify({ ...v4, profile: { tier: null } }))).toEqual({
+        ...v4,
+        version: 5,
+        profile: { tier: "normal" },
+      });
+    });
+
+    it("Expert, qui n'est plus proposé, devient Normal", () => {
+      expect(migrate({ ...v4, profile: { tier: "expert" } }).profile).toEqual({ tier: "normal" });
+    });
+
+    it("Enfant et Normal sont gardés", () => {
+      expect(migrate({ ...v4, profile: { tier: "easy" } }).profile).toEqual({ tier: "easy" });
+      expect(migrate({ ...v4, profile: { tier: "normal" } }).profile).toEqual({ tier: "normal" });
+    });
+
+    it("un profil absent ou abîmé devient Normal", () => {
+      for (const profile of [undefined, null, "easy", { tier: "bébé" }]) {
+        expect(migrate({ ...v4, profile }).profile).toEqual({ tier: "normal" });
+      }
+    });
   });
 
   it("répare les champs abîmés sans perdre les bons", () => {
     const result = migrate({
-      version: 4,
+      version: 5,
       settings: { sound: "oui" },
       progress: { bestScore: 9, bestLevel: -2, gamesPlayed: NaN, totalFound: 4.7 },
     });
@@ -101,7 +147,7 @@ describe("migrate", () => {
     expect(isFutureVersion(JSON.stringify(defaultSave()))).toBe(false);
   });
 
-  it("migre une v3 en v4 : calme désactivé, cadre classique, Aventure et collection vides", () => {
+  it("migre une v3 en v5 : calme désactivé, cadre classique, Aventure et collection vides", () => {
     const v3 = {
       version: 3,
       settings: { sound: false },
@@ -113,7 +159,7 @@ describe("migrate", () => {
     expect(migrate(JSON.stringify(v3))).toEqual({
       ...v3,
       ...V4_EXTRA,
-      version: 4,
+      version: 5,
       settings: v4Settings(false),
     });
   });

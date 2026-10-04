@@ -1,5 +1,5 @@
 import { allowedModifiers, allowedRules, LOOKALIKE_THRESHOLD, maxModifiers, SCROLL_FAST, slotOf, SWARM_FAST, zoneOf } from "./curve";
-import { GEN_VERSION } from "./types";
+import { BOARD, GEN_VERSION, SPRITE_SIZE } from "./types";
 import type { GenContext, LevelSpec } from "./types";
 
 export interface ValidationResult {
@@ -8,8 +8,9 @@ export interface ValidationResult {
 }
 
 export const LIMITS = {
-  grid: { min: 2, max: 8, maxEasy: 7, maxEasyLevel1: 3, minGoldRush: 4 },
-  sprite: { min: 44, max: 96, minEasyGrid: 52 },
+  // max : la grille la plus large dont les têtes (45 px) tiennent dans la largeur (390 ⇒ 8)
+  grid: { min: 2, max: Math.floor(BOARD.w / SPRITE_SIZE), maxEasy: 7, maxEasyLevel1: 3, minGoldRush: 4 },
+  sprite: SPRITE_SIZE,
   scroll: { speedMin: 0.4, speedMax: 1.6, speedMaxEasy: 1.0, extraLinesMax: 3 },
   pile: { countMin: 30, countMax: 160, jitterMin: 2, jitterMax: 6, wantedBelowFrom: 20, backgroundGridFrom: 100 },
   swarm: { countMin: 20, countMax: 60, speedMin: 0.2, speedMax: 0.6, speedMaxEasy: 0.35 },
@@ -40,7 +41,6 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
       inRange("gridSize", p.gridSize, L.grid.min, max, true);
       // goldRush : 10 dorés + un peu de foule, il faut au moins 4×4 cases
       if (spec.rule === "goldRush" && (p.gridSize ?? 0) < L.grid.minGoldRush) err("goldRush : gridSize < 4");
-      inRange("spriteSize", spec.spriteSize, easy ? L.sprite.minEasyGrid : L.sprite.min, L.sprite.max);
       break;
     }
     case "scroll":
@@ -62,7 +62,7 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
     default:
       err(`layout inconnu ${String(spec.layout)}`);
   }
-  if (spec.layout !== "grid") inRange("spriteSize", spec.spriteSize, L.sprite.min, L.sprite.max);
+  if (spec.spriteSize !== L.sprite) err(`spriteSize=${spec.spriteSize}, attendu ${L.sprite}`);
 
   // Recherché et leurres
   const names = new Set(ctx.pool.map((c) => c.name));

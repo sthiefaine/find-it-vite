@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { defaultSave, Save, SAVE_KEY, SAVE_VERSION, starsKey } from "./schema";
-import type { FrameId } from "./schema";
-import type { Tier } from "../engine/types";
+import type { FrameId, PlayerTier } from "./schema";
 import { getSaveVersion, migrate } from "./migrations";
 import type { StorageAdapter } from "./storage";
 import { platformStorage } from "../platform/storage";
@@ -29,7 +28,7 @@ type SaveActions = {
   load: () => Promise<void>;
   recordGame: (result: GameResult) => RecordOutcome;
   setSound: (sound: boolean) => void;
-  setProfileTier: (tier: Tier) => void;
+  setProfileTier: (tier: PlayerTier) => void;
   markMechanicsSeen: (mechanics: string[]) => void;
   setCalm: (calm: boolean) => void;
   setFrame: (frame: FrameId) => void;

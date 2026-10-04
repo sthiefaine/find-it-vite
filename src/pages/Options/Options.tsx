@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { useSaveStore } from "../../save/saveStore";
 import { FRAMES, isFrameUnlocked } from "../../content/progress";
-import type { Tier } from "../../engine/types";
+import { DEFAULT_TIER } from "../../save/schema";
+import type { PlayerTier } from "../../save/schema";
 import "../../components/Buttons/ui.css";
 import "./Options.css";
 
-const PROFILES: { tier: Tier; emoji: string; label: string }[] = [
-  { tier: "easy", emoji: "🐣", label: "Petit" },
-  { tier: "normal", emoji: "🦊", label: "Moyen" },
-  { tier: "expert", emoji: "🦁", label: "Expert" },
+const PROFILES: { tier: PlayerTier; emoji: string; label: string }[] = [
+  { tier: "easy", emoji: "🐣", label: "Enfant" },
+  { tier: "normal", emoji: "🦊", label: "Normal" },
 ];
 
 function Toggle({ on, onChange, label }: { on: boolean; onChange: (v: boolean) => void; label: string }) {
@@ -30,6 +30,7 @@ const Options = () => {
   const { setSound, setCalm, setFrame, setProfileTier, resetSave } = useSaveStore.getState();
   const [confirmReset, setConfirmReset] = useState(false);
   const { sound, calm, frame } = save.settings;
+  const tier = save.profile.tier ?? DEFAULT_TIER;
   // Sur petit écran, la confirmation tombe sous le bord : on la fait défiler dans la vue
   const confirmRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -51,8 +52,9 @@ const Options = () => {
             {PROFILES.map((p) => (
               <button
                 key={p.tier}
-                className={`opt-tier${save.profile.tier === p.tier ? " opt-tier-on" : ""}`}
-                aria-pressed={save.profile.tier === p.tier}
+                className={`opt-tier${tier === p.tier ? " opt-tier-on" : ""}`}
+                aria-pressed={tier === p.tier}
+                data-tier={p.tier}
                 onClick={() => setProfileTier(p.tier)}
               >
                 <span className="opt-tier-emoji" aria-hidden="true">{p.emoji}</span>

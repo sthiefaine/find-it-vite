@@ -54,16 +54,19 @@ export function gridSideFor(spec: LevelSpec): number {
 
 export type GridCell = CrowdSlot & { cx: number; cy: number };
 
-// Disposition "grid" : grille carrée centrée sur le plateau logique
+// Écart entre deux têtes voisines de la grille, en px logiques (têtes côte à côte, comme à l'origine)
+export const GRID_GAP = 3;
+
+// Disposition "grid" : grille carrée compacte de têtes à taille fixe (spec.spriteSize),
+// centrée sur le plateau logique. Elle n'est pas étalée sur toute la largeur.
 export function layoutGrid(spec: LevelSpec): { cells: GridCell[]; size: number } {
   const rng = createRng(spec.seed).fork("place");
   const n = gridSideFor(spec);
 
-  // Pas d'une case : la grille carrée tient dans le plateau
-  const pitch = Math.min(BOARD.w, BOARD.h) / n;
-  const size = Math.min(spec.spriteSize, pitch * 0.92);
-  // Petit espacement entre les têtes, sans dépasser le pas disponible
-  const step = Math.min(pitch, size * 1.08);
+  const size = spec.spriteSize;
+  // Pas = une tête + un petit écart ; resserré seulement si la grille ne tiendrait pas
+  const fit = n > 1 ? (Math.min(BOARD.w, BOARD.h) - size) / (n - 1) : size;
+  const step = Math.min(size + GRID_GAP, fit);
   const total = (n - 1) * step + size;
   const x0 = (BOARD.w - total) / 2;
   const y0 = (BOARD.h - total) / 2;

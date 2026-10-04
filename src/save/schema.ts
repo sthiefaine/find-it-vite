@@ -4,7 +4,7 @@
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
 
-export const SAVE_VERSION = 4 as const;
+export const SAVE_VERSION = 5 as const;
 export const SAVE_KEY = "find-it:save";
 
 export type SaveSettings = {
@@ -70,18 +70,29 @@ export type SaveV4 = {
   daily: SaveDaily | null;
 };
 
+// v5 : plus de fenêtre « Qui joue ? » ; seulement Enfant (easy) ou Normal, normal par défaut
+export type PlayerTier = Extract<Tier, "easy" | "normal">;
+export type SaveProfileV5 = { tier: PlayerTier };
+
+export type SaveV5 = Omit<SaveV4, "version" | "profile"> & {
+  version: 5;
+  profile: SaveProfileV5;
+};
+
 export const TIERS: readonly Tier[] = ["easy", "normal", "expert"];
+export const PLAYER_TIERS: readonly PlayerTier[] = ["easy", "normal"];
+export const DEFAULT_TIER: PlayerTier = "normal";
 export const FRAME_IDS: readonly FrameId[] = ["classic", "neon", "gold", "ice"];
 
 // Format courant
-export type Save = SaveV4;
+export type Save = SaveV5;
 
-export function defaultSave(): SaveV4 {
+export function defaultSave(): SaveV5 {
   return {
     version: SAVE_VERSION,
     settings: { sound: true, calm: false, frame: "classic" },
     progress: { bestScore: 0, bestLevel: 1, gamesPlayed: 0, totalFound: 0 },
-    profile: { tier: null },
+    profile: { tier: DEFAULT_TIER },
     seenMechanics: [],
     adventure: { stars: {} },
     collection: {},

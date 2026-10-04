@@ -72,7 +72,6 @@ a {
 }
 
 :root .results-overlay,
-:root .profile-overlay,
 :root .album-overlay,
 :root .discovery-backdrop {
   padding-top: calc(16px + var(--safe-top));

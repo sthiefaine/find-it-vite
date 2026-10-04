@@ -11,6 +11,7 @@ import {
   LAYOUT_INTRO,
   RULE_INTRO,
   seedToCode,
+  SPRITE_SIZE,
   validateSpec,
 } from "../index";
 import type { GenContext, LevelSpec, Tier } from "../index";
@@ -78,7 +79,7 @@ describe("generateLevel", () => {
           specs.push(spec);
 
           // plafonds (redondants avec validateSpec, mais explicites)
-          expect(spec.spriteSize).toBeGreaterThanOrEqual(44);
+          expect(spec.spriteSize).toBe(SPRITE_SIZE);
           if (spec.layout === "grid") expect(spec.params.gridSize!).toBeLessThanOrEqual(8);
           if (spec.layout === "pile") expect(spec.params.count!).toBeLessThanOrEqual(160);
           if (spec.layout === "swarm") expect(spec.params.speed!).toBeLessThanOrEqual(0.6);
@@ -143,6 +144,28 @@ describe("generateLevel", () => {
     const t0 = performance.now();
     for (let n = 1; n <= 1000; n++) generateLevel(n, ctx);
     expect(performance.now() - t0).toBeLessThan(500);
+  });
+});
+
+describe("taille des têtes", () => {
+  it("SPRITE_SIZE = 45 (taille d'origine) pour toutes les dispositions et tous les tiers", () => {
+    expect(SPRITE_SIZE).toBe(45);
+    for (const tier of TIERS) {
+      const ctx = ctxOf(hash32("size", tier), tier);
+      for (let n = 1; n <= 120; n++) expect(generateLevel(n, ctx).spriteSize).toBe(45);
+    }
+  });
+
+  it("la grille la plus large tient dans la largeur logique", async () => {
+    const { BOARD, LIMITS } = await import("../index");
+    expect(LIMITS.grid.max).toBe(8);
+    expect(LIMITS.grid.max * SPRITE_SIZE).toBeLessThanOrEqual(BOARD.w);
+  });
+
+  it("validateSpec refuse une autre taille de tête", () => {
+    const ctx = ctxOf(1, "normal");
+    const spec = generateLevel(5, ctx);
+    expect(validateSpec({ ...spec, spriteSize: 96 }, ctx).ok).toBe(false);
   });
 });
 

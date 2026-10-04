@@ -4,7 +4,7 @@ import { boardFor } from "../../../../helpers/board";
 import { pickCharacterAt } from "../../../../helpers/hitTest";
 import { BOARD, generateLevel, targetCount } from "../../../../engine";
 import type { Layout, LevelSpec } from "../../../../engine";
-import { layoutGrid, layoutScroll, placePile, placeSwarm } from "../layouts";
+import { GRID_GAP, layoutGrid, layoutScroll, placePile, placeSwarm } from "../layouts";
 
 const VIEWPORTS: [number, number][] = [
   [390, 844],
@@ -103,5 +103,39 @@ describe("ruée vers l'or en grille", () => {
     const { cells } = layoutGrid(spec);
     expect(cells.filter((c) => c.isWanted)).toHaveLength(targetCount(spec));
     expect(cells.filter((c) => !c.isWanted).length).toBeGreaterThan(0);
+  });
+});
+
+describe("grille compacte à taille d'origine", () => {
+  it("têtes de 45, pas ≤ 45 + quelques px, grille centrée et dans le plateau", () => {
+    for (const tier of ["easy", "normal", "expert"] as const) {
+      const ctx = { seed: 7, tier, pool: charactersDetails };
+      for (let n = 1; n <= 80; n++) {
+        const spec = generateLevel(n, ctx);
+        if (spec.layout !== "grid") continue;
+        const { cells, size } = layoutGrid(spec);
+        expect(size).toBe(45);
+        const xs = [...new Set(cells.map((c) => c.cx))].sort((a, b) => a - b);
+        for (let i = 1; i < xs.length; i++) {
+          const gap = xs[i] - xs[i - 1];
+          // colonnes voisines (ou séparées par une colonne vide)
+          expect(gap % (size + GRID_GAP)).toBeCloseTo(0, 5);
+        }
+        const minX = Math.min(...cells.map((c) => c.cx)) - size / 2;
+        const maxX = Math.max(...cells.map((c) => c.cx)) + size / 2;
+        expect(minX).toBeGreaterThanOrEqual(0);
+        expect(maxX).toBeLessThanOrEqual(BOARD.w);
+      }
+    }
+  });
+
+  it("3×3 : bloc de 3 têtes centré, pas étalé sur toute la largeur", () => {
+    const base = sampleSpecs().find((s) => s.layout === "grid")!;
+    const spec: LevelSpec = { ...base, rule: "classic", params: { gridSize: 3 } };
+    const step = 45 + GRID_GAP;
+    const total = 2 * step + 45;
+    const x0 = (BOARD.w - total) / 2;
+    const xs = new Set(layoutGrid(spec).cells.map((c) => c.cx));
+    for (const x of xs) expect([0, 1, 2].map((i) => x0 + i * step + 22.5)).toContain(x);
   });
 });

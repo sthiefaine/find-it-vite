@@ -1,6 +1,5 @@
-import { defaultSave, FRAME_IDS, Save, SAVE_VERSION, TIERS } from "./schema";
-import type { FrameId, SaveDaily } from "./schema";
-import type { Tier } from "../engine/types";
+import { DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
+import type { FrameId, PlayerTier, SaveDaily } from "./schema";
 
 type RawObject = Record<string, unknown>;
 
@@ -19,7 +18,16 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
     collection: {},
     daily: null,
   }),
+  // v5 : plus de « Qui joue ? » au lancement ; profil absent ou Expert (retiré) → Normal
+  4: (data) => {
+    const profile = isObject(data.profile) ? data.profile : {};
+    return { ...data, version: 5, profile: { ...profile, tier: toPlayerTier(profile.tier) } };
+  },
 };
+
+// Seuls Enfant (easy) et Normal sont proposés : tout le reste devient Normal
+const toPlayerTier = (tier: unknown): PlayerTier =>
+  PLAYER_TIERS.includes(tier as PlayerTier) ? (tier as PlayerTier) : DEFAULT_TIER;
 
 const isObject = (value: unknown): value is RawObject =>
   typeof value === "object" && value !== null && !Array.isArray(value);
@@ -91,7 +99,6 @@ function sanitize(data: RawObject): Save {
   const settings = isObject(data.settings) ? data.settings : {};
   const progress = isObject(data.progress) ? data.progress : {};
   const profile = isObject(data.profile) ? data.profile : {};
-  const tier = TIERS.includes(profile.tier as Tier) ? (profile.tier as Tier) : null;
   return {
     version: SAVE_VERSION,
     settings: {
@@ -108,7 +115,7 @@ function sanitize(data: RawObject): Save {
       gamesPlayed: count(progress.gamesPlayed, base.progress.gamesPlayed),
       totalFound: count(progress.totalFound, base.progress.totalFound),
     },
-    profile: { tier },
+    profile: { tier: toPlayerTier(profile.tier) },
     seenMechanics: Array.isArray(data.seenMechanics)
       ? [...new Set(data.seenMechanics.filter((m): m is string => typeof m === "string" && m.length > 0))]
       : [],

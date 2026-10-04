@@ -6,6 +6,10 @@ export const GEN_VERSION = 1;
 // Plateau logique de référence (le renderer met à l'échelle de l'écran)
 export const BOARD = { w: 390, h: 520 } as const;
 
+// Taille d'une tête en px logiques : celle du jeu d'origine (ancien CELL_SIZE = 45).
+// Fixe pour toutes les dispositions et tous les tiers : la difficulté ne joue pas dessus.
+export const SPRITE_SIZE = 45;
+
 // Disposition de la foule (les 4 grilles existantes)
 export type Layout = "grid" | "scroll" | "pile" | "swarm";
 

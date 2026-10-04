@@ -10,10 +10,8 @@ import GridAnimated from "../../components/Game/Grid/GridAnimated.tsx";
 import GridAnimated2 from "../../components/Game/Grid/GridAnimated2.tsx";
 import GridAnimated3 from "../../components/Game/Grid/GridAnimated3.tsx";
 import InGameActionButton from "../../components/Game/InGameActionButton/inGameActionButton.tsx";
-import ProfilePicker from "../../components/ProfilePicker/ProfilePicker.tsx";
-import { useSaveStore } from "../../save/saveStore.ts";
 import { getBoard } from "../../helpers/board.ts";
-import type { LevelSpec, Tier } from "../../engine/types.ts";
+import type { LevelSpec } from "../../engine/types.ts";
 import Flashlight from "../../components/Flashlight/Flashlight.tsx";
 import { getWorld } from "../../content/worlds.ts";
 
@@ -31,12 +29,11 @@ const renderGrid = (spec: LevelSpec) => {
 };
 
 const Game = () => {
-  const { spec, gameState, setGameState, tier, wantedFound, loading, pauseTimer, mode, worldId } =
+  const { spec, gameState, tier, wantedFound, loading, pauseTimer, mode, worldId } =
     useGameStore(
       useShallow((state) => ({
         spec: state.currentSpec,
         gameState: state.gameState,
-        setGameState: state.setGameState,
         tier: state.tier,
         wantedFound: state.wantedFound,
         loading: state.animationLevelLoading,
@@ -52,11 +49,6 @@ const Game = () => {
   const hasFlashlight = !!spec?.modifiers.includes("flashlight");
   // Aventure : la page prend le décor du monde
   const world = mode === "adventure" && worldId ? getWorld(worldId) : undefined;
-
-  const handlePickProfile = (tier: Tier) => {
-    useSaveStore.getState().setProfileTier(tier);
-    setGameState(GameStateEnum.INIT);
-  };
 
   return (
     <div
@@ -94,9 +86,6 @@ const Game = () => {
       </div>
       <AnimatePresence>
         {isOver && <Results key="results" />}
-        {gameState === GameStateEnum.CHOOSE_PROFILE && (
-          <ProfilePicker key="profile" onPick={handlePickProfile} />
-        )}
       </AnimatePresence>
     </div>
   );

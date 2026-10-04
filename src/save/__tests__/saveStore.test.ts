@@ -63,12 +63,12 @@ describe("useSaveStore", () => {
     });
     const store = createSaveStore(storage, { debounceMs: 20 });
     await store.getState().load();
-    expect(store.getState().save.profile.tier).toBeNull();
+    expect(store.getState().save.profile.tier).toBe("normal");
 
     store.getState().setProfileTier("easy");
     await store.getState().flush();
     const saved = JSON.parse(storage.data.get(SAVE_KEY)!);
-    expect(saved.version).toBe(4);
+    expect(saved.version).toBe(5);
     expect(saved.settings).toEqual({ sound: true, calm: false, frame: "classic" });
     expect(saved.profile).toEqual({ tier: "easy" });
     expect(saved.seenMechanics).toEqual([]);

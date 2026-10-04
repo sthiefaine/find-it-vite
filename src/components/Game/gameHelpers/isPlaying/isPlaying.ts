@@ -8,7 +8,7 @@ import { dailySeed, generateLevel, randomSeed, seedFromCode } from "../../../../
 import type { Rule, Tier } from "../../../../engine";
 import type { CharacterDetails } from "../../../../helpers/characters";
 import { useSaveStore } from "../../../../save/saveStore";
-import { TIERS } from "../../../../save/schema";
+import { DEFAULT_TIER, TIERS } from "../../../../save/schema";
 import { tickClock } from "../../../../game/session";
 import {
   levelTarget,
@@ -205,12 +205,8 @@ export function IsPlaying() {
         case GameStateEnum.INIT: {
           // la sauvegarde est lue en asynchrone : on attend de connaître le profil
           if (!saveLoaded) break;
-          const savedTier = useSaveStore.getState().save.profile.tier;
-          if (!savedTier) {
-            setGameState(GameStateEnum.CHOOSE_PROFILE);
-            break;
-          }
-          startGame(savedTier);
+          // Profil des Options ; sans choix, on joue en Normal
+          startGame(useSaveStore.getState().save.profile.tier ?? DEFAULT_TIER);
           break;
         }
         case GameStateEnum.RESET: {
@@ -235,8 +231,7 @@ export function IsPlaying() {
     lastSearch.current = location.search;
     if (pathName !== "/game") return;
     const { gameState } = useGameStore.getState();
-    if (gameState !== GameStateEnum.NONE && gameState !== GameStateEnum.CHOOSE_PROFILE)
-      setGameState(GameStateEnum.RESET);
+    if (gameState !== GameStateEnum.NONE) setGameState(GameStateEnum.RESET);
   }, [location.search]);
 
   // Fin de partie (chrono à 0 ou bouton Arrêter) : on enregistre le résultat

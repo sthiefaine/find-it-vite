@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { useShallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
 import NumberFlow from "@number-flow/react";
@@ -31,9 +31,7 @@ import {
   retryMessage,
   scoreMessage,
 } from "./resultsHelpers";
-import ProfilePicker from "../ProfilePicker/ProfilePicker";
 import { useSaveStore } from "../../save/saveStore";
-import type { Tier } from "../../engine/types";
 import { dailyShareText, MISSION_GOAL, nextUnlockedMissionUrl } from "../../game/modes";
 import { getWorld } from "../../content/worlds";
 import "./Results.css";
@@ -124,8 +122,6 @@ export default function Results() {
   const [shownScore, setShownScore] = useState(0);
   const [litStars, setLitStars] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [choosingProfile, setChoosingProfile] = useState(false);
-  const profileTier = useSaveStore((s) => s.save.profile.tier);
   const adventureSave = useSaveStore((s) => s.save.adventure);
 
   const mode = gameRecord?.mode ?? "endless";
@@ -170,14 +166,6 @@ export default function Results() {
 
   const handleReplay = () => {
     click();
-    setGameState(GameStateEnum.RESET);
-  };
-
-  // Nouveau profil : on relance tout de suite une partie à ce niveau
-  const handlePickProfile = (tier: Tier) => {
-    click();
-    useSaveStore.getState().setProfileTier(tier);
-    setChoosingProfile(false);
     setGameState(GameStateEnum.RESET);
   };
 
@@ -460,27 +448,7 @@ export default function Results() {
             )}
           </div>
         </motion.div>
-
-        {mode === "endless" && (
-          <motion.button
-            className="results-profile"
-            variants={item}
-            onClick={() => setChoosingProfile(true)}
-          >
-            Changer de joueur
-          </motion.button>
-        )}
       </motion.div>
-      <AnimatePresence>
-        {choosingProfile && (
-          <ProfilePicker
-            key="profile"
-            current={profileTier}
-            onPick={handlePickProfile}
-            onCancel={() => setChoosingProfile(false)}
-          />
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }
