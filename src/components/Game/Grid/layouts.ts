@@ -58,9 +58,49 @@ export type GridCell = CrowdSlot & { cx: number; cy: number };
 // Écart entre deux têtes voisines de la grille, en px logiques (têtes côte à côte, comme à l'origine)
 export const GRID_GAP = 3;
 
+// Grille pleine : le pas épouse le plateau, sans étirer les sprites. Les rangées
+// décalées ajoutent deux demi-têtes sur les côtés ; seuls des leurres y vont.
+function layoutFullGrid(spec: LevelSpec): { cells: GridCell[]; size: number } {
+  const rng = createRng(spec.seed).fork("place");
+  const size = spec.spriteSize;
+  const columns = Math.max(1, Math.floor(BOARD.w / size));
+  const rows = Math.max(1, Math.floor(BOARD.h / size));
+  const stepX = BOARD.w / columns;
+  const stepY = BOARD.h / rows;
+  const inside: { cx: number; cy: number }[] = [];
+  const edges: { cx: number; cy: number }[] = [];
+
+  for (let row = 0; row < rows; row++) {
+    const shifted = spec.params.staggered && row % 2 === 1;
+    const cy = (row + .5) * stepY;
+    for (let col = 0; col < columns + (shifted ? 1 : 0); col++) {
+      const cx = (col + (shifted ? 0 : .5)) * stepX;
+      const position = { cx, cy };
+      if (cx - size / 2 < 0 || cx + size / 2 > BOARD.w) edges.push(position);
+      else inside.push(position);
+    }
+  }
+
+  const placed = placeCrowd(spec, inside.length, rng).map((slot) => ({ ...slot, ...inside[slot.id] }));
+  const pool = crowdPool(spec);
+  if (pool.length) {
+    edges.forEach((position, index) => placed.push({
+      id: inside.length + index,
+      character: rng.pick(pool),
+      isWanted: false,
+      look: PLAIN_LOOK,
+      gold: false,
+      ...position,
+    }));
+  }
+  const others = rng.shuffle(placed.filter((cell) => !cell.isWanted));
+  return { cells: dressCrowd(spec, [...others, ...placed.filter((cell) => cell.isWanted)]), size };
+}
+
 // Disposition "grid" : grille carrée compacte de têtes à taille fixe (spec.spriteSize),
 // centrée sur le plateau logique. Elle n'est pas étalée sur toute la largeur.
 export function layoutGrid(spec: LevelSpec): { cells: GridCell[]; size: number } {
+  if (spec.params.fullGrid) return layoutFullGrid(spec);
   const rng = createRng(spec.seed).fork("place");
   const n = gridSideFor(spec);
 

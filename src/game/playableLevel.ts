@@ -1,5 +1,5 @@
 import { generateLevel } from "../engine/generateLevel";
-import type { GenContext, LayoutParams, LevelScene, LevelSpec } from "../engine/types";
+import type { GenContext, LayoutParams, LevelScene, LevelSpec, Tier } from "../engine/types";
 import { LIMITS } from "../engine/validate";
 import { sceneForIndex } from "../content/scenes";
 import type { SceneDefinition } from "../content/scenes";
@@ -8,33 +8,41 @@ import { planAccessories } from "./accessories";
 const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
 const rounded = (n: number) => Math.round(n * 100) / 100;
 
-function sceneParams(scene: SceneDefinition, index: number, easy: boolean): LayoutParams {
+function sceneParams(scene: SceneDefinition, index: number, tier: Tier): LayoutParams {
+  const easy = tier === "easy";
   // Les reprises restent bornées et les respirations conservent leur faible densité.
   const replay = scene.breather ? 0 : Math.min(.12, Math.floor((index - 1) / 40) * .03);
-  const density = clamp((scene.density + replay) * (easy ? .68 : 1), 0, 1);
+  const density = clamp((scene.density + replay) * (easy ? .68 : tier === "expert" ? 1.18 : 1), 0, 1);
   switch (scene.layout) {
     case "grid":
-      return { gridSize: clamp(Math.round(3 + density * 7), 3, easy ? (index === 1 ? 3 : LIMITS.grid.maxEasy) : LIMITS.grid.max) };
+      return {
+        gridSize: clamp(Math.round(3 + density * 7), 3, easy ? (index === 1 ? 3 : LIMITS.grid.maxEasy) : LIMITS.grid.max),
+        ...(!easy && scene.fullGrid ? { fullGrid: true, staggered: scene.staggered ?? false } : {}),
+      };
     case "scroll":
       return {
         movement: scene.movement,
         speed: clamp(rounded(.4 + density * 1.25), LIMITS.scroll.speedMin, easy ? LIMITS.scroll.speedMaxEasy : LIMITS.scroll.speedMax),
-        scrollFill: scene.fullRows ? 1 : clamp(easy ? .21 + density * .45 : .33 + density * .75, .15, 1),
+        // Les trois premières découvertes restent aérées ; ensuite les lignes
+        // retrouvent leur occupation historique, même en vagues ou en arrêts.
+        scrollFill: scene.fullRows || index >= 13 ? 1 : clamp(easy ? .21 + density * .45 : .33 + density * .75, .15, 1),
         extraLines: clamp(Math.floor(density * 4), 0, LIMITS.scroll.extraLinesMax),
         scrollDirection: scene.direction ?? "horizontal",
         alternateDirection: scene.alternate ?? false,
       };
-    case "pile":
+    case "pile": {
+      const count = clamp(Math.round(30 + density * 130), LIMITS.pile.countMin, LIMITS.pile.countMax);
       return {
-        count: Math.round(30 + density * 100),
+        count,
         jitter: rounded(2 + density * 4),
         wantedBelow: !easy && index >= LIMITS.pile.wantedBelowFrom && !scene.foliage,
-        backgroundGrid: false,
+        backgroundGrid: !easy && count >= LIMITS.pile.backgroundGridFrom,
       };
+    }
     case "swarm":
       return {
         movement: scene.movement,
-        count: Math.round(20 + density * 40),
+        count: clamp(Math.round(easy ? 20 + density * 55 : 32 + density * 88), LIMITS.swarm.countMin, easy ? LIMITS.swarm.countMaxEasy : LIMITS.swarm.countMax),
         speed: clamp(rounded(.2 + density * .5), LIMITS.swarm.speedMin, easy ? LIMITS.swarm.speedMaxEasy : LIMITS.swarm.speedMax),
         edgeBehavior: "bounce",
       };
@@ -60,7 +68,7 @@ export function generatePlayableLevel(index: number, context: GenContext): Level
     // Enfant découvre chaque obstacle, mais n'a jamais à les cumuler.
     seagulls: definition.seagulls && !(easy && definition.foliage),
   };
-  const playable = { ...spec, scene, layout: definition.layout, params: sceneParams(definition, index, easy) };
+  const playable = { ...spec, scene, layout: definition.layout, params: sceneParams(definition, index, context.tier) };
   const accessories = planAccessories(playable, context.tier, Boolean(definition.breather));
   return accessories ? { ...playable, accessories } : playable;
 }

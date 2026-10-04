@@ -49,6 +49,8 @@ export type LayoutParams = {
   movement?: MovementPattern;
   // grid
   gridSize?: number; // côté de la grille (gridSize × gridSize)
+  fullGrid?: boolean; // remplit le plateau rectangulaire avec des têtes à taille fixe
+  staggered?: boolean; // fullGrid : rangées en quinconce, demi-leurres sur les côtés
   // scroll
   scrollDirection?: "horizontal" | "vertical";
   alternateDirection?: boolean;

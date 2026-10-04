@@ -76,8 +76,7 @@ describe("objectif unique des parties", () => {
   it("alterne les lignes complètes et espacées, y compris lors des reprises", () => {
     for (const tier of ["easy", "normal", "expert"] as const) {
       const context = { seed: 42, tier, pool: charactersDetails };
-      // 61/64 rejouent Courants croisés/Le courant ; 91/94 les rejouent encore.
-      for (const index of [4, 10, 22, 31, 61, 64, 91, 94]) {
+      for (const index of [4, 10, 13, 17, 19, 22, 23, 26, 29, 31, 34, 37, 39, 42, 46, 49, 52, 54, 58, 61, 64]) {
         const spec = generatePlayableLevel(index, context);
         const crowd = layoutScroll(spec);
         const original = layoutScroll({ ...spec, params: { ...spec.params, scrollFill: undefined } });
@@ -88,7 +87,7 @@ describe("objectif unique des parties", () => {
         expect(crowd.slots.filter((slot) => slot.isWanted)).toHaveLength(1);
         expect(crowd.size).toBe(45);
       }
-      for (const index of [3, 7, 12, 23, 34, 37]) {
+      for (const index of [3, 7, 12]) {
         const spec = generatePlayableLevel(index, context);
         const crowd = layoutScroll(spec);
         const full = layoutScroll({ ...spec, params: { ...spec.params, scrollFill: 1 } });
@@ -96,6 +95,35 @@ describe("objectif unique des parties", () => {
         expect(crowd.slots.length).toBeLessThan(full.slots.length);
         expect(crowd.slots.filter((slot) => slot.isWanted)).toHaveLength(1);
       }
+    }
+  });
+
+  it("retrouve les plateaux pleins, les tas superposés et les rondes chargées après le niveau 40", () => {
+    for (const tier of ["normal", "expert"] as const) {
+      const context = { seed: 53, tier, pool: charactersDetails };
+      for (let index = 41; index <= 100; index++) {
+        const spec = generatePlayableLevel(index, context);
+        if (spec.layout === "grid") {
+          const { cells } = layoutGrid(spec);
+          expect(spec.params.fullGrid).toBe(true);
+          expect(cells.length).toBeGreaterThanOrEqual(88);
+          expect(cells.filter((cell) => cell.isWanted)).toHaveLength(1);
+        } else if (spec.layout === "pile") {
+          const crowd = placePile(spec);
+          expect(spec.params.backgroundGrid).toBe(true);
+          expect(crowd.length).toBeGreaterThanOrEqual(210);
+          expect(crowd.filter((animal) => animal.isBackground)).toHaveLength(88);
+          expect(crowd.filter((animal) => animal.isWanted)).toHaveLength(1);
+          expect(spec.params.wantedBelow).toBe(!spec.scene?.foliage);
+        } else if (spec.layout === "swarm") {
+          expect(placeSwarm(spec).length).toBeGreaterThanOrEqual(99);
+          expect(spec.params.count).toBeLessThanOrEqual(120);
+        }
+        expect(validateSpec(spec, context).errors).toEqual([]);
+      }
+      const level53 = generatePlayableLevel(53, context);
+      expect(level53.params).toMatchObject({ fullGrid: true, staggered: true });
+      expect(layoutGrid(level53).cells.length).toBe(93);
     }
   });
 

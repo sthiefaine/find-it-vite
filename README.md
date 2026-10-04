@@ -28,10 +28,21 @@ les **vagues** (7), les oiseaux (9), les **rondes** (11) et les **départs/arrê
 réduit le nombre d’animaux, leur vitesse et les feuillages ; les feuilles et les
 oiseaux ne s’y cumulent jamais.
 
-Les étapes 4, 10, 22 et 31 gardent des rangées complètes qui défilent, ainsi que
-leurs reprises dans les parties longues. D’autres étapes utilisent des rangées
-plus espacées. Le nom et la description de la scène ne prennent plus de place
-au-dessus du plateau.
+Les défilements des étapes 4 et 10, puis tous ceux à partir de l’étape 13,
+remplissent leurs rangées. Les premières découvertes (3, 7 et 12) restent plus
+espacées. Des grilles fixes remplissent aussi le plateau : 88 portraits alignés,
+ou 93 en quinconce avec des demi-têtes de leurres sur les côtés. La cible reste
+toujours entièrement visible. Les tas denses retrouvent leur fond de 88 animaux
+et leurs portraits superposés aléatoirement. Le nom et la description de la scène
+ne prennent plus de place au-dessus du plateau.
+
+Après l’étape 40, chaque cycle de douze étapes alterne trois grilles pleines,
+quatre défilements pleins, trois tas et deux foules mobiles, dont une seule ronde.
+Les petites grilles d’introduction ne reviennent plus. En Normal, les tas dépassent
+210 portraits et les rondes dépassent 100 ; les portraits et positions changent
+avec chaque graine. Les rondes denses parcourent cinq boucles à coins arrondis,
+jusqu’au centre et aux bords, à vitesse régulière. L’Enfant conserve des grilles
+plus petites, des tas sans fond supplémentaire et au maximum 60 animaux mobiles.
 
 Dans les scènes concernées, des goélands traversent le plateau : un seul, 2–3,
 7–8 ou un géant. Délais, sens, positions et tailles varient avec la graine de la

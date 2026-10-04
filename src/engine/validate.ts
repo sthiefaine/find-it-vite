@@ -13,7 +13,7 @@ export const LIMITS = {
   sprite: SPRITE_SIZE,
   scroll: { speedMin: 0.4, speedMax: 1.6, speedMaxEasy: 1.0, extraLinesMax: 3, fillMin: 0.15, fillMax: 1 },
   pile: { countMin: 30, countMax: 160, jitterMin: 2, jitterMax: 6, wantedBelowFrom: 20, backgroundGridFrom: 100 },
-  swarm: { countMin: 20, countMax: 60, speedMin: 0.2, speedMax: 0.6, speedMaxEasy: 0.35 },
+  swarm: { countMin: 20, countMax: 120, countMaxEasy: 60, speedMin: 0.2, speedMax: 0.6, speedMaxEasy: 0.35 },
   goldRushDurationS: 8,
 } as const;
 
@@ -56,7 +56,7 @@ export function validateSpec(spec: LevelSpec, ctx: GenContext): ValidationResult
       if (p.backgroundGrid && (p.count ?? 0) < L.pile.backgroundGridFrom) err("backgroundGrid avec count < 100");
       break;
     case "swarm":
-      inRange("count", p.count, L.swarm.countMin, L.swarm.countMax, true);
+      inRange("count", p.count, L.swarm.countMin, easy ? L.swarm.countMaxEasy : L.swarm.countMax, true);
       inRange("speed", p.speed, L.swarm.speedMin, easy ? L.swarm.speedMaxEasy : L.swarm.speedMax);
       if (p.edgeBehavior !== "bounce" && p.edgeBehavior !== "wrap") err("edgeBehavior manquant");
       break;

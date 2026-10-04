@@ -101,9 +101,9 @@ describe("rondes et essaim par groupes", () => {
     expect(createSwarmMovement(spec, placeSwarm(spec), areaOf(spec))).toBeNull();
   });
 
-  it("répartit la ronde sur trois anneaux opposés, à vitesse bornée, sans masquer la cible", () => {
+  it("préserve les trois ellipses des petites foules, à vitesse bornée, sans masquer la cible", () => {
     for (const seed of [1, 42, 77]) {
-      const spec = specWith({ movement: "orbit", count: 90, speed: 0.5 }, seed);
+      const spec = specWith({ movement: "orbit", count: 50, speed: 0.5 }, seed);
       const area = areaOf(spec);
       const initial = placeSwarm(spec);
       const routes = createSwarmMovement(spec, initial, area)!;
@@ -132,6 +132,94 @@ describe("rondes et essaim par groupes", () => {
       expect(loop.x).toBeCloseTo(first.x, 8);
       expect(loop.y).toBeCloseTo(first.y, 8);
     }
+  });
+
+  it("remplit le centre et les coins des rondes denses sans accélérer ni rendre la cible inaccessible", () => {
+    for (const seed of [1, 42, 77]) for (const count of [80, 100, 120]) {
+      const spec = specWith({ movement: "orbit", count, speed: 0.6 }, seed);
+      const area = areaOf(spec);
+      const initial = placeSwarm(spec);
+      const routes = createSwarmMovement(spec, initial, area)!;
+      expect(routes).toHaveLength(count);
+      expect(createSwarmMovement(spec, initial, area)).toEqual(routes);
+      const orbits = routes.filter((route) => route.kind === "orbit");
+      expect(orbits).toHaveLength(count);
+      expect(new Set(orbits.map((route) => route.radiusX)).size).toBe(5);
+      expect(orbits.every((route) => route.rounded)).toBe(true);
+      expect(new Set(orbits.map((route) => Math.sign(route.angularSpeed)))).toEqual(new Set([-1, 1]));
+      expect(routes[routes.length - 1].character.isWanted).toBe(true);
+      const margin = area.size / 2;
+      const corners = [[margin, margin], [area.w - margin, margin], [margin, area.h - margin], [area.w - margin, area.h - margin]];
+      for (const time of [0, 0.3, 3, 40, 200]) {
+        const characters = routes.map((route) => swarmCharacterAt(route, time, area, "bounce"));
+        const candidates = characters.map((c, z) => ({ id: c.id, cx: c.x, cy: c.y, size: spec.spriteSize, z, isWanted: c.isWanted }));
+        expect(characters.filter((character) => character.isWanted)).toHaveLength(1);
+        expect(Math.min(...characters.map((c) => Math.hypot(c.x - area.w / 2, c.y - area.h / 2)))).toBeLessThan(area.size * .8);
+        for (const [x, y] of corners) expect(Math.min(...characters.map((c) => Math.hypot(c.x - x, c.y - y)))).toBeLessThan(area.size * 1.3);
+        characters.forEach((character, index) => {
+          expect(character.x).toBeGreaterThanOrEqual(margin);
+          expect(character.x).toBeLessThanOrEqual(area.w - margin);
+          expect(character.y).toBeGreaterThanOrEqual(margin);
+          expect(character.y).toBeLessThanOrEqual(area.h - margin);
+          const next = swarmCharacterAt(routes[index], time + .01, area, "bounce");
+          expect(Math.hypot(next.x - character.x, next.y - character.y)).toBeLessThanOrEqual(.6 * 60 * .01 + 1e-8);
+          if (character.isWanted) expect(pickCharacterAt(character.x, character.y, candidates)?.id).toBe(character.id);
+        });
+      }
+      for (const route of orbits) {
+        const period = 2 * Math.PI / Math.abs(route.angularSpeed);
+        const first = swarmCharacterAt(route, 0, area, "bounce");
+        const loop = swarmCharacterAt(route, period, area, "bounce");
+        expect(loop.x).toBeCloseTo(first.x, 8);
+        expect(loop.y).toBeCloseTo(first.y, 8);
+      }
+    }
+  });
+
+  it("garde une trajectoire identique quand un figurant devient la cible d'une ronde dense", () => {
+    const spec = specWith({ movement: "orbit", count: 120, speed: .5 });
+    const area = areaOf(spec);
+    const initial = placeSwarm(spec);
+    const promoted = initial.find((character) => !character.isWanted)!;
+    const routes = createSwarmMovement(spec, initial, area)!;
+    const swapped = createSwarmMovement(spec, initial.map((character) => ({ ...character, isWanted: character.id === promoted.id })), area)!;
+    const swappedById = new Map(swapped.map((route) => [route.character.id, route]));
+    for (const time of [0, 1, 15, 300]) for (const route of routes) {
+      const before = swarmCharacterAt(route, time, area, "bounce");
+      const after = swarmCharacterAt(swappedById.get(route.character.id)!, time, area, "bounce");
+      expect(after.x).toBe(before.x);
+      expect(after.y).toBe(before.y);
+    }
+    expect(swapped[swapped.length - 1].character.id).toBe(promoted.id);
+  });
+
+  it("raccorde les lignes et les coins arrondis sans saut ni ralentissement", () => {
+    const spec = specWith({ movement: "orbit", count: 100, speed: .5 });
+    const area = areaOf(spec);
+    const routes = createSwarmMovement(spec, placeSwarm(spec), area)!;
+    const speed = .5 * 60;
+    const epsilon = .0001;
+    const seen = new Set<number>();
+    for (const route of routes) {
+      if (route.kind !== "orbit" || !route.rounded || seen.has(route.radiusX)) continue;
+      seen.add(route.radiusX);
+      const { cornerRadius, perimeter } = route.rounded;
+      const horizontal = 2 * (route.radiusX - cornerRadius);
+      const vertical = 2 * (route.radiusY - cornerRadius);
+      const arc = Math.PI / 2 * cornerRadius;
+      const uniform = { ...route, angle: 0, angularSpeed: Math.abs(route.angularSpeed) };
+      let distance = 0;
+      for (const segment of [0, horizontal, arc, vertical, arc, horizontal, arc, vertical, arc]) {
+        distance += segment;
+        const time = (perimeter + distance) / speed;
+        const before = swarmCharacterAt(uniform, time - epsilon, area, "bounce");
+        const after = swarmCharacterAt(uniform, time + epsilon, area, "bounce");
+        const travel = Math.hypot(after.x - before.x, after.y - before.y);
+        expect(travel).toBeGreaterThan(speed * epsilon * 1.99);
+        expect(travel).toBeLessThan(speed * epsilon * 2.01);
+      }
+    }
+    expect(seen.size).toBe(5);
   });
 
   it("les arrêts de groupe rebondissent sans dérive de timestep ni sortie du plateau", () => {

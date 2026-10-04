@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { SCENES, sceneForIndex } from "../scenes";
+import { ADVANCED_SCENES, SCENES, sceneForIndex } from "../scenes";
 import { LEVELS_PER_WORLD, WORLDS } from "../worlds";
 
 describe("campagne de scènes", () => {
@@ -33,17 +33,23 @@ describe("campagne de scènes", () => {
   });
 
   it("garde les mouvements compatibles avec leur disposition", () => {
-    for (const scene of SCENES) {
+    for (const scene of [...SCENES, ...ADVANCED_SCENES]) {
       if (scene.movement === "wave") expect(scene.layout).toBe("scroll");
       if (scene.movement === "orbit") expect(scene.layout).toBe("swarm");
       if (scene.movement === "stopGo") expect(["scroll", "swarm"]).toContain(scene.layout);
     }
   });
 
-  it("recycle les scènes avancées dans un autre ordre après la campagne", () => {
-    const replay = Array.from({ length: 30 }, (_, i) => sceneForIndex(41 + i));
-    expect(new Set(replay.map((scene) => scene.id)).size).toBe(30);
-    expect(replay).not.toEqual(SCENES.slice(10));
+  it("garde toutes les foules denses dans chaque fenêtre de douze étapes après la campagne", () => {
+    for (let start = 41; start <= 150; start++) {
+      const replay = Array.from({ length: 12 }, (_, i) => sceneForIndex(start + i));
+      expect(new Set(replay.map((scene) => scene.id)).size).toBe(12);
+      expect(replay.filter((scene) => scene.layout === "grid" && scene.fullGrid)).toHaveLength(3);
+      expect(replay.filter((scene) => scene.layout === "scroll" && scene.fullRows)).toHaveLength(4);
+      expect(replay.filter((scene) => scene.layout === "pile")).toHaveLength(3);
+      expect(replay.filter((scene) => scene.movement === "orbit")).toHaveLength(1);
+      expect(replay.every((scene) => !scene.breather)).toBe(true);
+    }
     expect(sceneForIndex(4000)).toEqual(sceneForIndex(4000));
     for (const i of [0, -1, 1.5, Infinity, NaN]) expect(() => sceneForIndex(i)).toThrow();
   });
