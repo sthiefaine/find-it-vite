@@ -9,6 +9,8 @@ import { MODIFIER_ICON, RULE_ICON, targetCount } from "../../../engine/rules";
 import type { LevelSpec } from "../../../engine/types";
 import { useSaveStore } from "../../../save/saveStore";
 import { MISSION_GOAL } from "../../../game/modes";
+import { AnimalPortrait } from "../../AnimalPortrait/AnimalPortrait";
+import { getAccessory } from "../../../content/accessories";
 
 const MEMORY_SHOW_MS = { easy: 2500, normal: 1500, expert: 1500 } as const;
 const MEMORY_PEEK_MS = 1000;
@@ -65,11 +67,17 @@ export const GameHeader = () => {
 
   // Précharge l'image pendant le chargement du niveau : elle est décodée avant d'être montrée
   const imageSrc = wantedCharacter?.imageSrc;
+  const accessorySrc = getAccessory(spec?.accessories?.target)?.imageSrc;
   useEffect(() => {
     if (!imageSrc) return;
     const img = new Image();
     img.src = imageSrc;
   }, [imageSrc]);
+  useEffect(() => {
+    if (!accessorySrc) return;
+    const img = new Image();
+    img.src = accessorySrc;
+  }, [accessorySrc]);
 
   // Le 3-2-1 n'est joué qu'au début de la partie, pas aux changements de niveau
   const countdownDone = useRef(false);
@@ -205,14 +213,15 @@ export const GameHeader = () => {
             {wantedCharacter && (
               // Monté pendant le chargement (caché) : l'image est prête quand elle apparaît.
               // La clé change avec le niveau : jamais l'ancien perso sous le nouveau.
-              <img
+              <AnimalPortrait
                 key={`${levelKey}-${wantedCharacter.imageSrc}`}
                 className={`wanted-portrait${shown ? " portrait-in" : ""}${
                   rule === "silhouette" ? " portrait-silhouette" : ""
                 }`}
-                src={wantedCharacter.imageSrc}
-                alt=""
-                draggable={false}
+                imageSrc={wantedCharacter.imageSrc}
+                size={62}
+                label={wantedCharacter.label}
+                accessoryId={spec?.accessories?.target}
                 hidden={showBack || isGold}
               />
             )}

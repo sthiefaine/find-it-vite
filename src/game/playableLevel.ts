@@ -3,6 +3,7 @@ import type { GenContext, LayoutParams, LevelScene, LevelSpec } from "../engine/
 import { LIMITS } from "../engine/validate";
 import { sceneForIndex } from "../content/scenes";
 import type { SceneDefinition } from "../content/scenes";
+import { planAccessories } from "./accessories";
 
 const clamp = (n: number, min: number, max: number) => Math.min(max, Math.max(min, n));
 const rounded = (n: number) => Math.round(n * 100) / 100;
@@ -59,5 +60,7 @@ export function generatePlayableLevel(index: number, context: GenContext): Level
     // Enfant découvre chaque obstacle, mais n'a jamais à les cumuler.
     seagulls: definition.seagulls && !(easy && definition.foliage),
   };
-  return { ...spec, scene, layout: definition.layout, params: sceneParams(definition, index, easy) };
+  const playable = { ...spec, scene, layout: definition.layout, params: sceneParams(definition, index, easy) };
+  const accessories = planAccessories(playable, context.tier, Boolean(definition.breather));
+  return accessories ? { ...playable, accessories } : playable;
 }

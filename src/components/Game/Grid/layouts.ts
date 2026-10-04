@@ -8,6 +8,7 @@ import type { LayoutParams, LevelSpec } from "../../../engine/types";
 import type { CharacterDetails } from "../../../helpers/characters";
 import { HIT_RADIUS_RATIO } from "../../../helpers/hitTest";
 import { Look, PLAIN_LOOK, crowdPool, crowdSize, placeTargets, planTargets } from "./crowd";
+import { dressCrowd } from "../../../game/accessories";
 
 // ─── Cases (grid, scroll) ───
 
@@ -79,7 +80,7 @@ export function layoutGrid(spec: LevelSpec): { cells: GridCell[]; size: number }
 
   // Les cibles sont dessinées en dernier : jamais recouvertes
   const others = rng.shuffle(placed.filter((c) => !c.isWanted));
-  return { cells: [...others, ...placed.filter((c) => c.isWanted)], size };
+  return { cells: dressCrowd(spec, [...others, ...placed.filter((c) => c.isWanted)]), size };
 }
 
 export type ScrollSlot = CrowdSlot & { line: number; main: number; cross: number };
@@ -138,7 +139,7 @@ export function layoutScroll(spec: LevelSpec): ScrollLayout {
     slots = slots.filter((slot) => slot.isWanted || kept.has(slot.id));
   }
 
-  return { horizontal, size, period, speeds, slots };
+  return { horizontal, size, period, speeds, slots: dressCrowd(spec, slots) };
 }
 
 // ─── Tas et essaim (pile, swarm) ───
@@ -366,7 +367,7 @@ export function placePile(spec: LevelSpec): CrowdCharacter[] {
   }
 
   // Tri stable : à zIndex égal, les recherchés (en tête) restent dessous
-  return all.sort((a, b) => a.zIndex - b.zIndex);
+  return dressCrowd(spec, all.sort((a, b) => a.zIndex - b.zIndex));
 }
 
 // Swarm
@@ -451,7 +452,7 @@ export function placeSwarm(spec: LevelSpec): SwarmCharacter[] {
     }
   }
 
-  return all.sort((a, b) => a.zIndex - b.zIndex);
+  return dressCrowd(spec, all.sort((a, b) => a.zIndex - b.zIndex));
 }
 
 // Un pas d'animation de l'essaim (dt en secondes), sur le plateau logique

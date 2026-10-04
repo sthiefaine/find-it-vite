@@ -6,9 +6,11 @@ import { GOLD_TINT, targetCount } from "../../../engine/rules";
 import type { LevelSpec } from "../../../engine/types";
 import type { CharacterDetails } from "../../../helpers/characters";
 import { HitCandidate, isInside, pickCharacterAt } from "../../../helpers/hitTest";
+import type { AccessoryId } from "../../../content/accessories";
 
 // Apparence d'une tête (l'intrus ou une cible dorée en diffèrent)
 export type Look = {
+  accessoryId?: AccessoryId;
   rotation: number; // radians, autour du centre
   flip: boolean; // miroir horizontal
   scale: number;
@@ -76,7 +78,8 @@ export function planTargets(spec: LevelSpec): Target[] {
       gold: true,
     }));
   }
-  const look = spec.rule === "oddOneOut" ? oddLook(spec) : PLAIN_LOOK;
+  const look = spec.rule === "oddOneOut" ? oddLook(spec) : spec.rule === "classic" && spec.accessories?.target
+    ? { ...PLAIN_LOOK, accessoryId: spec.accessories.target } : PLAIN_LOOK;
   return Array.from({ length: count }, () => ({ character: spec.wanted, look, gold: false }));
 }
 

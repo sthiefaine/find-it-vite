@@ -1,5 +1,6 @@
 // Contrat du moteur de niveaux : TypeScript pur, sans React, Pixi ni DOM.
 import type { CharacterDetails } from "../helpers/characters";
+import type { AccessoryPlan } from "../game/accessories";
 
 export const GEN_VERSION = 1;
 
@@ -64,6 +65,7 @@ export type LayoutParams = {
 };
 
 export interface LevelSpec {
+  accessories?: AccessoryPlan;
   scene?: LevelScene;
   genVersion: number;
   seed: number; // graine du niveau (dérivée de la graine de partie + index)

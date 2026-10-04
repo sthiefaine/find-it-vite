@@ -1,3 +1,6 @@
+import { ANIMAL_COLORS, animalSpeciesLabel, normalizedAnimalMetadata } from "../content/animalTaxonomy";
+import type { AnimalMetadata } from "../content/animalTaxonomy";
+
 export const CATEGORIES = {
   animals: "Animaux", people: "Personnes", history: "Histoire",
   politics: "Politique", flags: "Drapeaux", fantasy: "Imaginaire",
@@ -6,17 +9,17 @@ export type Category = keyof typeof CATEGORIES;
 export const COLORS = ["brown", "grey", "yellow", "white", "green", "blue", "red", "orange", "pink", "purple", "black"] as const;
 export type SpriteColor = typeof COLORS[number];
 export type Theme = { id: string; name: string; category: Category; destination: "game" | "fun" };
-export type Sprite = {
+export type Sprite = AnimalMetadata & {
   id: string; themeId: string; label: string; subject: string; color: SpriteColor;
   family: string; status: "draft" | "ready"; source: string | null; notes: string;
 };
 export type Catalog = { version: 1; revision: number; themes: Theme[]; sprites: Sprite[] };
 export type AssetInfo = { source: string; width: number; height: number; transparent: boolean };
-export type PublishedAnimal = { name: string; label: string; imageSrc: string; serie: string; color: SpriteColor; family: string };
+export type PublishedAnimal = AnimalMetadata & { name: string; label: string; imageSrc: string; serie: string; color: SpriteColor; family: string };
 
 export const ANIMAL_PROMPT = "Un visage de {sujet} amical et expressif sans cou vu de face, avec une tête beaucoup plus grande que la normale et de petites oreilles pour un effet mignon et stylisé. La tête occupe le maximum d’espace. Le style doit être semi-réaliste sauf pour les oreilles avec une finition lisse et détaillée, inspiré des jeux vidéo modernes sans ajout de lumière et d’ombre. Les yeux doivent être grands et captivants, avec des cils délicats et une expression chaleureuse. Le pelage ou la peau doit être finement texturé, avec des couleurs riches et naturelles. Le museau doit être légèrement arrondi pour accentuer le côté doux et attachant. Aucun ajout de cheveux. Aucune brillance, reflet ou source lumineuse directe. {fond} L’image doit être en haute résolution, avec des bords parfaitement nets et aucune pixellisation. L’ensemble doit dégager un charme nostalgique de jeu vidéo tout en restant moderne.";
 
-export function spritePrompt(category: Category, subject: string, transparent: boolean): string {
+export function spritePrompt(category: Category, subject: string, transparent: boolean, metadata?: AnimalMetadata): string {
   const background = transparent
     ? "Le fond doit être entièrement transparent (canal alpha), sans ombre portée, halo ni damier dessiné."
     : "Le fond doit être un blanc pur, sans ombres ni gradients.";
@@ -24,7 +27,12 @@ export function spritePrompt(category: Category, subject: string, transparent: b
   const common = `${background} Format carré, sujet entier centré avec une petite marge, aucun texte ajouté, aucun filigrane. Bords nets et lisibilité à 45 × 45 pixels.`;
   if (category === "animals") {
     const subject = /^[aeiouyhàâéèêëîïôùûüœ]/i.test(name) ? `d’${name}` : `de ${name}`;
-    return `${ANIMAL_PROMPT.replace("de {sujet}", subject).replace("{fond}", background)} Format carré ; tête entière, oreilles comprises, avec une petite marge. Lisible à 45 × 45 pixels. Aucun texte ni filigrane.`;
+    const details = [
+      metadata?.species ? `Espèce : ${animalSpeciesLabel(metadata.species)}.` : "",
+      metadata?.breed ? `Race ou variété de référence : ${metadata.breed}. Conserver ses traits visuels distinctifs.` : "",
+      metadata?.dominantColors?.length ? `Palette dominante du pelage ou de la peau : ${metadata.dominantColors.map((color) => ANIMAL_COLORS[color].label.toLocaleLowerCase("fr")).join(", ")}.` : "",
+    ].filter(Boolean).join(" ");
+    return `${ANIMAL_PROMPT.replace("de {sujet}", subject).replace("{fond}", background)}${details ? ` ${details}` : ""} Format carré ; tête entière, oreilles comprises, avec une petite marge. Lisible à 45 × 45 pixels. Aucun texte ni filigrane.`;
   }
   if (category === "flags") return `Le drapeau de ${name}, fidèlement reproduit avec ses proportions, couleurs et symboles officiels. Vue de face, à plat, sans mât, sans plis, sans perspective, sans reflet ni ombre. Conserver tous les symboles du drapeau. ${common}`;
   if (category === "fantasy") return `Un sprite de ${name}, stylisé, expressif et chaleureux, inspiré des jeux vidéo modernes. Sujet isolé, grandes formes immédiatement reconnaissables, finition mate détaillée, couleurs riches. Sans lumière directionnelle ni ombre portée. ${common}`;
@@ -54,13 +62,16 @@ export function validateCatalog(input: unknown): Catalog {
   for (const sprite of input.sprites) {
     if (!object(sprite) || !isId(sprite.id) || ids.has(sprite.id) || !themes.has(String(sprite.themeId)) || !text(sprite.label, 80) || !text(sprite.subject, 240) || !text(sprite.family, 64) || !COLORS.includes(sprite.color as SpriteColor) || !["draft", "ready"].includes(String(sprite.status)) || !(sprite.source === null || validSource(sprite.source)) || !text(sprite.notes, 2000, false)) throw new Error("Sprite invalide, thème inconnu ou identifiant déjà utilisé.");
     if (sprite.status === "ready" && sprite.source === null) throw new Error("Une image est nécessaire pour valider un sprite.");
+    if ((sprite.species !== undefined && !text(sprite.species, 64, false)) || (sprite.breed !== undefined && !text(sprite.breed, 80, false))) throw new Error("L’espèce ou la race du sprite est invalide.");
+    if (sprite.dominantColors !== undefined && (!Array.isArray(sprite.dominantColors) || sprite.dominantColors.length < 1 || sprite.dominantColors.length > 3 || sprite.dominantColors.some((color) => !COLORS.includes(color as SpriteColor)) || !sprite.dominantColors.includes(sprite.color) || new Set(sprite.dominantColors).size !== sprite.dominantColors.length)) throw new Error("Choisis de 1 à 3 couleurs dominantes différentes, avec la couleur principale.");
+    if (sprite.tags !== undefined && (!Array.isArray(sprite.tags) || sprite.tags.length > 12 || sprite.tags.some((tag) => !isId(tag)) || new Set(sprite.tags).size !== sprite.tags.length)) throw new Error("Les catégories du sprite sont invalides (12 maximum, sans doublon).");
     ids.add(sprite.id);
   }
   // Reconstituer les données : aucun champ inconnu n'est persisté.
   return {
     version: 1, revision: input.revision as number,
     themes: input.themes.map(({ id, name, category, destination }) => ({ id, name, category, destination })),
-    sprites: input.sprites.map(({ id, themeId, label, subject, color, family, status, source, notes }) => ({ id, themeId, label, subject, color, family, status, source, notes })),
+    sprites: input.sprites.map(({ id, themeId, label, subject, color, family, status, source, notes, species, breed, dominantColors, tags }) => ({ id, themeId, label, subject, color, family, status, source, notes, ...normalizedAnimalMetadata({ color, species, breed, dominantColors, tags }) })),
   };
 }
 

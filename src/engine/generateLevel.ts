@@ -24,6 +24,7 @@ import type { Rng } from "./rng";
 import { GEN_VERSION, SPRITE_SIZE } from "./types";
 import type { GenContext, Layout, LayoutParams, LevelSpec, Modifier, Rule, Slot, Tier } from "./types";
 import { LIMITS, validateSpec } from "./validate";
+import { animalSimilarity, selectAnimalDecoys } from "./animalSimilarity";
 
 export const MIN_POOL_SIZE = 3;
 const MAX_ATTEMPTS = 8;
@@ -70,15 +71,7 @@ export function wantedAt(index: number, ctx: GenContext): CharacterDetails {
 
 // ─── Leurres ───
 function buildDecoys(wanted: CharacterDetails, rho: number, pool: CharacterDetails[], rng: Rng): CharacterDetails[] {
-  const family = rng.shuffle(pool.filter((c) => c.family === wanted.family && c.name !== wanted.name));
-  const others = rng.shuffle(pool.filter((c) => c.family !== wanted.family && c.name !== wanted.name));
-  let famSlots = Math.round(rho * DECOY_SLOTS);
-  if (family.length === 0) famSlots = 0;
-  else if (others.length === 0) famSlots = DECOY_SLOTS;
-  const out: CharacterDetails[] = [];
-  for (let i = 0; i < famSlots; i++) out.push(family[i % family.length]);
-  for (let i = 0; i < DECOY_SLOTS - famSlots; i++) out.push(others[i % others.length]);
-  return out;
+  return selectAnimalDecoys(wanted, rho, pool, rng, DECOY_SLOTS);
 }
 
 // ─── Règle ───
@@ -180,8 +173,8 @@ function buildLevel(index: number, ctx: GenContext, seed: number, rng: Rng): Lev
   const pr = rng.fork("params");
   let d = difficultyOf(budget) * (0.92 + 0.16 * pr.next());
   if (flashlight) d *= 0.85;
-  const familyEmpty = !ctx.pool.some((c) => c.family === wanted.family && c.name !== wanted.name);
-  if (familyEmpty) d *= 1 + 0.3 * rho; // pas de sosie possible : plus de monde à la place
+  const hasLookalike = ctx.pool.some((c) => c.name !== wanted.name && animalSimilarity(wanted, c) > 0);
+  if (!hasLookalike) d *= 1 + 0.3 * rho; // pas de sosie possible : plus de monde à la place
   d = clamp(d, 0, 1);
   const params = buildParams(layout, index, tier, d, flashlight, pr);
   // goldRush en grille : 10 dorés à placer, il faut au moins 4×4 cases (même en easy)

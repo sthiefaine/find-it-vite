@@ -9,6 +9,7 @@ import {
 } from "pixi.js";
 import { GOLD_TINT } from "../../../engine/rules";
 import { Look, PLAIN_LOOK } from "./crowd";
+import { getAccessory, getAccessoryBox } from "../../../content/accessories";
 
 const POP_FRAMES = 14; // ≈ 0,23 s à 60 fps
 
@@ -82,6 +83,8 @@ export function CrowdSprite({
 
   const sparkleDraw = useCallback(drawSparkle, []);
   const w = size * look.scale;
+  const accessory = getAccessory(look.accessoryId);
+  const accessoryBox = accessory ? getAccessoryBox(accessory, image) : undefined;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const haloDraw = useCallback(drawHalo(w), [w]);
 
@@ -97,6 +100,10 @@ export function CrowdSprite({
       {gold && <Graphics draw={haloDraw} />}
       <Container rotation={look.rotation} scale={[look.flip ? -1 : 1, 1]}>
         <Sprite image={image} anchor={0.5} width={w} height={w} tint={look.tint} eventMode="none" />
+        {accessory && accessoryBox ? <Sprite image={accessory.imageSrc}
+          x={(accessoryBox.x - .5) * w} y={(accessoryBox.y - .5) * w}
+          width={accessoryBox.width * w} height={accessoryBox.height * w}
+          eventMode="none" /> : null}
         {gold && (
           <Sprite
             ref={glint}

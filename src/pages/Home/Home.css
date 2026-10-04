@@ -97,3 +97,6 @@
 .home-tiles-3 {
   grid-template-columns: 1fr 1fr 1fr;
 }
+
+.home-series { width: 100%; display: grid; gap: 5px; font-size: 12px; font-weight: 700; }
+.home-series select { width: 100%; min-height: 40px; padding: 8px 12px; border-radius: 12px; border: 2px solid #bca0df; color: #211239; background: #fff9ed; font: inherit; font-size: 14px; }

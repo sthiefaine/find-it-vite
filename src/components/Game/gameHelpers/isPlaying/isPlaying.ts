@@ -17,6 +17,8 @@ import type { GameMode } from "../../../../game/modes";
 import { getWorld } from "../../../../content/worlds";
 import { isLevelUnlocked, todayISO } from "../../../../content/progress";
 import { isPageVisible, subscribeAppActive } from "../../../../platform/appLifecycle";
+import { seriesFromSearch } from "../../../../content/animalSeries";
+import { readAccessoryPreview, withAccessoryPreview } from "../../../../game/accessories";
 
 const TICK_MS = 100;
 const BONUS_GRACE_MS = 150;
@@ -47,11 +49,11 @@ export function readDebugParams(
   return { seed, level, tier };
 }
 
-// Persos possibles : ceux du monde (ou de tous les mondes) en Aventure, les 12 animaux en Défi
-function poolFor(mode: GameMode, step: number): CharacterDetails[] {
+// L'Infini peut se limiter à une série ; les autres modes gardent leur catalogue.
+function poolFor(mode: GameMode, step: number, search: string): CharacterDetails[] {
   if (mode === "adventure") return poolOfStep(step);
   if (mode === "daily") return getWorld("animaux")?.characters ?? charactersDetails;
-  return charactersDetails;
+  return seriesFromSearch(search)?.characters ?? charactersDetails;
 }
 
 export function IsPlaying() {
@@ -113,17 +115,18 @@ export function IsPlaying() {
   // Le niveau courant est entièrement déterminé par (mode, runSeed, level, tier, pool)
   const setupLevel = (isInitialSetup = false) => {
     const { runSeed, tier, level, mode, adventureStep, missionFound } = useGameStore.getState();
-    const pool = poolFor(mode, adventureStep);
+    const pool = poolFor(mode, adventureStep, location.search);
     // en Aventure : index de l'étape, une graine par avis, jamais deux fois le même recherché
     const target =
       mode === "adventure"
         ? stepTarget(adventureStep, missionFound + 1, pool)
         : levelTarget(mode, runSeed, level);
-    const spec = generatePlayableLevel(target.index, {
+    const generated = generatePlayableLevel(target.index, {
       seed: target.seed,
       tier,
       pool,
     });
+    const spec = withAccessoryPreview(generated, readAccessoryPreview(location.search, import.meta.env.DEV));
     setupFor.current = `${runSeed}:${level}`;
     setCurrentSpec(spec);
 

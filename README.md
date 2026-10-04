@@ -52,10 +52,45 @@ réservés au serveur de développement. Le sprite transparent se trouve dans
 `http://127.0.0.1:5174/game?seed=42&level=6` ; les vagues sont à l’étape 7,
 les rondes à 11 et les arrêts à 12. Ces raccourcis sont réservés au développement.
 
-Le catalogue contient 14 têtes animales, dont le renard et le panda générés avec
-imagegen, avec un vrai canal alpha. Leurs PNG sources sont dans
+Le catalogue contient 20 têtes animales, dont le renard, le panda et six nouveaux
+animaux de ferme générés avec imagegen, avec un vrai canal alpha. Leurs PNG sont dans
 `public/assets/images/characters/animals/` et les prompts dans `content/sprites/`.
 Le sprite de feuilles est dans `public/assets/images/obstacles/foliage.png`.
+
+## Collections, pelages et déguisements
+
+La première série **À la ferme** ajoute une vache Holstein, un cochon, un mouton,
+une chèvre, un lapin et une poule. Avec le coq existant, sept portraits sont
+disponibles dans cette catégorie. Depuis l’accueil, choisir une série puis **Infini**
+pour jouer uniquement avec ses animaux (`/game?serie=ferme`). Une catégorie devient
+jouable lorsqu’elle contient au moins cinq portraits validés. Le Défi du jour et
+l’Aventure conservent leurs catalogues communs.
+
+Chaque animal possède une espèce, une race/variété facultative, une couleur
+principale, jusqu’à trois couleurs dominantes et plusieurs catégories. Le catalogue
+et l’album se filtrent par espèce, catégorie ou couleur. Le générateur privilégie
+les autres races de la même espèce comme sosies ; les familles visuelles et les
+couleurs prennent le relais. Les suggestions de races dans l’atelier sont des
+pistes de création : elles ne remplacent pas les portraits à générer et importer.
+
+Six accessoires sont disponibles : **casquette, bob, lunettes de soleil, bandana,
+nœud papillon et fausse moustache**. Ce sont des PNG transparents réutilisables,
+composés avec les têtes au moment de l’affichage. L’atelier permet de les essayer
+sur chaque animal, en grand et à 45 pixels. Le placement est partagé par l’aperçu,
+le portrait recherché et le rendu du jeu.
+
+Les accessoires apparaissent progressivement à partir de l’étape 13 (23 en Enfant),
+avec un seul par animal et aucun aux étapes de respiration. Au moins deux leurres
+portent aussi l’accessoire recherché. L’objectif reste de retrouver l’unique animal
+affiché ; le chrono ne change pas. Pour un aperçu local forcé, ouvrir
+`http://127.0.0.1:5174/game?serie=ferme&seed=42&level=13&accessory=moustache`.
+Le paramètre `accessory` est ignoré en production.
+
+Les accessoires sont dans `public/assets/images/accessories/`, leurs rectangles
+de placement dans `src/content/accessories.ts`, et leurs prompts avec provenance
+dans `content/accessories/prompts/`. Les originaux de génération de cette série
+sont conservés localement sous `artifacts/sprite-originals/` ; les PNG optimisés
+utilisés par le jeu sont versionnés dans Git.
 
 Stack : React 18, Vite 6, TypeScript, Pixi.js 7 et Zustand. Le jeu est livré en PWA hors ligne et en app native avec Capacitor 7.
 
@@ -84,8 +119,10 @@ Il n’utilise pas de compte, de serveur distant ou de clé d’API.
 
 1. Choisir ou créer un thème. Animaux et vie marine alimentent le jeu ; personnes,
    histoire, politique, drapeaux et imaginaire restent des collections « pour le fun ».
-2. Ajouter un sprite, renseigner son nom, le sujet du prompt, sa couleur et sa famille
-   visuelle (animaux qui se ressemblent, utilisés par la mécanique des sosies).
+2. Ajouter un sprite, renseigner son nom, le sujet du prompt, son espèce et sa
+   race/variété, ses couleurs dominantes, ses catégories et sa famille visuelle.
+   Le prompt reprend l’espèce, la variété et la palette choisies. Essayer les six
+   accessoires dans la boîte à déguisements : cet aperçu ne modifie pas l’image source.
 3. Copier le prompt, basé sur la référence de l’hippopotame. Le fond transparent est
    proposé pour les sprites ; décocher cette option pour retrouver le fond blanc.
    La génération se fait dans votre outil d’image habituel, puis le résultat est importé.

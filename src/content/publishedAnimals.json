@@ -5,7 +5,17 @@
     "imageSrc": "/assets/images/characters/animals/chat.png",
     "serie": "animal",
     "color": "brown",
-    "family": "brun"
+    "family": "brun",
+    "species": "chat",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "felins",
+      "domestiques"
+    ]
   },
   {
     "name": "chien",
@@ -13,7 +23,17 @@
     "imageSrc": "/assets/images/characters/animals/chien.png",
     "serie": "animal",
     "color": "brown",
-    "family": "brun"
+    "family": "brun",
+    "species": "chien",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "canides",
+      "domestiques"
+    ]
   },
   {
     "name": "capybara",
@@ -21,7 +41,15 @@
     "imageSrc": "/assets/images/characters/animals/capybara.png",
     "serie": "animal",
     "color": "brown",
-    "family": "brun"
+    "family": "brun",
+    "species": "capybara",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "sauvages"
+    ]
   },
   {
     "name": "coq",
@@ -29,7 +57,19 @@
     "imageSrc": "/assets/images/characters/animals/coq.png",
     "serie": "animal",
     "color": "brown",
-    "family": "brun"
+    "family": "brun",
+    "species": "coq",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "ferme",
+      "oiseaux",
+      "domestiques"
+    ]
   },
   {
     "name": "elephant",
@@ -37,7 +77,16 @@
     "imageSrc": "/assets/images/characters/animals/elephant.png",
     "serie": "animal",
     "color": "grey",
-    "family": "gris"
+    "family": "gris",
+    "species": "elephant",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "savane"
+    ]
   },
   {
     "name": "hippopotame",
@@ -45,7 +94,17 @@
     "imageSrc": "/assets/images/characters/animals/hippopotame.png",
     "serie": "animal",
     "color": "grey",
-    "family": "gris"
+    "family": "gris",
+    "species": "hippopotame",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "sauvages",
+      "savane"
+    ]
   },
   {
     "name": "pigeon",
@@ -53,7 +112,15 @@
     "imageSrc": "/assets/images/characters/animals/pigeon.png",
     "serie": "animal",
     "color": "grey",
-    "family": "gris"
+    "family": "gris",
+    "species": "pigeon",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "oiseaux"
+    ]
   },
   {
     "name": "giraffe",
@@ -61,7 +128,17 @@
     "imageSrc": "/assets/images/characters/animals/giraffe.png",
     "serie": "animal",
     "color": "yellow",
-    "family": "tachete"
+    "family": "tachete",
+    "species": "girafe",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "savane"
+    ]
   },
   {
     "name": "leopard",
@@ -69,7 +146,19 @@
     "imageSrc": "/assets/images/characters/animals/leopard.png",
     "serie": "animal",
     "color": "yellow",
-    "family": "tachete"
+    "family": "tachete",
+    "species": "leopard",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "felins",
+      "sauvages",
+      "savane"
+    ]
   },
   {
     "name": "guepard",
@@ -77,7 +166,18 @@
     "imageSrc": "/assets/images/characters/animals/guepard.png",
     "serie": "animal",
     "color": "yellow",
-    "family": "tachete"
+    "family": "tachete",
+    "species": "guepard",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "black"
+    ],
+    "tags": [
+      "felins",
+      "sauvages",
+      "savane"
+    ]
   },
   {
     "name": "zebre",
@@ -85,7 +185,17 @@
     "imageSrc": "/assets/images/characters/animals/zebre.png",
     "serie": "animal",
     "color": "white",
-    "family": "raye"
+    "family": "raye",
+    "species": "zebre",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "savane"
+    ]
   },
   {
     "name": "serpent",
@@ -93,7 +203,16 @@
     "imageSrc": "/assets/images/characters/animals/serpent.png",
     "serie": "animal",
     "color": "green",
-    "family": "vert"
+    "family": "vert",
+    "species": "serpent",
+    "breed": "",
+    "dominantColors": [
+      "green"
+    ],
+    "tags": [
+      "reptiles",
+      "sauvages"
+    ]
   },
   {
     "name": "renard",
@@ -101,7 +220,19 @@
     "imageSrc": "/assets/images/characters/animals/renard.png",
     "serie": "animal",
     "color": "orange",
-    "family": "roux"
+    "family": "roux",
+    "species": "renard",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "canides",
+      "sauvages",
+      "foret"
+    ]
   },
   {
     "name": "panda",
@@ -109,6 +240,125 @@
     "imageSrc": "/assets/images/characters/animals/panda.png",
     "serie": "animal",
     "color": "white",
-    "family": "noir-blanc"
+    "family": "noir-blanc",
+    "species": "panda",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "vache",
+    "label": "Vache",
+    "imageSrc": "/assets/images/characters/animals/vache.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "noir-blanc",
+    "species": "vache",
+    "breed": "Holstein",
+    "dominantColors": [
+      "white",
+      "black",
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "cochon",
+    "label": "Cochon",
+    "imageSrc": "/assets/images/characters/animals/cochon.png",
+    "serie": "animal",
+    "color": "pink",
+    "family": "rose",
+    "species": "cochon",
+    "breed": "",
+    "dominantColors": [
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "mouton",
+    "label": "Mouton",
+    "imageSrc": "/assets/images/characters/animals/mouton.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "mouton",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chevre",
+    "label": "Chèvre",
+    "imageSrc": "/assets/images/characters/animals/chevre.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "chevre",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "lapin",
+    "label": "Lapin",
+    "imageSrc": "/assets/images/characters/animals/lapin.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "lapin",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "poule",
+    "label": "Poule",
+    "imageSrc": "/assets/images/characters/animals/poule.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "roux",
+    "species": "poule",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "red",
+      "orange"
+    ],
+    "tags": [
+      "ferme",
+      "oiseaux",
+      "domestiques"
+    ]
   }
 ]

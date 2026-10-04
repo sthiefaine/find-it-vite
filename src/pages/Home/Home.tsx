@@ -1,4 +1,5 @@
 import { Play } from "lucide-react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ButtonXL } from "../../components/Buttons/ButtonXL";
 import { Tile } from "../../components/Buttons/Tile";
@@ -6,6 +7,7 @@ import { Title } from "../../components/Title/Title";
 import { useSaveStore } from "../../save/saveStore";
 import { todayISO, totalStars } from "../../content/progress";
 import { caughtCount } from "../Album/albumLogic";
+import { animalSeries } from "../../content/animalSeries";
 import "../../components/Buttons/ui.css";
 import "./Home.css";
 
@@ -15,6 +17,8 @@ const Home = () => {
   const { caught, total } = caughtCount(save);
   const dailyNew = save.daily?.date !== todayISO();
   const best = save.progress.bestScore;
+  const [series, setSeries] = useState("");
+  const collections = animalSeries();
 
   return (
     <div className="fi-screen home-screen">
@@ -45,8 +49,15 @@ const Home = () => {
           </ButtonXL>
         </div>
 
+        <label className="home-series">
+          <span>Les animaux du mode Infini</span>
+          <select value={series} onChange={(event) => setSeries(event.target.value)}>
+            <option value="">Tous les animaux</option>
+            {collections.map((collection) => <option key={collection.id} value={collection.id}>{collection.label} · {collection.characters.length}</option>)}
+          </select>
+        </label>
         <div className="home-tiles-2">
-          <Tile to="/game" icon="♾️" label="Infini" sub={best > 0 ? `🏆 ${best}` : undefined} color="orange" />
+          <Tile to={series ? `/game?serie=${series}` : "/game"} icon="♾️" label="Infini" sub={best > 0 ? `🏆 ${best}` : undefined} color="orange" />
           <Tile
             to="/game?mode=daily"
             icon="🎯"

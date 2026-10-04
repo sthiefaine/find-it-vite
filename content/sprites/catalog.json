@@ -1,10 +1,16 @@
 {
   "version": 1,
-  "revision": 3,
+  "revision": 5,
   "themes": [
     {
       "id": "animaux",
       "name": "Les animaux",
+      "category": "animals",
+      "destination": "game"
+    },
+    {
+      "id": "ferme",
+      "name": "À la ferme",
       "category": "animals",
       "destination": "game"
     },
@@ -55,7 +61,17 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/chat.png",
-      "notes": "Référence de style : visage de face, sans cou, finition mate. Fond transparent pour le jeu ; fond blanc pour une image de référence."
+      "notes": "Référence de style : visage de face, sans cou, finition mate. Fond transparent pour le jeu ; fond blanc pour une image de référence.",
+      "breed": "",
+      "species": "chat",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "felins",
+        "domestiques"
+      ]
     },
     {
       "id": "chien",
@@ -66,7 +82,17 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/chien.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "chien",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "canides",
+        "domestiques"
+      ]
     },
     {
       "id": "capybara",
@@ -77,7 +103,15 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/capybara.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "capybara",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "sauvages"
+      ]
     },
     {
       "id": "coq",
@@ -88,7 +122,19 @@
       "family": "brun",
       "status": "ready",
       "source": "/assets/images/characters/animals/coq.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "coq",
+      "dominantColors": [
+        "brown",
+        "red",
+        "yellow"
+      ],
+      "tags": [
+        "ferme",
+        "oiseaux",
+        "domestiques"
+      ]
     },
     {
       "id": "elephant",
@@ -99,7 +145,16 @@
       "family": "gris",
       "status": "ready",
       "source": "/assets/images/characters/animals/elephant.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "elephant",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
     },
     {
       "id": "hippopotame",
@@ -110,7 +165,17 @@
       "family": "gris",
       "status": "ready",
       "source": "/assets/images/characters/animals/hippopotame.png",
-      "notes": "Référence du prompt fourni : tête de face, sans cou, petites oreilles, finition mate. Fond blanc pour les références ; fond transparent pour le jeu."
+      "notes": "Référence du prompt fourni : tête de face, sans cou, petites oreilles, finition mate. Fond blanc pour les références ; fond transparent pour le jeu.",
+      "breed": "",
+      "species": "hippopotame",
+      "dominantColors": [
+        "grey",
+        "pink"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
     },
     {
       "id": "pigeon",
@@ -121,7 +186,15 @@
       "family": "gris",
       "status": "ready",
       "source": "/assets/images/characters/animals/pigeon.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "pigeon",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "oiseaux"
+      ]
     },
     {
       "id": "giraffe",
@@ -132,7 +205,17 @@
       "family": "tachete",
       "status": "ready",
       "source": "/assets/images/characters/animals/giraffe.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "girafe",
+      "dominantColors": [
+        "yellow",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
     },
     {
       "id": "leopard",
@@ -143,7 +226,19 @@
       "family": "tachete",
       "status": "ready",
       "source": "/assets/images/characters/animals/leopard.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "leopard",
+      "dominantColors": [
+        "yellow",
+        "black",
+        "white"
+      ],
+      "tags": [
+        "felins",
+        "sauvages",
+        "savane"
+      ]
     },
     {
       "id": "guepard",
@@ -154,7 +249,18 @@
       "family": "tachete",
       "status": "ready",
       "source": "/assets/images/characters/animals/guepard.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "guepard",
+      "dominantColors": [
+        "yellow",
+        "black"
+      ],
+      "tags": [
+        "felins",
+        "sauvages",
+        "savane"
+      ]
     },
     {
       "id": "zebre",
@@ -165,7 +271,17 @@
       "family": "raye",
       "status": "ready",
       "source": "/assets/images/characters/animals/zebre.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "zebre",
+      "dominantColors": [
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
     },
     {
       "id": "serpent",
@@ -176,7 +292,16 @@
       "family": "vert",
       "status": "ready",
       "source": "/assets/images/characters/animals/serpent.png",
-      "notes": ""
+      "notes": "",
+      "breed": "",
+      "species": "serpent",
+      "dominantColors": [
+        "green"
+      ],
+      "tags": [
+        "reptiles",
+        "sauvages"
+      ]
     },
     {
       "id": "renard",
@@ -187,7 +312,19 @@
       "family": "roux",
       "status": "ready",
       "source": "/assets/images/characters/animals/renard.png",
-      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/renard.prompt.txt."
+      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/renard.prompt.txt.",
+      "breed": "",
+      "species": "renard",
+      "dominantColors": [
+        "orange",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "canides",
+        "sauvages",
+        "foret"
+      ]
     },
     {
       "id": "panda",
@@ -198,7 +335,144 @@
       "family": "noir-blanc",
       "status": "ready",
       "source": "/assets/images/characters/animals/panda.png",
-      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/panda.prompt.txt."
+      "notes": "Sprite généré avec imagegen le 4 octobre 2026. Tête seule, face, fond transparent. Prompt conservé dans content/sprites/panda.prompt.txt.",
+      "breed": "",
+      "species": "panda",
+      "dominantColors": [
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "vache",
+      "label": "Vache",
+      "subject": "une vache Holstein noire et blanche",
+      "color": "white",
+      "dominantColors": [
+        "white",
+        "black",
+        "pink"
+      ],
+      "species": "vache",
+      "breed": "Holstein",
+      "family": "noir-blanc",
+      "tags": [
+        "ferme",
+        "domestiques"
+      ],
+      "themeId": "ferme",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/vache.png",
+      "notes": "Portrait généré avec image_gen. PNG transparent 512 × 512, optimisé pour le jeu. Collection À la ferme."
+    },
+    {
+      "id": "cochon",
+      "label": "Cochon",
+      "subject": "un cochon rose",
+      "color": "pink",
+      "dominantColors": [
+        "pink"
+      ],
+      "species": "cochon",
+      "breed": "",
+      "family": "rose",
+      "tags": [
+        "ferme",
+        "domestiques"
+      ],
+      "themeId": "ferme",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/cochon.png",
+      "notes": "Portrait généré avec image_gen. PNG transparent 512 × 512, optimisé pour le jeu. Collection À la ferme."
+    },
+    {
+      "id": "mouton",
+      "label": "Mouton",
+      "subject": "un mouton à laine blanche",
+      "color": "white",
+      "dominantColors": [
+        "white"
+      ],
+      "species": "mouton",
+      "breed": "",
+      "family": "blanc",
+      "tags": [
+        "ferme",
+        "domestiques"
+      ],
+      "themeId": "ferme",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/mouton.png",
+      "notes": "Portrait généré avec image_gen. PNG transparent 512 × 512, optimisé pour le jeu. Collection À la ferme."
+    },
+    {
+      "id": "chevre",
+      "label": "Chèvre",
+      "subject": "une chèvre crème et brune",
+      "color": "brown",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "species": "chevre",
+      "breed": "",
+      "family": "brun",
+      "tags": [
+        "ferme",
+        "domestiques"
+      ],
+      "themeId": "ferme",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chevre.png",
+      "notes": "Portrait généré avec image_gen. PNG transparent 512 × 512, optimisé pour le jeu. Collection À la ferme."
+    },
+    {
+      "id": "lapin",
+      "label": "Lapin",
+      "subject": "un lapin blanc",
+      "color": "white",
+      "dominantColors": [
+        "white",
+        "pink"
+      ],
+      "species": "lapin",
+      "breed": "",
+      "family": "blanc",
+      "tags": [
+        "ferme",
+        "domestiques"
+      ],
+      "themeId": "ferme",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/lapin.png",
+      "notes": "Portrait généré avec image_gen. PNG transparent 512 × 512, optimisé pour le jeu. Collection À la ferme."
+    },
+    {
+      "id": "poule",
+      "label": "Poule",
+      "subject": "une poule rousse",
+      "color": "brown",
+      "dominantColors": [
+        "brown",
+        "red",
+        "orange"
+      ],
+      "species": "poule",
+      "breed": "",
+      "family": "roux",
+      "tags": [
+        "ferme",
+        "oiseaux",
+        "domestiques"
+      ],
+      "themeId": "ferme",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/poule.png",
+      "notes": "Portrait généré avec image_gen. PNG transparent 512 × 512, optimisé pour le jeu. Collection À la ferme."
     }
   ]
 }

@@ -6,6 +6,7 @@ import type { Plugin } from "vite";
 import sharp from "sharp";
 import { gameSprites, validateCatalog, validSource } from "../src/studio/model";
 import type { AssetInfo, Catalog, PublishedAnimal } from "../src/studio/model";
+import { normalizedAnimalMetadata } from "../src/content/animalTaxonomy";
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 class StudioError extends Error {
@@ -124,7 +125,7 @@ export function createStudioStore(root: string) {
             await mkdir(path.dirname(destination), { recursive: true });
             await copyFile(file, destination);
           }
-          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie: "animal", color: sprite.color, family: sprite.family });
+          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie: "animal", color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite) });
         }
         await atomicJson(manifestFile, published);
         return published;

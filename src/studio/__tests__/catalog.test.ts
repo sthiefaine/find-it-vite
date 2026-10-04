@@ -6,6 +6,7 @@ import sharp from "sharp";
 import { createStudioStore, inspectImage } from "../../../scripts/studioPlugin";
 import { gameSprites, spritePrompt, validateCatalog, validSource } from "../model";
 import type { Catalog } from "../model";
+import { matchesAnimalSearch, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
 
 const scratch: string[] = [];
 afterEach(async () => { await Promise.all(scratch.splice(0).map((root) => rm(root, { recursive: true, force: true }))); });
@@ -37,6 +38,20 @@ describe("catalogue local", () => {
     catalog.sprites = [sprite, { ...sprite, id: "chien", status: "draft" }, { ...sprite, id: "france", themeId: "drapeaux" }];
     expect(gameSprites(validateCatalog(catalog)).map((s) => s.id)).toEqual(["chat"]);
   });
+  it("ouvre les anciens sprites sans métadonnées puis normalise les couleurs et les catégories", () => {
+    const catalog = sample();
+    catalog.sprites = [{ id: "chat", themeId: "animaux", label: "Chat", subject: "chat", color: "brown", family: "brun", status: "draft", source: null, notes: "" }];
+    expect(validateCatalog(catalog).sprites[0]).toMatchObject({ species: "", breed: "", dominantColors: ["brown"], tags: [] });
+    catalog.sprites[0] = { ...catalog.sprites[0], species: "chat", breed: " Siamois ", dominantColors: ["black", "brown"], tags: ["domestiques", "felins"] };
+    expect(validateCatalog(catalog).sprites[0]).toMatchObject({ species: "chat", breed: "Siamois", dominantColors: ["brown", "black"], tags: ["domestiques", "felins"] });
+  });
+  it("refuse les métadonnées malformées avant de les enregistrer", () => {
+    const catalog = sample();
+    const sprite = { id: "chat", themeId: "animaux", label: "Chat", subject: "chat", color: "brown", family: "brun", status: "draft", source: null, notes: "" };
+    for (const metadata of [{ species: 123 }, { breed: ["Siamois"] }, { dominantColors: ["white"] }, { dominantColors: ["brown", "brown"] }, { dominantColors: ["brown", "white", "grey", "black"] }, { dominantColors: ["brown", "transparent"] }, { tags: "ferme" }, { tags: ["ferme", "ferme"] }, { tags: ["../../ferme"] }]) {
+      expect(() => validateCatalog({ ...catalog, sprites: [{ ...sprite, ...metadata }] })).toThrow();
+    }
+  });
   it("détecte les écritures concurrentes et conserve les derniers changements", async () => {
     const { store } = await fixture();
     const current = await store.read();
@@ -49,11 +64,12 @@ describe("catalogue local", () => {
     const { root, store } = await fixture();
     const asset = await store.upload(await transparentImage());
     const catalog = sample();
-    catalog.sprites = Array.from({ length: 6 }, (_, i) => ({ id: `animal-${i}`, themeId: i === 5 ? "drapeaux" : "animaux", label: `Animal ${i}`, subject: `animal ${i}`, color: "brown", family: "brun", status: "ready", source: asset.source, notes: "" }));
+    catalog.sprites = Array.from({ length: 6 }, (_, i) => ({ id: `animal-${i}`, themeId: i === 5 ? "drapeaux" : "animaux", label: `Animal ${i}`, subject: `animal ${i}`, color: "brown", family: "brun", species: "chat", breed: "Siamois", dominantColors: ["brown", "white"], tags: ["ferme", "felins"], status: "ready", source: asset.source, notes: "" }));
     const saved = await store.save(catalog);
     const published = await store.publish(saved.revision);
     expect(published).toHaveLength(5);
     expect(published.some((s) => s.name === "animal-5")).toBe(false);
+    expect(published[0]).toMatchObject({ species: "chat", breed: "Siamois", dominantColors: ["brown", "white"], tags: ["ferme", "felins"] });
     for (const animal of published) expect(await readFile(path.join(root, "public", animal.imageSrc))).toEqual(await transparentImage());
     expect(JSON.parse(await readFile(path.join(root, "src/content/publishedAnimals.json"), "utf8"))).toEqual(published);
     expect((await store.state()).assets[0]).toMatchObject({ width: 128, height: 128, transparent: true });
@@ -78,6 +94,12 @@ describe("catalogue local", () => {
 });
 
 describe("prompts réutilisables", () => {
+  it("utilise la variété et la palette choisies pour un futur animal", () => {
+    const prompt = spritePrompt("animals", "un chat", true, { species: "chat", breed: "Siamois", dominantColors: ["white", "brown"] });
+    expect(prompt).toContain("Race ou variété de référence : Siamois");
+    expect(prompt).toContain("blanc, brun");
+    expect(spritePrompt("flags", "France", true, { breed: "Siamois" })).not.toContain("Siamois");
+  });
   it("garde les contraintes du prompt animal et propose les deux fonds", () => {
     const white = spritePrompt("animals", "un hippopotame", false);
     expect(white).toContain("un hippopotame");
@@ -93,5 +115,16 @@ describe("prompts réutilisables", () => {
     expect(spritePrompt("flags", "France", true)).not.toContain("oreilles");
     expect(spritePrompt("history", "Marie Curie", true)).toContain("la coiffure");
     expect(spritePrompt("politics", "un personnage", true)).not.toContain("Aucun ajout de cheveux");
+  });
+});
+
+describe("recherche des animaux", () => {
+  it("combine une race, une catégorie et une couleur secondaire sans dépendre des accents", () => {
+    const animal = { label: "Mon chat", color: "white" as const, species: "chat", breed: "Européen", dominantColors: ["white", "brown"] as const, tags: ["felins", "ferme"] };
+    const searchable = { ...animal, dominantColors: [...animal.dominantColors] };
+    expect(matchesAnimalSearch(searchable, "europeen felins brun")).toBe(true);
+    expect(matchesAnimalSearch(searchable, "ferme gris")).toBe(false);
+    expect(matchesAnimalSearch({ label: "Éléphant", color: "grey" }, "elephant gris")).toBe(true);
+    expect(normalizedAnimalMetadata({ color: "white" }).dominantColors).toEqual(["white"]);
   });
 });
