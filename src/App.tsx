@@ -6,6 +6,7 @@ import Adventure from "./pages/Adventure/Adventure";
 import Album from "./pages/Album/Album";
 import Options from "./pages/Options/Options";
 import Duel from "./pages/Duel/Duel";
+import PlaySetup from "./pages/PlaySetup/PlaySetup";
 
 import "./App.css";
 import { Header } from "./components/Headers/Header";
@@ -34,6 +35,7 @@ function App() {
         <Route path="/album" element={<Album />} />
         <Route path="/options" element={<Options />} />
         <Route path="/duel" element={<Duel />} />
+        <Route path="/play" element={<PlaySetup />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
 

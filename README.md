@@ -28,6 +28,11 @@ les **vagues** (7), les oiseaux (9), les **rondes** (11) et les **départs/arrê
 réduit le nombre d’animaux, leur vitesse et les feuillages ; les feuilles et les
 oiseaux ne s’y cumulent jamais.
 
+Les étapes 4, 10, 22 et 31 gardent des rangées complètes qui défilent, ainsi que
+leurs reprises dans les parties longues. D’autres étapes utilisent des rangées
+plus espacées. Le nom et la description de la scène ne prennent plus de place
+au-dessus du plateau.
+
 Dans les scènes concernées, des goélands traversent le plateau : un seul, 2–3,
 7–8 ou un géant. Délais, sens, positions et tailles varient avec la graine de la
 partie. Pas deux formations identiques de suite ; les géants arrivent après au
@@ -52,7 +57,7 @@ réservés au serveur de développement. Le sprite transparent se trouve dans
 `http://127.0.0.1:5174/game?seed=42&level=6` ; les vagues sont à l’étape 7,
 les rondes à 11 et les arrêts à 12. Ces raccourcis sont réservés au développement.
 
-Le catalogue contient 34 têtes animales, toutes au format PNG transparent 512 × 512.
+Le catalogue contient 48 têtes animales, toutes au format PNG transparent 512 × 512.
 Les 14 anciens portraits ont été redessinés avec imagegen d’après les références
 de la série ferme : tête seule de face, textures fines, finition mate et couleurs
 naturelles. Les identifiants et chemins des personnages sont conservés pour
@@ -69,11 +74,27 @@ La série **À la ferme** réunit une vache Holstein, un cochon, un mouton,
 une chèvre, un lapin, une poule, un coq, un âne, un canard colvert, une oie et une dinde.
 Le tigre, l’ours, le loup, le singe capucin, l’écureuil, le hérisson, le hibou,
 le raton laveur, le crocodile et le koala complètent les animaux sauvages.
-Les catégories **Oiseaux** et **Forêt** contiennent désormais assez de portraits
-pour leurs propres parties. Depuis l’accueil, choisir une série puis **Infini**
-pour jouer uniquement avec ses animaux (`/game?serie=ferme`). Une catégorie devient
-jouable lorsqu’elle contient au moins cinq portraits validés. Le Défi du jour et
-l’Aventure conservent leurs catalogues communs.
+Les variantes comprennent quatre races de chats (Siamois, British Shorthair,
+Maine Coon, Sphynx), quatre races de chiens (Husky, Dalmatien, Berger allemand,
+Golden Retriever), trois moutons (Mérinos, Suffolk, Nez noir du Valais) et trois
+vaches (Normande, Highland, Charolaise). Chaque portrait a un identifiant propre,
+une espèce commune aux autres races et ses repères d’accessoires ; les races
+proches servent de leurres, sans dupliquer l’animal recherché.
+Les catégories servent à parcourir l’atelier et l’album. Après un clic sur **Infini**
+ou **Duel** sur l’accueil, une page propose les thèmes sous forme de cartes,
+avec **Animaux** sélectionné par défaut. Les biomes Ferme, Forêt, Savane et Océan
+permettent de restreindre la collection ; Personnes et Drapeaux sont annoncés
+« Bientôt » et restent désactivés.
+
+En Infini, la cible et tous les leurres du thème sont choisis parmi les animaux
+débloqués : chat, chien, mouton, vache et cochon dès le
+départ, puis chaque portrait trouvé dans l’Aventure ou le défi du jour. Les anciennes
+captures sont conservées ; aucun compteur n’est augmenté artificiellement.
+Un biome demande au moins trois animaux débloqués. Le Duel utilise tous les
+personnages publiés du thème choisi. Un lien vers un thème inconnu ou indisponible
+revient au catalogue Animaux autorisé pour le mode ; Rejouer garde le thème choisi.
+L’Aventure et le Défi conservent leurs catalogues communs pour découvrir de nouveaux
+animaux. L’ancien paramètre `serie` ne permet pas de contourner les déblocages.
 
 Chaque animal possède une espèce, une race/variété facultative, une couleur
 principale, jusqu’à trois couleurs dominantes et plusieurs catégories. Le catalogue
@@ -92,7 +113,7 @@ Les accessoires apparaissent progressivement à partir de l’étape 13 (23 en E
 avec un seul par animal et aucun aux étapes de respiration. Au moins deux leurres
 portent aussi l’accessoire recherché. L’objectif reste de retrouver l’unique animal
 affiché ; le chrono ne change pas. Pour un aperçu local forcé, ouvrir
-`http://127.0.0.1:5174/game?serie=ferme&seed=42&level=13&accessory=moustache`.
+`http://127.0.0.1:5174/game?seed=42&level=13&accessory=moustache`.
 Le paramètre `accessory` est ignoré en production.
 
 Les accessoires sont dans `public/assets/images/accessories/`, leurs rectangles
@@ -130,7 +151,7 @@ Il n’utilise pas de compte, de serveur distant ou de clé d’API.
    histoire, politique, drapeaux et imaginaire restent des collections « pour le fun ».
 2. Ajouter un sprite, renseigner son nom, le sujet du prompt, son espèce et sa
    race/variété, ses couleurs dominantes, ses catégories et sa famille visuelle.
-   Le prompt reprend l’espèce, la variété et la palette choisies. Essayer les six
+   Le prompt reprend l’espèce, la variété et la palette choisies. Essayer les cinq
    accessoires dans la boîte à déguisements : cet aperçu ne modifie pas l’image source.
 3. Copier le prompt, basé sur la référence de l’hippopotame. Le fond transparent est
    proposé pour les sprites ; décocher cette option pour retrouver le fond blanc.

@@ -2,22 +2,19 @@
 import { useEffect, useRef, useState } from "react";
 import { GameStateEnum, useGameStore } from "../../../../../store/store";
 import { useShallow } from "zustand/shallow";
-import { charactersDetails } from "../../../../helpers/characters";
 import { useLocation, useNavigate } from "react-router-dom";
 import { dailySeed, randomSeed, seedFromCode } from "../../../../engine";
 import type { Tier } from "../../../../engine";
 import { generatePlayableLevel } from "../../../../game/playableLevel";
-import type { CharacterDetails } from "../../../../helpers/characters";
 import { useSaveStore } from "../../../../save/saveStore";
 import { DEFAULT_TIER, TIERS } from "../../../../save/schema";
 import { MAX_TICK_DELTA_MS, tickClock } from "../../../../game/session";
 import { levelTarget, MAX_PLAY_TIME_S, missionSeed, readModeParams } from "../../../../game/modes";
-import { poolOfStep, stepTarget, WORLD_BANNER_MS } from "../../../../game/adventureRun";
-import type { GameMode } from "../../../../game/modes";
-import { getWorld } from "../../../../content/worlds";
+import { stepTarget, WORLD_BANNER_MS } from "../../../../game/adventureRun";
 import { isLevelUnlocked, todayISO } from "../../../../content/progress";
 import { isPageVisible, subscribeAppActive } from "../../../../platform/appLifecycle";
-import { seriesFromSearch } from "../../../../content/animalSeries";
+import { characterPoolFor } from "../../../../game/characterPool";
+import { playThemeFromSearch } from "../../../../content/playThemes";
 import { readAccessoryPreview, withAccessoryPreview } from "../../../../game/accessories";
 
 const TICK_MS = 100;
@@ -47,13 +44,6 @@ export function readDebugParams(
   const level = rawLevel && /^\d+$/.test(rawLevel) ? Math.max(1, Number(rawLevel)) : undefined;
   const tier = TIERS.includes(rawTier as Tier) ? (rawTier as Tier) : undefined;
   return { seed, level, tier };
-}
-
-// L'Infini peut se limiter à une série ; les autres modes gardent leur catalogue.
-function poolFor(mode: GameMode, step: number, search: string): CharacterDetails[] {
-  if (mode === "adventure") return poolOfStep(step);
-  if (mode === "daily") return getWorld("animaux")?.characters ?? charactersDetails;
-  return seriesFromSearch(search)?.characters ?? charactersDetails;
 }
 
 export function IsPlaying() {
@@ -115,7 +105,7 @@ export function IsPlaying() {
   // Le niveau courant est entièrement déterminé par (mode, runSeed, level, tier, pool)
   const setupLevel = (isInitialSetup = false) => {
     const { runSeed, tier, level, mode, adventureStep, missionFound } = useGameStore.getState();
-    const pool = poolFor(mode, adventureStep, location.search);
+    const pool = characterPoolFor(mode, adventureStep, useSaveStore.getState().save, playThemeFromSearch(location.search));
     // en Aventure : index de l'étape, une graine par avis, jamais deux fois le même recherché
     const target =
       mode === "adventure"

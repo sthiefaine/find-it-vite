@@ -5,7 +5,7 @@ import { BOARD } from "../engine/types";
 // Le rendu est ensuite mis à l'échelle uniformément (× scale) et centré.
 export type Board = { width: number; height: number; scale: number };
 
-const HEADER_AND_BUTTONS = 300; // avis de recherche, nom/indice de la scène et boutons, en px
+const HEADER_AND_BUTTONS = 268; // navigation, avis de recherche, espacements et boutons, en px
 const MAX_WIDTH = 450;
 
 // Fonction pure : plateau pour une fenêtre de viewW × viewH px CSS
@@ -17,5 +17,10 @@ export function boardFor(viewW: number, viewH: number): Board {
 }
 
 export function getBoard(): Board {
-  return boardFor(window.innerWidth, window.innerHeight);
+  const style = getComputedStyle(document.documentElement);
+  const inset = (side: string) => parseFloat(style.getPropertyValue(`--safe-${side}`)) || 0;
+  return boardFor(
+    window.innerWidth - inset("left") - inset("right"),
+    window.innerHeight - inset("top") - inset("bottom"),
+  );
 }

@@ -32,45 +32,6 @@
   -webkit-user-drag: none;
 }
 
-/* chapeau de détective dessiné en CSS : calotte à carreaux + visière */
-.home-mascot-hat {
-  position: absolute;
-  top: -6%;
-  left: 50%;
-  width: 46%;
-  height: 24%;
-  transform: translateX(-50%) rotate(-10deg);
-  border-radius: 50% 50% 18% 18% / 70% 70% 30% 30%;
-  background:
-    repeating-linear-gradient(90deg, transparent 0 7px, rgba(60, 30, 10, 0.35) 7px 9px),
-    repeating-linear-gradient(0deg, transparent 0 7px, rgba(60, 30, 10, 0.35) 7px 9px),
-    #a8743e;
-  border: 3px solid #4a2a10;
-  box-shadow: inset 0 -6px 0 #6b3f1a;
-}
-
-.home-mascot-hat::after {
-  content: "";
-  position: absolute;
-  left: -22%;
-  right: -22%;
-  bottom: -18%;
-  height: 32%;
-  border-radius: 50%;
-  background: #7a4a20;
-  border: 3px solid #4a2a10;
-  z-index: -1;
-}
-
-.home-mascot-loupe {
-  position: absolute;
-  right: -14%;
-  bottom: -2%;
-  font-size: clamp(44px, 12vw, 56px);
-  transform: rotate(-20deg);
-  filter: drop-shadow(0 3px 3px rgba(0, 0, 0, 0.4));
-}
-
 .home-mascot-shadow {
   width: 90px;
   height: 12px;
@@ -97,6 +58,3 @@
 .home-tiles-3 {
   grid-template-columns: 1fr 1fr 1fr;
 }
-
-.home-series { width: 100%; display: grid; gap: 5px; font-size: 12px; font-weight: 700; }
-.home-series select { width: 100%; min-height: 40px; padding: 8px 12px; border-radius: 12px; border: 2px solid #bca0df; color: #211239; background: #fff9ed; font: inherit; font-size: 14px; }

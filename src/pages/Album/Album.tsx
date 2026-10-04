@@ -6,6 +6,7 @@ import { masteryOf } from "../../content/progress";
 import type { CharacterDetails } from "../../helpers/characters";
 import { caughtCount, MEDALS, nextMedal } from "./albumLogic";
 import { ANIMAL_COLORS, animalCategoryLabel, animalSpeciesLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
+import { isAnimalUnlocked } from "../../content/unlockedAnimals";
 import "../../components/Buttons/ui.css";
 import "./Album.css";
 
@@ -59,6 +60,7 @@ const Album = () => {
         <h2 className="album-world" style={{ background: world.background }}>
           {world.name}
         </h2>
+        {world.id === "animaux" && <p className="album-unlock-hint">Cinq animaux sont disponibles dès le départ. Retrouve les autres dans l’Aventure ou le défi du jour pour les débloquer en Infini.</p>}
 
         <div className="album-filters">
           {categories.length > 0 && <label>Catégorie<select value={category} onChange={(event) => setCategory(event.target.value)}>
@@ -80,7 +82,7 @@ const Album = () => {
             const count = collection[c.name] ?? 0;
             const mastery = masteryOf(count);
             const medal = MEDALS[mastery];
-            if (count === 0) {
+            if (!isAnimalUnlocked({ collection }, c.name)) {
               return (
                 <div key={c.name} className="album-card album-card-unknown" aria-label="Pas encore trouvé">
                   <img src={c.imageSrc} alt="" draggable={false} />
@@ -91,12 +93,13 @@ const Album = () => {
             return (
               <button
                 key={c.name}
-                className={`album-card album-card-${mastery}`}
+                className={`album-card album-card-${mastery}${count === 0 ? " album-card-available" : ""}`}
                 onClick={() => setPicked({ character: c, count })}
               >
                 {medal && <span className="album-card-medal">{medal}</span>}
                 <img src={c.imageSrc} alt="" draggable={false} />
                 <span className="album-card-label">{c.label}</span>
+                {count === 0 && <span className="album-available-label">Disponible</span>}
               </button>
             );
           })}
@@ -132,7 +135,7 @@ const Album = () => {
                 {normalizedAnimalMetadata(picked.character).dominantColors.map((color) => <span key={color} title={ANIMAL_COLORS[color].label} style={{ background: ANIMAL_COLORS[color].hex }} aria-label={ANIMAL_COLORS[color].label} />)}
               </div>
               <span className="album-big-count">
-                Trouvé {picked.count} fois
+                {picked.count > 0 ? `Trouvé ${picked.count} fois` : "Disponible en Infini"}
               </span>
               {(() => {
                 const next = nextMedal(picked.count);

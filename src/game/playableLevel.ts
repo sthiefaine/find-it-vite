@@ -19,7 +19,7 @@ function sceneParams(scene: SceneDefinition, index: number, easy: boolean): Layo
       return {
         movement: scene.movement,
         speed: clamp(rounded(.4 + density * 1.25), LIMITS.scroll.speedMin, easy ? LIMITS.scroll.speedMaxEasy : LIMITS.scroll.speedMax),
-        scrollFill: clamp(easy ? .21 + density * .45 : .33 + density * .75, .15, 1),
+        scrollFill: scene.fullRows ? 1 : clamp(easy ? .21 + density * .45 : .33 + density * .75, .15, 1),
         extraLines: clamp(Math.floor(density * 4), 0, LIMITS.scroll.extraLinesMax),
         scrollDirection: scene.direction ?? "horizontal",
         alternateDirection: scene.alternate ?? false,

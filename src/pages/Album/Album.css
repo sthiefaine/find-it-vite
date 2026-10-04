@@ -111,6 +111,10 @@
   box-shadow: none;
 }
 
+.album-card-available { border-color: #b6dbaa; background: #f2faed; }
+.album-available-label { color: #39712e; font-size: 11px; font-weight: 700; }
+.album-unlock-hint { margin: 0; color: #e5d8f7; font-size: 13px; line-height: 1.5; text-align: center; }
+
 .album-card-unknown img {
   filter: brightness(0);
   opacity: 0.55;

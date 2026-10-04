@@ -67,9 +67,6 @@ const Game = () => {
       }
     >
       <GameHeader />
-      <div className="gameScene">
-        {scene && <><strong>{scene.name}</strong><span>{scene.hint}</span></>}
-      </div>
       <div
         ref={boardRef}
         className={`boardWrap${hasFlashlight ? " boardWrap--flashlight" : ""}`}

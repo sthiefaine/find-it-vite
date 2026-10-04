@@ -1,13 +1,11 @@
 import { Play } from "lucide-react";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ButtonXL } from "../../components/Buttons/ButtonXL";
 import { Tile } from "../../components/Buttons/Tile";
 import { Title } from "../../components/Title/Title";
 import { useSaveStore } from "../../save/saveStore";
 import { todayISO, totalStars } from "../../content/progress";
 import { caughtCount } from "../Album/albumLogic";
-import { animalSeries } from "../../content/animalSeries";
 import "../../components/Buttons/ui.css";
 import "./Home.css";
 
@@ -17,8 +15,7 @@ const Home = () => {
   const { caught, total } = caughtCount(save);
   const dailyNew = save.daily?.date !== todayISO();
   const best = save.progress.bestScore;
-  const [series, setSeries] = useState("");
-  const collections = animalSeries();
+  const reducedMotion = useReducedMotion();
 
   return (
     <div className="fi-screen home-screen">
@@ -33,13 +30,11 @@ const Home = () => {
 
         <motion.div
           className="home-mascot"
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+          animate={reducedMotion ? undefined : { y: [0, -5, 0] }}
+          transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
           whileTap={{ scale: 0.88, rotate: -6 }}
         >
-          <img src="./assets/images/characters/animals/capybara.png" alt="Le capybara détective" />
-          <span className="home-mascot-hat" aria-hidden="true" />
-          <span className="home-mascot-loupe" aria-hidden="true">🔍</span>
+          <img src="/assets/images/characters/animals/capybara.png" alt="La mascotte capybara" draggable={false} />
         </motion.div>
         <div className="home-mascot-shadow" aria-hidden="true" />
 
@@ -49,15 +44,8 @@ const Home = () => {
           </ButtonXL>
         </div>
 
-        <label className="home-series">
-          <span>Les animaux du mode Infini</span>
-          <select value={series} onChange={(event) => setSeries(event.target.value)}>
-            <option value="">Tous les animaux</option>
-            {collections.map((collection) => <option key={collection.id} value={collection.id}>{collection.label} · {collection.characters.length}</option>)}
-          </select>
-        </label>
         <div className="home-tiles-2">
-          <Tile to={series ? `/game?serie=${series}` : "/game"} icon="♾️" label="Infini" sub={best > 0 ? `🏆 ${best}` : undefined} color="orange" />
+          <Tile to="/play?mode=endless" icon="♾️" label="Infini" sub={best > 0 ? `🏆 ${best}` : undefined} color="orange" />
           <Tile
             to="/game?mode=daily"
             icon="🎯"
@@ -68,7 +56,7 @@ const Home = () => {
           />
         </div>
         <div className="home-tiles-3">
-          <Tile to="/duel" icon="👥" label="Duel" color="teal" size="sm" />
+          <Tile to="/play?mode=duel" icon="👥" label="Duel" color="teal" size="sm" />
           <Tile to="/album" icon="📖" label="Album" sub={`${caught}/${total}`} color="purple" size="sm" />
           <Tile to="/options" icon="⚙️" label="Options" color="slate" size="sm" />
         </div>

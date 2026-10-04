@@ -1,11 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { X } from "lucide-react";
 
 import { randomSeed } from "../../engine";
-import { charactersDetails } from "../../helpers/characters";
+import { playThemeFromSearch, playThemePool } from "../../content/playThemes";
+import type { PlayThemeId } from "../../content/playThemes";
 import {
   playCountdownSound,
   playHitBombSound,
@@ -32,7 +33,16 @@ type Phase = "setup" | "ready" | "countdown" | "playing" | "victory";
 const COUNT_STEP_MS = 800;
 
 export default function Duel() {
+  const location = useLocation();
+  const theme = playThemeFromSearch(location.search);
+  // Une navigation vers un autre thème démarre une nouvelle session, sans
+  // conserver une manche ou un délai encore lié au thème précédent.
+  return <DuelSession key={theme} theme={theme} />;
+}
+
+function DuelSession({ theme }: { theme: PlayThemeId }) {
   const navigate = useNavigate();
+  const pool = useMemo(() => playThemePool("duel", theme, {}), [theme]);
   const [phase, setPhase] = useState<Phase>("setup");
   const [target, setTarget] = useState<DuelTarget>(5);
   const [ready, setReady] = useState<Record<Player, boolean>>({ top: false, bottom: false });
@@ -79,11 +89,6 @@ export default function Duel() {
     document.addEventListener("gesturestart", stop, opts);
     document.addEventListener("dblclick", stop, opts);
     document.addEventListener("contextmenu", stop, opts);
-    // Préchargement des têtes
-    charactersDetails.forEach((c) => {
-      const img = new Image();
-      img.src = c.imageSrc;
-    });
     return () => {
       document.removeEventListener("touchmove", stop);
       document.removeEventListener("gesturestart", stop);
@@ -92,6 +97,11 @@ export default function Duel() {
       clearTimers();
     };
   }, []);
+
+  useEffect(() => {
+    // Précharger seulement les portraits du thème joué, y compris l'Océan.
+    pool.forEach((character) => { const image = new Image(); image.src = character.imageSrc; });
+  }, [pool]);
 
   // 3-2-1
   useEffect(() => {
@@ -108,7 +118,7 @@ export default function Duel() {
   const startCountdown = () => {
     seedRef.current = randomSeed();
     setDuelState(initialDuelState());
-    setRoundState(generateRound(seedRef.current, 1));
+    setRoundState(generateRound(seedRef.current, 1, undefined, pool));
     setLocked({ top: false, bottom: false });
     setCount(3);
     setPhase("countdown");
@@ -155,7 +165,7 @@ export default function Duel() {
         setPhase("victory");
         return;
       }
-      setRoundState(generateRound(seedRef.current, r.number + 1, r.spec.wanted.name));
+      setRoundState(generateRound(seedRef.current, r.number + 1, r.spec.wanted.name, pool));
       setDuelState(nextRoundState(duelRef.current));
     }, PAUSE_MS);
   };

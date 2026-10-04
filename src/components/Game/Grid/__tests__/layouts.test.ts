@@ -56,7 +56,7 @@ describe("plateau logique fixe", () => {
       expect(b.width / b.scale).toBeCloseTo(BOARD.w, 9);
       expect(b.height / b.scale).toBeCloseTo(BOARD.h, 9);
       expect(b.width).toBeLessThanOrEqual(Math.min(w, 450) + 1e-9);
-      expect(b.height).toBeLessThanOrEqual(h - 256 + 1e-9);
+      expect(b.height).toBeLessThanOrEqual(h - 268 + 1e-9);
     }
     expect(boardFor(390, 844)).toEqual({ width: 390, height: 520, scale: 1 });
   });

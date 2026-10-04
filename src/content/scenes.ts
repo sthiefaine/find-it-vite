@@ -8,6 +8,7 @@ export type SceneDefinition = LevelScene & {
   movement?: LayoutParams["movement"];
   direction?: LayoutParams["scrollDirection"];
   alternate?: boolean;
+  fullRows?: boolean; // rangées de défilement complètes, sans cases vides
   breather?: boolean;
 };
 
@@ -32,13 +33,13 @@ export const SCENES: readonly SceneDefinition[] = [
   scene({ id: "clairiere", name: "La clairière", hint: "Retrouve l’animal du portrait.", palette: "meadow", layout: "grid", density: .05 }),
   scene({ id: "petit-sentier", name: "Petit sentier", hint: "Observe chaque visage.", palette: "meadow", layout: "grid", density: .18 }),
   scene({ id: "parade", name: "La parade", hint: "Suis les animaux qui défilent.", palette: "sunset", layout: "scroll", movement: "linear", direction: "horizontal", density: .12 }),
-  scene({ id: "croisements", name: "Croisements", hint: "Les rangées partent en sens inverse.", palette: "meadow", layout: "scroll", movement: "linear", direction: "horizontal", alternate: true, density: .2 }),
+  scene({ id: "croisements", name: "Croisements", hint: "Les rangées partent en sens inverse.", palette: "meadow", layout: "scroll", movement: "linear", direction: "horizontal", alternate: true, fullRows: true, density: .2 }),
   scene({ id: "au-calme", name: "Au calme", hint: "Une petite pause pour observer.", palette: "sunset", layout: "grid", density: .1, breather: true }),
   scene({ id: "sous-les-feuilles", name: "Sous les feuilles", hint: "Écarte les feuilles pour regarder.", palette: "forest", layout: "grid", density: .2, foliage: "light" }),
   scene({ id: "sentier-ondule", name: "Sentier ondulé", hint: "Suis la foule qui ondule.", palette: "meadow", layout: "scroll", movement: "wave", direction: "horizontal", density: .24 }),
   scene({ id: "buissons", name: "Les buissons", hint: "Écarte les feuilles et scrute la foule.", palette: "forest", layout: "pile", density: .26, foliage: "light" }),
   scene({ id: "premier-vol", name: "Premier vol", hint: "Garde le cap quand les oiseaux passent.", palette: "sunset", layout: "grid", density: .28, seagulls: true }),
-  scene({ id: "grande-parade", name: "Grande parade", hint: "Retrouve ton animal entre les passages.", palette: "sunset", layout: "scroll", movement: "linear", direction: "horizontal", density: .38, seagulls: true }),
+  scene({ id: "grande-parade", name: "Grande parade", hint: "Retrouve ton animal entre les passages.", palette: "sunset", layout: "scroll", movement: "linear", direction: "horizontal", fullRows: true, density: .38, seagulls: true }),
   scene({ id: "ronde", name: "La ronde", hint: "Suis les animaux qui tournent.", palette: "meadow", layout: "swarm", movement: "orbit", density: .2 }),
   scene({ id: "petits-arrets", name: "Petits arrêts", hint: "Profite des arrêts pour observer.", palette: "forest", layout: "scroll", movement: "stopGo", direction: "vertical", density: .3 }),
   scene({ id: "brise-legere", name: "Brise légère", hint: "Les rangées ondulent en sens inverse.", palette: "meadow", layout: "scroll", movement: "wave", direction: "horizontal", alternate: true, density: .36 }),
@@ -50,7 +51,7 @@ export const SCENES: readonly SceneDefinition[] = [
   scene({ id: "foret-animee", name: "Forêt animée", hint: "Dégage les feuilles et garde ton animal en vue.", palette: "forest", layout: "scroll", movement: "wave", direction: "horizontal", density: .32, foliage: "light", seagulls: true }),
   scene({ id: "grand-rendez-vous", name: "Le rendez-vous", hint: "Suis la ronde malgré les oiseaux.", palette: "sunset", layout: "swarm", movement: "orbit", density: .5, seagulls: true }),
   scene({ id: "lagon-bleu", name: "Lagon bleu", hint: "Découvre les visages du lagon.", palette: "lagoon", layout: "grid", density: .24 }),
-  scene({ id: "courant", name: "Le courant", hint: "Suis les animaux emportés par le courant.", palette: "reef", layout: "scroll", movement: "linear", direction: "vertical", density: .34 }),
+  scene({ id: "courant", name: "Le courant", hint: "Suis les animaux emportés par le courant.", palette: "reef", layout: "scroll", movement: "linear", direction: "vertical", fullRows: true, density: .34 }),
   scene({ id: "vague-douce", name: "Vague douce", hint: "Suis le mouvement des vagues.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "horizontal", density: .38 }),
   scene({ id: "jardin-marin", name: "Jardin marin", hint: "Écarte les feuilles pour explorer le lagon.", palette: "lagoon", layout: "grid", density: .4, foliage: "light" }),
   scene({ id: "banc-sable", name: "Banc de sable", hint: "Un coin tranquille pour observer.", palette: "sand", layout: "grid", density: .18, breather: true }),
@@ -59,7 +60,7 @@ export const SCENES: readonly SceneDefinition[] = [
   scene({ id: "sous-palmes", name: "Sous les palmes", hint: "Écarte les feuilles pour fouiller la foule.", palette: "sand", layout: "pile", density: .46, foliage: "dense" }),
   scene({ id: "vol-large", name: "Le vol du large", hint: "Garde ton animal en vue entre les oiseaux.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "horizontal", density: .44, seagulls: true }),
   scene({ id: "traversee", name: "La traversée", hint: "Suis la foule malgré les passages.", palette: "reef", layout: "swarm", movement: "linear", density: .54, seagulls: true }),
-  scene({ id: "courants-croises", name: "Courants croisés", hint: "Deux courants vont en sens inverse.", palette: "lagoon", layout: "scroll", movement: "linear", direction: "vertical", alternate: true, density: .46 }),
+  scene({ id: "courants-croises", name: "Courants croisés", hint: "Deux courants vont en sens inverse.", palette: "lagoon", layout: "scroll", movement: "linear", direction: "vertical", alternate: true, fullRows: true, density: .46 }),
   scene({ id: "baie-oiseaux", name: "Baie des oiseaux", hint: "Retrouve ton animal entre deux vols.", palette: "sand", layout: "grid", density: .52, seagulls: true }),
   scene({ id: "recif-tournant", name: "Récif tournant", hint: "Dégage les feuilles et suis la ronde.", palette: "reef", layout: "swarm", movement: "orbit", density: .5, foliage: "light" }),
   scene({ id: "ressac", name: "Le ressac", hint: "Suis les vagues qui remontent.", palette: "lagoon", layout: "scroll", movement: "wave", direction: "vertical", alternate: true, density: .54 }),

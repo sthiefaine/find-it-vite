@@ -73,6 +73,32 @@ describe("objectif unique des parties", () => {
     }
   });
 
+  it("alterne les lignes complètes et espacées, y compris lors des reprises", () => {
+    for (const tier of ["easy", "normal", "expert"] as const) {
+      const context = { seed: 42, tier, pool: charactersDetails };
+      // 61/64 rejouent Courants croisés/Le courant ; 91/94 les rejouent encore.
+      for (const index of [4, 10, 22, 31, 61, 64, 91, 94]) {
+        const spec = generatePlayableLevel(index, context);
+        const crowd = layoutScroll(spec);
+        const original = layoutScroll({ ...spec, params: { ...spec.params, scrollFill: undefined } });
+        expect(spec.layout).toBe("scroll");
+        expect(spec.params.scrollFill).toBe(1);
+        expect(crowd).toEqual(original);
+        expect(crowd.slots).toHaveLength(crowd.speeds.length * Math.floor(crowd.period / crowd.size));
+        expect(crowd.slots.filter((slot) => slot.isWanted)).toHaveLength(1);
+        expect(crowd.size).toBe(45);
+      }
+      for (const index of [3, 7, 12, 23, 34, 37]) {
+        const spec = generatePlayableLevel(index, context);
+        const crowd = layoutScroll(spec);
+        const full = layoutScroll({ ...spec, params: { ...spec.params, scrollFill: 1 } });
+        expect(spec.params.scrollFill).toBeLessThan(1);
+        expect(crowd.slots.length).toBeLessThan(full.slots.length);
+        expect(crowd.slots.filter((slot) => slot.isWanted)).toHaveLength(1);
+      }
+    }
+  });
+
   it("place moins d'animaux en défilement Enfant dans la campagne et les reprises", () => {
     for (let index = 1; index <= 100; index++) {
       for (const seed of [1, 42, 2026]) {

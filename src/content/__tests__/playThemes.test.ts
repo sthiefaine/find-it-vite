@@ -1,0 +1,95 @@
+import { describe, expect, it } from "vitest";
+import { characterPoolFor } from "../../game/characterPool";
+import { generatePlayableLevel } from "../../game/playableLevel";
+import { animalsPack } from "../../helpers/characters";
+import { generateRound } from "../../pages/Duel/duelLogic";
+import { defaultSave } from "../../save/schema";
+import { PLAY_THEMES, playThemeFromSearch, playThemePool, themeOptions } from "../playThemes";
+import type { PlayThemeId } from "../playThemes";
+import { isAnimalUnlocked, unlockedAnimals } from "../unlockedAnimals";
+import { getWorld } from "../worlds";
+
+describe("thèmes proposés avant une partie", () => {
+  it("compte les animaux jouables selon le mode et garde les thèmes futurs indisponibles", () => {
+    const save = defaultSave();
+    const endless = themeOptions("endless", save);
+    const duel = themeOptions("duel", save);
+    expect(endless[0]).toMatchObject({ theme: { id: "animaux" }, availableCount: 5, totalCount: animalsPack.length, enabled: true });
+    for (const option of duel) {
+      expect(option.availableCount).toBe(option.totalCount);
+      expect(option.enabled).toBe(!option.theme.comingSoon && option.availableCount >= 3);
+    }
+    for (const id of ["ferme", "foret", "savane"] as const) {
+      const candidates = animalsPack.filter((animal) => animal.tags?.includes(id));
+      const option = endless.find(({ theme }) => theme.id === id)!;
+      expect(option.totalCount).toBe(candidates.length);
+      expect(option.availableCount).toBe(unlockedAnimals(save, candidates).length);
+      expect(option.enabled).toBe(option.availableCount >= 3);
+    }
+    for (const options of [endless, duel]) for (const id of ["personnes", "drapeaux"]) {
+      expect(options.find(({ theme }) => theme.id === id)).toMatchObject({ availableCount: 0, totalCount: 0, enabled: false, theme: { comingSoon: true } });
+    }
+  });
+
+  it("fait un repli sûr tant qu'un thème n'a pas trois portraits débloqués", () => {
+    const ocean = getWorld("ocean")!.characters;
+    const two = { collection: Object.fromEntries(ocean.slice(0, 2).map((animal) => [animal.name, 1])) };
+    const three = { collection: Object.fromEntries(ocean.slice(0, 3).map((animal) => [animal.name, 1])) };
+    expect(themeOptions("endless", two).find(({ theme }) => theme.id === "ocean")).toMatchObject({ availableCount: 2, totalCount: ocean.length, enabled: false });
+    expect(playThemePool("endless", "ocean", two)).toEqual(unlockedAnimals(two));
+    expect(themeOptions("endless", three).find(({ theme }) => theme.id === "ocean")).toMatchObject({ availableCount: 3, enabled: true });
+    expect(playThemePool("endless", "ocean", three)).toEqual(ocean.slice(0, 3));
+    expect(playThemePool("duel", "ocean", defaultSave())).toEqual(ocean);
+  });
+
+  it("ignore les anciens liens serie et les thèmes inconnus ou à venir", () => {
+    for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=personnes", "?theme=drapeaux", "?theme=__proto__"]) {
+      expect(playThemeFromSearch(search)).toBe("animaux");
+    }
+    expect(playThemeFromSearch("?theme=foret&serie=ferme")).toBe("foret");
+    for (const id of ["personnes", "drapeaux", "inconnu"] as PlayThemeId[]) {
+      expect(playThemePool("endless", id, defaultSave())).toEqual(unlockedAnimals(defaultSave()));
+      expect(playThemePool("duel", id, defaultSave())).toEqual(animalsPack);
+    }
+  });
+
+  it("limite toutes les cibles et tous les leurres de l'Infini au thème autorisé", () => {
+    const ocean = getWorld("ocean")!.characters;
+    const save = { collection: Object.fromEntries([...animalsPack.filter((animal) => ["renard", "ours", "singe", "giraffe", "zebre", "elephant"].includes(animal.name)), ...ocean.slice(0, 3)].map((animal) => [animal.name, 1])) };
+    for (const theme of PLAY_THEMES) {
+      const pool = playThemePool("endless", theme.id, save);
+      expect(pool.every((animal) => isAnimalUnlocked(save, animal.name))).toBe(true);
+      const ids = new Set(pool.map((animal) => animal.name));
+      for (const index of [1, 3, 6, 11, 19, 40, 100, 4000]) {
+        const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool });
+        expect(ids.has(spec.wanted.name)).toBe(true);
+        expect(spec.decoys.every((animal) => ids.has(animal.name))).toBe(true);
+      }
+    }
+    const farm = playThemePool("endless", "ferme", save);
+    expect(farm.every((animal) => animal.tags?.includes("ferme"))).toBe(true);
+    expect(farm.some((animal) => animal.name === "vache-highland")).toBe(false);
+  });
+
+  it("conserve le même thème en Duel, de la première manche aux suivantes", () => {
+    for (const id of ["ferme", "foret", "savane", "ocean"] as const) {
+      const pool = playThemePool("duel", id, defaultSave());
+      const ids = new Set(pool.map((animal) => animal.name));
+      let previous: string | undefined;
+      for (let number = 1; number <= 15; number++) {
+        const round = generateRound(42, number, previous, pool);
+        expect(ids.has(round.spec.wanted.name)).toBe(true);
+        expect(round.cells.every((animal) => ids.has(animal.name))).toBe(true);
+        expect(round.spec.wanted.name).not.toBe(previous);
+        previous = round.spec.wanted.name;
+      }
+    }
+  });
+
+  it("n'applique les thèmes choisis ni à l'Aventure ni au Défi du jour", () => {
+    const save = defaultSave();
+    expect(characterPoolFor("daily", 1, save, "ferme")).toEqual(getWorld("animaux")!.characters);
+    expect(characterPoolFor("adventure", 21, save, "savane")).toEqual(getWorld("ocean")!.characters);
+    expect(characterPoolFor("endless", 1, save, "ferme")).toEqual(playThemePool("endless", "ferme", save));
+  });
+});
