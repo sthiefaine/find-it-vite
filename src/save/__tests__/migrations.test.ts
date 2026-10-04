@@ -3,7 +3,7 @@ import { isFutureVersion, migrate } from "../migrations";
 import { defaultSave, SAVE_VERSION } from "../schema";
 
 // Champs ajoutés par la v4, tels qu'une migration les crée
-const V4_EXTRA = { adventure: { stars: {} }, collection: {}, daily: null };
+const V4_EXTRA = { adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
 const v4Settings = (sound: boolean) => ({ sound, calm: false, frame: "classic" });
 
 describe("migrate", () => {
@@ -22,7 +22,7 @@ describe("migrate", () => {
     const expected = {
       ...v1,
       ...V4_EXTRA,
-      version: 5,
+      version: SAVE_VERSION,
       settings: v4Settings(false),
       profile: { tier: "normal" },
       seenMechanics: [],
@@ -53,7 +53,7 @@ describe("migrate", () => {
     const expected = {
       ...v2,
       ...V4_EXTRA,
-      version: 5,
+      version: SAVE_VERSION,
       settings: v4Settings(false),
       profile: { tier: "normal" },
       seenMechanics: [],
@@ -103,7 +103,8 @@ describe("migrate", () => {
     it("un profil pas encore choisi (null) devient Normal, le reste est gardé", () => {
       expect(migrate(JSON.stringify({ ...v4, profile: { tier: null } }))).toEqual({
         ...v4,
-        version: 5,
+        version: SAVE_VERSION,
+        adventure: { stars: { "ocean:2": 3 }, unlocked: [] },
         profile: { tier: "normal" },
       });
     });
@@ -159,7 +160,7 @@ describe("migrate", () => {
     expect(migrate(JSON.stringify(v3))).toEqual({
       ...v3,
       ...V4_EXTRA,
-      version: 5,
+      version: SAVE_VERSION,
       settings: v4Settings(false),
     });
   });
@@ -168,7 +169,7 @@ describe("migrate", () => {
     const save = {
       ...defaultSave(),
       settings: { sound: true, calm: true, frame: "gold" },
-      adventure: { stars: { "ocean:3": 2, "animaux:1": 3 } },
+      adventure: { stars: { "ocean:3": 2, "animaux:1": 3 }, unlocked: ["ocean"] },
       collection: { chat: 4, "ocean-requin": 1 },
       daily: { date: "2026-10-03", best: 12, played: 3 },
     };
@@ -186,12 +187,41 @@ describe("migrate", () => {
     expect(messy.collection).toEqual({ chat: 2 });
     expect(messy.daily).toBeNull();
     for (const adventure of [null, "x", { stars: [1, 2] }]) {
-      expect(migrate({ ...defaultSave(), adventure }).adventure).toEqual({ stars: {} });
+      expect(migrate({ ...defaultSave(), adventure }).adventure).toEqual({ stars: {}, unlocked: [] });
     }
     expect(migrate({ ...defaultSave(), daily: { date: "2026-01-02", best: -4 } }).daily).toEqual({
       date: "2026-01-02",
       best: 0,
       played: 0,
+    });
+  });
+
+  describe("v5 → v6 (Aventure continue)", () => {
+    const v5 = (stars: Record<string, number>) => ({ ...defaultSave(), version: 5, adventure: { stars } });
+    const animals = (n: number, value = 3) =>
+      Object.fromEntries(Array.from({ length: n }, (_, i) => [`animaux:${i + 1}`, value]));
+
+    it("garde ouverts les mondes déjà débloqués par le total d'étoiles", () => {
+      expect(migrate(v5({})).adventure.unlocked).toEqual([]);
+      expect(migrate(v5(animals(3))).adventure.unlocked).toEqual([]); // 9★
+      expect(migrate(v5(animals(4))).adventure.unlocked).toEqual(["ocean"]); // 12★
+      expect(migrate(v5({ ...animals(10), "ocean:1": 3 })).adventure.unlocked).toEqual(["ocean", "dinos"]); // 33★
+      expect(migrate(v5({ ...animals(10), "ocean:1": 3, "ocean:2": 3 })).adventure.unlocked).toEqual([
+        "ocean",
+        "dinos",
+        "halloween",
+      ]); // 36★
+    });
+
+    it("les étoiles ne bougent pas", () => {
+      const stars = { ...animals(5, 2), "ocean:1": 1 };
+      expect(migrate(JSON.stringify(v5(stars))).adventure.stars).toEqual(stars);
+    });
+
+    it("une liste abîmée est nettoyée", () => {
+      const raw = { ...defaultSave(), adventure: { stars: {}, unlocked: ["ocean", "lune", 3, "ocean"] } };
+      expect(migrate(raw).adventure.unlocked).toEqual(["ocean"]);
+      expect(migrate({ ...defaultSave(), adventure: { stars: {}, unlocked: "ocean" } }).adventure.unlocked).toEqual([]);
     });
   });
 });

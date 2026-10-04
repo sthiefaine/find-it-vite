@@ -4,16 +4,16 @@ import { useShallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
 import NumberFlow from "@number-flow/react";
 import {
-  ArrowRight,
   CircleCheck,
   CircleX,
+  Compass,
   Flag,
   House,
   Map as MapIcon,
   RefreshCw,
   Share2,
+  Sparkles,
   Star,
-  Timer as TimerIcon,
   Trophy,
   Zap,
 } from "lucide-react";
@@ -22,25 +22,20 @@ import {
   playClickSound,
   playFinishSound,
   playNewHihScoreSound,
-  playPunchLootSound,
 } from "../../helpers/sounds";
 import {
+  adventureRunMessage,
   formatSeconds,
   frenchSpacing,
   resultsTitle,
-  retryMessage,
   scoreMessage,
 } from "./resultsHelpers";
-import { useSaveStore } from "../../save/saveStore";
-import { dailyShareText, MISSION_GOAL, nextUnlockedMissionUrl } from "../../game/modes";
-import { getWorld } from "../../content/worlds";
+import { dailyShareText } from "../../game/modes";
 import "./Results.css";
 
 // Apparition des blocs les uns après les autres
 const STEP_S = 0.3;
 const RECORD_STEP = 2;
-const STAR_FIRST_MS = 900;
-const STAR_GAP_MS = 550;
 
 const list: Variants = {
   hidden: {},
@@ -100,9 +95,6 @@ export default function Results() {
     stats,
     wantedCharacter,
     wantedFound,
-    timeLeft,
-    missionFound,
-    worldId,
     setGameState,
     setSoundSrc,
   } = useGameStore(
@@ -112,25 +104,20 @@ export default function Results() {
       stats: state.stats,
       wantedCharacter: state.wantedCharacter,
       wantedFound: state.wantedFound,
-      timeLeft: state.timeLeft,
-      missionFound: state.missionFound,
-      worldId: state.worldId,
       setGameState: state.setGameState,
       setSoundSrc: state.setSoundSrc,
     }))
   );
   const [shownScore, setShownScore] = useState(0);
-  const [litStars, setLitStars] = useState(0);
   const [copied, setCopied] = useState(false);
-  const adventureSave = useSaveStore((s) => s.save.adventure);
 
   const mode = gameRecord?.mode ?? "endless";
   const score = gameRecord?.score ?? 0;
   const isNewRecord = gameRecord?.isNewRecord ?? false;
   const won = gameRecord?.won ?? false;
-  const stars = gameRecord?.stars ?? 0;
+  const run = gameRecord?.adventure ?? null;
+  const shownValue = mode === "adventure" ? (run?.starsEarned ?? 0) : score;
   const escaped =
-    mode !== "adventure" &&
     gameState === GameStateEnum.FINISH &&
     !wantedFound &&
     wantedCharacter;
@@ -139,26 +126,15 @@ export default function Results() {
   useEffect(() => {
     if (!gameRecord) return;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    timers.push(setTimeout(() => setShownScore(score), 450));
-    if (gameRecord.mode === "adventure" && gameRecord.won) {
-      // les étoiles s'allument une à une
-      for (let i = 1; i <= gameRecord.stars; i++)
-        timers.push(
-          setTimeout(() => {
-            setLitStars(i);
-            setSoundSrc(playPunchLootSound);
-          }, STAR_FIRST_MS + (i - 1) * STAR_GAP_MS)
-        );
-    } else {
-      timers.push(
-        setTimeout(
-          () => setSoundSrc(isNewRecord ? playNewHihScoreSound : playFinishSound),
-          (0.1 + STEP_S * RECORD_STEP) * 1000
-        )
-      );
-    }
+    timers.push(setTimeout(() => setShownScore(shownValue), 450));
+    timers.push(
+      setTimeout(
+        () => setSoundSrc(isNewRecord ? playNewHihScoreSound : playFinishSound),
+        (0.1 + STEP_S * RECORD_STEP) * 1000
+      )
+    );
     return () => timers.forEach(clearTimeout);
-  }, [gameRecord, score, isNewRecord, setSoundSrc]);
+  }, [gameRecord, shownValue, isNewRecord, setSoundSrc]);
 
   if (!gameRecord) return null;
 
@@ -192,23 +168,10 @@ export default function Results() {
     }
   };
 
-  const world = worldId ? getWorld(worldId) : undefined;
-  // « Niveau suivant » seulement s'il est débloqué ; sinon la Carte est mise en avant
-  const nextUrl =
-    mode === "adventure" && won && worldId
-      ? nextUnlockedMissionUrl({ adventure: adventureSave }, worldId, gameRecord.level)
-      : null;
-  const mapFirst = mode === "adventure" && won && !nextUrl;
-
   const title = () => resultsTitle(mode, { won, score, dailyLabel: dailyLabel(gameRecord) });
 
   const message = () => {
-    if (mode === "adventure") {
-      const name = world ? `${world.emoji} ${world.name} ${gameRecord.level}` : "";
-      return frenchSpacing(
-        won ? `Mission réussie · ${name}` : retryMessage(missionFound, MISSION_GOAL)
-      );
-    }
+    if (mode === "adventure" && run) return adventureRunMessage(run);
     return frenchSpacing(scoreMessage(score));
   };
 
@@ -248,47 +211,34 @@ export default function Results() {
           <p className="results-message">{message()}</p>
         </motion.div>
 
-        {mode === "adventure" ? (
+        {mode === "adventure" && run ? (
           <>
-            {won && (
-              <motion.div
-                className="results-stars"
-                variants={item}
-                aria-label={`${stars} étoile${stars > 1 ? "s" : ""} sur 3`}
-              >
-                {[1, 2, 3].map((i) => (
-                  <motion.span
-                    key={i}
-                    className={`results-star ${i <= litStars ? "results-star-lit" : ""}`}
-                    animate={i <= litStars ? { scale: [0.4, 1.35, 1], rotate: [-25, 10, 0] } : {}}
-                    transition={{ duration: 0.45 }}
-                  >
-                    <Star
-                      size={i === 2 ? 58 : 46}
-                      fill={i <= litStars ? "currentColor" : "none"}
-                      strokeWidth={i <= litStars ? 1.5 : 2.5}
-                    />
-                  </motion.span>
-                ))}
-              </motion.div>
-            )}
-            <motion.ul className="results-stats results-stats-3" variants={item}>
+            <motion.div className="results-score" variants={item} aria-label={`${run.starsEarned} étoiles gagnées`}>
+              <Star className="results-score-star" size={34} fill="currentColor" />
+              <span className="results-score-value">
+                <NumberFlow value={shownScore} />
+              </span>
+            </motion.div>
+            <motion.ul className="results-stats" variants={item}>
+              <li className="stat-level">
+                <Flag size={22} />
+                <strong>{run.stepsCleared}</strong>
+                <span>{run.stepsCleared > 1 ? "étapes" : "étape"}</span>
+              </li>
               <li className="stat-found">
                 <CircleCheck size={22} />
-                <strong>
-                  {missionFound}/{MISSION_GOAL}
-                </strong>
-                <span>avis</span>
+                <strong>{stats.found}</strong>
+                <span>trouvés</span>
               </li>
-              <li className="stat-miss">
-                <CircleX size={22} />
-                <strong>{stats.misses}</strong>
-                <span>erreurs</span>
+              <li className="stat-world">
+                <Compass size={22} />
+                <strong>{run.discoveredWorlds.length}</strong>
+                <span>{run.discoveredWorlds.length > 1 ? "mondes" : "monde"}</span>
               </li>
-              <li className="stat-fast">
-                <TimerIcon size={22} />
-                <strong>{won ? `${timeLeft} s` : formatSeconds(stats.fastestFoundMs)}</strong>
-                <span>{won ? "restantes" : "plus rapide"}</span>
+              <li className="stat-new">
+                <Sparkles size={22} />
+                <strong>{gameRecord.newCharacters.length}</strong>
+                <span>nouveaux</span>
               </li>
             </motion.ul>
           </>
@@ -348,13 +298,13 @@ export default function Results() {
           </>
         )}
 
-        {mode === "adventure" && won && gameRecord.newCharacters.length > 0 && (
+        {mode === "adventure" && gameRecord.newCharacters.length > 0 && (
           <motion.div
             className="results-new"
             initial={{ opacity: 0, scale: 0.6, rotate: -6 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{
-              delay: (STAR_FIRST_MS + stars * STAR_GAP_MS) / 1000,
+              delay: 1.2,
               type: "spring",
               stiffness: 300,
               damping: 14,
@@ -397,38 +347,16 @@ export default function Results() {
               <Share2 size={26} /> {copied ? frenchSpacing("Copié !") : "Partager"}
             </motion.button>
           )}
-          {mapFirst && (
-            <motion.button
-              className="results-btn results-btn-replay"
-              onClick={() => goTo("/adventure")}
-              whileTap={{ scale: 0.94 }}
-              autoFocus
-            >
-              <MapIcon size={28} /> Carte
-            </motion.button>
-          )}
-          {nextUrl && (
-            <motion.button
-              className="results-btn results-btn-replay"
-              onClick={() => goTo(nextUrl)}
-              whileTap={{ scale: 0.94 }}
-              autoFocus
-            >
-              Niveau suivant <ArrowRight size={28} />
-            </motion.button>
-          )}
           <motion.button
-            className={`results-btn ${
-              mode === "daily" || nextUrl || mapFirst ? "results-btn-second" : "results-btn-replay"
-            }`}
+            className={`results-btn ${mode === "daily" ? "results-btn-second" : "results-btn-replay"}`}
             onClick={handleReplay}
             whileTap={{ scale: 0.94 }}
-            autoFocus={mode !== "daily" && !nextUrl && !mapFirst}
+            autoFocus={mode !== "daily"}
           >
-            <RefreshCw size={nextUrl || mapFirst || mode === "daily" ? 22 : 28} /> Rejouer
+            <RefreshCw size={mode === "daily" ? 22 : 28} /> Rejouer
           </motion.button>
           <div className="results-row">
-            {mode !== "daily" && !mapFirst && (
+            {mode !== "daily" && (
               <motion.button
                 className="results-btn results-btn-home results-btn-map"
                 onClick={() => goTo("/adventure")}
@@ -437,15 +365,13 @@ export default function Results() {
                 <MapIcon size={22} /> Carte
               </motion.button>
             )}
-            {mode !== "adventure" && (
-              <motion.button
-                className="results-btn results-btn-home"
-                onClick={() => goTo("/")}
-                whileTap={{ scale: 0.94 }}
-              >
-                <House size={22} /> Accueil
-              </motion.button>
-            )}
+            <motion.button
+              className="results-btn results-btn-home"
+              onClick={() => goTo("/")}
+              whileTap={{ scale: 0.94 }}
+            >
+              <House size={22} /> Accueil
+            </motion.button>
           </div>
         </motion.div>
       </motion.div>

@@ -4,7 +4,7 @@
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
 
-export const SAVE_VERSION = 5 as const;
+export const SAVE_VERSION = 6 as const;
 export const SAVE_KEY = "find-it:save";
 
 export type SaveSettings = {
@@ -79,22 +79,33 @@ export type SaveV5 = Omit<SaveV4, "version" | "profile"> & {
   profile: SaveProfileV5;
 };
 
+// v6 : Aventure en partie continue. Un monde s'ouvre quand l'étape 10 du précédent
+// est franchie ; ceux déjà ouverts par l'ancienne règle (total d'étoiles) sont gardés ici.
+export type SaveAdventureV6 = SaveAdventure & { unlocked?: string[] };
+
+export type SaveV6 = Omit<SaveV5, "version" | "adventure"> & {
+  version: 6;
+  adventure: SaveAdventureV6;
+};
+
+export const ADVENTURE_WORLD_IDS: readonly string[] = ["animaux", "ocean", "dinos", "halloween", "espace"];
+
 export const TIERS: readonly Tier[] = ["easy", "normal", "expert"];
 export const PLAYER_TIERS: readonly PlayerTier[] = ["easy", "normal"];
 export const DEFAULT_TIER: PlayerTier = "normal";
 export const FRAME_IDS: readonly FrameId[] = ["classic", "neon", "gold", "ice"];
 
 // Format courant
-export type Save = SaveV5;
+export type Save = SaveV6;
 
-export function defaultSave(): SaveV5 {
+export function defaultSave(): SaveV6 {
   return {
     version: SAVE_VERSION,
     settings: { sound: true, calm: false, frame: "classic" },
     progress: { bestScore: 0, bestLevel: 1, gamesPlayed: 0, totalFound: 0 },
     profile: { tier: DEFAULT_TIER },
     seenMechanics: [],
-    adventure: { stars: {} },
+    adventure: { stars: {}, unlocked: [] },
     collection: {},
     daily: null,
   };

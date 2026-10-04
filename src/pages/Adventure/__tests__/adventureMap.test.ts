@@ -1,38 +1,40 @@
 import { describe, expect, it } from "vitest";
-import { levelUrl, nextLevel, nodeX, starsMissing, worldStars } from "../adventureMap";
+import { levelUrl, nextLevel, nodeX, unlockHint, worldStars } from "../adventureMap";
 import { LEVELS_PER_WORLD, WORLDS } from "../../../content/worlds";
 
-const save = (stars: Record<string, number>) => ({ adventure: { stars } });
+const save = (stars: Record<string, number>, unlocked: string[] = []) => ({ adventure: { stars, unlocked } });
 
-describe("nextLevel", () => {
-  it("commence au niveau 1 du premier monde", () => {
+describe("nextLevel (Continuer l'aventure)", () => {
+  it("commence à l'étape 1 du premier monde", () => {
     expect(nextLevel(save({}))).toEqual({ worldId: "animaux", level: 1 });
   });
 
-  it("propose le premier niveau débloqué sans étoile", () => {
+  it("repart de l'étape la plus avancée atteinte", () => {
     expect(nextLevel(save({ "animaux:1": 3, "animaux:2": 1 }))).toEqual({ worldId: "animaux", level: 3 });
   });
 
-  it("passe au monde suivant quand il s'ouvre", () => {
+  it("passe au monde suivant une fois l'étape 10 franchie, quelles que soient les étoiles", () => {
     const stars: Record<string, number> = {};
-    for (let l = 1; l <= LEVELS_PER_WORLD; l++) stars[`animaux:${l}`] = 2;
+    for (let l = 1; l <= LEVELS_PER_WORLD; l++) stars[`animaux:${l}`] = 1;
     expect(nextLevel(save(stars))).toEqual({ worldId: WORLDS[1].id, level: 1 });
   });
 
-  it("garde le dernier niveau si le monde suivant est fermé", () => {
+  it("tout fini : la dernière étape de l'Espace (puis le Grand Mélange en jeu)", () => {
     const stars: Record<string, number> = {};
-    for (let l = 1; l <= LEVELS_PER_WORLD; l++) stars[`animaux:${l}`] = 1;
-    // 10★ : le monde 2 demande plus
-    expect(WORLDS[1].unlockStars).toBeGreaterThan(10);
-    expect(nextLevel(save(stars))).toEqual({ worldId: "animaux", level: LEVELS_PER_WORLD });
+    for (const w of WORLDS) for (let l = 1; l <= LEVELS_PER_WORLD; l++) stars[`${w.id}:${l}`] = 2;
+    expect(nextLevel(save(stars))).toEqual({ worldId: "espace", level: LEVELS_PER_WORLD });
+  });
+
+  it("monde gardé ouvert par l'ancienne règle", () => {
+    expect(nextLevel(save({ "animaux:1": 3 }, ["ocean"]))).toEqual({ worldId: "ocean", level: 1 });
   });
 });
 
 describe("autres calculs", () => {
-  it("étoiles manquantes et étoiles d'un monde", () => {
+  it("indice d'un monde fermé et étoiles d'un monde", () => {
     const s = save({ "animaux:1": 3, "animaux:2": 2 });
-    expect(starsMissing(s, WORLDS[0])).toBe(0);
-    expect(starsMissing(s, WORLDS[1])).toBe(WORLDS[1].unlockStars - 5);
+    expect(unlockHint(WORLDS[1])).toBe("Finis 🦁 Animaux 10");
+    expect(unlockHint(WORLDS[0])).toBe("");
     expect(worldStars(s, WORLDS[0])).toBe(5);
   });
 

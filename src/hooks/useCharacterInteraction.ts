@@ -67,8 +67,9 @@ export const useCharacterInteraction = () => {
     }
 
     // État lu à l'instant du toucher : deux touchers rapprochés ne comptent qu'une fois
-    const { foundIds, isDiscovery, bonusDone } = useGameStore.getState();
-    if (bonusDone) return;
+    const { foundIds, isDiscovery, bonusDone, worldBanner } = useGameStore.getState();
+    // bandeau de nouveau monde : chrono en pause, donc pas de toucher non plus
+    if (bonusDone || worldBanner) return;
     const result = resolveTap(spec, foundIds, character, { isDiscovery });
     if (result.kind === "ignored") return;
 

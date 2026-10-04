@@ -101,3 +101,79 @@ describe("goldRush en pause", () => {
     vi.useRealTimers();
   });
 });
+
+describe("Aventure continue", () => {
+  const startAdventure = (worldId: "animaux" | "ocean", level: number) => {
+    useGameStore.getState().startRun({ mode: "adventure", worldId, adventureLevel: level, runSeed: 1, tier: "normal", level: 1 });
+    useGameStore.setState({ gameState: GameStateEnum.PLAYING });
+  };
+  // Un avis trouvé (niveau fini) puis, après l'animation, le niveau suivant
+  const findAvis = (playMs = 1000) => {
+    const s = useGameStore.getState();
+    s.addPlayTime(playMs);
+    s.setCurrentSpec({ ...spec, seed: s.level * 1000 + s.adventureStep });
+    s.recordTargetFound(1, true);
+    s.advanceLevel();
+  };
+
+  it("5 avis = 1 étape : étoiles enregistrées tout de suite, bandeau, sans fin de partie", () => {
+    startAdventure("animaux", 1);
+    for (let i = 0; i < 4; i++) findAvis(2000);
+    expect(useGameStore.getState().missionFound).toBe(4);
+    expect(useGameStore.getState().stepToast).toBeNull();
+    const s = useGameStore.getState();
+    s.addPlayTime(2000);
+    s.setCurrentSpec({ ...spec, seed: 99 });
+    s.recordTargetFound(1, true);
+    expect(useSaveStore.getState().save.adventure.stars["animaux:1"]).toBe(3); // 10 s
+    expect(useGameStore.getState().stepToast).toMatchObject({ level: 1, stars: 3 });
+    useGameStore.getState().advanceLevel();
+    const after = useGameStore.getState();
+    expect(after.gameState).toBe(GameStateEnum.PLAYING);
+    expect(after).toMatchObject({ adventureStep: 2, adventureLevel: 2, missionFound: 0, stepPlayMs: 0 });
+  });
+
+  it("étoiles selon le temps, et on garde le meilleur résultat", () => {
+    useSaveStore.getState().recordStars("animaux", 1, 3);
+    startAdventure("animaux", 1);
+    for (let i = 0; i < 5; i++) findAvis(10_000); // 50 s
+    expect(useGameStore.getState().runSteps).toEqual([{ step: 1, worldId: "animaux", level: 1, stars: 1 }]);
+    expect(useSaveStore.getState().save.adventure.stars["animaux:1"]).toBe(3);
+  });
+
+  it("après l'étape 10, passe au monde suivant avec un bandeau, et l'océan est ouvert", () => {
+    startAdventure("animaux", 10);
+    for (let i = 0; i < 5; i++) findAvis(5000); // 25 s
+    const s = useGameStore.getState();
+    expect(s).toMatchObject({ adventureStep: 11, worldId: "ocean", adventureLevel: 1 });
+    expect(s.worldBanner).toMatchObject({ phase: "ocean" });
+    expect(s.runPhases).toEqual(["animaux", "ocean"]);
+    expect(useSaveStore.getState().save.adventure.stars["animaux:10"]).toBe(3);
+    s.hideWorldBanner();
+    expect(useGameStore.getState().worldBanner).toBeNull();
+
+    useGameStore.setState({ gameState: GameStateEnum.FINISH });
+    useGameStore.getState().submitGameResult();
+    expect(useGameStore.getState().gameRecord?.adventure).toMatchObject({
+      startStep: 10,
+      endStep: 11,
+      stepsCleared: 1,
+      starsEarned: 3,
+      discoveredWorlds: ["ocean"],
+    });
+  });
+
+  it("mode calme : appliqué à l'Aventure, pas au Défi", () => {
+    useGameStore.getState().startRun({ mode: "adventure", worldId: "animaux", adventureLevel: 1, calm: true, runSeed: 1, tier: "normal", level: 1 });
+    expect(useGameStore.getState().calm).toBe(true);
+    useGameStore.getState().startRun({ mode: "daily", calm: true, runSeed: 1, tier: "normal", level: 1 });
+    expect(useGameStore.getState().calm).toBe(false);
+  });
+
+  it("chrono plafonné à 60 s en Aventure", () => {
+    startAdventure("ocean", 1);
+    useGameStore.setState({ timeLeft: 58 });
+    useGameStore.getState().setTimeLeft(5);
+    expect(useGameStore.getState().timeLeft).toBe(60);
+  });
+});

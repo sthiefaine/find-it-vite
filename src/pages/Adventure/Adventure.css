@@ -188,3 +188,65 @@
 @media (prefers-reduced-motion: reduce) {
   .adv-node-current .adv-node-disc { animation: none; }
 }
+
+/* « Continuer l'aventure » : toujours visible en bas de la carte */
+.adv-continue-bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(180deg, rgba(28, 8, 64, 0) 0%, rgba(28, 8, 64, 0.85) 45%);
+  pointer-events: none;
+}
+
+.adv-continue {
+  pointer-events: auto;
+  width: 100%;
+  max-width: 420px;
+  min-height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 18px;
+  border: 3px solid #fff;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #4fdc6b 0%, #22a845 100%);
+  box-shadow: 0 6px 0 #157a2f, 0 10px 18px rgba(0, 0, 0, 0.35);
+  color: #fff;
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+.adv-continue:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #157a2f, 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.adv-continue:focus-visible {
+  outline: 3px solid #ffc800;
+  outline-offset: 3px;
+}
+
+.adv-continue-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.1;
+  min-width: 0;
+}
+
+.adv-continue-text strong {
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.adv-continue-text small {
+  font-size: 15px;
+  font-weight: 800;
+  opacity: 0.95;
+}

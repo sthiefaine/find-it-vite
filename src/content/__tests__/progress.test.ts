@@ -28,23 +28,36 @@ describe("progress", () => {
     expect(starsFor(save, "ocean", 2)).toBe(0);
   });
 
-  it("isWorldUnlocked suit unlockStars", () => {
+  it("isWorldUnlocked : premier monde ouvert, puis étape 10 du monde précédent franchie", () => {
     const ocean = getWorld("ocean")!;
+    const dinos = getWorld("dinos")!;
     expect(isWorldUnlocked(defaultSave(), WORLDS[0])).toBe(true);
     expect(isWorldUnlocked(defaultSave(), ocean)).toBe(false);
-    expect(isWorldUnlocked(animals3(3), ocean)).toBe(false); // 9★
-    expect(isWorldUnlocked(animals3(4), ocean)).toBe(true); // 12★
-    expect(isWorldUnlocked(animals3(4), getWorld("dinos")!)).toBe(false);
+    // beaucoup d'étoiles ne suffisent plus
+    expect(isWorldUnlocked(animals3(9), ocean)).toBe(false);
+    expect(isWorldUnlocked(withStars({ "animaux:10": 1 }), ocean)).toBe(true);
+    expect(isWorldUnlocked(withStars({ "animaux:10": 0 }), ocean)).toBe(false);
+    expect(isWorldUnlocked(withStars({ "animaux:10": 3 }), dinos)).toBe(false);
+    expect(isWorldUnlocked(withStars({ "ocean:10": 1 }), dinos)).toBe(true);
   });
 
-  it("isLevelUnlocked : niveau 1 d'un monde ouvert, ou précédent à 1★", () => {
+  it("isWorldUnlocked : les mondes ouverts avec l'ancienne règle le restent", () => {
+    const save: Save = { ...defaultSave(), adventure: { stars: {}, unlocked: ["ocean", "dinos"] } };
+    expect(isWorldUnlocked(save, getWorld("ocean")!)).toBe(true);
+    expect(isWorldUnlocked(save, getWorld("dinos")!)).toBe(true);
+    expect(isWorldUnlocked(save, getWorld("halloween")!)).toBe(false);
+    expect(isLevelUnlocked(save, "dinos", 1)).toBe(true);
+    expect(isLevelUnlocked(save, "dinos", 2)).toBe(false);
+  });
+
+  it("isLevelUnlocked : étape 1 d'un monde ouvert, ou précédente à 1★", () => {
     const save = withStars({ "animaux:1": 1, "animaux:2": 0 });
     expect(isLevelUnlocked(defaultSave(), "animaux", 1)).toBe(true);
     expect(isLevelUnlocked(defaultSave(), "animaux", 2)).toBe(false);
     expect(isLevelUnlocked(save, "animaux", 2)).toBe(true);
-    expect(isLevelUnlocked(save, "animaux", 3)).toBe(false); // niveau 2 joué à 0★
+    expect(isLevelUnlocked(save, "animaux", 3)).toBe(false); // étape 2 jouée à 0★
     expect(isLevelUnlocked(save, "ocean", 1)).toBe(false);
-    expect(isLevelUnlocked(animals3(4), "ocean", 1)).toBe(true);
+    expect(isLevelUnlocked(withStars({ "animaux:10": 2 }), "ocean", 1)).toBe(true);
     for (const level of [0, 11, 1.5]) expect(isLevelUnlocked(save, "animaux", level)).toBe(false);
     expect(isLevelUnlocked(save, "inconnu", 1)).toBe(false);
   });

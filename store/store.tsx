@@ -4,10 +4,13 @@ import { useSaveStore } from "../src/save/saveStore";
 import type { LevelSpec, Tier } from "../src/engine/types";
 import { mechanicsOf } from "../src/engine/rules";
 import { bonusRemainingMs, newMechanics, resumeBonusAt } from "../src/game/session";
-import { advanceMission, MISSION_GOAL, missionStars, nextTime } from "../src/game/modes";
+import { advanceMission, MISSION_GOAL, nextTime } from "../src/game/modes";
 import type { GameMode } from "../src/game/modes";
+import { getWorld, WORLDS } from "../src/content/worlds";
 import type { WorldId } from "../src/content/worlds";
-import { todayISO } from "../src/content/progress";
+import { isWorldUnlocked, todayISO } from "../src/content/progress";
+import { entersNewPhase, globalStep, runSummary, stepInfo, stepStars } from "../src/game/adventureRun";
+import type { PhaseId, StepResult } from "../src/game/adventureRun";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -49,12 +52,27 @@ export type GameRecord = {
   isNewRecord: boolean;
   bestScore: number;
   calm: boolean; // Infini sans chrono : pas de record
-  won: boolean; // Aventure : mission réussie
-  stars: number; // Aventure : 0 à 3
+  won: boolean; // Aventure : au moins une étape franchie
+  stars: number; // Aventure : étoiles gagnées pendant la partie
+  adventure: AdventureRunRecord | null;
   newCharacters: CharacterDetails[]; // persos attrapés pour la 1re fois
   dailyDate: string | null;
   dailyBest: number;
 };
+
+// Bilan d'une partie d'Aventure (continue)
+export type AdventureRunRecord = {
+  startStep: number;
+  endStep: number; // étape en cours à l'arrêt
+  steps: StepResult[]; // étapes franchies, dans l'ordre
+  stepsCleared: number;
+  starsEarned: number;
+  phases: PhaseId[]; // mondes parcourus, dans l'ordre
+  discoveredWorlds: WorldId[]; // mondes ouverts pendant la partie
+};
+
+export type StepToast = { key: number; level: number; stars: number };
+export type WorldBanner = { key: number; phase: PhaseId };
 
 export type RunConfig = {
   runSeed: number;
@@ -70,9 +88,17 @@ export type RunConfig = {
 type GameState = {
   mode: GameMode;
   worldId: WorldId | null; // Aventure
-  adventureLevel: number; // Aventure : niveau du monde (1 à 10)
-  missionFound: number; // Aventure : avis trouvés (0 à 5)
-  calm: boolean; // Infini sans chrono
+  adventureLevel: number; // Aventure : étape dans le monde (1 à 10)
+  adventureStep: number; // Aventure : étape globale (1 = animaux 1, 51+ = Grand Mélange)
+  startStep: number; // Aventure : étape de départ de la partie
+  missionFound: number; // Aventure : avis trouvés dans l'étape en cours (0 à 5)
+  stepPlayMs: number; // Aventure : temps de jeu réel de l'étape en cours (hors pauses)
+  runSteps: StepResult[]; // Aventure : étapes franchies pendant la partie
+  runPhases: PhaseId[]; // Aventure : mondes parcourus
+  lockedAtStart: WorldId[]; // Aventure : mondes fermés au départ de la partie
+  stepToast: StepToast | null; // bandeau « Étape 3 ★★☆ »
+  worldBanner: WorldBanner | null; // bandeau « Bienvenue… » : chrono en pause
+  calm: boolean; // pas de chrono (Infini et Aventure)
   dailyDate: string | null;
   newCharacters: CharacterDetails[];
   runSeed: number; // graine de la partie : avec level et tier, fixe tout le niveau
@@ -103,6 +129,9 @@ type GameState = {
 
 export type GameActions = {
   startRun: (run: RunConfig) => void;
+  // Aventure : temps de jeu réel (chrono en marche, ou qui le serait en mode calme)
+  addPlayTime: (ms: number) => void;
+  hideWorldBanner: () => void;
   // Niveau terminé, après l'animation : niveau suivant ou fin de mission
   advanceLevel: () => void;
   setCurrentSpec: (spec: LevelSpec) => void;
@@ -136,7 +165,15 @@ export const defaultInitState: GameState = {
   mode: "endless",
   worldId: null,
   adventureLevel: 1,
+  adventureStep: 1,
+  startStep: 1,
   missionFound: 0,
+  stepPlayMs: 0,
+  runSteps: [],
+  runPhases: [],
+  lockedAtStart: [],
+  stepToast: null,
+  worldBanner: null,
   calm: false,
   dailyDate: null,
   newCharacters: [],
@@ -191,7 +228,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     set({ sound: data });
     useSaveStore.getState().setSound(data);
   },
-  startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null }) =>
+  startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null }) => {
+    const step = mode === "adventure" && worldId ? globalStep(worldId, adventureLevel) : 1;
+    const save = useSaveStore.getState().save;
     set({
       runSeed,
       tier,
@@ -200,16 +239,48 @@ export const useGameStore = create<GameStore>((set, get) => ({
       mode,
       worldId,
       adventureLevel,
-      calm: mode === "endless" && calm,
+      adventureStep: step,
+      startStep: step,
+      // mode calme : Infini et Aventure ; le Défi du jour garde son chrono
+      calm: mode !== "daily" && calm,
       dailyDate,
       missionFound: 0,
+      stepPlayMs: 0,
+      runSteps: [],
+      runPhases: mode === "adventure" ? [stepInfo(step).phase] : [],
+      lockedAtStart: WORLDS.filter((w) => !isWorldUnlocked(save, w)).map((w) => w.id),
+      stepToast: null,
+      worldBanner: null,
       newCharacters: [],
-    }),
+    });
+  },
+  addPlayTime: (ms) => {
+    if (get().mode !== "adventure" || !(ms > 0)) return;
+    set({ stepPlayMs: get().stepPlayMs + ms });
+  },
+  hideWorldBanner: () => {
+    if (get().worldBanner) set({ worldBanner: null });
+  },
   advanceLevel: () => {
-    const { mode, missionFound, gameState, level } = get();
+    const { mode, missionFound, gameState, level, adventureStep, runPhases } = get();
     if (gameState !== GameStateEnum.PLAYING) return;
     if (mode === "adventure" && missionFound >= MISSION_GOAL) {
-      set({ gameState: GameStateEnum.FINISH });
+      // étape franchie : la suivante, sans écran intermédiaire (monde suivant après la 10)
+      const next = stepInfo(adventureStep + 1);
+      const newPhase = entersNewPhase(adventureStep);
+      set({
+        adventureStep: next.step,
+        worldId: next.worldId,
+        adventureLevel: next.level,
+        missionFound: 0,
+        stepPlayMs: 0,
+        level: level + 1,
+        ...(newPhase && {
+          worldBanner: { key: next.step, phase: next.phase },
+          stepToast: null,
+          runPhases: [...runPhases, next.phase],
+        }),
+      });
       return;
     }
     set({ level: level + 1 });
@@ -306,8 +377,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (gameState !== GameStateEnum.PLAYING) return;
     // le bonus compte comme un avis en Aventure
     countMissionStep();
-    if (get().mode === "adventure" && get().missionFound >= MISSION_GOAL)
-      set({ gameState: GameStateEnum.FINISH });
+    if (get().mode === "adventure" && get().missionFound >= MISSION_GOAL) get().advanceLevel();
     else set({ level: level + 1 });
   },
   recordMiss: () => {
@@ -319,8 +389,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (get().gameRecord) return;
     // partie finie sans fermer la carte de découverte : mécaniques vues quand même
     get().markDiscoverySeen();
-    const { score, level, stats, mode, calm, missionFound, timeLeft, worldId, adventureLevel, newCharacters } =
-      get();
+    const { score, level, stats, mode, calm, adventureLevel, newCharacters } = get();
     const save = useSaveStore.getState();
     const record: GameRecord = {
       mode,
@@ -331,15 +400,31 @@ export const useGameStore = create<GameStore>((set, get) => ({
       calm,
       won: false,
       stars: 0,
+      adventure: null,
       newCharacters,
       dailyDate: null,
       dailyBest: 0,
     };
     if (mode === "adventure") {
+      // les étoiles sont déjà enregistrées à chaque étape franchie
+      const { runSteps, startStep, adventureStep, runPhases, lockedAtStart } = get();
+      const summary = runSummary(runSteps);
+      const nowSave = useSaveStore.getState().save;
       record.level = adventureLevel;
-      record.won = missionFound >= MISSION_GOAL;
-      record.stars = missionStars(record.won, timeLeft);
-      if (record.won && worldId) save.recordStars(worldId, adventureLevel, record.stars);
+      record.won = summary.cleared > 0;
+      record.stars = summary.stars;
+      record.adventure = {
+        startStep,
+        endStep: adventureStep,
+        steps: runSteps,
+        stepsCleared: summary.cleared,
+        starsEarned: summary.stars,
+        phases: runPhases,
+        discoveredWorlds: lockedAtStart.filter((id) => {
+          const w = getWorld(id);
+          return w !== undefined && isWorldUnlocked(nowSave, w);
+        }),
+      };
     } else if (mode === "daily") {
       // le Défi a son propre meilleur score : il ne touche pas au record Infini
       const date = get().dailyDate ?? todayISO();
@@ -367,10 +452,27 @@ function collect(wanted: CharacterDetails) {
     useGameStore.setState({ newCharacters: [...newCharacters, wanted] });
 }
 
+let toastKey = 0;
+
 function countMissionStep() {
   const { mode, missionFound } = useGameStore.getState();
-  if (mode !== "adventure") return;
-  useGameStore.setState({ missionFound: advanceMission(missionFound, MISSION_GOAL).found });
+  if (mode !== "adventure" || missionFound >= MISSION_GOAL) return;
+  const { found, done } = advanceMission(missionFound, MISSION_GOAL);
+  useGameStore.setState({ missionFound: found });
+  if (done) completeStep();
+}
+
+// Étape franchie : étoiles enregistrées tout de suite, bandeau « Étape 3 ★★☆ »
+function completeStep() {
+  const { adventureStep, stepPlayMs, runSteps } = useGameStore.getState();
+  const info = stepInfo(adventureStep);
+  const stars = stepStars(stepPlayMs);
+  if (info.worldId) useSaveStore.getState().recordStars(info.worldId, info.level, stars);
+  useGameStore.setState({
+    runSteps: [...runSteps, { step: info.step, worldId: info.worldId, level: info.level, stars }],
+    stepPlayMs: 0,
+    stepToast: { key: ++toastKey, level: info.level, stars },
+  });
 }
 
 // Le réglage son vient de la sauvegarde, chargée en asynchrone au démarrage

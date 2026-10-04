@@ -13,7 +13,8 @@ import InGameActionButton from "../../components/Game/InGameActionButton/inGameA
 import { getBoard } from "../../helpers/board.ts";
 import type { LevelSpec } from "../../engine/types.ts";
 import Flashlight from "../../components/Flashlight/Flashlight.tsx";
-import { getWorld } from "../../content/worlds.ts";
+import { stepInfo } from "../../game/adventureRun.ts";
+import StepToast from "../../components/StepToast/StepToast.tsx";
 
 const renderGrid = (spec: LevelSpec) => {
   switch (spec.layout) {
@@ -29,7 +30,7 @@ const renderGrid = (spec: LevelSpec) => {
 };
 
 const Game = () => {
-  const { spec, gameState, tier, wantedFound, loading, pauseTimer, mode, worldId } =
+  const { spec, gameState, tier, wantedFound, loading, pauseTimer, mode, adventureStep } =
     useGameStore(
       useShallow((state) => ({
         spec: state.currentSpec,
@@ -39,7 +40,7 @@ const Game = () => {
         loading: state.animationLevelLoading,
         pauseTimer: state.pauseTimer,
         mode: state.mode,
-        worldId: state.worldId,
+        adventureStep: state.adventureStep,
       }))
     );
   const board = useMemo(() => getBoard(), []);
@@ -47,8 +48,8 @@ const Game = () => {
   const isOver =
     gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END;
   const hasFlashlight = !!spec?.modifiers.includes("flashlight");
-  // Aventure : la page prend le décor du monde
-  const world = mode === "adventure" && worldId ? getWorld(worldId) : undefined;
+  // Aventure : la page prend le décor du monde (ou du Grand Mélange)
+  const world = mode === "adventure" ? stepInfo(adventureStep) : undefined;
 
   return (
     <div
@@ -80,6 +81,7 @@ const Game = () => {
             hidden={wantedFound || isOver}
           />
         )}
+        {mode === "adventure" && !isOver && <StepToast />}
       </div>
       <div className="gameActions">
         <InGameActionButton />

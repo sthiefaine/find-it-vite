@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Lock } from "lucide-react";
+import { Lock, Play } from "lucide-react";
 import { useSaveStore } from "../../save/saveStore";
-import { LEVELS_PER_WORLD, WORLDS } from "../../content/worlds";
+import { getWorld, LEVELS_PER_WORLD, WORLDS } from "../../content/worlds";
 import type { World } from "../../content/worlds";
 import { isLevelUnlocked, isWorldUnlocked, starsFor } from "../../content/progress";
 import type { Save } from "../../save/schema";
-import { levelUrl, nextLevel, nodeX, starsMissing, worldStars } from "./adventureMap";
+import { levelUrl, nextLevel, nodeX, unlockHint, worldStars } from "./adventureMap";
 import type { LevelRef } from "./adventureMap";
 import "../../components/Buttons/ui.css";
 import "./Adventure.css";
@@ -58,7 +58,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
             <span className="fi-star">★</span> {worldStars(save, world)}/{LEVELS_PER_WORLD * 3}
           </span>
         ) : (
-          <span className="fi-chip adv-banner-chip">🔒 encore {starsMissing(save, world)}<span className="fi-star">★</span></span>
+          <span className="fi-chip adv-banner-chip">🔒 {unlockHint(world)}</span>
         )}
       </header>
 
@@ -78,7 +78,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
               className={`adv-node${unlocked ? "" : " adv-node-locked"}${isCurrent ? " adv-node-current" : ""}${boss ? " adv-node-boss" : ""}`}
               style={{ left: `${nodeX(level)}%`, top: STEP / 2 + i * STEP, ["--accent" as string]: world.accent }}
               disabled={!unlocked}
-              aria-label={unlocked ? `Niveau ${level}` : `Niveau ${level}, fermé`}
+              aria-label={unlocked ? `Étape ${level}` : `Étape ${level}, fermée`}
               onClick={() => navigate(levelUrl(world.id, level))}
             >
               {isCurrent && (
@@ -99,9 +99,11 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
 const Adventure = () => {
   const save = useSaveStore((s) => s.save);
   const loaded = useSaveStore((s) => s.loaded);
+  const navigate = useNavigate();
   const current = nextLevel(save);
+  const currentWorld = getWorld(current.worldId);
   const currentRef = useRef<HTMLButtonElement>(null);
-  const currentKey = current ? `${current.worldId}:${current.level}` : "";
+  const currentKey = `${current.worldId}:${current.level}`;
 
   // Défile jusqu'au niveau à jouer (une fois la sauvegarde lue)
   useEffect(() => {
@@ -115,6 +117,20 @@ const Adventure = () => {
         {WORLDS.map((w) => (
           <WorldSection key={w.id} world={w} save={save} current={current} currentRef={currentRef} />
         ))}
+      </div>
+      <div className="adv-continue-bar">
+        <button
+          className="adv-continue"
+          onClick={() => navigate(levelUrl(current.worldId, current.level))}
+        >
+          <Play size={30} fill="currentColor" aria-hidden="true" />
+          <span className="adv-continue-text">
+            <strong>Continuer l'aventure</strong>
+            <small>
+              {currentWorld?.emoji} {currentWorld?.name} · étape {current.level}
+            </small>
+          </span>
+        </button>
       </div>
     </div>
   );

@@ -17,12 +17,23 @@ export function formatSeconds(ms: number | null): string {
   return `${seconds} s`;
 }
 
-// Mission pas finie : encourageant, jamais culpabilisant
-export function retryMessage(found: number, goal: number): string {
-  if (found <= 0) return "Tu vas y arriver !";
-  if (found >= goal - 2) return `${found}/${goal} avis · tu y es presque !`;
-  return `${found}/${goal} avis · continue !`;
+// Aventure : « 7 étapes · 🦁 → 🐳 » ; aucune étape : encourageant, jamais culpabilisant
+export function adventureRunMessage(run: { stepsCleared: number; phases: readonly string[] }): string {
+  if (run.stepsCleared <= 0) return frenchSpacing("Tu vas y arriver !");
+  const steps = `${run.stepsCleared} étape${run.stepsCleared > 1 ? "s" : ""} franchie${run.stepsCleared > 1 ? "s" : ""}`;
+  const trip = run.phases.map(phaseEmoji).join(" → ");
+  return frenchSpacing(trip ? `${steps} · ${trip}` : steps);
 }
+
+const PHASE_EMOJI: Record<string, string> = {
+  animaux: "🦁",
+  ocean: "🐳",
+  dinos: "🦖",
+  halloween: "🎃",
+  espace: "🚀",
+  melange: "🌈",
+};
+const phaseEmoji = (phase: string) => PHASE_EMOJI[phase] ?? "";
 
 // Typographie française : espace insécable avant ! ? : ; pour que la ponctuation
 // ne parte jamais seule à la ligne sur petit écran

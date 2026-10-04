@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatSeconds, frenchSpacing, resultsTitle, retryMessage, scoreMessage } from "../resultsHelpers";
+import { adventureRunMessage, formatSeconds, frenchSpacing, resultsTitle, scoreMessage } from "../resultsHelpers";
 
 describe("formatSeconds", () => {
   it("affiche des secondes à la française", () => {
@@ -16,11 +16,16 @@ describe("scoreMessage", () => {
   });
 });
 
-describe("retryMessage", () => {
-  it("encourage selon les avis trouvés", () => {
-    expect(retryMessage(0, 5)).toBe("Tu vas y arriver !");
-    expect(retryMessage(1, 5)).toBe("1/5 avis · continue !");
-    expect(retryMessage(4, 5)).toBe("4/5 avis · tu y es presque !");
+describe("adventureRunMessage", () => {
+  it("étapes franchies et mondes parcourus", () => {
+    expect(adventureRunMessage({ stepsCleared: 0, phases: ["animaux"] })).toBe("Tu vas y arriver\u00a0!");
+    expect(adventureRunMessage({ stepsCleared: 1, phases: ["animaux"] })).toBe("1 étape franchie · 🦁");
+    expect(adventureRunMessage({ stepsCleared: 12, phases: ["animaux", "ocean"] })).toBe(
+      "12 étapes franchies · 🦁 → 🐳"
+    );
+    expect(adventureRunMessage({ stepsCleared: 3, phases: ["espace", "melange"] })).toBe(
+      "3 étapes franchies · 🚀 → 🌈"
+    );
   });
 });
 

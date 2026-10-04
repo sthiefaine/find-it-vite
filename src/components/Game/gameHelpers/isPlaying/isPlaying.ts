@@ -9,14 +9,9 @@ import type { Rule, Tier } from "../../../../engine";
 import type { CharacterDetails } from "../../../../helpers/characters";
 import { useSaveStore } from "../../../../save/saveStore";
 import { DEFAULT_TIER, TIERS } from "../../../../save/schema";
-import { tickClock } from "../../../../game/session";
-import {
-  levelTarget,
-  MAX_PLAY_TIME_S,
-  MISSION_TIME_S,
-  missionSeed,
-  readModeParams,
-} from "../../../../game/modes";
+import { MAX_TICK_DELTA_MS, tickClock } from "../../../../game/session";
+import { levelTarget, MAX_PLAY_TIME_S, missionSeed, readModeParams } from "../../../../game/modes";
+import { poolOfStep, stepTarget, WORLD_BANNER_MS } from "../../../../game/adventureRun";
 import type { GameMode } from "../../../../game/modes";
 import { getWorld } from "../../../../content/worlds";
 import { isLevelUnlocked, todayISO } from "../../../../content/progress";
@@ -51,9 +46,9 @@ export function readDebugParams(
   return { seed, level, tier };
 }
 
-// Persos possibles : ceux du monde en Aventure, les 12 animaux en Défi
-function poolFor(mode: GameMode, worldId: string | null): CharacterDetails[] {
-  if (mode === "adventure" && worldId) return getWorld(worldId)?.characters ?? charactersDetails;
+// Persos possibles : ceux du monde (ou de tous les mondes) en Aventure, les 12 animaux en Défi
+function poolFor(mode: GameMode, step: number): CharacterDetails[] {
+  if (mode === "adventure") return poolOfStep(step);
   if (mode === "daily") return getWorld("animaux")?.characters ?? charactersDetails;
   return charactersDetails;
 }
@@ -118,16 +113,18 @@ export function IsPlaying() {
 
   // Le niveau courant est entièrement déterminé par (mode, runSeed, level, tier, pool)
   const setupLevel = (isInitialSetup = false) => {
-    const { runSeed, tier, level, mode, worldId, adventureLevel } = useGameStore.getState();
-    const world = worldId ? getWorld(worldId) : undefined;
-    const pool = poolFor(mode, worldId);
-    // en Aventure, le pool sert à éviter deux fois le même recherché dans une mission
-    const target = levelTarget(mode, runSeed, level, world?.startIndex, adventureLevel, pool);
+    const { runSeed, tier, level, mode, adventureStep, missionFound } = useGameStore.getState();
+    const pool = poolFor(mode, adventureStep);
+    // en Aventure : index de l'étape, une graine par avis, jamais deux fois le même recherché
+    const target =
+      mode === "adventure"
+        ? stepTarget(adventureStep, missionFound + 1, pool)
+        : levelTarget(mode, runSeed, level);
     const spec = generateLevel(target.index, {
       seed: target.seed,
       tier,
       pool,
-      // En Aventure, un bonus doré figerait le chrono des 5 avis de la mission
+      // En Aventure, pas de bonus doré : il fausserait le temps d'une étape
       ...(mode === "adventure" && { allowedRules: ADVENTURE_RULES }),
     });
     setupFor.current = `${runSeed}:${level}`;
@@ -159,7 +156,7 @@ export function IsPlaying() {
     }
     setClearGameStore();
     if (params.mode === "adventure") {
-      setTimeLeftValue(MISSION_TIME_S);
+      setTimeLeftValue(MAX_PLAY_TIME_S);
       startRun({
         mode: "adventure",
         worldId: params.worldId,
@@ -167,6 +164,7 @@ export function IsPlaying() {
         runSeed: missionSeed(params.worldId, params.level),
         tier: debug.tier ?? savedTier,
         level: 1,
+        calm: useSaveStore.getState().save.settings.calm,
       });
     } else if (params.mode === "daily") {
       const date = todayISO();
@@ -255,6 +253,9 @@ export function IsPlaying() {
   // La fraction de seconde en cours est gardée d'une pause à l'autre.
   const clockAcc = useRef(0);
   const calm = useGameStore((s) => s.calm);
+  const worldBanner = useGameStore((s) => s.worldBanner);
+  const addPlayTime = useGameStore((s) => s.addPlayTime);
+  const hideWorldBanner = useGameStore((s) => s.hideWorldBanner);
   // App en arrière-plan (onglet caché, app native en pause) : chrono et bonus en pause
   const [appActive, setAppActive] = useState(isPageVisible);
   useEffect(() => subscribeAppActive(setAppActive), []);
@@ -262,13 +263,38 @@ export function IsPlaying() {
     if (appActive) resumeBonus();
     else pauseBonus();
   }, [appActive, bonusEndsAt]);
-  const clockRunning =
-    !calm &&
+  // Le joueur cherche (chrono en marche, ou qui le serait en mode calme)
+  const searching =
     appActive &&
     gameState === GameStateEnum.PLAYING &&
     !animationLevelLoading &&
     !pauseTimer &&
-    bonusEndsAt === null;
+    bonusEndsAt === null &&
+    worldBanner === null;
+  const clockRunning = !calm && searching;
+
+  // Aventure : temps de jeu réel de l'étape, pour ses étoiles (même en mode calme)
+  useEffect(() => {
+    if (!searching) return;
+    let last = performance.now();
+    const interval = setInterval(() => {
+      const t = performance.now();
+      addPlayTime(Math.min(MAX_TICK_DELTA_MS, t - last));
+      last = t;
+    }, TICK_MS);
+    return () => {
+      addPlayTime(Math.min(TICK_MS, performance.now() - last));
+      clearInterval(interval);
+    };
+  }, [searching]);
+
+  // Bandeau de nouveau monde : 2 s, chrono en pause
+  useEffect(() => {
+    if (!worldBanner) return;
+    const timeout = setTimeout(hideWorldBanner, WORLD_BANNER_MS);
+    return () => clearTimeout(timeout);
+  }, [worldBanner]);
+
   useEffect(() => {
     if (gameState !== GameStateEnum.PLAYING) clockAcc.current = 0;
     if (!clockRunning) return;

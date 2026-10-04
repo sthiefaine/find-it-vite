@@ -1,4 +1,4 @@
-import { DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
+import { ADVENTURE_WORLD_IDS, DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
 import type { FrameId, PlayerTier, SaveDaily } from "./schema";
 
 type RawObject = Record<string, unknown>;
@@ -23,7 +23,20 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
     const profile = isObject(data.profile) ? data.profile : {};
     return { ...data, version: 5, profile: { ...profile, tier: toPlayerTier(profile.tier) } };
   },
+  // v6 : mondes ouverts par l'étape 10 du précédent ; ceux déjà ouverts avec
+  // l'ancienne règle (total d'étoiles) restent ouverts
+  5: (data) => {
+    const adventure = isObject(data.adventure) ? data.adventure : {};
+    const total = Object.values(sanitizeStars(adventure.stars)).reduce((a, b) => a + b, 0);
+    const unlocked = Object.entries(LEGACY_UNLOCK_STARS)
+      .filter(([, need]) => total >= need)
+      .map(([id]) => id);
+    return { ...data, version: 6, adventure: { ...adventure, unlocked } };
+  },
 };
+
+// Ancienne règle (v5) : étoiles à réunir pour ouvrir chaque monde
+const LEGACY_UNLOCK_STARS: Record<string, number> = { ocean: 12, dinos: 24, halloween: 36, espace: 48 };
 
 // Seuls Enfant (easy) et Normal sont proposés : tout le reste devient Normal
 const toPlayerTier = (tier: unknown): PlayerTier =>
@@ -78,6 +91,11 @@ function sanitizeStars(raw: unknown): Record<string, number> {
   return out;
 }
 
+function sanitizeUnlocked(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  return ADVENTURE_WORLD_IDS.filter((id) => raw.includes(id));
+}
+
 function sanitizeCollection(raw: unknown): Record<string, number> {
   const out: Record<string, number> = {};
   if (!isObject(raw)) return out;
@@ -119,7 +137,10 @@ function sanitize(data: RawObject): Save {
     seenMechanics: Array.isArray(data.seenMechanics)
       ? [...new Set(data.seenMechanics.filter((m): m is string => typeof m === "string" && m.length > 0))]
       : [],
-    adventure: { stars: sanitizeStars(isObject(data.adventure) ? data.adventure.stars : null) },
+    adventure: {
+      stars: sanitizeStars(isObject(data.adventure) ? data.adventure.stars : null),
+      unlocked: sanitizeUnlocked(isObject(data.adventure) ? data.adventure.unlocked : null),
+    },
     collection: sanitizeCollection(data.collection),
     daily: sanitizeDaily(data.daily),
   };

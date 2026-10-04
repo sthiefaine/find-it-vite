@@ -1,0 +1,52 @@
+/* Calque au-dessus du plateau : n'intercepte aucun toucher */
+.step-toast-layer {
+  position: absolute;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  /* bandeaux superposés (l'un peut sortir pendant que l'autre entre) */
+  display: grid;
+  justify-items: center;
+  padding: 10px 12px 0;
+  pointer-events: none;
+}
+
+.step-toast-layer > * {
+  grid-area: 1 / 1;
+}
+
+.step-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: rgba(28, 8, 64, 0.88);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 900;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.step-toast-stars {
+  color: #ffc800;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(255, 200, 0, 0.6);
+}
+
+.world-banner {
+  max-width: 100%;
+  margin-top: 24px;
+  box-sizing: border-box;
+  padding: 14px 20px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #ffd700, #ff9f1a);
+  border: 3px solid #fff;
+  color: #3a1670;
+  font-size: 24px;
+  font-weight: 900;
+  line-height: 1.15;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}

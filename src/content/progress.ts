@@ -1,7 +1,7 @@
 // Progression du joueur, calculée à partir de la sauvegarde (fonctions pures).
 import type { FrameId, Save } from "../save/schema";
 import { starsKey } from "../save/schema";
-import { getWorld, LEVELS_PER_WORLD } from "./worlds";
+import { getWorld, LEVELS_PER_WORLD, WORLDS } from "./worlds";
 import type { World } from "./worlds";
 
 export type { FrameId };
@@ -17,11 +17,17 @@ export function starsFor(save: StarsSave, worldId: string, level: number): numbe
   return save.adventure.stars[starsKey(worldId, level)] ?? 0;
 }
 
+// Le premier monde est toujours ouvert ; les suivants s'ouvrent quand l'étape 10
+// du monde précédent a été franchie au moins une fois. Les mondes ouverts avec
+// l'ancienne règle (total d'étoiles) restent ouverts : adventure.unlocked.
 export function isWorldUnlocked(save: StarsSave, world: World): boolean {
-  return totalStars(save) >= world.unlockStars;
+  const i = WORLDS.findIndex((w) => w.id === world.id);
+  if (i <= 0) return i === 0;
+  if (save.adventure.unlocked?.includes(world.id)) return true;
+  return starsFor(save, WORLDS[i - 1].id, LEVELS_PER_WORLD) >= 1;
 }
 
-// Niveau 1 d'un monde ouvert, ou niveau précédent réussi (1★ au moins)
+// Étape 1 d'un monde ouvert, ou étape précédente franchie (1★ au moins)
 export function isLevelUnlocked(save: StarsSave, worldId: string, level: number): boolean {
   const world = getWorld(worldId);
   if (!world || !Number.isInteger(level) || level < 1 || level > LEVELS_PER_WORLD) return false;

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { applyCollection, applyDaily, applyGameResult, applyStars, createSaveStore } from "../saveStore";
 import { createMemoryStorage } from "../storage";
-import { defaultSave, SAVE_KEY } from "../schema";
+import { defaultSave, SAVE_KEY, SAVE_VERSION } from "../schema";
 
 describe("applyGameResult", () => {
   it("met à jour record, niveau, parties et trouvés", () => {
@@ -68,7 +68,7 @@ describe("useSaveStore", () => {
     store.getState().setProfileTier("easy");
     await store.getState().flush();
     const saved = JSON.parse(storage.data.get(SAVE_KEY)!);
-    expect(saved.version).toBe(5);
+    expect(saved.version).toBe(SAVE_VERSION);
     expect(saved.settings).toEqual({ sound: true, calm: false, frame: "classic" });
     expect(saved.profile).toEqual({ tier: "easy" });
     expect(saved.seenMechanics).toEqual([]);
