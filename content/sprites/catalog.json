@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": 7,
+  "revision": 8,
   "themes": [
     {
       "id": "animaux",
@@ -777,6 +777,301 @@
       "tags": [
         "reptiles",
         "sauvages"
+      ]
+    },
+    {
+      "id": "mouton-merinos",
+      "themeId": "ferme",
+      "label": "Mouton Mérinos",
+      "subject": "un mouton Mérinos à laine crème et petites cornes spiralées",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/mouton-merinos.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/mouton-merinos.prompt.txt.",
+      "species": "mouton",
+      "breed": "Mérinos",
+      "dominantColors": [
+        "white",
+        "brown"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "mouton-suffolk",
+      "themeId": "ferme",
+      "label": "Mouton Suffolk",
+      "subject": "un mouton Suffolk à face noire et laine blanche",
+      "color": "white",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/mouton-suffolk.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/mouton-suffolk.prompt.txt.",
+      "species": "mouton",
+      "breed": "Suffolk",
+      "dominantColors": [
+        "white",
+        "black"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "mouton-nez-noir-valais",
+      "themeId": "ferme",
+      "label": "Mouton Nez noir du Valais",
+      "subject": "un mouton Nez noir du Valais à front bouclé et cornes recourbées",
+      "color": "white",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/mouton-nez-noir-valais.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/mouton-nez-noir-valais.prompt.txt.",
+      "species": "mouton",
+      "breed": "Nez noir du Valais",
+      "dominantColors": [
+        "white",
+        "black",
+        "brown"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "vache-normande",
+      "themeId": "ferme",
+      "label": "Vache Normande",
+      "subject": "une vache Normande brun roux et blanc, avec des lunettes brunes naturelles autour des yeux et un museau rose",
+      "color": "white",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/vache-normande.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/vache-normande.prompt.txt.",
+      "species": "vache",
+      "breed": "Normande",
+      "dominantColors": [
+        "white",
+        "brown",
+        "pink"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "vache-highland",
+      "themeId": "ferme",
+      "label": "Vache Highland",
+      "subject": "une vache Highland à longue fourrure rousse, frange naturelle laissant les yeux visibles et petites cornes latérales",
+      "color": "orange",
+      "family": "roux",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/vache-highland.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/vache-highland.prompt.txt.",
+      "species": "vache",
+      "breed": "Highland",
+      "dominantColors": [
+        "orange",
+        "brown"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "vache-charolaise",
+      "themeId": "ferme",
+      "label": "Vache Charolaise",
+      "subject": "une vache Charolaise à pelage court blanc crème, petites cornes ivoire et large museau rose",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/vache-charolaise.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/vache-charolaise.prompt.txt.",
+      "species": "vache",
+      "breed": "Charolaise",
+      "dominantColors": [
+        "white",
+        "pink"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chat-siamois",
+      "themeId": "animaux",
+      "label": "Siamois",
+      "subject": "chat Siamois seal point crème au masque brun et yeux bleus",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chat-siamois.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chat-siamois.prompt.txt.",
+      "species": "chat",
+      "breed": "Siamois",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "felins",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chat-british-shorthair",
+      "themeId": "animaux",
+      "label": "British Shorthair",
+      "subject": "chat British Shorthair gris bleu aux yeux cuivre",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chat-british-shorthair.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chat-british-shorthair.prompt.txt.",
+      "species": "chat",
+      "breed": "British Shorthair",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "felins",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chat-maine-coon",
+      "themeId": "animaux",
+      "label": "Maine Coon",
+      "subject": "chat Maine Coon brun tigré et blanc aux oreilles à plumets",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chat-maine-coon.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chat-maine-coon.prompt.txt.",
+      "species": "chat",
+      "breed": "Maine Coon",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "felins",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chat-sphynx",
+      "themeId": "animaux",
+      "label": "Sphynx",
+      "subject": "chat Sphynx sans poils à peau beige rosée et grandes oreilles",
+      "color": "pink",
+      "family": "rose",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chat-sphynx.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chat-sphynx.prompt.txt.",
+      "species": "chat",
+      "breed": "Sphynx",
+      "dominantColors": [
+        "pink"
+      ],
+      "tags": [
+        "felins",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chien-husky",
+      "themeId": "animaux",
+      "label": "Husky",
+      "subject": "un Husky gris et blanc aux yeux bleus",
+      "color": "grey",
+      "family": "gris-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chien-husky.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chien-husky.prompt.txt.",
+      "species": "chien",
+      "breed": "Husky",
+      "dominantColors": [
+        "grey",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "canides",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chien-dalmatien",
+      "themeId": "animaux",
+      "label": "Dalmatien",
+      "subject": "un Dalmatien blanc aux petites taches noires",
+      "color": "white",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chien-dalmatien.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chien-dalmatien.prompt.txt.",
+      "species": "chien",
+      "breed": "Dalmatien",
+      "dominantColors": [
+        "white",
+        "black"
+      ],
+      "tags": [
+        "canides",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chien-berger-allemand",
+      "themeId": "animaux",
+      "label": "Berger allemand",
+      "subject": "un Berger allemand fauve au masque noir",
+      "color": "brown",
+      "family": "brun-noir",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chien-berger-allemand.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chien-berger-allemand.prompt.txt.",
+      "species": "chien",
+      "breed": "Berger allemand",
+      "dominantColors": [
+        "brown",
+        "black"
+      ],
+      "tags": [
+        "canides",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chien-golden-retriever",
+      "themeId": "animaux",
+      "label": "Golden Retriever",
+      "subject": "un Golden Retriever doré clair aux oreilles souples",
+      "color": "brown",
+      "family": "dore",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chien-golden-retriever.png",
+      "notes": "Portrait créé le 4 octobre 2026 avec image_gen dans la charte À la ferme, variante de race. PNG transparent 512 × 512. Prompt : content/sprites/chien-golden-retriever.prompt.txt.",
+      "species": "chien",
+      "breed": "Golden Retriever",
+      "dominantColors": [
+        "brown",
+        "yellow"
+      ],
+      "tags": [
+        "canides",
+        "domestiques"
       ]
     }
   ]

@@ -1,0 +1,14 @@
+Asset: public/assets/images/characters/animals/chien-dalmatien.png
+Generated with the built-in image_gen tool on 2026-10-04; dog breed variants.
+Output: 512 × 512 PNG; lossless compression after resizing to 504 × 504 plus a 4-pixel transparent margin; generated alpha preserved.
+Generated source: /Users/thief/.codex/generated_images/01a10769-c23c-78c3-995b-95742c34ec03/exec-4c4fd6a4-ad56-4005-9737-1830bad0b399.png
+Full-resolution local copy: artifacts/sprite-originals/variants-2026-10-04/chien-dalmatien.png
+
+Exact tool arguments:
+transparent_background: true
+referenced_image_paths: ["/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/chien.png","/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/mouton.png"]
+
+Exact generation prompt:
+Use case: stylized-concept. Asset type: a transparent square dog head sprite for Find It. Input image 1 (dog) and input image 2 (sheep) are STYLE REFERENCES ONLY. Create a NEW DOG BREED portrait in exactly this animal collection: same warm matte semi-realistic materials, very fine fur texture, cute rounded oversized head proportions, expressive friendly eyes with delicate lashes. Preserve the target dog's true breed traits rather than copying the reference dog's brown-white markings. Do not borrow sheep anatomy or wool.
+ONE friendly expressive DOG FACE ONLY, perfectly straight-on front view. No neck, shoulders or body. Head fills almost the entire square, a tiny transparent margin around every ear and hair edge. Cute simplified proportions, soft rounded canine muzzle and a matte natural nose. Finely textured dog fur with the smoothly detailed modern game illustration finish of the references, warm nostalgic charm. Natural rich coat colors, warm diffuse matte rendering, soft intrinsic volume. No hard shadow, plastic or metallic gloss, exaggerated specular eye reflections, direct lighting, rim light, human hairstyle, invented hair tuft, collar, accessories, lettering, logos, outline or watermark. Centered upright head on genuine transparent alpha, no white rectangle, drawn checkerboard, background texture or halo. Clean sharp silhouette and clear recognition at 45×45 pixels. High-resolution square image.
+Subject: a DALMATIAN face, smooth fine short matte WHITE fur with clearly separated natural small round BLACK SPOTS across the forehead, cheeks and floppy ears; black spots remain distinct, do not merge into a single eye mask or large patches. Two floppy spotted ears entirely inside the frame, warm expressive brown eyes, softly rounded white muzzle, matte black nose. Unmistakably a spotted Dalmatian, not a black-and-white spaniel.

@@ -623,5 +623,258 @@
       "reptiles",
       "sauvages"
     ]
+  },
+  {
+    "name": "mouton-merinos",
+    "label": "Mouton Mérinos",
+    "imageSrc": "/assets/images/characters/animals/mouton-merinos.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "mouton",
+    "breed": "Mérinos",
+    "dominantColors": [
+      "white",
+      "brown"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "mouton-suffolk",
+    "label": "Mouton Suffolk",
+    "imageSrc": "/assets/images/characters/animals/mouton-suffolk.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "noir-blanc",
+    "species": "mouton",
+    "breed": "Suffolk",
+    "dominantColors": [
+      "white",
+      "black"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "mouton-nez-noir-valais",
+    "label": "Mouton Nez noir du Valais",
+    "imageSrc": "/assets/images/characters/animals/mouton-nez-noir-valais.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "noir-blanc",
+    "species": "mouton",
+    "breed": "Nez noir du Valais",
+    "dominantColors": [
+      "white",
+      "black",
+      "brown"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "vache-normande",
+    "label": "Vache Normande",
+    "imageSrc": "/assets/images/characters/animals/vache-normande.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "tachete",
+    "species": "vache",
+    "breed": "Normande",
+    "dominantColors": [
+      "white",
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "vache-highland",
+    "label": "Vache Highland",
+    "imageSrc": "/assets/images/characters/animals/vache-highland.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "roux",
+    "species": "vache",
+    "breed": "Highland",
+    "dominantColors": [
+      "orange",
+      "brown"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "vache-charolaise",
+    "label": "Vache Charolaise",
+    "imageSrc": "/assets/images/characters/animals/vache-charolaise.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "vache",
+    "breed": "Charolaise",
+    "dominantColors": [
+      "white",
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chat-siamois",
+    "label": "Siamois",
+    "imageSrc": "/assets/images/characters/animals/chat-siamois.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "chat",
+    "breed": "Siamois",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "felins",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chat-british-shorthair",
+    "label": "British Shorthair",
+    "imageSrc": "/assets/images/characters/animals/chat-british-shorthair.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "chat",
+    "breed": "British Shorthair",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "felins",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chat-maine-coon",
+    "label": "Maine Coon",
+    "imageSrc": "/assets/images/characters/animals/chat-maine-coon.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "chat",
+    "breed": "Maine Coon",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "felins",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chat-sphynx",
+    "label": "Sphynx",
+    "imageSrc": "/assets/images/characters/animals/chat-sphynx.png",
+    "serie": "animal",
+    "color": "pink",
+    "family": "rose",
+    "species": "chat",
+    "breed": "Sphynx",
+    "dominantColors": [
+      "pink"
+    ],
+    "tags": [
+      "felins",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chien-husky",
+    "label": "Husky",
+    "imageSrc": "/assets/images/characters/animals/chien-husky.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris-blanc",
+    "species": "chien",
+    "breed": "Husky",
+    "dominantColors": [
+      "grey",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "canides",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chien-dalmatien",
+    "label": "Dalmatien",
+    "imageSrc": "/assets/images/characters/animals/chien-dalmatien.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "noir-blanc",
+    "species": "chien",
+    "breed": "Dalmatien",
+    "dominantColors": [
+      "white",
+      "black"
+    ],
+    "tags": [
+      "canides",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chien-berger-allemand",
+    "label": "Berger allemand",
+    "imageSrc": "/assets/images/characters/animals/chien-berger-allemand.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun-noir",
+    "species": "chien",
+    "breed": "Berger allemand",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "canides",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chien-golden-retriever",
+    "label": "Golden Retriever",
+    "imageSrc": "/assets/images/characters/animals/chien-golden-retriever.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "dore",
+    "species": "chien",
+    "breed": "Golden Retriever",
+    "dominantColors": [
+      "brown",
+      "yellow"
+    ],
+    "tags": [
+      "canides",
+      "domestiques"
+    ]
   }
 ]

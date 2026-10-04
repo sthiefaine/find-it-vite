@@ -1,0 +1,14 @@
+Asset: public/assets/images/characters/animals/chien-golden-retriever.png
+Generated with the built-in image_gen tool on 2026-10-04; dog breed variants.
+Output: 512 × 512 PNG; lossless compression after resizing to 504 × 504 plus a 4-pixel transparent margin; generated alpha preserved.
+Generated source: /Users/thief/.codex/generated_images/01a10769-c23c-78c3-995b-95742c34ec03/exec-19c8e4fd-26d2-441d-80cf-2a12bdc4165f.png
+Full-resolution local copy: artifacts/sprite-originals/variants-2026-10-04/chien-golden-retriever.png
+
+Exact tool arguments:
+transparent_background: true
+referenced_image_paths: ["/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/chien.png","/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/mouton.png"]
+
+Exact generation prompt:
+Use case: stylized-concept. Asset type: a transparent square dog head sprite for Find It. Input image 1 (dog) and input image 2 (sheep) are STYLE REFERENCES ONLY. Create a NEW DOG BREED portrait in exactly this animal collection: same warm matte semi-realistic materials, very fine fur texture, cute rounded oversized head proportions, expressive friendly eyes with delicate lashes. Preserve the target dog's true breed traits rather than copying the reference dog's brown-white markings. Do not borrow sheep anatomy or wool.
+ONE friendly expressive DOG FACE ONLY, perfectly straight-on front view. No neck, shoulders or body. Head fills almost the entire square, a tiny transparent margin around every ear and hair edge. Cute simplified proportions, soft rounded canine muzzle and a matte natural nose. Finely textured dog fur with the smoothly detailed modern game illustration finish of the references, warm nostalgic charm. Natural rich coat colors, warm diffuse matte rendering, soft intrinsic volume. No hard shadow, plastic or metallic gloss, exaggerated specular eye reflections, direct lighting, rim light, human hairstyle, invented hair tuft, collar, accessories, lettering, logos, outline or watermark. Centered upright head on genuine transparent alpha, no white rectangle, drawn checkerboard, background texture or halo. Clean sharp silhouette and clear recognition at 45×45 pixels. High-resolution square image.
+Subject: a GOLDEN RETRIEVER face, uniformly warm LIGHT GOLDEN cream-blond fur, a broad softly rounded retriever muzzle, two soft floppy ears with slightly longer naturally wavy golden fur, gentle expressive brown eyes, small matte dark brown nose. Keep the natural plush golden coat and soft ear feathering, no artificial hairstyle, no dark facial mask, no white forehead blaze, no spots. Friendly unmistakable Golden Retriever.

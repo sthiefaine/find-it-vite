@@ -1,0 +1,14 @@
+Asset: public/assets/images/characters/animals/mouton-nez-noir-valais.png
+Generated with the built-in image_gen tool on 2026-10-04; sheep breed variants.
+Output: 512 × 512 PNG; lossless compression after downscaling; transparent alpha preserved.
+Generated source: /Users/thief/.codex/generated_images/01a10769-c23c-78c3-995b-95742c34ec03/exec-dfe6d5a9-db12-48bd-88a6-8d7d1541ac1c.png
+Full-resolution local copy: artifacts/sprite-originals/variants-2026-10-04/mouton-nez-noir-valais.png
+
+Exact tool arguments:
+transparent_background: true
+referenced_image_paths: ["/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/mouton.png","/Users/thief/projets/find-it-vite/public/assets/images/characters/animals/vache.png"]
+
+Exact generation prompt:
+Use case: stylized-concept. Asset type: a transparent square animal head sprite for Find It. Input image 1 (sheep) and input image 2 (cow) are STYLE REFERENCES ONLY. Create a NEW SHEEP BREED portrait in exactly this collection: same warm matte semi-realistic materials, detailed fine wool texture, rounded oversized head proportions, expressive warm brown eyes with delicate lashes. Keep genuine sheep anatomy and the requested breed traits; do not borrow cow facial anatomy.
+ONE friendly expressive SHEEP FACE ONLY, perfectly straight-on front view. No neck, shoulders, body, background or props. Head fills almost the entire square, with a tiny transparent margin and all ears and horns entirely inside the frame. Cute simplified proportions, softly rounded muzzle, detailed sheep wool or short facial fur, modern game illustration with warm nostalgic charm. Natural colors, warm diffuse matte finish, soft intrinsic volume. No hard shadow, plastic or metallic gloss, exaggerated eye reflections, direct lighting, rim light, human hairstyle, artificial hair tuft, accessories, clothing, text, logo, outline or watermark. Centered upright head on a genuinely transparent alpha background with no white rectangle, checkerboard drawing, background texture or halo. Clean crisp silhouette that remains recognizable at 45×45 pixels. High-resolution square image.
+Subject: a VALAIS BLACKNOSE SHEEP face, fluffy white fleece with large strongly defined curls and a broad WHITE CURLY FOREHEAD cap that descends above the eyes, black muzzle and dark face patches, black ears, clearly visible warm brown eyes. Two natural prominent tan-brown curved spiral ram horns sweep out beside the temples and curve back inward, entirely inside the square with a slim clear margin. Horns should be clearly readable at 45 pixels. The black rounded nose and black muzzle contrast against abundant white cheek fleece. Distinguishing traits: conspicuous curled horns, broad curly WHITE forehead, large floppy curls; do not make the forehead smooth black like a Suffolk sheep.

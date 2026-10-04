@@ -36,4 +36,33 @@ describe("leurres par race et couleurs", () => {
     const unrelated = animal("c", { color: "green" });
     expect(selectAnimalDecoys(a, .8, [a, unrelated], createRng(1))).toEqual(Array(20).fill(unrelated));
   });
+
+  it("mélange les races de moutons et de vaches avec une foule variée à difficulté modérée", () => {
+    const farm = [
+      animal("mouton", { species: "mouton", family: "laine" }),
+      animal("mouton-merinos", { species: "mouton", breed: "Mérinos", family: "laine" }),
+      animal("mouton-suffolk", { species: "mouton", breed: "Suffolk", color: "black", dominantColors: ["black", "white"], family: "laine" }),
+      animal("mouton-nez-noir-valais", { species: "mouton", breed: "Nez noir du Valais", dominantColors: ["white", "black"], family: "laine" }),
+      animal("vache", { species: "vache", dominantColors: ["white", "black"], family: "tachete" }),
+      animal("vache-normande", { species: "vache", breed: "Normande", color: "brown", dominantColors: ["brown", "white"], family: "tachete" }),
+      animal("vache-highland", { species: "vache", breed: "Highland", color: "orange", family: "roux" }),
+      animal("vache-charolaise", { species: "vache", breed: "Charolaise", family: "uni" }),
+      animal("chevre", { species: "chevre", family: "laine" }),
+      animal("cochon", { species: "cochon", color: "pink", family: "rose" }),
+    ];
+    for (const target of farm.filter((candidate) => candidate.breed)) {
+      for (const seed of [1, 42, 2026]) {
+        const decoys = selectAnimalDecoys(target, .4, farm, createRng(seed));
+        const siblings = decoys.filter((candidate) => candidate.species === target.species);
+        const otherSpecies = decoys.filter((candidate) => candidate.species !== target.species);
+        const mostFrequent = (animals: CharacterDetails[]) => Math.max(...animals.map((candidate) => animals.filter((other) => other.name === candidate.name).length));
+
+        expect(decoys).toHaveLength(20);
+        expect(decoys.some((candidate) => candidate.name === target.name)).toBe(false);
+        expect(mostFrequent(siblings)).toBeGreaterThan(mostFrequent(otherSpecies));
+        expect(new Set(siblings.map((candidate) => candidate.name)).size).toBeGreaterThanOrEqual(2);
+        expect(new Set(decoys.map((candidate) => candidate.species)).size).toBeGreaterThanOrEqual(3);
+      }
+    }
+  });
 });

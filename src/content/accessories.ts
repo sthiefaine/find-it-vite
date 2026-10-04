@@ -65,6 +65,20 @@ const ANIMAL_PROFILES: Readonly<Record<string, AnimalAccessoryProfile>> = {
   hibou: { eyesY: 0.485, muzzleY: 0.7 },
   "raton-laveur": { eyesY: 0.51, muzzleY: 0.755 },
   crocodile: { eyesY: 0.4, muzzleY: 0.72 },
+  "mouton-merinos": { eyesY: 0.5, muzzleY: 0.72 },
+  "mouton-suffolk": { eyesY: 0.485, muzzleY: 0.71 },
+  "mouton-nez-noir-valais": { eyesY: 0.5, muzzleY: 0.73 },
+  "vache-normande": { eyesY: 0.44, muzzleY: 0.78 },
+  "vache-highland": { eyesY: 0.46, muzzleY: 0.78 },
+  "vache-charolaise": { eyesY: 0.44, muzzleY: 0.78 },
+  "chat-siamois": { eyesY: 0.525, muzzleY: 0.745, hat: { centerY: 0.3, scale: 0.9 } },
+  "chat-british-shorthair": { eyesY: 0.495, muzzleY: 0.72 },
+  "chat-maine-coon": { eyesY: 0.54, muzzleY: 0.75, hat: { centerY: 0.305, scale: 0.9 } },
+  "chat-sphynx": { eyesY: 0.55, muzzleY: 0.76, hat: { centerY: 0.32, scale: 0.85 } },
+  "chien-husky": { eyesY: 0.5345, muzzleY: 0.7855, hat: { centerY: 0.3031, scale: 0.8367 } },
+  "chien-dalmatien": { eyesY: 0.4754, muzzleY: 0.7362 },
+  "chien-berger-allemand": { eyesY: 0.5443, muzzleY: 0.8248, hat: { centerY: 0.3425, scale: 0.8367 } },
+  "chien-golden-retriever": { eyesY: 0.4655, muzzleY: 0.7362 },
 };
 
 export function getAccessoryBox(accessory: Accessory, imageSrc: string, fitting?: AnimalAccessoryProfile): Accessory["box"] {

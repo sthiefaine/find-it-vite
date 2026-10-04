@@ -1,0 +1,15 @@
+Generated with built-in image_gen, cat breed variants 2026-10-04.
+Generated source: /Users/thief/.codex/generated_images/01a1076a-6001-71c1-81cc-7c8590eba706/exec-b227e8ad-97fc-4e28-825c-c90403fda10f.png
+Retained original: artifacts/sprite-originals/variants-2026-10-04/chat-siamois.png
+Runtime: public/assets/images/characters/animals/chat-siamois.png (512 × 512 transparent PNG, lossless compression)
+Style references: /Users/thief/projets/find-it-vite/public/assets/images/characters/animals/chat.png, /Users/thief/projets/find-it-vite/public/assets/images/characters/animals/mouton.png
+
+EXACT PROMPT
+Use case: stylized-concept. Asset type: a NEW transparent square animal head sprite, a distinct CAT BREED variation for Find It.
+Reference image 1 (existing tabby cat) defines the same collection's friendly feline anatomy and matte fur/eye treatment. Reference image 2 (sheep) defines the exact collection style and material finesse. Match the same finish, but render the breed-specific anatomy, coat and colors below instead of copying the reference coat.
+ONE friendly, expressive animal FACE ONLY, straight-on front view. No neck, shoulders or body. Oversized rounded head occupying almost the entire square; a tiny clear margin, all ears and species-specific features inside the canvas. Cute simplified proportions with softly rounded muzzle, expressive large natural eyes (breed-specific eye color is defined below). Semi-realistic finely textured fur, skin, scales or feathers, smoothly detailed modern game illustration, warm and nostalgic charm. Keep the species unmistakable. Natural rich coat colors, warm diffuse matte rendering, soft intrinsic volume, no hard shadows, no plastic or metallic gloss, no exaggerated specular eye reflections, no directional light, no cast shadow, no rim lighting. No human hairstyle, invented hair tuft, accessories, lettering, logos, outline or watermark.
+
+Exactly one head, centered and upright. High resolution square image with genuine transparent alpha background. No white rectangle, drawn checkerboard, background texture or halo. Perfectly clean silhouette and clear readability at 45 × 45 pixels. Preserve anatomical distinctions between similar animals, especially leopard rosettes versus cheetah solid spots and tear lines, and hen versus rooster comb shape. Do not copy another species' facial anatomy from a style reference.
+BREED TO CREATE:
+Breed: SIAMESE CAT, seal point. Pale warm cream fur with a clearly defined dark seal-brown facial mask, dark brown ears and nose. Naturally BLUE irises (this breed-specific eye color overrides the brown eye color of style references). Refined slightly triangular feline head, large upright ears, short silky matte fur, gentle friendly expression. Breed anatomy unmistakable; no tabby stripes, no collar.
+ONE head only, straight-on, entire silhouette inside the square with a tiny clean transparent margin. Genuine alpha background. No writing, logos, accessories, collar, body or neck.
