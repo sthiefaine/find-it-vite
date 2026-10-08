@@ -3,7 +3,6 @@ import { createRng } from "../../engine/rng";
 import { birdPose, GIANT_COOLDOWN_MS, makeFlight, SeagullDirector } from "../seagulls";
 import type { Flight } from "../seagulls";
 import { BOARD } from "../../engine/types";
-import { obstacleTheme } from "../obstacleTheme";
 
 function simulate(seed: number, political = false, tier: "easy" | "normal" | "expert" = "normal", level = 40) {
   const director = new SeagullDirector(seed, tier, political);
@@ -81,8 +80,7 @@ describe("foules du thème politique", () => {
       const flight = makeFlight(createRng(seed), kind, true);
       const camps = { police: new Set<number>(), protesters: new Set<number>() };
       for (const bird of flight.birds) {
-        const asset = obstacleTheme("politics").passers[bird.sprite!];
-        const camp = asset.endsWith("politics-yellow-vest.png") ? "protesters" : "police";
+        const camp = bird.sprite === 2 ? "protesters" : "police";
         const start = birdPose(bird, flight, bird.delayMs)!;
         const end = birdPose(bird, flight, bird.delayMs + bird.durationMs)!;
         const direction = Math.sign(end.x - start.x);
