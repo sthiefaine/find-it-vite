@@ -876,5 +876,551 @@
       "canides",
       "domestiques"
     ]
+  },
+  {
+    "name": "cochon-kunekune",
+    "label": "Cochon Kunekune",
+    "imageSrc": "/assets/images/characters/animals/cochon-kunekune.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "cochon",
+    "breed": "Kunekune",
+    "dominantColors": [
+      "brown",
+      "black",
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "poney-shetland",
+    "label": "Poney Shetland",
+    "imageSrc": "/assets/images/characters/animals/poney-shetland.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "cheval",
+    "breed": "shetland",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "lama",
+    "label": "Lama",
+    "imageSrc": "/assets/images/characters/animals/lama.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "lama",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "alpaga",
+    "label": "Alpaga",
+    "imageSrc": "/assets/images/characters/animals/alpaga.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "beige",
+    "species": "alpaga",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chevre-angora",
+    "label": "Chèvre angora",
+    "imageSrc": "/assets/images/characters/animals/chevre-angora.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "chevre",
+    "breed": "angora",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chevre-saanen",
+    "label": "Chèvre Saanen",
+    "imageSrc": "/assets/images/characters/animals/chevre-saanen.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "chevre",
+    "breed": "saanen",
+    "dominantColors": [
+      "white",
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "lapin-belier",
+    "label": "Lapin bélier",
+    "imageSrc": "/assets/images/characters/animals/lapin-belier.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "lapin",
+    "breed": "bélier",
+    "dominantColors": [
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "lapin-angora",
+    "label": "Lapin angora",
+    "imageSrc": "/assets/images/characters/animals/lapin-angora.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "lapin",
+    "breed": "angora",
+    "dominantColors": [
+      "white",
+      "pink"
+    ],
+    "tags": [
+      "ferme",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "poule-soie",
+    "label": "Poule Soie",
+    "imageSrc": "/assets/images/characters/animals/poule-soie.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "poule",
+    "breed": "soie",
+    "dominantColors": [
+      "white",
+      "black"
+    ],
+    "tags": [
+      "ferme",
+      "oiseaux"
+    ]
+  },
+  {
+    "name": "canard-pekin",
+    "label": "Canard de Pékin",
+    "imageSrc": "/assets/images/characters/animals/canard-pekin.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "canard",
+    "breed": "pékin",
+    "dominantColors": [
+      "white",
+      "orange"
+    ],
+    "tags": [
+      "ferme",
+      "oiseaux"
+    ]
+  },
+  {
+    "name": "rhinoceros",
+    "label": "Rhinocéros",
+    "imageSrc": "/assets/images/characters/animals/rhinoceros.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "rhinoceros",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "savane"
+    ]
+  },
+  {
+    "name": "lynx",
+    "label": "Lynx",
+    "imageSrc": "/assets/images/characters/animals/lynx.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "lynx",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "foret",
+      "felins"
+    ]
+  },
+  {
+    "name": "panda-roux",
+    "label": "Panda roux",
+    "imageSrc": "/assets/images/characters/animals/panda-roux.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "roux",
+    "species": "panda-roux",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "white",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "cerf",
+    "label": "Cerf",
+    "imageSrc": "/assets/images/characters/animals/cerf.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "cerf",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "blaireau",
+    "label": "Blaireau",
+    "imageSrc": "/assets/images/characters/animals/blaireau.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "blaireau",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "castor",
+    "label": "Castor",
+    "imageSrc": "/assets/images/characters/animals/castor.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "castor",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "chat-ragdoll",
+    "label": "Chat Ragdoll",
+    "imageSrc": "/assets/images/characters/animals/chat-ragdoll.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "clair",
+    "species": "chat",
+    "breed": "Ragdoll",
+    "dominantColors": [
+      "white",
+      "brown"
+    ],
+    "tags": [
+      "felins",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chat-bengal",
+    "label": "Chat Bengal",
+    "imageSrc": "/assets/images/characters/animals/chat-bengal.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "chat",
+    "breed": "Bengal",
+    "dominantColors": [
+      "brown",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "felins",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chien-shiba-inu",
+    "label": "Chien Shiba Inu",
+    "imageSrc": "/assets/images/characters/animals/chien-shiba-inu.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "roux",
+    "species": "chien",
+    "breed": "Shiba Inu",
+    "dominantColors": [
+      "orange",
+      "white"
+    ],
+    "tags": [
+      "canides",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "chien-berger-australien",
+    "label": "Chien Berger australien",
+    "imageSrc": "/assets/images/characters/animals/chien-berger-australien.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "chien",
+    "breed": "Berger australien",
+    "dominantColors": [
+      "grey",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "canides",
+      "domestiques"
+    ]
+  },
+  {
+    "name": "dauphin",
+    "label": "Dauphin",
+    "imageSrc": "/assets/images/characters/animals/dauphin.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "dauphin",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "orque",
+    "label": "Orque",
+    "imageSrc": "/assets/images/characters/animals/orque.png",
+    "serie": "animal",
+    "color": "black",
+    "family": "noir-blanc",
+    "species": "orque",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "phoque",
+    "label": "Phoque",
+    "imageSrc": "/assets/images/characters/animals/phoque.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "phoque",
+    "breed": "Phoque commun",
+    "dominantColors": [
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "morse",
+    "label": "Morse",
+    "imageSrc": "/assets/images/characters/animals/morse.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "morse",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "loutre-de-mer",
+    "label": "Loutre de mer",
+    "imageSrc": "/assets/images/characters/animals/loutre-de-mer.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "loutre-de-mer",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "tortue-marine",
+    "label": "Tortue marine",
+    "imageSrc": "/assets/images/characters/animals/tortue-marine.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "vert",
+    "species": "tortue",
+    "breed": "Tortue verte",
+    "dominantColors": [
+      "green",
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages",
+      "reptiles"
+    ]
+  },
+  {
+    "name": "requin-marteau",
+    "label": "Requin-marteau",
+    "imageSrc": "/assets/images/characters/animals/requin-marteau.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "requin",
+    "breed": "Requin-marteau",
+    "dominantColors": [
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "poulpe",
+    "label": "Poulpe",
+    "imageSrc": "/assets/images/characters/animals/poulpe.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "roux",
+    "species": "poulpe",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "pink"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
+  },
+  {
+    "name": "manchot-empereur",
+    "label": "Manchot empereur",
+    "imageSrc": "/assets/images/characters/animals/manchot-empereur.png",
+    "serie": "animal",
+    "color": "black",
+    "family": "noir-blanc",
+    "species": "manchot",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages",
+      "oiseaux"
+    ]
+  },
+  {
+    "name": "beluga",
+    "label": "Béluga",
+    "imageSrc": "/assets/images/characters/animals/beluga.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "clair",
+    "species": "beluga",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "ocean",
+      "sauvages"
+    ]
   }
 ]

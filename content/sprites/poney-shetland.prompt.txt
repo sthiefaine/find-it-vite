@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/poney-shetland.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-40ad7042-0d92-412c-8546-2bffb74838c7.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/poney-shetland.png
+Style references: vache, mouton.
+
+Exact prompt:
+Create a single poney Shetland animal head sprite for the family game Find It. A Shetland pony head, clearly a small sturdy pony: broad short equine face, chestnut short dense coat, flaxen cream natural mane forelock between two small upright ears, cream muzzle. Natural deep brown irises with round pupils. Distinct from a full-size horse by its compact chunky face and fluffy natural winter coat. No harness. Use the supplied animal images only as illustration style references: cute rounded semi-realistic finely textured matte finish, expressive friendly eyes. Perfect straight-on front view. Head alone, isolated without neck or body, all ears inside square canvas, tiny transparent margins. Real transparent alpha background. No text, accessories, outlines, or shadows.

@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/chevre-angora.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-63000142-90f2-4dc6-b831-5f4575db4212.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/chevre-angora.png
+Style references: public/assets/images/characters/animals/chevre.png, public/assets/images/characters/animals/mouton.png.
+
+Exact prompt:
+One friendly WHITE ANGORA GOAT head sprite. A white Angora goat head: silky ivory white ringlets of mohair frame a narrow recognizable goat face; small natural ivory horns curved gently backwards, long slightly drooping sideways goat ears, tiny short natural chin beard inside the head silhouette. Distinctive pale golden AMBER irises with clean dark HORIZONTAL RECTANGULAR pupils, as in goats. The goat face must be visible and must not look like a sheep. No neck. Match supplied style references, with cute rounded proportions, semi-realistic fine fur and soft matte diffuse rendering. Perfect frontal view. Only head and tiny chin beard, without neck or body. Entire ears and horns inside square with a tiny transparent margin. Genuine transparent alpha background. No accessories, text or shadow.

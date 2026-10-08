@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/poule-soie.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-ca0cb762-4ba7-410c-a16a-d1ff5c418699.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/poule-soie.png
+Style references: public/assets/images/characters/animals/poule.png, public/assets/images/characters/animals/mouton.png.
+
+Exact prompt:
+One friendly WHITE SILKIE HEN head sprite. A WHITE SILKIE HEN head, unmistakable Silkie chicken breed: fluffy silky ivory-white feathers, compact natural rounded fluffy feather crest on skull, feathered cheeks, tiny dark mulberry walnut comb partly visible at top, small dark slate grey beak, subtle small blue earlobes and tiny dark mulberry wattles. Natural very dark brown/near-black irises with round black pupils. Match fluffy soft feather texture to reference style. Biological feather crest, no human hairstyle, no rooster comb, no neck. Supplied illustrations are style references only: cute rounded game proportions, soft finely textured semi-realistic matte feathers, expressive eyes. Perfect front view, one isolated HEAD ONLY without neck or body. Entire head and feather crest inside square with a tiny transparent margin. Genuine transparent alpha background. No text, accessories, outlines or shadow.

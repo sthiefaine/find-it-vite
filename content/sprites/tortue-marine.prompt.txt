@@ -1,0 +1,14 @@
+Find It — nouvel animal « Tortue marine » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a119f9-305a-7f81-8cd3-938bdeb76d67/exec-61bd7225-0588-4f2a-a131-310c97ccea23.png
+Original conservé : artifacts/sprite-originals/additions-2026-10-08/tortue-marine.png
+Références de style : crocodile.png, mouton.png.
+
+Use case: stylized-concept. Asset type: transparent square animal head sprite for the Find It game.
+Input images: reference images are STYLE REFERENCES ONLY. Match their warm matte semi-realistic fine texture, softly rounded expressive face and friendly modern game illustration. Do not copy the species anatomy, coat or ears of the references.
+Scene/backdrop: genuinely transparent alpha, no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on front view, upright and centered. Absolutely no neck, shoulders, torso, full body or scenery. Entire silhouette visible within a square, large face occupying almost all canvas with tiny clear margins, designed to remain recognizable at 45×45.
+Style: natural species-specific coloration, warm diffuse matte rendering, fine realistic skin/fur/scales texture, soft intrinsic volume and appealing rounded proportions. Expressive eyes in the biologically plausible iris color specified below, natural small reflections, no exaggerated eye glare. Slight friendly calm expression.
+Avoid: accessories, human hair, invented tuft, lettering, logo, watermark, outlines, harsh shadows, rim lighting, plastic gloss, white rectangle, checkerboard background, halo, any additional animal.
+Output: a high resolution square PNG with true transparency, clean silhouette.
+Subject: A green sea turtle FACE ONLY head-on: broad round olive-brown and sage scaly head with anatomically distinct large polygonal scutes, cream lower jaw, soft hooked turtle beak with closed gentle mouth, small DARK AMBER BROWN eyes with round black pupils. NO shell, neck, shoulders or flippers. No crocodile snout or eyebrow horns. Keep the animal unmistakably a sea turtle.

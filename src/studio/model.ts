@@ -30,6 +30,7 @@ export function spritePrompt(category: Category, subject: string, transparent: b
     const details = [
       metadata?.species ? `Espèce : ${animalSpeciesLabel(metadata.species)}.` : "",
       metadata?.breed ? `Race ou variété de référence : ${metadata.breed}. Conserver ses traits visuels distinctifs.` : "",
+      "Couleur des iris et forme des pupilles naturelles, adaptées à l’espèce, à la race et au pelage ; ne pas imposer des yeux marron à tous les animaux. Aucun iris fluorescent.",
       metadata?.dominantColors?.length ? `Palette dominante du pelage ou de la peau : ${metadata.dominantColors.map((color) => ANIMAL_COLORS[color].label.toLocaleLowerCase("fr")).join(", ")}.` : "",
     ].filter(Boolean).join(" ");
     return `${ANIMAL_PROMPT.replace("de {sujet}", subject).replace("{fond}", background)}${details ? ` ${details}` : ""} Format carré ; tête entière, oreilles comprises, avec une petite marge. Lisible à 45 × 45 pixels. Aucun texte ni filigrane.`;

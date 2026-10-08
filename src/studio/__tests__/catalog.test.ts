@@ -98,6 +98,7 @@ describe("prompts réutilisables", () => {
     const prompt = spritePrompt("animals", "un chat", true, { species: "chat", breed: "Siamois", dominantColors: ["white", "brown"] });
     expect(prompt).toContain("Race ou variété de référence : Siamois");
     expect(prompt).toContain("blanc, brun");
+    expect(prompt).toContain("Couleur des iris et forme des pupilles naturelles");
     expect(spritePrompt("flags", "France", true, { breed: "Siamois" })).not.toContain("Siamois");
   });
   it("garde les contraintes du prompt animal et propose les deux fonds", () => {

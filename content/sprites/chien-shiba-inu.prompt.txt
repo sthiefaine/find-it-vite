@@ -1,0 +1,14 @@
+Use case: stylized-concept.
+Asset type: ONE standalone transparent square animal HEAD sprite for the Find It animal game.
+The input images are STYLE REFERENCES ONLY. Rebuild a new animal matching exactly their collection: finely textured semi-realistic soft fur, warm diffuse matte volume, rounded friendly proportions and expressive eyes, smooth modern game illustration with nostalgic charm. Species anatomy must come from the requested new animal, never copy sheep ears or the tiger's stripes to another species.
+Composition: ONE HEAD ONLY, straight-on front view, upright and centered, mouth closed with a gentle friendly expression. NO neck, throat, shoulders, torso, legs or body. Round complete head silhouette ending immediately beneath the chin. All ears and distinguishing head features fully inside the square, fill about 92% of canvas, narrow clear transparent margin on all sides. The eyes' large expressive style and delicate lashes match the reference, but iris colors MUST match the requested animal's natural colors.
+Lighting: matte diffuse intrinsic volume, rich natural coat hues, no hard shadow, no cast shadow, no rim light, no plastic or metallic gloss. Restrained small eye catchlights.
+Background: genuine fully transparent alpha, NO white rectangle, NO checkerboard drawing, NO background, NO halo.
+Avoid: letters, text, logo, watermark, outline, extra heads, clothing, collars, accessories, invented hair tufts, human hair. Clean crisp silhouette readable at 45 x 45 pixels. Square image.
+Subject: red SHIBA INU DOG, red-orange dense short plush coat, white/cream urajiro cheeks, muzzle and eyebrow area, small upright triangular ears and a broad dog skull, compact rounded muzzle with black dog nose. Clearly a Shiba dog, not a fox: rounded broad cheeks, short muzzle, smaller ears. BOTH irises natural dark BROWN, black pupils. HEAD ONLY, no collar, no neck.
+
+Generation: built-in image_gen, transparent_background=true, 8 October 2026.
+Style references: public/assets/images/characters/animals/mouton.png, public/assets/images/characters/animals/chien.png, public/assets/images/characters/animals/renard.png
+Generated source: /Users/thief/.codex/generated_images/01a119f9-5b1a-7f42-9bff-4466d2a6eec7/exec-191b1627-5dc2-4a68-ba6d-068ebbc4ba2f.png
+Retained full-resolution original: artifacts/sprite-originals/additions-2026-10-08/chien-shiba-inu.png
+Published output: public/assets/images/characters/animals/chien-shiba-inu.png, 512 × 512 PNG RGBA.

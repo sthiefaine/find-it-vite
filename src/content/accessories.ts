@@ -36,6 +36,7 @@ export const isAccessoryId = (id: string): id is AccessoryId => BY_ID.has(id as 
 export type AnimalAccessoryProfile = {
   eyesY: number;
   muzzleY: number;
+  glassesScale?: number;
   hat?: { centerY: number; scale: number };
   chin?: { centerY: number; scale: number };
 };
@@ -89,6 +90,36 @@ const ANIMAL_PROFILES: Readonly<Record<string, AnimalAccessoryProfile>> = {
   "chien-dalmatien": { eyesY: 0.4754, muzzleY: 0.7362 },
   "chien-berger-allemand": { eyesY: 0.5443, muzzleY: 0.8248, hat: { centerY: 0.3425, scale: 0.8367 } },
   "chien-golden-retriever": { eyesY: 0.4655, muzzleY: 0.7362 },
+  "cochon-kunekune": { eyesY: .47, muzzleY: .72 },
+  "poney-shetland": { eyesY: .5, muzzleY: .79, hat: { centerY: .23, scale: .9 } },
+  lama: { eyesY: .51, muzzleY: .7, hat: { centerY: .29, scale: .75 }, chin: { centerY: .94, scale: .7 } },
+  alpaga: { eyesY: .54, muzzleY: .77, hat: { centerY: .26, scale: .8 } },
+  "chevre-angora": { eyesY: .45, muzzleY: .66 },
+  "chevre-saanen": { eyesY: .42, muzzleY: .66 },
+  "lapin-belier": { eyesY: .48, muzzleY: .61, hat: { centerY: .27, scale: .85 }, chin: { centerY: .84, scale: .7 } },
+  "lapin-angora": { eyesY: .59, muzzleY: .72, hat: { centerY: .385, scale: .8 }, chin: { centerY: .94, scale: .7 } },
+  "poule-soie": { eyesY: .52, muzzleY: .65 },
+  "canard-pekin": { eyesY: .46, muzzleY: .68 },
+  rhinoceros: { eyesY: .43, muzzleY: .81 },
+  lynx: { eyesY: .52, muzzleY: .76, hat: { centerY: .32, scale: .85 } },
+  "panda-roux": { eyesY: .525, muzzleY: .775, hat: { centerY: .3, scale: .95 } },
+  cerf: { eyesY: .55, muzzleY: .8, hat: { centerY: .37, scale: .8 }, chin: { centerY: .925, scale: .7 } },
+  blaireau: { eyesY: .485, muzzleY: .735 },
+  castor: { eyesY: .4, muzzleY: .67 },
+  "chat-ragdoll": { eyesY: .51, muzzleY: .745, hat: { centerY: .3, scale: .9 } },
+  "chat-bengal": { eyesY: .485, muzzleY: .735, hat: { centerY: .29, scale: .9 } },
+  "chien-shiba-inu": { eyesY: .52, muzzleY: .77, hat: { centerY: .29, scale: .9 } },
+  "chien-berger-australien": { eyesY: .46, muzzleY: .735 },
+  dauphin: { eyesY: .45, muzzleY: .7 },
+  orque: { eyesY: .435, muzzleY: .665 },
+  phoque: { eyesY: .415, muzzleY: .64 },
+  morse: { eyesY: .295, muzzleY: .66 },
+  "loutre-de-mer": { eyesY: .44, muzzleY: .69 },
+  "tortue-marine": { eyesY: .415, muzzleY: .71 },
+  "requin-marteau": { eyesY: .39, muzzleY: .66, glassesScale: 1.4, hat: { centerY: .3, scale: .65 }, chin: { centerY: .79, scale: .7 } },
+  poulpe: { eyesY: .445, muzzleY: .63 },
+  "manchot-empereur": { eyesY: .485, muzzleY: .68 },
+  beluga: { eyesY: .5, muzzleY: .72 },
 };
 
 export function getAccessoryBox(accessory: Accessory, imageSrc: string, fitting?: AnimalAccessoryProfile): Accessory["box"] {
@@ -99,7 +130,7 @@ export function getAccessoryBox(accessory: Accessory, imageSrc: string, fitting?
   let centerY = box.y + box.height / 2;
   let scale = 1;
   switch (accessory.id) {
-    case "sunglasses": centerY = profile.eyesY; break;
+    case "sunglasses": centerY = profile.eyesY; scale = profile.glassesScale ?? 1; break;
     case "moustache": centerY = profile.muzzleY; break;
     case "cap":
     case "bucket-hat": {

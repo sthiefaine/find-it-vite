@@ -97,7 +97,7 @@ débloquer un nouveau niveau. Le Duel attend aussi le décodage de son pool avan
 la première manche. Les noms complets se répartissent sur plusieurs lignes dans
 l’avis de recherche.
 
-Le catalogue contient 48 têtes animales, toutes au format PNG transparent 512 × 512.
+Le catalogue contient 78 têtes animales, toutes au format PNG transparent 512 × 512.
 Les 14 anciens portraits ont été redessinés avec imagegen d’après les références
 de la série ferme : tête seule de face, textures fines, finition mate et couleurs
 naturelles. Les identifiants et chemins des personnages sont conservés pour
@@ -125,11 +125,22 @@ Golden Retriever), trois moutons (Mérinos, Suffolk, Nez noir du Valais) et troi
 vaches (Normande, Highland, Charolaise). Chaque portrait a un identifiant propre,
 une espèce commune aux autres races et ses repères d’accessoires ; les races
 proches servent de leurres, sans dupliquer l’animal recherché.
+Les 30 ajouts du 8 octobre 2026 comprennent dix voisins de la ferme (cochon Kunekune,
+poney Shetland, lama, alpaga, deux chèvres, deux lapins, poule Soie et canard de
+Pékin), dix animaux sauvages ou races domestiques (rhinocéros, lynx, panda roux, cerf,
+blaireau, castor, Ragdoll, Bengal, Shiba Inu et Berger australien), ainsi que dix
+portraits marins (dauphin, orque, phoque, morse, loutre de mer, tortue marine,
+requin-marteau, manchot empereur, béluga et poulpe). Les iris et
+pupilles suivent les traits naturels des espèces et des races, avec notamment
+des yeux bleus, verts, ambre ou une hétérochromie bleu/ambre. Les originaux sont
+conservés localement dans `artifacts/sprite-originals/additions-2026-10-08/`.
 Les catégories servent à parcourir l’atelier et l’album. Après un clic sur **Infini**
 ou **Duel** sur l’accueil, une page propose les thèmes sous forme de cartes,
 avec **Animaux** sélectionné par défaut. Les biomes Ferme, Forêt, Savane et Océan
 permettent de restreindre la collection ; Personnes et Drapeaux sont annoncés
 « Bientôt » et restent désactivés.
+Le thème Océan d’Infini et de Duel utilise les portraits marins publiés dans
+l’atelier. Le monde Océan de l’Aventure conserve ses personnages historiques.
 
 En Infini, la cible et tous les leurres du thème sont choisis parmi les animaux
 débloqués : chat, chien, mouton, vache et cochon dès le

@@ -4,7 +4,7 @@ import type { CharacterDetails } from "../../helpers/characters";
 import { animalConfusionRisk, animalSimilarity, selectAnimalDecoys } from "../animalSimilarity";
 import type { DecoyProgression } from "../animalSimilarity";
 import { lookalikeRatio, slotOf, visualConfusionBudget } from "../curve";
-import { generateLevel } from "../generateLevel";
+import { generateLevel, wantedAt } from "../generateLevel";
 import { createRng } from "../rng";
 import type { GenContext, Tier } from "../types";
 import * as validation from "../validate";
@@ -133,19 +133,20 @@ describe("intégration au générateur", () => {
   });
 
   it("ne mélange ni chat et race de chat, ni guépard et léopard dans les niveaux 1 à 8 normaux", () => {
-    const seen = new Set<string>();
-    for (let seed = 0; seed < 40; seed++) {
-      for (let index = 1; index <= 8; index++) {
-        const spec = generateLevel(index, context(seed));
-        seen.add(spec.wanted.name);
+    for (let index = 1; index <= 8; index++) {
+      const remaining = new Set(["chat", "guepard", "leopard"]);
+      // Retrouver chaque cible dans le catalogue réel, quelle que soit sa taille.
+      for (let seed = 0; seed < 10_000 && remaining.size; seed++) {
+        const ctx = context(seed);
+        if (!remaining.has(wantedAt(index, ctx).name)) continue;
+        const spec = generateLevel(index, ctx);
+        remaining.delete(spec.wanted.name);
         expect(spec.decoys.every((candidate) => animalConfusionRisk(spec.wanted, candidate) === 0)).toBe(true);
         expect(spec.lookalikeRatio).toBe(0);
         expect(spec.budget).toBeDefined();
       }
+      expect([...remaining]).toEqual([]);
     }
-    expect(seen.has("chat")).toBe(true);
-    expect(seen.has("guepard")).toBe(true);
-    expect(seen.has("leopard")).toBe(true);
   });
 
   it("les pics respectent les dates d'introduction avec le catalogue réel", () => {

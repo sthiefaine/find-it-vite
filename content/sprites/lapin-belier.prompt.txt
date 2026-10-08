@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/lapin-belier.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-d6dc637c-84ab-4b71-b27c-7cedaec4f9b8.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/lapin-belier.png
+Style references: public/assets/images/characters/animals/lapin.png, public/assets/images/characters/animals/mouton.png.
+
+Exact prompt:
+One friendly GREY LOP RABBIT head sprite. A grey French lop rabbit head: soft silver-grey short fur, pale white-grey rounded muzzle and cheeks, pink triangular rabbit nose, delicate whiskers. Both long broad lop ears naturally hang down either side of the face, with soft pink inner ears, and entire ears fit in square. NO upright ears. Natural dark brown irises, round pupils. Compact round rabbit head only, no neck. Supplied reference images define cute rounded game proportions, semi-realistic fine fur texture, expressive eyes and matte diffuse finish. Perfect frontal view, isolated head alone with no neck or body. Complete floppy ears and chin inside square, tiny transparent margins. Genuine transparent alpha background. No accessories, text, outlines or shadow.

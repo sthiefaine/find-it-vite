@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/lapin-angora.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-6b761921-9c61-45b8-a98b-c9afbd45ca91.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/lapin-angora.png
+Style references: public/assets/images/characters/animals/lapin.png, public/assets/images/characters/animals/mouton.png.
+
+Exact prompt:
+One friendly WHITE ALBINO ANGORA RABBIT head sprite. A white albino Angora rabbit head: cloud-like very long fine silky snow-white wool framing the face, two upright rabbit ears with natural wool tips and soft pink inner ear skin, tiny soft pink triangular rabbit nose and whiskers. Natural gentle RUBY-RED/PINK irises of an albino rabbit with darker burgundy pupils, no brown or blue iris; friendly normal animal eyes, no scary glow. Face and both eyes clearly visible within the fluffy wool, not hidden. Head only, no neck. Supplied animal illustrations define cute rounded game proportions, fine semi-realistic fur texture and matte diffuse rendering. Perfect frontal view, one isolated head only without neck or body. Both complete ears inside square with tiny transparent margins. Genuine transparent alpha background. No text, accessories or shadow.

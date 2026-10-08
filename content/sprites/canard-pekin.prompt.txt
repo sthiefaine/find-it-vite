@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/canard-pekin.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-07bab76a-067d-4834-9d09-b6ca5d8cd340.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/canard-pekin.png
+Style references: public/assets/images/characters/animals/poule.png, public/assets/images/characters/animals/vache.png.
+
+Exact prompt:
+One friendly WHITE PEKIN DUCK head sprite. A white Pekin duck head: pure white fine feather texture, rounded friendly duck face, broad flattened warm orange duck bill with two subtle nostrils and gentle smiling bill edge, no crest or comb. Natural very dark brown irises with round black pupils. Both eyes visible from a perfectly frontal symmetrical angle. Bill unmistakably a duck's flat bill, not a hen beak. Head only, absolutely no neck or chest. Match supplied style references: cute rounded game illustration, semi-realistic fine feather texture, expressive eyes, matte diffuse finish. Perfect frontal view, isolated head alone, no neck or body. Complete round duck head and bill inside square with tiny clear margins. Genuine transparent alpha background. No text, accessories, outlines or shadow.

@@ -1,0 +1,8 @@
+Use case: stylized-concept. Create ONE friendly RHINOCEROS HEAD portrait for the Find It animal game. The hippopotamus and sheep input images are STYLE REFERENCES ONLY: match their cute rounded proportions, expressive eyes, finely textured semi-realistic detail and warm diffuse matte finish. Do not copy hippopotamus anatomy.
+Straight-on centered front view, complete head inside a square with a small clear transparent margin. Naturally grey matte folded skin, a wide heavy rounded rhino muzzle, two upright rounded thick ears at the sides, and the distinctive single central large ivory-grey nose horn pointing upwards, clearly readable between the eyes with a smaller secondary horn behind it. Both irises natural dark BROWN, dark pupils. Friendly closed-mouth expression, soft intrinsic volume. HEAD ONLY ending immediately below the chin; no neck, shoulders or body. Genuine transparent alpha background. No scene, text, outline, watermark, accessories, hard shadows or glossy skin.
+
+Generation: built-in image_gen, transparent_background=true, 8 October 2026.
+Style references: public/assets/images/characters/animals/hippopotame.png, public/assets/images/characters/animals/mouton.png
+Generated source: /Users/thief/.codex/generated_images/01a119f9-5b1a-7f42-9bff-4466d2a6eec7/exec-920d93be-a8da-4e5b-8435-8711c59a0a36.png
+Retained full-resolution original: artifacts/sprite-originals/additions-2026-10-08/rhinoceros.png
+Published output: public/assets/images/characters/animals/rhinoceros.png, 512 × 512 PNG RGBA.

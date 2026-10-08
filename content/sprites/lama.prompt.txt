@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/lama.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-16a226a9-02fd-4181-b6db-e9378729d512.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/lama.png
+Style references: public/assets/images/characters/animals/chevre.png, public/assets/images/characters/animals/mouton.png.
+
+Exact prompt:
+One cute lama animal head sprite for Find It. A friendly llama head: tan and cream short fleece, long curved banana-shaped erect ears, elongated camelid face, cream cheeks, distinctive gently cleft camelid upper lip, dark nose. Natural deep brown irises, round pupils. Llama ears must be curved banana-shaped, and facial fleece relatively short, unmistakably a llama rather than an alpaca. The isolated head stops just below the chin. Match supplied reference illustration style: rounded cute game proportions, expressive eyes, fine fur texture, matte diffuse finish. Perfect frontal view, HEAD ONLY without neck or body. Whole silhouette and ears inside square with tiny clear margins. Genuine transparent alpha background. No accessories, text or shadow.

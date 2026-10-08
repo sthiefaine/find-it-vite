@@ -1,0 +1,14 @@
+Find It — nouvel animal « Orque » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a119f9-305a-7f81-8cd3-938bdeb76d67/exec-97fa8396-3c7a-454d-be61-f600c538f4d1.png
+Original conservé : artifacts/sprite-originals/additions-2026-10-08/orque.png
+Références de style : hippopotame.png, vache.png.
+
+Use case: stylized-concept. Asset type: transparent square animal head sprite for the Find It game.
+Input images: reference images are STYLE REFERENCES ONLY. Match their warm matte semi-realistic fine texture, softly rounded expressive face and friendly modern game illustration. Do not copy the species anatomy, coat or ears of the references.
+Scene/backdrop: genuinely transparent alpha, no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on front view, upright and centered. Absolutely no neck, shoulders, torso, full body or scenery. Entire silhouette visible within a square, large face occupying almost all canvas with tiny clear margins, designed to remain recognizable at 45×45.
+Style: natural species-specific coloration, warm diffuse matte rendering, fine realistic skin/fur/scales texture, soft intrinsic volume and appealing rounded proportions. Expressive eyes in the biologically plausible iris color specified below, natural small reflections, no exaggerated eye glare. Slight friendly calm expression.
+Avoid: accessories, human hair, invented tuft, lettering, logo, watermark, outlines, harsh shadows, rim lighting, plastic gloss, white rectangle, checkerboard background, halo, any additional animal.
+Output: a high resolution square PNG with true transparency, clean silhouette.
+Subject: An orca / killer whale FACE ONLY directly head-on: rounded broad black head, symmetrical natural white oval eye patches situated around and just behind the actual small DARK BROWN almost black eyes, white lower jaw and black central forehead. Broad blunt marine muzzle, gentle closed smiling mouth. Distinct natural black and white orca markings; no dolphin beak, horns, ears, neck, dorsal fin, flippers or body.

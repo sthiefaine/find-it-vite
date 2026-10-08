@@ -1,0 +1,14 @@
+Find It — nouvel animal « Requin-marteau » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a119f9-305a-7f81-8cd3-938bdeb76d67/exec-4d53fd8f-8ac7-4326-87b5-7793a25e544a.png
+Original conservé : artifacts/sprite-originals/additions-2026-10-08/requin-marteau.png
+Références de style : crocodile.png, hippopotame.png.
+
+Use case: stylized-concept. Asset type: transparent square animal head sprite for the Find It game.
+Input images: reference images are STYLE REFERENCES ONLY. Match their warm matte semi-realistic fine texture, softly rounded expressive face and friendly modern game illustration. Do not copy the species anatomy, coat or ears of the references.
+Scene/backdrop: genuinely transparent alpha, no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on front view, upright and centered. Absolutely no neck, shoulders, torso, full body or scenery. Entire silhouette visible within a square, large face occupying almost all canvas with tiny clear margins, designed to remain recognizable at 45×45.
+Style: natural species-specific coloration, warm diffuse matte rendering, fine realistic skin/fur/scales texture, soft intrinsic volume and appealing rounded proportions. Expressive eyes in the biologically plausible iris color specified below, natural small reflections, no exaggerated eye glare. Slight friendly calm expression.
+Avoid: accessories, human hair, invented tuft, lettering, logo, watermark, outlines, harsh shadows, rim lighting, plastic gloss, white rectangle, checkerboard background, halo, any additional animal.
+Output: a high resolution square PNG with true transparency, clean silhouette.
+Subject: A hammerhead shark HEAD/FACE ONLY strictly front-on: extremely distinctive broad horizontal flattened hammer-shaped cephalofoil extending left and right, rounded lobes at both ends with a DARK BROWN nearly black eye at each outer side, gray-blue fine matte shark skin above and pale cream-gray lower face, centered small gentle closed mouth. Symmetrical broad hammer head must be the silhouette, no neck, torso, fins or shoulders, no human eyebrows.

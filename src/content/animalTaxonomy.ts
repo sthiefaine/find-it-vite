@@ -32,12 +32,18 @@ export const ANIMAL_SPECIES: Record<string, string> = {
   guepard: "Guépard", zebre: "Zèbre", dinde: "Dinde", lion: "Lion", tigre: "Tigre",
   ours: "Ours", loup: "Loup", singe: "Singe", ecureuil: "Écureuil", herisson: "Hérisson",
   hibou: "Hibou", "raton-laveur": "Raton laveur", crocodile: "Crocodile", koala: "Koala",
+  lama: "Lama", alpaga: "Alpaga", lynx: "Lynx", "panda-roux": "Panda roux",
+  cerf: "Cerf", blaireau: "Blaireau", castor: "Castor", dauphin: "Dauphin",
+  orque: "Orque", phoque: "Phoque", morse: "Morse", "loutre-de-mer": "Loutre de mer",
+  tortue: "Tortue", requin: "Requin", poisson: "Poisson", poulpe: "Poulpe",
+  manchot: "Manchot", beluga: "Béluga",
+  rhinoceros: "Rhinocéros",
 };
 
 /** Creative starting points; adding a suggestion never adds a sprite to the game. */
 export const BREED_SUGGESTIONS: Record<string, readonly string[]> = {
-  chat: ["Européen", "Siamois", "Persan", "Maine Coon", "British Shorthair", "Bengal", "Sphynx"],
-  chien: ["Labrador", "Golden Retriever", "Berger allemand", "Husky", "Dalmatien", "Beagle", "Caniche", "Shiba Inu"],
+  chat: ["Européen", "Siamois", "Persan", "Maine Coon", "British Shorthair", "Bengal", "Sphynx", "Ragdoll"],
+  chien: ["Labrador", "Golden Retriever", "Berger allemand", "Husky", "Dalmatien", "Beagle", "Caniche", "Shiba Inu", "Berger australien"],
   mouton: ["Mérinos", "Ouessant", "Suffolk", "Nez noir du Valais"],
   oiseau: ["Perruche ondulée", "Calopsitte", "Ara", "Canari", "Chardonneret"],
   serpent: ["Python royal", "Serpent des blés", "Boa constricteur", "Couleuvre"],
@@ -45,6 +51,8 @@ export const BREED_SUGGESTIONS: Record<string, readonly string[]> = {
   chevre: ["Alpine", "Saanen", "Angora", "Chèvre naine"],
   poule: ["Soie", "Sussex", "Brahma", "Marans"],
   lapin: ["Bélier", "Angora", "Rex", "Nain"],
+  cheval: ["Shetland"],
+  cochon: ["Kunekune"],
 };
 
 export function normalizedAnimalMetadata(animal: AnimalMetadata & { color: CharacterColor }) {

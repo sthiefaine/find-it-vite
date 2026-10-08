@@ -34,6 +34,12 @@ describe("accessoires réutilisables", () => {
     const custom = getAccessoryBox(accessory, "/custom.png", { eyesY: .6, muzzleY: .8 });
     expect(custom.y + custom.height / 2).toBeCloseTo(.6);
   });
+  it("couvre les deux yeux écartés du requin-marteau avec les lunettes", () => {
+    const box = getAccessoryBox(getAccessory("sunglasses")!, "/assets/images/characters/animals/requin-marteau.png");
+    expect(box.x).toBeLessThan(.09);
+    expect(box.x + box.width).toBeGreaterThan(.91);
+    expect(box.y + box.height / 2).toBeCloseTo(.39);
+  });
   it("réserve le forçage de tenue aux aperçus locaux et rejette les identifiants inconnus", () => {
     expect(readAccessoryPreview("?accessory=moustache", true)).toBe("moustache");
     expect(readAccessoryPreview("?accessory=moustache", false)).toBeUndefined();

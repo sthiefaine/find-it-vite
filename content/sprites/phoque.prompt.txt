@@ -1,0 +1,14 @@
+Find It — nouvel animal « Phoque » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a119f9-305a-7f81-8cd3-938bdeb76d67/exec-908e8613-fab6-4da0-a46f-e1ca47c3a77c.png
+Original conservé : artifacts/sprite-originals/additions-2026-10-08/phoque.png
+Références de style : mouton.png, hippopotame.png.
+
+Use case: stylized-concept. Asset type: transparent square animal head sprite for the Find It game.
+Input images: reference images are STYLE REFERENCES ONLY. Match their warm matte semi-realistic fine texture, softly rounded expressive face and friendly modern game illustration. Do not copy the species anatomy, coat or ears of the references.
+Scene/backdrop: genuinely transparent alpha, no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on front view, upright and centered. Absolutely no neck, shoulders, torso, full body or scenery. Entire silhouette visible within a square, large face occupying almost all canvas with tiny clear margins, designed to remain recognizable at 45×45.
+Style: natural species-specific coloration, warm diffuse matte rendering, fine realistic skin/fur/scales texture, soft intrinsic volume and appealing rounded proportions. Expressive eyes in the biologically plausible iris color specified below, natural small reflections, no exaggerated eye glare. Slight friendly calm expression.
+Avoid: accessories, human hair, invented tuft, lettering, logo, watermark, outlines, harsh shadows, rim lighting, plastic gloss, white rectangle, checkerboard background, halo, any additional animal.
+Output: a high resolution square PNG with true transparency, clean silhouette.
+Subject: A harbor seal FACE ONLY head-on: round silver-gray fur head with natural darker mottling, a tiny broad nose, rounded cream muzzle with natural fine whiskers, dark moist nose and large DARK BROWN nearly black eyes. Small visible ear openings but NO external ears; no neck, fins or body.

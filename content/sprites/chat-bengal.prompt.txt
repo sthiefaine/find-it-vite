@@ -1,0 +1,14 @@
+Use case: stylized-concept.
+Asset type: ONE standalone transparent square animal HEAD sprite for the Find It animal game.
+The input images are STYLE REFERENCES ONLY. Rebuild a new animal matching exactly their collection: finely textured semi-realistic soft fur, warm diffuse matte volume, rounded friendly proportions and expressive eyes, smooth modern game illustration with nostalgic charm. Species anatomy must come from the requested new animal, never copy sheep ears or the tiger's stripes to another species.
+Composition: ONE HEAD ONLY, straight-on front view, upright and centered, mouth closed with a gentle friendly expression. NO neck, throat, shoulders, torso, legs or body. Round complete head silhouette ending immediately beneath the chin. All ears and distinguishing head features fully inside the square, fill about 92% of canvas, narrow clear transparent margin on all sides. The eyes' large expressive style and delicate lashes match the reference, but iris colors MUST match the requested animal's natural colors.
+Lighting: matte diffuse intrinsic volume, rich natural coat hues, no hard shadow, no cast shadow, no rim light, no plastic or metallic gloss. Restrained small eye catchlights.
+Background: genuine fully transparent alpha, NO white rectangle, NO checkerboard drawing, NO background, NO halo.
+Avoid: letters, text, logo, watermark, outline, extra heads, clothing, collars, accessories, invented hair tufts, human hair. Clean crisp silhouette readable at 45 x 45 pixels. Square image.
+Subject: BENGAL CAT, short warm golden tawny finely textured fur, distinctive dark rosette markings on temples and cheeks with small open centers, dark forehead tabby markings, creamy ivory muzzle, pinkish brown nose. Smallish rounded triangular ears and broad feline cheek pads. BOTH irises natural yellow-green / olive GREEN with subtly golden inner ring, dark pupils. HEAD ONLY. This is a domestic Bengal cat, not a leopard or tiger.
+
+Generation: built-in image_gen, transparent_background=true, 8 October 2026.
+Style references: public/assets/images/characters/animals/mouton.png, public/assets/images/characters/animals/chat.png
+Generated source: /Users/thief/.codex/generated_images/01a119f9-5b1a-7f42-9bff-4466d2a6eec7/exec-3ab6d81a-d7ca-4dcf-aa03-f07f9ad5de03.png
+Retained full-resolution original: artifacts/sprite-originals/additions-2026-10-08/chat-bengal.png
+Published output: public/assets/images/characters/animals/chat-bengal.png, 512 × 512 PNG RGBA.

@@ -19,7 +19,7 @@ describe("thèmes proposés avant une partie", () => {
       expect(option.availableCount).toBe(option.totalCount);
       expect(option.enabled).toBe(!option.theme.comingSoon && option.availableCount >= 3);
     }
-    for (const id of ["ferme", "foret", "savane"] as const) {
+    for (const id of ["ferme", "foret", "savane", "ocean"] as const) {
       const candidates = animalsPack.filter((animal) => animal.tags?.includes(id));
       const option = endless.find(({ theme }) => theme.id === id)!;
       expect(option.totalCount).toBe(candidates.length);
@@ -32,7 +32,7 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("fait un repli sûr tant qu'un thème n'a pas trois portraits débloqués", () => {
-    const ocean = getWorld("ocean")!.characters;
+    const ocean = animalsPack.filter((animal) => animal.tags?.includes("ocean"));
     const two = { collection: Object.fromEntries(ocean.slice(0, 2).map((animal) => [animal.name, 1])) };
     const three = { collection: Object.fromEntries(ocean.slice(0, 3).map((animal) => [animal.name, 1])) };
     expect(themeOptions("endless", two).find(({ theme }) => theme.id === "ocean")).toMatchObject({ availableCount: 2, totalCount: ocean.length, enabled: false });
@@ -40,6 +40,14 @@ describe("thèmes proposés avant une partie", () => {
     expect(themeOptions("endless", three).find(({ theme }) => theme.id === "ocean")).toMatchObject({ availableCount: 3, enabled: true });
     expect(playThemePool("endless", "ocean", three)).toEqual(ocean.slice(0, 3));
     expect(playThemePool("duel", "ocean", defaultSave())).toEqual(ocean);
+  });
+
+  it("utilise les portraits marins publiés pour le thème Océan", () => {
+    const pool = playThemePool("duel", "ocean", defaultSave());
+    expect(pool.length).toBeGreaterThanOrEqual(3);
+    expect(pool.every((animal) => animal.tags?.includes("ocean"))).toBe(true);
+    expect(pool.every((animal) => !animal.emoji && animal.imageSrc.startsWith("/assets/images/characters/animals/"))).toBe(true);
+    expect(PLAY_THEMES.find((theme) => theme.id === "ocean")?.preview).toBe(pool.find((animal) => animal.name === "dauphin")?.imageSrc);
   });
 
   it("ignore les anciens liens serie et les thèmes inconnus ou à venir", () => {
@@ -54,7 +62,7 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("limite toutes les cibles et tous les leurres de l'Infini au thème autorisé", () => {
-    const ocean = getWorld("ocean")!.characters;
+    const ocean = animalsPack.filter((animal) => animal.tags?.includes("ocean"));
     const save = { collection: Object.fromEntries([...animalsPack.filter((animal) => ["renard", "ours", "singe", "giraffe", "zebre", "elephant"].includes(animal.name)), ...ocean.slice(0, 3)].map((animal) => [animal.name, 1])) };
     for (const theme of PLAY_THEMES) {
       const pool = playThemePool("endless", theme.id, save);

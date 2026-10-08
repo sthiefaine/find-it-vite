@@ -1,0 +1,14 @@
+Use case: stylized-concept.
+Asset type: ONE standalone transparent square animal HEAD sprite for the Find It animal game.
+The input images are STYLE REFERENCES ONLY. Rebuild a new animal matching exactly their collection: finely textured semi-realistic soft fur, warm diffuse matte volume, rounded friendly proportions and expressive eyes, smooth modern game illustration with nostalgic charm. Species anatomy must come from the requested new animal, never copy sheep ears or the tiger's stripes to another species.
+Composition: ONE HEAD ONLY, straight-on front view, upright and centered, mouth closed with a gentle friendly expression. NO neck, throat, shoulders, torso, legs or body. Round complete head silhouette ending immediately beneath the chin. All ears and distinguishing head features fully inside the square, fill about 92% of canvas, narrow clear transparent margin on all sides. The eyes' large expressive style and delicate lashes match the reference, but iris colors MUST match the requested animal's natural colors.
+Lighting: matte diffuse intrinsic volume, rich natural coat hues, no hard shadow, no cast shadow, no rim light, no plastic or metallic gloss. Restrained small eye catchlights.
+Background: genuine fully transparent alpha, NO white rectangle, NO checkerboard drawing, NO background, NO halo.
+Avoid: letters, text, logo, watermark, outline, extra heads, clothing, collars, accessories, invented hair tufts, human hair. Clean crisp silhouette readable at 45 x 45 pixels. Square image.
+Subject: AUSTRALIAN SHEPHERD DOG, natural BLUE MERLE coat with irregular black patches over slate-grey fur, warm tan eyebrow points and cheeks, white central blaze and white muzzle, medium-sized triangular ears folding forward at their tips. Broad friendly head, fine medium-long cheek fur ending at the chin, black dog nose. Natural heterochromia: viewer-left iris BLUE, viewer-right iris AMBER-BROWN, dark pupils, eye reflections restrained. Coat is richly pigmented grey/black merle, not predominantly all-white. HEAD ONLY, no neck.
+
+Generation: built-in image_gen, transparent_background=true, 8 October 2026.
+Style references: public/assets/images/characters/animals/mouton.png, public/assets/images/characters/animals/chien.png
+Generated source: /Users/thief/.codex/generated_images/01a119f9-5b1a-7f42-9bff-4466d2a6eec7/exec-9361e962-7580-499d-aa15-9e45294bdf9b.png
+Retained full-resolution original: artifacts/sprite-originals/additions-2026-10-08/chien-berger-australien.png
+Published output: public/assets/images/characters/animals/chien-berger-australien.png, 512 × 512 PNG RGBA.

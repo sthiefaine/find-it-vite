@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/alpaga.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-1c1d8c00-341f-49d4-857b-c4ec070e1683.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/alpaga.png
+Style references: public/assets/images/characters/animals/mouton.png, public/assets/images/characters/animals/chevre.png.
+
+Exact prompt:
+One friendly alpaga head sprite. A friendly huacaya alpaca head: dense fluffy ivory cream fleece, round teddy-like face, short straight pointed upright ears, short camelid muzzle with soft cleft upper lip, charcoal nose. Natural deep brown irises, round pupils, clearly visible through short facial fleece. Anatomically shorter face and straighter shorter ears than a llama. Fluff is natural alpaca fleece, no invented hairstyle. Chin only, no neck. Supplied animal illustrations are style references only: rounded cute semi-realistic game illustration, expressive eyes, fine wool texture and soft matte diffuse rendering. Strict front view, head alone without neck or body, complete ears and chin within square, tiny transparent margins. Genuine transparent alpha background. No text, accessories or shadow.

@@ -1,0 +1,14 @@
+Use case: stylized-concept.
+Asset type: ONE standalone transparent square animal HEAD sprite for the Find It animal game.
+The input images are STYLE REFERENCES ONLY. Rebuild a new animal matching exactly their collection: finely textured semi-realistic soft fur, warm diffuse matte volume, rounded friendly proportions and expressive eyes, smooth modern game illustration with nostalgic charm. Species anatomy must come from the requested new animal, never copy sheep ears or the tiger's stripes to another species.
+Composition: ONE HEAD ONLY, straight-on front view, upright and centered, mouth closed with a gentle friendly expression. NO neck, throat, shoulders, torso, legs or body. Round complete head silhouette ending immediately beneath the chin. All ears and distinguishing head features fully inside the square, fill about 92% of canvas, narrow clear transparent margin on all sides. The eyes' large expressive style and delicate lashes match the reference, but iris colors MUST match the requested animal's natural colors.
+Lighting: matte diffuse intrinsic volume, rich natural coat hues, no hard shadow, no cast shadow, no rim light, no plastic or metallic gloss. Restrained small eye catchlights.
+Background: genuine fully transparent alpha, NO white rectangle, NO checkerboard drawing, NO background, NO halo.
+Avoid: letters, text, logo, watermark, outline, extra heads, clothing, collars, accessories, invented hair tufts, human hair. Clean crisp silhouette readable at 45 x 45 pixels. Square image.
+Subject: RAGDOLL CAT, seal bicolor coat, fluffy medium-long silky white and cream fur with dark seal-brown ears and eye-mask patches, distinctive clean inverted white V from forehead over nose into white muzzle. Broad gentle cat head, moderately wide triangular ears with rounded tips, pink nose, fluffy cheek outline but no neck ruff below the chin. BOTH irises clear vivid natural BLUE, never brown; dark pupils. HEAD ONLY.
+
+Generation: built-in image_gen, transparent_background=true, 8 October 2026.
+Style references: public/assets/images/characters/animals/mouton.png, public/assets/images/characters/animals/chat.png
+Generated source: /Users/thief/.codex/generated_images/01a119f9-5b1a-7f42-9bff-4466d2a6eec7/exec-66224a83-e2fe-455e-9f39-bdfdf68ee727.png
+Retained full-resolution original: artifacts/sprite-originals/additions-2026-10-08/chat-ragdoll.png
+Published output: public/assets/images/characters/animals/chat-ragdoll.png, 512 × 512 PNG RGBA.

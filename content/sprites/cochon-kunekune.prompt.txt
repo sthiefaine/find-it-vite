@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/cochon-kunekune.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-0ddd1d5b-74c7-4175-81c3-cb175f304957.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/cochon-kunekune.png
+Style references: public/assets/images/characters/animals/cochon.png, public/assets/images/characters/animals/mouton.png.
+
+Exact prompt:
+One friendly KUNEKUNE PIG head sprite. A friendly Kunekune pig head: very round broad pig face, short wide pink snout with two nostrils, piebald ginger reddish-brown and black fine bristled coat, small soft floppy ears, natural dark brown irises. Cute recognizable pig anatomy, no neck or body. Supplied pig and sheep images are illustration style references: cute rounded game proportions, expressive eyes, fine semi-realistic fur texture and soft matte diffuse rendering. Perfect straight-on front view, isolated head alone, whole ears and chin inside square with tiny clear margins. Genuine transparent alpha background. No accessories, text, outline or shadow.

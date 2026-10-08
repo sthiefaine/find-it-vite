@@ -3,7 +3,6 @@ import { animalsPack } from "../helpers/characters";
 import type { CharacterDetails } from "../helpers/characters";
 import { unlockedAnimals } from "./unlockedAnimals";
 import type { AnimalUnlockSave } from "./unlockedAnimals";
-import { getWorld } from "./worlds";
 
 export type PlayMode = "endless" | "duel";
 export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "personnes" | "drapeaux";
@@ -21,7 +20,7 @@ export const PLAY_THEMES: readonly PlayTheme[] = [
   { id: "ferme", label: "À la ferme", description: "Vaches, moutons et leurs voisins.", emoji: "🌾", preview: "/assets/images/characters/animals/vache.png" },
   { id: "foret", label: "Forêt", description: "Les habitants des bois et des sous-bois.", emoji: "🌲", preview: "/assets/images/characters/animals/renard.png" },
   { id: "savane", label: "Savane", description: "Un safari de portraits à retrouver.", emoji: "🌿", preview: "/assets/images/characters/animals/giraffe.png" },
-  { id: "ocean", label: "Océan", description: "Une plongée parmi les animaux marins.", emoji: "🐳" },
+  { id: "ocean", label: "Océan", description: "Une plongée parmi les animaux marins.", emoji: "🐳", preview: "/assets/images/characters/animals/dauphin.png" },
   { id: "personnes", label: "Personnes", description: "Une nouvelle galerie de visages.", emoji: "🙂", comingSoon: true },
   { id: "drapeaux", label: "Drapeaux", description: "Les couleurs du monde entier.", emoji: "🏳️", comingSoon: true },
 ];
@@ -31,8 +30,8 @@ function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
     case "animaux": return animalsPack;
     case "ferme":
     case "foret":
-    case "savane": return animalsPack.filter((animal) => animal.tags?.includes(id));
-    case "ocean": return getWorld("ocean")?.characters ?? [];
+    case "savane":
+    case "ocean": return animalsPack.filter((animal) => animal.tags?.includes(id));
     default: return [];
   }
 }

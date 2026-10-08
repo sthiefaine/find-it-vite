@@ -1,0 +1,10 @@
+Status: ready
+Asset: public/assets/images/characters/animals/chevre-saanen.png
+Generated with built-in image_gen on 2026-10-08. Genuine transparent alpha preserved.
+Runtime image: 512 × 512 PNG.
+Original generated image: /Users/thief/.codex/generated_images/01a119f8-ff75-74c0-b582-feac87c7e4a9/exec-8d4cab15-a2dd-4e4d-ac95-195aad490ac8.png
+Local full-resolution copy: artifacts/sprite-originals/additions-2026-10-08/chevre-saanen.png
+Style references: public/assets/images/characters/animals/chevre.png, public/assets/images/characters/animals/vache.png.
+
+Exact prompt:
+One friendly WHITE SAANEN GOAT head sprite. A Saanen goat head: sleek short pure white fur, narrow elegant unmistakable goat face with softly rounded pale pink muzzle, upright slightly outward-pointing ears, small natural ivory horns and a very small short white chin beard contained in head. Distinctive pale golden AMBER irises with clean dark HORIZONTAL RECTANGULAR pupils. Smooth short coat differentiates this goat from the curly mohair Angora goat. No neck. Supplied images are illustration style references only: cute rounded proportions, fine semi-realistic short fur texture, soft matte diffuse rendering. Straight-on frontal view, one isolated head without neck or body. All ears and horns fit inside the square with a tiny clear margin. Genuine transparent alpha background. No accessories, text or shadow.
