@@ -190,29 +190,3 @@
 @media (prefers-reduced-motion: reduce) {
   .play-theme { transition: none; }
 }
-
-.play-duel-devices {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.play-duel-devices button {
-  display: grid;
-  justify-items: center;
-  gap: 5px;
-  padding: 12px 8px;
-  border: 3px solid #ffffff26;
-  border-radius: 18px;
-  color: #fff;
-  background: #16062f66;
-}
-.play-duel-devices button[aria-pressed="true"] {
-  border-color: #ffc800;
-  background: #ffc80022;
-  box-shadow: 0 3px 0 #ad6b41;
-}
-.play-duel-devices button:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-.play-duel-devices .game-icon { width: 40px; height: 40px; }
-.play-duel-devices strong { font-size: 16px; }
-.play-duel-devices span { font-size: 12px; line-height: 1.3; color: #e0d0ff; }

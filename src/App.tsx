@@ -1,14 +1,13 @@
 import { useTranslation } from "./i18n";
 import { localeDirection } from "./i18n/locales";
 import { lazy, Suspense, useEffect } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home/Home";
 import Game from "./pages/Game/Game";
 import Adventure from "./pages/Adventure/Adventure";
 import Album from "./pages/Album/Album";
 import Options from "./pages/Options/Options";
-import Duel from "./pages/Duel/Duel";
 import PlaySetup from "./pages/PlaySetup/PlaySetup";
 
 import "./App.css";
@@ -21,6 +20,11 @@ import { useAndroidBackButton } from "./platform/backButton";
 import { AppUpdates } from "./components/AppUpdates/AppUpdates";
 
 const Multiplayer = lazy(() => import("./pages/Multiplayer/Multiplayer"));
+
+function LegacyDuel() {
+  const { search } = useLocation();
+  return <Navigate to={`/multiplayer${search}`} replace />;
+}
 
 // Outil de test (window.__findIt), jamais inclus en production
 if (import.meta.env.DEV) void import("./helpers/devFindIt");
@@ -46,7 +50,7 @@ function App() {
         <Route path="/adventure" element={<Adventure />} />
         <Route path="/album" element={<Album />} />
         <Route path="/options" element={<Options />} />
-        <Route path="/duel" element={<Duel />} />
+        <Route path="/duel" element={<LegacyDuel />} />
         <Route path="/play" element={<PlaySetup />} />
         <Route path="/multiplayer" element={<Suspense fallback={null}><Multiplayer /></Suspense>} />
         <Route path="*" element={<Navigate to="/" replace />} />

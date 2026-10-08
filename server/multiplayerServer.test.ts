@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it } from "vitest";
-import { WebSocket } from "ws";
+import { WebSocket, type ClientOptions } from "ws";
 import { createMultiplayerServer, type MultiplayerServerOptions } from "./multiplayerServer";
 import { levelCharacterIds } from "../src/multiplayer/multiplayerRules";
 import type { ClientMessage, ServerMessage } from "../src/multiplayer/protocol";
@@ -23,8 +23,8 @@ async function fixture(options: MultiplayerServerOptions = {}) {
   };
 }
 
-async function connect(url: string) {
-  const socket = new WebSocket(url);
+async function connect(url: string, options?: ClientOptions) {
+  const socket = new WebSocket(url, options);
   const messages: ServerMessage[] = [];
   socket.on("message", (data) => messages.push(JSON.parse(data.toString()) as ServerMessage));
   await new Promise<void>((resolve, reject) => { socket.once("open", resolve); socket.once("error", reject); });
@@ -294,6 +294,20 @@ describe("real multiplayer WebSocket server", () => {
     const failure = await new Promise<Error>((resolve) => rejected.once("error", resolve));
     expect(failure.message).toContain("403");
     expect(await (await fetch(`${f.http}/health`)).json()).toEqual({ ok: true });
+  });
+
+  it("creates and joins a room behind a proxy preserving the public host and HTTPS origin", async () => {
+    const f = await fixture({ trustProxy: true });
+    const proxyHeaders = { origin: "https://find-it.example", headers: { Host: "find-it.example", "X-Forwarded-For": "198.51.100.7" } };
+    const a = await connect(f.url, proxyHeaders);
+    const b = await connect(f.url, proxyHeaders);
+    a.send({ type: "create", name: "Alice", theme: "histoire" });
+    b.send({ type: "join", code: (await a.session()).code, name: "Bob" });
+    await b.session();
+    const state = await a.state(s => s.room.players.length === 2);
+    expect(state.room.theme).toBe("histoire");
+    expect(state.room.players.map(p => p.name)).toEqual(["Alice", "Bob"]);
+    expect(state.room.players.every(p => p.connected)).toBe(true);
   });
 
   it("requires the matching protocol before creating a room", async () => {

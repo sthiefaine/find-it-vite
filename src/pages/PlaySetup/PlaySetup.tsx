@@ -23,7 +23,6 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
   const save = useSaveStore((state) => state.save);
   const loaded = useSaveStore((state) => state.loaded);
   const [selectedId, setSelectedId] = useState<PlayThemeId>("animaux");
-  const [duelDevice, setDuelDevice] = useState<"online" | "local">("online");
   const navigate = useNavigate();
   const options = themeOptions(mode, save);
   const selected = options.find(({ theme }) => theme.id === selectedId);
@@ -31,21 +30,14 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
 
   const start = () => {
     if (!canPlay) return;
-    navigate(`${mode === "duel" ? (duelDevice === "online" ? "/multiplayer" : "/duel") : "/game"}?theme=${encodeURIComponent(selectedId)}`);
+    navigate(`${mode === "duel" ? "/multiplayer" : "/game"}?theme=${encodeURIComponent(selectedId)}`);
   };
 
   return (
     <div className="fi-screen play-setup-screen">
       <main className="fi-inner play-setup-inner">
         <h2 id="play-theme-title" className="play-setup-title">{mode === "duel" ? tr("Duel") : tr("Infini")}</h2>
-        {mode === "duel" && <div className="play-duel-devices" role="group" aria-label={tr("Où jouer au duel ?")}>
-          <button type="button" aria-pressed={duelDevice === "online"} onClick={() => setDuelDevice("online")}>
-            <GameIcon name="duel" /><strong>{tr("En ligne")}</strong><span>{tr("Chacun son écran")}</span>
-          </button>
-          <button type="button" aria-pressed={duelDevice === "local"} onClick={() => setDuelDevice("local")}>
-            <GameIcon name="people" /><strong>{tr("Côte à côte")}</strong><span>{tr("Sur le même écran")}</span>
-          </button>
-        </div>}
+        {mode === "duel" && <p className="play-setup-hint">{tr("Duel en ligne")} · {tr("Chacun son écran")}</p>}
         <div className="play-theme-grid" role="group" aria-labelledby="play-theme-title">
           {options.map(({ theme, availableCount, totalCount, enabled }) => {
             const selected = theme.id === selectedId;
@@ -84,7 +76,7 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
         </p>
         <div className="play-setup-action">
           <button type="button" className="play-setup-start" disabled={!canPlay} onClick={start}>
-            {!loaded ? tr("Chargement…") : mode === "duel" ? (duelDevice === "online" ? tr("Ouvrir les salons") : tr("Préparer le duel")) : tr("Jouer en Infini")}
+            {!loaded ? tr("Chargement…") : mode === "duel" ? tr("Ouvrir les salons") : tr("Jouer en Infini")}
           </button>
         </div>
       </main>

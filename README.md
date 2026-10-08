@@ -5,7 +5,7 @@ Un jeu d'observation pour toute la famille : trouve le portrait recherché dans 
 - Aventure, avec des mondes et des étoiles ;
 - Infini ;
 - Défi du jour ;
-- Duel à deux en salon en ligne ou sur le même écran.
+- Duel à deux en salon en ligne, chacun sur son appareil.
 
 Les personnages trouvés remplissent un album.
 
@@ -150,7 +150,7 @@ Le thème Océan d’Infini et de Duel utilise les portraits marins publiés dan
 l’atelier. Le monde Océan de l’Aventure conserve ses personnages historiques.
 
 Le thème **Politique française** ajoute 41 portraits, dont 12 disponibles au départ en
-Infini, Duel local et salons en ligne. Il comprend des présidents et figures
+Infini et salons en ligne. Il comprend des présidents et figures
 historiques, ainsi que les sénateurs Gérard Larcher, Claude Malhuret, Patrick Kanner,
 Cécile Cukierman, Laurence Rossignol, Mathieu Darnaud et Bruno Retailleau, et les députés Yaël
 Braun-Pivet, Mathilde Panot, Manuel Bompard, Sébastien Chenu et Charles de Courson.
@@ -164,7 +164,7 @@ Les déguisements restent réservés aux animaux pour conserver les traits disti
 des personnalités. Ces portraits ne créent pas de nouveau monde d’Aventure.
 
 Le thème **Histoire** propose 24 portraits transparents, dont 12 au départ
-en Infini, Duel local et salons en ligne : de l’Antiquité aux figures des sciences,
+en Infini et salons en ligne : de l’Antiquité aux figures des sciences,
 des arts et des droits civiques. Sa collection dédiée dans l’album permet de
 consulter une courte description, une période et un lien de référence.
 Les 41 personnalités politiques ont également une fiche sourcée dans l’album.
@@ -330,15 +330,23 @@ silencieusement leurs modifications : une révision périmée demande de recharg
 
 ## Déploiement web (Docker / Coolify)
 
-Le `Dockerfile` construit le jeu avec pnpm (lockfile figé), puis le sert avec nginx (`nginx.conf`) :
+Le `Dockerfile` construit le jeu avec pnpm (lockfile figé), puis démarre nginx
+et le serveur Node des salons dans le même conteneur :
 
 - les routes de la SPA renvoient vers `index.html` ;
 - les fichiers hashés sont en cache pendant 1 an ;
 - `index.html`, `sw.js` et le manifeste ne sont jamais mis en cache longtemps ;
 - `version.json` porte un identifiant unique par compilation et n'est pas mis en cache ;
 - un fichier manquant sous `/assets/` renvoie une vraie 404.
+- `/ws` est relayé vers le serveur des salons, sans exposer son port interne ;
+- `/health` contrôle que le serveur des salons répond ;
+- si l’un des deux serveurs s’arrête, le conteneur s’arrête pour permettre son redémarrage.
 
-Dans Coolify, choisissez le build pack *Dockerfile* et le port 80.
+Dans Coolify, choisissez le build pack *Dockerfile* et le port 80 (le port 3000
+reste aussi accepté). Le domaine HTTPS sert le jeu et les WebSockets sur la même
+origine : aucune variable `VITE_MULTIPLAYER_URL` n’est nécessaire. Retirer cette
+variable si elle pointe vers un ancien service. Redéployer après ce changement
+de Dockerfile pour activer les salons ; conserver une seule instance.
 
 La version affichée dans les Options combine `package.json` et la date UTC de
 compilation. La PWA vérifie les mises à jour au retour au premier plan, au retour
@@ -357,8 +365,9 @@ Pour la PWA, Android, iOS et la check-list des stores, voir [MOBILE.md](MOBILE.m
 
 ## Salons multijoueurs
 
-Le bouton **Duel** propose **En ligne** (chacun son appareil) ou **Côte à côte**
-(le duel existant sur un seul écran). L’hôte choisit un thème puis crée un salon
+Le bouton **Duel** ouvre les salons en ligne, chacun sur son appareil.
+Les anciennes adresses `/duel` redirigent vers les salons.
+L’hôte choisit un thème puis crée un salon
 privé de deux joueurs ; son code comporte cinq lettres/chiffres sans caractères
 ambigus. Le QR et le lien d’invitation contiennent ce code, jamais le jeton privé
 de reconnexion.
@@ -400,8 +409,9 @@ Ouvrir `http://ADRESSE_RESEAU_DU_MAC:3001` sur les deux appareils. Le lien et le
 QR sont construits depuis cette adresse ; un lien `127.0.0.1` ne peut pas inviter
 un autre appareil.
 
-Pour une mise en ligne, le serveur Node doit tourner en continu avec HTTPS et
-WebSocket (`/ws`). L’image dédiée sert à la fois les fichiers du jeu et les salons :
+Pour une mise en ligne, le Dockerfile principal inclut déjà le serveur des salons
+derrière nginx. Le proxy de l’hébergeur doit accepter les WebSockets (`/ws`).
+Une image Node seule est aussi disponible :
 
 ```sh
 docker build -f server/Dockerfile -t find-it-multiplayer .
@@ -415,7 +425,7 @@ configurer `MULTIPLAYER_ALLOWED_ORIGINS=https://DOMAINE_DU_JEU` sur le serveur
 est acceptée pour les navigateurs. `TRUST_PROXY=1` ne s’active que derrière un
 proxy de confiance qui remplace `X-Forwarded-For`. Les salons sont en mémoire :
 un redémarrage les termine. Une seule instance est prévue pour cette version.
-Le push Git seul ne déploie pas ce nouveau service sur un hébergeur statique.
+Un hébergeur statique seul ne peut pas lancer le serveur des salons.
 
 Les thèmes Histoire et Politique démarrent chacun avec 12 personnages.
 Les autres se débloquent dans l’album pour **100 étoiles par personnage**.
