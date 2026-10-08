@@ -179,26 +179,6 @@
   font-weight: 900;
 }
 
-.album-collection-card__progress {
-  display: block;
-  height: 6px;
-  margin-top: 2px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: rgba(87, 49, 106, .11);
-}
-
-.album-collection-card__progress > span {
-  display: block;
-  height: 100%;
-  border-radius: inherit;
-  background: var(--collection-accent);
-}
-
-.album-collection-card.is-selected .album-collection-card__progress > span {
-  background: linear-gradient(90deg, #9564b3, #6b3b87);
-}
-
 @media (hover: hover) and (pointer: fine) {
   .album-collection-card:hover { transform: translateY(-2px); }
 }

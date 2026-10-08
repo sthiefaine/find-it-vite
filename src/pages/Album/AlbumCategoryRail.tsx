@@ -1,95 +1,87 @@
-import { useMemo } from "react";
+import { useMemo, type CSSProperties } from "react";
 import { animalCategoryLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
 import type { CharacterDetails } from "../../helpers/characters";
 import { portraitStyle } from "../../helpers/portraitScale";
 import { useTranslation } from "../../i18n";
+import "./AlbumCollectionRail.css";
 import "./AlbumCategoryRail.css";
 
-type AlbumCategoryRailProps = {
-  characters: CharacterDetails[];
-  category: string;
-  onSelect: (tag: string) => void;
+type Props = { characters: CharacterDetails[]; category: string; onSelect: (tag: string) => void };
+const PREVIEWS: Readonly<Record<string, readonly string[]>> = {
+  "": ["ara-bleu", "lion", "chat"],
+  ferme: ["vache-highland", "cochon", "mouton"], felins: ["tigre", "lion", "chat"],
+  canides: ["chien-husky", "renard", "loup"], oiseaux: ["ara-bleu", "toucan", "flamant-rose"],
+  reptiles: ["cameleon", "crocodile", "serpent"], sauvages: ["lion", "elephant", "panda"],
+  domestiques: ["chat", "chien", "lapin"], foret: ["renard", "cerf", "herisson"],
+  savane: ["giraffe", "lion", "elephant"], ocean: ["poulpe", "dauphin", "tortue-marine"],
+  jungle: ["toucan", "gorille", "paresseux"], polaires: ["ours-polaire", "manchot-empereur", "renard-polaire"],
+  rongeurs: ["hamster", "capybara", "ecureuil"], amphibiens: ["axolotl", "grenouille"],
+  primates: ["gorille", "orang-outan", "mandrill"],
 };
+const PALETTES = [
+  ["#fff4db", "#efd08a"], ["#e8f0df", "#bfd390"], ["#ede6fa", "#cab9ec"],
+  ["#f9e6de", "#e6b6a7"], ["#dcf5f4", "#9bd8e2"],
+];
 
-const CATEGORY_PORTRAITS: Readonly<Record<string, string>> = {
-  ferme: "vache-highland", felins: "tigre", canides: "chien-husky", oiseaux: "ara-bleu",
-  reptiles: "cameleon", sauvages: "lion", domestiques: "chat", foret: "renard",
-  savane: "giraffe", ocean: "dauphin", jungle: "toucan", polaires: "ours-polaire",
-  rongeurs: "hamster", amphibiens: "axolotl", primates: "gorille",
-};
+function previews(characters: CharacterDetails[], tag: string) {
+  const preferred = (PREVIEWS[tag] ?? []).flatMap(id => characters.find(character => character.name === id) ?? []);
+  const selected = [...preferred];
+  // Prefer different silhouettes, while keeping the illustrations inside their category.
+  for (const character of characters) {
+    if (selected.length >= 3) break;
+    if (!selected.some(item => item.name === character.name || (item.species && item.species === character.species))) selected.push(character);
+  }
+  for (const character of characters) {
+    if (selected.length >= 3) break;
+    if (!selected.includes(character)) selected.push(character);
+  }
+  return selected.slice(0, 3);
+}
 
-export function AlbumCategoryRail({ characters, category, onSelect }: AlbumCategoryRailProps) {
+export function AlbumCategoryRail({ characters, category, onSelect }: Props) {
   const { languageTag, t: tr } = useTranslation();
-  const categories = useMemo(() => {
-    const byTag = new Map<string, { tag: string; label: string; count: number; character: CharacterDetails }>();
+  const options = useMemo(() => {
+    const byTag = new Map<string, CharacterDetails[]>();
     for (const character of characters) {
       for (const tag of normalizedAnimalMetadata(character).tags) {
-        // Country identifiers are searchable names, rather than album categories.
         if (/^[a-z]{2}$/.test(tag)) continue;
-        const existing = byTag.get(tag);
-        if (existing) {
-          existing.count += 1;
-          if (character.name === CATEGORY_PORTRAITS[tag]) existing.character = character;
-        }
-        else byTag.set(tag, { tag, label: tr(animalCategoryLabel(tag)), count: 1, character });
+        const group = byTag.get(tag) ?? [];
+        group.push(character);
+        byTag.set(tag, group);
       }
     }
     const collator = new Intl.Collator(languageTag, { sensitivity: "base" });
-    return [...byTag.values()]
-      .filter(({ count }) => count < characters.length)
-      .sort((left, right) => collator.compare(left.label, right.label));
+    return [{ tag: "", label: tr("Toutes"), portraits: characters }, ...[...byTag]
+      .filter(([, portraits]) => portraits.length < characters.length)
+      .map(([tag, portraits]) => ({ tag, label: tr(animalCategoryLabel(tag)), portraits }))
+      .sort((left, right) => collator.compare(left.label, right.label))];
   }, [characters, languageTag, tr]);
+  if (options.length < 2) return null;
 
-  if (categories.length === 0) return null;
-
-  return (
-    <div className="album-category-rail" role="group" aria-label={tr("Catégorie")}>
-      <button
-        type="button"
-        className="album-category-option album-category-option-all"
-        aria-pressed={category === ""}
-        aria-label={`${tr("Toutes")} · ${tr("{{count}} portraits", { count: characters.length })}`}
-        onClick={event => {
-          onSelect("");
-          event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" });
-        }}
+  return <div className="album-collection-rail album-category-rail" role="group" aria-label={tr("Catégorie")}>
+    {options.map(({ tag, label, portraits }, index) => {
+      const selected = category === tag;
+      const [paper, glow] = PALETTES[index % PALETTES.length];
+      const illustrations = previews(portraits, tag);
+      return <button
+        type="button" key={tag} className={`album-collection-card album-category-card${selected ? " is-selected" : ""}`}
+        style={{ "--collection-paper": paper, "--collection-glow": glow } as CSSProperties}
+        aria-pressed={selected} aria-label={`${label} · ${tr("{{count}} portraits", { count: portraits.length })}`}
+        onClick={event => { onSelect(tag); event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" }); }}
       >
-        <span className="album-category-illustration" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" focusable="false">
-            <rect x="3" y="3" width="7" height="7" rx="2" />
-            <rect x="14" y="3" width="7" height="7" rx="2" />
-            <rect x="3" y="14" width="7" height="7" rx="2" />
-            <rect x="14" y="14" width="7" height="7" rx="2" />
-          </svg>
-        </span>
-        <span className="album-category-copy">
-          <span className="album-category-name">{tr("Toutes")}</span>
-          <span className="album-category-count" aria-hidden="true">{characters.length}</span>
-        </span>
-      </button>
-      {categories.map(({ tag, label, count, character }) => (
-        <button
-          key={tag}
-          type="button"
-          className="album-category-option"
-          aria-pressed={category === tag}
-          aria-label={`${label} · ${tr("{{count}} portraits", { count })}`}
-          onClick={event => {
-            onSelect(tag);
-            event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" });
-          }}
-        >
-          <span className="album-category-illustration" aria-hidden="true">
+        <span className="album-collection-card__art" aria-hidden="true">
+          <span className="album-collection-card__halo" />
+          {illustrations.map((character, position) => <span key={character.name} className={`album-collection-card__portrait album-collection-card__portrait--${illustrations.length === 1 ? 1 : illustrations.length === 2 ? position * 2 : position}`}>
             <img src={character.imageSrc} alt="" loading="lazy" decoding="async" draggable={false} style={portraitStyle(character.imageSrc)} />
-          </span>
-          <span className="album-category-copy">
-            <span className="album-category-name">{label}</span>
-            <span className="album-category-count" aria-hidden="true">{count}</span>
-          </span>
-        </button>
-      ))}
-    </div>
-  );
+          </span>)}
+          <span className="album-collection-card__spark">✦</span>
+        </span>
+        <span className="album-collection-card__check" aria-hidden="true">{selected ? "✓" : ""}</span>
+        <span className="album-collection-card__name">{label}</span>
+        <span className="album-category-card__count">{tr("{{count}} portraits", { count: portraits.length })}</span>
+      </button>;
+    })}
+  </div>;
 }
 
 export default AlbumCategoryRail;

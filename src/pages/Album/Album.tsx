@@ -1,19 +1,18 @@
 import { useTranslation } from "../../i18n";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { BookOpen, ChevronDown, HelpCircle, Sparkles, Star } from "lucide-react";
+import { useLocation } from "react-router-dom";
 import { useSaveStore } from "../../save/saveStore";
-import { masteryOf, MEDAL_THRESHOLDS } from "../../content/progress";
+import { MEDAL_THRESHOLDS } from "../../content/progress";
 import type { CharacterDetails } from "../../helpers/characters";
-import { portraitStyle } from "../../helpers/portraitScale";
-import { ALBUM_COLLECTIONS, caughtCount, isAlbumCharacterUnlocked, MEDALS, nextMedal } from "./albumLogic";
-import { albumCharacterLabel, sortedAlbumEntries } from "./albumNames";
-import { ANIMAL_COLORS, animalCategoryLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
+import { ALBUM_COLLECTIONS, caughtCount, isAlbumCharacterUnlocked, MEDALS } from "./albumLogic";
+import { sortedAlbumEntries } from "./albumNames";
+import { animalCategoryLabel } from "../../content/animalTaxonomy";
 import { isPerson, PERSON_PRICE } from "../../content/personUnlocks";
 import { AlbumCollectionRail } from "./AlbumCollectionRail";
 import { AlbumCategoryRail } from "./AlbumCategoryRail";
 import { AlbumPortraitCard } from "./AlbumPortraitCard";
+import { AlbumPortraitDialog } from "./AlbumPortraitDialog";
 import { CollectionGoal } from "../../components/ProgressGoals/CollectionGoal";
 import "../../components/Buttons/ui.css";
 import "./Album.css";
@@ -22,31 +21,21 @@ type Picked = { character: CharacterDetails };
 
 const Album = () => {
   const { locale, t: tr } = useTranslation();
-  const reduceMotion = useReducedMotion();
-  const save = useSaveStore((s) => s.save);
-  const loaded = useSaveStore((s) => s.loaded);
-  const readOnly = useSaveStore((s) => s.readOnly);
-  const purchasePerson = useSaveStore((s) => s.purchasePerson);
-  const setPersonGoal = useSaveStore((s) => s.setPersonGoal);
   const location = useLocation();
+  const save = useSaveStore((s) => s.save);
   const collection = save.collection;
   const [worldId, setWorldId] = useState(ALBUM_COLLECTIONS[0].id);
   const [picked, setPicked] = useState<Picked | null>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
   const [category, setCategory] = useState("");
   const world = ALBUM_COLLECTIONS.find((w) => w.id === worldId) ?? ALBUM_COLLECTIONS[0];
   const peopleCollection = world.id === "politique" || world.id === "histoire";
   const unlockedCount = world.characters.filter(character => isAlbumCharacterUnlocked(save, character)).length;
-  const pickedLocked = !!picked && isPerson(picked.character.name) && !isAlbumCharacterUnlocked(save, picked.character);
-  const pickedCount = picked ? collection[picked.character.name] ?? 0 : 0;
-  const missingStars = Math.max(0, PERSON_PRICE - save.wallet.stars);
   const all = caughtCount({ collection });
   const entries = useMemo(() => sortedAlbumEntries(world.characters, locale).map((entry, index) => ({ ...entry, index })), [world.characters, locale]);
   const visible = category ? entries.filter(({ character }) => character.tags?.includes(category)) : entries;
   const worldCount = caughtCount({ collection }, world.characters);
   const visibleCount = caughtCount({ collection }, visible.map(({ character }) => character));
   const completion = all.total ? Math.round(all.caught / all.total * 100) : 0;
-  const worldCompletion = worldCount.total ? worldCount.caught / worldCount.total * 100 : 0;
   const collectionComplete = worldCount.caught === worldCount.total;
   const selectWorld = (id: string) => { setWorldId(id); setCategory(""); };
 
@@ -62,36 +51,7 @@ const Album = () => {
     setPicked(character ? { character } : null);
   }, [location.key, location.search]);
 
-  useEffect(() => {
-    if (!picked) return;
-    const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const dialog = dialogRef.current;
-    dialog?.focus();
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        setPicked(null);
-      }
-      if (event.key !== "Tab" || !dialog) return;
-      const focusable = dialog.querySelectorAll<HTMLElement>("button:not([disabled]), a[href]");
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (!first) { event.preventDefault(); return; }
-      if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
-        event.preventDefault(); last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault(); first.focus();
-      }
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = previousOverflow;
-      previousFocus?.focus();
-    };
-  }, [picked]);
+  const closePortrait = useCallback(() => setPicked(null), []);
 
   return (
     <div className="fi-screen album-screen">
@@ -129,9 +89,7 @@ const Album = () => {
             </div>
             <span className="album-sheet-count"><BookOpen size={17} aria-hidden="true" /><b>{worldCount.caught}</b><span>/{worldCount.total}</span></span>
           </div>
-          <div className="album-world-progress" role="progressbar" aria-label={tr("{{caught}} sur {{total}} portraits trouvés", { caught: worldCount.caught, total: worldCount.total })} aria-valuenow={worldCount.caught} aria-valuemin={0} aria-valuemax={worldCount.total}>
-            <span style={{ width: `${worldCompletion}%` }} />
-          </div>
+
 
           <AlbumCategoryRail key={world.id} characters={world.characters} category={category} onSelect={setCategory} />
           <div className="album-page-heading" aria-live="polite">
@@ -174,77 +132,8 @@ const Album = () => {
         </details>
       </div>
 
-      <AnimatePresence>
-        {picked && (
-          <motion.div
-            className="album-overlay"
-            onClick={() => setPicked(null)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="album-character-name"
-            aria-describedby={picked.character.profile ? "album-character-description" : undefined}
-          >
-            <motion.div
-              ref={dialogRef}
-              tabIndex={-1}
-              className={`album-big album-card-${masteryOf(pickedCount)}`}
-              onClick={(event) => event.stopPropagation()}
-              initial={{ scale: reduceMotion ? 1 : 0.9, y: reduceMotion ? 0 : 18 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: reduceMotion ? 1 : 0.96, y: 0 }}
-              transition={reduceMotion ? { duration: 0.1 } : { type: "spring", stiffness: 380, damping: 28 }}
-            >
-              <button type="button" className="album-close" aria-label={tr("Fermer")} onClick={() => setPicked(null)}>×</button>
-              {!pickedLocked && MEDALS[masteryOf(pickedCount)] && (
-                <span className="album-card-medal">{MEDALS[masteryOf(pickedCount)]}</span>
-              )}
-              <div className="album-big-portrait"><img src={picked.character.imageSrc} alt="" draggable={false} style={portraitStyle(picked.character.imageSrc)} /></div>
-              <strong id="album-character-name">{albumCharacterLabel(picked.character, locale)}</strong>
-              {picked.character.profile && <div className="album-biography" lang="fr" dir="ltr">
-                {picked.character.profile.period && <span className="album-biography-period">{picked.character.profile.period}</span>}
-                <p id="album-character-description">{picked.character.profile.description}</p>
-                <a href={picked.character.profile.source.url} target="_blank" rel="noopener noreferrer">
-                  {tr("En savoir plus")} · {picked.character.profile.source.label}<span aria-hidden="true"> ↗</span>
-                </a>
-              </div>}
-              {pickedLocked && <div className="album-purchase">
-                <span>{tr("Ton solde : {{count}} étoiles", { count: save.wallet.stars })}</span>
-                <progress max={PERSON_PRICE} value={Math.min(save.wallet.stars, PERSON_PRICE)} aria-label={tr("Progression vers le prochain personnage")} />
-                <button type="button" disabled={!loaded || readOnly || missingStars > 0} onClick={() => purchasePerson(picked.character.name)}>
-                  {tr("Débloquer pour {{price}} étoiles", { price: PERSON_PRICE })}
-                </button>
-                {missingStars > 0 && <span>{tr("Encore {{count}} étoiles à gagner", { count: missingStars })}</span>}
-                <button type="button" className="album-goal-toggle" disabled={!loaded || readOnly}
-                  aria-pressed={save.goals.person === picked.character.name}
-                  onClick={() => setPersonGoal(save.goals.person === picked.character.name ? null : picked.character.name)}>
-                  {tr(save.goals.person === picked.character.name ? "Retirer l’objectif" : "Choisir comme objectif")}
-                </button>
-              </div>}
-              {peopleCollection && !pickedLocked && <span className="album-available-label" role="status">{tr("Débloqué")}</span>}
-              {picked.character.breed && <span>{tr(picked.character.breed)}</span>}
-              {world.allowColorFilter && <div className="album-colors" aria-label={tr("Couleurs dominantes")}>
-                {normalizedAnimalMetadata(picked.character).dominantColors.map((color) => <span key={color} title={tr(ANIMAL_COLORS[color].label)} style={{ background: ANIMAL_COLORS[color].hex }} aria-label={tr(ANIMAL_COLORS[color].label)} />)}
-              </div>}
-              {!pickedLocked && <span className="album-big-count">
-                {pickedCount > 0 ? tr("Trouvé {{count}} fois", { count: pickedCount }) : tr("Disponible en Infini")}
-              </span>}
-              {(() => {
-                if (pickedLocked) return null;
-                const next = nextMedal(pickedCount);
-                return next ? (
-                  <div className="album-big-next">
-                    <span>{tr("Encore {{count}}", { count: next.left })} → {next.medal}</span>
-                    <progress value={pickedCount} max={pickedCount + next.left} aria-label={tr("Prochaine médaille")} />
-                  </div>
-                ) : null;
-              })()}
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {picked && <AlbumPortraitDialog character={picked.character} allowColors={world.allowColorFilter} onClose={closePortrait} />}
+
     </div>
   );
 };

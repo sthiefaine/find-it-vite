@@ -1,4 +1,4 @@
-import { useMemo, type KeyboardEvent } from "react";
+import { useLayoutEffect, useMemo, useRef, type KeyboardEvent } from "react";
 import { useTranslation } from "../../i18n";
 import { portraitStyle } from "../../helpers/portraitScale";
 import { caughtCount, type ALBUM_COLLECTIONS } from "./albumLogic";
@@ -22,6 +22,18 @@ export function AlbumCollectionRail({ collections, selectedId, collection, onSel
   const { t: tr, languageTag } = useTranslation();
   const numbers = useMemo(() => new Intl.NumberFormat(languageTag), [languageTag]);
   const activeId = collections.some(item => item.id === selectedId) ? selectedId : collections[0]?.id;
+  const railRef = useRef<HTMLDivElement>(null);
+
+  useLayoutEffect(() => {
+    const rail = railRef.current;
+    const active = rail?.querySelector<HTMLButtonElement>('[aria-selected="true"]');
+    if (!rail || !active) return;
+    const railBox = rail.getBoundingClientRect();
+    const activeBox = active.getBoundingClientRect();
+    const offset = activeBox.left < railBox.left ? activeBox.left - railBox.left
+      : activeBox.right > railBox.right ? activeBox.right - railBox.right : 0;
+    if (offset) rail.scrollBy({ left: offset, behavior: "auto" });
+  }, [activeId]);
 
   function selectTab(button: HTMLButtonElement, id: string) {
     onSelect(id);
@@ -49,11 +61,10 @@ export function AlbumCollectionRail({ collections, selectedId, collection, onSel
   }
 
   return (
-    <div className="album-collection-rail" role="tablist" aria-label={tr("Album")} aria-orientation="horizontal">
+    <div ref={railRef} className="album-collection-rail" role="tablist" aria-label={tr("Album")} aria-orientation="horizontal">
       {collections.map((item, index) => {
         const selected = item.id === activeId;
         const { caught, total } = caughtCount({ collection }, item.characters);
-        const progress = total > 0 ? Math.min(100, (caught / total) * 100) : 0;
         const previews = PREVIEWS[item.id]?.map(path => `/assets/images/characters/${path}.png`)
           ?? item.characters.slice(0, 3).map(character => character.imageSrc);
         return (
@@ -83,9 +94,6 @@ export function AlbumCollectionRail({ collections, selectedId, collection, onSel
             <span className="album-collection-card__name">{tr(item.name)}</span>
             <span className="album-collection-card__count" aria-hidden="true" dir="ltr">
               <strong>{numbers.format(caught)}</strong><span>/ {numbers.format(total)}</span>
-            </span>
-            <span className="album-collection-card__progress" aria-hidden="true">
-              <span style={{ width: `${progress}%` }} />
             </span>
           </button>
         );
