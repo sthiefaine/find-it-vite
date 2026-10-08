@@ -154,6 +154,9 @@ export function generatePlayableLevel(index: number, context: GenContext, option
   } };
   // Les lunettes et coiffures des personnalités font partie de leur identité.
   // Les déguisements restent réservés aux portraits animaliers.
+  if (spec.wanted.serie === "history") return { ...playable, scene: { ...scene,
+    hint: "Retrouve le portrait de l’avis de recherche.",
+  } };
   if (spec.wanted.serie === "politics") return { ...playable, scene: { ...scene,
     hint: scene.foliage ? "Écarte les avocats et les CRS pour retrouver le portrait."
       : scene.seagulls ? "Retrouve le portrait entre les passages de foule."

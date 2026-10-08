@@ -50,8 +50,9 @@ export function createStudioStore(root: string) {
   const imageDir = path.join(root, "content/sprites/images");
   const manifestFile = path.join(root, "src/content/publishedAnimals.json");
   const peopleManifestFile = path.join(root, "src/content/publishedPeople.json");
-  async function publishedPeople(): Promise<PublishedCharacter[]> {
-    try { return JSON.parse(await readFile(peopleManifestFile, "utf8")); }
+  const historyManifestFile = path.join(root, "src/content/publishedHistory.json");
+  async function publishedExtra(file: string): Promise<PublishedCharacter[]> {
+    try { return JSON.parse(await readFile(file, "utf8")); }
     catch (error) { if ((error as NodeJS.ErrnoException).code === "ENOENT") return []; throw error; }
   }
   let queue: Promise<unknown> = Promise.resolve();
@@ -67,7 +68,7 @@ export function createStudioStore(root: string) {
   async function sourcePath(source: string) {
     if (!validSource(source)) throw new StudioError("Chemin d’image invalide.");
     const directory = source.startsWith("studio:") ? imageDir
-      : path.join(root, "public/assets/images/characters", source.includes("/people/") ? "people" : "animals");
+      : path.join(root, "public/assets/images/characters", path.basename(path.dirname(source)));
     const file = source.startsWith("studio:") ? source.slice(7) : path.basename(source);
     const resolved = await realpath(path.join(directory, file));
     const base = await realpath(directory);
@@ -86,7 +87,8 @@ export function createStudioStore(root: string) {
         try { return await info(source); } catch { return { source, width: 0, height: 0, transparent: false }; }
       }));
       const published: PublishedCharacter[] = JSON.parse(await readFile(manifestFile, "utf8"));
-      return { catalog, assets, published: [...published, ...await publishedPeople()] };
+      const [people, history] = await Promise.all([publishedExtra(peopleManifestFile), publishedExtra(historyManifestFile)]);
+      return { catalog, assets, published: [...published, ...people, ...history] };
     },
     save(input: unknown) {
       return serialize(async () => {
@@ -132,10 +134,13 @@ export function createStudioStore(root: string) {
             await mkdir(path.dirname(destination), { recursive: true });
             await copyFile(file, destination);
           }
-          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie: categories.get(sprite.themeId) === "politics" ? "politics" : "animal", color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite) });
+          const category = categories.get(sprite.themeId);
+          const serie = category === "politics" ? "politics" : category === "history" ? "history" : "animal";
+          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie, color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite) });
         }
         await atomicJson(manifestFile, published.filter((character) => character.serie === "animal"));
         await atomicJson(peopleManifestFile, published.filter((character) => character.serie === "politics"));
+        await atomicJson(historyManifestFile, published.filter((character) => character.serie === "history"));
         return published;
       });
     },

@@ -14,6 +14,7 @@ const themeIcons: Partial<Record<PlayThemeId, GameIconName>> = {
   ocean: "ocean",
   personnes: "people",
   politique: "people",
+  histoire: "people",
   drapeaux: "flags",
 };
 
@@ -75,6 +76,8 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
         <p className="play-setup-hint">
           {selectedId === "politique"
             ? tr("Tous les portraits politiques sont disponibles dès le départ.")
+            : selectedId === "histoire"
+            ? tr("Tous les portraits historiques sont disponibles dès le départ.")
             : selectedId === "drapeaux"
             ? tr("Tous les drapeaux sont disponibles dès le départ, sans accessoires.")
             : mode === "endless"

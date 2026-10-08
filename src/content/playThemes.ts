@@ -1,11 +1,11 @@
 import { MIN_POOL_SIZE } from "../engine/generateLevel";
-import { animalsPack, peoplePack, playableFlagsPack } from "../helpers/characters";
+import { animalsPack, historyPack, peoplePack, playableFlagsPack } from "../helpers/characters";
 import type { CharacterDetails } from "../helpers/characters";
 import { unlockedAnimals } from "./unlockedAnimals";
 import type { AnimalUnlockSave } from "./unlockedAnimals";
 
 export type PlayMode = "endless" | "duel";
-export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "politique" | "personnes" | "drapeaux";
+export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "politique" | "histoire" | "personnes" | "drapeaux";
 export type PlayTheme = {
   id: PlayThemeId;
   label: string;
@@ -22,6 +22,7 @@ export const PLAY_THEMES: readonly PlayTheme[] = [
   { id: "savane", label: "Savane", description: "Un safari de portraits à retrouver.", emoji: "🌿", preview: "/assets/images/characters/animals/giraffe.png" },
   { id: "ocean", label: "Océan", description: "Une plongée parmi les animaux marins.", emoji: "🐳", preview: "/assets/images/characters/animals/dauphin.png" },
   { id: "politique", label: "Politique française", description: "Des personnalités, députés et sénateurs à reconnaître.", emoji: "🏛️", preview: "/assets/images/characters/people/emmanuel-macron.png" },
+  { id: "histoire", label: "Histoire", description: "Des figures de toutes les époques à retrouver.", emoji: "📜", preview: "/assets/images/characters/history/napoleon-bonaparte.png" },
   { id: "personnes", label: "Personnes", description: "Une nouvelle galerie de visages.", emoji: "🙂", comingSoon: true },
   { id: "drapeaux", label: "Drapeaux", description: "Les couleurs du monde entier.", emoji: "🏳️", preview: "/assets/images/characters/flags/fr.png" },
 ];
@@ -29,6 +30,7 @@ export const PLAY_THEMES: readonly PlayTheme[] = [
 function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
   switch (id) {
     case "politique": return peoplePack;
+    case "histoire": return historyPack;
     case "drapeaux": return playableFlagsPack;
     case "animaux": return animalsPack;
     case "ferme":
@@ -41,7 +43,7 @@ function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
 
 function availablePool(mode: PlayMode, id: PlayThemeId, save: AnimalUnlockSave): CharacterDetails[] {
   const published = publishedThemePool(id);
-  return mode === "duel" || id === "politique" || id === "drapeaux" ? published : unlockedAnimals(save, published);
+  return mode === "duel" || id === "politique" || id === "histoire" || id === "drapeaux" ? published : unlockedAnimals(save, published);
 }
 
 export function themeOptions(mode: PlayMode, save: AnimalUnlockSave) {

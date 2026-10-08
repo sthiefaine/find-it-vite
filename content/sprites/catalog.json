@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": 11,
+  "revision": 12,
   "themes": [
     {
       "id": "animaux",
@@ -30,7 +30,7 @@
       "id": "histoire",
       "name": "Figures historiques",
       "category": "history",
-      "destination": "fun"
+      "destination": "game"
     },
     {
       "id": "politique",
@@ -2550,6 +2550,351 @@
         "politique",
         "france",
         "senateurs"
+      ]
+    },
+    {
+      "id": "napoleon-bonaparte",
+      "themeId": "histoire",
+      "label": "Napoléon Bonaparte",
+      "subject": "Napoléon Bonaparte",
+      "color": "black",
+      "family": "chapeau",
+      "status": "ready",
+      "source": "/assets/images/characters/history/napoleon-bonaparte.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/napoleon-bonaparte.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "souverains"
+      ]
+    },
+    {
+      "id": "louis-xiv",
+      "themeId": "histoire",
+      "label": "Louis XIV",
+      "subject": "Louis XIV",
+      "color": "brown",
+      "family": "perruque",
+      "status": "ready",
+      "source": "/assets/images/characters/history/louis-xiv.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/louis-xiv.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "souverains"
+      ]
+    },
+    {
+      "id": "marie-curie",
+      "themeId": "histoire",
+      "label": "Marie Curie",
+      "subject": "Marie Curie",
+      "color": "grey",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/history/marie-curie.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/marie-curie.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "sciences"
+      ]
+    },
+    {
+      "id": "albert-einstein",
+      "themeId": "histoire",
+      "label": "Albert Einstein",
+      "subject": "Albert Einstein",
+      "color": "white",
+      "family": "moustache",
+      "status": "ready",
+      "source": "/assets/images/characters/history/albert-einstein.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/albert-einstein.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "sciences"
+      ]
+    },
+    {
+      "id": "frida-kahlo",
+      "themeId": "histoire",
+      "label": "Frida Kahlo",
+      "subject": "Frida Kahlo",
+      "color": "black",
+      "family": "cheveux-fleurs",
+      "status": "ready",
+      "source": "/assets/images/characters/history/frida-kahlo.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/frida-kahlo.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "arts"
+      ]
+    },
+    {
+      "id": "toussaint-louverture",
+      "themeId": "histoire",
+      "label": "Toussaint Louverture",
+      "subject": "Toussaint Louverture",
+      "color": "black",
+      "family": "chapeau",
+      "status": "ready",
+      "source": "/assets/images/characters/history/toussaint-louverture.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/toussaint-louverture.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "droits-civiques"
+      ]
+    },
+    {
+      "id": "cleopatre",
+      "themeId": "histoire",
+      "label": "Cléopâtre VII",
+      "subject": "Cléopâtre VII",
+      "color": "black",
+      "family": "diademe",
+      "status": "ready",
+      "source": "/assets/images/characters/history/cleopatre.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/cleopatre.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "antiquite",
+        "souverains"
+      ]
+    },
+    {
+      "id": "jules-cesar",
+      "themeId": "histoire",
+      "label": "Jules César",
+      "subject": "Jules César",
+      "color": "grey",
+      "family": "lauriers",
+      "status": "ready",
+      "source": "/assets/images/characters/history/jules-cesar.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/jules-cesar.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "antiquite"
+      ]
+    },
+    {
+      "id": "ramses-ii",
+      "themeId": "histoire",
+      "label": "Ramsès II",
+      "subject": "Ramsès II",
+      "color": "blue",
+      "family": "coiffe-egyptienne",
+      "status": "ready",
+      "source": "/assets/images/characters/history/ramses-ii.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/ramses-ii.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "antiquite",
+        "souverains"
+      ]
+    },
+    {
+      "id": "nefertiti",
+      "themeId": "histoire",
+      "label": "Néfertiti",
+      "subject": "Néfertiti",
+      "color": "blue",
+      "family": "coiffe-egyptienne",
+      "status": "ready",
+      "source": "/assets/images/characters/history/nefertiti.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/nefertiti.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "antiquite",
+        "souverains"
+      ]
+    },
+    {
+      "id": "jeanne-d-arc",
+      "themeId": "histoire",
+      "label": "Jeanne d’Arc",
+      "subject": "Jeanne d’Arc",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/history/jeanne-d-arc.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/jeanne-d-arc.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "moyen-age"
+      ]
+    },
+    {
+      "id": "leonard-de-vinci",
+      "themeId": "histoire",
+      "label": "Léonard de Vinci",
+      "subject": "Léonard de Vinci",
+      "color": "white",
+      "family": "barbe-longue",
+      "status": "ready",
+      "source": "/assets/images/characters/history/leonard-de-vinci.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/leonard-de-vinci.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "renaissance",
+        "arts",
+        "sciences"
+      ]
+    },
+    {
+      "id": "francois-ier",
+      "themeId": "histoire",
+      "label": "François Ier",
+      "subject": "François Ier",
+      "color": "black",
+      "family": "chapeau-barbe",
+      "status": "ready",
+      "source": "/assets/images/characters/history/francois-ier.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/francois-ier.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "renaissance",
+        "souverains"
+      ]
+    },
+    {
+      "id": "elisabeth-iere",
+      "themeId": "histoire",
+      "label": "Élisabeth Ire",
+      "subject": "Élisabeth Ire",
+      "color": "red",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/history/elisabeth-iere.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/elisabeth-iere.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "renaissance",
+        "souverains"
+      ]
+    },
+    {
+      "id": "marie-antoinette",
+      "themeId": "histoire",
+      "label": "Marie-Antoinette",
+      "subject": "Marie-Antoinette",
+      "color": "grey",
+      "family": "perruque",
+      "status": "ready",
+      "source": "/assets/images/characters/history/marie-antoinette.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/marie-antoinette.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "souverains"
+      ]
+    },
+    {
+      "id": "olympe-de-gouges",
+      "themeId": "histoire",
+      "label": "Olympe de Gouges",
+      "subject": "Olympe de Gouges",
+      "color": "brown",
+      "family": "bonnet",
+      "status": "ready",
+      "source": "/assets/images/characters/history/olympe-de-gouges.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/olympe-de-gouges.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "droits-civiques"
+      ]
+    },
+    {
+      "id": "ada-lovelace",
+      "themeId": "histoire",
+      "label": "Ada Lovelace",
+      "subject": "Ada Lovelace",
+      "color": "brown",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/history/ada-lovelace.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/ada-lovelace.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "sciences"
+      ]
+    },
+    {
+      "id": "hypatie",
+      "themeId": "histoire",
+      "label": "Hypatie",
+      "subject": "Hypatie",
+      "color": "brown",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/history/hypatie.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/hypatie.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "antiquite",
+        "sciences"
+      ]
+    },
+    {
+      "id": "victor-hugo",
+      "themeId": "histoire",
+      "label": "Victor Hugo",
+      "subject": "Victor Hugo",
+      "color": "white",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/history/victor-hugo.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/victor-hugo.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "arts"
+      ]
+    },
+    {
+      "id": "wolfgang-amadeus-mozart",
+      "themeId": "histoire",
+      "label": "Mozart",
+      "subject": "Mozart",
+      "color": "grey",
+      "family": "perruque",
+      "status": "ready",
+      "source": "/assets/images/characters/history/wolfgang-amadeus-mozart.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/wolfgang-amadeus-mozart.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "arts"
+      ]
+    },
+    {
+      "id": "josephine-baker",
+      "themeId": "histoire",
+      "label": "Joséphine Baker",
+      "subject": "Joséphine Baker",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/history/josephine-baker.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/josephine-baker.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "arts",
+        "droits-civiques"
+      ]
+    },
+    {
+      "id": "nelson-mandela",
+      "themeId": "histoire",
+      "label": "Nelson Mandela",
+      "subject": "Nelson Mandela",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/history/nelson-mandela.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/nelson-mandela.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "droits-civiques"
+      ]
+    },
+    {
+      "id": "rosa-parks",
+      "themeId": "histoire",
+      "label": "Rosa Parks",
+      "subject": "Rosa Parks",
+      "color": "black",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/history/rosa-parks.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/rosa-parks.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "droits-civiques"
+      ]
+    },
+    {
+      "id": "martin-luther-king",
+      "themeId": "histoire",
+      "label": "Martin Luther King",
+      "subject": "Martin Luther King",
+      "color": "black",
+      "family": "moustache",
+      "status": "ready",
+      "source": "/assets/images/characters/history/martin-luther-king.png",
+      "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/martin-luther-king.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
+      "tags": [
+        "droits-civiques"
       ]
     }
   ]

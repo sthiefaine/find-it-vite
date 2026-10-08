@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { characterPoolFor } from "../../game/characterPool";
 import { generatePlayableLevel } from "../../game/playableLevel";
-import { animalsPack, peoplePack } from "../../helpers/characters";
+import { animalsPack, historyPack, peoplePack } from "../../helpers/characters";
 import { generateRound } from "../../pages/Duel/duelLogic";
 import { defaultSave } from "../../save/schema";
 import { PLAY_THEMES, playThemeFromSearch, playThemePool, themeOptions } from "../playThemes";
@@ -66,7 +66,7 @@ describe("thèmes proposés avant une partie", () => {
     const save = { collection: Object.fromEntries([...animalsPack.filter((animal) => ["renard", "ours", "singe", "giraffe", "zebre", "elephant"].includes(animal.name)), ...ocean.slice(0, 3)].map((animal) => [animal.name, 1])) };
     for (const theme of PLAY_THEMES) {
       const pool = playThemePool("endless", theme.id, save);
-      expect(pool.every((animal) => theme.id === "politique" || theme.id === "drapeaux" || isAnimalUnlocked(save, animal.name))).toBe(true);
+      expect(pool.every((animal) => theme.id === "politique" || theme.id === "histoire" || theme.id === "drapeaux" || isAnimalUnlocked(save, animal.name))).toBe(true);
       const ids = new Set(pool.map((animal) => animal.name));
       for (const index of [1, 3, 6, 11, 19, 40, 100, 4000]) {
         const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool });
@@ -80,7 +80,7 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("conserve le même thème en Duel, de la première manche aux suivantes", () => {
-    for (const id of ["ferme", "foret", "savane", "ocean", "politique", "drapeaux"] as const) {
+    for (const id of ["ferme", "foret", "savane", "ocean", "politique", "histoire", "drapeaux"] as const) {
       const pool = playThemePool("duel", id, defaultSave());
       const ids = new Set(pool.map((animal) => animal.name));
       let previous: string | undefined;
@@ -99,6 +99,21 @@ describe("thèmes proposés avant une partie", () => {
     expect(characterPoolFor("daily", 1, save, "ferme")).toEqual(getWorld("animaux")!.characters);
     expect(characterPoolFor("adventure", 21, save, "savane")).toEqual(getWorld("ocean")!.characters);
     expect(characterPoolFor("endless", 1, save, "ferme")).toEqual(playThemePool("endless", "ferme", save));
+  });
+
+  it("rend les 24 portraits historiques disponibles dans les deux modes sans déguisement", () => {
+    expect(historyPack).toHaveLength(24);
+    expect(playThemeFromSearch("?theme=histoire")).toBe("histoire");
+    for (const mode of ["endless", "duel"] as const) {
+      expect(playThemePool(mode, "histoire", defaultSave())).toEqual(historyPack);
+      expect(themeOptions(mode, defaultSave()).find(({ theme }) => theme.id === "histoire")).toMatchObject({ enabled: true, availableCount: 24 });
+    }
+    for (const index of [1, 6, 12, 40]) {
+      const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool: historyPack });
+      expect([spec.wanted, ...spec.decoys].every(character => character.serie === "history")).toBe(true);
+      expect(spec.accessories).toBeUndefined();
+      expect(spec.crowdVariant).toBeUndefined();
+    }
   });
 
   it("rend la politique disponible dès le départ sans élargir les thèmes animaliers", () => {

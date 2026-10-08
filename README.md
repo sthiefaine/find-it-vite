@@ -159,16 +159,30 @@ Les PNG transparents 512 × 512 sont dans `public/assets/images/characters/peopl
 les prompts et la charte dans `content/sprites/`, les originaux dans
 `artifacts/sprite-originals/politics-2026-10-08/`. Le manifeste
 `src/content/publishedPeople.json` alimente ce thème et une collection dédiée dans
-l’album. La publication compte donc 119 portraits : 78 animaux et 41 personnalités.
+l’album. La publication compte 143 portraits : 78 animaux, 41 personnalités politiques et 24 figures historiques.
 Les déguisements restent réservés aux animaux pour conserver les traits distinctifs
 des personnalités. Ces portraits ne créent pas de nouveau monde d’Aventure.
 
-Dans ce thème, des avocats et des CRS remplacent les feuillages à écarter.
+Le thème **Histoire** propose 24 portraits transparents, disponibles dès le départ
+en Infini, Duel local et salons en ligne : de l’Antiquité aux figures des sciences,
+des arts et des droits civiques. Sa collection dédiée dans l’album permet de
+consulter une courte description, une période et un lien de référence.
+Les 41 personnalités politiques ont également une fiche sourcée dans l’album.
+Ces 65 descriptions françaises sont dans `src/content/personProfiles.json`.
+Les portraits historiques sont des interprétations illustrées : ils ne constituent
+pas une garantie de ressemblance documentaire. PNG :
+`public/assets/images/characters/history/` ; manifeste :
+`src/content/publishedHistory.json` ; charte et prompts : `content/sprites/history-style.prompt.txt`
+et les fichiers individuels ; originaux : `artifacts/sprite-originals/history-2026-10-08/`.
+
+Dans le thème politique, des avocats et des CRS remplacent les feuillages à écarter.
 Les passages utilisent des CRS, policiers et manifestants en gilet jaune :
 un personnage, 2–5, 6–14 ou une horde de 15–20. À partir du niveau 20 en Normal
 ou 12 en Expert, des groupes de 21–30 ou 21–36 peuvent également apparaître.
-Les effectifs, silhouettes, tailles, décalages et sens sont tirés avec la graine ;
-les hordes peuvent traverser dans les deux sens en même temps. Enfant reste
+Les effectifs, silhouettes, tailles, décalages et côtés de départ sont tirés avec la graine.
+Les CRS et policiers traversent ensemble depuis un côté, les manifestants en gilet
+jaune depuis le côté opposé. Dès deux passants, les deux camps sont représentés,
+avec des effectifs équilibrés à une personne près. Enfant reste
 limité à huit passants. Les pauses, transitions, préférences de mouvement réduit
 et touchers sur les pixels transparents restent respectés. Les quatre sprites
 et leurs prompts sont dans `public/assets/images/obstacles/politics-*.png` et
@@ -272,8 +286,8 @@ Lancer `pnpm studio`, puis ouvrir `http://127.0.0.1:5174/studio.html`.
 Le backoffice est local : il n’est pas inclus dans le site de production ni dans l’APK.
 Il n’utilise pas de compte, de serveur distant ou de clé d’API.
 
-1. Choisir ou créer un thème. Animaux, vie marine et politique alimentent le jeu ;
-   personnes, histoire, drapeaux et imaginaire restent des collections « pour le fun ».
+1. Choisir ou créer un thème. Animaux, vie marine, politique et histoire alimentent le jeu ;
+   personnes, drapeaux et imaginaire restent des collections « pour le fun ».
 2. Ajouter un sprite, renseigner son nom, le sujet du prompt, son espèce et sa
    race/variété, ses couleurs dominantes, ses catégories et sa famille visuelle.
    Le prompt reprend l’espèce, la variété et la palette choisies. Essayer les cinq
@@ -285,7 +299,7 @@ Il n’utilise pas de compte, de serveur distant ou de clé d’API.
 4. Importer un PNG ou WebP (8 Mo et 4096 × 4096 pixels maximum), comparer sur les fonds
    clair/sombre/damier et dans l’aperçu à 45 pixels. Enregistrer en brouillon ou validé.
 5. Cliquer sur **Mettre à jour le jeu**. Les portraits validés des thèmes animaliers
-   et politiques sont exportés vers leurs manifestes respectifs.
+   politiques et historiques sont exportés vers leurs manifestes respectifs.
    Les images du jeu doivent être carrées, transparentes, mesurer au moins 128 pixels
    et peser au maximum 5 Mo. Au moins 5 personnages sont requis.
 6. Tester dans le navigateur, puis refaire `pnpm android:debug` pour embarquer les images

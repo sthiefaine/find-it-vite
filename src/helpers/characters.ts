@@ -1,5 +1,7 @@
 import publishedAnimals from "../content/publishedAnimals.json";
 import publishedPeople from "../content/publishedPeople.json";
+import publishedHistory from "../content/publishedHistory.json";
+import personProfiles from "../content/personProfiles.json";
 import publishedFlags from "../content/publishedFlags.json";
 import { normalizedAnimalMetadata } from "../content/animalTaxonomy";
 import type { AnimalMetadata } from "../content/animalTaxonomy";
@@ -17,6 +19,12 @@ export type CharacterColor =
   | "purple"
   | "black";
 
+export type PersonProfile = {
+  description: string;
+  period?: string;
+  source: { label: string; url: string };
+};
+
 export type CharacterDetails = AnimalMetadata & {
   imageSrc: string;
   name: string; // identifiant stable (sans accent)
@@ -25,6 +33,7 @@ export type CharacterDetails = AnimalMetadata & {
   color: CharacterColor;
   family: string; // persos qui se ressemblent (utilisé pour les leurres)
   emoji?: string; // persos dessinés à partir d'un emoji
+  profile?: PersonProfile;
 };
 
 // Catalogue exporté par l’atelier local : seuls les animaux validés y figurent.
@@ -37,7 +46,9 @@ export const animalsPack: CharacterDetails[] = publishedAnimals.map((animal) => 
 export const charactersDetails: CharacterDetails[] = [...animalsPack];
 
 // Les personnalités restent dans leur propre thème, disponible dès le départ.
-export const peoplePack: CharacterDetails[] = (publishedPeople as CharacterDetails[]).map((person) => ({ ...person }));
+const profiles: Record<string, PersonProfile> = personProfiles;
+export const peoplePack: CharacterDetails[] = (publishedPeople as CharacterDetails[]).map((person) => ({ ...person, profile: profiles[person.name] }));
+export const historyPack: CharacterDetails[] = (publishedHistory as CharacterDetails[]).map((person) => ({ ...person, profile: profiles[person.name] }));
 
 export type FlagDetails = CharacterDetails & { countryCode: string; duplicateOf?: string };
 export const flagsPack: FlagDetails[] = (publishedFlags as FlagDetails[]).map((flag) => ({ ...flag }));

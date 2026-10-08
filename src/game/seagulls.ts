@@ -23,6 +23,18 @@ export type Flight = {
 export type FlightFrame = { flight: Flight; ageMs: number };
 export const GIANT_COOLDOWN_MS = 45_000;
 
+function politicalCrowdSprites(rng: Rng, count: number): number[] {
+  if (count === 1) return [rng.int(0, 2)];
+  // Indices de obstacleTheme.passers : CRS, policier, manifestant.
+  // Les deux camps sont présents dès deux passants ; les uniformes alternent.
+  const police = rng.shuffle([0, 1]);
+  const policeFirst = rng.chance(0.5);
+  return rng.shuffle(Array.from({ length: count }, (_, i) => {
+    const isPolice = (i % 2 === 0) === policeFirst;
+    return isPolice ? police[Math.floor(i / 2) % police.length] : 2;
+  }));
+}
+
 export function makeFlight(rng: Rng, kind: FlightKind, political = false, tier: Tier = "normal"): Flight {
   const giant = kind === "giant";
   const horde = kind === "horde" || kind === "surge";
@@ -34,7 +46,8 @@ export function makeFlight(rng: Rng, kind: FlightKind, political = false, tier: 
   const direction = rng.chance(0.5) ? 1 : -1;
   const duration = giant ? 3_200 : horde ? rng.int(3_800, 5_000) : rng.int(2_800, 4_000);
   const baseline = rng.int(100, BOARD.h - 100);
-  const silhouettes = political ? rng.shuffle([0, 1, 2]) : [];
+  const silhouettes = political ? politicalCrowdSprites(rng, count) : [];
+  const oppositeDirection = direction === 1 ? -1 : 1;
   const birds: Bird[] = Array.from({ length: count }, (_, i) => ({
     width: giant ? BOARD.w * 9 : rng.int(horde ? 80 : 86, horde ? 112 : kind === "flock" ? 132 : 160),
     y: giant ? BOARD.h / 2 : horde ? rng.int(60, BOARD.h - 60) : Math.max(55, Math.min(BOARD.h - 55, baseline + rng.int(-150, 150))),
@@ -42,7 +55,7 @@ export function makeFlight(rng: Rng, kind: FlightKind, political = false, tier: 
     delayMs: i * rng.int(horde ? 25 : 80, horde ? 60 : 180),
     durationMs: duration + (giant ? 0 : rng.int(-250, 250)),
     bank: giant ? 0 : rng.int(-8, 8) * Math.PI / 180,
-    ...(political ? { sprite: silhouettes[i] ?? rng.int(0, 2), direction: horde ? rng.chance(.5) ? 1 as const : -1 as const : direction } : {}),
+    ...(political ? { sprite: silhouettes[i], direction: silhouettes[i] === 2 ? oppositeDirection : direction } : {}),
   }));
   return { kind, direction, birds, durationMs: Math.max(...birds.map(b => b.delayMs + b.durationMs)) };
 }

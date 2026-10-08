@@ -3,6 +3,7 @@ import { createRng } from "../../engine/rng";
 import { birdPose, GIANT_COOLDOWN_MS, makeFlight, SeagullDirector } from "../seagulls";
 import type { Flight } from "../seagulls";
 import { BOARD } from "../../engine/types";
+import { obstacleTheme } from "../obstacleTheme";
 
 function simulate(seed: number, political = false, tier: "easy" | "normal" | "expert" = "normal", level = 40) {
   const director = new SeagullDirector(seed, tier, political);
@@ -74,6 +75,33 @@ describe("passages de goélands", () => {
 });
 
 describe("foules du thème politique", () => {
+  it.each(["small", "flock", "horde", "surge"] as const)("fait traverser policiers et manifestants depuis des côtés opposés (%s)", kind => {
+    const policeDirections = new Set<number>();
+    for (let seed = 0; seed < 32; seed++) {
+      const flight = makeFlight(createRng(seed), kind, true);
+      const camps = { police: new Set<number>(), protesters: new Set<number>() };
+      for (const bird of flight.birds) {
+        const asset = obstacleTheme("politics").passers[bird.sprite!];
+        const camp = asset.endsWith("politics-yellow-vest.png") ? "protesters" : "police";
+        const start = birdPose(bird, flight, bird.delayMs)!;
+        const end = birdPose(bird, flight, bird.delayMs + bird.durationMs)!;
+        const direction = Math.sign(end.x - start.x);
+        camps[camp].add(direction);
+        // Chaque passant commence et termine entièrement hors du plateau.
+        expect(Math.min(start.x, end.x) + bird.width * 0.6).toBeLessThan(0);
+        expect(Math.max(start.x, end.x) - bird.width * 0.6).toBeGreaterThan(BOARD.w);
+      }
+      expect(camps.police.size).toBe(1);
+      expect(camps.protesters.size).toBe(1);
+      const policeDirection = [...camps.police][0];
+      expect([...camps.protesters][0]).toBe(-policeDirection);
+      policeDirections.add(policeDirection);
+    }
+    // Les côtés changent selon la graine, sans casser la cohésion des camps.
+    expect(policeDirections).toEqual(new Set([-1, 1]));
+  });
+
+
   it("renouvelle les tailles, silhouettes et sens avec une graine reproductible", () => {
     const passes = simulate(24, true);
     expect(passes).toEqual(simulate(24, true));

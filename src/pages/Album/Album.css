@@ -195,7 +195,8 @@
 
 .album-big {
   position: relative;
-  width: min(300px, 100%);
+  width: min(380px, 100%);
+  max-height: calc(100dvh - 32px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -205,18 +206,21 @@
   background: #fff;
   border: 4px solid #d9cdf5;
   color: #1c0840;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   box-shadow: 0 8px 0 rgba(0, 0, 0, 0.4);
 }
 
 .album-big img {
-  width: 180px;
-  height: 180px;
+  width: 150px;
+  height: 150px;
+  flex-shrink: 0;
   object-fit: contain;
 }
 
 .album-big strong {
-  font-size: 30px;
+  font-size: 26px;
   font-weight: 900;
   text-align: center;
 }
@@ -224,8 +228,31 @@
 .album-big .album-card-medal {
   font-size: 40px;
   top: 10px;
-  right: 10px;
+  left: 10px;
+  right: auto;
 }
+
+.album-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: #eee5fa;
+  color: #321356;
+  font-size: 28px;
+  line-height: 1;
+  z-index: 3;
+}
+
+.album-biography { width: 100%; display: grid; gap: 10px; text-align: start; }
+.album-biography-period { text-align: center; color: #604775; font-size: 14px; font-weight: 700; }
+.album-biography p { margin: 0; font-size: 15px; line-height: 1.55; }
+.album-biography a { color: #5f28af; font-size: 13px; line-height: 1.5; text-decoration: underline; text-underline-offset: 3px; }
+.album-close:focus-visible, .album-biography a:focus-visible { outline: 3px solid #8739f9; outline-offset: 3px; }
+.album-big > * { flex-shrink: 0; }
 
 .album-big-count {
   font-size: 20px;

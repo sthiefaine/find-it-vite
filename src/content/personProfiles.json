@@ -1,0 +1,481 @@
+{
+  "napoleon-bonaparte": {
+    "period": "1769–1821",
+    "description": "Général puis dirigeant de la France à partir de 1799, Napoléon devient empereur des Français en 1804. Ses campagnes militaires marquent l’histoire de l’Europe au début du XIXe siècle.",
+    "source": {
+      "label": "Château de Versailles",
+      "url": "https://www.chateauversailles.fr/decouvrir/histoire/grands-personnages/napoleon-ier"
+    }
+  },
+  "louis-xiv": {
+    "period": "1638–1715",
+    "description": "Roi de France de 1643 à 1715, Louis XIV est surnommé le Roi-Soleil. Il fait de Versailles le centre de la cour et du pouvoir royal.",
+    "source": {
+      "label": "Château de Versailles",
+      "url": "https://www.chateauversailles.fr/decouvrir/histoire/grands-personnages/louis-xiv"
+    }
+  },
+  "marie-curie": {
+    "period": "1867–1934",
+    "description": "Physicienne et chimiste née en Pologne, Marie Curie étudie la radioactivité. Elle reçoit le prix Nobel de physique en 1903, puis celui de chimie en 1911 pour ses recherches sur le radium et le polonium.",
+    "source": {
+      "label": "Prix Nobel",
+      "url": "https://www.nobelprize.org/prizes/chemistry/1911/marie-curie/biographical/"
+    }
+  },
+  "albert-einstein": {
+    "period": "1879–1955",
+    "description": "Physicien à l’origine des théories de la relativité, Albert Einstein transforme notre compréhension de l’espace et du temps. Son prix Nobel de physique de 1921 récompense notamment ses travaux sur l’effet photoélectrique.",
+    "source": {
+      "label": "Prix Nobel",
+      "url": "https://www.nobelprize.org/prizes/physics/1921/einstein/facts/"
+    }
+  },
+  "frida-kahlo": {
+    "period": "1907–1954",
+    "description": "Peintre mexicaine connue pour ses autoportraits, Frida Kahlo représente son identité, ses émotions et les épreuves de sa vie. Son œuvre mêle expériences personnelles et références à la culture mexicaine.",
+    "source": {
+      "label": "Smithsonian",
+      "url": "https://www.si.edu/spotlight/frida-kahlo"
+    }
+  },
+  "toussaint-louverture": {
+    "period": "Vers 1743–1803",
+    "description": "Né en esclavage à Saint-Domingue, Toussaint Louverture devient l’un des principaux chefs de la révolution haïtienne. Son parcours est lié à la lutte contre l’esclavage et précède l’indépendance d’Haïti en 1804.",
+    "source": {
+      "label": "Fondation pour la mémoire de l’esclavage",
+      "url": "https://memoire-esclavage.org/biographies/toussaint-louverture"
+    }
+  },
+  "cleopatre": {
+    "period": "Vers 69–30 av. J.-C.",
+    "description": "Cléopâtre VII règne sur l’Égypte de 51 à 30 avant notre ère. Dernière grande souveraine de la dynastie des Ptolémées, elle noue des alliances avec Jules César puis Marc Antoine.",
+    "source": {
+      "label": "Encyclopedia.com",
+      "url": "https://www.encyclopedia.com/women/encyclopedias-almanacs-transcripts-and-maps/cleopatra-vii-69-30-bce"
+    }
+  },
+  "jules-cesar": {
+    "period": "100–44 av. J.-C.",
+    "description": "Général et homme politique romain, Jules César conquiert la Gaule puis prend le pouvoir à Rome. Nommé dictateur, il est assassiné en 44 avant notre ère, à la fin de la République romaine.",
+    "source": {
+      "label": "PBS",
+      "url": "https://www.pbs.org/empires/romans/empire/julius_caesar.html"
+    }
+  },
+  "ramses-ii": {
+    "period": "Vers 1303–1213 av. J.-C.",
+    "description": "Pharaon de l’Égypte ancienne, Ramsès II règne pendant plus de soixante ans. Il laisse de nombreux monuments, dont les temples d’Abou Simbel, et appartient à la XIXe dynastie.",
+    "source": {
+      "label": "National Geographic",
+      "url": "https://www.nationalgeographic.com/culture/article/ramses-ii"
+    }
+  },
+  "nefertiti": {
+    "period": "XIVe siècle av. J.-C.",
+    "description": "Reine d’Égypte et épouse principale du pharaon Akhenaton, Néfertiti est associée à la période d’Amarna. Son célèbre buste peint est conservé au Neues Museum de Berlin.",
+    "source": {
+      "label": "Musées nationaux de Berlin",
+      "url": "https://www.smb.museum/en/museums-institutions/aegyptisches-museum-und-papyrussammlung/collection-research/bust-of-nefertiti/the-queen/"
+    }
+  },
+  "jeanne-d-arc": {
+    "period": "Vers 1412–1431",
+    "description": "Figure de la guerre de Cent Ans, Jeanne d’Arc participe à la levée du siège d’Orléans en 1429 et accompagne Charles VII jusqu’à son sacre à Reims. Elle est condamnée et exécutée à Rouen en 1431.",
+    "source": {
+      "label": "Historial Jeanne d’Arc",
+      "url": "https://www.historial-jeannedarc.fr/wp-content/uploads/2024/09/DP_JEANNEDARC_dec14-bd_compressed.pdf"
+    }
+  },
+  "leonard-de-vinci": {
+    "period": "1452–1519",
+    "description": "Artiste et ingénieur de la Renaissance italienne, Léonard de Vinci s’intéresse aussi à l’anatomie et aux machines. Il termine sa vie en France au service du roi François Ier.",
+    "source": {
+      "label": "Museo Leonardiano",
+      "url": "https://museoleonardiano.it/en/leonardo-in-vinci/biografia/"
+    }
+  },
+  "francois-ier": {
+    "period": "1494–1547",
+    "description": "Roi de France de 1515 à 1547, François Ier est une grande figure de la Renaissance française. Protecteur des arts, il accueille Léonard de Vinci et développe les collections royales.",
+    "source": {
+      "label": "Larousse",
+      "url": "https://www.larousse.fr/encyclopedie/personnage/Fran%C3%A7ois_I_er/120185"
+    }
+  },
+  "elisabeth-iere": {
+    "period": "1533–1603",
+    "description": "Reine d’Angleterre et d’Irlande de 1558 à 1603, Élisabeth Ire est la dernière souveraine de la dynastie Tudor. Son long règne est notamment marqué par l’essor du théâtre anglais.",
+    "source": {
+      "label": "La famille royale britannique",
+      "url": "https://www.royal.uk/elizabeth-i"
+    }
+  },
+  "marie-antoinette": {
+    "period": "1755–1793",
+    "description": "Née à Vienne, Marie-Antoinette devient reine de France en 1774 en tant qu’épouse de Louis XVI. Elle vit à Versailles avant la Révolution française et est exécutée à Paris en 1793.",
+    "source": {
+      "label": "Château de Versailles",
+      "url": "https://www.chateauversailles.fr/decouvrir/histoire/grands-personnages/marie-antoinette"
+    }
+  },
+  "olympe-de-gouges": {
+    "period": "1748–1793",
+    "description": "Autrice et militante de la Révolution française, Olympe de Gouges publie en 1791 la Déclaration des droits de la femme et de la citoyenne. Elle y défend l’égalité politique et juridique entre femmes et hommes.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www.assemblee-nationale.fr/dyn/histoire-et-patrimoine/revolution-francaise/declaration-des-droits-de-la-femme-et-de-la-citoyenne-olympe-de-gouges"
+    }
+  },
+  "ada-lovelace": {
+    "period": "1815–1852",
+    "description": "Mathématicienne britannique, Ada Lovelace travaille sur la machine analytique imaginée par Charles Babbage. Ses notes de 1843 décrivent notamment une méthode de calcul destinée à cette machine, ce qui en fait une pionnière de la programmation.",
+    "source": {
+      "label": "Computer History Museum",
+      "url": "https://www.computerhistory.org/babbage/adalovelace/"
+    }
+  },
+  "hypatie": {
+    "period": "IVe–Ve siècles",
+    "description": "Philosophe, mathématicienne et astronome de l’Antiquité tardive, Hypatie enseigne à Alexandrie. Elle transmet les savoirs de son époque en géométrie, en astronomie et en philosophie. Ce portrait est une interprétation historique.",
+    "source": {
+      "label": "UNESCO",
+      "url": "https://www.unesco.org/en/virtual-science-museum/women-science/hypatia-alexandria"
+    }
+  },
+  "victor-hugo": {
+    "period": "1802–1885",
+    "description": "Écrivain, poète et dramaturge français, Victor Hugo est l’auteur de Notre-Dame de Paris et des Misérables. Également engagé dans la vie politique, il défend notamment l’abolition de la peine de mort.",
+    "source": {
+      "label": "Académie française",
+      "url": "https://www.academie-francaise.fr/les-immortels/victor-hugo"
+    }
+  },
+  "wolfgang-amadeus-mozart": {
+    "period": "1756–1791",
+    "description": "Compositeur né à Salzbourg, Mozart se produit en Europe dès l’enfance. Il écrit des symphonies, des concertos et des opéras, parmi lesquels Don Giovanni et La Flûte enchantée.",
+    "source": {
+      "label": "Philharmonie de Paris",
+      "url": "https://basenationale.philharmoniedeparis.fr/0055853-biographie-wolfgang-amadeus-mozart.aspx?_lg=fr-FR"
+    }
+  },
+  "josephine-baker": {
+    "period": "1906–1975",
+    "description": "Artiste née aux États-Unis et devenue française, Joséphine Baker connaît le succès à Paris. Résistante pendant la Seconde Guerre mondiale et engagée contre le racisme, elle entre au Panthéon en 2021.",
+    "source": {
+      "label": "Élysée",
+      "url": "https://www.elysee.fr/emmanuel-macron/2021/11/30/josephine-baker-entre-au-pantheon"
+    }
+  },
+  "nelson-mandela": {
+    "period": "1918–2013",
+    "description": "Engagé contre l’apartheid, Nelson Mandela devient président de l’Afrique du Sud de 1994 à 1999. Il partage le prix Nobel de la paix de 1993 avec Frederik de Klerk pour leur rôle dans la transition démocratique.",
+    "source": {
+      "label": "Prix Nobel",
+      "url": "https://www.nobelprize.org/prizes/peace/1993/mandela/facts/"
+    }
+  },
+  "rosa-parks": {
+    "period": "1913–2005",
+    "description": "Militante américaine des droits civiques, Rosa Parks refuse de céder sa place à un passager blanc dans un bus de Montgomery en 1955. Son arrestation contribue au lancement d’un boycott contre la ségrégation.",
+    "source": {
+      "label": "Rosa and Raymond Parks Institute",
+      "url": "https://www.rosaparks.org/biography/"
+    }
+  },
+  "martin-luther-king": {
+    "period": "1929–1968",
+    "description": "Pasteur et militant américain des droits civiques, Martin Luther King défend l’égalité par l’action non violente. Il reçoit le prix Nobel de la paix en 1964 pour son combat contre les discriminations raciales.",
+    "source": {
+      "label": "Prix Nobel",
+      "url": "https://www.nobelprize.org/prizes/peace/1964/king/facts/"
+    }
+  },
+  "emmanuel-macron": {
+    "description": "Élu président de la République en 2017 puis réélu en 2022, Emmanuel Macron a auparavant été ministre de l’Économie de 2014 à 2016. Il fonde le mouvement En Marche en 2016.",
+    "source": {
+      "label": "Élysée",
+      "url": "https://www.elysee.fr/emmanuel-macron"
+    }
+  },
+  "nicolas-sarkozy": {
+    "description": "Président de la République de 2007 à 2012, Nicolas Sarkozy a aussi été maire de Neuilly-sur-Seine et ministre de l’Intérieur. Il est issu de la droite française.",
+    "source": {
+      "label": "Élysée",
+      "url": "https://www.elysee.fr/nicolas-sarkozy"
+    }
+  },
+  "francois-hollande": {
+    "description": "Président de la République de 2012 à 2017, François Hollande a auparavant dirigé le Parti socialiste. Il a également été député de la Corrèze et maire de Tulle.",
+    "source": {
+      "label": "Élysée",
+      "url": "https://www.elysee.fr/francois-hollande"
+    }
+  },
+  "jacques-chirac": {
+    "description": "Président de la République de 1995 à 2007, Jacques Chirac a aussi été Premier ministre à deux reprises. Il est maire de Paris de 1977 à 1995.",
+    "source": {
+      "label": "Élysée",
+      "url": "https://www.elysee.fr/jacques-chirac"
+    }
+  },
+  "francois-mitterrand": {
+    "description": "Président de la République de 1981 à 1995, François Mitterrand est le premier président socialiste de la Ve République. L’abolition de la peine de mort intervient au début de son premier mandat.",
+    "source": {
+      "label": "Élysée",
+      "url": "https://www.elysee.fr/francois-mitterrand"
+    }
+  },
+  "charles-de-gaulle": {
+    "description": "Chef de la France libre pendant la Seconde Guerre mondiale, Charles de Gaulle lance l’appel du 18 juin 1940. Fondateur de la Ve République, il en devient président de 1959 à 1969.",
+    "source": {
+      "label": "Élysée",
+      "url": "https://www.elysee.fr/charles-de-gaulle"
+    }
+  },
+  "simone-veil": {
+    "description": "Rescapée de la déportation, Simone Veil devient ministre de la Santé et porte la loi de 1975 sur l’interruption volontaire de grossesse. En 1979, elle est élue présidente du Parlement européen.",
+    "source": {
+      "label": "Parlement européen",
+      "url": "https://www.europarl.europa.eu/topics/fr/article/20160811STO39006/hommage-a-simone-veil-premiere-presidente-du-parlement-europeen-directement-elu"
+    }
+  },
+  "christiane-taubira": {
+    "description": "Députée de la Guyane puis ministre de la Justice de 2012 à 2016, Christiane Taubira porte la loi de 2001 reconnaissant la traite et l’esclavage comme crimes contre l’humanité.",
+    "source": {
+      "label": "Fondation pour la mémoire de l’esclavage",
+      "url": "https://memoire-esclavage.org/biographies/christiane-taubira"
+    }
+  },
+  "segolene-royal": {
+    "description": "Personnalité socialiste, Ségolène Royal a exercé plusieurs fonctions ministérielles et présidé la région Poitou-Charentes. Elle est candidate à l’élection présidentielle de 2007 et accède au second tour.",
+    "source": {
+      "label": "Larousse",
+      "url": "https://www.larousse.fr/encyclopedie/personnage/Marie-S%C3%A9gol%C3%A8ne_dite_S%C3%A9gol%C3%A8ne_Royal/149655"
+    }
+  },
+  "lionel-jospin": {
+    "description": "Lionel Jospin dirige le gouvernement de 1997 à 2002, pendant la cohabitation avec le président Jacques Chirac.",
+    "source": {
+      "label": "info.gouv.fr",
+      "url": "https://www.info.gouv.fr/les-anciens-premiers-et-premieres-ministres-de-la-ve-republique"
+    }
+  },
+  "edouard-philippe": {
+    "description": "Édouard Philippe exerce la fonction de Premier ministre de 2017 à 2020, au début du premier mandat présidentiel d’Emmanuel Macron.",
+    "source": {
+      "label": "info.gouv.fr",
+      "url": "https://www.info.gouv.fr/les-anciens-premiers-et-premieres-ministres-de-la-ve-republique"
+    }
+  },
+  "gabriel-attal": {
+    "description": "Gabriel Attal est nommé Premier ministre en janvier 2024. Il dirige le gouvernement jusqu’à son remplacement par Michel Barnier en septembre de la même année.",
+    "source": {
+      "label": "info.gouv.fr",
+      "url": "https://www.info.gouv.fr/les-anciens-premiers-et-premieres-ministres-de-la-ve-republique"
+    }
+  },
+  "francois-bayrou": {
+    "description": "François Bayrou est nommé Premier ministre en décembre 2024. Il dirige le gouvernement jusqu’en septembre 2025.",
+    "source": {
+      "label": "info.gouv.fr",
+      "url": "https://www.info.gouv.fr/les-anciens-premiers-et-premieres-ministres-de-la-ve-republique"
+    }
+  },
+  "elisabeth-borne": {
+    "description": "Élisabeth Borne dirige le gouvernement de mai 2022 à janvier 2024. Elle est la deuxième femme à exercer la fonction de Première ministre en France.",
+    "source": {
+      "label": "info.gouv.fr",
+      "url": "https://www.info.gouv.fr/les-anciens-premiers-et-premieres-ministres-de-la-ve-republique"
+    }
+  },
+  "jean-castex": {
+    "description": "Jean Castex exerce la fonction de Premier ministre de juillet 2020 à mai 2022, pendant le premier mandat présidentiel d’Emmanuel Macron.",
+    "source": {
+      "label": "info.gouv.fr",
+      "url": "https://www.info.gouv.fr/les-anciens-premiers-et-premieres-ministres-de-la-ve-republique"
+    }
+  },
+  "jean-luc-melenchon": {
+    "description": "Ancien sénateur et ministre chargé de l’enseignement professionnel, Jean-Luc Mélenchon est candidat aux élections présidentielles de 2012, 2017 et 2022. Il fonde La France insoumise en 2016.",
+    "source": {
+      "label": "Biographie officielle",
+      "url": "https://melenchon.fr/biographie/"
+    }
+  },
+  "marine-le-pen": {
+    "description": "Figure du Rassemblement national, Marine Le Pen est élue députée de la 11e circonscription du Pas-de-Calais en 2017, puis réélue en 2022 et en 2024.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www.assemblee-nationale.fr/dyn/deputes/PA720614"
+    }
+  },
+  "jordan-bardella": {
+    "description": "Jordan Bardella est élu au Parlement européen en 2019, puis réélu en 2024. Il représente le Rassemblement national et participe aux travaux du Parlement européen.",
+    "source": {
+      "label": "Parlement européen",
+      "url": "https://www.europarl.europa.eu/meps/fr/131580/JORDAN_BARDELLA/home"
+    }
+  },
+  "eric-zemmour": {
+    "description": "Journaliste, essayiste et ancien chroniqueur, Éric Zemmour se présente à l’élection présidentielle française de 2022 avec le parti Reconquête.",
+    "source": {
+      "label": "Institut Montaigne",
+      "url": "https://www.institutmontaigne.org/presidentielle-2022/eric-zemmour/"
+    }
+  },
+  "eric-ciotti": {
+    "description": "Éric Ciotti est élu député des Alpes-Maritimes en 2007. Son parcours comprend également la présidence du conseil départemental des Alpes-Maritimes.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www.assemblee-nationale.fr/13/tribun/fiches_id/old/330240.asp"
+    }
+  },
+  "rachida-dati": {
+    "description": "Rachida Dati est ministre de la Justice de 2007 à 2009. Son parcours comprend aussi des mandats de députée européenne et de maire du 7e arrondissement de Paris.",
+    "source": {
+      "label": "Biographie officielle",
+      "url": "https://www.rachida-dati.eu/me-connaitre/parcours-politique/"
+    }
+  },
+  "valerie-pecresse": {
+    "description": "Valérie Pécresse exerce la fonction de ministre de l’Enseignement supérieur et de la Recherche à partir de 2007, avant de devenir ministre du Budget en 2011.",
+    "source": {
+      "label": "L’Étudiant",
+      "url": "https://www.letudiant.fr/educpros/personnalites/pecresse-valerie-197.html"
+    }
+  },
+  "mathieu-darnaud": {
+    "description": "Mathieu Darnaud est élu sénateur de l’Ardèche en 2014. Son parcours politique comprend également un mandat de maire de Guilherand-Granges.",
+    "source": {
+      "label": "Sénat",
+      "url": "https://www.senat.fr/senateur/darnaud_mathieu14259y.html"
+    }
+  },
+  "francois-ruffin": {
+    "description": "Journaliste et réalisateur du documentaire Merci Patron !, François Ruffin est élu député de la Somme en 2017. Il mène aussi des enquêtes pour le journal Fakir.",
+    "source": {
+      "label": "Le Monde",
+      "url": "https://www.lemonde.fr/elections-legislatives-2017/article/2017/06/18/legislatives-francois-ruffin-elu-depute-dans-la-somme_5146665_5076653.html"
+    }
+  },
+  "fabien-roussel": {
+    "description": "Fabien Roussel est élu député du Nord en 2017 et devient secrétaire national du Parti communiste français en 2018.",
+    "source": {
+      "label": "Parti communiste français",
+      "url": "https://www.pcf.fr/fabien_roussel_legislatives_2022"
+    }
+  },
+  "olivier-faure": {
+    "description": "Olivier Faure est élu député de la 11e circonscription de Seine-et-Marne en 2012. Il siège à l’Assemblée nationale dans les rangs socialistes.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www.assemblee-nationale.fr/dyn/deputes/PA609332"
+    }
+  },
+  "raphael-glucksmann": {
+    "description": "Essayiste et réalisateur de documentaires, Raphaël Glucksmann est élu député européen en 2019. Son travail au Parlement européen porte notamment sur les affaires étrangères et les droits humains.",
+    "source": {
+      "label": "Parlement européen",
+      "url": "https://www.europarl.europa.eu/meps/fr/197694/RAPHAEL_GLUCKSMANN/cv"
+    }
+  },
+  "marine-tondelier": {
+    "description": "Marine Tondelier est élue secrétaire nationale d’Europe Écologie Les Verts en décembre 2022. Elle est également engagée dans la vie politique locale à Hénin-Beaumont.",
+    "source": {
+      "label": "Les Écologistes",
+      "url": "https://antony.eelv.fr/marine-tondelier-nouvelle-secretaire-nationale-deelv/"
+    }
+  },
+  "sandrine-rousseau": {
+    "description": "Économiste et universitaire, Sandrine Rousseau est élue députée de la 9e circonscription de Paris en 2022. Elle siège à l’Assemblée nationale dans les rangs écologistes.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://questions.assemblee-nationale.fr/dyn/deputes/PA795076"
+    }
+  },
+  "anne-hidalgo": {
+    "description": "Anne Hidalgo devient maire de Paris en 2014, après avoir été première adjointe de Bertrand Delanoë. Elle est la première femme élue à cette fonction.",
+    "source": {
+      "label": "Ville de Paris",
+      "url": "https://www.paris.fr/pages/keep-paris-des-jeunes-qui-dirige-la-mairie-de-paris-5659"
+    }
+  },
+  "gerard-larcher": {
+    "description": "Gérard Larcher est élu sénateur des Yvelines en 1986. Son parcours comprend la mairie de Rambouillet, des fonctions ministérielles et la présidence du Sénat.",
+    "source": {
+      "label": "Sénat",
+      "url": "https://www.senat.fr/senateur/larcher_gerard86034e.html"
+    }
+  },
+  "claude-malhuret": {
+    "description": "Claude Malhuret est élu sénateur de l’Allier en 2014. Il a auparavant exercé la fonction de maire de Vichy et des responsabilités gouvernementales.",
+    "source": {
+      "label": "Sénat",
+      "url": "https://www.senat.fr/senateur/malhuret_claude14251q.html"
+    }
+  },
+  "patrick-kanner": {
+    "description": "Patrick Kanner est élu sénateur du Nord en 2017. Il a auparavant été ministre et président du conseil général du Nord.",
+    "source": {
+      "label": "Sénat",
+      "url": "https://www.senat.fr/senateur/kanner_patrick14021p.html"
+    }
+  },
+  "cecile-cukierman": {
+    "description": "Cécile Cukierman est élue sénatrice de la Loire en 2011. Elle représente le Parti communiste français et exerce des responsabilités au sein du groupe communiste au Sénat.",
+    "source": {
+      "label": "Sénat",
+      "url": "https://www.senat.fr/senateur/cukierman_cecile11056n.html"
+    }
+  },
+  "laurence-rossignol": {
+    "description": "Laurence Rossignol est élue sénatrice de l’Oise en 2011, puis du Val-de-Marne en 2023. Son parcours comprend aussi des fonctions ministérielles consacrées aux familles et aux droits des femmes.",
+    "source": {
+      "label": "Sénat",
+      "url": "https://www.senat.fr/senateur/rossignol_laurence11045k.html"
+    }
+  },
+  "yael-braun-pivet": {
+    "description": "Avocate de formation, Yaël Braun-Pivet est élue députée des Yvelines en 2017. En juin 2022, elle devient la première femme présidente de l’Assemblée nationale.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www2.assemblee-nationale.fr/decouvrir-l-assemblee/histoire/la-ve-republique/les-presidents-de-l-assemblee-nationale-depuis-1958/yael-braun-pivet"
+    }
+  },
+  "mathilde-panot": {
+    "description": "Mathilde Panot est élue députée de la 10e circonscription du Val-de-Marne en 2017. Elle exerce aussi la présidence du groupe La France insoumise à l’Assemblée nationale.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www.assemblee-nationale.fr/dyn/deputes/PA720892"
+    }
+  },
+  "manuel-bompard": {
+    "description": "Manuel Bompard est élu député de la 4e circonscription des Bouches-du-Rhône en 2022, avec l’investiture de la Nouvelle Union populaire écologique et sociale.",
+    "source": {
+      "label": "Ministère de l’Intérieur",
+      "url": "https://www.archives-resultats-elections.interieur.gouv.fr/resultats/legislatives-2022/013/01304.php"
+    }
+  },
+  "sebastien-chenu": {
+    "description": "Sébastien Chenu est élu député de la 19e circonscription du Nord en 2017. Il siège à l’Assemblée nationale dans les rangs du Rassemblement national.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www.assemblee-nationale.fr/dyn/deputes/PA720468"
+    }
+  },
+  "charles-de-courson": {
+    "description": "Charles de Courson est élu député de la Marne pour la première fois en 1993. Issu de la Cour des comptes, il est notamment connu pour son travail parlementaire sur les finances publiques.",
+    "source": {
+      "label": "Assemblée nationale",
+      "url": "https://www2.assemblee-nationale.fr/sycomore/fiche/2031"
+    }
+  },
+  "bruno-retailleau": {
+    "description": "Bruno Retailleau est élu sénateur de la Vendée en 2004. Son parcours comprend aussi la présidence du conseil régional des Pays de la Loire et des fonctions de ministre de l’Intérieur.",
+    "source": {
+      "label": "Sénat",
+      "url": "https://www.senat.fr/senateur/retailleau_bruno04033b.html"
+    }
+  }
+}

@@ -1,0 +1,395 @@
+[
+  {
+    "name": "napoleon-bonaparte",
+    "label": "Napoléon Bonaparte",
+    "imageSrc": "/assets/images/characters/history/napoleon-bonaparte.png",
+    "serie": "history",
+    "color": "black",
+    "family": "chapeau",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "souverains"
+    ]
+  },
+  {
+    "name": "louis-xiv",
+    "label": "Louis XIV",
+    "imageSrc": "/assets/images/characters/history/louis-xiv.png",
+    "serie": "history",
+    "color": "brown",
+    "family": "perruque",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "souverains"
+    ]
+  },
+  {
+    "name": "marie-curie",
+    "label": "Marie Curie",
+    "imageSrc": "/assets/images/characters/history/marie-curie.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "cheveux-attaches",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "sciences"
+    ]
+  },
+  {
+    "name": "albert-einstein",
+    "label": "Albert Einstein",
+    "imageSrc": "/assets/images/characters/history/albert-einstein.png",
+    "serie": "history",
+    "color": "white",
+    "family": "moustache",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "sciences"
+    ]
+  },
+  {
+    "name": "frida-kahlo",
+    "label": "Frida Kahlo",
+    "imageSrc": "/assets/images/characters/history/frida-kahlo.png",
+    "serie": "history",
+    "color": "black",
+    "family": "cheveux-fleurs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "arts"
+    ]
+  },
+  {
+    "name": "toussaint-louverture",
+    "label": "Toussaint Louverture",
+    "imageSrc": "/assets/images/characters/history/toussaint-louverture.png",
+    "serie": "history",
+    "color": "black",
+    "family": "chapeau",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "droits-civiques"
+    ]
+  },
+  {
+    "name": "cleopatre",
+    "label": "Cléopâtre VII",
+    "imageSrc": "/assets/images/characters/history/cleopatre.png",
+    "serie": "history",
+    "color": "black",
+    "family": "diademe",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "antiquite",
+      "souverains"
+    ]
+  },
+  {
+    "name": "jules-cesar",
+    "label": "Jules César",
+    "imageSrc": "/assets/images/characters/history/jules-cesar.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "lauriers",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "antiquite"
+    ]
+  },
+  {
+    "name": "ramses-ii",
+    "label": "Ramsès II",
+    "imageSrc": "/assets/images/characters/history/ramses-ii.png",
+    "serie": "history",
+    "color": "blue",
+    "family": "coiffe-egyptienne",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "blue"
+    ],
+    "tags": [
+      "antiquite",
+      "souverains"
+    ]
+  },
+  {
+    "name": "nefertiti",
+    "label": "Néfertiti",
+    "imageSrc": "/assets/images/characters/history/nefertiti.png",
+    "serie": "history",
+    "color": "blue",
+    "family": "coiffe-egyptienne",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "blue"
+    ],
+    "tags": [
+      "antiquite",
+      "souverains"
+    ]
+  },
+  {
+    "name": "jeanne-d-arc",
+    "label": "Jeanne d’Arc",
+    "imageSrc": "/assets/images/characters/history/jeanne-d-arc.png",
+    "serie": "history",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "moyen-age"
+    ]
+  },
+  {
+    "name": "leonard-de-vinci",
+    "label": "Léonard de Vinci",
+    "imageSrc": "/assets/images/characters/history/leonard-de-vinci.png",
+    "serie": "history",
+    "color": "white",
+    "family": "barbe-longue",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "renaissance",
+      "arts",
+      "sciences"
+    ]
+  },
+  {
+    "name": "francois-ier",
+    "label": "François Ier",
+    "imageSrc": "/assets/images/characters/history/francois-ier.png",
+    "serie": "history",
+    "color": "black",
+    "family": "chapeau-barbe",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "renaissance",
+      "souverains"
+    ]
+  },
+  {
+    "name": "elisabeth-iere",
+    "label": "Élisabeth Ire",
+    "imageSrc": "/assets/images/characters/history/elisabeth-iere.png",
+    "serie": "history",
+    "color": "red",
+    "family": "cheveux-boucles",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "red"
+    ],
+    "tags": [
+      "renaissance",
+      "souverains"
+    ]
+  },
+  {
+    "name": "marie-antoinette",
+    "label": "Marie-Antoinette",
+    "imageSrc": "/assets/images/characters/history/marie-antoinette.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "perruque",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "souverains"
+    ]
+  },
+  {
+    "name": "olympe-de-gouges",
+    "label": "Olympe de Gouges",
+    "imageSrc": "/assets/images/characters/history/olympe-de-gouges.png",
+    "serie": "history",
+    "color": "brown",
+    "family": "bonnet",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "droits-civiques"
+    ]
+  },
+  {
+    "name": "ada-lovelace",
+    "label": "Ada Lovelace",
+    "imageSrc": "/assets/images/characters/history/ada-lovelace.png",
+    "serie": "history",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "sciences"
+    ]
+  },
+  {
+    "name": "hypatie",
+    "label": "Hypatie",
+    "imageSrc": "/assets/images/characters/history/hypatie.png",
+    "serie": "history",
+    "color": "brown",
+    "family": "cheveux-attaches",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "antiquite",
+      "sciences"
+    ]
+  },
+  {
+    "name": "victor-hugo",
+    "label": "Victor Hugo",
+    "imageSrc": "/assets/images/characters/history/victor-hugo.png",
+    "serie": "history",
+    "color": "white",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "arts"
+    ]
+  },
+  {
+    "name": "wolfgang-amadeus-mozart",
+    "label": "Mozart",
+    "imageSrc": "/assets/images/characters/history/wolfgang-amadeus-mozart.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "perruque",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "arts"
+    ]
+  },
+  {
+    "name": "josephine-baker",
+    "label": "Joséphine Baker",
+    "imageSrc": "/assets/images/characters/history/josephine-baker.png",
+    "serie": "history",
+    "color": "black",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "arts",
+      "droits-civiques"
+    ]
+  },
+  {
+    "name": "nelson-mandela",
+    "label": "Nelson Mandela",
+    "imageSrc": "/assets/images/characters/history/nelson-mandela.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "droits-civiques"
+    ]
+  },
+  {
+    "name": "rosa-parks",
+    "label": "Rosa Parks",
+    "imageSrc": "/assets/images/characters/history/rosa-parks.png",
+    "serie": "history",
+    "color": "black",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "droits-civiques"
+    ]
+  },
+  {
+    "name": "martin-luther-king",
+    "label": "Martin Luther King",
+    "imageSrc": "/assets/images/characters/history/martin-luther-king.png",
+    "serie": "history",
+    "color": "black",
+    "family": "moustache",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "droits-civiques"
+    ]
+  }
+]

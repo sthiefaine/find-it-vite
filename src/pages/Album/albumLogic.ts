@@ -1,7 +1,7 @@
 // Calculs d'affichage de l'album (sans React)
 import type { Save } from "../../save/schema";
 import { WORLDS } from "../../content/worlds";
-import { peoplePack } from "../../helpers/characters";
+import { historyPack, peoplePack } from "../../helpers/characters";
 import type { CharacterDetails } from "../../helpers/characters";
 import { MEDAL_THRESHOLDS } from "../../content/progress";
 import type { Mastery } from "../../content/progress";
@@ -12,6 +12,8 @@ export const ALBUM_COLLECTIONS = [
   ...WORLDS.map((world) => ({ ...world, alwaysAvailable: false, allowColorFilter: true })),
   { id: "politique", name: "Politique française", emoji: "🏛️", characters: peoplePack,
     background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: true, allowColorFilter: false },
+  { id: "histoire", name: "Histoire", emoji: "📜", characters: historyPack,
+    background: "linear-gradient(160deg, #f9e8c8 0%, #d7b77c 100%)", alwaysAvailable: true, allowColorFilter: false },
 ];
 const albumCharacters = ALBUM_COLLECTIONS.flatMap((collection) => collection.characters);
 

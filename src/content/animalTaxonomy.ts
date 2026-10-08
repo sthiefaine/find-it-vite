@@ -64,7 +64,10 @@ export function normalizedAnimalMetadata(animal: AnimalMetadata & { color: Chara
   };
 }
 
-const PEOPLE_CATEGORIES: Record<string, string> = { politique: "Politique", france: "France", presidents: "Présidents", histoire: "Histoire", senateurs: "Sénateurs", deputes: "Députés" };
+const PEOPLE_CATEGORIES: Record<string, string> = {
+  politique: "Politique", france: "France", presidents: "Présidents", histoire: "Histoire", senateurs: "Sénateurs", deputes: "Députés",
+  antiquite: "Antiquité", "moyen-age": "Moyen Âge", renaissance: "Renaissance", sciences: "Sciences", arts: "Arts", "droits-civiques": "Droits civiques", souverains: "Souverains",
+};
 
 export function animalCategoryLabel(tag: string): string {
   return ANIMAL_CATEGORIES[tag as keyof typeof ANIMAL_CATEGORIES] ?? PEOPLE_CATEGORIES[tag] ?? tag.replace(/-/g, " ");

@@ -6,7 +6,7 @@ export const CATEGORIES = {
   politics: "Politique", flags: "Drapeaux", fantasy: "Imaginaire",
 } as const;
 export type Category = keyof typeof CATEGORIES;
-export const isGameCategory = (category: Category) => category === "animals" || category === "politics";
+export const isGameCategory = (category: Category) => category === "animals" || category === "politics" || category === "history";
 export const COLORS = ["brown", "grey", "yellow", "white", "green", "blue", "red", "orange", "pink", "purple", "black"] as const;
 export type SpriteColor = typeof COLORS[number];
 export type Theme = { id: string; name: string; category: Category; destination: "game" | "fun" };
@@ -45,7 +45,7 @@ export const slugify = (value: string) => value.normalize("NFD").replace(/[\u030
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const isId = (value: unknown): value is string => typeof value === "string" && value.length <= 64 && ID.test(value);
 export const validSource = (source: unknown): source is string => typeof source === "string" && (
-  /^\/assets\/images\/characters\/(?:animals|people)\/[a-z0-9-]+\.png$/.test(source) ||
+  /^\/assets\/images\/characters\/(?:animals|people|history)\/[a-z0-9-]+\.png$/.test(source) ||
   /^studio:[a-f0-9]{32}\.(png|webp)$/.test(source)
 );
 const object = (value: unknown): value is Record<string, unknown> => typeof value === "object" && value !== null && !Array.isArray(value);
@@ -57,7 +57,7 @@ export function validateCatalog(input: unknown): Catalog {
   const themes = new Set<string>();
   for (const theme of input.themes) {
     if (!object(theme) || !isId(theme.id) || themes.has(theme.id) || !text(theme.name, 80) || !Object.prototype.hasOwnProperty.call(CATEGORIES, String(theme.category)) || !["game", "fun"].includes(String(theme.destination))) throw new Error("Thème invalide ou identifiant déjà utilisé.");
-    if (theme.destination === "game" && !isGameCategory(theme.category as Category)) throw new Error("Seuls les thèmes animaliers et politiques peuvent rejoindre le jeu.");
+    if (theme.destination === "game" && !isGameCategory(theme.category as Category)) throw new Error("Seuls les thèmes animaliers, politiques et historiques peuvent rejoindre le jeu.");
     themes.add(theme.id);
   }
   const ids = new Set<string>();

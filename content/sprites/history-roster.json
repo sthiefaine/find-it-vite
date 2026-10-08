@@ -1,0 +1,170 @@
+[
+  {
+    "id": "napoleon-bonaparte",
+    "label": "Napoléon Bonaparte",
+    "subject": "Adult Napoleon I, recognizable face, short dark brown hair with a small forehead lock, clean-shaven, his iconic plain black bicorne hat worn sideways, hat fully visible.",
+    "color": "black",
+    "family": "chapeau"
+  },
+  {
+    "id": "louis-xiv",
+    "label": "Louis XIV",
+    "subject": "Mature Louis XIV, recognizable long face, very long voluminous dark brown curled seventeenth-century wig, thin moustache, no crown.",
+    "color": "brown",
+    "family": "perruque"
+  },
+  {
+    "id": "marie-curie",
+    "label": "Marie Curie",
+    "subject": "Mature Marie Curie, recognizable restrained thoughtful face, brown-grey hair parted in the middle and gathered in a bun, no glasses.",
+    "color": "grey",
+    "family": "cheveux-attaches"
+  },
+  {
+    "id": "albert-einstein",
+    "label": "Albert Einstein",
+    "subject": "Elderly Albert Einstein, unmistakable unruly white hair, full white moustache, thoughtful warm expression, no glasses, mouth closed.",
+    "color": "white",
+    "family": "moustache"
+  },
+  {
+    "id": "frida-kahlo",
+    "label": "Frida Kahlo",
+    "subject": "Adult Frida Kahlo, unmistakable joined dark eyebrows, subtle fine upper-lip hair, dark braided hair with a small traditional red and pink floral headdress, dignified expression.",
+    "color": "black",
+    "family": "cheveux-fleurs"
+  },
+  {
+    "id": "toussaint-louverture",
+    "label": "Toussaint Louverture",
+    "subject": "A respectful stylized historical interpretation of Toussaint Louverture based on nineteenth-century engraved portraits: mature Black Haitian man, slender dignified face, dark brown skin, clean-shaven, dark hair, a simple dark navy late eighteenth-century military bicorne hat with a small red and blue cockade. Entire hat visible, no neck, no uniform below the head.",
+    "color": "black",
+    "family": "chapeau"
+  },
+  {
+    "id": "cleopatre",
+    "label": "Cléopâtre VII",
+    "subject": "Adult Cleopatra VII, stylized historical interpretation informed by ancient Ptolemaic coin portraits, prominent aquiline nose, dark wavy hair gathered into a low bun with a narrow royal diadem; no cinematic Egyptian bangs or invented pharaoh headdress.",
+    "color": "black",
+    "family": "diademe"
+  },
+  {
+    "id": "jules-cesar",
+    "label": "Jules César",
+    "subject": "Mature Julius Caesar, historical interpretation informed by Roman portrait busts, lean lined face, receding short grey-brown hair combed forward, clean-shaven, simple small laurel wreath.",
+    "color": "grey",
+    "family": "lauriers"
+  },
+  {
+    "id": "ramses-ii",
+    "label": "Ramsès II",
+    "subject": "Adult Ramesses II, stylized historical interpretation of Egyptian royal sculptures, warm medium-brown skin, almond-shaped natural dark eyes, blue and gold striped nemes headdress with small central cobra, ceremonial narrow false beard, full headdress visible.",
+    "color": "blue",
+    "family": "coiffe-egyptienne"
+  },
+  {
+    "id": "nefertiti",
+    "label": "Néfertiti",
+    "subject": "Adult Nefertiti, stylized historical interpretation of the famous Berlin bust, warm brown skin, long elegant face, high cheekbones, tall flat-topped blue royal crown with gold band, both natural eyes visible, full crown visible.",
+    "color": "blue",
+    "family": "coiffe-egyptienne"
+  },
+  {
+    "id": "jeanne-d-arc",
+    "label": "Jeanne d’Arc",
+    "subject": "Young adult Joan of Arc, clearly labeled through the intended subject as a historical interpretation rather than a documented likeness; natural youthful face, short dark brown medieval pageboy haircut, no helmet, no invented scars.",
+    "color": "brown",
+    "family": "cheveux-courts"
+  },
+  {
+    "id": "leonard-de-vinci",
+    "label": "Léonard de Vinci",
+    "subject": "Elderly Leonardo da Vinci, conventional historical portrait interpretation, long flowing grey-white hair and a long full grey-white beard, deep-set natural eyes, a simple dark Renaissance cap.",
+    "color": "white",
+    "family": "barbe-longue"
+  },
+  {
+    "id": "francois-ier",
+    "label": "François Ier",
+    "subject": "Adult Francis I of France, recognizable face inspired by Jean Clouet's portrait, long prominent nose, short dark brown hair, neatly trimmed dark beard and moustache, black Renaissance cap with a small white feather, entire cap visible.",
+    "color": "black",
+    "family": "chapeau-barbe"
+  },
+  {
+    "id": "elisabeth-iere",
+    "label": "Élisabeth Ire",
+    "subject": "Mature Elizabeth I of England, recognizable Tudor portrait likeness, pale natural skin, reddish auburn curled hair, small pearl hair ornaments, delicate arched eyebrows, no ruff or neck.",
+    "color": "red",
+    "family": "cheveux-boucles"
+  },
+  {
+    "id": "marie-antoinette",
+    "label": "Marie-Antoinette",
+    "subject": "Adult Marie Antoinette, recognizable portrait likeness inspired by Élisabeth Vigée Le Brun, powdered light grey eighteenth-century high coiffure with a small soft blue ribbon, natural face, no giant feather, entire hairstyle visible.",
+    "color": "grey",
+    "family": "perruque"
+  },
+  {
+    "id": "olympe-de-gouges",
+    "label": "Olympe de Gouges",
+    "subject": "Adult Olympe de Gouges, historical portrait interpretation, late eighteenth-century dark curled hair framing the face, a modest white muslin bonnet with a pale pink ribbon, warm thoughtful expression.",
+    "color": "brown",
+    "family": "bonnet"
+  },
+  {
+    "id": "ada-lovelace",
+    "label": "Ada Lovelace",
+    "subject": "Adult Ada Lovelace, recognizable portrait likeness inspired by Margaret Sarah Carpenter's 1836 painting, brown hair parted centrally with elaborate side ringlets, small light blue ribbons, no crown, natural adult proportions.",
+    "color": "brown",
+    "family": "cheveux-boucles"
+  },
+  {
+    "id": "hypatie",
+    "label": "Hypatie",
+    "subject": "A respectful historical interpretation of Hypatia of Alexandria, an adult female philosopher and mathematician of late antique Roman Egypt. No authentic lifetime portrait is known, so use a plausible dignified adult Mediterranean face, olive skin, dark brown hair loosely gathered in a modest classical bun, natural brown eyes, no modern glasses, no headwear, no jewellery, no neck or robes.",
+    "color": "brown",
+    "family": "cheveux-attaches"
+  },
+  {
+    "id": "victor-hugo",
+    "label": "Victor Hugo",
+    "subject": "Elderly Victor Hugo, recognizable broad face and deep-set eyes, short white hair, full cropped white beard and moustache.",
+    "color": "white",
+    "family": "barbe-courte"
+  },
+  {
+    "id": "wolfgang-amadeus-mozart",
+    "label": "Mozart",
+    "subject": "Young adult Wolfgang Amadeus Mozart, recognizable eighteenth-century portrait interpretation, powdered light grey hair with side rolls and rear tied hair, clean-shaven, natural expressive eyes.",
+    "color": "grey",
+    "family": "perruque"
+  },
+  {
+    "id": "josephine-baker",
+    "label": "Joséphine Baker",
+    "subject": "Adult Josephine Baker, recognizable face based on historical photographic portraits, warm brown skin, sleek short black hair with characteristic sculpted forehead curls, expressive natural eyes, no stage costume, no extravagant jewellery.",
+    "color": "black",
+    "family": "cheveux-courts"
+  },
+  {
+    "id": "nelson-mandela",
+    "label": "Nelson Mandela",
+    "subject": "Elderly Nelson Mandela, unmistakable warm face, short tightly curled grey-white hair, characteristic deep smile lines, clean-shaven, restrained friendly closed-mouth smile.",
+    "color": "grey",
+    "family": "cheveux-courts"
+  },
+  {
+    "id": "rosa-parks",
+    "label": "Rosa Parks",
+    "subject": "Mature Rosa Parks, recognizable dignified face, medium-brown skin, dark hair neatly parted and gathered back, characteristic thin dark cat-eye eyeglasses, calm expression.",
+    "color": "black",
+    "family": "lunettes"
+  },
+  {
+    "id": "martin-luther-king",
+    "label": "Martin Luther King",
+    "subject": "Adult Martin Luther King Jr., recognizable rounded face, medium-brown skin, short neat black hair, characteristic thin black moustache, calm dignified expression.",
+    "color": "black",
+    "family": "moustache"
+  }
+]
