@@ -9,7 +9,7 @@ import {
 } from "pixi.js";
 import { GOLD_TINT } from "../../../engine/rules";
 import { Look, PLAIN_LOOK } from "./crowd";
-import { getAccessory, getAccessoryBox } from "../../../content/accessories";
+import { ACCESSORY_OUTLINE_OFFSETS, accessoryOutlineSource, getAccessory, getAccessoryBox, needsAccessoryOutline } from "../../../content/accessories";
 
 const POP_FRAMES = 14; // ≈ 0,23 s à 60 fps
 
@@ -100,6 +100,11 @@ export function CrowdSprite({
       {gold && <Graphics draw={haloDraw} />}
       <Container rotation={look.rotation} scale={[look.flip ? -1 : 1, 1]}>
         <Sprite image={image} anchor={0.5} width={w} height={w} tint={look.tint} eventMode="none" />
+        {accessory && accessoryBox && needsAccessoryOutline(accessory) ? ACCESSORY_OUTLINE_OFFSETS.map((offset, index) => (
+          <Sprite key={`outline-${index}`} image={accessoryOutlineSource(accessory.imageSrc)}
+            x={(accessoryBox.x - .5 + offset.x) * w} y={(accessoryBox.y - .5 + offset.y) * w}
+            width={accessoryBox.width * w} height={accessoryBox.height * w} eventMode="none" />
+        )) : null}
         {accessory && accessoryBox ? <Sprite image={accessory.imageSrc}
           x={(accessoryBox.x - .5) * w} y={(accessoryBox.y - .5) * w}
           width={accessoryBox.width * w} height={accessoryBox.height * w}

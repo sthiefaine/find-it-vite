@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, type PointerEvent } from "react";
 import { BOARD, type LevelSpec } from "../../engine/types";
-import { getAccessory, getAccessoryBox } from "../../content/accessories";
-import { preparedImage } from "../../game/assetReadiness";
+import { ACCESSORY_OUTLINE_OFFSETS, getAccessory, getAccessoryBox } from "../../content/accessories";
+import { preparedAccessoryOutline, preparedImage } from "../../game/assetReadiness";
 import { pickCharacterAt } from "../../helpers/hitTest";
 import { createMatchBoard, type MatchSprite } from "./boardModel";
 
@@ -51,6 +51,10 @@ export function MatchBoard({ spec, startsAt, serverNow, enabled, onTap }: Props)
         if (accessory) {
           const accessoryImage = preparedImage(accessory.imageSrc);
           const box = getAccessoryBox(accessory, sprite.imageSrc);
+          const outline = preparedAccessoryOutline(accessory.imageSrc);
+          if (outline) for (const offset of ACCESSORY_OUTLINE_OFFSETS) {
+            context.drawImage(outline, (box.x - .5 + offset.x) * size, (box.y - .5 + offset.y) * size, box.width * size, box.height * size);
+          }
           if (accessoryImage) context.drawImage(accessoryImage, (box.x - .5) * size, (box.y - .5) * size, box.width * size, box.height * size);
         }
         context.restore();

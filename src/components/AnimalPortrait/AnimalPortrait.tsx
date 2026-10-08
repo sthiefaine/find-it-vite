@@ -1,5 +1,5 @@
 import type { CSSProperties } from "react";
-import { getAccessory, getAccessoryBox, type AccessoryId } from "../../content/accessories";
+import { ACCESSORY_OUTLINE_OFFSETS, getAccessory, getAccessoryBox, needsAccessoryOutline, type AccessoryId } from "../../content/accessories";
 import "./AnimalPortrait.css";
 
 type Props = {
@@ -19,6 +19,11 @@ export function AnimalPortrait({ imageSrc, label, accessoryId, size, className =
     role="img" aria-label={accessory ? `${label}, ${accessory.label.toLocaleLowerCase("fr")}` : label}
     data-accessory={accessory?.id ?? "none"}>
     <img className="animal-portrait__head" src={imageSrc} alt="" draggable={false} />
+    {accessory && box && needsAccessoryOutline(accessory) ? ACCESSORY_OUTLINE_OFFSETS.map((offset, index) => (
+      <img key={`outline-${index}`} className="animal-portrait__accessory animal-portrait__accessory-outline"
+        src={accessory.imageSrc} alt="" draggable={false}
+        style={{ left: `${(box.x + offset.x) * 100}%`, top: `${(box.y + offset.y) * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%` }} />
+    )) : null}
     {accessory && box ? <img className="animal-portrait__accessory" src={accessory.imageSrc} alt="" draggable={false}
       style={{ left: `${box.x * 100}%`, top: `${box.y * 100}%`, width: `${box.width * 100}%`, height: `${box.height * 100}%` }} /> : null}
   </span>;

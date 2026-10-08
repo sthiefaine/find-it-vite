@@ -1,5 +1,5 @@
-import { BaseTexture, ImageResource, Texture, utils } from "pixi.js";
-import { ACCESSORIES } from "../content/accessories";
+import { BaseTexture, CanvasResource, ImageResource, Texture, utils } from "pixi.js";
+import { ACCESSORIES, accessoryOutlineSource, needsAccessoryOutline } from "../content/accessories";
 import type { LevelSpec } from "../engine/types";
 import { obstacleTheme } from "./obstacleTheme";
 
@@ -56,6 +56,26 @@ async function loadTexture(url: string, signal: AbortSignal): Promise<void> {
   const base = new BaseTexture(resource);
   const texture = new Texture(base);
   if (!texture.valid || !base.valid) throw new Error(`Texture indisponible : ${url}`);
+  const accessory = ACCESSORIES.find(item => item.imageSrc === url);
+  if (accessory && needsAccessoryOutline(accessory)) {
+    const canvas = document.createElement("canvas");
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error(`Contour indisponible : ${url}`);
+    context.drawImage(image, 0, 0);
+    context.globalCompositeOperation = "source-in";
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    // Cette conversion de transparence n'est faite qu'au chargement : aucun
+    // filtre Pixi ni traitement d'image ne s'ajoute à chaque tête/frame.
+    const outline = new Texture(new BaseTexture(new CanvasResource(canvas)));
+    const source = accessoryOutlineSource(url);
+    Texture.removeFromCache(source);
+    BaseTexture.removeFromCache(source);
+    BaseTexture.addToCache(outline.baseTexture, source);
+    Texture.addToCache(outline, source);
+  }
   // Une texture créée ailleurs (Duel, ancien Stage) peut encore être utilisée.
   // On remplace les alias, sans jamais détruire sa texture partagée.
   Texture.removeFromCache(url);
@@ -95,6 +115,12 @@ export function preparedImage(url: string): HTMLImageElement | undefined {
   const texture = utils.TextureCache[url];
   const resource = texture?.baseTexture?.resource;
   return texture?.valid && resource instanceof ImageResource ? resource.source as HTMLImageElement : undefined;
+}
+
+export function preparedAccessoryOutline(url: string): HTMLCanvasElement | undefined {
+  const texture = utils.TextureCache[accessoryOutlineSource(url)];
+  const resource = texture?.baseTexture?.resource;
+  return texture?.valid && resource instanceof CanvasResource ? resource.source as HTMLCanvasElement : undefined;
 }
 
 export function levelAssetUrls(spec: LevelSpec, previewBirds = false): string[] {

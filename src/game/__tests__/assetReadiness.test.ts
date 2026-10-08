@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { BaseTexture, ImageResource, Texture, utils } from "pixi.js";
+import { BaseTexture, CanvasResource, ImageResource, Texture, utils } from "pixi.js";
 import { generateLevel } from "../../engine";
 import { charactersDetails } from "../../helpers/characters";
-import { ACCESSORIES } from "../../content/accessories";
+import { ACCESSORIES, accessoryOutlineSource, getAccessory } from "../../content/accessories";
 import { SCENES } from "../../content/scenes";
 import { peoplePack } from "../../helpers/characters";
-import { createAssetReadiness, levelAssetUrls, loadDecodedImage, preparedImage, prepareLevelAssets, startLevelAssetLoad } from "../assetReadiness";
+import { createAssetReadiness, levelAssetUrls, loadDecodedImage, preparedAccessoryOutline, preparedImage, prepareLevelAssets, startLevelAssetLoad } from "../assetReadiness";
 
 function deferred<T = void>() {
   let resolve!: (value: T | PromiseLike<T>) => void;
@@ -159,6 +159,41 @@ describe("images décodées et textures Pixi 7", () => {
     TestImage.instances = [];
     vi.stubGlobal("Image", TestImage);
     vi.stubGlobal("HTMLImageElement", TestImage);
+  });
+
+  it("prépare le contour clair des accessoires sombres avant l'ouverture de la grille, une fois par image", async () => {
+    const context = { drawImage: vi.fn(), fillRect: vi.fn(), globalCompositeOperation: "", fillStyle: "" };
+    const canvas = { width: 0, height: 0, getContext: () => context };
+    const createElement = vi.fn(() => canvas);
+    vi.stubGlobal("document", { createElement });
+    const preload = createAssetReadiness();
+    const url = getAccessory("moustache")!.imageSrc;
+    const loading = preload([url]);
+    await flush();
+    expect(preparedAccessoryOutline(url)).toBeUndefined();
+    const image = TestImage.instances[0];
+    image.loaded();
+    image.decoded.resolve();
+    await loading;
+
+    expect(context.drawImage).toHaveBeenCalledWith(image, 0, 0);
+    expect(context.globalCompositeOperation).toBe("source-in");
+    expect(context.fillStyle).toBe("#ffffff");
+    expect(context.fillRect).toHaveBeenCalledWith(0, 0, 512, 512);
+    const outlineSource = accessoryOutlineSource(url);
+    const outline = Texture.from(outlineSource);
+    expect(outline.valid).toBe(true);
+    expect(outline.baseTexture.resource).toBeInstanceOf(CanvasResource);
+    expect(preparedAccessoryOutline(url)).toBe(canvas);
+    await preload([url]);
+    expect(createElement).toHaveBeenCalledTimes(1);
+    expect(Texture.from(outlineSource)).toBe(outline);
+    for (const source of [url, outlineSource]) {
+      const texture = Texture.from(source);
+      Texture.removeFromCache(source);
+      BaseTexture.removeFromCache(source);
+      texture.destroy(true);
+    }
   });
 
   it("ne publie la texture qu'après decode, valide dès la première frame et partagée par URL", async () => {

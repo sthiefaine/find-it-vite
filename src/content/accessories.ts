@@ -30,6 +30,15 @@ const BY_ID = new Map(ACCESSORIES.map((accessory) => [accessory.id, accessory]))
 export const getAccessory = (id: AccessoryId | null | undefined): Accessory | undefined => id ? BY_ID.get(id) : undefined;
 export const isAccessoryId = (id: string): id is AccessoryId => BY_ID.has(id as AccessoryId);
 
+// Les accessoires noirs se confondent avec les museaux/fourrures noirs à 45 px.
+// Une silhouette claire décalée sous l'image garde leur contour perceptible.
+export const ACCESSORY_OUTLINE_OFFSETS = [
+  { x: -.018, y: 0 }, { x: .018, y: 0 }, { x: 0, y: -.018 }, { x: 0, y: .018 },
+] as const;
+export const needsAccessoryOutline = (accessory: Accessory) =>
+  accessory.id === "moustache" || accessory.id === "sunglasses";
+export const accessoryOutlineSource = (imageSrc: string) => `${imageSrc}#contrast-outline`;
+
 // Repères normalisés sur l'image : les oreilles d'un lapin ne doivent pas être
 // prises pour le front. Le catalogue de repères peut s'enrichir sans modifier
 // les composants du studio, du portrait ou de la foule.

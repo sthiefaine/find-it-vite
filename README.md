@@ -97,6 +97,10 @@ débloquer un nouveau niveau. Le Duel attend aussi le décodage de son pool avan
 la première manche. Les noms complets se répartissent sur plusieurs lignes dans
 l’avis de recherche.
 
+À la fin du décompte, l’affiche conserve son portrait, son nom et son accessoire :
+seul le petit compteur disparaît. Le démarrage du plateau ne relance aucune
+animation de zoom ou de déplacement sur l’affiche entière.
+
 Le catalogue contient 78 têtes animales, toutes au format PNG transparent 512 × 512.
 Les 14 anciens portraits ont été redessinés avec imagegen d’après les références
 de la série ferme : tête seule de face, textures fines, finition mate et couleurs
@@ -201,6 +205,10 @@ portent aussi l’accessoire recherché. L’objectif reste de retrouver l’uni
 affiché ; le chrono ne change pas. Pour un aperçu local forcé, ouvrir
 `http://127.0.0.1:5174/game?seed=42&level=13&accessory=moustache`.
 Le paramètre `accessory` est ignoré en production.
+
+Un fin contour clair détoure les lunettes et moustaches pour les rendre visibles
+sur les têtes sombres, dans l’avis comme sur le plateau. Dans les variantes de
+foule, l’affiche précise aussi la tenue à chercher ou « Sans accessoire ».
 
 ### Plancher de difficulté et variantes de foule
 

@@ -2,3 +2,4 @@
 .animal-portrait[hidden] { display: none; }
 .animal-portrait > .animal-portrait__head { display: block; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .animal-portrait > .animal-portrait__accessory { display: block; position: absolute; object-fit: fill; max-width: none; max-height: none; }
+.animal-portrait > .animal-portrait__accessory-outline { filter: brightness(0) invert(1); }

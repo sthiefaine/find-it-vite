@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import "./GameHeader.css";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
 import { useShallow } from "zustand/shallow";
@@ -14,11 +14,14 @@ import { GameIcon } from "../../Icons/GameIcon";
 import { getAccessory } from "../../../content/accessories";
 import { preloadImages } from "../../../game/assetReadiness";
 import { levelCountdownUntil } from "../../../game/levelPreparation";
+import { wantedClue } from "./wantedClue";
 
 const MEMORY_SHOW_MS = { easy: 2500, normal: 1500, expert: 1500 } as const;
 const MEMORY_PEEK_MS = 1000;
 const MEMORY_PEEK_COST_S = 2;
 const FLIP_MS = 400;
+// Le décompte et l'ouverture du plateau ne changent pas le portrait de l'avis.
+const WantedPortrait = memo(AnimalPortrait);
 
 const stampIcon = (spec: LevelSpec | null) => {
   if (!spec) return RULE_ICON.classic;
@@ -66,17 +69,6 @@ export const GameHeader = () => {
     }, () => undefined);
     return () => controller.abort();
   }, [spec, animationLevelLoading]);
-
-  // Apparition du portrait : pilotée par une classe CSS (opacité 0 dès la première frame)
-  // et non plus par un état React mis à jour après coup, qui laissait passer une frame à
-  // opacité 1 (le nouveau perso apparaissait, disparaissait puis revenait en fondu).
-  const [isAnimating, setIsAnimating] = useState(false);
-  useEffect(() => {
-    if (!wantedCharacter || animationLevelLoading) return;
-    setIsAnimating(true);
-    const t = setTimeout(() => setIsAnimating(false), 900);
-    return () => clearTimeout(t);
-  }, [wantedCharacter, animationLevelLoading]);
 
   const levelKey = spec ? `${spec.seed}-${spec.index}` : "";
   const rule = spec?.rule ?? "classic";
@@ -184,6 +176,7 @@ export const GameHeader = () => {
   const showBack = isMemory && shown && cardHidden;
   // Variante B : toute l'espèce est habillée sauf la cible, l'avis le dit en clair.
   const bareTarget = rule === "classic" && spec?.crowdVariant?.dress === "bare";
+  const clue = wantedClue(spec);
   const isGold = rule === "goldRush" && shown;
 
   return (
@@ -192,7 +185,7 @@ export const GameHeader = () => {
         <Timer />
 
         <div
-          className={`wanted-poster frame-${frame}${isAnimating ? " poster-pop" : ""}${
+          className={`wanted-poster frame-${frame}${
             isGold ? " wanted-gold" : ""
           }${showBack && !flipping ? " wanted-tappable" : ""}`}
           onPointerDown={peek}
@@ -207,7 +200,7 @@ export const GameHeader = () => {
             </div>}
             {shown && wantedCharacter && (
               // Les images sont décodées avant le montage, y compris après un nouvel essai.
-              <AnimalPortrait
+              <WantedPortrait
                 key={`${levelKey}-${wantedCharacter.imageSrc}`}
                 className={`wanted-portrait${shown ? " portrait-in" : ""}${
                   rule === "silhouette" ? " portrait-silhouette" : ""
@@ -239,16 +232,16 @@ export const GameHeader = () => {
               </div>
             )}
             {peeking && <div className="peek-cost">−{MEMORY_PEEK_COST_S} s</div>}
-            {isAnimating && <div className="character-glow"></div>}
           </div>
           {/* La clé change avec l'icône : petite apparition quand la règle change */}
           <div key={stampIcon(spec)} className="wanted-stamp" aria-hidden>
             {stampIcon(spec)}
           </div>
           <div className="wanted-name-container">
-            <p lang="fr" className={`wanted-name${isAnimating ? " name-appear" : ""}`}>
+            <p lang="fr" className="wanted-name">
               {renderName()}
             </p>
+            {clue && <span className="wanted-clue">{clue}</span>}
           </div>
         </div>
 
