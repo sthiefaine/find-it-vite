@@ -1,0 +1,4 @@
+Create a neutral illustrated game avatar of François Mitterrand using the attached public archival portrait as the identity reference. Preserve his mature face, distinctive nose, receding grey hair, natural eye color and clean-shaven appearance. Head only, front facing, entire head visible, no neck or shoulders. Detailed semi-realistic illustration with matte natural textures, adult facial proportions, gentle closed-mouth expression, centered in a square with a small margin. Genuine transparent alpha background. No writing, clothing, symbols, objects or watermark. Designed for a visual-search game, recognizable at 45x45 pixels.
+
+Generation: built-in image_gen, transparent alpha.
+Original: /Users/thief/.codex/generated_images/01a119f8-2036-70f1-add8-324374bed460/exec-2e77294e-3bd2-4623-9ae8-1710b40cdff3.png

@@ -1,11 +1,11 @@
 import { MIN_POOL_SIZE } from "../engine/generateLevel";
-import { animalsPack } from "../helpers/characters";
+import { animalsPack, peoplePack } from "../helpers/characters";
 import type { CharacterDetails } from "../helpers/characters";
 import { unlockedAnimals } from "./unlockedAnimals";
 import type { AnimalUnlockSave } from "./unlockedAnimals";
 
 export type PlayMode = "endless" | "duel";
-export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "personnes" | "drapeaux";
+export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "politique" | "personnes" | "drapeaux";
 export type PlayTheme = {
   id: PlayThemeId;
   label: string;
@@ -21,12 +21,14 @@ export const PLAY_THEMES: readonly PlayTheme[] = [
   { id: "foret", label: "Forêt", description: "Les habitants des bois et des sous-bois.", emoji: "🌲", preview: "/assets/images/characters/animals/renard.png" },
   { id: "savane", label: "Savane", description: "Un safari de portraits à retrouver.", emoji: "🌿", preview: "/assets/images/characters/animals/giraffe.png" },
   { id: "ocean", label: "Océan", description: "Une plongée parmi les animaux marins.", emoji: "🐳", preview: "/assets/images/characters/animals/dauphin.png" },
+  { id: "politique", label: "Politique française", description: "Des personnalités, députés et sénateurs à reconnaître.", emoji: "🏛️", preview: "/assets/images/characters/people/emmanuel-macron.png" },
   { id: "personnes", label: "Personnes", description: "Une nouvelle galerie de visages.", emoji: "🙂", comingSoon: true },
   { id: "drapeaux", label: "Drapeaux", description: "Les couleurs du monde entier.", emoji: "🏳️", comingSoon: true },
 ];
 
 function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
   switch (id) {
+    case "politique": return peoplePack;
     case "animaux": return animalsPack;
     case "ferme":
     case "foret":
@@ -38,7 +40,7 @@ function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
 
 function availablePool(mode: PlayMode, id: PlayThemeId, save: AnimalUnlockSave): CharacterDetails[] {
   const published = publishedThemePool(id);
-  return mode === "duel" ? published : unlockedAnimals(save, published);
+  return mode === "duel" || id === "politique" ? published : unlockedAnimals(save, published);
 }
 
 export function themeOptions(mode: PlayMode, save: AnimalUnlockSave) {

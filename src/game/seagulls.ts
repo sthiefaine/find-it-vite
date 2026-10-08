@@ -3,7 +3,7 @@ import type { Rng } from "../engine/rng";
 import { BOARD } from "../engine/types";
 import type { Tier } from "../engine/types";
 
-export type FlightKind = "solo" | "small" | "flock" | "giant";
+export type FlightKind = "solo" | "small" | "flock" | "horde" | "surge" | "giant";
 export type Bird = {
   width: number;
   y: number;
@@ -11,6 +11,8 @@ export type Bird = {
   delayMs: number;
   durationMs: number;
   bank: number;
+  sprite?: number;
+  direction?: 1 | -1;
 };
 export type Flight = {
   kind: FlightKind;
@@ -21,19 +23,26 @@ export type Flight = {
 export type FlightFrame = { flight: Flight; ageMs: number };
 export const GIANT_COOLDOWN_MS = 45_000;
 
-export function makeFlight(rng: Rng, kind: FlightKind): Flight {
+export function makeFlight(rng: Rng, kind: FlightKind, political = false, tier: Tier = "normal"): Flight {
   const giant = kind === "giant";
-  const count = kind === "solo" || giant ? 1 : kind === "small" ? rng.int(2, 3) : rng.int(7, 8);
+  const horde = kind === "horde" || kind === "surge";
+  const count = kind === "solo" || giant ? 1
+    : kind === "horde" ? rng.int(15, 20)
+      : kind === "surge" ? rng.int(21, tier === "expert" ? 36 : 30)
+        : kind === "small" ? rng.int(2, political ? 5 : 3)
+          : rng.int(political ? 6 : 7, political ? tier === "easy" ? 8 : 14 : 8);
   const direction = rng.chance(0.5) ? 1 : -1;
-  const duration = giant ? 3_200 : rng.int(2_800, 4_000);
+  const duration = giant ? 3_200 : horde ? rng.int(3_800, 5_000) : rng.int(2_800, 4_000);
   const baseline = rng.int(100, BOARD.h - 100);
+  const silhouettes = political ? rng.shuffle([0, 1, 2]) : [];
   const birds: Bird[] = Array.from({ length: count }, (_, i) => ({
-    width: giant ? BOARD.w * 9 : rng.int(86, kind === "flock" ? 132 : 160),
-    y: giant ? BOARD.h / 2 : Math.max(55, Math.min(BOARD.h - 55, baseline + rng.int(-150, 150))),
+    width: giant ? BOARD.w * 9 : rng.int(horde ? 80 : 86, horde ? 112 : kind === "flock" ? 132 : 160),
+    y: giant ? BOARD.h / 2 : horde ? rng.int(60, BOARD.h - 60) : Math.max(55, Math.min(BOARD.h - 55, baseline + rng.int(-150, 150))),
     drift: giant ? 0 : rng.int(-45, 45),
-    delayMs: i * rng.int(80, 180),
+    delayMs: i * rng.int(horde ? 25 : 80, horde ? 60 : 180),
     durationMs: duration + (giant ? 0 : rng.int(-250, 250)),
     bank: giant ? 0 : rng.int(-8, 8) * Math.PI / 180,
+    ...(political ? { sprite: silhouettes[i] ?? rng.int(0, 2), direction: horde ? rng.chance(.5) ? 1 as const : -1 as const : direction } : {}),
   }));
   return { kind, direction, birds, durationMs: Math.max(...birds.map(b => b.delayMs + b.durationMs)) };
 }
@@ -49,7 +58,7 @@ export function birdPose(bird: Bird, flight: Flight, ageMs: number) {
     ? BOARD.w / 2 + Math.sign(t) * t * t * (BOARD.w / 2 + margin)
     : -margin + progress * (BOARD.w + 2 * margin);
   return {
-    x: flight.direction === 1 ? across : BOARD.w - across,
+    x: (bird.direction ?? flight.direction) === 1 ? across : BOARD.w - across,
     y: bird.y + bird.drift * Math.sin(Math.PI * progress),
     bank: bird.bank + (flight.kind === "giant" ? 0 : Math.sin(progress * Math.PI * 2) * 0.035),
   };
@@ -68,8 +77,8 @@ export class SeagullDirector {
   private lastGiantAt = -Infinity;
   private requested: FlightKind | null = null;
 
-  constructor(seed: number, private tier: Tier) {
-    this.rng = createRng(hash32(seed, "seagulls-v1"));
+  constructor(seed: number, private tier: Tier, private political = false) {
+    this.rng = createRng(hash32(seed, political ? "political-crowds-v1" : "seagulls-v1"));
     this.nextAt = this.rng.int(5_000, 8_000);
   }
 
@@ -81,20 +90,24 @@ export class SeagullDirector {
     this.nextAt = this.elapsedMs + this.rng.int(4_000, 7_000);
   }
 
-  advance(deltaMs: number, active: boolean, canStart: boolean): FlightFrame | null {
+  advance(deltaMs: number, active: boolean, canStart: boolean, level = 1): FlightFrame | null {
     if (active) this.elapsedMs += Math.max(0, Math.min(deltaMs, 100));
     if (this.flight && this.elapsedMs - this.startedAt >= this.flight.durationMs) {
       this.flight = null;
       this.nextAt = this.elapsedMs + this.rng.int(this.tier === "easy" ? 9_000 : 6_000, 13_000);
     }
     if (active && (this.requested || (canStart && !this.flight && this.elapsedMs >= this.nextAt))) {
-      const kinds: [FlightKind, number][] = [
+      const kinds: [FlightKind, number][] = this.political ? [
+        ["solo", 2], ["small", 4], ["flock", this.passCount >= 1 ? 3 : 0],
+        ["horde", this.tier !== "easy" && this.passCount >= 1 ? 2.5 : 0],
+        ["surge", this.tier !== "easy" && level >= (this.tier === "expert" ? 12 : 20) && this.passCount >= 2 ? 1.5 : 0],
+      ] : [
         ["solo", 3], ["small", 4], ["flock", this.passCount >= 1 ? 2 : 0],
         ["giant", this.passCount >= 2 && this.elapsedMs - this.lastGiantAt >= GIANT_COOLDOWN_MS ? 1.5 : 0],
       ];
       const kind = this.requested ?? weightedPick(this.rng, kinds.map(([k, w]) => [k, k === this.previous ? 0 : w] as const))!;
       this.requested = null;
-      this.flight = makeFlight(this.rng, kind);
+      this.flight = makeFlight(this.rng, kind, this.political, this.tier);
       this.startedAt = this.elapsedMs;
       this.previous = kind;
       this.passCount++;

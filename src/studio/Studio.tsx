@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Check, CheckCircle2, Copy, ImagePlus, Layers3, Plus, Search, Sparkles, X } from "lucide-react";
-import { CATEGORIES, COLORS, gameSprites, imageUrl, slugify, spritePrompt } from "./model";
-import type { AssetInfo, Catalog, Category, PublishedAnimal, Sprite, Theme } from "./model";
+import { CATEGORIES, COLORS, gameSprites, imageUrl, isGameCategory, slugify, spritePrompt } from "./model";
+import type { AssetInfo, Catalog, Category, PublishedCharacter, Sprite, Theme } from "./model";
 import { ANIMAL_CATEGORIES, ANIMAL_COLORS, ANIMAL_SPECIES, BREED_SUGGESTIONS, animalCategoryLabel, animalSpeciesLabel, matchesAnimalSearch, normalizedAnimalMetadata } from "../content/animalTaxonomy";
 import { ACCESSORIES, type AccessoryId } from "../content/accessories";
 import { AnimalPortrait } from "../components/AnimalPortrait/AnimalPortrait";
 
-type StudioState = { catalog: Catalog; assets: AssetInfo[]; published: PublishedAnimal[] };
+type StudioState = { catalog: Catalog; assets: AssetInfo[]; published: PublishedCharacter[] };
 async function request<T>(url: string, body?: unknown): Promise<T> {
   const response = await fetch(`/__studio/${url}`, body === undefined ? undefined : {
     method: "POST", headers: { "Content-Type": "application/json", "X-Find-It-Studio": "1" }, body: JSON.stringify(body),
@@ -45,6 +45,7 @@ export default function Studio() {
   const dirty = selected !== null && JSON.stringify(selected) !== JSON.stringify(savedSprite);
   const asset = state?.assets.find((a) => a.source === selected?.source);
   const candidates = catalog ? gameSprites(catalog) : [];
+  const previewCandidates = candidates.filter((sprite) => catalog?.themes.find((theme) => theme.id === sprite.themeId)?.category === selectedTheme?.category);
   const prompt = spritePrompt(selectedTheme?.category ?? "animals", selected?.subject ?? "", transparentPrompt, selected ?? undefined);
 
   useEffect(() => {
@@ -96,7 +97,7 @@ export default function Studio() {
   async function createTheme() {
     if (!catalog) return;
     await perform(async () => {
-      const item: Theme = { id: slugify(themeName), name: themeName.trim(), category, destination: category === "animals" ? "game" : "fun" };
+      const item: Theme = { id: slugify(themeName), name: themeName.trim(), category, destination: isGameCategory(category) ? "game" : "fun" };
       const next = await request<Catalog>("catalog", { ...catalog, themes: [...catalog.themes, item] });
       setState((s) => s ? { ...s, catalog: next } : s); setThemeId(item.id); setSelected(null);
       setCreatingTheme(false); setThemeName(""); setSearch(""); setSpeciesFilter(""); setTagFilter(""); setColorFilter(""); setNotice("Le thème est prêt. Ajoute ton premier sprite.");
@@ -145,10 +146,10 @@ export default function Studio() {
     <main className="studio-main">
       <header className="studio-topbar"><span>Bibliothèque <span className="breadcrumb-slash">/</span> {title}</span><a href="/" target="_blank" rel="noreferrer">Ouvrir le jeu <ArrowUpRight size={15} /></a></header>
       <div className="studio-content">
-        <section className="studio-heading"><div><span className="eyebrow">UNE TÊTE. MILLE POSSIBILITÉS.</span><h1>{title}</h1><p>{animalView ? "Des espèces, des races et des couleurs pour enrichir les recherches." : "Un terrain de jeu créatif, à part du jeu principal."}</p></div><button className="primary-button" disabled={busy} onClick={newSprite}><Plus size={17} /> Nouveau sprite</button></section>
-        <section className="publish-strip"><span className="publish-icon"><CheckCircle2 size={20} /></span><div><strong>{state.published.length} animaux intégrés au jeu</strong><p>{candidates.length} prêts dans le catalogue · les brouillons et les thèmes fun restent dans l’atelier.</p></div><button className="secondary-button" disabled={busy || dirty} title={dirty ? "Enregistre le sprite avant de mettre à jour le jeu" : undefined} onClick={() => void perform(async () => {
-          const published = await request<PublishedAnimal[]>("publish", { revision: state.catalog.revision });
-          setState((s) => s ? { ...s, published } : s); setNotice("Le catalogue du jeu est à jour. Ouvre le jeu pour tester tes animaux.");
+        <section className="studio-heading"><div><span className="eyebrow">UNE TÊTE. MILLE POSSIBILITÉS.</span><h1>{title}</h1><p>{animalView ? "Des espèces, des races et des couleurs pour enrichir les recherches." : theme?.category === "politics" ? "Des personnalités françaises à reconnaître dans la foule." : "Un terrain de jeu créatif, à part du jeu principal."}</p></div><button className="primary-button" disabled={busy} onClick={newSprite}><Plus size={17} /> Nouveau sprite</button></section>
+        <section className="publish-strip"><span className="publish-icon"><CheckCircle2 size={20} /></span><div><strong>{state.published.length} portraits intégrés au jeu</strong><p>{candidates.length} prêts dans le catalogue · les brouillons et les thèmes fun restent dans l’atelier.</p></div><button className="secondary-button" disabled={busy || dirty} title={dirty ? "Enregistre le sprite avant de mettre à jour le jeu" : undefined} onClick={() => void perform(async () => {
+          const published = await request<PublishedCharacter[]>("publish", { revision: state.catalog.revision });
+          setState((s) => s ? { ...s, published } : s); setNotice("Le catalogue du jeu est à jour. Ouvre le jeu pour tester tes portraits.");
         })}>Mettre à jour le jeu <ArrowUpRight size={15} /></button></section>
         {error && <div className="studio-message error" role="alert">{error}<button aria-label="Fermer l’erreur" onClick={() => setError("")}><X size={16} /></button></div>}
         {notice && <div className="studio-message success" role="status">{notice}<button aria-label="Fermer le message" onClick={() => setNotice("")}><X size={16} /></button></div>}
@@ -197,12 +198,12 @@ export default function Studio() {
                 <button className="primary-button save-button" disabled={busy || !dirty} type="submit">{busy ? "En cours…" : "Enregistrer le sprite"}</button>
               </form>
               <details className="prompt-panel" open><summary><Sparkles size={15} /> Le prompt de création</summary><div className="prompt-options"><label><input type="checkbox" checked={transparentPrompt} onChange={(e) => setTransparentPrompt(e.target.checked)} /> Fond transparent</label><button onClick={() => void perform(async () => { await navigator.clipboard.writeText(prompt); setNotice("Prompt copié. Génère l’image dans ton outil habituel, puis importe-la ici."); })} disabled={busy}><Copy size={14} /> Copier</button></div><textarea aria-label="Prompt de création" readOnly value={prompt} rows={5} /><p>Copie le prompt dans ton outil de génération, puis importe le résultat.</p></details>
-              <div className="in-game-preview"><span>À LA TAILLE DU JEU · 45 PX</span><div>{thumbnail ? Array.from({ length: 12 }, (_, index) => <AnimalPortrait key={index} imageSrc={index === 4 ? thumbnail : imageUrl(candidates[index % Math.max(1, candidates.length)]?.source ?? selected.source) ?? thumbnail} label={index === 4 ? selected.label : "Animal voisin"} size={45} accessoryId={selectedTheme?.category === "animals" ? (index === 4 || index === 1 || index === 8 ? previewAccessory : ACCESSORIES[index % ACCESSORIES.length].id) : null} />) : <p>Importe une image pour l’essayer dans la foule.</p>}</div></div>
+              <div className="in-game-preview"><span>À LA TAILLE DU JEU · 45 PX</span><div>{thumbnail ? Array.from({ length: 12 }, (_, index) => <AnimalPortrait key={index} imageSrc={index === 4 ? thumbnail : imageUrl(previewCandidates[index % Math.max(1, previewCandidates.length)]?.source ?? selected.source) ?? thumbnail} label={index === 4 ? selected.label : "Portrait voisin"} size={45} accessoryId={selectedTheme?.category === "animals" ? (index === 4 || index === 1 || index === 8 ? previewAccessory : ACCESSORIES[index % ACCESSORIES.length].id) : null} />) : <p>Importe une image pour l’essayer dans la foule.</p>}</div></div>
             </> : <div className="editor-empty"><ImagePlus size={36} /><p>Sélectionne un sprite<br />ou imagine le prochain.</p></div>}
           </aside>
         </div>
       </div>
     </main>
-    {creatingTheme && <div className="studio-modal-backdrop"><section className="studio-modal" role="dialog" aria-modal="true" aria-labelledby="theme-title"><button className="modal-close" disabled={busy} onClick={() => setCreatingTheme(false)} aria-label="Fermer"><X size={20} /></button><span className="eyebrow">UNE NOUVELLE COLLECTION</span><h2 id="theme-title">Créer un thème</h2><form onSubmit={(e) => { e.preventDefault(); void createTheme(); }}><label>Nom du thème<input required maxLength={80} autoFocus value={themeName} onChange={(e) => setThemeName(e.target.value)} placeholder="Les animaux de la forêt" /></label><label>Catégorie<select value={category} onChange={(e) => setCategory(e.target.value as Category)}>{Object.entries(CATEGORIES).map(([key, value]) => <option key={key} value={key}>{value}</option>)}</select></label><p>{category === "animals" ? "Les sprites validés pourront être intégrés au jeu." : "Ce thème restera dans l’atelier, pour le fun."}</p>{error && <p role="alert" className="image-advice">{error}</p>}<button className="primary-button" disabled={busy}>Créer le thème</button></form></section></div>}
+    {creatingTheme && <div className="studio-modal-backdrop"><section className="studio-modal" role="dialog" aria-modal="true" aria-labelledby="theme-title"><button className="modal-close" disabled={busy} onClick={() => setCreatingTheme(false)} aria-label="Fermer"><X size={20} /></button><span className="eyebrow">UNE NOUVELLE COLLECTION</span><h2 id="theme-title">Créer un thème</h2><form onSubmit={(e) => { e.preventDefault(); void createTheme(); }}><label>Nom du thème<input required maxLength={80} autoFocus value={themeName} onChange={(e) => setThemeName(e.target.value)} placeholder="Les animaux de la forêt" /></label><label>Catégorie<select value={category} onChange={(e) => setCategory(e.target.value as Category)}>{Object.entries(CATEGORIES).map(([key, value]) => <option key={key} value={key}>{value}</option>)}</select></label><p>{isGameCategory(category) ? "Les sprites validés pourront être intégrés au jeu." : "Ce thème restera dans l’atelier, pour le fun."}</p>{error && <p role="alert" className="image-advice">{error}</p>}<button className="primary-button" disabled={busy}>Créer le thème</button></form></section></div>}
   </div>;
 }

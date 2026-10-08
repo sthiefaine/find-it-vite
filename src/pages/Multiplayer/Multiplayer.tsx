@@ -184,7 +184,7 @@ export default function Multiplayer() {
       {!room && <section className="mp-card mp-entry">
         <GameIcon name="duel" className="mp-hero-icon" />
         <h1>À deux, chacun son écran !</h1>
-        <p>La même grille, 3 vies chacun.<br />Trouve l’animal avant ton adversaire !</p>
+        <p>La même grille, 3 vies chacun.<br />Trouve le portrait avant ton adversaire !</p>
         <form onSubmit={event => submit(event, false)}>
           <label htmlFor="mp-name">Ton prénom ou pseudo</label>
           <input id="mp-name" value={name} onChange={event => setName(event.target.value)} placeholder="Ton pseudo" autoComplete="nickname" maxLength={20} required />

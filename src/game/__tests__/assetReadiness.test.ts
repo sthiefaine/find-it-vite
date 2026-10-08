@@ -4,6 +4,7 @@ import { generateLevel } from "../../engine";
 import { charactersDetails } from "../../helpers/characters";
 import { ACCESSORIES } from "../../content/accessories";
 import { SCENES } from "../../content/scenes";
+import { peoplePack } from "../../helpers/characters";
 import { createAssetReadiness, levelAssetUrls, loadDecodedImage, preparedImage, prepareLevelAssets, startLevelAssetLoad } from "../assetReadiness";
 
 function deferred<T = void>() {
@@ -31,6 +32,20 @@ describe("ressources du niveau", () => {
     expect(levelAssetUrls(foliage)).toContain("/assets/images/obstacles/foliage.png");
     expect(levelAssetUrls(foliage)).not.toContain("/assets/images/obstacles/seagull.png");
     expect(levelAssetUrls({ ...plain, index: 4, modifiers: ["flashlight"] })).not.toContain("/assets/images/obstacles/seagull.png");
+  });
+
+  it("prépare les avocats et CRS des cachettes et les trois silhouettes de foule politique", () => {
+    const political = { ...spec, wanted: peoplePack[0], decoys: peoplePack.slice(1, 4), accessories: undefined };
+    const concealment = levelAssetUrls({ ...political, scene: SCENES.find(scene => !!scene.foliage)! });
+    expect(concealment).toContain("/assets/images/obstacles/politics-lawyer.png");
+    expect(concealment).toContain("/assets/images/obstacles/politics-crs.png");
+    expect(concealment).not.toContain("/assets/images/obstacles/foliage.png");
+    const crowd = levelAssetUrls({ ...political, scene: SCENES.find(scene => scene.seagulls)! });
+    expect(crowd).toEqual(expect.arrayContaining(["politics-crs", "politics-police", "politics-yellow-vest"].map(id => `/assets/images/obstacles/${id}.png`)));
+    expect(crowd).not.toContain("/assets/images/obstacles/seagull.png");
+    expect(crowd).not.toContain("/assets/images/obstacles/politics-lawyer.png");
+    const quiet = levelAssetUrls({ ...political, scene: undefined, index: 1 });
+    expect(quiet.every(url => !url.includes("/obstacles/"))).toBe(true);
   });
 
   it("partage un chargement concurrent et garde le téléchargement utile après l'annulation d'un niveau", async () => {

@@ -1,13 +1,13 @@
 # Find It
 
-Un jeu d'observation pour toute la famille : trouve l'animal recherché dans la foule avant la fin du temps imparti. Le jeu propose plusieurs modes :
+Un jeu d'observation pour toute la famille : trouve le portrait recherché dans la foule avant la fin du temps imparti. Le jeu propose plusieurs modes :
 
 - Aventure, avec des mondes et des étoiles ;
 - Infini ;
 - Défi du jour ;
 - Duel à deux en salon en ligne ou sur le même écran.
 
-Les animaux trouvés remplissent un album.
+Les personnages trouvés remplissent un album.
 
 Le jeu principal propose les mondes Animaux et Océan. Les anciens mondes
 Dinosaures, Halloween et Espace restent conservés comme thèmes expérimentaux,
@@ -15,7 +15,7 @@ hors de la progression et du Grand Mélange. Les anciennes sauvegardes sont pré
 
 ## Campagne web et obstacles
 
-L'objectif des parties reste **retrouver l'unique animal affiché**. Aventure, Infini
+L'objectif des parties reste **retrouver l'unique portrait affiché**. Aventure, Infini
 et Défi du jour passent par `generatePlayableLevel`, qui désactive les objectifs
 alternatifs. L’Aventure propose **40 étapes nommées** (20 Animaux, 20 Océan), puis
 le Grand Mélange. Les décors, mouvements et obstacles de chaque étape sont définis
@@ -142,6 +142,32 @@ permettent de restreindre la collection ; Personnes et Drapeaux sont annoncés
 Le thème Océan d’Infini et de Duel utilise les portraits marins publiés dans
 l’atelier. Le monde Océan de l’Aventure conserve ses personnages historiques.
 
+Le thème **Politique française** ajoute 41 portraits disponibles immédiatement en
+Infini, Duel local et salons en ligne. Il comprend des présidents et figures
+historiques, ainsi que les sénateurs Gérard Larcher, Claude Malhuret, Patrick Kanner,
+Cécile Cukierman, Laurence Rossignol, Mathieu Darnaud et Bruno Retailleau, et les députés Yaël
+Braun-Pivet, Mathilde Panot, Manuel Bompard, Sébastien Chenu et Charles de Courson.
+Les portraits conservent coiffures, lunettes et iris naturels d’après les références.
+Les PNG transparents 512 × 512 sont dans `public/assets/images/characters/people/`,
+les prompts et la charte dans `content/sprites/`, les originaux dans
+`artifacts/sprite-originals/politics-2026-10-08/`. Le manifeste
+`src/content/publishedPeople.json` alimente ce thème et une collection dédiée dans
+l’album. La publication compte donc 119 portraits : 78 animaux et 41 personnalités.
+Les déguisements restent réservés aux animaux pour conserver les traits distinctifs
+des personnalités. Ces portraits ne créent pas de nouveau monde d’Aventure.
+
+Dans ce thème, des avocats et des CRS remplacent les feuillages à écarter.
+Les passages utilisent des CRS, policiers et manifestants en gilet jaune :
+un personnage, 2–5, 6–14 ou une horde de 15–20. À partir du niveau 20 en Normal
+ou 12 en Expert, des groupes de 21–30 ou 21–36 peuvent également apparaître.
+Les effectifs, silhouettes, tailles, décalages et sens sont tirés avec la graine ;
+les hordes peuvent traverser dans les deux sens en même temps. Enfant reste
+limité à huit passants. Les pauses, transitions, préférences de mouvement réduit
+et touchers sur les pixels transparents restent respectés. Les quatre sprites
+et leurs prompts sont dans `public/assets/images/obstacles/politics-*.png` et
+`content/sprites/politics-*.prompt.txt`. Pour les essayer en développement :
+`http://127.0.0.1:5174/game?theme=politique&seed=42&level=6&birds=1`.
+
 En Infini, la cible et tous les leurres du thème sont choisis parmi les animaux
 débloqués : chat, chien, mouton, vache et cochon dès le
 départ, puis chaque portrait trouvé dans l’Aventure ou le défi du jour. Les anciennes
@@ -235,8 +261,8 @@ Lancer `pnpm studio`, puis ouvrir `http://127.0.0.1:5174/studio.html`.
 Le backoffice est local : il n’est pas inclus dans le site de production ni dans l’APK.
 Il n’utilise pas de compte, de serveur distant ou de clé d’API.
 
-1. Choisir ou créer un thème. Animaux et vie marine alimentent le jeu ; personnes,
-   histoire, politique, drapeaux et imaginaire restent des collections « pour le fun ».
+1. Choisir ou créer un thème. Animaux, vie marine et politique alimentent le jeu ;
+   personnes, histoire, drapeaux et imaginaire restent des collections « pour le fun ».
 2. Ajouter un sprite, renseigner son nom, le sujet du prompt, son espèce et sa
    race/variété, ses couleurs dominantes, ses catégories et sa famille visuelle.
    Le prompt reprend l’espèce, la variété et la palette choisies. Essayer les cinq
@@ -247,7 +273,8 @@ Il n’utilise pas de compte, de serveur distant ou de clé d’API.
    Les prompts des personnes préservent leur coiffure ; ceux des drapeaux leurs symboles.
 4. Importer un PNG ou WebP (8 Mo et 4096 × 4096 pixels maximum), comparer sur les fonds
    clair/sombre/damier et dans l’aperçu à 45 pixels. Enregistrer en brouillon ou validé.
-5. Cliquer sur **Mettre à jour le jeu**. Seuls les animaux validés sont exportés.
+5. Cliquer sur **Mettre à jour le jeu**. Les portraits validés des thèmes animaliers
+   et politiques sont exportés vers leurs manifestes respectifs.
    Les images du jeu doivent être carrées, transparentes, mesurer au moins 128 pixels
    et peser au maximum 5 Mo. Au moins 5 personnages sont requis.
 6. Tester dans le navigateur, puis refaire `pnpm android:debug` pour embarquer les images
@@ -255,7 +282,8 @@ Il n’utilise pas de compte, de serveur distant ou de clé d’API.
 
 Le catalogue est enregistré dans `content/sprites/catalog.json`, les imports originaux
 dans `content/sprites/images/`. Ils se sauvegardent avec le projet. Le manifeste consommé
-par le jeu est `src/content/publishedAnimals.json`, avec les images publiées dans
+par les thèmes animaliers est `src/content/publishedAnimals.json` ; les personnalités
+utilisent `src/content/publishedPeople.json`, avec les images importées publiées dans
 `public/assets/images/characters/catalog/`. Les identifiants existants sont conservés
 pour garder la collection des joueurs. Les thèmes de l’atelier organisent le catalogue ;
 ils ne créent pas automatiquement de nouveaux mondes d’Aventure. Les nouvelles images

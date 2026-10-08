@@ -1,0 +1,721 @@
+[
+  {
+    "name": "emmanuel-macron",
+    "label": "Emmanuel Macron",
+    "imageSrc": "/assets/images/characters/people/emmanuel-macron.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "presidents"
+    ]
+  },
+  {
+    "name": "nicolas-sarkozy",
+    "label": "Nicolas Sarkozy",
+    "imageSrc": "/assets/images/characters/people/nicolas-sarkozy.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "presidents"
+    ]
+  },
+  {
+    "name": "francois-hollande",
+    "label": "François Hollande",
+    "imageSrc": "/assets/images/characters/people/francois-hollande.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "presidents"
+    ]
+  },
+  {
+    "name": "jacques-chirac",
+    "label": "Jacques Chirac",
+    "imageSrc": "/assets/images/characters/people/jacques-chirac.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "presidents",
+      "histoire"
+    ]
+  },
+  {
+    "name": "francois-mitterrand",
+    "label": "François Mitterrand",
+    "imageSrc": "/assets/images/characters/people/francois-mitterrand.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "presidents",
+      "histoire"
+    ]
+  },
+  {
+    "name": "charles-de-gaulle",
+    "label": "Charles de Gaulle",
+    "imageSrc": "/assets/images/characters/people/charles-de-gaulle.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "presidents",
+      "histoire"
+    ]
+  },
+  {
+    "name": "simone-veil",
+    "label": "Simone Veil",
+    "imageSrc": "/assets/images/characters/people/simone-veil.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-coiffes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "histoire"
+    ]
+  },
+  {
+    "name": "christiane-taubira",
+    "label": "Christiane Taubira",
+    "imageSrc": "/assets/images/characters/people/christiane-taubira.png",
+    "serie": "politics",
+    "color": "black",
+    "family": "cheveux-coiffes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "segolene-royal",
+    "label": "Ségolène Royal",
+    "imageSrc": "/assets/images/characters/people/segolene-royal.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "lionel-jospin",
+    "label": "Lionel Jospin",
+    "imageSrc": "/assets/images/characters/people/lionel-jospin.png",
+    "serie": "politics",
+    "color": "white",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "edouard-philippe",
+    "label": "Édouard Philippe",
+    "imageSrc": "/assets/images/characters/people/edouard-philippe.png",
+    "serie": "politics",
+    "color": "white",
+    "family": "chauve-barbe",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "gabriel-attal",
+    "label": "Gabriel Attal",
+    "imageSrc": "/assets/images/characters/people/gabriel-attal.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "francois-bayrou",
+    "label": "François Bayrou",
+    "imageSrc": "/assets/images/characters/people/francois-bayrou.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "elisabeth-borne",
+    "label": "Élisabeth Borne",
+    "imageSrc": "/assets/images/characters/people/elisabeth-borne.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "jean-castex",
+    "label": "Jean Castex",
+    "imageSrc": "/assets/images/characters/people/jean-castex.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "jean-luc-melenchon",
+    "label": "Jean-Luc Mélenchon",
+    "imageSrc": "/assets/images/characters/people/jean-luc-melenchon.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "marine-le-pen",
+    "label": "Marine Le Pen",
+    "imageSrc": "/assets/images/characters/people/marine-le-pen.png",
+    "serie": "politics",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "jordan-bardella",
+    "label": "Jordan Bardella",
+    "imageSrc": "/assets/images/characters/people/jordan-bardella.png",
+    "serie": "politics",
+    "color": "black",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "eric-zemmour",
+    "label": "Éric Zemmour",
+    "imageSrc": "/assets/images/characters/people/eric-zemmour.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "eric-ciotti",
+    "label": "Éric Ciotti",
+    "imageSrc": "/assets/images/characters/people/eric-ciotti.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "rachida-dati",
+    "label": "Rachida Dati",
+    "imageSrc": "/assets/images/characters/people/rachida-dati.png",
+    "serie": "politics",
+    "color": "black",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "valerie-pecresse",
+    "label": "Valérie Pécresse",
+    "imageSrc": "/assets/images/characters/people/valerie-pecresse.png",
+    "serie": "politics",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "mathieu-darnaud",
+    "label": "Mathieu Darnaud",
+    "imageSrc": "/assets/images/characters/people/mathieu-darnaud.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "senateurs"
+    ]
+  },
+  {
+    "name": "francois-ruffin",
+    "label": "François Ruffin",
+    "imageSrc": "/assets/images/characters/people/francois-ruffin.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "fabien-roussel",
+    "label": "Fabien Roussel",
+    "imageSrc": "/assets/images/characters/people/fabien-roussel.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "olivier-faure",
+    "label": "Olivier Faure",
+    "imageSrc": "/assets/images/characters/people/olivier-faure.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "raphael-glucksmann",
+    "label": "Raphaël Glucksmann",
+    "imageSrc": "/assets/images/characters/people/raphael-glucksmann.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "marine-tondelier",
+    "label": "Marine Tondelier",
+    "imageSrc": "/assets/images/characters/people/marine-tondelier.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "sandrine-rousseau",
+    "label": "Sandrine Rousseau",
+    "imageSrc": "/assets/images/characters/people/sandrine-rousseau.png",
+    "serie": "politics",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "anne-hidalgo",
+    "label": "Anne Hidalgo",
+    "imageSrc": "/assets/images/characters/people/anne-hidalgo.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france"
+    ]
+  },
+  {
+    "name": "gerard-larcher",
+    "label": "Gérard Larcher",
+    "imageSrc": "/assets/images/characters/people/gerard-larcher.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "senateurs"
+    ]
+  },
+  {
+    "name": "claude-malhuret",
+    "label": "Claude Malhuret",
+    "imageSrc": "/assets/images/characters/people/claude-malhuret.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "chauve",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "senateurs"
+    ]
+  },
+  {
+    "name": "patrick-kanner",
+    "label": "Patrick Kanner",
+    "imageSrc": "/assets/images/characters/people/patrick-kanner.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "senateurs"
+    ]
+  },
+  {
+    "name": "cecile-cukierman",
+    "label": "Cécile Cukierman",
+    "imageSrc": "/assets/images/characters/people/cecile-cukierman.png",
+    "serie": "politics",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "senateurs"
+    ]
+  },
+  {
+    "name": "laurence-rossignol",
+    "label": "Laurence Rossignol",
+    "imageSrc": "/assets/images/characters/people/laurence-rossignol.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "senateurs"
+    ]
+  },
+  {
+    "name": "yael-braun-pivet",
+    "label": "Yaël Braun-Pivet",
+    "imageSrc": "/assets/images/characters/people/yael-braun-pivet.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "deputes"
+    ]
+  },
+  {
+    "name": "mathilde-panot",
+    "label": "Mathilde Panot",
+    "imageSrc": "/assets/images/characters/people/mathilde-panot.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-coiffes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "deputes"
+    ]
+  },
+  {
+    "name": "manuel-bompard",
+    "label": "Manuel Bompard",
+    "imageSrc": "/assets/images/characters/people/manuel-bompard.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "deputes"
+    ]
+  },
+  {
+    "name": "sebastien-chenu",
+    "label": "Sébastien Chenu",
+    "imageSrc": "/assets/images/characters/people/sebastien-chenu.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "deputes"
+    ]
+  },
+  {
+    "name": "charles-de-courson",
+    "label": "Charles de Courson",
+    "imageSrc": "/assets/images/characters/people/charles-de-courson.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "deputes"
+    ]
+  },
+  {
+    "name": "bruno-retailleau",
+    "label": "Bruno Retailleau",
+    "imageSrc": "/assets/images/characters/people/bruno-retailleau.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "france",
+      "senateurs"
+    ]
+  }
+]

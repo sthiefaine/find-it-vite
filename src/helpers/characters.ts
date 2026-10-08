@@ -1,4 +1,5 @@
 import publishedAnimals from "../content/publishedAnimals.json";
+import publishedPeople from "../content/publishedPeople.json";
 import { normalizedAnimalMetadata } from "../content/animalTaxonomy";
 import type { AnimalMetadata } from "../content/animalTaxonomy";
 
@@ -33,3 +34,6 @@ export const animalsPack: CharacterDetails[] = publishedAnimals.map((animal) => 
 }));
 
 export const charactersDetails: CharacterDetails[] = [...animalsPack];
+
+// Les personnalités restent dans leur propre thème, disponible dès le départ.
+export const peoplePack: CharacterDetails[] = (publishedPeople as CharacterDetails[]).map((person) => ({ ...person }));

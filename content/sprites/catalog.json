@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": 9,
+  "revision": 11,
   "themes": [
     {
       "id": "animaux",
@@ -34,9 +34,9 @@
     },
     {
       "id": "politique",
-      "name": "Figures politiques",
+      "name": "Politique française",
       "category": "politics",
-      "destination": "fun"
+      "destination": "game"
     },
     {
       "id": "drapeaux",
@@ -1708,6 +1708,848 @@
       "tags": [
         "ocean",
         "sauvages"
+      ]
+    },
+    {
+      "id": "emmanuel-macron",
+      "themeId": "politique",
+      "label": "Emmanuel Macron",
+      "subject": "Emmanuel Macron",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/people/emmanuel-macron.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/emmanuel-macron.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "presidents"
+      ]
+    },
+    {
+      "id": "nicolas-sarkozy",
+      "themeId": "politique",
+      "label": "Nicolas Sarkozy",
+      "subject": "Nicolas Sarkozy",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/people/nicolas-sarkozy.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/nicolas-sarkozy.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "presidents"
+      ]
+    },
+    {
+      "id": "francois-hollande",
+      "themeId": "politique",
+      "label": "François Hollande",
+      "subject": "François Hollande",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/francois-hollande.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/francois-hollande.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "presidents"
+      ]
+    },
+    {
+      "id": "jacques-chirac",
+      "themeId": "politique",
+      "label": "Jacques Chirac",
+      "subject": "Jacques Chirac",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/people/jacques-chirac.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/jacques-chirac.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "presidents",
+        "histoire"
+      ]
+    },
+    {
+      "id": "francois-mitterrand",
+      "themeId": "politique",
+      "label": "François Mitterrand",
+      "subject": "François Mitterrand",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/people/francois-mitterrand.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/francois-mitterrand.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/connaitre-le-senat/lhistoire-du-senat/dossiers-dhistoire/article-18-de-la-constitution/les-messages-du-president-mitterrand-au-parlement.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "presidents",
+        "histoire"
+      ]
+    },
+    {
+      "id": "charles-de-gaulle",
+      "themeId": "politique",
+      "label": "Charles de Gaulle",
+      "subject": "Charles de Gaulle",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/people/charles-de-gaulle.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/charles-de-gaulle.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "presidents",
+        "histoire"
+      ]
+    },
+    {
+      "id": "simone-veil",
+      "themeId": "politique",
+      "label": "Simone Veil",
+      "subject": "Simone Veil",
+      "color": "brown",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/simone-veil.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/simone-veil.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "histoire"
+      ]
+    },
+    {
+      "id": "christiane-taubira",
+      "themeId": "politique",
+      "label": "Christiane Taubira",
+      "subject": "Christiane Taubira",
+      "color": "black",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/christiane-taubira.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/christiane-taubira.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "black"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "segolene-royal",
+      "themeId": "politique",
+      "label": "Ségolène Royal",
+      "subject": "Ségolène Royal",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/people/segolene-royal.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/segolene-royal.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "lionel-jospin",
+      "themeId": "politique",
+      "label": "Lionel Jospin",
+      "subject": "Lionel Jospin",
+      "color": "white",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/lionel-jospin.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/lionel-jospin.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "white"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "edouard-philippe",
+      "themeId": "politique",
+      "label": "Édouard Philippe",
+      "subject": "Édouard Philippe",
+      "color": "white",
+      "family": "chauve-barbe",
+      "status": "ready",
+      "source": "/assets/images/characters/people/edouard-philippe.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/edouard-philippe.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "white"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "gabriel-attal",
+      "themeId": "politique",
+      "label": "Gabriel Attal",
+      "subject": "Gabriel Attal",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/people/gabriel-attal.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/gabriel-attal.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "francois-bayrou",
+      "themeId": "politique",
+      "label": "François Bayrou",
+      "subject": "François Bayrou",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/people/francois-bayrou.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/francois-bayrou.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "elisabeth-borne",
+      "themeId": "politique",
+      "label": "Élisabeth Borne",
+      "subject": "Élisabeth Borne",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/elisabeth-borne.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/elisabeth-borne.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "jean-castex",
+      "themeId": "politique",
+      "label": "Jean Castex",
+      "subject": "Jean Castex",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/jean-castex.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/jean-castex.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "jean-luc-melenchon",
+      "themeId": "politique",
+      "label": "Jean-Luc Mélenchon",
+      "subject": "Jean-Luc Mélenchon",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/jean-luc-melenchon.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/jean-luc-melenchon.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "marine-le-pen",
+      "themeId": "politique",
+      "label": "Marine Le Pen",
+      "subject": "Marine Le Pen",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/people/marine-le-pen.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/marine-le-pen.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "yellow"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "jordan-bardella",
+      "themeId": "politique",
+      "label": "Jordan Bardella",
+      "subject": "Jordan Bardella",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/people/jordan-bardella.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/jordan-bardella.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "black"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "eric-zemmour",
+      "themeId": "politique",
+      "label": "Éric Zemmour",
+      "subject": "Éric Zemmour",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/people/eric-zemmour.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/eric-zemmour.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "eric-ciotti",
+      "themeId": "politique",
+      "label": "Éric Ciotti",
+      "subject": "Éric Ciotti",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/eric-ciotti.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/eric-ciotti.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "rachida-dati",
+      "themeId": "politique",
+      "label": "Rachida Dati",
+      "subject": "Rachida Dati",
+      "color": "black",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/people/rachida-dati.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/rachida-dati.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "black"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "valerie-pecresse",
+      "themeId": "politique",
+      "label": "Valérie Pécresse",
+      "subject": "Valérie Pécresse",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/people/valerie-pecresse.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/valerie-pecresse.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "yellow"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "mathieu-darnaud",
+      "themeId": "politique",
+      "label": "Mathieu Darnaud",
+      "subject": "Mathieu Darnaud",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/people/mathieu-darnaud.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/mathieu-darnaud.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/senateur/darnaud_mathieu14259y.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "senateurs"
+      ]
+    },
+    {
+      "id": "francois-ruffin",
+      "themeId": "politique",
+      "label": "François Ruffin",
+      "subject": "François Ruffin",
+      "color": "brown",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/people/francois-ruffin.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/francois-ruffin.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "fabien-roussel",
+      "themeId": "politique",
+      "label": "Fabien Roussel",
+      "subject": "Fabien Roussel",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/people/fabien-roussel.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/fabien-roussel.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "olivier-faure",
+      "themeId": "politique",
+      "label": "Olivier Faure",
+      "subject": "Olivier Faure",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/olivier-faure.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/olivier-faure.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "raphael-glucksmann",
+      "themeId": "politique",
+      "label": "Raphaël Glucksmann",
+      "subject": "Raphaël Glucksmann",
+      "color": "brown",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/people/raphael-glucksmann.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/raphael-glucksmann.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "marine-tondelier",
+      "themeId": "politique",
+      "label": "Marine Tondelier",
+      "subject": "Marine Tondelier",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/marine-tondelier.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/marine-tondelier.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "sandrine-rousseau",
+      "themeId": "politique",
+      "label": "Sandrine Rousseau",
+      "subject": "Sandrine Rousseau",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/people/sandrine-rousseau.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/sandrine-rousseau.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "yellow"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "anne-hidalgo",
+      "themeId": "politique",
+      "label": "Anne Hidalgo",
+      "subject": "Anne Hidalgo",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/people/anne-hidalgo.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/anne-hidalgo.prompt.txt.",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france"
+      ]
+    },
+    {
+      "id": "gerard-larcher",
+      "themeId": "politique",
+      "label": "Gérard Larcher",
+      "subject": "Gérard Larcher",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/people/gerard-larcher.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/gerard-larcher.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/senateur/larcher_gerard86034e.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "senateurs"
+      ]
+    },
+    {
+      "id": "claude-malhuret",
+      "themeId": "politique",
+      "label": "Claude Malhuret",
+      "subject": "Claude Malhuret",
+      "color": "grey",
+      "family": "chauve",
+      "status": "ready",
+      "source": "/assets/images/characters/people/claude-malhuret.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/claude-malhuret.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/senateur/malhuret_claude14251q.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "senateurs"
+      ]
+    },
+    {
+      "id": "patrick-kanner",
+      "themeId": "politique",
+      "label": "Patrick Kanner",
+      "subject": "Patrick Kanner",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/people/patrick-kanner.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/patrick-kanner.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/senateur/kanner_patrick14021p.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "senateurs"
+      ]
+    },
+    {
+      "id": "cecile-cukierman",
+      "themeId": "politique",
+      "label": "Cécile Cukierman",
+      "subject": "Cécile Cukierman",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/people/cecile-cukierman.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/cecile-cukierman.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/senateur/cukierman_cecile11056n.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "yellow"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "senateurs"
+      ]
+    },
+    {
+      "id": "laurence-rossignol",
+      "themeId": "politique",
+      "label": "Laurence Rossignol",
+      "subject": "Laurence Rossignol",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/people/laurence-rossignol.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/laurence-rossignol.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/senateur/rossignol_laurence11045k.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "senateurs"
+      ]
+    },
+    {
+      "id": "yael-braun-pivet",
+      "themeId": "politique",
+      "label": "Yaël Braun-Pivet",
+      "subject": "Yaël Braun-Pivet",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/people/yael-braun-pivet.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/yael-braun-pivet.prompt.txt. Référence visuelle institutionnelle : https://www2.assemblee-nationale.fr/deputes/fiche/OMC_PA721908",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "deputes"
+      ]
+    },
+    {
+      "id": "mathilde-panot",
+      "themeId": "politique",
+      "label": "Mathilde Panot",
+      "subject": "Mathilde Panot",
+      "color": "brown",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/mathilde-panot.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/mathilde-panot.prompt.txt. Référence visuelle institutionnelle : https://www2.assemblee-nationale.fr/deputes/fiche/OMC_PA720892",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "deputes"
+      ]
+    },
+    {
+      "id": "manuel-bompard",
+      "themeId": "politique",
+      "label": "Manuel Bompard",
+      "subject": "Manuel Bompard",
+      "color": "brown",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/people/manuel-bompard.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/manuel-bompard.prompt.txt. Référence visuelle institutionnelle : https://www2.assemblee-nationale.fr/deputes/fiche/OMC_PA793444",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "deputes"
+      ]
+    },
+    {
+      "id": "sebastien-chenu",
+      "themeId": "politique",
+      "label": "Sébastien Chenu",
+      "subject": "Sébastien Chenu",
+      "color": "brown",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/people/sebastien-chenu.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/sebastien-chenu.prompt.txt. Référence visuelle institutionnelle : https://www2.assemblee-nationale.fr/deputes/fiche/OMC_PA720468",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "deputes"
+      ]
+    },
+    {
+      "id": "charles-de-courson",
+      "themeId": "politique",
+      "label": "Charles de Courson",
+      "subject": "Charles de Courson",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/charles-de-courson.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/charles-de-courson.prompt.txt. Référence visuelle institutionnelle : https://www2.assemblee-nationale.fr/deputes/fiche/OMC_PA942",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "deputes"
+      ]
+    },
+    {
+      "id": "bruno-retailleau",
+      "themeId": "politique",
+      "label": "Bruno Retailleau",
+      "subject": "Bruno Retailleau",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/people/bruno-retailleau.png",
+      "notes": "Portrait créé le 8 octobre 2026 avec image_gen intégré : tête de face, finition mate, fond transparent, PNG 512 × 512. Prompt : content/sprites/bruno-retailleau.prompt.txt. Référence visuelle institutionnelle : https://www.senat.fr/senateur/retailleau_bruno04033b.html",
+      "species": "",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "politique",
+        "france",
+        "senateurs"
       ]
     }
   ]

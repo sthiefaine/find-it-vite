@@ -10,9 +10,9 @@ import type { FoliageDrag, FoliagePoint } from "../../game/foliage";
 import { paintFoliageCanvases } from "../../game/foliageRendering";
 import { isPageVisible, subscribeAppActive } from "../../platform/appLifecycle";
 import { preparedImage } from "../../game/assetReadiness";
+import { obstacleTheme } from "../../game/obstacleTheme";
 import "./Foliage.css";
 
-const IMAGE = "/assets/images/obstacles/foliage.png";
 const ORIGIN: FoliagePoint = { x: 0, y: 0 };
 
 export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDivElement>; spec: LevelSpec }) {
@@ -22,16 +22,19 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
   const loading = useGameStore(state => state.animationLevelLoading);
   const density = spec.scene?.foliage;
   const seed = spec.seed;
+  const political = spec.wanted.serie === "politics";
+  const obstacles = obstacleTheme(political).concealment;
   const instructionsId = useId();
-  const patches = useMemo(() => density ? makeFoliage(seed, density, tier) : [], [seed, density, tier]);
+  const patches = useMemo(() => density ? makeFoliage(seed, density, tier).map(patch => political
+    ? { ...patch, rotation: patch.rotation / 4 } : patch) : [], [seed, density, tier, political]);
 
   // Dessiner les bouquets ET leur masque depuis la source déjà décodée, avant
   // la première peinture : aucun <img> ne peut apparaître après les animaux.
   useLayoutEffect(() => {
     const board = boardRef.current;
     const layer = layerRef.current;
-    const img = preparedImage(IMAGE);
-    if (loading || !board || !layer || !patches.length || !img) return;
+    const images = obstacles.map(obstacle => preparedImage(obstacle.imageSrc));
+    if (loading || !board || !layer || !patches.length || images.some(img => !img)) return;
     const buttons = Array.from(layer.querySelectorAll<HTMLButtonElement>(".foliage-patch"));
     const cleared = new Set<number>();
     const offsets = patches.map(() => ({ ...ORIGIN }));
@@ -40,13 +43,18 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
     let drag: FoliageDrag | null = null;
     let visible = isPageVisible();
     const maskSize = 128;
-    const mask = document.createElement("canvas");
-    mask.width = maskSize;
-    mask.height = maskSize;
     const resolution = board.getBoundingClientRect().width / BOARD.w * Math.min(3, window.devicePixelRatio || 1);
     const canvases = Array.from(layer.querySelectorAll<HTMLCanvasElement>(".foliage-patch canvas"));
-    const alpha = paintFoliageCanvases(img, patches.map(patch => ({ canvas: canvases[patch.id], size: patch.size })), mask, resolution);
-    if (!alpha) return;
+    // Chaque silhouette conserve son propre masque : le bouclier d'un CRS ne
+    // doit pas utiliser les zones transparentes de la robe d'un avocat.
+    const alphas = images.map((img, index) => {
+      const mask = document.createElement("canvas");
+      mask.width = maskSize;
+      mask.height = maskSize;
+      return paintFoliageCanvases(img!, patches.filter(patch => (patch.id + seed) % images.length === index)
+        .map(patch => ({ canvas: canvases[patch.id], size: patch.size })), mask, resolution);
+    });
+    if (alphas.some(alpha => !alpha)) return;
     board.classList.add("foliage-board");
 
     const isActive = () => {
@@ -121,7 +129,7 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       if (drag) { swallow(event); return; }
       const point = pointOf(event);
       for (let id = patches.length - 1; id >= 0; id--) {
-        if (buttons[id].hidden || !foliageHit(patches[id], offsets[id], point, alpha, maskSize)) continue;
+        if (buttons[id].hidden || !foliageHit(patches[id], offsets[id], point, alphas[(id + seed) % images.length]!, maskSize)) continue;
         swallow(event);
         // Une feuille qui finit de sortir reste opaque jusqu'à sa disparition.
         if (cleared.has(id)) return;
@@ -189,16 +197,16 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       layer.dataset.ready = "false";
       keyboardClear.current = () => undefined;
     };
-  }, [boardRef, patches, seed, loading]);
+  }, [boardRef, patches, seed, loading, obstacles]);
 
   if (!density || loading) return null;
-  return <div ref={layerRef} className="foliage-layer" data-ready="false" data-active="false" aria-label="Feuillages à écarter">
-    <span id={instructionsId} className="foliage-instructions">Fais glisser les feuilles pour regarder dessous. Au clavier, appuie sur Entrée ou Espace pour les écarter.</span>
+  return <div ref={layerRef} className="foliage-layer" data-ready="false" data-active="false" aria-label={political ? "Avocats et CRS à écarter" : "Feuillages à écarter"}>
+    <span id={instructionsId} className="foliage-instructions">{political ? "Fais glisser les avocats et les CRS pour regarder derrière." : "Fais glisser les feuilles pour regarder dessous."} Au clavier, appuie sur Entrée ou Espace pour les écarter.</span>
     {patches.map(patch => <button
       key={`${seed}-${patch.id}`}
       type="button"
       className="foliage-patch"
-      aria-label={`Écarter le feuillage ${patch.id + 1}`}
+      aria-label={`Écarter ${political ? obstacles[(patch.id + seed) % obstacles.length].label === "CRS" ? "le CRS" : "l’avocat" : "le feuillage"} ${patch.id + 1}`}
       aria-describedby={instructionsId}
       tabIndex={-1}
       style={{ left: `${patch.x / BOARD.w * 100}%`, top: `${patch.y / BOARD.h * 100}%`, width: `${patch.size / BOARD.w * 100}%` } as CSSProperties}

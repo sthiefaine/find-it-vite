@@ -6,16 +6,19 @@ import { birdPose, SeagullDirector } from "../../game/seagulls";
 import type { FlightKind } from "../../game/seagulls";
 import { isPageVisible, subscribeAppActive } from "../../platform/appLifecycle";
 import { preparedImage } from "../../game/assetReadiness";
+import { obstacleTheme } from "../../game/obstacleTheme";
 import "./Seagulls.css";
 
-const IMAGE = "/assets/images/obstacles/seagull.png";
 const PREVIEWS: [FlightKind, string][] = [["solo", "1 goéland"], ["small", "2–3"], ["flock", "7–8"], ["giant", "Géant"]];
+const CROWD_PREVIEWS: [FlightKind, string][] = [["solo", "1"], ["small", "2–5"], ["flock", "6–14"], ["horde", "15–20"], ["surge", "21–36"]];
 
 export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElement> }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const directorRef = useRef<SeagullDirector | null>(null);
   const seed = useGameStore(s => s.runSeed);
   const tier = useGameStore(s => s.tier);
+  const political = useGameStore(s => s.currentSpec?.wanted.serie === "politics");
+  const obstacles = obstacleTheme(political);
   const blocked = useGameStore(s => s.obstacleBlocking);
   const over = useGameStore(s => s.gameState === GameStateEnum.END || s.gameState === GameStateEnum.FINISH);
   const preview = import.meta.env.DEV && new URLSearchParams(window.location.search).get("birds") === "1";
@@ -38,7 +41,7 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
     canvas.width = Math.round(BOARD.w * pixelScale);
     canvas.height = Math.round(BOARD.h * pixelScale);
     context.scale(pixelScale, pixelScale);
-    let director = new SeagullDirector(seed, tier);
+    let director = new SeagullDirector(seed, tier, political);
     directorRef.current = director;
     let visible = isPageVisible();
     const unsubscribeVisibility = subscribeAppActive(active => { visible = active; });
@@ -60,7 +63,7 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
     // Une nouvelle partie quotidienne peut réutiliser exactement la même graine.
     const unsubscribeRun = useGameStore.subscribe((state, previous) => {
       if (state.currentSpec === null && previous.currentSpec !== null) {
-        director = new SeagullDirector(seed, tier);
+        director = new SeagullDirector(seed, tier, political);
         directorRef.current = director;
         clear();
       }
@@ -95,24 +98,28 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
         director.cancel();
         clear();
       } else {
-        const img = preparedImage(IMAGE);
-        const active = visible && !!img && state.gameState === GameStateEnum.PLAYING && !state.pauseTimer && !state.worldBanner;
-        const frame = director.advance(dt, active, eligible);
+        const images = obstacles.passers.map(preparedImage);
+        const active = visible && images.every(Boolean) && state.gameState === GameStateEnum.PLAYING && !state.pauseTimer && !state.worldBanner;
+        const frame = director.advance(dt, active, eligible, state.currentSpec?.index);
         context.clearRect(0, 0, BOARD.w, BOARD.h);
         canvas.dataset.flight = frame?.flight.kind ?? "none";
+        canvas.dataset.count = String(frame?.flight.birds.length ?? 0);
         if (import.meta.env.DEV) {
           const progress = frame ? frame.ageMs / frame.flight.durationMs : 0;
           canvas.dataset.flightPhase = !frame ? "none" : progress < 0.4 ? "enter" : progress < 0.6 ? "middle" : "leave";
         }
-        if (frame && img) {
+        if (frame) {
           for (const bird of frame.flight.birds) {
+            const img = images[bird.sprite ?? 0];
+            if (!img) continue;
             const pose = birdPose(bird, frame.flight, frame.ageMs);
             if (!pose) continue;
             const height = bird.width * img.naturalHeight / img.naturalWidth;
             context.save();
             context.translate(pose.x, pose.y);
-            context.rotate(pose.bank * frame.flight.direction);
-            context.scale(frame.flight.direction, 1);
+            const direction = bird.direction ?? frame.flight.direction;
+            context.rotate(pose.bank * direction);
+            context.scale(direction, 1);
             context.drawImage(img, -bird.width * 0.51, -height * 0.6, bird.width, height);
             context.restore();
           }
@@ -140,15 +147,16 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
       directorRef.current = null;
       setBlocked(false);
     };
-  }, [seed, tier, boardRef, preview]);
+  }, [seed, tier, boardRef, preview, political, obstacles]);
 
   return <>
     <canvas ref={canvasRef} className="seagulls-layer" aria-hidden="true" />
     <div className="seagulls-notice" role="status" aria-live="polite">
       {blocked && <span>Un géant de passage !</span>}
     </div>
-    {preview && !over && <div className="seagulls-preview" aria-label="Aperçu des goélands">
-      {PREVIEWS.map(([kind, label]) => <button key={kind} type="button" onClick={() => directorRef.current?.preview(kind)}>{label}</button>)}
+    {preview && !over && <div className="seagulls-preview" aria-label={political ? "Aperçu des foules" : "Aperçu des goélands"}>
+      {(political ? CROWD_PREVIEWS.map(([kind, label]) => [kind, kind === "surge" && tier !== "expert" ? "21–30" : label] as const) : PREVIEWS)
+        .map(([kind, label]) => <button key={kind} type="button" onClick={() => directorRef.current?.preview(kind)}>{label}</button>)}
     </div>}
   </>;
 }

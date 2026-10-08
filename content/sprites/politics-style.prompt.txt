@@ -1,0 +1,5 @@
+Charte des portraits politiques — 8 octobre 2026
+
+Portrait illustré reconnaissable d’une personnalité politique française adulte. Vue de face, tête seule, sans cou, épaules ni vêtements. Coiffure et oreilles entières, composition carrée centrée avec une petite marge. Préserver les proportions individuelles du visage, l’âge de référence, les lunettes présentes, la barbe et la coiffure. Iris naturels d’après les références visuelles ; aucun choix arbitraire de couleur. Finition semi-réaliste détaillée et mate, couleurs naturelles, éclairage doux uniforme, expression calme avec sourire discret et bouche fermée. Aucun texte, slogan, logo, drapeau, insigne, objet ni filigrane. Véritable fond transparent avec canal alpha. Lisible à 45 × 45 pixels ; fichiers du jeu en PNG 512 × 512.
+
+Chaque fichier <identifiant>.prompt.txt conserve le prompt exact utilisé et le chemin de l’original généré avec image_gen intégré. Les références photographiques institutionnelles sont indiquées dans les notes des fiches concernées. Les originaux sont conservés dans artifacts/sprite-originals/politics-2026-10-08/.

@@ -146,6 +146,13 @@ export function generatePlayableLevel(index: number, context: GenContext, option
     seagulls: definition.seagulls && !(easy && definition.foliage),
   };
   const playable = { ...spec, scene, layout: definition.layout, params };
+  // Les lunettes et coiffures des personnalités font partie de leur identité.
+  // Les déguisements restent réservés aux portraits animaliers.
+  if (spec.wanted.serie === "politics") return { ...playable, scene: { ...scene,
+    hint: scene.foliage ? "Écarte les avocats et les CRS pour retrouver le portrait."
+      : scene.seagulls ? "Retrouve le portrait entre les passages de foule."
+        : "Retrouve le portrait de l’avis de recherche.",
+  } };
   const kind = options.forceVariant ?? (options.crowdVariants === false ? undefined
     : crowdVariantAt(index, context.tier, definition.layout, options.variantStream ?? { seed: context.seed, position: index }, definition.breather));
   if (kind && playable.rule === "classic") {

@@ -1,10 +1,9 @@
 import { BaseTexture, ImageResource, Texture, utils } from "pixi.js";
 import { ACCESSORIES } from "../content/accessories";
 import type { LevelSpec } from "../engine/types";
+import { obstacleTheme } from "./obstacleTheme";
 
 const ASSET_TIMEOUT_MS = 15_000;
-const FOLIAGE_IMAGE = "/assets/images/obstacles/foliage.png";
-const SEAGULL_IMAGE = "/assets/images/obstacles/seagull.png";
 
 const aborted = () => new DOMException("Chargement annulé", "AbortError");
 
@@ -100,12 +99,13 @@ export function preparedImage(url: string): HTMLImageElement | undefined {
 
 export function levelAssetUrls(spec: LevelSpec, previewBirds = false): string[] {
   const urls = [spec.wanted.imageSrc, ...spec.decoys.map(character => character.imageSrc)];
+  const obstacles = obstacleTheme(spec.wanted.serie === "politics");
   // Les accessoires des leurres sont choisis dans le catalogue, indépendamment
   // de celui de la cible : attendre seulement ce dernier ne suffit pas.
   if (spec.accessories && spec.rule === "classic") urls.push(...ACCESSORIES.map(accessory => accessory.imageSrc));
-  if (spec.scene?.foliage) urls.push(FOLIAGE_IMAGE);
+  if (spec.scene?.foliage) urls.push(...obstacles.concealment.map(item => item.imageSrc));
   if (spec.rule === "classic" && !spec.modifiers.includes("flashlight") &&
-      (previewBirds || (spec.scene?.seagulls ?? spec.index >= 4))) urls.push(SEAGULL_IMAGE);
+      (previewBirds || (spec.scene?.seagulls ?? spec.index >= 4))) urls.push(...obstacles.passers);
   return [...new Set(urls)];
 }
 

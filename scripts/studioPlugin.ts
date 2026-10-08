@@ -5,7 +5,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import type { Plugin } from "vite";
 import sharp from "sharp";
 import { gameSprites, validateCatalog, validSource } from "../src/studio/model";
-import type { AssetInfo, Catalog, PublishedAnimal } from "../src/studio/model";
+import type { AssetInfo, Catalog, PublishedCharacter } from "../src/studio/model";
 import { normalizedAnimalMetadata } from "../src/content/animalTaxonomy";
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
@@ -49,6 +49,11 @@ export function createStudioStore(root: string) {
   const catalogFile = path.join(root, "content/sprites/catalog.json");
   const imageDir = path.join(root, "content/sprites/images");
   const manifestFile = path.join(root, "src/content/publishedAnimals.json");
+  const peopleManifestFile = path.join(root, "src/content/publishedPeople.json");
+  async function publishedPeople(): Promise<PublishedCharacter[]> {
+    try { return JSON.parse(await readFile(peopleManifestFile, "utf8")); }
+    catch (error) { if ((error as NodeJS.ErrnoException).code === "ENOENT") return []; throw error; }
+  }
   let queue: Promise<unknown> = Promise.resolve();
   const serialize = <T>(operation: () => Promise<T>): Promise<T> => {
     const result = queue.then(operation);
@@ -61,7 +66,8 @@ export function createStudioStore(root: string) {
   };
   async function sourcePath(source: string) {
     if (!validSource(source)) throw new StudioError("Chemin d’image invalide.");
-    const directory = source.startsWith("studio:") ? imageDir : path.join(root, "public/assets/images/characters/animals");
+    const directory = source.startsWith("studio:") ? imageDir
+      : path.join(root, "public/assets/images/characters", source.includes("/people/") ? "people" : "animals");
     const file = source.startsWith("studio:") ? source.slice(7) : path.basename(source);
     const resolved = await realpath(path.join(directory, file));
     const base = await realpath(directory);
@@ -79,8 +85,8 @@ export function createStudioStore(root: string) {
       const assets = await Promise.all(sources.map(async (source) => {
         try { return await info(source); } catch { return { source, width: 0, height: 0, transparent: false }; }
       }));
-      const published: PublishedAnimal[] = JSON.parse(await readFile(manifestFile, "utf8"));
-      return { catalog, assets, published };
+      const published: PublishedCharacter[] = JSON.parse(await readFile(manifestFile, "utf8"));
+      return { catalog, assets, published: [...published, ...await publishedPeople()] };
     },
     save(input: unknown) {
       return serialize(async () => {
@@ -107,7 +113,7 @@ export function createStudioStore(root: string) {
         const catalog = await read();
         checkRevision(catalog, revision);
         const sprites = gameSprites(catalog);
-        if (sprites.length < 5) throw new StudioError("Valide au moins 5 animaux pour les étapes de 5 recherches du jeu.");
+        if (sprites.length < 5) throw new StudioError("Valide au moins 5 portraits pour les étapes de 5 recherches du jeu.");
         // Tout vérifier avant de modifier le manifeste consommé par le jeu.
         const checked = await Promise.all(sprites.map(async (sprite) => {
           const source = sprite.source!;
@@ -116,7 +122,8 @@ export function createStudioStore(root: string) {
           if ((await readFile(await sourcePath(source))).length > 5 * 1024 * 1024) throw new StudioError(`${sprite.label} : l’image doit peser moins de 5 Mo pour le jeu hors ligne.`);
           return { sprite, file: await sourcePath(source) };
         }));
-        const published: PublishedAnimal[] = [];
+        const published: PublishedCharacter[] = [];
+        const categories = new Map(catalog.themes.map((theme) => [theme.id, theme.category]));
         for (const { sprite, file } of checked) {
           let imageSrc = sprite.source!;
           if (imageSrc.startsWith("studio:")) {
@@ -125,9 +132,10 @@ export function createStudioStore(root: string) {
             await mkdir(path.dirname(destination), { recursive: true });
             await copyFile(file, destination);
           }
-          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie: "animal", color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite) });
+          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie: categories.get(sprite.themeId) === "politics" ? "politics" : "animal", color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite) });
         }
-        await atomicJson(manifestFile, published);
+        await atomicJson(manifestFile, published.filter((character) => character.serie === "animal"));
+        await atomicJson(peopleManifestFile, published.filter((character) => character.serie === "politics"));
         return published;
       });
     },

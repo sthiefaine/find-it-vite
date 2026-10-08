@@ -84,12 +84,36 @@ describe("catalogue local", () => {
     await expect(store.publish(saved.revision)).rejects.toThrow("fond transparent");
     expect(await readFile(path.join(root, "src/content/publishedAnimals.json"), "utf8")).toBe("[]");
   });
+  it("publie la politique dans son propre manifeste et conserve les animaux", async () => {
+    const { root, store } = await fixture();
+    const bytes = await transparentImage();
+    const asset = await store.upload(bytes);
+    const catalog = sample();
+    catalog.themes.push({ id: "politique", name: "Politique française", category: "politics", destination: "game" });
+    catalog.sprites = Array.from({ length: 5 }, (_, i) => ({ id: `animal-${i}`, themeId: "animaux", label: `Animal ${i}`, subject: `animal ${i}`, color: "brown", family: "brun", status: "ready", source: asset.source, notes: "" }));
+    await mkdir(path.join(root, "public/assets/images/characters/people"), { recursive: true });
+    await writeFile(path.join(root, "public/assets/images/characters/people/personnalite.png"), bytes);
+    const person = { id: "personnalite", themeId: "politique", label: "Une personnalité", subject: "une personnalité", color: "grey" as const, family: "lunettes", status: "ready" as const, source: "/assets/images/characters/people/personnalite.png", notes: "", tags: ["senateurs"] };
+    catalog.sprites.push(person, { ...person, id: "brouillon", status: "draft" });
+    const saved = await store.save(catalog);
+    const published = await store.publish(saved.revision);
+    expect(published).toHaveLength(6);
+    expect(published.find((character) => character.name === "personnalite")).toMatchObject({ serie: "politics", tags: ["senateurs"], imageSrc: person.source });
+    const animals = JSON.parse(await readFile(path.join(root, "src/content/publishedAnimals.json"), "utf8"));
+    const people = JSON.parse(await readFile(path.join(root, "src/content/publishedPeople.json"), "utf8"));
+    expect(animals).toHaveLength(5);
+    expect(animals.every((character: { serie: string }) => character.serie === "animal")).toBe(true);
+    expect(people.map((character: { name: string }) => character.name)).toEqual(["personnalite"]);
+    expect((await store.state()).published).toHaveLength(6);
+    expect(validSource("/assets/images/characters/people/personnalite.png")).toBe(true);
+    expect(validSource("/assets/images/characters/people/../secret.png")).toBe(false);
+  });
   it("refuse les images invalides, les SVG et les catalogues trop petits pour le jeu", async () => {
     const { store } = await fixture();
     await expect(inspectImage(Buffer.from("not an image"))).rejects.toThrow();
     await expect(inspectImage(Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"/>'))).rejects.toThrow("PNG ou WebP");
     await expect(inspectImage(await sharp({ create: { width: 128, height: 128, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } }).png().toBuffer())).rejects.toThrow("aucun sprite visible");
-    await expect(store.publish(0)).rejects.toThrow("5 animaux");
+    await expect(store.publish(0)).rejects.toThrow("5 portraits");
   });
 });
 

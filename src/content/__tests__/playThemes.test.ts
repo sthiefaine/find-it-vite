@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { characterPoolFor } from "../../game/characterPool";
 import { generatePlayableLevel } from "../../game/playableLevel";
-import { animalsPack } from "../../helpers/characters";
+import { animalsPack, peoplePack } from "../../helpers/characters";
 import { generateRound } from "../../pages/Duel/duelLogic";
 import { defaultSave } from "../../save/schema";
 import { PLAY_THEMES, playThemeFromSearch, playThemePool, themeOptions } from "../playThemes";
@@ -66,7 +66,7 @@ describe("thèmes proposés avant une partie", () => {
     const save = { collection: Object.fromEntries([...animalsPack.filter((animal) => ["renard", "ours", "singe", "giraffe", "zebre", "elephant"].includes(animal.name)), ...ocean.slice(0, 3)].map((animal) => [animal.name, 1])) };
     for (const theme of PLAY_THEMES) {
       const pool = playThemePool("endless", theme.id, save);
-      expect(pool.every((animal) => isAnimalUnlocked(save, animal.name))).toBe(true);
+      expect(pool.every((animal) => theme.id === "politique" || isAnimalUnlocked(save, animal.name))).toBe(true);
       const ids = new Set(pool.map((animal) => animal.name));
       for (const index of [1, 3, 6, 11, 19, 40, 100, 4000]) {
         const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool });
@@ -80,7 +80,7 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("conserve le même thème en Duel, de la première manche aux suivantes", () => {
-    for (const id of ["ferme", "foret", "savane", "ocean"] as const) {
+    for (const id of ["ferme", "foret", "savane", "ocean", "politique"] as const) {
       const pool = playThemePool("duel", id, defaultSave());
       const ids = new Set(pool.map((animal) => animal.name));
       let previous: string | undefined;
@@ -99,5 +99,22 @@ describe("thèmes proposés avant une partie", () => {
     expect(characterPoolFor("daily", 1, save, "ferme")).toEqual(getWorld("animaux")!.characters);
     expect(characterPoolFor("adventure", 21, save, "savane")).toEqual(getWorld("ocean")!.characters);
     expect(characterPoolFor("endless", 1, save, "ferme")).toEqual(playThemePool("endless", "ferme", save));
+  });
+
+  it("rend la politique disponible dès le départ sans élargir les thèmes animaliers", () => {
+    const save = defaultSave();
+    for (const mode of ["endless", "duel"] as const) {
+      expect(themeOptions(mode, save).find(({ theme }) => theme.id === "politique"))
+        .toMatchObject({ availableCount: peoplePack.length, totalCount: peoplePack.length, enabled: true });
+      expect(playThemePool(mode, "politique", save)).toEqual(peoplePack);
+      expect(playThemePool(mode, "animaux", save).every((character) => character.serie === "animal")).toBe(true);
+    }
+    expect(playThemeFromSearch("?theme=politique")).toBe("politique");
+    for (const index of [1, 13, 47, 100]) {
+      const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool: peoplePack });
+      expect([spec.wanted, ...spec.decoys].every((character) => character.serie === "politics")).toBe(true);
+      expect(spec.accessories).toBeUndefined();
+      expect(spec.crowdVariant).toBeUndefined();
+    }
   });
 });

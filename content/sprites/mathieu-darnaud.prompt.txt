@@ -1,0 +1,4 @@
+Use case: stylized-concept. Create ONE recognizable neutral illustrated portrait of Mathieu Darnaud for a visual-search game. Image 1 is his official photographic identity reference: preserve his face, short salt-and-pepper brown hair, blue-grey eyes, age and clean-shaven appearance. Image 2 is a STYLE reference only: match its matte detailed game illustration finish and head-only framing without copying its identity. Front-facing head only, absolutely no neck, shoulders or clothing. Entire hair and ears visible, centered square with a small transparent margin. Adult facial proportions, restrained friendly closed-mouth smile, natural skin and hair colors, even soft illumination. Genuine transparent alpha background, no objects, symbols, text or watermark. Recognizable at 45x45 pixels.
+
+Generation: built-in image_gen, transparent alpha.
+Original: /Users/thief/.codex/generated_images/01a119f8-2036-70f1-add8-324374bed460/exec-d409e7b9-4f9f-4a0f-aab5-d4c8d6382537.png

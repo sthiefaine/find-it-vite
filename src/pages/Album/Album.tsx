@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSaveStore } from "../../save/saveStore";
-import { WORLDS } from "../../content/worlds";
 import { masteryOf } from "../../content/progress";
 import type { CharacterDetails } from "../../helpers/characters";
-import { caughtCount, MEDALS, nextMedal } from "./albumLogic";
+import { ALBUM_COLLECTIONS, caughtCount, MEDALS, nextMedal } from "./albumLogic";
 import { ANIMAL_COLORS, animalCategoryLabel, animalSpeciesLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
 import { isAnimalUnlocked } from "../../content/unlockedAnimals";
 import "../../components/Buttons/ui.css";
@@ -14,12 +13,12 @@ type Picked = { character: CharacterDetails; count: number };
 
 const Album = () => {
   const collection = useSaveStore((s) => s.save.collection);
-  const [worldId, setWorldId] = useState(WORLDS[0].id);
+  const [worldId, setWorldId] = useState(ALBUM_COLLECTIONS[0].id);
   const [picked, setPicked] = useState<Picked | null>(null);
   const [category, setCategory] = useState("");
   const [species, setSpecies] = useState("");
   const [color, setColor] = useState("");
-  const world = WORLDS.find((w) => w.id === worldId) ?? WORLDS[0];
+  const world = ALBUM_COLLECTIONS.find((w) => w.id === worldId) ?? ALBUM_COLLECTIONS[0];
   const all = caughtCount({ collection });
   const categories = [...new Set(world.characters.flatMap((c) => c.tags ?? []))];
   const speciesList = [...new Set(world.characters.flatMap((c) => c.species ? [c.species] : []))];
@@ -39,7 +38,7 @@ const Album = () => {
         </div>
 
         <div className="album-tabs" role="tablist">
-          {WORLDS.map((w) => {
+          {ALBUM_COLLECTIONS.map((w) => {
             const n = caughtCount({ collection }, w.characters);
             return (
               <button
@@ -61,6 +60,7 @@ const Album = () => {
           {world.name}
         </h2>
         {world.id === "animaux" && <p className="album-unlock-hint">Cinq animaux sont disponibles dès le départ. Retrouve les autres dans l’Aventure ou le défi du jour pour les débloquer en Infini.</p>}
+        {world.alwaysAvailable && <p className="album-unlock-hint">Tous ces portraits sont disponibles dès le départ en Infini et en Duel.</p>}
 
         <div className="album-filters">
           {categories.length > 0 && <label>Catégorie<select value={category} onChange={(event) => setCategory(event.target.value)}>
@@ -82,7 +82,7 @@ const Album = () => {
             const count = collection[c.name] ?? 0;
             const mastery = masteryOf(count);
             const medal = MEDALS[mastery];
-            if (!isAnimalUnlocked({ collection }, c.name)) {
+            if (!world.alwaysAvailable && !isAnimalUnlocked({ collection }, c.name)) {
               return (
                 <div key={c.name} className="album-card album-card-unknown" aria-label="Pas encore trouvé">
                   <img src={c.imageSrc} alt="" draggable={false} />
@@ -104,7 +104,7 @@ const Album = () => {
             );
           })}
         </div>
-        {visible.length === 0 && <p className="album-empty">Aucun animal ne correspond à ces filtres.</p>}
+        {visible.length === 0 && <p className="album-empty">Aucun portrait ne correspond à ces filtres.</p>}
       </div>
 
       <AnimatePresence>

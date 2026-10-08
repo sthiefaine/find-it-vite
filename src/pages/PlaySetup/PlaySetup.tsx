@@ -11,6 +11,7 @@ import "./PlaySetup.css";
 const themeIcons: Partial<Record<PlayThemeId, GameIconName>> = {
   ocean: "ocean",
   personnes: "people",
+  politique: "people",
   drapeaux: "flags",
 };
 
@@ -62,16 +63,18 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
                 <span className="play-theme-count">
                   {theme.comingSoon ? "Bientôt" : mode === "endless"
                     ? <>{availableCount}/{totalCount} disponibles{!enabled ? " · 3 requis" : ""}</>
-                    : <>{totalCount} animaux{!enabled ? " · 3 requis" : ""}</>}
+                    : <>{totalCount} portraits{!enabled ? " · 3 requis" : ""}</>}
                 </span>
               </button>
             );
           })}
         </div>
         <p className="play-setup-hint">
-          {mode === "endless"
+          {selectedId === "politique"
+            ? "Tous les portraits politiques sont disponibles dès le départ."
+            : mode === "endless"
             ? "Retrouve des animaux dans l’Aventure ou le Défi du jour pour les débloquer en Infini."
-            : "En Duel, tous les animaux du thème sont disponibles."}
+            : "En Duel, tous les portraits du thème sont disponibles."}
         </p>
         <div className="play-setup-action">
           <button type="button" className="play-setup-start" disabled={!canPlay} onClick={start}>
