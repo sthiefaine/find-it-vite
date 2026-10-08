@@ -72,7 +72,7 @@ const SURGE_SPEED_CAP = 2.0;
 
 export type ScrollMovement = {
   pattern: LayoutParams["movement"];
-  lines: { cadence: StopGoCadence; wavePhase: number; surge?: ScrollSurge }[];
+  lines: { cadence: StopGoCadence; wavePhase: number; waveCycles: number; waveBlend: number; surge?: ScrollSurge }[];
   waveAmplitude: number;
   crossLength: number;
 };
@@ -81,7 +81,18 @@ export function createScrollMovement(spec: LevelSpec, layout: ScrollLayout): Scr
   const rng = createRng(spec.seed).fork("scroll-movement");
   const crossLength = layout.horizontal ? BOARD.h : BOARD.w;
   const pattern = spec.params.movement;
-  const lines = layout.speeds.map(() => ({ cadence: makeCadence(rng), wavePhase: rng.next() * TAU }));
+  const evolvedWaves = pattern === "wave" && spec.index > 20 && (spec.params.speed ?? 0) > 1;
+  const lines = layout.speeds.map((_, index) => {
+    const cadence = makeCadence(rng);
+    const wavePhase = rng.next() * TAU;
+    // Harmoniques entières : même déplacement pour les deux copies de bord.
+    // Les premières vagues et le plafond Enfant restent sur la sinusoïde simple.
+    return {
+      cadence, wavePhase,
+      waveCycles: evolvedWaves ? 1 + index % 2 : 1,
+      waveBlend: evolvedWaves ? .18 + createRng(spec.seed).fork(`scroll-wave:${index}`).next() * .1 : 0,
+    };
+  });
   const surging = spec.index >= SURGE_FROM_LEVEL && pattern !== "stopGo"
     && Math.max(0, ...layout.speeds.map(Math.abs)) > SURGE_MIN_SPEED;
   // Au moins une rangée se désorganise ; environ une sur deux en tout.
@@ -120,7 +131,12 @@ export function scrollCrossAt(movement: ScrollMovement, slot: ScrollSlot, main: 
   const half = size / 2;
   const baseline = Math.max(half, Math.min(movement.crossLength - half, slot.cross));
   const amplitude = Math.max(0, Math.min(movement.waveAmplitude, baseline - half, movement.crossLength - half - baseline));
-  return baseline + amplitude * Math.sin(TAU * main / period + movement.lines[slot.line].wavePhase);
+  const { wavePhase, waveCycles, waveBlend } = movement.lines[slot.line];
+  const phase = TAU * waveCycles * main / period + wavePhase;
+  // Mélange borné à [-1, 1] : on enrichit la vague sans rapprocher davantage
+  // les rangées ni réduire la zone visible des portraits et accessoires.
+  const wave = (1 - waveBlend) * Math.sin(phase) + waveBlend * Math.sin(2 * phase + wavePhase);
+  return baseline + amplitude * wave;
 }
 
 type StopGoRoute = { kind: "stopGo"; character: SwarmCharacter; cadence: StopGoCadence };
@@ -135,7 +151,10 @@ export function createSwarmMovement(spec: LevelSpec, characters: SwarmCharacter[
   if (pattern === "stopGo") {
     // Petits groupes asynchrones, sans singulariser la cible.
     const cadences = Array.from({ length: 5 }, () => makeCadence(rng));
-    return characters.map((character) => ({ kind: "stopGo", character, cadence: rng.pick(cadences) }));
+    // Attribuer par id pour qu'un tri visuel protégeant un accessoire ne change
+    // pas le rythme de l'animal ; restituer ensuite l'ordre de dessin demandé.
+    const byId = new Map(characters.slice().sort((a, b) => a.id - b.id).map((character) => [character.id, rng.pick(cadences)]));
+    return characters.map((character) => ({ kind: "stopGo", character, cadence: byId.get(character.id)! }));
   }
 
   return createOrbitRoutes(spec, characters, area, rng);

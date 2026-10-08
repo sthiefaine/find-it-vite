@@ -3,8 +3,7 @@ import { difficultyFloor } from "../engine/difficultyFloor";
 import { createRng, hash32 } from "../engine/rng";
 import type { GenContext, LayoutParams, LevelScene, LevelSpec, MovementPattern, Tier } from "../engine/types";
 import { LIMITS } from "../engine/validate";
-import { sceneForIndex } from "../content/scenes";
-import type { SceneDefinition } from "../content/scenes";
+import { ADVANCED_SCENES, SCENES, sceneForIndex, type SceneDefinition } from "../content/scenes";
 import { planAccessories } from "./accessories";
 import { applyCrowdVariant, crowdVariantAt } from "./crowdVariants";
 import type { CrowdVariantKind, VariantStream } from "./crowdVariants";
@@ -15,6 +14,31 @@ const rounded = (n: number) => Math.round(n * 100) / 100;
 // Dispersion (« scatter ») : chacun part dans sa direction. À partir de 20 en Normal
 // (30 en Enfant) ; avant, une scène de dispersion garde un défilé linéaire.
 export const SCATTER_FROM = { easy: 30, normal: 20, expert: 20 } as const;
+
+type ScrollPlayback = Pick<LayoutParams, "movement" | "scrollDirection" | "alternateDirection">;
+
+// Une reprise conserve sa densité et ses obstacles, mais renouvelle le trajet.
+// Le premier cycle avancé et le mode Enfant gardent leur mise en scène d'origine.
+export function scrollPlaybackFor(scene: SceneDefinition, index: number, tier: Tier): ScrollPlayback {
+  const original: ScrollPlayback = {
+    movement: scene.movement,
+    scrollDirection: scene.direction ?? "horizontal",
+    alternateDirection: scene.alternate ?? false,
+  };
+  const cycle = Math.floor((index - SCENES.length - 1) / ADVANCED_SCENES.length);
+  if (tier === "easy" || cycle < 1) return original;
+  // Une parade linéaire devient alternativement une vague ou une marche-arrêt ;
+  // les scènes qui introduisent ces motifs conservent leur identité.
+  const movement = original.movement === "linear"
+    ? (hash32("scroll-replay", scene.id) + cycle) % 2 === 0 ? "wave" : "stopGo"
+    : original.movement;
+  return {
+    movement,
+    // L'axe est conservé : le pivoter enlèverait des cases à certaines reprises.
+    scrollDirection: original.scrollDirection,
+    alternateDirection: original.alternateDirection || cycle % 3 !== 0,
+  };
+}
 
 // Mouvement d'une foule mobile. Après le premier cycle de reprises, les traversées et défilés deviennent
 // de plus en plus souvent des rondes ou des dispersions (tirage fixe par niveau).
@@ -47,7 +71,7 @@ export function sceneParams(scene: SceneDefinition, index: number, tier: Tier): 
     }
     case "scroll":
       return {
-        movement: scene.movement,
+        ...scrollPlaybackFor(scene, index, tier),
         speed: clamp(Math.max(rounded(.4 + density * 1.25), floor.scrollSpeed), LIMITS.scroll.speedMin, easy ? LIMITS.scroll.speedMaxEasy : LIMITS.scroll.speedMax),
         // Les trois premières découvertes restent aérées ; ensuite les lignes
         // retrouvent leur occupation historique, même en vagues ou en arrêts.
@@ -55,8 +79,6 @@ export function sceneParams(scene: SceneDefinition, index: number, tier: Tier): 
           : clamp(Math.max(easy ? .21 + density * .45 : .33 + density * .75, floor.scrollFill), .15, 1),
         extraLines: clamp(Math.max(Math.floor(density * 4), floor.extraLines), scene.edgeRows && !easy ? 1 : 0, LIMITS.scroll.extraLinesMax),
         ...(scene.edgeRows && !easy ? { edgeRows: true } : {}),
-        scrollDirection: scene.direction ?? "horizontal",
-        alternateDirection: scene.alternate ?? false,
       };
     case "pile": {
       const raw = Math.round(easy || index < 20 ? 30 + density * 130 : 120 + density * 220);
@@ -103,6 +125,7 @@ export type PlayableOptions = {
 export function generatePlayableLevel(index: number, context: GenContext, options: PlayableOptions = {}): LevelSpec {
   const definition = sceneForIndex(index);
   const easy = context.tier === "easy";
+  const params = sceneParams(definition, index, context.tier);
   const spec = generateLevel(index, {
     ...context,
     allowedRules: ["classic"],
@@ -111,13 +134,18 @@ export function generatePlayableLevel(index: number, context: GenContext, option
     allowedModifiers: definition.breather ? [] : (context.allowedModifiers ?? ["lookalikes"]).filter((m) => m !== "flashlight"),
   });
   const scene: LevelScene = {
-    id: definition.id, name: definition.name, hint: definition.hint,
+    id: definition.id, name: definition.name,
+    hint: definition.layout === "scroll" && !easy && index > SCENES.length + ADVANCED_SCENES.length
+      ? params.movement === "stopGo" ? "Profite des arrêts des rangées."
+        : params.movement === "wave" ? "Suis les animaux dans les vagues."
+          : "Suis les rangées qui se croisent."
+      : definition.hint,
     background: definition.background, accent: definition.accent,
     foliage: easy && definition.foliage === "dense" ? "light" : definition.foliage,
     // Enfant découvre chaque obstacle, mais n'a jamais à les cumuler.
     seagulls: definition.seagulls && !(easy && definition.foliage),
   };
-  const playable = { ...spec, scene, layout: definition.layout, params: sceneParams(definition, index, context.tier) };
+  const playable = { ...spec, scene, layout: definition.layout, params };
   const kind = options.forceVariant ?? (options.crowdVariants === false ? undefined
     : crowdVariantAt(index, context.tier, definition.layout, options.variantStream ?? { seed: context.seed, position: index }, definition.breather));
   if (kind && playable.rule === "classic") {

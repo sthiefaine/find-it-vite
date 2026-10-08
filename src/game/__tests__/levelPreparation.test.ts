@@ -17,6 +17,9 @@ describe("préparation de l'avis suivant", () => {
   it("prépare exactement le niveau réellement atteint, sans faire progresser la partie", () => {
     const cases = [
       { mode: "endless" as const, adventureStep: 1, missionFound: 0, search: "?theme=ferme&accessory=moustache", level: 13 },
+      { mode: "endless" as const, adventureStep: 1, missionFound: 0, search: "?theme=animaux", level: 57 },
+      { mode: "endless" as const, adventureStep: 1, missionFound: 0, search: "?variant=same-mixed&accessory=cap", level: 61 },
+      { mode: "endless" as const, adventureStep: 1, missionFound: 0, search: "?variant=same-bare", level: 67 },
       { mode: "daily" as const, adventureStep: 1, missionFound: 0, search: "?mode=daily", level: 42 },
       ...[1, LEVELS_PER_WORLD, WORLD_STEPS, WORLD_STEPS + 1].flatMap(adventureStep => [0, 3, 4].map(missionFound => ({
         mode: "adventure" as const, adventureStep, missionFound, search: "?mode=adventure", level: adventureStep * 5 + missionFound,

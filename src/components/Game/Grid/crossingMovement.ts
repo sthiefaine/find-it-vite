@@ -53,7 +53,9 @@ export function createCrossingRoutes(spec: LevelSpec, characters: SwarmCharacter
     };
   });
 
-  const routes: CrossingRoute[] = rng.shuffle(characters).map((character, index) => {
+  // L'ordre de dessin peut protéger un accessoire : il ne change pas le groupe
+  // ni la trajectoire attribués à un animal donné.
+  const routes: CrossingRoute[] = rng.shuffle(characters.slice().sort((a, b) => a.id - b.id)).map((character, index) => {
     const group = index % groupCount;
     const wave = groups[group];
     const memberRng = rng.fork(`member:${character.id}`);

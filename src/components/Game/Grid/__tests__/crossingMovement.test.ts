@@ -106,6 +106,25 @@ describe("vagues qui traversent le plateau", () => {
     }
   });
 
+  it("conserve les trajectoires par animal si l'ordre de dessin change, cible comprise", () => {
+    const spec = makeSpec();
+    const area = areaOf(spec);
+    const characters = placeSwarm(spec);
+    const reordered = characters.slice().reverse().map((character) => ({
+      ...character, zIndex: character.isWanted ? 1000 : -character.zIndex,
+    }));
+    const routes = createCrossingRoutes(spec, characters, area);
+    const changed = createCrossingRoutes(spec, reordered, area);
+    const byId = new Map(changed.map((route) => [route.character.id, route]));
+    for (const time of [0, .3, 3.7, 31, 89]) for (const route of routes) {
+      const before = crossingCharacterAt(route, time, area);
+      const after = crossingCharacterAt(byId.get(route.character.id)!, time, area);
+      expect(after.x).toBe(before.x);
+      expect(after.y).toBe(before.y);
+    }
+    expect(changed.at(-1)?.character.isWanted).toBe(true);
+  });
+
   it("rend la cible touchable à sa position effective au-dessus des vagues", () => {
     const spec = makeSpec();
     const area = areaOf(spec);

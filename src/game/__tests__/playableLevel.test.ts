@@ -3,6 +3,7 @@ import { generatePlayableLevel } from "../playableLevel";
 import { charactersDetails } from "../../helpers/characters";
 import { validateSpec } from "../../engine/validate";
 import { WORLDS } from "../../content/worlds";
+import { ADVANCED_SCENES, sceneForIndex } from "../../content/scenes";
 import { layoutGrid, layoutScroll, placePile, placeSwarm } from "../../components/Game/Grid/layouts";
 
 describe("objectif unique des parties", () => {
@@ -41,11 +42,11 @@ describe("objectif unique des parties", () => {
     }
   });
 
-  it("allège la foule et ne cumule pas oiseaux et feuillage en Enfant", () => {
+  it("allège la foule de base et ne cumule pas oiseaux et feuillage en Enfant", () => {
     for (let index = 1; index <= 70; index++) {
       const context = { seed: 42, pool: charactersDetails };
-      const easy = generatePlayableLevel(index, { ...context, tier: "easy" });
-      const normal = generatePlayableLevel(index, { ...context, tier: "normal" });
+      const easy = generatePlayableLevel(index, { ...context, tier: "easy" }, { crowdVariants: false });
+      const normal = generatePlayableLevel(index, { ...context, tier: "normal" }, { crowdVariants: false });
       expect(easy.scene?.foliage).not.toBe("dense");
       expect(Boolean(easy.scene?.foliage && easy.scene.seagulls)).toBe(false);
       for (const parameter of ["gridSize", "count", "speed", "extraLines"] as const) {
@@ -59,6 +60,37 @@ describe("objectif unique des parties", () => {
     const spec = generatePlayableLevel(40, context);
     expect(generatePlayableLevel(40, context)).toEqual(spec);
     expect(spec.modifiers).toEqual([]);
+  });
+
+  it("renouvelle les trajets des défilements repris sans rejouer les introductions", () => {
+    const context = { seed: 2026, tier: "normal" as const, pool: charactersDetails };
+    for (const firstIndex of [42, 46, 49, 52]) {
+      const first = generatePlayableLevel(firstIndex, context, { crowdVariants: false });
+      const replayIndex = firstIndex + ADVANCED_SCENES.length;
+      const replay = generatePlayableLevel(replayIndex, context, { crowdVariants: false });
+      const third = generatePlayableLevel(replayIndex + ADVANCED_SCENES.length, context, { crowdVariants: false });
+      expect(first.params.movement).toBe(sceneForIndex(firstIndex).movement);
+      expect(replay.scene?.id).toBe(first.scene?.id);
+      expect(replay.params.scrollDirection).toBe(first.params.scrollDirection);
+      expect(third.params.scrollDirection).toBe(first.params.scrollDirection);
+      expect(replay.params.alternateDirection).toBe(true);
+      if (first.params.movement === "linear") {
+        expect(["wave", "stopGo"]).toContain(replay.params.movement);
+        expect(third.params.movement).not.toBe(replay.params.movement);
+      } else expect(replay.params.movement).toBe(first.params.movement);
+      expect(replay.params.scrollFill).toBe(1);
+      expect(layoutScroll(replay).slots.length).toBeGreaterThanOrEqual(layoutScroll(first).slots.length);
+      expect(replay.scene?.foliage).toBe(first.scene?.foliage);
+      expect(replay.scene?.seagulls).toBe(first.scene?.seagulls);
+      expect(generatePlayableLevel(replayIndex, context, { crowdVariants: false })).toEqual(replay);
+    }
+    for (const index of [3, 7, 12, 26, 42, 58, 62, 65, 68, 1006]) {
+      const easy = generatePlayableLevel(index, { ...context, tier: "easy" }, { crowdVariants: false });
+      const definition = sceneForIndex(index);
+      expect(easy.params.movement).toBe(definition.movement);
+      expect(easy.params.scrollDirection).toBe(definition.direction ?? "horizontal");
+      expect(easy.scene?.hint).toBe(definition.hint);
+    }
   });
 
   it("introduit le défilement avec une petite foule et conserve toujours la cible", () => {
@@ -123,7 +155,7 @@ describe("objectif unique des parties", () => {
         }
         expect(validateSpec(spec, context).errors).toEqual([]);
       }
-      const level54 = generatePlayableLevel(54, context);
+      const level54 = generatePlayableLevel(54, context, { crowdVariants: false });
       expect(level54.params).toMatchObject({ fullGrid: true, staggered: true });
       expect(layoutGrid(level54).cells.length).toBe(93);
     }
@@ -149,13 +181,13 @@ describe("objectif unique des parties", () => {
     expect(generatePlayableLevel(47, context).params.count).toBeGreaterThanOrEqual(140);
   });
 
-  it("place moins d'animaux en défilement Enfant dans la campagne et les reprises", () => {
+  it("place moins d'animaux en défilement Enfant à variante identique dans la campagne et les reprises", () => {
     for (let index = 1; index <= 100; index++) {
       for (const seed of [1, 42, 2026]) {
         const context = { seed, pool: charactersDetails };
-        const easy = generatePlayableLevel(index, { ...context, tier: "easy" });
+        const easy = generatePlayableLevel(index, { ...context, tier: "easy" }, { crowdVariants: false });
         if (easy.layout !== "scroll") continue;
-        const normal = generatePlayableLevel(index, { ...context, tier: "normal" });
+        const normal = generatePlayableLevel(index, { ...context, tier: "normal" }, { crowdVariants: false });
         const easyCrowd = layoutScroll(easy).slots;
         const normalCrowd = layoutScroll(normal).slots;
         expect(easyCrowd.length, `scène ${index}`).toBeLessThanOrEqual(normalCrowd.length);

@@ -70,7 +70,13 @@ describe("plancher de difficulté", () => {
             expect(p.speed!).toBeGreaterThanOrEqual(floor.swarmSpeed);
           }
           if (spec.layout === "scroll") {
-            expect(p.extraLines!).toBeGreaterThanOrEqual(floor.extraLines);
+            // L'absence d'accessoire doit être prouvée sur chaque portrait :
+            // cette variante retire les rangées qui pourraient cacher une tenue.
+            if (spec.crowdVariant?.dress === "bare") {
+              expect(p.extraLines).toBe(0);
+              expect(p.edgeRows).toBeUndefined();
+              expect(p.movement).not.toBe("wave");
+            } else expect(p.extraLines!).toBeGreaterThanOrEqual(floor.extraLines);
             expect(p.scrollFill!).toBeGreaterThanOrEqual(floor.scrollFill - 1e-9);
             expect(p.speed!).toBeGreaterThanOrEqual(floor.scrollSpeed);
           }
@@ -154,7 +160,9 @@ describe("plancher de difficulté", () => {
         const sums = new Map<Layout, [number, number]>();
         for (const seed of SEEDS) {
           for (let index = decade * 10 + 1; index <= decade * 10 + 10; index++) {
-            const spec = generatePlayableLevel(index, { seed, tier, pool: charactersDetails });
+            // Mesure le moteur de densité ; les variantes de tenue ajoutent
+            // une difficulté visuelle et peuvent espacer volontairement les têtes.
+            const spec = generatePlayableLevel(index, { seed, tier, pool: charactersDetails }, { crowdVariants: false });
             const size = crowdSize(spec);
             sum += size;
             n++;

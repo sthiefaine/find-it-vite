@@ -416,8 +416,9 @@ export function placePile(spec: LevelSpec): CrowdCharacter[] {
     }
   }
 
-  if (wantedBelow && params.pileVisibility && spec.rule === "classic") {
-    all = placeHiddenPileTarget(all, wanted[0], params.pileVisibility, rng.fork("pile-visibility"), area);
+  if (wantedBelow && spec.rule === "classic" && (params.pileVisibility || wanted[0].look.accessoryId)) {
+    const visibility = params.pileVisibility ?? { min: MIN_VISIBLE_HEAD_RATIO, max: .85 };
+    all = placeHiddenPileTarget(all, wanted[0], visibility, rng.fork("pile-visibility"), area);
   } else {
     // Deux passes : écarter un leurre d'une cible peut le pousser sur une autre
     for (let pass = 0; pass < 2; pass++) {
@@ -513,7 +514,14 @@ export function placeSwarm(spec: LevelSpec): SwarmCharacter[] {
     }
   }
 
-  return dressCrowd(spec, all.sort((a, b) => a.zIndex - b.zIndex));
+  // Dans une foule qui bouge, on ne peut pas réserver une ouverture statique.
+  // La tenue recherchée garde sa lisibilité durant toute la trajectoire ; le
+  // tirage de profondeur a déjà servi aux vitesses et ne change aucun mouvement.
+  const dressed = dressCrowd(spec, all.sort((a, b) => a.zIndex - b.zIndex));
+  const protectTarget = spec.rule === "classic" && (spec.accessories?.target || spec.crowdVariant);
+  const top = Math.max(...dressed.map((character) => character.zIndex)) + 1;
+  return dressed.map((character) => protectTarget && character.isWanted ? { ...character, zIndex: top } : character)
+    .sort((a, b) => a.zIndex - b.zIndex);
 }
 
 // Un pas d'animation de l'essaim (dt en secondes), sur le plateau logique

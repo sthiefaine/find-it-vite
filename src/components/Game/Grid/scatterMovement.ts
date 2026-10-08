@@ -104,7 +104,9 @@ export function createScatterRoutes(spec: LevelSpec, characters: SwarmCharacter[
   const hold = 1 + rng.next();
   // Les virages se resserrent un peu avec la progression.
   const busy = clamp((spec.index - 15) / 40, 0, 1);
-  const routes = rng.shuffle(characters).map((character, slot): ScatterRoute => {
+  // Le tri de rendu (dont la protection d'un accessoire) reste indépendant
+  // des places de formation et des trajectoires individuelles.
+  const routes = rng.shuffle(characters.slice().sort((a, b) => a.id - b.id)).map((character, slot): ScatterRoute => {
     const memberRng = rng.fork(`scatter-member:${character.id}`);
     const speed = base * (1 - SCATTER_SPEED_SPREAD + 2 * SCATTER_SPEED_SPREAD * memberRng.next());
     const origin = spots[slot];
@@ -141,9 +143,9 @@ export function createScatterRoutes(spec: LevelSpec, characters: SwarmCharacter[
       speed, heading, segments, period, shift: { x, y }, margin,
     };
   });
-  // Ordre de dessin de la foule seule : dans une formation serrée, une cible
-  // toujours au-dessus serait la seule tête entière. Le toucher reste prioritaire
-  // sur la cible (pickCharacterAt), même en partie recouverte.
+  // Ordre de dessin de la foule seule. Une cible habillée a un zIndex supérieur
+  // pour préserver son indice ; les autres cibles gardent l'ordre naturel.
+  // Le toucher reste prioritaire sur la cible (pickCharacterAt).
   return routes.sort((a, b) => a.character.zIndex - b.character.zIndex || a.character.id - b.character.id);
 }
 

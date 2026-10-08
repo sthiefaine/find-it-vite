@@ -3,9 +3,10 @@ import { generateLevel } from "../../../../engine/generateLevel";
 import { createRng } from "../../../../engine/rng";
 import type { LevelSpec } from "../../../../engine/types";
 import { charactersDetails } from "../../../../helpers/characters";
+import { ACCESSORIES } from "../../../../content/accessories";
 import { HIT_RADIUS_RATIO, pickCharacterAt } from "../../../../helpers/hitTest";
 import { placePile } from "../layouts";
-import { pileClearTouchPoint, pileDebugZones, pileHeadVisibility, placeHiddenPileTarget, PILE_TOUCH_RADIUS } from "../pileVisibility";
+import { pileAccessoryClear, pileClearTouchPoint, pileDebugZones, pileHeadVisibility, placeHiddenPileTarget, PILE_TOUCH_RADIUS } from "../pileVisibility";
 
 const base = generateLevel(55, { seed: 42, tier: "normal", pool: charactersDetails, allowedRules: ["classic"] });
 const hiddenPile = (seed: number, visibility = { min: .18, max: .65 }): LevelSpec => ({
@@ -14,6 +15,43 @@ const hiddenPile = (seed: number, visibility = { min: .18, max: .65 }): LevelSpe
 });
 
 describe("cible cachée dans le grand tas", () => {
+  it.each(ACCESSORIES)("laisse toute la zone $label visible et un point touchable dans les grands tas denses", ({ id }) => {
+    for (const range of [{ min: .18, max: .65 }, { min: .15, max: .5 }]) for (let seed = 1; seed <= 20; seed++) {
+      const spec = { ...hiddenPile(seed, range), accessories: { target: id, decoyChance: .5 } };
+      const crowd = placePile(spec);
+      const target = crowd.find((character) => character.isWanted)!;
+      expect(crowd).toHaveLength(388);
+      expect(target.zIndex).toBeLessThan(101);
+      expect(pileAccessoryClear(crowd, target, { w: 390, h: 520, size: 45 }), `${id} seed ${seed}`).toBe(true);
+      expect(pileClearTouchPoint(crowd, target, 45), `${id} seed ${seed}`).toBeDefined();
+      expect(pileHeadVisibility(crowd, target, 45), `${id} seed ${seed}`).toBeGreaterThanOrEqual(range.min);
+      expect(pileHeadVisibility(crowd, target, 45), `${id} seed ${seed}`).toBeLessThanOrEqual(range.max);
+      expect(crowd.some((character) => !character.isWanted && character.zIndex >= target.zIndex)).toBe(true);
+    }
+  });
+
+  it.each(ACCESSORIES)("répare un amas pathologique sans couper les portraits ni masquer $label", ({ id }) => {
+    const dressed = { ...hiddenPile(42), accessories: { target: id, decoyChance: .5 } };
+    const crowded = placePile(dressed).map((character) => ({ ...character, x: 22.5, y: 22.5, zIndex: character.isWanted ? 2 : 90 }));
+    const wanted = crowded.find((character) => character.isWanted)!;
+    const repeatedRng = { ...createRng(42), next: () => 0, pick: <T,>(items: readonly T[]) => items[0] };
+    const result = placeHiddenPileTarget(crowded, wanted, { min: .15, max: .5 }, repeatedRng, { w: 390, h: 520, size: 45 });
+    const target = result.find((character) => character.isWanted)!;
+    expect(result).toHaveLength(crowded.length);
+    expect(pileAccessoryClear(result, target, { w: 390, h: 520, size: 45 })).toBe(true);
+    const point = pileClearTouchPoint(result, target, 45);
+    expect(point).toBeDefined();
+    if (point) expect(pickCharacterAt(point.x, point.y, result.map((character, z) => ({ ...character, cx: character.x, cy: character.y, size: 45, z })), 0)?.id).toBe(target.id);
+    expect(pileHeadVisibility(result, target, 45)).toBeGreaterThanOrEqual(.15);
+    expect(pileHeadVisibility(result, target, 45)).toBeLessThanOrEqual(.5);
+    for (const character of result.filter((item) => !item.isBackground)) {
+      expect(character.x).toBeGreaterThanOrEqual(22.5);
+      expect(character.y).toBeGreaterThanOrEqual(22.5);
+      expect(character.x).toBeLessThanOrEqual(390 - 22.5);
+      expect(character.y).toBeLessThanOrEqual(520 - 22.5);
+    }
+  });
+
   it("varie le masquage sans vider le centre et laisse toujours un morceau visible réellement touchable", () => {
     for (const range of [{ min: .18, max: .65 }, { min: .15, max: .5 }]) {
       const ratios: number[] = [];
@@ -59,7 +97,7 @@ describe("cible cachée dans le grand tas", () => {
     expect(crowd.find((character) => character.isWanted)?.look.accessoryId).toBe("moustache");
     const safe = { ...spec, params: { ...spec.params, wantedBelow: false } };
     expect(placePile(safe)).toEqual(placePile({ ...safe, params: { ...safe.params, pileVisibility: undefined } }));
-    const legacy = { ...spec, params: { ...spec.params, pileVisibility: undefined } };
+    const legacy = { ...spec, accessories: undefined, params: { ...spec.params, pileVisibility: undefined } };
     const original = placePile(legacy);
     const target = original.find((character) => character.isWanted)!;
     expect(original.filter((character) => !character.isWanted && character.zIndex >= target.zIndex)

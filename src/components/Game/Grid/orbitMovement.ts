@@ -45,6 +45,10 @@ export type OrbitRoute = {
   ring: number;
   angle: number;
   wobble: { amplitude: number; frequency: number; phase: number };
+  // Chaque animal a son propre rythme : les voisins se dépassent au lieu de
+  // rester attachés à la même place dans une couronne rigide.
+  flow: { rate: number; amplitude: number; frequency: number; phase: number };
+  offset: number;
   // Cycle d'étapes répété : l'angle accumulé par cycle (`turn`) donne une forme fermée.
   legs: OrbitLeg[] | null;
   period: number;
@@ -52,13 +56,14 @@ export type OrbitRoute = {
 };
 
 // Difficulté 0..1 tirée de la place du niveau, de la taille de la foule et de
-// la vitesse. Les foules Enfant (≤ 60 têtes, vitesse ≤ 0,35) restent adoucies.
+// la vitesse. Les foules Enfant restent adoucies. Avant 20, leurs rondes ont
+// moins de 50 têtes : la première ronde Normal (60 à vitesse 0,3) doit déjà mixer.
 export function orbitDifficulty(spec: LevelSpec): { level: number; gentle: boolean } {
   const count = spec.params.count ?? 40;
   const speed = spec.params.speed ?? .4;
   const level = clamp(.5 * clamp((spec.index - 10) / 30, 0, 1) + .3 * clamp((count - 40) / 110, 0, 1)
     + .2 * clamp((speed - .2) / .4, 0, 1), 0, 1);
-  const gentle = count <= 60 && speed <= .35;
+  const gentle = count <= 60 && speed <= .35 && (spec.index >= 20 || count < 50);
   return { level: gentle ? Math.min(level, .25) : level, gentle };
 }
 
@@ -85,9 +90,13 @@ export function createOrbitRoutes(spec: LevelSpec, characters: SwarmCharacter[],
   if (!characters.length) return [];
   const { level, gentle } = orbitDifficulty(spec);
   const dense = characters.length > 60;
-  const shuffled = rng.shuffle(characters);
+  // Le tri visuel (notamment un accessoire à préserver) ne doit jamais changer
+  // l'attribution des pistes ni le rythme individuel d'un animal.
+  const shuffled = rng.shuffle(characters.slice().sort((a, b) => a.id - b.id));
   const direction = rng.chance(.5) ? 1 : -1;
   const baseSpeed = clamp((spec.params.speed ?? .4) * 60, 0, ORBIT_BASE_SPEED_MAX);
+  const flowAmplitude = gentle ? 0 : .15 + .2 * level;
+  const flowMax = gentle ? 1 : 1.1 + flowAmplitude;
   // Toutes les horloges (respiration, dérive, changements) ralentissent avec la
   // foule ; une vitesse nulle fige tout le plateau.
   const pace = Math.min(1, baseSpeed / 12);
@@ -125,7 +134,9 @@ export function createOrbitRoutes(spec: LevelSpec, characters: SwarmCharacter[],
       return { cornerRadius, perimeter: 4 * (radiusX + radiusY - 2 * cornerRadius) + TAU * cornerRadius };
     })() : undefined;
     const factor = gentle ? .88 + rng.next() * .24 : .72 + rng.next() * .43;
-    const speed = baseSpeed * factor;
+    // Réserve pour le rythme individuel : même lors d'un dépassement, la part
+    // tangentielle reste bornée et laisse de la place aux glissements radiaux.
+    const speed = Math.min(baseSpeed, 42 / (1.15 * flowMax)) * factor;
     const reach = Math.max(radiusX, radiusY, 1);
     const omega = pace > 0 ? (ring % 2 === 0 ? direction : -direction) * speed
       * (rounded ? TAU / rounded.perimeter : 1 / reach) / pace : 0;
@@ -167,8 +178,8 @@ export function createOrbitRoutes(spec: LevelSpec, characters: SwarmCharacter[],
   for (let extra = shuffled.length - counts.reduce((a, b) => a + b, 0), ring = rings.length - 1; extra > 0; extra--, ring = (ring - 1 + rings.length) % rings.length) counts[ring]++;
 
   // Les vagabonds changent d'anneau de temps en temps, cible comprise s'il le faut.
-  const wanderShare = gentle ? 0 : .35 + .5 * level;
-  const dwellBase = lerp(14, 5, level);
+  const wanderShare = gentle ? 0 : .5 + .35 * level;
+  const dwellBase = lerp(8, 3.5, level);
   const routes: OrbitRoute[] = [];
   const gaps = new Map<string, number>();
   let used = 0;
@@ -182,16 +193,40 @@ export function createOrbitRoutes(spec: LevelSpec, characters: SwarmCharacter[],
         frequency: .4 + memberRng.next() * .4,
         phase: memberRng.next() * TAU,
       };
+      const flowRng = memberRng.fork("flow");
+      const flow = {
+        // Sur le cadre, même moyenne mais phases différentes : les animaux
+        // s'écartent puis se rapprochent sans vider durablement un coin.
+        rate: gentle || ring.shape === "frame" ? 1 : .8 + .3 * flowRng.next(),
+        amplitude: flowAmplitude * (.7 + .3 * flowRng.next()) * (ring.shape === "frame" ? .65 : 1),
+        frequency: (ring.shape === "frame" ? .7 : .45) + .3 * flowRng.next(),
+        phase: flowRng.next() * TAU,
+      };
       let legs: OrbitLeg[] | null = null;
       let period = 0;
       let turn = 0;
-      if (rings.length > 1 && memberRng.chance(wanderShare)) {
-        const neighbour = () => {
-          if (ringIndex === 0) return 1;
-          if (ringIndex === rings.length - 1) return ringIndex - 1;
-          return ringIndex + (memberRng.chance(.5) ? 1 : -1);
-        };
-        const path = [ringIndex, neighbour(), ringIndex, neighbour()];
+      let offset = 0;
+      // Le cadre conserve une majorité d'animaux pour occuper les coins, même
+      // quand les couronnes centrales échangent presque toute leur population.
+      const localWanderShare = ring.shape === "frame" ? (index % 2 === 0 ? 0 : .55 + .15 * level) : wanderShare;
+      if (rings.length > 1 && memberRng.chance(localWanderShare)) {
+        // Marche d'anneau en anneau, puis retour par les pistes voisines. La
+        // tendance à poursuivre fait traverser plusieurs couronnes ; chaque
+        // animal a un circuit différent plutôt qu'un aller-retour fixe.
+        const path = [ringIndex];
+        let nextDirection = memberRng.chance(.5) ? 1 : -1;
+        for (let step = 0; step < 3 + Math.round(4 * level); step++) {
+          const previous = path[path.length - 1];
+          if (memberRng.chance(.25)) nextDirection *= -1;
+          if (previous + nextDirection < 0 || previous + nextDirection >= rings.length) nextDirection *= -1;
+          path.push(previous + nextDirection);
+        }
+        while (path[path.length - 1] !== ringIndex) {
+          const previous = path[path.length - 1];
+          path.push(previous + Math.sign(ringIndex - previous));
+        }
+        // Le dernier retour est déjà la fermeture implicite du cycle.
+        path.pop();
         legs = path.map((from, step) => {
           const to = path[(step + 1) % path.length];
           const gap = gaps.get(`${Math.min(from, to)}:${Math.max(from, to)}`) ?? ringGap(formation, rings[from], rings[to]);
@@ -199,7 +234,7 @@ export function createOrbitRoutes(spec: LevelSpec, characters: SwarmCharacter[],
           return {
             start: 0, ring: from, next: to, angle: 0,
             dwell: dwellBase * (.7 + memberRng.next() * .6),
-            transition: Math.max(1.8, 1.5 * gap / SWITCH_RADIAL_SPEED),
+            transition: Math.max(1.8, 1.5 * gap * flowMax / SWITCH_RADIAL_SPEED),
           };
         });
         for (const leg of legs) {
@@ -208,10 +243,13 @@ export function createOrbitRoutes(spec: LevelSpec, characters: SwarmCharacter[],
           period += leg.dwell + leg.transition;
           turn += legAngle(rings, leg, leg.dwell + leg.transition);
         }
+        // Départs décalés dans le premier séjour : les échanges commencent
+        // dès les premières secondes et ne se déclenchent jamais tous ensemble.
+        offset = legs[0].dwell * memberRng.next() * .9;
       }
       routes.push({ kind: "orbit", character, formation, ring: ringIndex,
         angle: start + TAU * index / Math.max(1, counts[ringIndex]) + (memberRng.next() - .5) * .08,
-        wobble, legs, period, turn });
+        wobble, flow, offset, legs, period, turn });
     }
   });
   // La cible partage la loi de la foule ; seul l'ordre de dessin la garde visible
@@ -293,23 +331,30 @@ function ringPosition(formation: OrbitFormation, ring: OrbitRing, angle: number,
 export function orbitCharacterAt(route: OrbitRoute, time: number, area: Area): SwarmCharacter {
   const { formation } = route;
   const clock = Math.max(0, time) * formation.pace;
+  // Intégrale exacte du rythme (rate + amplitude × sin) : continuité, pauses
+  // et reprises identiques à toute cadence, sans accumuler d'erreur par frame.
+  const { flow } = route;
+  const travel = flow.rate * clock + flow.amplitude / flow.frequency
+    * (Math.cos(flow.phase) - Math.cos(flow.frequency * clock + flow.phase));
   const wobble = route.wobble.amplitude * Math.sin(route.wobble.frequency * clock + route.wobble.phase);
   let from = route.ring;
   let to = route.ring;
   let blend = 0;
   let angle = route.angle;
   if (route.legs && route.period > 0) {
-    const cycles = Math.floor(clock / route.period);
-    const within = clock - cycles * route.period;
+    const routeClock = travel + route.offset;
+    const cycles = Math.floor(routeClock / route.period);
+    const within = routeClock - cycles * route.period;
     let leg = route.legs[0];
     for (const candidate of route.legs) if (candidate.start <= within) leg = candidate;
     const elapsed = within - leg.start;
-    angle += cycles * route.turn + leg.angle + legAngle(formation.rings, leg, elapsed);
+    angle += cycles * route.turn + leg.angle + legAngle(formation.rings, leg, elapsed)
+      - formation.rings[route.ring].omega * route.offset;
     from = leg.ring;
     to = leg.next;
     blend = smooth(clamp((elapsed - leg.dwell) / leg.transition, 0, 1));
   } else {
-    angle += formation.rings[from].omega * clock;
+    angle += formation.rings[from].omega * travel;
   }
   const start = ringPosition(formation, formation.rings[from], angle, clock, wobble);
   // Le glissement est une moyenne de deux points du plateau : il y reste.

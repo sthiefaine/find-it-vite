@@ -18,7 +18,8 @@ export function withAccessoryPreview(spec: LevelSpec, id: AccessoryId | undefine
   return { ...spec, accessories: { target: id, decoyChance: .6 } };
 }
 
-// Flux séparé : les tenues ne déplacent jamais la cible ni les autres animaux.
+// Flux séparé : le choix des tenues ne consomme pas l'aléatoire du placement.
+// Les dispositions protègent ensuite l'accessoire de la cible si nécessaire.
 export function planAccessories(spec: LevelSpec, tier: Tier, breather: boolean): AccessoryPlan | undefined {
   const first = tier === "easy" ? 23 : 13;
   if (spec.index < first || breather || spec.rule !== "classic") return undefined;

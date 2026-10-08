@@ -83,9 +83,29 @@ describe("accessoires réutilisables", () => {
     const dressed = { ...plain, accessories: { target: "moustache" as const, decoyChance: .5 } };
     for (const layout of [layoutGrid, layoutScroll, placePile, placeSwarm]) {
       const normalize = (value: unknown) => JSON.parse(JSON.stringify(value, (key, entry) => key === "accessoryId" ? undefined : entry));
-      expect(normalize(layout(dressed))).toEqual(normalize(layout(plain)));
+      if (layout === placeSwarm) {
+        const initial = placeSwarm(plain).sort((a, b) => a.id - b.id);
+        const protectedCrowd = placeSwarm(dressed).sort((a, b) => a.id - b.id);
+        expect(protectedCrowd.map((character) => ({ ...normalize(character), zIndex: undefined })))
+          .toEqual(initial.map((character) => ({ ...normalize(character), zIndex: undefined })));
+        expect(protectedCrowd.filter((character) => !character.isWanted).map((character) => character.zIndex))
+          .toEqual(initial.filter((character) => !character.isWanted).map((character) => character.zIndex));
+      } else expect(normalize(layout(dressed))).toEqual(normalize(layout(plain)));
     }
     expect(dressed.rewardS).toBe(plain.rewardS);
     expect(dressed.penaltyS).toBe(plain.penaltyS);
+  });
+
+  it("dessine la cible habillée au-dessus pour chaque essaim, avec une profondeur cohérente pour les routes retriées", () => {
+    const original = generatePlayableLevel(53, context);
+    for (const movement of ["linear", "stopGo", "orbit", "crossing", "scatter"] as const) for (const accessory of ACCESSORIES) {
+      const spec = { ...original, layout: "swarm" as const, accessories: { target: accessory.id, decoyChance: .5 }, params: { ...original.params, movement, wantedBelow: true, count: 100 } };
+      const crowd = placeSwarm(spec);
+      const target = crowd.find((character) => character.isWanted)!;
+      expect(crowd[crowd.length - 1]).toBe(target);
+      expect(crowd.filter((character) => !character.isWanted).every((character) => character.zIndex < target.zIndex)).toBe(true);
+      expect(target.look.accessoryId).toBe(accessory.id);
+      expect(placeSwarm(spec)).toEqual(crowd);
+    }
   });
 });

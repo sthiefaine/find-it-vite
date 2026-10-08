@@ -38,16 +38,22 @@ intérieures. Les tas denses retrouvent leur fond de 88 animaux et leurs portrai
 superposés aléatoirement. Dans les tas sans feuilles, la cible peut être largement
 recouverte : 18–65 % de sa zone centrale visible en Normal, 15–50 % en Expert
 (estimation conservatrice par les carrés des sprites). Une ouverture cliquable
-reste garantie ; les trois cercles historiques sont disponibles en debug. Le nom et la description de la scène
+reste garantie. Si la cible porte un accessoire, sa zone entière est protégée des
+autres portraits, y compris dans les tas les plus denses. Les trois cercles
+historiques sont disponibles en debug. Le nom et la description de la scène
 ne prennent plus de place au-dessus du plateau.
 
 Après l’étape 40, chaque cycle de seize étapes alterne quatre grilles pleines,
 quatre défilements pleins, quatre tas et quatre foules mobiles, dont une ronde,
 une dispersion et deux traversées par vagues. Les petites grilles d’introduction ne reviennent
 plus. Les tas dépassent 380 portraits (plafond de 340 + 88 en fond), les rondes
-avancées dépassent 140. Leurs pistes décentrées se recoupent, avec des oscillations
-individuelles ; les petites rondes Enfant gardent trois ellipses simples. Les vagues
-traversantes arrivent des deux côtés, avec des groupes asynchrones et des courbes
+avancées dépassent 140. Dès la première ronde Normal, les animaux se dépassent
+et changent de couronne à des moments différents. Leurs pistes décentrées se
+recoupent, avec des rythmes et des oscillations individuels ; les petites rondes
+Enfant gardent trois ellipses simples. À partir du deuxième cycle de reprises
+(étape 57), les parades Normal et Expert alternent vagues et marche-arrêt, avec
+plus de flux opposés. Les vagues avancées varient aussi leur forme par rangée.
+Les vagues traversantes arrivent des deux côtés, avec des groupes asynchrones et des courbes
 seedées renouvelées hors écran. La cible suit les mêmes lois que les leurres.
 L’Enfant conserve des grilles plus petites, des tas sans fond supplémentaire et
 au maximum 60 animaux mobiles.
@@ -174,8 +180,9 @@ Des variantes de foule se mêlent ensuite aux niveaux classiques
 **tous pareils** (toute la foule est de l’espèce recherchée) ou **deux espèces**
 (elle et un sosie), combinées à trois plans d’accessoires : A, seule la cible
 porte l’accessoire de l’avis parmi son espèce (dès 15) ; B, tout le monde est
-habillé sauf la cible, et l’avis porte un badge « sans accessoire » (dès 25, jamais
-dans les tas) ; C, tout le monde est habillé et les autres de son espèce portent
+habillé sauf la cible, et l’avis porte un badge « sans accessoire » (dès 25, sur
+les grilles et défilements lisibles, sans portraits coupés ni superpositions) ;
+C, tout le monde est habillé et les autres de son espèce portent
 d’autres accessoires, parfois ressemblants (dès 35). Les deux espèces arrivent à 20 ;
 Enfant décale tout de dix niveaux. Leur fréquence monte avec le niveau et une même
 variante ne sort jamais trois fois de suite. Les salons en ligne n’en ont pas.

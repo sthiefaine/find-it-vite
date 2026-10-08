@@ -92,6 +92,49 @@ describe("couloirs ondulants et marche-arrêt", () => {
     expect(velocities.some((v) => Math.abs(v) < 1e-9)).toBe(true);
     expect(velocities.some((v) => Math.abs(v) > 0.1)).toBe(true);
   });
+
+  it("varie les ondulations avancées entre rangées sans saut aux bords ni débordement", () => {
+    for (const scrollDirection of ["horizontal", "vertical"] as const) {
+      const spec = { ...specWith({ movement: "wave", speed: 1.4, scrollDirection, edgeRows: true, extraLines: 3 }), index: 37 };
+      const layout = layoutScroll(spec);
+      const motion = createScrollMovement(spec, layout);
+      const shorterWave = layout.slots.find((slot) => slot.line === 3)!;
+      const longerWave = layout.slots.find((slot) => slot.line === 4)!;
+      const at = (slot: typeof shorterWave, main: number) => scrollCrossAt(motion, slot, main, layout.period, layout.size);
+      for (const main of [0, 17, 55, 101]) {
+        expect(at(shorterWave, main + layout.period / 2)).toBeCloseTo(at(shorterWave, main), 8);
+      }
+      const longDifferences = [0, 17, 55, 101].map((main) => Math.abs(at(longerWave, main + layout.period / 2) - at(longerWave, main)));
+      expect(Math.max(...longDifferences)).toBeGreaterThan(3);
+      for (const slot of layout.slots) {
+        // La vague rejoint sa copie sans saut, même lors d'une marche arrière.
+        expect(Math.abs(at(slot, layout.period - .001) - at(slot, .001))).toBeLessThan(.01);
+        for (let time = 0; time <= 40; time += .2) {
+          const main = slot.main + scrollOffsetAt(motion, slot.line, layout.speeds[slot.line], time);
+          const cross = at(slot, main);
+          if (slot.cross === 0 || slot.cross === motion.crossLength) expect(cross).toBe(slot.cross);
+          else {
+            expect(cross).toBeGreaterThanOrEqual(layout.size / 2);
+            expect(cross).toBeLessThanOrEqual(motion.crossLength - layout.size / 2);
+          }
+        }
+      }
+      expect(createScrollMovement(spec, layout)).toEqual(motion);
+    }
+  });
+
+  it("conserve les vagues simples lors de leur découverte et sous le plafond Enfant", () => {
+    for (const [index, speed] of [[7, .7], [20, 1.4], [200, 1]]) {
+      const spec = { ...specWith({ movement: "wave", speed }), index };
+      const layout = layoutScroll(spec);
+      const motion = createScrollMovement(spec, layout);
+      const slot = layout.slots.find((candidate) => candidate.line === 3)!;
+      for (const main of [0, 50, 180]) {
+        const expected = slot.cross + motion.waveAmplitude * Math.sin(2 * Math.PI * main / layout.period + motion.lines[slot.line].wavePhase);
+        expect(scrollCrossAt(motion, slot, main, layout.period, layout.size)).toBeCloseTo(expected, 8);
+      }
+    }
+  });
 });
 
 describe("rangées qui se désorganisent après l'étape 30", () => {
@@ -147,6 +190,26 @@ describe("essaim par groupes", () => {
   it("conserve l'essaim historique si aucun motif n'est demandé", () => {
     const spec = specWith({ speed: 0.4 });
     expect(createSwarmMovement(spec, placeSwarm(spec), areaOf(spec))).toBeNull();
+  });
+
+  it("conserve les cadences par animal si l'ordre de dessin change, cible comprise", () => {
+    const spec = specWith({ movement: "stopGo", speed: .6, count: 90 });
+    const area = areaOf(spec);
+    const characters = placeSwarm(spec);
+    const reordered = characters.slice().reverse().map((character) => ({
+      ...character, zIndex: character.isWanted ? 1000 : -character.zIndex,
+    }));
+    const routes = createSwarmMovement(spec, characters, area)!;
+    const changed = createSwarmMovement(spec, reordered, area)!;
+    const byId = new Map(changed.map((route) => [route.character.id, route]));
+    for (const time of [0, .3, 3.7, 31, 89]) for (const route of routes) {
+      const before = swarmCharacterAt(route, time, area, "bounce");
+      const after = swarmCharacterAt(byId.get(route.character.id)!, time, area, "bounce");
+      expect(after.x).toBe(before.x);
+      expect(after.y).toBe(before.y);
+    }
+    // Le moteur conserve l'ordre de rendu demandé par la foule.
+    expect(changed.map((route) => route.character.id)).toEqual(reordered.map((character) => character.id));
   });
 
   it("les arrêts de groupe rebondissent sans dérive de timestep ni sortie du plateau", () => {

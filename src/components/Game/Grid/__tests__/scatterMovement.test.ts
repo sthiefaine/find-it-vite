@@ -52,6 +52,25 @@ describe("foule qui s'éparpille", () => {
     }
   });
 
+  it("conserve les trajectoires par animal si l'ordre de dessin change, cible comprise", () => {
+    const spec = makeSpec();
+    const area = areaOf(spec);
+    const characters = placeSwarm(spec);
+    const reordered = characters.slice().reverse().map((character) => ({
+      ...character, zIndex: character.isWanted ? 1000 : -character.zIndex,
+    }));
+    const routes = routesOf(spec, characters);
+    const changed = routesOf(spec, reordered);
+    const byId = new Map(changed.map((route) => [route.character.id, route]));
+    for (const time of [0, 1.5, 3.7, 31, 89, 300]) for (const route of routes) {
+      const before = scatterCharacterAt(route, time, area);
+      const after = scatterCharacterAt(byId.get(route.character.id)!, time, area);
+      expect(after.x).toBe(before.x);
+      expect(after.y).toBe(before.y);
+    }
+    expect(changed.at(-1)?.character.isWanted).toBe(true);
+  });
+
   it("garde chaque tête dans le plateau, accessoires et rotations compris", () => {
     for (const seed of [1, 42, 77]) for (const speed of [.2, .6, 3]) {
       const spec = makeSpec(seed, 160, speed);

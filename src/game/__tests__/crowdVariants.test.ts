@@ -94,13 +94,17 @@ describe("variantes de foule", () => {
     }
   });
 
-  it.each(CROWD_VARIANT_KINDS)("garde une seule cible correspondant à l'avis (%s) dans les quatre dispositions", (kind) => {
+  it.each(CROWD_VARIANT_KINDS)("garde une seule cible correspondant à l'avis (%s) dans ses dispositions lisibles", (kind) => {
     const layouts = new Set<string>();
     for (const tier of ["easy", "normal", "expert"] as Tier[]) {
       for (const seed of [1, 42, 2026]) {
         for (const index of [16, 17, 18, 21, 22, 24, 28, 30, 36, 42, 43, 44, 47, 53, 66, 120]) {
           const context = { seed, tier, pool };
           const spec = generatePlayableLevel(index, context, { forceVariant: kind });
+          if (kind.endsWith("-bare") && (spec.layout === "pile" || spec.layout === "swarm")) {
+            expect(spec.crowdVariant).toBeUndefined();
+            continue;
+          }
           layouts.add(spec.layout);
           expect(kindOfVariant(spec.crowdVariant!)).toBe(kind);
           expect(validateSpec(spec, context).errors).toEqual([]);
@@ -129,10 +133,10 @@ describe("variantes de foule", () => {
         }
       }
     }
-    expect(layouts.size).toBe(4);
+    expect(layouts.size).toBe(kind.endsWith("-bare") ? 2 : 4);
   });
 
-  it("garde la cible visible et sans demi-rangées trompeuses, et ne place pas la variante B dans les tas", () => {
+  it("garde la cible visible et sans tenue masquée trompeuse pour la variante B", () => {
     for (let seed = 1; seed <= 30; seed++) {
       for (let index = 15; index <= 120; index++) {
         const spec = generatePlayableLevel(index, { seed, tier: "normal", pool });
@@ -140,7 +144,11 @@ describe("variantes de foule", () => {
         expect(spec.params.wantedBelow).toBeFalsy();
         if (spec.crowdVariant.dress === "bare") {
           expect(spec.layout).not.toBe("pile");
+          expect(spec.layout).not.toBe("swarm");
           expect(spec.params.edgeRows).toBeFalsy();
+          expect(spec.params.staggered).toBeFalsy();
+          expect(spec.params.extraLines).toBeFalsy();
+          expect(spec.params.movement).not.toBe("wave");
         }
       }
     }
@@ -159,7 +167,7 @@ describe("variantes de foule", () => {
     expect(readVariantPreview("?variant=same-bare", true)).toBe("same-bare");
     expect(readVariantPreview("?variant=same-bare", false)).toBeUndefined();
     expect(readVariantPreview("?variant=rien", true)).toBeUndefined();
-    const bare = generatePlayableLevel(30, { seed: 1, tier: "normal", pool }, { forceVariant: "same-bare" });
+    const bare = generatePlayableLevel(17, { seed: 1, tier: "normal", pool }, { forceVariant: "same-bare" });
     expect(withAccessoryPreview(bare, "cap")).toBe(bare);
     expect(withAccessoryPreview(generatePlayableLevel(30, { seed: 1, tier: "normal", pool }, { forceVariant: "two-single" }), "cap").accessories?.target).toBe("cap");
   });

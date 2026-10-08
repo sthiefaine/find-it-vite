@@ -65,7 +65,8 @@ export function crowdVariantAt(
   const own = createRng(hash32("crowd-variant", stream.seed >>> 0, "position", position));
   if (!own.chance(crowdVariantChance(index, tier))) return undefined;
   // Les tas se chevauchent : un chapeau caché ferait passer un leurre pour « sans accessoire ».
-  const candidates = group.filter((kind) => index >= variantUnlockedAt(kind, tier) && !(layout === "pile" && kind.endsWith("-bare")));
+  const candidates = group.filter((kind) => index >= variantUnlockedAt(kind, tier)
+    && !((layout === "pile" || layout === "swarm") && kind.endsWith("-bare")));
   // Une variante toute neuve sort plus souvent pendant ses dix premiers niveaux.
   return weightedPick(own, candidates.map((kind) => [kind, 1 + 2 * Math.max(0, 1 - (index - variantUnlockedAt(kind, tier)) / 10)] as const));
 }
@@ -89,6 +90,9 @@ export function applyCrowdVariant(spec: LevelSpec, kind: CrowdVariantKind, pool:
   if (spec.rule !== "classic") return spec;
   const rng = createRng(spec.seed).fork("crowd-variant");
   const { species, dress } = parseKind(kind);
+  // Une tenue cachée dans un tas ou un essaim ferait passer un leurre pour la
+  // cible nue. Cette combinaison reste aussi interdite dans les aperçus forcés.
+  if (dress === "bare" && (spec.layout === "pile" || spec.layout === "swarm")) return spec;
   const partner = species === "two" ? pickPartner(spec.wanted, pool, rng.fork("partner"), spec.index, tier) : undefined;
   if (species === "two" && !partner) return spec;
   // Variantes lisibles : la cible n'est jamais cachée sous la foule, et pas de demi-têtes
@@ -96,7 +100,15 @@ export function applyCrowdVariant(spec: LevelSpec, kind: CrowdVariantKind, pool:
   const params = { ...spec.params };
   delete params.wantedBelow;
   delete params.pileVisibility;
-  if (dress === "bare") delete params.edgeRows;
+  if (dress === "bare") {
+    delete params.edgeRows;
+    if (spec.layout === "scroll") params.extraLines = 0;
+    else delete params.extraLines;
+    delete params.staggered;
+    // Des vagues rapprochent les rangées : une moustache ou un nœud peut être
+    // caché par le voisin même quand les positions de départ sont sûres.
+    if (params.movement === "wave") params.movement = "linear";
+  }
   return {
     ...spec,
     params,

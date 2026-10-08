@@ -3,6 +3,7 @@ import { generateLevel } from "../../../../engine/generateLevel";
 import type { LevelSpec } from "../../../../engine/types";
 import { charactersDetails } from "../../../../helpers/characters";
 import { pickCharacterAt } from "../../../../helpers/hitTest";
+import { generatePlayableLevel } from "../../../../game/playableLevel";
 import { areaOf, placeSwarm, type SwarmCharacter } from "../layouts";
 import { advanceMovementClock, createMovementClock, createSwarmMovement, suspendMovementClock, swarmCharacterAt } from "../movements";
 import { ORBIT_MAX_SPEED, orbitDifficulty, type OrbitRoute } from "../orbitMovement";
@@ -42,7 +43,69 @@ describe("rondes concentriques", () => {
       expect(formation.sway.amplitude).toBe(0);
       expect(formation.drift.x + formation.drift.y).toBe(0);
       expect(routes.every((route) => route.legs === null)).toBe(true);
+      expect(routes.every((route) => route.flow.rate === 1 && route.flow.amplitude === 0)).toBe(true);
     }
+  });
+
+  it("mélange déjà la première ronde Normal, sans durcir les introductions Enfant", () => {
+    for (const seed of [1, 42, 77]) {
+      const first = generatePlayableLevel(11, { seed, tier: "normal", pool: charactersDetails });
+      const area = areaOf(first);
+      const routes = orbitRoutes(first);
+      expect(orbitDifficulty(first).gentle).toBe(false);
+      expect(orbitRoutes(first)).toEqual(routes);
+      // Un échange modifie réellement le rayon dès la première observation,
+      // au lieu de laisser toute la foule tourner sur ses rails pendant 14 s.
+      const movingAcross = routes.filter((route) => {
+        const radiusAt = (time: number) => {
+          const character = swarmCharacterAt(route, time, area, "bounce");
+          return Math.hypot((character.x - area.w / 2) / (area.w / 2), (character.y - area.h / 2) / (area.h / 2));
+        };
+        return Math.abs(radiusAt(8) - radiusAt(0)) > .12;
+      });
+      expect(movingAcross.length / routes.length).toBeGreaterThan(.15);
+      const steady = routes.filter((route) => route.legs === null);
+      let separationChange = 0;
+      const angleAt = (route: OrbitRoute, time: number) => {
+        const character = swarmCharacterAt(route, time, area, "bounce");
+        const ring = route.formation.rings[route.ring];
+        return Math.atan2((character.y - area.h / 2) / ring.radiusY, (character.x - area.w / 2) / ring.radiusX);
+      };
+      for (const a of steady) for (const b of steady) if (a.ring === b.ring) {
+        const delta = angleAt(a, 15) - angleAt(b, 15) - angleAt(a, 0) + angleAt(b, 0);
+        separationChange = Math.max(separationChange, Math.abs(Math.atan2(Math.sin(delta), Math.cos(delta))));
+      }
+      // Même sans changer d'anneau, les voisins cessent de tourner en bloc.
+      expect(separationChange).toBeGreaterThan(.2);
+      for (const index of [11, 16, 20, 47]) {
+        const easy = generatePlayableLevel(index, { seed, tier: "easy", pool: charactersDetails });
+        expect(orbitDifficulty(easy).gentle).toBe(true);
+        expect(orbitRoutes(easy).every((route) => route.legs === null && route.flow.amplitude === 0)).toBe(true);
+      }
+    }
+  });
+
+  it("varie les rythmes individuels et traverse plusieurs couronnes, avec des circuits seedés", () => {
+    const routes = orbitRoutes(HARD);
+    const traversing = routes.filter((route) => route.legs && new Set(route.legs.map((leg) => leg.ring)).size >= 3);
+    expect(traversing.length / routes.length).toBeGreaterThan(.4);
+    expect(new Set(routes.filter((route) => route.legs).map((route) => route.legs!.map((leg) => leg.ring).join(","))).size).toBeGreaterThan(12);
+    const area = areaOf(HARD);
+    const steady = routes.filter((route) => route.legs === null);
+    const changingPace = steady.filter((route) => {
+      const speeds = Array.from({ length: 60 }, (_, i) => {
+        const current = swarmCharacterAt(route, i / 2, area, "bounce");
+        const next = swarmCharacterAt(route, i / 2 + .01, area, "bounce");
+        return Math.hypot(next.x - current.x, next.y - current.y) / .01;
+      });
+      return Math.max(...speeds) - Math.min(...speeds) > 6;
+    });
+    // Même ceux qui restent sur une couronne n'ont plus une cadence uniforme.
+    expect(changingPace.length / steady.length).toBeGreaterThan(.7);
+    const replay = orbitRoutes(HARD);
+    const other = orbitRoutes({ ...HARD, seed: 77 });
+    expect(replay).toEqual(routes);
+    expect(other.map((route) => route.flow)).not.toEqual(routes.map((route) => route.flow));
   });
 
   it("superpose à haut niveau plus d'anneaux, à vitesses différentes, qui se balancent et se décalent", () => {
@@ -78,7 +141,8 @@ describe("rondes concentriques", () => {
         const distances: number[] = [];
         const dt = .02;
         let previous = swarmCharacterAt(route, 0, area, "bounce");
-        for (let time = dt; time <= route.period / route.formation.pace + 1; time += dt) {
+        // Dépasser la fermeture du circuit, y compris pour un animal plus lent.
+        for (let time = dt; time <= route.period / (route.flow.rate * route.formation.pace) + 15; time += dt) {
           const current = swarmCharacterAt(route, time, area, "bounce");
           expect(Math.hypot(current.x - previous.x, current.y - previous.y)).toBeLessThanOrEqual(ORBIT_MAX_SPEED * dt);
           distances.push(Math.hypot(current.x - area.w / 2, current.y - area.h / 2));
@@ -137,6 +201,25 @@ describe("rondes concentriques", () => {
         expect(after.y).toBe(before.y);
       }
       expect(swapped.at(-1)?.character.id).toBe(promoted.id);
+    }
+  });
+
+  it("conserve les trajectoires lorsque les accessoires imposent un autre ordre de dessin", () => {
+    for (const spec of [MEDIUM, HARD]) {
+      const area = areaOf(spec);
+      const initial = placeSwarm(spec);
+      const original = orbitRoutes(spec, initial);
+      const reordered = orbitRoutes(spec, initial.slice().reverse().map((character) => ({
+        ...character,
+        zIndex: character.isWanted ? 1000 : character.id % 5,
+      })));
+      const byId = new Map(reordered.map((route) => [route.character.id, route]));
+      for (const time of [0, 8, 30, 200]) for (const route of original) {
+        const before = swarmCharacterAt(route, time, area, "bounce");
+        const after = swarmCharacterAt(byId.get(route.character.id)!, time, area, "bounce");
+        expect(after.x).toBe(before.x);
+        expect(after.y).toBe(before.y);
+      }
     }
   });
 
