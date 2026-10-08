@@ -79,7 +79,10 @@ demi-colonnes à 46, rondes croisées à 47 et groupes traversants à 53. Ces ra
 sont réservés au développement.
 
 À chaque niveau, les images sont téléchargées et décodées et leurs textures Pixi
-sont préparées avant de libérer le chrono et le plateau. Le délai minimal reste
+sont préparées avant de libérer le chrono et le plateau. Les bouquets de feuilles
+sont dessinés directement depuis l’image décodée, avec leur masque de toucher,
+avant la première peinture du navigateur. La première frame Pixi est aussi dessinée
+à ce moment : les animaux et les feuilles apparaissent ensemble. Le délai minimal reste
 de 3 secondes à chaque avis, avec le portrait, son nom complet et le décompte
 3–2–1 dans le cadre Wanted. La grille reste vide pendant cette transition. Le
 niveau suivant est préchargé pendant le niveau courant, sans faire avancer la partie. Une erreur ou un délai de 15 secondes
@@ -161,8 +164,10 @@ Le paramètre `accessory` est ignoré en production.
 Un plancher (`src/engine/difficultyFloor.ts`) monte avec le niveau, quelle que soit
 la densité de la scène : en Normal, pas de grille sous 6×6 après 10, ni sous 7×7
 après 20, et grille pleine après 50 ; les tas, essaims, remplissages et rangées
-de défilement ont aussi leur minimum. Enfant monte plus doucement ; les
-respirations restent plus légères, sans grille de moins de 6×6 après 20.
+de défilement ont aussi leur minimum. Les vitesses de défilement et des foules
+mobiles progressent également, dans les limites de chaque profil. Enfant monte
+plus doucement ; en Normal et Expert, les respirations gardent au moins 5×5
+au niveau 15 et 7×7 après 20, sans obstacles ni accessoires.
 
 Des variantes de foule se mêlent ensuite aux niveaux classiques
 (`src/game/crowdVariants.ts`), toujours avec une seule cible :

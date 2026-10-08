@@ -7,6 +7,7 @@ import {
   foliageDragClears, foliageExit, foliageHit, makeFoliage, moveFoliageDrag,
 } from "../../game/foliage";
 import type { FoliageDrag, FoliagePoint } from "../../game/foliage";
+import { paintFoliageCanvases } from "../../game/foliageRendering";
 import { isPageVisible, subscribeAppActive } from "../../platform/appLifecycle";
 import { preparedImage } from "../../game/assetReadiness";
 import "./Foliage.css";
@@ -24,8 +25,8 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
   const instructionsId = useId();
   const patches = useMemo(() => density ? makeFoliage(seed, density, tier) : [], [seed, density, tier]);
 
-  // La source est déjà décodée : préparer le masque avant la première peinture
-  // évite une frame sans feuilles au moment de découvrir le plateau.
+  // Dessiner les bouquets ET leur masque depuis la source déjà décodée, avant
+  // la première peinture : aucun <img> ne peut apparaître après les animaux.
   useLayoutEffect(() => {
     const board = boardRef.current;
     const layer = layerRef.current;
@@ -42,11 +43,10 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
     const mask = document.createElement("canvas");
     mask.width = maskSize;
     mask.height = maskSize;
-    const context = mask.getContext("2d", { willReadFrequently: true });
-    if (!context) return;
-    context.drawImage(img, 0, 0, maskSize, maskSize);
-    const alpha = context.getImageData(0, 0, maskSize, maskSize).data;
-    layer.dataset.ready = "true";
+    const resolution = board.getBoundingClientRect().width / BOARD.w * Math.min(3, window.devicePixelRatio || 1);
+    const canvases = Array.from(layer.querySelectorAll<HTMLCanvasElement>(".foliage-patch canvas"));
+    const alpha = paintFoliageCanvases(img, patches.map(patch => ({ canvas: canvases[patch.id], size: patch.size })), mask, resolution);
+    if (!alpha) return;
     board.classList.add("foliage-board");
 
     const isActive = () => {
@@ -173,6 +173,7 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       paint(patch.id, ORIGIN);
     });
     syncActive();
+    layer.dataset.ready = "true";
 
     return () => {
       cancelDrag();
@@ -202,6 +203,6 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
       tabIndex={-1}
       style={{ left: `${patch.x / BOARD.w * 100}%`, top: `${patch.y / BOARD.h * 100}%`, width: `${patch.size / BOARD.w * 100}%` } as CSSProperties}
       onClick={event => { event.preventDefault(); event.stopPropagation(); keyboardClear.current(patch.id); }}
-    ><img src={IMAGE} alt="" draggable={false} /></button>)}
+    ><canvas aria-hidden="true" /></button>)}
   </div>;
 }

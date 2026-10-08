@@ -6,8 +6,12 @@ import { charactersDetails } from "../../helpers/characters";
 import { layoutGrid, layoutScroll, placePile, placeSwarm } from "../../components/Game/Grid/layouts";
 import type { LevelSpec } from "../types";
 import { sceneForIndex } from "../../content/scenes";
+import { LIMITS, validateSpec } from "../validate";
+import { levelTarget } from "../../game/modes";
+import { poolOfStep, stepTarget } from "../../game/adventureRun";
 
 const SEEDS = [1, 42, 2026, 777];
+const FLOOR_PARAMETERS = ["gridSize", "pileCount", "swarmCount", "scrollSpeed", "swarmSpeed", "scrollFill", "extraLines"] as const;
 const crowdSize = (spec: LevelSpec) => (spec.layout === "grid" ? layoutGrid(spec).cells : spec.layout === "scroll"
   ? layoutScroll(spec).slots : spec.layout === "pile" ? placePile(spec) : placeSwarm(spec)).length;
 
@@ -18,7 +22,7 @@ describe("plancher de difficulté", () => {
         let previous = difficultyFloor(1, tier, breather);
         for (let index = 2; index <= 300; index++) {
           const floor = difficultyFloor(index, tier, breather);
-          for (const key of ["gridSize", "pileCount", "swarmCount", "scrollFill", "extraLines"] as const) {
+          for (const key of FLOOR_PARAMETERS) {
             expect(floor[key], `${tier} ${key} #${index}`).toBeGreaterThanOrEqual(previous[key]);
           }
           if (previous.fullGrid) expect(floor.fullGrid).toBe(true);
@@ -29,15 +33,17 @@ describe("plancher de difficulté", () => {
     for (let index = 1; index <= 200; index++) {
       const normal = difficultyFloor(index, "normal");
       const easy = difficultyFloor(index, "easy");
+      const expert = difficultyFloor(index, "expert");
       const pause = difficultyFloor(index, "normal", true);
-      for (const key of ["gridSize", "pileCount", "swarmCount", "scrollFill", "extraLines"] as const) {
+      for (const key of FLOOR_PARAMETERS) {
         expect(easy[key]).toBeLessThanOrEqual(normal[key]);
+        expect(normal[key]).toBeLessThanOrEqual(expert[key]);
         expect(pause[key]).toBeLessThanOrEqual(normal[key]);
       }
       if (index > 10) expect(normal.gridSize).toBeGreaterThanOrEqual(6);
       if (index > 20) {
         expect(normal.gridSize).toBeGreaterThanOrEqual(7);
-        expect(pause.gridSize).toBeGreaterThanOrEqual(6);
+        expect(pause.gridSize).toBeGreaterThanOrEqual(7);
       }
     }
     expect(difficultyFloor(1, "easy").gridSize).toBe(3);
@@ -46,7 +52,7 @@ describe("plancher de difficulté", () => {
     expect(difficultyFloor(60, "easy").fullGrid).toBe(false);
   });
 
-  it("n'offre plus de petite grille après le niveau 15 et respecte le plancher dans chaque disposition", () => {
+  it("n'offre plus de petite grille dès le niveau 15 et respecte le plancher dans chaque disposition", () => {
     for (const tier of ["easy", "normal", "expert"] as Tier[]) {
       for (const seed of SEEDS) {
         for (let index = 1; index <= 200; index++) {
@@ -55,14 +61,80 @@ describe("plancher de difficulté", () => {
           const p = spec.params;
           if (spec.layout === "grid" && !p.fullGrid) {
             expect(p.gridSize!, `${tier} #${index}`).toBeGreaterThanOrEqual(floor.gridSize);
-            if (tier !== "easy" && index > 15) expect(p.gridSize!, `#${index} seed ${seed}`).toBeGreaterThan(4);
-            if (tier !== "easy" && index > 20) expect(p.gridSize!).toBeGreaterThanOrEqual(6);
+            if (tier !== "easy" && index >= 15) expect(p.gridSize!, `#${index} seed ${seed}`).toBeGreaterThan(4);
+            if (tier !== "easy" && index > 20) expect(p.gridSize!).toBeGreaterThanOrEqual(7);
           }
           if (spec.layout === "pile") expect(p.count!).toBeGreaterThanOrEqual(floor.pileCount);
-          if (spec.layout === "swarm") expect(p.count!).toBeGreaterThanOrEqual(floor.swarmCount);
+          if (spec.layout === "swarm") {
+            expect(p.count!).toBeGreaterThanOrEqual(floor.swarmCount);
+            expect(p.speed!).toBeGreaterThanOrEqual(floor.swarmSpeed);
+          }
           if (spec.layout === "scroll") {
             expect(p.extraLines!).toBeGreaterThanOrEqual(floor.extraLines);
             expect(p.scrollFill!).toBeGreaterThanOrEqual(floor.scrollFill - 1e-9);
+            expect(p.speed!).toBeGreaterThanOrEqual(floor.scrollSpeed);
+          }
+        }
+      }
+    }
+  });
+
+  it("garde de vraies foules pendant les respirations 15, 25 et 35", () => {
+    for (const seed of SEEDS) {
+      for (const tier of ["normal", "expert"] as const) {
+        for (const [index, minimumSide] of [[15, 5], [25, 7], [35, 7]]) {
+          const spec = generatePlayableLevel(index, { seed, tier, pool: charactersDetails });
+          const cells = layoutGrid(spec).cells;
+          expect(spec.layout).toBe("grid");
+          expect(cells.length).toBeGreaterThanOrEqual(minimumSide ** 2);
+          expect(cells.filter((animal) => animal.isWanted)).toHaveLength(1);
+          expect(spec.scene?.foliage).toBeUndefined();
+          expect(spec.scene?.seagulls).toBe(false);
+          expect(spec.accessories).toBeUndefined();
+          expect(spec.modifiers).toEqual([]);
+        }
+      }
+    }
+  });
+
+  it("fait monter les vitesses sans accélérer les premières découvertes ni dépasser les limites", () => {
+    for (const tier of ["easy", "normal", "expert"] as const) {
+      const context = { seed: 42, tier, pool: charactersDetails };
+      // Une même scène reprise plus tard ne retrouve pas sa vitesse de découverte.
+      const firstScroll = generatePlayableLevel(42, context);
+      const laterScroll = generatePlayableLevel(58, context);
+      expect(firstScroll.scene?.id).toBe(laterScroll.scene?.id);
+      expect(laterScroll.params.speed).toBeGreaterThanOrEqual(firstScroll.params.speed!);
+      const scrollLimit = tier === "easy" ? LIMITS.scroll.speedMaxEasy : LIMITS.scroll.speedMax;
+      const swarmLimit = tier === "easy" ? LIMITS.swarm.speedMaxEasy : LIMITS.swarm.speedMax;
+      const finalFloor = difficultyFloor(4000, tier);
+      expect(finalFloor.scrollSpeed).toBe(scrollLimit);
+      expect(finalFloor.swarmSpeed).toBe(swarmLimit);
+      for (let index = 1; index <= 300; index++) {
+        const spec = generatePlayableLevel(index, context);
+        if (spec.layout !== "scroll" && spec.layout !== "swarm") continue;
+        expect(spec.params.speed).toBeLessThanOrEqual(spec.layout === "scroll" ? scrollLimit : swarmLimit);
+        expect(validateSpec(spec, context).errors).toEqual([]);
+      }
+    }
+    expect(generatePlayableLevel(3, { seed: 42, tier: "normal", pool: charactersDetails }).params.speed).toBe(.55);
+    expect(generatePlayableLevel(11, { seed: 42, tier: "normal", pool: charactersDetails }).params.speed).toBe(.3);
+  });
+
+  it("conserve la progression à 25/26 et aux changements de monde dans tous les modes", () => {
+    for (const index of [15, 20, 21, 25, 26, 35, 40, 41, 56, 57, 100, 200, 4000]) {
+      for (const tier of ["easy", "normal", "expert"] as const) {
+        for (const seed of SEEDS) {
+          const expected = generatePlayableLevel(index, { seed, tier, pool: charactersDetails }, { crowdVariants: false });
+          const targets = [levelTarget("endless", seed, index), levelTarget("daily", seed, index),
+            ...[1, 2, 3, 4, 5].map((avis) => stepTarget(index, avis))];
+          for (const target of targets) {
+            const context = { seed: target.seed, tier, pool: poolOfStep(index) };
+            const spec = generatePlayableLevel(target.index, context, { crowdVariants: false });
+            expect(spec.index).toBe(index);
+            expect(spec.layout).toBe(expected.layout);
+            expect(spec.params).toEqual(expected.params);
+            expect(validateSpec(spec, context).errors).toEqual([]);
           }
         }
       }

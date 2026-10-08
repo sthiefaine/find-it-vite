@@ -48,7 +48,7 @@ export function sceneParams(scene: SceneDefinition, index: number, tier: Tier): 
     case "scroll":
       return {
         movement: scene.movement,
-        speed: clamp(rounded(.4 + density * 1.25), LIMITS.scroll.speedMin, easy ? LIMITS.scroll.speedMaxEasy : LIMITS.scroll.speedMax),
+        speed: clamp(Math.max(rounded(.4 + density * 1.25), floor.scrollSpeed), LIMITS.scroll.speedMin, easy ? LIMITS.scroll.speedMaxEasy : LIMITS.scroll.speedMax),
         // Les trois premières découvertes restent aérées ; ensuite les lignes
         // retrouvent leur occupation historique, même en vagues ou en arrêts.
         scrollFill: scene.fullRows || index >= 13 ? 1
@@ -82,7 +82,7 @@ export function sceneParams(scene: SceneDefinition, index: number, tier: Tier): 
       return {
         movement,
         count: clamp(Math.round(Math.max(raw, floor.swarmCount)), LIMITS.swarm.countMin, easy ? LIMITS.swarm.countMaxEasy : LIMITS.swarm.countMax),
-        speed: clamp(rounded(.2 + density * .5 + boost), LIMITS.swarm.speedMin, easy ? LIMITS.swarm.speedMaxEasy : LIMITS.swarm.speedMax),
+        speed: clamp(Math.max(rounded(.2 + density * .5 + boost), floor.swarmSpeed), LIMITS.swarm.speedMin, easy ? LIMITS.swarm.speedMaxEasy : LIMITS.swarm.speedMax),
         edgeBehavior: "bounce",
       };
     }
