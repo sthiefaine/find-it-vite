@@ -1,0 +1,14 @@
+Find It — nouvel animal « Mandrill » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a11c80-df27-7e71-ba2c-b389a705f3e7/exec-7f5f745f-9a70-4c4b-a4d1-76cf6150407e.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/mandrill.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/singe.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/chien-husky.png.
+
+Use case: stylized-concept. Asset type: transparent square animal head portrait for the Find It game.
+Input images: both provided images are STYLE REFERENCES ONLY. Match their warm matte semi-realistic fine texture, softly rounded expressive face and friendly modern game illustration. Do not copy their species anatomy.
+Scene/backdrop: genuinely transparent alpha, no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on front view, upright and centered. Absolutely no neck, shoulders, torso, full body or scenery. Entire silhouette including ears visible within a square, large face occupying almost all canvas with tiny clear margins, designed to remain recognizable at 45×45.
+Style: natural species-specific coloration, warm diffuse matte rendering, fine realistic fur, hair or skin texture, soft intrinsic volume and appealing rounded proportions. Expressive eyes in the biologically plausible color specified below, natural small reflections, no exaggerated glare. Slight friendly calm expression.
+Avoid: accessories, human hair, invented tuft, lettering, logo, watermark, outlines, harsh shadows, rim lighting, plastic gloss, white rectangle, checkerboard background, halo, extra animals.
+Output: a high resolution square PNG with true transparency and clean silhouette.
+Subject: A mandrill head with olive-brown fur framing its distinctive face, natural vivid blue ridged cheek panels either side of a red vertical nose stripe, pink-red rounded nostrils and a golden-yellow chin beard incorporated into head only. Calm golden amber irises, friendly closed mouth, no threatening teeth. Natural face colors not paint; no body or neck.

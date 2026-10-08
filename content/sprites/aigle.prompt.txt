@@ -1,0 +1,13 @@
+Find It — nouvel animal « Aigle » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a11c80-864f-73a1-aee3-02a1d0718e5d/exec-d6cdd4e2-e040-4705-8a5c-c931349ddd2f.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/aigle.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/coq.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/hibou.png.
+
+Use case: stylized-concept. Asset type: transparent square animal head sprite for the Find It game.
+Input images are STYLE REFERENCES ONLY. Match their warm matte semi-realistic fine texture, softly rounded expressive face and friendly modern game illustration. Do not copy their species, anatomy, feather pattern or colors.
+Scene/backdrop: genuinely transparent alpha, no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on front view, upright, symmetrical and centered. No neck, shoulders, torso, wings, legs, full body or scenery. Entire head silhouette visible within a square, large face occupying almost all canvas with tiny clear margins, recognizable at 45×45 pixels. Whole crest and beak inside frame. No portrait bust; bottom edge is the underside of the head.
+Style: warm diffuse matte rendering, fine natural fur/feather/skin/scales texture, soft intrinsic volume and appealing rounded proportions. Species-specific anatomy with expressive eyes in the natural iris color specified below, small natural reflections, calm friendly expression. No mammalian ears, muzzle or fur on a bird or reptile.
+Avoid: accessories, human hair, invented tufts, lettering, logo, watermark, outlines, harsh shadows, rim lighting, plastic gloss, white rectangle, checkerboard background, halo, any additional animal. Output a high resolution square PNG with real transparency and clean silhouette.
+Subject: Golden eagle head: rich dark brown feathers with golden-brown nape edge, angular brow feathers, powerful yellow cere and sharply hooked dark horn beak, luminous but natural golden-amber irises and black pupils. Friendly alert, not angry, unmistakable eagle face. No neck.

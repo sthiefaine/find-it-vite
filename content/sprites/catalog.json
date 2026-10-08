@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": 12,
+  "revision": 13,
   "themes": [
     {
       "id": "animaux",
@@ -2895,6 +2895,1413 @@
       "notes": "Portrait généré avec image_gen le 8 octobre 2026. PNG 512 × 512 transparent. Interprétation historique, sans garantie de ressemblance documentaire. Prompt : content/sprites/martin-luther-king.prompt.txt. Original conservé dans artifacts/sprite-originals/history-2026-10-08/.",
       "tags": [
         "droits-civiques"
+      ]
+    },
+    {
+      "id": "ara-bleu",
+      "themeId": "animaux",
+      "label": "Ara bleu",
+      "subject": "ara bleu",
+      "color": "blue",
+      "family": "bleu",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ara-bleu.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/ara-bleu.prompt.txt.",
+      "species": "ara",
+      "breed": "",
+      "dominantColors": [
+        "blue",
+        "yellow",
+        "white"
+      ],
+      "tags": [
+        "oiseaux",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "ara-rouge",
+      "themeId": "animaux",
+      "label": "Ara rouge",
+      "subject": "ara rouge",
+      "color": "red",
+      "family": "rouge",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ara-rouge.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/ara-rouge.prompt.txt.",
+      "species": "ara",
+      "breed": "",
+      "dominantColors": [
+        "red",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "oiseaux",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "perroquet-gris-du-gabon",
+      "themeId": "animaux",
+      "label": "Perroquet gris du Gabon",
+      "subject": "perroquet gris du gabon",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/perroquet-gris-du-gabon.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/perroquet-gris-du-gabon.prompt.txt.",
+      "species": "perroquet",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "oiseaux",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "perroquet-amazone",
+      "themeId": "animaux",
+      "label": "Perroquet amazone",
+      "subject": "perroquet amazone",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/perroquet-amazone.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/perroquet-amazone.prompt.txt.",
+      "species": "perroquet",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "yellow",
+        "blue"
+      ],
+      "tags": [
+        "oiseaux",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "cacatoes",
+      "themeId": "animaux",
+      "label": "Cacatoès",
+      "subject": "cacatoès",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/cacatoes.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/cacatoes.prompt.txt.",
+      "species": "cacatoes",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "yellow",
+        "black"
+      ],
+      "tags": [
+        "oiseaux",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "perruche-ondulee",
+      "themeId": "animaux",
+      "label": "Perruche ondulée",
+      "subject": "perruche ondulée",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/perruche-ondulee.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/perruche-ondulee.prompt.txt.",
+      "species": "perruche",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "yellow",
+        "black"
+      ],
+      "tags": [
+        "oiseaux",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "toucan",
+      "themeId": "animaux",
+      "label": "Toucan",
+      "subject": "toucan",
+      "color": "black",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/toucan.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/toucan.prompt.txt.",
+      "species": "toucan",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "white",
+        "orange"
+      ],
+      "tags": [
+        "oiseaux",
+        "sauvages",
+        "jungle",
+        "foret"
+      ]
+    },
+    {
+      "id": "flamant-rose",
+      "themeId": "animaux",
+      "label": "Flamant rose",
+      "subject": "flamant rose",
+      "color": "pink",
+      "family": "rose",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/flamant-rose.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/flamant-rose.prompt.txt.",
+      "species": "flamant",
+      "breed": "",
+      "dominantColors": [
+        "pink",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "oiseaux",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "pelican",
+      "themeId": "ocean",
+      "label": "Pélican",
+      "subject": "pélican",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/pelican.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/pelican.prompt.txt.",
+      "species": "pelican",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "orange",
+        "yellow"
+      ],
+      "tags": [
+        "oiseaux",
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "aigle",
+      "themeId": "animaux",
+      "label": "Aigle",
+      "subject": "aigle",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/aigle.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/aigle.prompt.txt.",
+      "species": "aigle",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "yellow",
+        "white"
+      ],
+      "tags": [
+        "oiseaux",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "macareux",
+      "themeId": "ocean",
+      "label": "Macareux",
+      "subject": "macareux",
+      "color": "black",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/macareux.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/macareux.prompt.txt.",
+      "species": "macareux",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "white",
+        "orange"
+      ],
+      "tags": [
+        "oiseaux",
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "paon",
+      "themeId": "ferme",
+      "label": "Paon",
+      "subject": "paon",
+      "color": "blue",
+      "family": "bleu",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/paon.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/paon.prompt.txt.",
+      "species": "paon",
+      "breed": "",
+      "dominantColors": [
+        "blue",
+        "green",
+        "black"
+      ],
+      "tags": [
+        "oiseaux",
+        "ferme"
+      ]
+    },
+    {
+      "id": "cameleon",
+      "themeId": "animaux",
+      "label": "Caméléon",
+      "subject": "caméléon",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/cameleon.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/cameleon.prompt.txt.",
+      "species": "cameleon",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "yellow",
+        "orange"
+      ],
+      "tags": [
+        "reptiles",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "iguane",
+      "themeId": "animaux",
+      "label": "Iguane",
+      "subject": "iguane",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/iguane.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/iguane.prompt.txt.",
+      "species": "iguane",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "grey",
+        "orange"
+      ],
+      "tags": [
+        "reptiles",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "gecko",
+      "themeId": "animaux",
+      "label": "Gecko",
+      "subject": "gecko",
+      "color": "yellow",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/gecko.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/gecko.prompt.txt.",
+      "species": "gecko",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "brown",
+        "orange"
+      ],
+      "tags": [
+        "reptiles",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "dragon-barbu",
+      "themeId": "animaux",
+      "label": "Dragon barbu",
+      "subject": "dragon barbu",
+      "color": "orange",
+      "family": "orange",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/dragon-barbu.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/dragon-barbu.prompt.txt.",
+      "species": "dragon-barbu",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "brown",
+        "yellow"
+      ],
+      "tags": [
+        "reptiles",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "axolotl",
+      "themeId": "animaux",
+      "label": "Axolotl",
+      "subject": "axolotl",
+      "color": "pink",
+      "family": "rose",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/axolotl.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/axolotl.prompt.txt.",
+      "species": "axolotl",
+      "breed": "",
+      "dominantColors": [
+        "pink",
+        "white",
+        "red"
+      ],
+      "tags": [
+        "amphibiens",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "grenouille",
+      "themeId": "animaux",
+      "label": "Grenouille",
+      "subject": "grenouille",
+      "color": "green",
+      "family": "vert",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/grenouille.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/grenouille.prompt.txt.",
+      "species": "grenouille",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "yellow",
+        "white"
+      ],
+      "tags": [
+        "amphibiens",
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "lion",
+      "themeId": "animaux",
+      "label": "Lion",
+      "subject": "lion",
+      "color": "yellow",
+      "family": "dore",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/lion.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/lion.prompt.txt.",
+      "species": "lion",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "savane",
+        "felins"
+      ]
+    },
+    {
+      "id": "hyene",
+      "themeId": "animaux",
+      "label": "Hyène",
+      "subject": "hyène",
+      "color": "brown",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/hyene.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/hyene.prompt.txt.",
+      "species": "hyene",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "suricate",
+      "themeId": "animaux",
+      "label": "Suricate",
+      "subject": "suricate",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/suricate.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/suricate.prompt.txt.",
+      "species": "suricate",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "phacochere",
+      "themeId": "animaux",
+      "label": "Phacochère",
+      "subject": "phacochère",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/phacochere.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/phacochere.prompt.txt.",
+      "species": "phacochere",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "buffle-africain",
+      "themeId": "animaux",
+      "label": "Buffle africain",
+      "subject": "buffle africain",
+      "color": "black",
+      "family": "noir",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/buffle-africain.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/buffle-africain.prompt.txt.",
+      "species": "buffle",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "gnou",
+      "themeId": "animaux",
+      "label": "Gnou",
+      "subject": "gnou",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/gnou.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/gnou.prompt.txt.",
+      "species": "gnou",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "gazelle",
+      "themeId": "animaux",
+      "label": "Gazelle",
+      "subject": "gazelle",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/gazelle.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/gazelle.prompt.txt.",
+      "species": "gazelle",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "oryx",
+      "themeId": "animaux",
+      "label": "Oryx",
+      "subject": "oryx",
+      "color": "white",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/oryx.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/oryx.prompt.txt.",
+      "species": "oryx",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "black",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "impala",
+      "themeId": "animaux",
+      "label": "Impala",
+      "subject": "impala",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/impala.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/impala.prompt.txt.",
+      "species": "impala",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "savane"
+      ]
+    },
+    {
+      "id": "serval",
+      "themeId": "animaux",
+      "label": "Serval",
+      "subject": "serval",
+      "color": "yellow",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/serval.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/serval.prompt.txt.",
+      "species": "serval",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "black",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "savane",
+        "felins"
+      ]
+    },
+    {
+      "id": "sanglier",
+      "themeId": "animaux",
+      "label": "Sanglier",
+      "subject": "sanglier",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/sanglier.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/sanglier.prompt.txt.",
+      "species": "sanglier",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "elan",
+      "themeId": "animaux",
+      "label": "Élan",
+      "subject": "élan",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/elan.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/elan.prompt.txt.",
+      "species": "elan",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "renne",
+      "themeId": "animaux",
+      "label": "Renne",
+      "subject": "renne",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/renne.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/renne.prompt.txt.",
+      "species": "renne",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "foret",
+        "polaires"
+      ]
+    },
+    {
+      "id": "mouflon",
+      "themeId": "animaux",
+      "label": "Mouflon",
+      "subject": "mouflon",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/mouflon.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/mouflon.prompt.txt.",
+      "species": "mouflon",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "marmotte",
+      "themeId": "animaux",
+      "label": "Marmotte",
+      "subject": "marmotte",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/marmotte.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/marmotte.prompt.txt.",
+      "species": "marmotte",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "foret",
+        "rongeurs"
+      ]
+    },
+    {
+      "id": "chauve-souris",
+      "themeId": "animaux",
+      "label": "Chauve-souris",
+      "subject": "chauve-souris",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chauve-souris.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/chauve-souris.prompt.txt.",
+      "species": "chauve-souris",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "glouton",
+      "themeId": "animaux",
+      "label": "Glouton",
+      "subject": "glouton",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/glouton.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/glouton.prompt.txt.",
+      "species": "glouton",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "foret",
+        "polaires"
+      ]
+    },
+    {
+      "id": "bison",
+      "themeId": "animaux",
+      "label": "Bison",
+      "subject": "bison",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/bison.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/bison.prompt.txt.",
+      "species": "bison",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "lievre",
+      "themeId": "animaux",
+      "label": "Lièvre",
+      "subject": "lièvre",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/lievre.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/lievre.prompt.txt.",
+      "species": "lievre",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "chevreuil",
+      "themeId": "animaux",
+      "label": "Chevreuil",
+      "subject": "chevreuil",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chevreuil.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/chevreuil.prompt.txt.",
+      "species": "chevreuil",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "foret"
+      ]
+    },
+    {
+      "id": "gorille",
+      "themeId": "animaux",
+      "label": "Gorille",
+      "subject": "gorille",
+      "color": "black",
+      "family": "noir",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/gorille.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/gorille.prompt.txt.",
+      "species": "gorille",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "grey"
+      ],
+      "tags": [
+        "jungle",
+        "sauvages",
+        "primates",
+        "foret"
+      ]
+    },
+    {
+      "id": "orang-outan",
+      "themeId": "animaux",
+      "label": "Orang-outan",
+      "subject": "orang-outan",
+      "color": "orange",
+      "family": "orange",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/orang-outan.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/orang-outan.prompt.txt.",
+      "species": "orang-outan",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "jungle",
+        "sauvages",
+        "primates",
+        "foret"
+      ]
+    },
+    {
+      "id": "lemurien",
+      "themeId": "animaux",
+      "label": "Lémurien",
+      "subject": "lémurien",
+      "color": "grey",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/lemurien.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/lemurien.prompt.txt.",
+      "species": "lemurien",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "jungle",
+        "sauvages",
+        "primates",
+        "foret"
+      ]
+    },
+    {
+      "id": "paresseux",
+      "themeId": "animaux",
+      "label": "Paresseux",
+      "subject": "paresseux",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/paresseux.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/paresseux.prompt.txt.",
+      "species": "paresseux",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey",
+        "white"
+      ],
+      "tags": [
+        "jungle",
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "tapir",
+      "themeId": "animaux",
+      "label": "Tapir",
+      "subject": "tapir",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/tapir.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/tapir.prompt.txt.",
+      "species": "tapir",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "black"
+      ],
+      "tags": [
+        "jungle",
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "tamanoir",
+      "themeId": "animaux",
+      "label": "Tamanoir",
+      "subject": "tamanoir",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/tamanoir.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/tamanoir.prompt.txt.",
+      "species": "tamanoir",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "brown",
+        "black"
+      ],
+      "tags": [
+        "jungle",
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "pangolin",
+      "themeId": "animaux",
+      "label": "Pangolin",
+      "subject": "pangolin",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/pangolin.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/pangolin.prompt.txt.",
+      "species": "pangolin",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "jungle",
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "okapi",
+      "themeId": "animaux",
+      "label": "Okapi",
+      "subject": "okapi",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/okapi.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/okapi.prompt.txt.",
+      "species": "okapi",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "jungle",
+        "foret",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "mandrill",
+      "themeId": "animaux",
+      "label": "Mandrill",
+      "subject": "mandrill",
+      "color": "blue",
+      "family": "bleu-rouge",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/mandrill.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/mandrill.prompt.txt.",
+      "species": "mandrill",
+      "breed": "",
+      "dominantColors": [
+        "blue",
+        "red",
+        "brown"
+      ],
+      "tags": [
+        "jungle",
+        "sauvages",
+        "primates",
+        "foret"
+      ]
+    },
+    {
+      "id": "tarsier",
+      "themeId": "animaux",
+      "label": "Tarsier",
+      "subject": "tarsier",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/tarsier.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/tarsier.prompt.txt.",
+      "species": "tarsier",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "jungle",
+        "sauvages",
+        "primates",
+        "foret"
+      ]
+    },
+    {
+      "id": "hamster",
+      "themeId": "animaux",
+      "label": "Hamster",
+      "subject": "hamster",
+      "color": "orange",
+      "family": "orange-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/hamster.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/hamster.prompt.txt.",
+      "species": "hamster",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "white",
+        "brown"
+      ],
+      "tags": [
+        "domestiques",
+        "rongeurs"
+      ]
+    },
+    {
+      "id": "cochon-inde",
+      "themeId": "animaux",
+      "label": "Cochon d’Inde",
+      "subject": "cochon d’inde",
+      "color": "brown",
+      "family": "tricolore",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/cochon-inde.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/cochon-inde.prompt.txt.",
+      "species": "cochon-inde",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "domestiques",
+        "rongeurs"
+      ]
+    },
+    {
+      "id": "furet",
+      "themeId": "animaux",
+      "label": "Furet",
+      "subject": "furet",
+      "color": "brown",
+      "family": "masque-brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/furet.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/furet.prompt.txt.",
+      "species": "furet",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "domestiques"
+      ]
+    },
+    {
+      "id": "chinchilla",
+      "themeId": "animaux",
+      "label": "Chinchilla",
+      "subject": "chinchilla",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chinchilla.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/chinchilla.prompt.txt.",
+      "species": "chinchilla",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white"
+      ],
+      "tags": [
+        "domestiques",
+        "rongeurs"
+      ]
+    },
+    {
+      "id": "gerbille",
+      "themeId": "animaux",
+      "label": "Gerbille",
+      "subject": "gerbille",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/gerbille.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/gerbille.prompt.txt.",
+      "species": "gerbille",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "domestiques",
+        "rongeurs"
+      ]
+    },
+    {
+      "id": "cheval-frison",
+      "themeId": "ferme",
+      "label": "Cheval frison",
+      "subject": "cheval frison",
+      "color": "black",
+      "family": "noir",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/cheval-frison.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/cheval-frison.prompt.txt.",
+      "species": "cheval",
+      "breed": "frison",
+      "dominantColors": [
+        "black"
+      ],
+      "tags": [
+        "ferme",
+        "domestiques"
+      ]
+    },
+    {
+      "id": "poisson-ange",
+      "themeId": "ocean",
+      "label": "Poisson-ange",
+      "subject": "poisson-ange",
+      "color": "blue",
+      "family": "bleu",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/poisson-ange.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/poisson-ange.prompt.txt.",
+      "species": "poisson",
+      "breed": "Empereur",
+      "dominantColors": [
+        "blue",
+        "yellow",
+        "black"
+      ],
+      "tags": [
+        "ocean",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "poisson-globe",
+      "themeId": "ocean",
+      "label": "Poisson-globe",
+      "subject": "poisson-globe",
+      "color": "yellow",
+      "family": "jaune",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/poisson-globe.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/poisson-globe.prompt.txt.",
+      "species": "poisson",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "ocean",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "hippocampe",
+      "themeId": "ocean",
+      "label": "Hippocampe",
+      "subject": "hippocampe",
+      "color": "yellow",
+      "family": "jaune",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/hippocampe.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/hippocampe.prompt.txt.",
+      "species": "hippocampe",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "orange",
+        "brown"
+      ],
+      "tags": [
+        "ocean",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "crabe",
+      "themeId": "ocean",
+      "label": "Crabe",
+      "subject": "crabe",
+      "color": "red",
+      "family": "rouge",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/crabe.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/crabe.prompt.txt.",
+      "species": "crabe",
+      "breed": "",
+      "dominantColors": [
+        "red",
+        "orange"
+      ],
+      "tags": [
+        "ocean",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "homard",
+      "themeId": "ocean",
+      "label": "Homard",
+      "subject": "homard",
+      "color": "blue",
+      "family": "bleu",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/homard.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/homard.prompt.txt.",
+      "species": "homard",
+      "breed": "",
+      "dominantColors": [
+        "blue",
+        "grey"
+      ],
+      "tags": [
+        "ocean",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "raie-manta",
+      "themeId": "ocean",
+      "label": "Raie manta",
+      "subject": "raie manta",
+      "color": "black",
+      "family": "noir-blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/raie-manta.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/raie-manta.prompt.txt.",
+      "species": "raie",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "white",
+        "grey"
+      ],
+      "tags": [
+        "ocean",
+        "sauvages"
+      ]
+    },
+    {
+      "id": "ours-polaire",
+      "themeId": "animaux",
+      "label": "Ours polaire",
+      "subject": "ours polaire",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ours-polaire.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/ours-polaire.prompt.txt.",
+      "species": "ours",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "polaires"
+      ]
+    },
+    {
+      "id": "renard-polaire",
+      "themeId": "animaux",
+      "label": "Renard polaire",
+      "subject": "renard polaire",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/renard-polaire.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/renard-polaire.prompt.txt.",
+      "species": "renard",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "canides",
+        "polaires"
+      ]
+    },
+    {
+      "id": "panthere-des-neiges",
+      "themeId": "animaux",
+      "label": "Panthère des neiges",
+      "subject": "panthère des neiges",
+      "color": "grey",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/panthere-des-neiges.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/panthere-des-neiges.prompt.txt.",
+      "species": "leopard",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "felins",
+        "polaires"
+      ]
+    },
+    {
+      "id": "narval",
+      "themeId": "ocean",
+      "label": "Narval",
+      "subject": "narval",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/narval.png",
+      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/narval.prompt.txt.",
+      "species": "narval",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "ocean",
+        "sauvages",
+        "polaires"
       ]
     }
   ]

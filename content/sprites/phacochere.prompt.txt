@@ -1,0 +1,7 @@
+Find It — nouvel animal « Phacochère » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a11c80-b132-71f1-b2bc-1bf90b1c0b9e/exec-7fa9c142-1f3b-49eb-8416-256db937314a.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/phacochere.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/rhinoceros.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/cochon.png.
+
+Create one friendly warthog head for an animal-finding game. Match only the soft warm matte semi-realistic texture and rounded expressive character of the attached reference images. Species: African warthog with slate brown-grey skin and fine bristles, wide pointed ears, four characteristic rounded facial wart pads, broad flat dark pig snout and two large natural ivory tusks curving upwards beside the cheeks. Natural warm brown eyes. Perfectly frontal, upright and centered head only. No neck, shoulders or body. Entire head, ears and tusks inside the square with narrow clear margins. Real transparent alpha background. No accessories, words, scenery or drawn checkerboard.

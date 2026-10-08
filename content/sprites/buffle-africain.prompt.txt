@@ -1,0 +1,14 @@
+Find It — nouvel animal « Buffle africain » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a11c80-b132-71f1-b2bc-1bf90b1c0b9e/exec-2ccb0b9d-a6a9-4965-8035-0200a3751f1a.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/buffle-africain.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/rhinoceros.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/vache.png.
+
+Use case: stylized-concept. Asset type: transparent square animal head sprite for the Find It game.
+Input images: STYLE REFERENCES ONLY. Match the warm matte semi-realistic fine fur texture, softly rounded expressive face and friendly modern game illustration. Do not copy the anatomy, coat or ears of reference animals.
+Scene/backdrop: genuine transparent alpha, absolutely no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on frontal view, upright and centered. No neck, shoulders, torso, body, legs, scenery, or extra animals. Entire silhouette including horns or antlers visible inside the square. Large head filling the square with small clear margins, recognizable at 45×45.
+Style: natural species coloration, warm diffuse matte rendering, fine realistic fur texture, soft intrinsic volume and appealing rounded proportions, calm friendly expression. Expressive anatomically natural eyes with the iris color stated below, modest catchlights and natural pupils.
+Avoid: accessories, human hair, invented tufts, clothing, text, logo, watermark, heavy outlines, harsh shadows, rim lighting, plastic gloss, white box, checkerboard, halo.
+Output: high resolution square PNG with true transparency and a clean silhouette.
+Subject: African Cape buffalo head with heavy charcoal black face, broad leathery black nose and very recognizable fused horn boss across forehead, symmetrical thick dark horns sweeping sideways then curving upwards. Broad drooping ears. Dark brown irises. Entire horns inside square.

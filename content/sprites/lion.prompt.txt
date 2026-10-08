@@ -1,0 +1,7 @@
+Find It — nouvel animal « Lion » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a11c80-b132-71f1-b2bc-1bf90b1c0b9e/exec-ccaf11e1-3b88-408d-806c-8515dd4262ad.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/lion.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/tigre.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/renard.png.
+
+Create exactly one friendly male lion head for a children's animal-finding game. Warm matte semi-realistic fine fur, rounded expressive face, straight-on front view, golden tawny face and full round brown-golden mane, small rounded ears, cream muzzle, black nose, natural amber eyes. Head only, no neck or body. Centered square, entire head and mane fit with small margins, recognizable at 45px. Real transparent alpha background. No accessories, text, shadows or scenery. The attached tiger and fox images are style references only: match the softness and texture, do not copy their anatomy or markings.

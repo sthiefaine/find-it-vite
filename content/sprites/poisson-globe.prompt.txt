@@ -1,0 +1,14 @@
+Find It — nouvel animal « Poisson-globe » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a119f8-2036-70f1-add8-324374bed460/exec-7b477f4b-c80b-44f6-ab2f-16e05025d2b4.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/poisson-globe.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/poulpe.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/dauphin.png.
+
+Use case: stylized-concept. Asset type: transparent square animal HEAD sprite for Find It.
+Input images: STYLE REFERENCES ONLY: match their warm matte semi-realistic fine texture, softly rounded expressive face and friendly modern game illustration. Do not copy the anatomy or coloration of the references.
+Scene/backdrop: genuinely transparent alpha, no background.
+Composition: EXACTLY ONE ANIMAL HEAD AND FACE ONLY, perfectly straight-on front view, upright and centered. NO neck, shoulders, torso, full body or scenery. Entire head silhouette visible within a square, large face occupying almost all canvas with small clear margins. Recognizable at 45×45 pixels. For marine animals crop to the face/head without displaying the entire animal.
+Style: natural species-specific coloration, soft diffuse matte volume, fine realistic texture, friendly calm expression. Expressive eyes with natural species-appropriate iris color and small highlights.
+Avoid: accessories, human hair, invented tuft, lettering, logo, watermark, outlines, harsh shadows, rim lighting, plastic gloss, white rectangle, drawn checkerboard, halo, additional animal, body or decorative props.
+Output: high-resolution square PNG with true transparency and clean silhouette.
+Subject: Round yellow-brown pufferfish FACE, head only, cream lower cheeks, small species-specific short rounded prickles on top and cheeks, dark brown spot pattern, two large dark brown eyes and tiny puckered mouth. Not an inflated full-body spherical fish; isolate the facial head area, no fins or tail.

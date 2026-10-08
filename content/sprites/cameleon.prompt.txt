@@ -1,0 +1,7 @@
+Find It — nouvel animal « Caméléon » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a11c80-864f-73a1-aee3-02a1d0718e5d/exec-0b5ac5ca-6bb1-4e78-8fb0-bd0e5ad589e1.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/cameleon.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/crocodile.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/tortue-marine.png.
+
+Create a friendly illustrated chameleon face for a matching game. A single green chameleon head, centered, exactly front-facing, with finely textured scales, small orange-gold eyes on the sides, a modest chameleon casque and a gentle smile. Warm soft matte semi-realistic rendering matching the supplied style references; retain chameleon anatomy. Head only, without a neck or body. Fit the entire head inside a square with a small transparent margin. Clean true transparent background, no text and no accessories.

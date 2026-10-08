@@ -1,0 +1,7 @@
+Find It — nouvel animal « Poisson-ange » — 8 octobre 2026
+Génération : image_gen intégré, transparent_background: true.
+Original généré : /Users/thief/.codex/generated_images/01a119f8-2036-70f1-add8-324374bed460/exec-5f699398-ea57-4f2f-abcb-103b46a41406.png
+Original conservé : artifacts/sprite-originals/animal-expansion-64-2026-10-08/poisson-ange.png
+Références de style : /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/poulpe.png, /Users/thief/.codex/worktrees/animals-expansion-64/find-it-vite/public/assets/images/characters/animals/dauphin.png.
+
+Use case: stylized-concept. A friendly adult emperor angelfish face portrait for an animal search game. A front-facing fish head only, large and centered within a square, no body or tail. Natural vivid blue face with a dark navy eye mask, yellow accents and pale blue small lips, orange-gold irises with dark round pupils. Gentle rounded proportions, warm matte semi-realistic fine scales, expressive natural eyes. Match the soft detailed matte rendering of the reference animal portraits, but use the correct fish anatomy and markings. Transparent background, clean complete silhouette, no lettering or props. Readable at 45 pixels.

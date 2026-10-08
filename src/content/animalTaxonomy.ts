@@ -21,6 +21,8 @@ export const ANIMAL_CATEGORIES = {
   ferme: "À la ferme", felins: "Félins", canides: "Canidés", oiseaux: "Oiseaux",
   reptiles: "Reptiles", sauvages: "Animaux sauvages", domestiques: "Animaux domestiques",
   foret: "Forêt", savane: "Savane", ocean: "Océan",
+  jungle: "Jungle", polaires: "Régions froides", rongeurs: "Rongeurs",
+  amphibiens: "Amphibiens", primates: "Primates",
 } as const;
 
 export const ANIMAL_SPECIES: Record<string, string> = {
@@ -38,6 +40,20 @@ export const ANIMAL_SPECIES: Record<string, string> = {
   tortue: "Tortue", requin: "Requin", poisson: "Poisson", poulpe: "Poulpe",
   manchot: "Manchot", beluga: "Béluga",
   rhinoceros: "Rhinocéros",
+  ara: "Ara", perroquet: "Perroquet", cacatoes: "Cacatoès", perruche: "Perruche",
+  toucan: "Toucan", flamant: "Flamant", pelican: "Pélican", aigle: "Aigle",
+  macareux: "Macareux", paon: "Paon", cameleon: "Caméléon", iguane: "Iguane",
+  gecko: "Gecko", "dragon-barbu": "Dragon barbu", axolotl: "Axolotl", grenouille: "Grenouille",
+  hyene: "Hyène", suricate: "Suricate", phacochere: "Phacochère", buffle: "Buffle",
+  gnou: "Gnou", gazelle: "Gazelle", oryx: "Oryx", impala: "Impala", serval: "Serval",
+  sanglier: "Sanglier", elan: "Élan", renne: "Renne", mouflon: "Mouflon",
+  marmotte: "Marmotte", "chauve-souris": "Chauve-souris", glouton: "Glouton",
+  bison: "Bison", lievre: "Lièvre", chevreuil: "Chevreuil",
+  gorille: "Gorille", "orang-outan": "Orang-outan", lemurien: "Lémurien",
+  paresseux: "Paresseux", tapir: "Tapir", tamanoir: "Tamanoir", pangolin: "Pangolin",
+  okapi: "Okapi", mandrill: "Mandrill", tarsier: "Tarsier", hamster: "Hamster",
+  "cochon-inde": "Cochon d’Inde", furet: "Furet", chinchilla: "Chinchilla", gerbille: "Gerbille",
+  hippocampe: "Hippocampe", crabe: "Crabe", homard: "Homard", raie: "Raie", narval: "Narval",
 };
 
 /** Creative starting points; adding a suggestion never adds a sprite to the game. */
@@ -51,7 +67,7 @@ export const BREED_SUGGESTIONS: Record<string, readonly string[]> = {
   chevre: ["Alpine", "Saanen", "Angora", "Chèvre naine"],
   poule: ["Soie", "Sussex", "Brahma", "Marans"],
   lapin: ["Bélier", "Angora", "Rex", "Nain"],
-  cheval: ["Shetland"],
+  cheval: ["Shetland", "Frison"],
   cochon: ["Kunekune"],
 };
 

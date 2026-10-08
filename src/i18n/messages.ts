@@ -1,6 +1,9 @@
+import { animalExpansionMessages } from "./animalExpansionMessages";
+
 // Columns follow LANGUAGES: fr, en, pt_BR, es, it, ru, ku, ckb, zh, de.
 // A pipe separates plural forms: one/other, or one/few/many for Russian.
 export const messages: Record<string, readonly [string, string, string, string, string, string, string, string, string, string]> = {
+  ...animalExpansionMessages,
   "Des figures de toutes les époques à retrouver.": ["Des figures de toutes les époques à retrouver.","Find figures from every era.","Encontre figuras de todas as épocas.","Encuentra figuras de todas las épocas.","Trova personaggi di ogni epoca.","Найди людей из разных эпох.","Kesayetiyên ji hemû serdeman bibîne.","کەسایەتییەکانی هەموو سەردەمەکان بدۆزەرەوە.","寻找各个时代的人物。","Finde Persönlichkeiten aus allen Epochen."],
   "Tous les portraits historiques sont disponibles dès le départ.": ["Tous les portraits historiques sont disponibles dès le départ.","All historical portraits are available from the start.","Todos os retratos históricos estão disponíveis desde o início.","Todos los retratos históricos están disponibles desde el principio.","Tutti i ritratti storici sono disponibili fin dall’inizio.","Все исторические портреты доступны с самого начала.","Hemû portreyên dîrokî ji destpêkê ve berdestin.","هەموو وێنە مێژووییەکان لە سەرەتاوە بەردەستن.","所有历史人物肖像从一开始就可用。","Alle historischen Porträts sind von Anfang an verfügbar."],
   "Touche un portrait pour découvrir son histoire.": ["Touche un portrait pour découvrir son histoire.","Tap a portrait to discover their story.","Toque em um retrato para descobrir sua história.","Toca un retrato para descubrir su historia.","Tocca un ritratto per scoprirne la storia.","Нажми на портрет, чтобы узнать историю человека.","Li portreyekê bixe da ku çîroka wî nas bikî.","دەست لە وێنەیەک بدە بۆ ناسینی مێژووی ژیانی.","点击肖像，了解人物故事。","Tippe auf ein Porträt, um seine Geschichte zu entdecken."],
