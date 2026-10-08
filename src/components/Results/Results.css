@@ -13,6 +13,8 @@
   overscroll-behavior: contain;
 }
 
+.results-goals { display: grid; gap: 8px; width: 100%; font-size: 13px; text-align: center; }
+
 .results-card {
   width: 100%;
   max-width: 380px;

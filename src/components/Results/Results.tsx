@@ -32,6 +32,9 @@ import {
 } from "./resultsHelpers";
 import { dailyShareText } from "../../game/modes";
 import { GameIcon } from "../Icons/GameIcon";
+import { CollectionGoal } from "../ProgressGoals/CollectionGoal";
+import { ContractSummary } from "../ProgressGoals/ContractProgress";
+import { ContractPicker } from "../ProgressGoals/ContractPicker";
 import "./Results.css";
 
 // Apparition des blocs les uns après les autres
@@ -321,6 +324,12 @@ export default function Results() {
           </motion.div>
         )}
 
+        <motion.div className="results-goals" variants={item}>
+          <strong>{tr("Étoiles gagnées : +{{count}}", { count: gameRecord.earnedStars })}</strong>
+          <ContractSummary run={gameRecord.contract} />
+          <CollectionGoal prompt />
+          <ContractPicker />
+        </motion.div>
         <motion.div className="results-actions" variants={item}>
           {mode === "daily" && (
             <motion.button

@@ -3,7 +3,7 @@ import { createRng } from "../engine/rng";
 import type { LevelSpec, Tier } from "../engine/types";
 
 // target null : la cible n'a rien (variante B, l'avis l'indique par un badge).
-export type AccessoryPlan = { target: AccessoryId | null; decoyChance: number };
+export type AccessoryPlan = { target: AccessoryId | null; decoyChance: number; similarChance?: number };
 
 export function readAccessoryPreview(search: string, development: boolean): AccessoryId | undefined {
   if (!development) return undefined;
@@ -14,7 +14,7 @@ export function readAccessoryPreview(search: string, development: boolean): Acce
 export function withAccessoryPreview(spec: LevelSpec, id: AccessoryId | undefined): LevelSpec {
   if (!id || spec.rule !== "classic" || spec.wanted.serie === "flags") return spec;
   // Une variante garde son plan : seule la tenue de la cible change, jamais son absence.
-  if (spec.crowdVariant) return spec.crowdVariant.dress === "bare" ? spec : { ...spec, accessories: { target: id, decoyChance: 1 } };
+  if (spec.crowdVariant) return spec.crowdVariant.dress === "bare" ? spec : { ...spec, accessories: { ...spec.accessories, target: id, decoyChance: 1 } };
   return { ...spec, accessories: { target: id, decoyChance: .6 } };
 }
 
@@ -53,12 +53,13 @@ function dressVariant<T extends Dressed>(spec: LevelSpec, crowd: T[], target: Ac
   const rng = createRng(spec.seed).fork("variant-crowd");
   const others = ACCESSORY_IDS.filter((id) => id !== target);
   const similar = target ? ACCESSORY_LOOKALIKES[target] : [];
+  const similarChance = spec.accessories?.similarChance ?? .4;
   const pickFor = (item: T): AccessoryId | undefined => {
     if (item.isWanted) return target ?? undefined;
     if (sameSpeciesAsWanted(spec, item)) {
       if (variant.dress === "single") return undefined;
       if (variant.dress === "bare") return rng.pick(ACCESSORY_IDS);
-      return similar.length && rng.chance(.4) ? rng.pick(similar) : rng.pick(others);
+      return similar.length && rng.chance(similarChance) ? rng.pick(similar) : rng.pick(others);
     }
     // Le sosie peut porter l'accessoire de l'avis : seule l'espèce le trahit.
     if (variant.dress === "single") return target && rng.chance(.5) ? target : undefined;

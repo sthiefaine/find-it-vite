@@ -17,6 +17,7 @@ import { stepInfo } from "../../game/adventureRun.ts";
 import StepToast from "../../components/StepToast/StepToast.tsx";
 import Seagulls from "../../components/Seagulls/Seagulls.tsx";
 import Foliage from "../../components/Foliage/Foliage.tsx";
+import { ContractProgress } from "../../components/ProgressGoals/ContractProgress";
 
 const renderGrid = (spec: LevelSpec) => {
   switch (spec.layout) {
@@ -67,6 +68,7 @@ const Game = () => {
       }
     >
       <GameHeader />
+      <ContractProgress />
       <div
         ref={boardRef}
         className={`boardWrap${hasFlashlight ? " boardWrap--flashlight" : ""}`}

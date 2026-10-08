@@ -11,6 +11,7 @@ import type { WorldId } from "../src/content/worlds";
 import { isWorldUnlocked, todayISO } from "../src/content/progress";
 import { entersNewPhase, globalStep, runSummary, stepInfo, stepStars } from "../src/game/adventureRun";
 import type { PhaseId, StepResult } from "../src/game/adventureRun";
+import { advanceContract, getContract, type ContractEvent, type ContractRun } from "../src/game/contracts";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -58,6 +59,8 @@ export type GameRecord = {
   newCharacters: CharacterDetails[]; // persos attrapés pour la 1re fois
   dailyDate: string | null;
   dailyBest: number;
+  earnedStars: number;
+  contract: ContractRun | null;
 };
 
 // Bilan d'une partie d'Aventure (continue)
@@ -120,6 +123,8 @@ type GameState = {
   levelShownAt: number | null;
   wantedFound: boolean; // le perso du niveau en cours a été trouvé
   gameRecord: GameRecord | null; // non nul une fois la partie enregistrée
+  contractRun: ContractRun | null;
+  runStars: number;
   foundIds: number[]; // cibles déjà trouvées dans le niveau en cours
   isDiscovery: boolean; // le niveau contient une mécanique jamais vue
   freshMechanics: string[]; // mécaniques nouvelles du niveau (vide hors découverte)
@@ -198,6 +203,8 @@ export const defaultInitState: GameState = {
   levelShownAt: null,
   wantedFound: false,
   gameRecord: null,
+  contractRun: null,
+  runStars: 0,
   foundIds: [],
   isDiscovery: false,
   freshMechanics: [],
@@ -234,6 +241,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null }) => {
     const step = mode === "adventure" && worldId ? globalStep(worldId, adventureLevel) : 1;
     const save = useSaveStore.getState().save;
+    const contract = getContract(save.goals.contract);
     set({
       runSeed,
       tier,
@@ -255,6 +263,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       stepToast: null,
       worldBanner: null,
       newCharacters: [],
+      runStars: 0,
+      contractRun: contract && !save.goals.completedContracts.includes(contract.id)
+        ? { id: contract.id, progress: 0, complete: false, bonus: 0 } : null,
     });
   },
   addPlayTime: (ms) => {
@@ -339,6 +350,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (levelDone && !wantedFound && currentSpec && currentSpec.rule !== "goldRush") {
       collect(currentSpec.wanted);
       countMissionStep();
+      updateContract({ type: "found", layout: currentSpec.layout, elapsedMs: levelShownAt === null ? null : Math.round(now() - levelShownAt) });
     }
     // « plus rapide » : temps pour finir un niveau, hors bonus
     // niveau réussi sans fermer la carte de découverte : mécaniques vues quand même
@@ -387,6 +399,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   recordMiss: () => {
     const { stats } = get();
     set({ stats: { ...stats, misses: stats.misses + 1 } });
+    updateContract({ type: "miss" });
   },
   // Une seule fois par partie
   submitGameResult: () => {
@@ -408,6 +421,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       newCharacters,
       dailyDate: null,
       dailyBest: 0,
+      earnedStars: get().runStars,
+      contract: get().contractRun,
     };
     if (mode === "adventure") {
       // les étoiles sont déjà enregistrées à chaque étape franchie
@@ -450,10 +465,20 @@ function collect(wanted: CharacterDetails) {
   const save = useSaveStore.getState();
   const before = save.save.collection[wanted.name] ?? 0;
   save.recordCollection(wanted.name);
+  useGameStore.setState({ runStars: useGameStore.getState().runStars + 1 });
   if (before > 0) return;
   const { newCharacters } = useGameStore.getState();
   if (!newCharacters.some((c) => c.name === wanted.name))
     useGameStore.setState({ newCharacters: [...newCharacters, wanted] });
+}
+
+function updateContract(event: ContractEvent) {
+  const current = useGameStore.getState();
+  if (!current.contractRun) return;
+  const next = advanceContract(current.contractRun, event);
+  if (next === current.contractRun) return;
+  if (next.complete) next.bonus = useSaveStore.getState().completeContract(next.id);
+  useGameStore.setState({ contractRun: next, runStars: current.runStars + next.bonus });
 }
 
 let toastKey = 0;

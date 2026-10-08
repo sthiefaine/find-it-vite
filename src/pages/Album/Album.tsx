@@ -1,5 +1,6 @@
 import { useTranslation } from "../../i18n";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { BookOpen, ChevronDown, HelpCircle, Sparkles, Star } from "lucide-react";
 import { useSaveStore } from "../../save/saveStore";
@@ -13,6 +14,7 @@ import { isPerson, PERSON_PRICE } from "../../content/personUnlocks";
 import { AlbumCollectionRail } from "./AlbumCollectionRail";
 import { AlbumCategoryRail } from "./AlbumCategoryRail";
 import { AlbumPortraitCard } from "./AlbumPortraitCard";
+import { CollectionGoal } from "../../components/ProgressGoals/CollectionGoal";
 import "../../components/Buttons/ui.css";
 import "./Album.css";
 
@@ -25,6 +27,8 @@ const Album = () => {
   const loaded = useSaveStore((s) => s.loaded);
   const readOnly = useSaveStore((s) => s.readOnly);
   const purchasePerson = useSaveStore((s) => s.purchasePerson);
+  const setPersonGoal = useSaveStore((s) => s.setPersonGoal);
+  const location = useLocation();
   const collection = save.collection;
   const [worldId, setWorldId] = useState(ALBUM_COLLECTIONS[0].id);
   const [picked, setPicked] = useState<Picked | null>(null);
@@ -45,6 +49,18 @@ const Album = () => {
   const worldCompletion = worldCount.total ? worldCount.caught / worldCount.total * 100 : 0;
   const collectionComplete = worldCount.caught === worldCount.total;
   const selectWorld = (id: string) => { setWorldId(id); setCategory(""); };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const requested = params.get("person");
+    const targetWorld = ALBUM_COLLECTIONS.find(world => world.characters.some(character => isPerson(character.name) && character.name === requested))
+      ?? ALBUM_COLLECTIONS.find(world => world.id === params.get("collection"));
+    if (!targetWorld) return;
+    setWorldId(targetWorld.id);
+    setCategory("");
+    const character = targetWorld.characters.find(character => character.name === requested);
+    setPicked(character ? { character } : null);
+  }, [location.key, location.search]);
 
   useEffect(() => {
     if (!picked) return;
@@ -96,6 +112,7 @@ const Album = () => {
           </div>
         </section>
 
+        <CollectionGoal />
         <div className="album-collections-heading">
           <h2>{tr("Collections")}</h2>
           <span className="album-wallet" aria-label={tr("{{count}} étoiles", { count: save.wallet.stars })}>
@@ -200,6 +217,11 @@ const Album = () => {
                   {tr("Débloquer pour {{price}} étoiles", { price: PERSON_PRICE })}
                 </button>
                 {missingStars > 0 && <span>{tr("Encore {{count}} étoiles à gagner", { count: missingStars })}</span>}
+                <button type="button" className="album-goal-toggle" disabled={!loaded || readOnly}
+                  aria-pressed={save.goals.person === picked.character.name}
+                  onClick={() => setPersonGoal(save.goals.person === picked.character.name ? null : picked.character.name)}>
+                  {tr(save.goals.person === picked.character.name ? "Retirer l’objectif" : "Choisir comme objectif")}
+                </button>
               </div>}
               {peopleCollection && !pickedLocked && <span className="album-available-label" role="status">{tr("Débloqué")}</span>}
               {picked.character.breed && <span>{tr(picked.character.breed)}</span>}

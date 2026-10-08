@@ -1,7 +1,7 @@
 // Variantes de foule : « tous pareils » et « deux espèces », combinées aux trois
 // plans d'accessoires (A : un seul porte l'accessoire, B : la cible n'a rien,
 // C : tout le monde est habillé). Logique pure et déterministe.
-import { ACCESSORIES } from "../content/accessories";
+import { ACCESSORIES, ACCESSORY_LOOKALIKES } from "../content/accessories";
 import { animalConfusionRisk, animalSimilarity } from "../engine/animalSimilarity";
 import { visualConfusionBudget } from "../engine/curve";
 import { createRng, hash32, weightedPick } from "../engine/rng";
@@ -37,6 +37,14 @@ export const EASY_VARIANT_DELAY = 10;
 export const variantUnlockedAt = (kind: CrowdVariantKind, tier: Tier) =>
   UNLOCK[kind] + (tier === "easy" ? EASY_VARIANT_DELAY : 0);
 
+// Les premières variantes apprennent à repérer une tenue. Après leur découverte,
+// Normal/Expert privilégient la comparaison des tenues et abandonnent l'indice isolé.
+export function variantWeight(kind: CrowdVariantKind, index: number, tier: Tier): number {
+  const intro = 1 + 2 * Math.max(0, 1 - (index - variantUnlockedAt(kind, tier)) / 10);
+  const advanced = tier === "easy" ? 0 : Math.min(1, Math.max(0, (index - 35) / 20));
+  return intro * (kind.endsWith("-single") ? 1 - advanced : kind.endsWith("-mixed") ? 1 + 2 * advanced : 1);
+}
+
 // Probabilité qu'un niveau éligible utilise une variante : elle monte avec le niveau.
 export function crowdVariantChance(index: number, tier: Tier): number {
   const first = variantUnlockedAt("same-single", tier);
@@ -68,7 +76,7 @@ export function crowdVariantAt(
   const candidates = group.filter((kind) => index >= variantUnlockedAt(kind, tier)
     && !((layout === "pile" || layout === "swarm") && kind.endsWith("-bare")));
   // Une variante toute neuve sort plus souvent pendant ses dix premiers niveaux.
-  return weightedPick(own, candidates.map((kind) => [kind, 1 + 2 * Math.max(0, 1 - (index - variantUnlockedAt(kind, tier)) / 10)] as const));
+  return weightedPick(own, candidates.map((kind) => [kind, variantWeight(kind, index, tier)] as const));
 }
 
 // Sosie de la cible autorisé à ce niveau (selon le budget de confusion), sinon l'animal le plus proche.
@@ -109,11 +117,14 @@ export function applyCrowdVariant(spec: LevelSpec, kind: CrowdVariantKind, pool:
     // caché par le voisin même quand les positions de départ sont sûres.
     if (params.movement === "wave") params.movement = "linear";
   }
+  const accessories = dress === "mixed" && tier !== "easy" && spec.index >= 55
+    ? ACCESSORIES.filter(accessory => ACCESSORY_LOOKALIKES[accessory.id].length > 0) : ACCESSORIES;
   return {
     ...spec,
     params,
     decoys: partner ? [spec.wanted, partner] : [spec.wanted],
     crowdVariant: { species, dress, ...(partner ? { partner: partner.name } : {}) },
-    accessories: { target: dress === "bare" ? null : rng.pick(ACCESSORIES).id, decoyChance: 1 },
+    accessories: { target: dress === "bare" ? null : rng.pick(accessories).id, decoyChance: 1,
+      similarChance: tier === "easy" ? .4 : Math.min(.8, .4 + Math.max(0, spec.index - 35) * .01) },
   };
 }

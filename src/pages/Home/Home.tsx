@@ -8,6 +8,8 @@ import { caughtCount } from "../Album/albumLogic";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { HomeAnimals } from "./HomeAnimals";
 import { HomePlayButton } from "./HomePlayButton";
+import { CollectionGoal } from "../../components/ProgressGoals/CollectionGoal";
+import { ContractPicker } from "../../components/ProgressGoals/ContractPicker";
 import "../../components/Buttons/ui.css";
 import "./Home.css";
 
@@ -59,6 +61,8 @@ const Home = () => {
           <Tile to="/album" icon={<GameIcon name="album" />} label={tr("Album")} sub={`${caught}/${total}`} color="purple" size="sm" />
           <Tile to="/options" icon={<GameIcon name="settings" />} label={tr("Options")} color="slate" size="sm" />
         </div>
+        <CollectionGoal prompt />
+        <ContractPicker />
       </main>
     </div>
   );

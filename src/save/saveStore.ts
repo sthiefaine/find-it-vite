@@ -5,6 +5,7 @@ import { getSaveVersion, migrate } from "./migrations";
 import type { StorageAdapter } from "./storage";
 import { platformStorage } from "../platform/storage";
 import { isPerson, isPersonUnlocked, PERSON_PRICE } from "../content/personUnlocks";
+import { getContract, type ContractId } from "../game/contracts";
 
 export type GameResult = {
   score: number;
@@ -36,6 +37,9 @@ type SaveActions = {
   recordStars: (worldId: string, level: number, stars: number) => void;
   recordCollection: (name: string, n?: number) => void;
   purchasePerson: (id: string) => PurchaseResult;
+  setPersonGoal: (id: string | null) => void;
+  selectContract: (id: ContractId | null) => void;
+  completeContract: (id: ContractId) => number;
   recordOnlineScore: (matchId: string, score: number) => void;
   recordDaily: (dateISO: string, score: number) => void;
   flush: () => Promise<void>;
@@ -51,7 +55,15 @@ export function applyPersonPurchase(save: Save, id: string): { save: Save; resul
   if (!isPerson(id)) return { save, result: "unknown-character" };
   if (isPersonUnlocked(save, id)) return { save, result: "already-unlocked" };
   if (save.wallet.stars < PERSON_PRICE) return { save, result: "not-enough-stars" };
-  return { result: "purchased", save: { ...save, wallet: { ...save.wallet, stars: save.wallet.stars - PERSON_PRICE }, purchasedPeople: [...save.purchasedPeople, id] } };
+  return { result: "purchased", save: { ...save, wallet: { ...save.wallet, stars: save.wallet.stars - PERSON_PRICE }, purchasedPeople: [...save.purchasedPeople, id],
+    goals: { ...save.goals, person: save.goals.person === id ? null : save.goals.person } } };
+}
+
+export function applyContractReward(save: Save, id: ContractId): Save {
+  const contract = getContract(id);
+  if (!contract || save.goals.contract !== id || save.goals.completedContracts.includes(id)) return save;
+  return { ...save, wallet: { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + contract.reward) },
+    goals: { ...save.goals, contract: null, completedContracts: [...save.goals.completedContracts, id] } };
 }
 
 export function applyOnlineScore(save: Save, matchId: string, score: number): Save {
@@ -208,6 +220,21 @@ export function createSaveStore(
         const purchase = applyPersonPurchase(get().save, id);
         update(purchase.save);
         return purchase.result;
+      },
+      setPersonGoal: (id) => {
+        if (!get().loaded || get().readOnly || (id !== null && (!isPerson(id) || isPersonUnlocked(get().save, id)))) return;
+        update({ ...get().save, goals: { ...get().save.goals, person: id } });
+      },
+      selectContract: (id) => {
+        if (!get().loaded || get().readOnly || (id !== null && (!getContract(id) || get().save.goals.completedContracts.includes(id)))) return;
+        update({ ...get().save, goals: { ...get().save.goals, contract: id } });
+      },
+      completeContract: (id) => {
+        if (!get().loaded || get().readOnly) return 0;
+        const previous = get().save;
+        const next = applyContractReward(previous, id);
+        update(next);
+        return next === previous ? 0 : getContract(id)!.reward;
       },
       recordOnlineScore: (matchId, score) => update(applyOnlineScore(get().save, matchId, score)),
       recordDaily: (dateISO, score) => update(applyDaily(get().save, dateISO, score)),

@@ -441,3 +441,21 @@ les captures et remet les portraits supplémentaires derrière leur achat.
 En ligne, seuls les personnages de départ et les achats communs aux deux joueurs
 sont utilisés. Les scores récompensés sont mémorisés pour éviter de créditer deux
 fois une partie après une reconnexion.
+
+La fiche d’un personnage encore verrouillé permet de le choisir comme objectif.
+L’accueil, l’album et les bilans de partie affichent alors le solde disponible
+sur ses 100 étoiles ; le lien ouvre sa fiche, l’achat reste volontaire.
+
+Six contrats facultatifs se choisissent sur l’accueil ou avant une partie Infini :
+5/10 portraits d’affilée sans erreur, 3/5 en moins de cinq secondes chacun, ou
+5/10 dans des grilles mobiles (défilements et essaims) pendant une partie solo.
+Leur progression repart de zéro à chaque partie. Chaque contrat rapporte une
+seule prime de 3 ou 5 étoiles, enregistrée immédiatement ; un contrat terminé
+ne peut plus verser sa prime. Les erreurs interrompent les séries de précision
+et de rapidité. Les salons restent des duels sans contrat.
+
+La sauvegarde v9 conserve le solde et les achats v8 et ajoute ces objectifs.
+En Normal/Expert, les variantes où la tenue suffit à repérer la cible diminuent
+entre les niveaux 35 et 55, puis cèdent la place aux variantes habillées ou à
+cible nue. Les tenues proches deviennent plus fréquentes et, après 55, les
+variantes habillées choisissent un accessoire ayant un sosie. Enfant reste inchangé.

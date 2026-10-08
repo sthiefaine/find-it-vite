@@ -13,6 +13,7 @@ import { invitationUrl, normalizeRoomCode, playerTimeSeconds, remainingSeconds }
 import type { PublicPlayer, MultiplayerTheme } from "../../multiplayer/protocol";
 import { useSaveStore } from "../../save/saveStore";
 import { MatchBoard } from "./MatchBoard";
+import { CollectionGoal } from "../../components/ProgressGoals/CollectionGoal";
 import "../../components/Buttons/ui.css";
 import "./Multiplayer.css";
 
@@ -253,6 +254,7 @@ export default function Multiplayer() {
         <p>{room.finishReason === "abandoned" ? tr("Le duel s’est arrêté après le départ d’un joueur.") : room.finishReason === "timeout" ? tr("Le chrono d’un joueur est arrivé à zéro.") : tr("Un joueur a épuisé ses trois vies.")}</p>
         <button type="button" className="mp-button mp-button--gold" onClick={() => { leave(); setFeedback(""); lastSequence.current = 0; setNotice(""); }}>{tr("Nouveau salon")}</button>
         <button type="button" className="mp-button" onClick={quit}>{tr("Accueil")}</button>
+        <CollectionGoal prompt />
       </section>}
 
       {readyAssetsError && <div className="mp-error" role="alert">{tr("Les images n’ont pas toutes chargé.")} <button type="button" className="mp-button mp-button--small" onClick={() => setAttempt(value => value + 1)}>{tr("Réessayer")}</button>
