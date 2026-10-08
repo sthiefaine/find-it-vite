@@ -9,9 +9,9 @@ import type { Mastery } from "../../content/progress";
 type AlbumSave = Pick<Save, "collection">;
 
 export const ALBUM_COLLECTIONS = [
-  ...WORLDS.map((world) => ({ ...world, alwaysAvailable: false })),
+  ...WORLDS.map((world) => ({ ...world, alwaysAvailable: false, allowColorFilter: true })),
   { id: "politique", name: "Politique française", emoji: "🏛️", characters: peoplePack,
-    background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: true },
+    background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: true, allowColorFilter: false },
 ];
 const albumCharacters = ALBUM_COLLECTIONS.flatMap((collection) => collection.characters);
 

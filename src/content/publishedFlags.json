@@ -1,0 +1,4773 @@
+[
+  {
+    "name": "flag-ad",
+    "label": "Andorre",
+    "imageSrc": "/assets/images/characters/flags/ad.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ad"
+    ],
+    "countryCode": "AD"
+  },
+  {
+    "name": "flag-ae",
+    "label": "Émirats arabes unis",
+    "imageSrc": "/assets/images/characters/flags/ae.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "green",
+      "red",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "ae"
+    ],
+    "countryCode": "AE"
+  },
+  {
+    "name": "flag-af",
+    "label": "Afghanistan",
+    "imageSrc": "/assets/images/characters/flags/af.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "white",
+      "black",
+      "grey"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "af"
+    ],
+    "countryCode": "AF"
+  },
+  {
+    "name": "flag-ag",
+    "label": "Antigua-et-Barbuda",
+    "imageSrc": "/assets/images/characters/flags/ag.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "black",
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "ag"
+    ],
+    "countryCode": "AG"
+  },
+  {
+    "name": "flag-ai",
+    "label": "Anguilla",
+    "imageSrc": "/assets/images/characters/flags/ai.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "ai"
+    ],
+    "countryCode": "AI"
+  },
+  {
+    "name": "flag-al",
+    "label": "Albanie",
+    "imageSrc": "/assets/images/characters/flags/al.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "red",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "al"
+    ],
+    "countryCode": "AL"
+  },
+  {
+    "name": "flag-am",
+    "label": "Arménie",
+    "imageSrc": "/assets/images/characters/flags/am.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "orange",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "am"
+    ],
+    "countryCode": "AM"
+  },
+  {
+    "name": "flag-ao",
+    "label": "Angola",
+    "imageSrc": "/assets/images/characters/flags/ao.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "ao"
+    ],
+    "countryCode": "AO"
+  },
+  {
+    "name": "flag-aq",
+    "label": "Antarctique",
+    "imageSrc": "/assets/images/characters/flags/aq.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "aq"
+    ],
+    "countryCode": "AQ"
+  },
+  {
+    "name": "flag-ar",
+    "label": "Argentine",
+    "imageSrc": "/assets/images/characters/flags/ar.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ar"
+    ],
+    "countryCode": "AR"
+  },
+  {
+    "name": "flag-as",
+    "label": "Samoa américaines",
+    "imageSrc": "/assets/images/characters/flags/as.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "as"
+    ],
+    "countryCode": "AS"
+  },
+  {
+    "name": "flag-at",
+    "label": "Autriche",
+    "imageSrc": "/assets/images/characters/flags/at.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "at"
+    ],
+    "countryCode": "AT"
+  },
+  {
+    "name": "flag-au",
+    "label": "Australie",
+    "imageSrc": "/assets/images/characters/flags/au.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "au"
+    ],
+    "countryCode": "AU"
+  },
+  {
+    "name": "flag-aw",
+    "label": "Aruba",
+    "imageSrc": "/assets/images/characters/flags/aw.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "aw"
+    ],
+    "countryCode": "AW"
+  },
+  {
+    "name": "flag-ax",
+    "label": "Îles Åland",
+    "imageSrc": "/assets/images/characters/flags/ax.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "blue",
+      "yellow",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "ax"
+    ],
+    "countryCode": "AX"
+  },
+  {
+    "name": "flag-az",
+    "label": "Azerbaïdjan",
+    "imageSrc": "/assets/images/characters/flags/az.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "az"
+    ],
+    "countryCode": "AZ"
+  },
+  {
+    "name": "flag-ba",
+    "label": "Bosnie-Herzégovine",
+    "imageSrc": "/assets/images/characters/flags/ba.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "blue",
+      "yellow",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "ba"
+    ],
+    "countryCode": "BA"
+  },
+  {
+    "name": "flag-bb",
+    "label": "Barbade",
+    "imageSrc": "/assets/images/characters/flags/bb.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "blue",
+      "yellow",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "bb"
+    ],
+    "countryCode": "BB"
+  },
+  {
+    "name": "flag-bd",
+    "label": "Bangladesh",
+    "imageSrc": "/assets/images/characters/flags/bd.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-disque",
+    "dominantColors": [
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "disque",
+      "bd"
+    ],
+    "countryCode": "BD"
+  },
+  {
+    "name": "flag-be",
+    "label": "Belgique",
+    "imageSrc": "/assets/images/characters/flags/be.png",
+    "serie": "flags",
+    "color": "black",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "black",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "be"
+    ],
+    "countryCode": "BE"
+  },
+  {
+    "name": "flag-bf",
+    "label": "Burkina Faso",
+    "imageSrc": "/assets/images/characters/flags/bf.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "bf"
+    ],
+    "countryCode": "BF"
+  },
+  {
+    "name": "flag-bg",
+    "label": "Bulgarie",
+    "imageSrc": "/assets/images/characters/flags/bg.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "green",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "bg"
+    ],
+    "countryCode": "BG"
+  },
+  {
+    "name": "flag-bh",
+    "label": "Bahreïn",
+    "imageSrc": "/assets/images/characters/flags/bh.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "bh"
+    ],
+    "countryCode": "BH"
+  },
+  {
+    "name": "flag-bi",
+    "label": "Burundi",
+    "imageSrc": "/assets/images/characters/flags/bi.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "green",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "bi"
+    ],
+    "countryCode": "BI"
+  },
+  {
+    "name": "flag-bj",
+    "label": "Bénin",
+    "imageSrc": "/assets/images/characters/flags/bj.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "bj"
+    ],
+    "countryCode": "BJ"
+  },
+  {
+    "name": "flag-bl",
+    "label": "Saint-Barthélemy",
+    "imageSrc": "/assets/images/characters/flags/bl.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "bl"
+    ],
+    "countryCode": "BL",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-bm",
+    "label": "Bermudes",
+    "imageSrc": "/assets/images/characters/flags/bm.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "bm"
+    ],
+    "countryCode": "BM"
+  },
+  {
+    "name": "flag-bn",
+    "label": "Brunei",
+    "imageSrc": "/assets/images/characters/flags/bn.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "yellow",
+      "white",
+      "black",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "bn"
+    ],
+    "countryCode": "BN"
+  },
+  {
+    "name": "flag-bo",
+    "label": "Bolivie",
+    "imageSrc": "/assets/images/characters/flags/bo.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "bo"
+    ],
+    "countryCode": "BO"
+  },
+  {
+    "name": "flag-bq",
+    "label": "Bonaire, Saint-Eustache et Saba",
+    "imageSrc": "/assets/images/characters/flags/bq.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "white",
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "bq"
+    ],
+    "countryCode": "BQ",
+    "duplicateOf": "flag-nl"
+  },
+  {
+    "name": "flag-br",
+    "label": "Brésil",
+    "imageSrc": "/assets/images/characters/flags/br.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "br"
+    ],
+    "countryCode": "BR"
+  },
+  {
+    "name": "flag-bs",
+    "label": "Bahamas",
+    "imageSrc": "/assets/images/characters/flags/bs.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "blue",
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "bs"
+    ],
+    "countryCode": "BS"
+  },
+  {
+    "name": "flag-bt",
+    "label": "Bhoutan",
+    "imageSrc": "/assets/images/characters/flags/bt.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "yellow",
+      "red",
+      "white",
+      "grey"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "bt"
+    ],
+    "countryCode": "BT"
+  },
+  {
+    "name": "flag-bv",
+    "label": "Île Bouvet",
+    "imageSrc": "/assets/images/characters/flags/bv.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "bv"
+    ],
+    "countryCode": "BV",
+    "duplicateOf": "flag-no"
+  },
+  {
+    "name": "flag-bw",
+    "label": "Botswana",
+    "imageSrc": "/assets/images/characters/flags/bw.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "blue",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "bw"
+    ],
+    "countryCode": "BW"
+  },
+  {
+    "name": "flag-by",
+    "label": "Biélorussie",
+    "imageSrc": "/assets/images/characters/flags/by.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "by"
+    ],
+    "countryCode": "BY"
+  },
+  {
+    "name": "flag-bz",
+    "label": "Belize",
+    "imageSrc": "/assets/images/characters/flags/bz.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "bz"
+    ],
+    "countryCode": "BZ"
+  },
+  {
+    "name": "flag-ca",
+    "label": "Canada",
+    "imageSrc": "/assets/images/characters/flags/ca.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "ca"
+    ],
+    "countryCode": "CA"
+  },
+  {
+    "name": "flag-cc",
+    "label": "Îles Cocos",
+    "imageSrc": "/assets/images/characters/flags/cc.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "cc"
+    ],
+    "countryCode": "CC"
+  },
+  {
+    "name": "flag-cd",
+    "label": "République démocratique du Congo",
+    "imageSrc": "/assets/images/characters/flags/cd.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "blue",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "cd"
+    ],
+    "countryCode": "CD"
+  },
+  {
+    "name": "flag-cf",
+    "label": "République centrafricaine",
+    "imageSrc": "/assets/images/characters/flags/cf.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "yellow",
+      "green",
+      "white",
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "cf"
+    ],
+    "countryCode": "CF"
+  },
+  {
+    "name": "flag-cg",
+    "label": "République du Congo",
+    "imageSrc": "/assets/images/characters/flags/cg.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "cg"
+    ],
+    "countryCode": "CG"
+  },
+  {
+    "name": "flag-ch",
+    "label": "Suisse",
+    "imageSrc": "/assets/images/characters/flags/ch.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-centree",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-centree",
+      "ch"
+    ],
+    "countryCode": "CH"
+  },
+  {
+    "name": "flag-ci",
+    "label": "Côte d’Ivoire",
+    "imageSrc": "/assets/images/characters/flags/ci.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "green",
+      "orange",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "ci"
+    ],
+    "countryCode": "CI"
+  },
+  {
+    "name": "flag-ck",
+    "label": "Îles Cook",
+    "imageSrc": "/assets/images/characters/flags/ck.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "ck"
+    ],
+    "countryCode": "CK"
+  },
+  {
+    "name": "flag-cl",
+    "label": "Chili",
+    "imageSrc": "/assets/images/characters/flags/cl.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "cl"
+    ],
+    "countryCode": "CL"
+  },
+  {
+    "name": "flag-cm",
+    "label": "Cameroun",
+    "imageSrc": "/assets/images/characters/flags/cm.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "yellow",
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "cm"
+    ],
+    "countryCode": "CM"
+  },
+  {
+    "name": "flag-cn",
+    "label": "Chine",
+    "imageSrc": "/assets/images/characters/flags/cn.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "cn"
+    ],
+    "countryCode": "CN"
+  },
+  {
+    "name": "flag-co",
+    "label": "Colombie",
+    "imageSrc": "/assets/images/characters/flags/co.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "yellow",
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "co"
+    ],
+    "countryCode": "CO"
+  },
+  {
+    "name": "flag-cr",
+    "label": "Costa Rica",
+    "imageSrc": "/assets/images/characters/flags/cr.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "cr"
+    ],
+    "countryCode": "CR"
+  },
+  {
+    "name": "flag-cu",
+    "label": "Cuba",
+    "imageSrc": "/assets/images/characters/flags/cu.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "cu"
+    ],
+    "countryCode": "CU"
+  },
+  {
+    "name": "flag-cv",
+    "label": "Cap-Vert",
+    "imageSrc": "/assets/images/characters/flags/cv.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-bandes-etoiles",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-bandes-etoiles",
+      "cv"
+    ],
+    "countryCode": "CV"
+  },
+  {
+    "name": "flag-cw",
+    "label": "Curaçao",
+    "imageSrc": "/assets/images/characters/flags/cw.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "cw"
+    ],
+    "countryCode": "CW"
+  },
+  {
+    "name": "flag-cx",
+    "label": "Île Christmas",
+    "imageSrc": "/assets/images/characters/flags/cx.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "blue",
+      "green",
+      "orange"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "cx"
+    ],
+    "countryCode": "CX"
+  },
+  {
+    "name": "flag-cy",
+    "label": "Chypre",
+    "imageSrc": "/assets/images/characters/flags/cy.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "white",
+      "orange"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "cy"
+    ],
+    "countryCode": "CY"
+  },
+  {
+    "name": "flag-cz",
+    "label": "Tchéquie",
+    "imageSrc": "/assets/images/characters/flags/cz.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "cz"
+    ],
+    "countryCode": "CZ"
+  },
+  {
+    "name": "flag-de",
+    "label": "Allemagne",
+    "imageSrc": "/assets/images/characters/flags/de.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "de"
+    ],
+    "countryCode": "DE"
+  },
+  {
+    "name": "flag-dj",
+    "label": "Djibouti",
+    "imageSrc": "/assets/images/characters/flags/dj.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "dj"
+    ],
+    "countryCode": "DJ"
+  },
+  {
+    "name": "flag-dk",
+    "label": "Danemark",
+    "imageSrc": "/assets/images/characters/flags/dk.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "dk"
+    ],
+    "countryCode": "DK"
+  },
+  {
+    "name": "flag-dm",
+    "label": "Dominique",
+    "imageSrc": "/assets/images/characters/flags/dm.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "white",
+      "black",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "dm"
+    ],
+    "countryCode": "DM"
+  },
+  {
+    "name": "flag-do",
+    "label": "République dominicaine",
+    "imageSrc": "/assets/images/characters/flags/do.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-centree",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-centree",
+      "do"
+    ],
+    "countryCode": "DO"
+  },
+  {
+    "name": "flag-dz",
+    "label": "Algérie",
+    "imageSrc": "/assets/images/characters/flags/dz.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-croissant",
+    "dominantColors": [
+      "white",
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "croissant",
+      "dz"
+    ],
+    "countryCode": "DZ"
+  },
+  {
+    "name": "flag-ec",
+    "label": "Équateur",
+    "imageSrc": "/assets/images/characters/flags/ec.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "yellow",
+      "red",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ec"
+    ],
+    "countryCode": "EC"
+  },
+  {
+    "name": "flag-ee",
+    "label": "Estonie",
+    "imageSrc": "/assets/images/characters/flags/ee.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "ee"
+    ],
+    "countryCode": "EE"
+  },
+  {
+    "name": "flag-eg",
+    "label": "Égypte",
+    "imageSrc": "/assets/images/characters/flags/eg.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "black",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "eg"
+    ],
+    "countryCode": "EG"
+  },
+  {
+    "name": "flag-eh",
+    "label": "Sahara occidental",
+    "imageSrc": "/assets/images/characters/flags/eh.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "black",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "eh"
+    ],
+    "countryCode": "EH"
+  },
+  {
+    "name": "flag-er",
+    "label": "Érythrée",
+    "imageSrc": "/assets/images/characters/flags/er.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "blue",
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "er"
+    ],
+    "countryCode": "ER"
+  },
+  {
+    "name": "flag-es",
+    "label": "Espagne",
+    "imageSrc": "/assets/images/characters/flags/es.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "es"
+    ],
+    "countryCode": "ES"
+  },
+  {
+    "name": "flag-et",
+    "label": "Éthiopie",
+    "imageSrc": "/assets/images/characters/flags/et.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "et"
+    ],
+    "countryCode": "ET"
+  },
+  {
+    "name": "flag-fi",
+    "label": "Finlande",
+    "imageSrc": "/assets/images/characters/flags/fi.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "fi"
+    ],
+    "countryCode": "FI"
+  },
+  {
+    "name": "flag-fj",
+    "label": "Fidji",
+    "imageSrc": "/assets/images/characters/flags/fj.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "fj"
+    ],
+    "countryCode": "FJ"
+  },
+  {
+    "name": "flag-fk",
+    "label": "Îles Malouines",
+    "imageSrc": "/assets/images/characters/flags/fk.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "fk"
+    ],
+    "countryCode": "FK"
+  },
+  {
+    "name": "flag-fm",
+    "label": "Micronésie",
+    "imageSrc": "/assets/images/characters/flags/fm.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "fm"
+    ],
+    "countryCode": "FM"
+  },
+  {
+    "name": "flag-fo",
+    "label": "Îles Féroé",
+    "imageSrc": "/assets/images/characters/flags/fo.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "white",
+      "red",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "fo"
+    ],
+    "countryCode": "FO"
+  },
+  {
+    "name": "flag-fr",
+    "label": "France",
+    "imageSrc": "/assets/images/characters/flags/fr.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "fr"
+    ],
+    "countryCode": "FR"
+  },
+  {
+    "name": "flag-ga",
+    "label": "Gabon",
+    "imageSrc": "/assets/images/characters/flags/ga.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "ga"
+    ],
+    "countryCode": "GA"
+  },
+  {
+    "name": "flag-gb",
+    "label": "Royaume-Uni",
+    "imageSrc": "/assets/images/characters/flags/gb.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-diagonale",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-diagonale",
+      "gb"
+    ],
+    "countryCode": "GB"
+  },
+  {
+    "name": "flag-gd",
+    "label": "Grenade",
+    "imageSrc": "/assets/images/characters/flags/gd.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "yellow",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "gd"
+    ],
+    "countryCode": "GD"
+  },
+  {
+    "name": "flag-ge",
+    "label": "Géorgie",
+    "imageSrc": "/assets/images/characters/flags/ge.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-croix-centree",
+    "dominantColors": [
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-centree",
+      "ge"
+    ],
+    "countryCode": "GE"
+  },
+  {
+    "name": "flag-gf",
+    "label": "Guyane française",
+    "imageSrc": "/assets/images/characters/flags/gf.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "gf"
+    ],
+    "countryCode": "GF",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-gg",
+    "label": "Guernesey",
+    "imageSrc": "/assets/images/characters/flags/gg.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-croix-centree",
+    "dominantColors": [
+      "white",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-centree",
+      "gg"
+    ],
+    "countryCode": "GG"
+  },
+  {
+    "name": "flag-gh",
+    "label": "Ghana",
+    "imageSrc": "/assets/images/characters/flags/gh.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "gh"
+    ],
+    "countryCode": "GH"
+  },
+  {
+    "name": "flag-gi",
+    "label": "Gibraltar",
+    "imageSrc": "/assets/images/characters/flags/gi.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "white",
+      "red",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "gi"
+    ],
+    "countryCode": "GI"
+  },
+  {
+    "name": "flag-gl",
+    "label": "Groenland",
+    "imageSrc": "/assets/images/characters/flags/gl.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-disque",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "disque",
+      "gl"
+    ],
+    "countryCode": "GL"
+  },
+  {
+    "name": "flag-gm",
+    "label": "Gambie",
+    "imageSrc": "/assets/images/characters/flags/gm.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "green",
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "gm"
+    ],
+    "countryCode": "GM"
+  },
+  {
+    "name": "flag-gn",
+    "label": "Guinée",
+    "imageSrc": "/assets/images/characters/flags/gn.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "gn"
+    ],
+    "countryCode": "GN"
+  },
+  {
+    "name": "flag-gp",
+    "label": "Guadeloupe",
+    "imageSrc": "/assets/images/characters/flags/gp.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "gp"
+    ],
+    "countryCode": "GP",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-gq",
+    "label": "Guinée équatoriale",
+    "imageSrc": "/assets/images/characters/flags/gq.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "gq"
+    ],
+    "countryCode": "GQ"
+  },
+  {
+    "name": "flag-gr",
+    "label": "Grèce",
+    "imageSrc": "/assets/images/characters/flags/gr.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-croix-centree",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-centree",
+      "gr"
+    ],
+    "countryCode": "GR"
+  },
+  {
+    "name": "flag-gs",
+    "label": "Géorgie du Sud-et-les Îles Sandwich du Sud",
+    "imageSrc": "/assets/images/characters/flags/gs.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "gs"
+    ],
+    "countryCode": "GS"
+  },
+  {
+    "name": "flag-gt",
+    "label": "Guatemala",
+    "imageSrc": "/assets/images/characters/flags/gt.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "gt"
+    ],
+    "countryCode": "GT"
+  },
+  {
+    "name": "flag-gu",
+    "label": "Guam",
+    "imageSrc": "/assets/images/characters/flags/gu.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "gu"
+    ],
+    "countryCode": "GU"
+  },
+  {
+    "name": "flag-gw",
+    "label": "Guinée-Bissau",
+    "imageSrc": "/assets/images/characters/flags/gw.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "gw"
+    ],
+    "countryCode": "GW"
+  },
+  {
+    "name": "flag-gy",
+    "label": "Guyana",
+    "imageSrc": "/assets/images/characters/flags/gy.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "gy"
+    ],
+    "countryCode": "GY"
+  },
+  {
+    "name": "flag-hk",
+    "label": "R.A.S. chinoise de Hong Kong",
+    "imageSrc": "/assets/images/characters/flags/hk.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "hk"
+    ],
+    "countryCode": "HK"
+  },
+  {
+    "name": "flag-hm",
+    "label": "Îles Heard-et-MacDonald",
+    "imageSrc": "/assets/images/characters/flags/hm.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "hm"
+    ],
+    "countryCode": "HM",
+    "duplicateOf": "flag-au"
+  },
+  {
+    "name": "flag-hn",
+    "label": "Honduras",
+    "imageSrc": "/assets/images/characters/flags/hn.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "hn"
+    ],
+    "countryCode": "HN"
+  },
+  {
+    "name": "flag-hr",
+    "label": "Croatie",
+    "imageSrc": "/assets/images/characters/flags/hr.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "hr"
+    ],
+    "countryCode": "HR"
+  },
+  {
+    "name": "flag-ht",
+    "label": "Haïti",
+    "imageSrc": "/assets/images/characters/flags/ht.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ht"
+    ],
+    "countryCode": "HT"
+  },
+  {
+    "name": "flag-hu",
+    "label": "Hongrie",
+    "imageSrc": "/assets/images/characters/flags/hu.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "green",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "hu"
+    ],
+    "countryCode": "HU"
+  },
+  {
+    "name": "flag-id",
+    "label": "Indonésie",
+    "imageSrc": "/assets/images/characters/flags/id.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "id"
+    ],
+    "countryCode": "ID"
+  },
+  {
+    "name": "flag-ie",
+    "label": "Irlande",
+    "imageSrc": "/assets/images/characters/flags/ie.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "green",
+      "orange",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "ie"
+    ],
+    "countryCode": "IE"
+  },
+  {
+    "name": "flag-il",
+    "label": "Israël",
+    "imageSrc": "/assets/images/characters/flags/il.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "il"
+    ],
+    "countryCode": "IL"
+  },
+  {
+    "name": "flag-im",
+    "label": "Île de Man",
+    "imageSrc": "/assets/images/characters/flags/im.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "im"
+    ],
+    "countryCode": "IM"
+  },
+  {
+    "name": "flag-in",
+    "label": "Inde",
+    "imageSrc": "/assets/images/characters/flags/in.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "green",
+      "orange",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "in"
+    ],
+    "countryCode": "IN"
+  },
+  {
+    "name": "flag-io",
+    "label": "Territoire britannique de l’océan Indien",
+    "imageSrc": "/assets/images/characters/flags/io.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "io"
+    ],
+    "countryCode": "IO"
+  },
+  {
+    "name": "flag-iq",
+    "label": "Irak",
+    "imageSrc": "/assets/images/characters/flags/iq.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "black",
+      "white",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "iq"
+    ],
+    "countryCode": "IQ"
+  },
+  {
+    "name": "flag-ir",
+    "label": "Iran",
+    "imageSrc": "/assets/images/characters/flags/ir.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "white",
+      "red",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ir"
+    ],
+    "countryCode": "IR"
+  },
+  {
+    "name": "flag-is",
+    "label": "Islande",
+    "imageSrc": "/assets/images/characters/flags/is.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "is"
+    ],
+    "countryCode": "IS"
+  },
+  {
+    "name": "flag-it",
+    "label": "Italie",
+    "imageSrc": "/assets/images/characters/flags/it.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "green",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "it"
+    ],
+    "countryCode": "IT"
+  },
+  {
+    "name": "flag-je",
+    "label": "Jersey",
+    "imageSrc": "/assets/images/characters/flags/je.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-croix-diagonale",
+    "dominantColors": [
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-diagonale",
+      "je"
+    ],
+    "countryCode": "JE"
+  },
+  {
+    "name": "flag-jm",
+    "label": "Jamaïque",
+    "imageSrc": "/assets/images/characters/flags/jm.png",
+    "serie": "flags",
+    "color": "orange",
+    "family": "flags-croix-diagonale",
+    "dominantColors": [
+      "orange",
+      "green",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-diagonale",
+      "jm"
+    ],
+    "countryCode": "JM"
+  },
+  {
+    "name": "flag-jo",
+    "label": "Jordanie",
+    "imageSrc": "/assets/images/characters/flags/jo.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "black",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "jo"
+    ],
+    "countryCode": "JO"
+  },
+  {
+    "name": "flag-jp",
+    "label": "Japon",
+    "imageSrc": "/assets/images/characters/flags/jp.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-disque",
+    "dominantColors": [
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "disque",
+      "jp"
+    ],
+    "countryCode": "JP"
+  },
+  {
+    "name": "flag-ke",
+    "label": "Kenya",
+    "imageSrc": "/assets/images/characters/flags/ke.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "black",
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "ke"
+    ],
+    "countryCode": "KE"
+  },
+  {
+    "name": "flag-kg",
+    "label": "Kirghizstan",
+    "imageSrc": "/assets/images/characters/flags/kg.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "kg"
+    ],
+    "countryCode": "KG"
+  },
+  {
+    "name": "flag-kh",
+    "label": "Cambodge",
+    "imageSrc": "/assets/images/characters/flags/kh.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white",
+      "grey"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "kh"
+    ],
+    "countryCode": "KH"
+  },
+  {
+    "name": "flag-ki",
+    "label": "Kiribati",
+    "imageSrc": "/assets/images/characters/flags/ki.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "ki"
+    ],
+    "countryCode": "KI"
+  },
+  {
+    "name": "flag-km",
+    "label": "Comores",
+    "imageSrc": "/assets/images/characters/flags/km.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "km"
+    ],
+    "countryCode": "KM"
+  },
+  {
+    "name": "flag-kn",
+    "label": "Saint-Christophe-et-Niévès",
+    "imageSrc": "/assets/images/characters/flags/kn.png",
+    "serie": "flags",
+    "color": "black",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "black",
+      "green",
+      "red",
+      "yellow",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "kn"
+    ],
+    "countryCode": "KN"
+  },
+  {
+    "name": "flag-kp",
+    "label": "Corée du Nord",
+    "imageSrc": "/assets/images/characters/flags/kp.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "kp"
+    ],
+    "countryCode": "KP"
+  },
+  {
+    "name": "flag-kr",
+    "label": "Corée du Sud",
+    "imageSrc": "/assets/images/characters/flags/kr.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-disque",
+    "dominantColors": [
+      "white",
+      "black",
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "disque",
+      "kr"
+    ],
+    "countryCode": "KR"
+  },
+  {
+    "name": "flag-kw",
+    "label": "Koweït",
+    "imageSrc": "/assets/images/characters/flags/kw.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "green",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "kw"
+    ],
+    "countryCode": "KW"
+  },
+  {
+    "name": "flag-ky",
+    "label": "Îles Caïmans",
+    "imageSrc": "/assets/images/characters/flags/ky.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "ky"
+    ],
+    "countryCode": "KY"
+  },
+  {
+    "name": "flag-kz",
+    "label": "Kazakhstan",
+    "imageSrc": "/assets/images/characters/flags/kz.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "kz"
+    ],
+    "countryCode": "KZ"
+  },
+  {
+    "name": "flag-la",
+    "label": "Laos",
+    "imageSrc": "/assets/images/characters/flags/la.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-disque",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "disque",
+      "la"
+    ],
+    "countryCode": "LA"
+  },
+  {
+    "name": "flag-lb",
+    "label": "Liban",
+    "imageSrc": "/assets/images/characters/flags/lb.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "white",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "lb"
+    ],
+    "countryCode": "LB"
+  },
+  {
+    "name": "flag-lc",
+    "label": "Sainte-Lucie",
+    "imageSrc": "/assets/images/characters/flags/lc.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "blue",
+      "yellow",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "lc"
+    ],
+    "countryCode": "LC"
+  },
+  {
+    "name": "flag-li",
+    "label": "Liechtenstein",
+    "imageSrc": "/assets/images/characters/flags/li.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "red",
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "li"
+    ],
+    "countryCode": "LI"
+  },
+  {
+    "name": "flag-lk",
+    "label": "Sri Lanka",
+    "imageSrc": "/assets/images/characters/flags/lk.png",
+    "serie": "flags",
+    "color": "orange",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "orange",
+      "pink",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "lk"
+    ],
+    "countryCode": "LK"
+  },
+  {
+    "name": "flag-lr",
+    "label": "Liberia",
+    "imageSrc": "/assets/images/characters/flags/lr.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-canton-bandes-etoiles",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-bandes-etoiles",
+      "lr"
+    ],
+    "countryCode": "LR"
+  },
+  {
+    "name": "flag-ls",
+    "label": "Lesotho",
+    "imageSrc": "/assets/images/characters/flags/ls.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "white",
+      "blue",
+      "green",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ls"
+    ],
+    "countryCode": "LS"
+  },
+  {
+    "name": "flag-lt",
+    "label": "Lituanie",
+    "imageSrc": "/assets/images/characters/flags/lt.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "green",
+      "orange",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "lt"
+    ],
+    "countryCode": "LT"
+  },
+  {
+    "name": "flag-lu",
+    "label": "Luxembourg",
+    "imageSrc": "/assets/images/characters/flags/lu.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "lu"
+    ],
+    "countryCode": "LU"
+  },
+  {
+    "name": "flag-lv",
+    "label": "Lettonie",
+    "imageSrc": "/assets/images/characters/flags/lv.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "lv"
+    ],
+    "countryCode": "LV"
+  },
+  {
+    "name": "flag-ly",
+    "label": "Libye",
+    "imageSrc": "/assets/images/characters/flags/ly.png",
+    "serie": "flags",
+    "color": "black",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "black",
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "ly"
+    ],
+    "countryCode": "LY"
+  },
+  {
+    "name": "flag-ma",
+    "label": "Maroc",
+    "imageSrc": "/assets/images/characters/flags/ma.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "red",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "ma"
+    ],
+    "countryCode": "MA"
+  },
+  {
+    "name": "flag-mc",
+    "label": "Monaco",
+    "imageSrc": "/assets/images/characters/flags/mc.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "mc"
+    ],
+    "countryCode": "MC"
+  },
+  {
+    "name": "flag-md",
+    "label": "Moldavie",
+    "imageSrc": "/assets/images/characters/flags/md.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "md"
+    ],
+    "countryCode": "MD"
+  },
+  {
+    "name": "flag-me",
+    "label": "Monténégro",
+    "imageSrc": "/assets/images/characters/flags/me.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "yellow",
+      "orange"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "me"
+    ],
+    "countryCode": "ME"
+  },
+  {
+    "name": "flag-mf",
+    "label": "Saint-Martin (partie française)",
+    "imageSrc": "/assets/images/characters/flags/mf.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "mf"
+    ],
+    "countryCode": "MF",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-mg",
+    "label": "Madagascar",
+    "imageSrc": "/assets/images/characters/flags/mg.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "green",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "mg"
+    ],
+    "countryCode": "MG"
+  },
+  {
+    "name": "flag-mh",
+    "label": "Îles Marshall",
+    "imageSrc": "/assets/images/characters/flags/mh.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "blue",
+      "white",
+      "orange"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "mh"
+    ],
+    "countryCode": "MH"
+  },
+  {
+    "name": "flag-mk",
+    "label": "Macédoine du Nord",
+    "imageSrc": "/assets/images/characters/flags/mk.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "mk"
+    ],
+    "countryCode": "MK"
+  },
+  {
+    "name": "flag-ml",
+    "label": "Mali",
+    "imageSrc": "/assets/images/characters/flags/ml.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "ml"
+    ],
+    "countryCode": "ML"
+  },
+  {
+    "name": "flag-mm",
+    "label": "Myanmar (Birmanie)",
+    "imageSrc": "/assets/images/characters/flags/mm.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "yellow",
+      "red",
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "mm"
+    ],
+    "countryCode": "MM"
+  },
+  {
+    "name": "flag-mn",
+    "label": "Mongolie",
+    "imageSrc": "/assets/images/characters/flags/mn.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "mn"
+    ],
+    "countryCode": "MN"
+  },
+  {
+    "name": "flag-mo",
+    "label": "R.A.S. chinoise de Macao",
+    "imageSrc": "/assets/images/characters/flags/mo.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "mo"
+    ],
+    "countryCode": "MO"
+  },
+  {
+    "name": "flag-mp",
+    "label": "Îles Mariannes du Nord",
+    "imageSrc": "/assets/images/characters/flags/mp.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "blue",
+      "white",
+      "grey"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "mp"
+    ],
+    "countryCode": "MP"
+  },
+  {
+    "name": "flag-mq",
+    "label": "Martinique",
+    "imageSrc": "/assets/images/characters/flags/mq.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "black",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "mq"
+    ],
+    "countryCode": "MQ"
+  },
+  {
+    "name": "flag-mr",
+    "label": "Mauritanie",
+    "imageSrc": "/assets/images/characters/flags/mr.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-croissant",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "croissant",
+      "mr"
+    ],
+    "countryCode": "MR"
+  },
+  {
+    "name": "flag-ms",
+    "label": "Montserrat",
+    "imageSrc": "/assets/images/characters/flags/ms.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "ms"
+    ],
+    "countryCode": "MS"
+  },
+  {
+    "name": "flag-mt",
+    "label": "Malte",
+    "imageSrc": "/assets/images/characters/flags/mt.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-centree",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-centree",
+      "mt"
+    ],
+    "countryCode": "MT"
+  },
+  {
+    "name": "flag-mu",
+    "label": "Maurice",
+    "imageSrc": "/assets/images/characters/flags/mu.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "yellow",
+      "blue",
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "mu"
+    ],
+    "countryCode": "MU"
+  },
+  {
+    "name": "flag-mv",
+    "label": "Maldives",
+    "imageSrc": "/assets/images/characters/flags/mv.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croissant",
+    "dominantColors": [
+      "red",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "croissant",
+      "mv"
+    ],
+    "countryCode": "MV"
+  },
+  {
+    "name": "flag-mw",
+    "label": "Malawi",
+    "imageSrc": "/assets/images/characters/flags/mw.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "green",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "mw"
+    ],
+    "countryCode": "MW"
+  },
+  {
+    "name": "flag-mx",
+    "label": "Mexique",
+    "imageSrc": "/assets/images/characters/flags/mx.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "mx"
+    ],
+    "countryCode": "MX"
+  },
+  {
+    "name": "flag-my",
+    "label": "Malaisie",
+    "imageSrc": "/assets/images/characters/flags/my.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-canton-bandes-etoiles",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-bandes-etoiles",
+      "my"
+    ],
+    "countryCode": "MY"
+  },
+  {
+    "name": "flag-mz",
+    "label": "Mozambique",
+    "imageSrc": "/assets/images/characters/flags/mz.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "yellow",
+      "blue",
+      "black",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "mz"
+    ],
+    "countryCode": "MZ"
+  },
+  {
+    "name": "flag-na",
+    "label": "Namibie",
+    "imageSrc": "/assets/images/characters/flags/na.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "green",
+      "blue",
+      "red",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "na"
+    ],
+    "countryCode": "NA"
+  },
+  {
+    "name": "flag-nc",
+    "label": "Nouvelle-Calédonie",
+    "imageSrc": "/assets/images/characters/flags/nc.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "nc"
+    ],
+    "countryCode": "NC",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-ne",
+    "label": "Niger",
+    "imageSrc": "/assets/images/characters/flags/ne.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-disque",
+    "dominantColors": [
+      "red",
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "disque",
+      "ne"
+    ],
+    "countryCode": "NE"
+  },
+  {
+    "name": "flag-nf",
+    "label": "Île Norfolk",
+    "imageSrc": "/assets/images/characters/flags/nf.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "nf"
+    ],
+    "countryCode": "NF"
+  },
+  {
+    "name": "flag-ng",
+    "label": "Nigeria",
+    "imageSrc": "/assets/images/characters/flags/ng.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "ng"
+    ],
+    "countryCode": "NG"
+  },
+  {
+    "name": "flag-ni",
+    "label": "Nicaragua",
+    "imageSrc": "/assets/images/characters/flags/ni.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ni"
+    ],
+    "countryCode": "NI"
+  },
+  {
+    "name": "flag-nl",
+    "label": "Pays-Bas",
+    "imageSrc": "/assets/images/characters/flags/nl.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "white",
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "nl"
+    ],
+    "countryCode": "NL"
+  },
+  {
+    "name": "flag-no",
+    "label": "Norvège",
+    "imageSrc": "/assets/images/characters/flags/no.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "no"
+    ],
+    "countryCode": "NO"
+  },
+  {
+    "name": "flag-np",
+    "label": "Népal",
+    "imageSrc": "/assets/images/characters/flags/np.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-double-fanion",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "double-fanion",
+      "np"
+    ],
+    "countryCode": "NP"
+  },
+  {
+    "name": "flag-nr",
+    "label": "Nauru",
+    "imageSrc": "/assets/images/characters/flags/nr.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "nr"
+    ],
+    "countryCode": "NR"
+  },
+  {
+    "name": "flag-nu",
+    "label": "Niue",
+    "imageSrc": "/assets/images/characters/flags/nu.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "yellow",
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "nu"
+    ],
+    "countryCode": "NU"
+  },
+  {
+    "name": "flag-nz",
+    "label": "Nouvelle-Zélande",
+    "imageSrc": "/assets/images/characters/flags/nz.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "nz"
+    ],
+    "countryCode": "NZ"
+  },
+  {
+    "name": "flag-om",
+    "label": "Oman",
+    "imageSrc": "/assets/images/characters/flags/om.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "white",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "om"
+    ],
+    "countryCode": "OM"
+  },
+  {
+    "name": "flag-pa",
+    "label": "Panama",
+    "imageSrc": "/assets/images/characters/flags/pa.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "white",
+      "red",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "pa"
+    ],
+    "countryCode": "PA"
+  },
+  {
+    "name": "flag-pe",
+    "label": "Pérou",
+    "imageSrc": "/assets/images/characters/flags/pe.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "red",
+      "white",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "pe"
+    ],
+    "countryCode": "PE"
+  },
+  {
+    "name": "flag-pf",
+    "label": "Polynésie française",
+    "imageSrc": "/assets/images/characters/flags/pf.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "red",
+      "white",
+      "orange"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "pf"
+    ],
+    "countryCode": "PF"
+  },
+  {
+    "name": "flag-pg",
+    "label": "Papouasie-Nouvelle-Guinée",
+    "imageSrc": "/assets/images/characters/flags/pg.png",
+    "serie": "flags",
+    "color": "black",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "black",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "pg"
+    ],
+    "countryCode": "PG"
+  },
+  {
+    "name": "flag-ph",
+    "label": "Philippines",
+    "imageSrc": "/assets/images/characters/flags/ph.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "ph"
+    ],
+    "countryCode": "PH"
+  },
+  {
+    "name": "flag-pk",
+    "label": "Pakistan",
+    "imageSrc": "/assets/images/characters/flags/pk.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-croissant",
+    "dominantColors": [
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croissant",
+      "pk"
+    ],
+    "countryCode": "PK"
+  },
+  {
+    "name": "flag-pl",
+    "label": "Pologne",
+    "imageSrc": "/assets/images/characters/flags/pl.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "pl"
+    ],
+    "countryCode": "PL"
+  },
+  {
+    "name": "flag-pm",
+    "label": "Saint-Pierre-et-Miquelon",
+    "imageSrc": "/assets/images/characters/flags/pm.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "pm"
+    ],
+    "countryCode": "PM",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-pn",
+    "label": "Îles Pitcairn",
+    "imageSrc": "/assets/images/characters/flags/pn.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white",
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "pn"
+    ],
+    "countryCode": "PN"
+  },
+  {
+    "name": "flag-pr",
+    "label": "Porto Rico",
+    "imageSrc": "/assets/images/characters/flags/pr.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "pr"
+    ],
+    "countryCode": "PR"
+  },
+  {
+    "name": "flag-ps",
+    "label": "Palestine",
+    "imageSrc": "/assets/images/characters/flags/ps.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "black",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "ps"
+    ],
+    "countryCode": "PS"
+  },
+  {
+    "name": "flag-pt",
+    "label": "Portugal",
+    "imageSrc": "/assets/images/characters/flags/pt.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "red",
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "pt"
+    ],
+    "countryCode": "PT"
+  },
+  {
+    "name": "flag-pw",
+    "label": "Palaos",
+    "imageSrc": "/assets/images/characters/flags/pw.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-disque",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "disque",
+      "pw"
+    ],
+    "countryCode": "PW"
+  },
+  {
+    "name": "flag-py",
+    "label": "Paraguay",
+    "imageSrc": "/assets/images/characters/flags/py.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "py"
+    ],
+    "countryCode": "PY"
+  },
+  {
+    "name": "flag-qa",
+    "label": "Qatar",
+    "imageSrc": "/assets/images/characters/flags/qa.png",
+    "serie": "flags",
+    "color": "pink",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "pink",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "qa"
+    ],
+    "countryCode": "QA"
+  },
+  {
+    "name": "flag-re",
+    "label": "La Réunion",
+    "imageSrc": "/assets/images/characters/flags/re.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "re"
+    ],
+    "countryCode": "RE",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-ro",
+    "label": "Roumanie",
+    "imageSrc": "/assets/images/characters/flags/ro.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "blue",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "ro"
+    ],
+    "countryCode": "RO"
+  },
+  {
+    "name": "flag-rs",
+    "label": "Serbie",
+    "imageSrc": "/assets/images/characters/flags/rs.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "white",
+      "pink",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "rs"
+    ],
+    "countryCode": "RS"
+  },
+  {
+    "name": "flag-ru",
+    "label": "Russie",
+    "imageSrc": "/assets/images/characters/flags/ru.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "ru"
+    ],
+    "countryCode": "RU"
+  },
+  {
+    "name": "flag-rw",
+    "label": "Rwanda",
+    "imageSrc": "/assets/images/characters/flags/rw.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "blue",
+      "yellow",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "rw"
+    ],
+    "countryCode": "RW"
+  },
+  {
+    "name": "flag-sa",
+    "label": "Arabie saoudite",
+    "imageSrc": "/assets/images/characters/flags/sa.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "sa"
+    ],
+    "countryCode": "SA"
+  },
+  {
+    "name": "flag-sb",
+    "label": "Îles Salomon",
+    "imageSrc": "/assets/images/characters/flags/sb.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "green",
+      "blue",
+      "yellow",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "sb"
+    ],
+    "countryCode": "SB"
+  },
+  {
+    "name": "flag-sc",
+    "label": "Seychelles",
+    "imageSrc": "/assets/images/characters/flags/sc.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "red",
+      "green",
+      "blue",
+      "yellow",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "sc"
+    ],
+    "countryCode": "SC"
+  },
+  {
+    "name": "flag-sd",
+    "label": "Soudan",
+    "imageSrc": "/assets/images/characters/flags/sd.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "red",
+      "black",
+      "white",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "sd"
+    ],
+    "countryCode": "SD"
+  },
+  {
+    "name": "flag-se",
+    "label": "Suède",
+    "imageSrc": "/assets/images/characters/flags/se.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "se"
+    ],
+    "countryCode": "SE"
+  },
+  {
+    "name": "flag-sg",
+    "label": "Singapour",
+    "imageSrc": "/assets/images/characters/flags/sg.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-croissant",
+    "dominantColors": [
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "croissant",
+      "sg"
+    ],
+    "countryCode": "SG"
+  },
+  {
+    "name": "flag-sh",
+    "label": "Sainte-Hélène, Ascension et Tristan da Cunha",
+    "imageSrc": "/assets/images/characters/flags/sh.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-diagonale",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-diagonale",
+      "sh"
+    ],
+    "countryCode": "SH",
+    "duplicateOf": "flag-gb"
+  },
+  {
+    "name": "flag-si",
+    "label": "Slovénie",
+    "imageSrc": "/assets/images/characters/flags/si.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "si"
+    ],
+    "countryCode": "SI"
+  },
+  {
+    "name": "flag-sj",
+    "label": "Svalbard et Jan Mayen",
+    "imageSrc": "/assets/images/characters/flags/sj.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-nordique",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-nordique",
+      "sj"
+    ],
+    "countryCode": "SJ",
+    "duplicateOf": "flag-no"
+  },
+  {
+    "name": "flag-sk",
+    "label": "Slovaquie",
+    "imageSrc": "/assets/images/characters/flags/sk.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "sk"
+    ],
+    "countryCode": "SK"
+  },
+  {
+    "name": "flag-sl",
+    "label": "Sierra Leone",
+    "imageSrc": "/assets/images/characters/flags/sl.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "green",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "sl"
+    ],
+    "countryCode": "SL"
+  },
+  {
+    "name": "flag-sm",
+    "label": "Saint-Marin",
+    "imageSrc": "/assets/images/characters/flags/sm.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "white",
+      "yellow",
+      "green"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "sm"
+    ],
+    "countryCode": "SM"
+  },
+  {
+    "name": "flag-sn",
+    "label": "Sénégal",
+    "imageSrc": "/assets/images/characters/flags/sn.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "sn"
+    ],
+    "countryCode": "SN"
+  },
+  {
+    "name": "flag-so",
+    "label": "Somalie",
+    "imageSrc": "/assets/images/characters/flags/so.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "so"
+    ],
+    "countryCode": "SO"
+  },
+  {
+    "name": "flag-sr",
+    "label": "Suriname",
+    "imageSrc": "/assets/images/characters/flags/sr.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "green",
+      "red",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "sr"
+    ],
+    "countryCode": "SR"
+  },
+  {
+    "name": "flag-ss",
+    "label": "Soudan du Sud",
+    "imageSrc": "/assets/images/characters/flags/ss.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "black",
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "ss"
+    ],
+    "countryCode": "SS"
+  },
+  {
+    "name": "flag-st",
+    "label": "Sao Tomé-et-Principe",
+    "imageSrc": "/assets/images/characters/flags/st.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "st"
+    ],
+    "countryCode": "ST"
+  },
+  {
+    "name": "flag-sv",
+    "label": "Salvador",
+    "imageSrc": "/assets/images/characters/flags/sv.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "sv"
+    ],
+    "countryCode": "SV"
+  },
+  {
+    "name": "flag-sx",
+    "label": "Saint-Martin (partie néerlandaise)",
+    "imageSrc": "/assets/images/characters/flags/sx.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "sx"
+    ],
+    "countryCode": "SX"
+  },
+  {
+    "name": "flag-sy",
+    "label": "Syrie",
+    "imageSrc": "/assets/images/characters/flags/sy.png",
+    "serie": "flags",
+    "color": "black",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "black",
+      "green",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "sy"
+    ],
+    "countryCode": "SY"
+  },
+  {
+    "name": "flag-sz",
+    "label": "Eswatini",
+    "imageSrc": "/assets/images/characters/flags/sz.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "blue",
+      "red",
+      "yellow",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "sz"
+    ],
+    "countryCode": "SZ"
+  },
+  {
+    "name": "flag-tc",
+    "label": "Îles Turques-et-Caïques",
+    "imageSrc": "/assets/images/characters/flags/tc.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "tc"
+    ],
+    "countryCode": "TC"
+  },
+  {
+    "name": "flag-td",
+    "label": "Tchad",
+    "imageSrc": "/assets/images/characters/flags/td.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "blue",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "td"
+    ],
+    "countryCode": "TD"
+  },
+  {
+    "name": "flag-tf",
+    "label": "Terres australes et antarctiques françaises",
+    "imageSrc": "/assets/images/characters/flags/tf.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-tricolore",
+    "dominantColors": [
+      "blue",
+      "white",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-tricolore",
+      "tf"
+    ],
+    "countryCode": "TF"
+  },
+  {
+    "name": "flag-tg",
+    "label": "Togo",
+    "imageSrc": "/assets/images/characters/flags/tg.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "tg"
+    ],
+    "countryCode": "TG"
+  },
+  {
+    "name": "flag-th",
+    "label": "Thaïlande",
+    "imageSrc": "/assets/images/characters/flags/th.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "th"
+    ],
+    "countryCode": "TH"
+  },
+  {
+    "name": "flag-tj",
+    "label": "Tadjikistan",
+    "imageSrc": "/assets/images/characters/flags/tj.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "white",
+      "green",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "tj"
+    ],
+    "countryCode": "TJ"
+  },
+  {
+    "name": "flag-tk",
+    "label": "Tokelau",
+    "imageSrc": "/assets/images/characters/flags/tk.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "tk"
+    ],
+    "countryCode": "TK"
+  },
+  {
+    "name": "flag-tl",
+    "label": "Timor oriental",
+    "imageSrc": "/assets/images/characters/flags/tl.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "red",
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "tl"
+    ],
+    "countryCode": "TL"
+  },
+  {
+    "name": "flag-tm",
+    "label": "Turkménistan",
+    "imageSrc": "/assets/images/characters/flags/tm.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "tm"
+    ],
+    "countryCode": "TM"
+  },
+  {
+    "name": "flag-tn",
+    "label": "Tunisie",
+    "imageSrc": "/assets/images/characters/flags/tn.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croissant",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croissant",
+      "tn"
+    ],
+    "countryCode": "TN"
+  },
+  {
+    "name": "flag-to",
+    "label": "Tonga",
+    "imageSrc": "/assets/images/characters/flags/to.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croix-centree",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croix-centree",
+      "to"
+    ],
+    "countryCode": "TO"
+  },
+  {
+    "name": "flag-tr",
+    "label": "Turquie",
+    "imageSrc": "/assets/images/characters/flags/tr.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-croissant",
+    "dominantColors": [
+      "red",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "croissant",
+      "tr"
+    ],
+    "countryCode": "TR"
+  },
+  {
+    "name": "flag-tt",
+    "label": "Trinité-et-Tobago",
+    "imageSrc": "/assets/images/characters/flags/tt.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "red",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "tt"
+    ],
+    "countryCode": "TT"
+  },
+  {
+    "name": "flag-tv",
+    "label": "Tuvalu",
+    "imageSrc": "/assets/images/characters/flags/tv.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "tv"
+    ],
+    "countryCode": "TV"
+  },
+  {
+    "name": "flag-tw",
+    "label": "Taïwan",
+    "imageSrc": "/assets/images/characters/flags/tw.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "tw"
+    ],
+    "countryCode": "TW"
+  },
+  {
+    "name": "flag-tz",
+    "label": "Tanzanie",
+    "imageSrc": "/assets/images/characters/flags/tz.png",
+    "serie": "flags",
+    "color": "black",
+    "family": "flags-bandes-diagonales",
+    "dominantColors": [
+      "black",
+      "green",
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-diagonales",
+      "tz"
+    ],
+    "countryCode": "TZ"
+  },
+  {
+    "name": "flag-ua",
+    "label": "Ukraine",
+    "imageSrc": "/assets/images/characters/flags/ua.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "blue",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "ua"
+    ],
+    "countryCode": "UA"
+  },
+  {
+    "name": "flag-ug",
+    "label": "Ouganda",
+    "imageSrc": "/assets/images/characters/flags/ug.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "yellow",
+      "red",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ug"
+    ],
+    "countryCode": "UG"
+  },
+  {
+    "name": "flag-um",
+    "label": "Îles mineures éloignées des États-Unis",
+    "imageSrc": "/assets/images/characters/flags/um.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-canton-bandes-etoiles",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-bandes-etoiles",
+      "um"
+    ],
+    "countryCode": "UM",
+    "duplicateOf": "flag-us"
+  },
+  {
+    "name": "flag-us",
+    "label": "États-Unis",
+    "imageSrc": "/assets/images/characters/flags/us.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-canton-bandes-etoiles",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-bandes-etoiles",
+      "us"
+    ],
+    "countryCode": "US"
+  },
+  {
+    "name": "flag-uy",
+    "label": "Uruguay",
+    "imageSrc": "/assets/images/characters/flags/uy.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-canton-bandes-etoiles",
+    "dominantColors": [
+      "white",
+      "blue",
+      "brown"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-bandes-etoiles",
+      "uy"
+    ],
+    "countryCode": "UY"
+  },
+  {
+    "name": "flag-uz",
+    "label": "Ouzbékistan",
+    "imageSrc": "/assets/images/characters/flags/uz.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "white",
+      "green",
+      "blue",
+      "red"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "uz"
+    ],
+    "countryCode": "UZ"
+  },
+  {
+    "name": "flag-va",
+    "label": "Vatican",
+    "imageSrc": "/assets/images/characters/flags/va.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "yellow",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "va"
+    ],
+    "countryCode": "VA"
+  },
+  {
+    "name": "flag-vc",
+    "label": "Saint-Vincent-et-les Grenadines",
+    "imageSrc": "/assets/images/characters/flags/vc.png",
+    "serie": "flags",
+    "color": "yellow",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "yellow",
+      "green",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "vc"
+    ],
+    "countryCode": "VC"
+  },
+  {
+    "name": "flag-ve",
+    "label": "Venezuela",
+    "imageSrc": "/assets/images/characters/flags/ve.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-embleme",
+    "dominantColors": [
+      "red",
+      "yellow",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-embleme",
+      "ve"
+    ],
+    "countryCode": "VE"
+  },
+  {
+    "name": "flag-vg",
+    "label": "Îles Vierges britanniques",
+    "imageSrc": "/assets/images/characters/flags/vg.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-canton-union-jack",
+    "dominantColors": [
+      "blue",
+      "red",
+      "white",
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "canton-union-jack",
+      "vg"
+    ],
+    "countryCode": "VG"
+  },
+  {
+    "name": "flag-vi",
+    "label": "Îles Vierges des États-Unis",
+    "imageSrc": "/assets/images/characters/flags/vi.png",
+    "serie": "flags",
+    "color": "white",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "white",
+      "yellow",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "vi"
+    ],
+    "countryCode": "VI"
+  },
+  {
+    "name": "flag-vn",
+    "label": "Viêt Nam",
+    "imageSrc": "/assets/images/characters/flags/vn.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "vn"
+    ],
+    "countryCode": "VN"
+  },
+  {
+    "name": "flag-vu",
+    "label": "Vanuatu",
+    "imageSrc": "/assets/images/characters/flags/vu.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "red",
+      "green",
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "vu"
+    ],
+    "countryCode": "VU"
+  },
+  {
+    "name": "flag-wf",
+    "label": "Wallis-et-Futuna",
+    "imageSrc": "/assets/images/characters/flags/wf.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bicolore-embleme",
+    "dominantColors": [
+      "red",
+      "white",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "bicolore-embleme",
+      "wf"
+    ],
+    "countryCode": "WF"
+  },
+  {
+    "name": "flag-ws",
+    "label": "Samoa",
+    "imageSrc": "/assets/images/characters/flags/ws.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-etoiles",
+    "dominantColors": [
+      "red",
+      "blue"
+    ],
+    "tags": [
+      "drapeaux",
+      "etoiles",
+      "ws"
+    ],
+    "countryCode": "WS"
+  },
+  {
+    "name": "flag-xk",
+    "label": "Kosovo",
+    "imageSrc": "/assets/images/characters/flags/xk.png",
+    "serie": "flags",
+    "color": "blue",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "blue",
+      "orange"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "xk"
+    ],
+    "countryCode": "XK"
+  },
+  {
+    "name": "flag-ye",
+    "label": "Yémen",
+    "imageSrc": "/assets/images/characters/flags/ye.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-horizontales",
+    "dominantColors": [
+      "red",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-horizontales",
+      "ye"
+    ],
+    "countryCode": "YE"
+  },
+  {
+    "name": "flag-yt",
+    "label": "Mayotte",
+    "imageSrc": "/assets/images/characters/flags/yt.png",
+    "serie": "flags",
+    "color": "red",
+    "family": "flags-bandes-verticales",
+    "dominantColors": [
+      "red",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-verticales",
+      "yt"
+    ],
+    "countryCode": "YT",
+    "duplicateOf": "flag-fr"
+  },
+  {
+    "name": "flag-za",
+    "label": "Afrique du Sud",
+    "imageSrc": "/assets/images/characters/flags/za.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-bandes-geometrie",
+    "dominantColors": [
+      "green",
+      "red",
+      "blue",
+      "white",
+      "black",
+      "orange"
+    ],
+    "tags": [
+      "drapeaux",
+      "bandes-geometrie",
+      "za"
+    ],
+    "countryCode": "ZA"
+  },
+  {
+    "name": "flag-zm",
+    "label": "Zambie",
+    "imageSrc": "/assets/images/characters/flags/zm.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-embleme-fond-uni",
+    "dominantColors": [
+      "green",
+      "orange",
+      "red",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "embleme-fond-uni",
+      "zm"
+    ],
+    "countryCode": "ZM"
+  },
+  {
+    "name": "flag-zw",
+    "label": "Zimbabwe",
+    "imageSrc": "/assets/images/characters/flags/zw.png",
+    "serie": "flags",
+    "color": "green",
+    "family": "flags-triangle-hampe",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "red",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "drapeaux",
+      "triangle-hampe",
+      "zw"
+    ],
+    "countryCode": "ZW"
+  }
+]

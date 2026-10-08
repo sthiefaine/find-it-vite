@@ -1,4 +1,4 @@
-export type AccessoryId = "cap" | "bucket-hat" | "sunglasses" | "bow-tie" | "moustache";
+export type AccessoryId = "cap" | "bucket-hat" | "sunglasses" | "bow-tie" | "moustache" | "clown-nose";
 
 export type Accessory = {
   id: AccessoryId;
@@ -14,6 +14,7 @@ export const ACCESSORIES: readonly Accessory[] = [
   { id: "sunglasses", label: "Lunettes de soleil", imageSrc: "/assets/images/accessories/sunglasses.png", box: { x: .17, y: .40, width: .66, height: .1546875 } },
   { id: "bow-tie", label: "Nœud papillon", imageSrc: "/assets/images/accessories/bow-tie.png", box: { x: .31, y: .80, width: .38, height: .18109375 } },
   { id: "moustache", label: "Fausse moustache", imageSrc: "/assets/images/accessories/moustache.png", box: { x: .24, y: .66, width: .52, height: .114765625 } },
+  { id: "clown-nose", label: "Nez de clown", imageSrc: "/assets/images/accessories/clown-nose.png", box: { x: .39, y: .54, width: .22, height: .22 } },
 ];
 
 // Accessoires faciles à confondre à 45 px : deux couvre-chefs, deux barres
@@ -24,6 +25,7 @@ export const ACCESSORY_LOOKALIKES: Readonly<Record<AccessoryId, readonly Accesso
   sunglasses: ["moustache"],
   moustache: ["sunglasses", "bow-tie"],
   "bow-tie": ["moustache"],
+  "clown-nose": [],
 };
 
 const BY_ID = new Map(ACCESSORIES.map((accessory) => [accessory.id, accessory]));
@@ -141,6 +143,7 @@ export function getAccessoryBox(accessory: Accessory, imageSrc: string, fitting?
   switch (accessory.id) {
     case "sunglasses": centerY = profile.eyesY; scale = profile.glassesScale ?? 1; break;
     case "moustache": centerY = profile.muzzleY; break;
+    case "clown-nose": centerY = profile.eyesY + (profile.muzzleY - profile.eyesY) * .65; break;
     case "cap":
     case "bucket-hat": {
       // Les visières laissent les yeux visibles, même sur les visages courts.

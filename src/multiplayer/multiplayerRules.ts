@@ -1,15 +1,16 @@
 import { layoutGrid, layoutScroll, placePile, placeSwarm } from "../components/Game/Grid/layouts";
 import type { LevelSpec } from "../engine/types";
 import { generatePlayableLevel } from "../game/playableLevel";
-import { animalsPack, peoplePack } from "../helpers/characters";
+import { animalsPack, peoplePack, playableFlagsPack } from "../helpers/characters";
 import { getWorld } from "../content/worlds";
 import type { CharacterDetails } from "../helpers/characters";
 import type { MultiplayerTheme } from "./protocol";
 
-export const MULTIPLAYER_THEMES: readonly MultiplayerTheme[] = ["animaux", "ferme", "foret", "savane", "ocean", "politique"];
+export const MULTIPLAYER_THEMES: readonly MultiplayerTheme[] = ["animaux", "ferme", "foret", "savane", "ocean", "politique", "drapeaux"];
 
 export function multiplayerPool(theme: MultiplayerTheme): CharacterDetails[] {
   if (theme === "politique") return peoplePack;
+  if (theme === "drapeaux") return playableFlagsPack;
   if (theme === "ocean") {
     // Emoji portraits are drawn by the browser after receiving the spec. Do not
     // evaluate the DOM-backed getter while serializing on the Node server.

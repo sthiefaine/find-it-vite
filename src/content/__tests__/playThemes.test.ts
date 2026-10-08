@@ -26,7 +26,7 @@ describe("thèmes proposés avant une partie", () => {
       expect(option.availableCount).toBe(unlockedAnimals(save, candidates).length);
       expect(option.enabled).toBe(option.availableCount >= 3);
     }
-    for (const options of [endless, duel]) for (const id of ["personnes", "drapeaux"]) {
+    for (const options of [endless, duel]) for (const id of ["personnes"]) {
       expect(options.find(({ theme }) => theme.id === id)).toMatchObject({ availableCount: 0, totalCount: 0, enabled: false, theme: { comingSoon: true } });
     }
   });
@@ -51,11 +51,11 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("ignore les anciens liens serie et les thèmes inconnus ou à venir", () => {
-    for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=personnes", "?theme=drapeaux", "?theme=__proto__"]) {
+    for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=personnes", "?theme=__proto__"]) {
       expect(playThemeFromSearch(search)).toBe("animaux");
     }
     expect(playThemeFromSearch("?theme=foret&serie=ferme")).toBe("foret");
-    for (const id of ["personnes", "drapeaux", "inconnu"] as PlayThemeId[]) {
+    for (const id of ["personnes", "inconnu"] as PlayThemeId[]) {
       expect(playThemePool("endless", id, defaultSave())).toEqual(unlockedAnimals(defaultSave()));
       expect(playThemePool("duel", id, defaultSave())).toEqual(animalsPack);
     }
@@ -66,7 +66,7 @@ describe("thèmes proposés avant une partie", () => {
     const save = { collection: Object.fromEntries([...animalsPack.filter((animal) => ["renard", "ours", "singe", "giraffe", "zebre", "elephant"].includes(animal.name)), ...ocean.slice(0, 3)].map((animal) => [animal.name, 1])) };
     for (const theme of PLAY_THEMES) {
       const pool = playThemePool("endless", theme.id, save);
-      expect(pool.every((animal) => theme.id === "politique" || isAnimalUnlocked(save, animal.name))).toBe(true);
+      expect(pool.every((animal) => theme.id === "politique" || theme.id === "drapeaux" || isAnimalUnlocked(save, animal.name))).toBe(true);
       const ids = new Set(pool.map((animal) => animal.name));
       for (const index of [1, 3, 6, 11, 19, 40, 100, 4000]) {
         const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool });
@@ -80,7 +80,7 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("conserve le même thème en Duel, de la première manche aux suivantes", () => {
-    for (const id of ["ferme", "foret", "savane", "ocean", "politique"] as const) {
+    for (const id of ["ferme", "foret", "savane", "ocean", "politique", "drapeaux"] as const) {
       const pool = playThemePool("duel", id, defaultSave());
       const ids = new Set(pool.map((animal) => animal.name));
       let previous: string | undefined;

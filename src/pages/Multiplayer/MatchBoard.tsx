@@ -3,6 +3,7 @@ import { BOARD, type LevelSpec } from "../../engine/types";
 import { ACCESSORY_OUTLINE_OFFSETS, getAccessory, getAccessoryBox } from "../../content/accessories";
 import { preparedAccessoryOutline, preparedImage } from "../../game/assetReadiness";
 import { pickCharacterAt } from "../../helpers/hitTest";
+import { getPortraitScale } from "../../helpers/portraitScale";
 import { createMatchBoard, type MatchSprite } from "./boardModel";
 
 type Props = {
@@ -41,7 +42,7 @@ export function MatchBoard({ spec, startsAt, serverNow, enabled, onTap }: Props)
       for (const sprite of sprites) {
         const image = preparedImage(sprite.imageSrc);
         if (!image) continue;
-        const size = sprite.size * sprite.look.scale;
+        const size = sprite.size * sprite.look.scale * getPortraitScale(sprite.imageSrc);
         context.save();
         context.translate(sprite.cx, sprite.cy);
         context.rotate(sprite.look.rotation);

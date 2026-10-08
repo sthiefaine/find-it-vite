@@ -4,6 +4,7 @@ import { themeOptions } from "../../content/playThemes";
 import type { PlayMode, PlayThemeId } from "../../content/playThemes";
 import { useSaveStore } from "../../save/saveStore";
 import { GameIcon } from "../../components/Icons/GameIcon";
+import { portraitStyle } from "../../helpers/portraitScale";
 import type { GameIconName } from "../../components/Icons/GameIcon";
 import "../../components/Buttons/ui.css";
 import "./PlaySetup.css";
@@ -55,7 +56,7 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
                 onClick={() => setSelectedId(theme.id)}
               >
                 <span className="play-theme-preview" aria-hidden="true">
-                  {theme.preview ? <img src={theme.preview} alt="" draggable={false} /> : <GameIcon name={themeIcons[theme.id] ?? "paw"} />}
+                  {theme.preview ? <img src={theme.preview} alt="" draggable={false} style={portraitStyle(theme.preview)} /> : <GameIcon name={themeIcons[theme.id] ?? "paw"} />}
                   {selected ? <span className="play-theme-check"><GameIcon name="check" /></span> : null}
                 </span>
                 <span className="play-theme-name">{theme.label}</span>
@@ -63,7 +64,7 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
                 <span className="play-theme-count">
                   {theme.comingSoon ? "Bientôt" : mode === "endless"
                     ? <>{availableCount}/{totalCount} disponibles{!enabled ? " · 3 requis" : ""}</>
-                    : <>{totalCount} portraits{!enabled ? " · 3 requis" : ""}</>}
+                    : <>{totalCount} {theme.id === "drapeaux" ? "drapeaux" : "portraits"}{!enabled ? " · 3 requis" : ""}</>}
                 </span>
               </button>
             );
@@ -72,6 +73,8 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
         <p className="play-setup-hint">
           {selectedId === "politique"
             ? "Tous les portraits politiques sont disponibles dès le départ."
+            : selectedId === "drapeaux"
+            ? "Tous les drapeaux sont disponibles dès le départ, sans accessoires."
             : mode === "endless"
             ? "Retrouve des animaux dans l’Aventure ou le Défi du jour pour les débloquer en Infini."
             : "En Duel, tous les portraits du thème sont disponibles."}

@@ -8,6 +8,7 @@ import {
   Sprite as PixiSprite,
 } from "pixi.js";
 import { GOLD_TINT } from "../../../engine/rules";
+import { getPortraitScale } from "../../../helpers/portraitScale";
 import { Look, PLAIN_LOOK } from "./crowd";
 import { ACCESSORY_OUTLINE_OFFSETS, accessoryOutlineSource, getAccessory, getAccessoryBox, needsAccessoryOutline } from "../../../content/accessories";
 
@@ -82,7 +83,7 @@ export function CrowdSprite({
   }, gold && !gone);
 
   const sparkleDraw = useCallback(drawSparkle, []);
-  const w = size * look.scale;
+  const w = size * look.scale * getPortraitScale(image);
   const accessory = getAccessory(look.accessoryId);
   const accessoryBox = accessory ? getAccessoryBox(accessory, image) : undefined;
   // eslint-disable-next-line react-hooks/exhaustive-deps

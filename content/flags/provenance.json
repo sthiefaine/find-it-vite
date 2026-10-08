@@ -1,0 +1,83 @@
+{
+  "retrievedAt": "2026-10-08",
+  "upstream": {
+    "repository": "https://github.com/hampusborgos/country-flags",
+    "commit": "c09927e63705529bbf59ca6684cd9b23225dddad",
+    "commitDate": "2026-03-10",
+    "svgDirectory": "https://github.com/hampusborgos/country-flags/tree/c09927e63705529bbf59ca6684cd9b23225dddad/svg",
+    "licenseDeclaration": "https://github.com/hampusborgos/country-flags/blob/c09927e63705529bbf59ca6684cd9b23225dddad/README.md",
+    "packageLicense": "PD"
+  },
+  "localModifications": "SVG sources are copied unchanged. AF, KG and MQ replace stale upstream drawings with current Wikimedia Commons SVGs. PNGs preserve the SVG aspect ratio and transparent silhouette, without accessories, mast, effects or border.",
+  "overrides": {
+    "AF": {
+      "description": "Current white field with black shahada, aspect ratio 2:1; replaces former republican tricolour.",
+      "page": "https://commons.wikimedia.org/wiki/File:Flag_of_the_Taliban.svg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg",
+      "author": "Lexicon (vector), original flag design attributed to Taliban / Islamic Emirate of Afghanistan",
+      "copyright": "Public domain (PD ancient script; vector creator release)",
+      "verifiedBy": [
+        "https://www.awm.gov.au/collection/C2905605",
+        "https://islamabad.mfa.gov.af/"
+      ]
+    },
+    "KG": {
+      "description": "Current straight sun rays adopted in December 2023; replaces former wavy rays.",
+      "page": "https://commons.wikimedia.org/wiki/File:Flag_of_Kyrgyzstan.svg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Flag_of_Kyrgyzstan.svg",
+      "author": "Shakiev N.T., Primov U.B.",
+      "copyright": "Public domain (official state symbol)",
+      "verifiedBy": [
+        "https://www.president.kg/ru/about/symbol",
+        "https://www.gov.kg/ru/post/s/23823-mamlekettik-tuunu-kotoruu-saltanaty-bolup-ottu"
+      ]
+    },
+    "MQ": {
+      "description": "Territorial red triangle, green upper band and black lower band, adopted 2 February 2023; replaces French flag used by upstream.",
+      "page": "https://commons.wikimedia.org/wiki/File:Flag-of-Martinique.svg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/2/27/Flag-of-Martinique.svg",
+      "author": "MapGrid / HapHaxion / Femfem5 / Triton, based on Carport",
+      "copyright": "Public domain (PD shape)",
+      "verifiedBy": [
+        "https://www.collectivitedemartinique.mq/le-drapeau-et-lhymne-de-la-martinique-officiellement-adoptes-en-pleniere/"
+      ]
+    }
+  },
+  "coverage": {
+    "iso3166Alpha2Count": 249,
+    "additionalCodes": [
+      "XK"
+    ],
+    "excludedUpstreamCodes": [
+      "EU",
+      "GB-ENG",
+      "GB-NIR",
+      "GB-SCT",
+      "GB-WLS"
+    ],
+    "independentVerification": "Exact code-set match against Unicode CLDR regular regions, excluding reserved codes AC, CP, CQ, DG, EA, IC and TA.",
+    "verificationSource": "https://github.com/unicode-org/cldr/blob/main/common/validity/region.xml",
+    "reservedRegionsExcluded": [
+      "AC",
+      "CP",
+      "CQ",
+      "DG",
+      "EA",
+      "IC",
+      "TA"
+    ]
+  },
+  "specialCases": {
+    "AQ": "No universally adopted official territorial flag. The conventional Antarctic map flag from upstream is retained as an asset; do not infer national-flag status.",
+    "SH": "Grouped ISO territory Saint Helena, Ascension and Tristan da Cunha: Union Flag from upstream. AC and TA are not separate ISO 3166-1 entries and are excluded.",
+    "SY": "Upstream is already current green-white-black, three red stars, 3:2 ratio; no replacement needed.",
+    "territories": "Other territories retain upstream official state flags; identical drawings are marked duplicateOf for safe gameplay."
+  },
+  "labels": "French region names initially resolved with Intl.DisplayNames. Reviewed overrides, then frozen in countries.json for offline generation independent of ICU updates.",
+  "rendering": {
+    "size": 512,
+    "transparentMargin": 32,
+    "maximumArtDimension": 448,
+    "supersampling": 2
+  }
+}

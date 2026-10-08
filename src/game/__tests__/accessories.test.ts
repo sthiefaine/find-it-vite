@@ -48,15 +48,27 @@ describe("accessoires réutilisables", () => {
     expect(withAccessoryPreview(spec, undefined)).toBe(spec);
     expect(withAccessoryPreview(spec, "moustache").accessories?.target).toBe("moustache");
   });
-  it("propose les cinq accessoires dont la fausse moustache, dans le carré du portrait", () => {
-    expect(new Set(ACCESSORIES.map((a) => a.id)).size).toBe(5);
+  it("propose les six accessoires dont la fausse moustache et le nez de clown, dans le carré du portrait", () => {
+    expect(new Set(ACCESSORIES.map((a) => a.id)).size).toBe(6);
     expect(ACCESSORIES.some((a) => a.id === "moustache")).toBe(true);
+    expect(ACCESSORIES.some((a) => a.id === "clown-nose")).toBe(true);
     for (const { box } of ACCESSORIES) {
       expect(box.x).toBeGreaterThanOrEqual(0);
       expect(box.y).toBeGreaterThanOrEqual(0);
       expect(box.x + box.width).toBeLessThanOrEqual(1);
       expect(box.y + box.height).toBeLessThanOrEqual(1);
     }
+  });
+
+  it("place le nez de clown sous les yeux, au-dessus de la bouche, même avec les longues oreilles du lapin", () => {
+    const nose = getAccessory("clown-nose")!;
+    const cat = getAccessoryBox(nose, "/assets/images/characters/animals/chat.png");
+    const rabbit = getAccessoryBox(nose, "/assets/images/characters/animals/lapin.png");
+    expect(cat.y + cat.height / 2).toBeCloseTo(.643);
+    expect(rabbit.y + rabbit.height / 2).toBeCloseTo(.7335);
+    expect(rabbit.y).toBeGreaterThan(.61);
+    expect(readAccessoryPreview("?accessory=clown-nose", true)).toBe("clown-nose");
+    expect(readAccessoryPreview("?accessory=clown-nose", false)).toBeUndefined();
   });
 
   it("introduit les tenues progressivement, plus tard en Enfant, et ménage les respirations", () => {

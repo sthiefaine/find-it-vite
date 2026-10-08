@@ -117,14 +117,20 @@ describe("real multiplayer WebSocket server", () => {
     expect(a.self.levelNonce).toBe(b.self.levelNonce);
   });
 
-  it("waits for both asset acknowledgements before the first shared countdown", async () => {
+  it.each(["ferme", "drapeaux"] as const)("waits for both asset acknowledgements before the first shared countdown (%s)", async (theme) => {
     const f = await fixture();
     const a = await connect(f.url), b = await connect(f.url);
-    a.send({ type: "create", name: "A", theme: "ferme" });
+    a.send({ type: "create", name: "A", theme });
     b.send({ type: "join", name: "B", code: (await a.session()).code });
     await b.session();
     a.send({ type: "ready", ready: true }); b.send({ type: "ready", ready: true });
     const first = await a.state((s) => s.self.phase === "preparing");
+    expect(first.room.theme).toBe(theme);
+    if (theme === "drapeaux") {
+      expect(first.self.spec?.wanted.serie).toBe("flags");
+      expect(first.self.spec?.accessories).toBeUndefined();
+      expect(first.self.spec?.crowdVariant).toBeUndefined();
+    }
     a.send({ type: "assetsReady", levelNonce: first.self.levelNonce! });
     const acknowledged = await a.state((s) => s.self.phase === "preparing", a.messages.length);
     expect(acknowledged.self.startsAt).toBeNull();

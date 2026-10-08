@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useSaveStore } from "../../save/saveStore";
 import { masteryOf } from "../../content/progress";
 import type { CharacterDetails } from "../../helpers/characters";
+import { portraitStyle } from "../../helpers/portraitScale";
 import { ALBUM_COLLECTIONS, caughtCount, MEDALS, nextMedal } from "./albumLogic";
 import { ANIMAL_COLORS, animalCategoryLabel, animalSpeciesLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
 import { isAnimalUnlocked } from "../../content/unlockedAnimals";
@@ -25,7 +26,7 @@ const Album = () => {
   const visible = world.characters.filter((animal) => {
     const metadata = normalizedAnimalMetadata(animal);
     return (!category || metadata.tags.includes(category)) && (!species || metadata.species === species)
-      && (!color || metadata.dominantColors.some((c) => c === color));
+      && (!world.allowColorFilter || !color || metadata.dominantColors.some((c) => c === color));
   });
 
   return (
@@ -71,10 +72,10 @@ const Album = () => {
             <option value="">Toutes</option>
             {speciesList.map((id) => <option key={id} value={id}>{animalSpeciesLabel(id)}</option>)}
           </select></label>}
-          <label>Couleur<select value={color} onChange={(event) => setColor(event.target.value)}>
+          {world.allowColorFilter && <label>Couleur<select value={color} onChange={(event) => setColor(event.target.value)}>
             <option value="">Toutes</option>
             {Object.entries(ANIMAL_COLORS).map(([id, value]) => <option key={id} value={id}>{value.label}</option>)}
-          </select></label>
+          </select></label>}
         </div>
         <p className="album-filter-count" aria-live="polite">{visible.length} portrait{visible.length > 1 ? "s" : ""}</p>
         <div className="album-grid">
@@ -85,7 +86,7 @@ const Album = () => {
             if (!world.alwaysAvailable && !isAnimalUnlocked({ collection }, c.name)) {
               return (
                 <div key={c.name} className="album-card album-card-unknown" aria-label="Pas encore trouvé">
-                  <img src={c.imageSrc} alt="" draggable={false} />
+                  <img src={c.imageSrc} alt="" draggable={false} style={portraitStyle(c.imageSrc)} />
                   <span className="album-card-q">?</span>
                 </div>
               );
@@ -97,7 +98,7 @@ const Album = () => {
                 onClick={() => setPicked({ character: c, count })}
               >
                 {medal && <span className="album-card-medal">{medal}</span>}
-                <img src={c.imageSrc} alt="" draggable={false} />
+                <img src={c.imageSrc} alt="" draggable={false} style={portraitStyle(c.imageSrc)} />
                 <span className="album-card-label">{c.label}</span>
                 {count === 0 && <span className="album-available-label">Disponible</span>}
               </button>
@@ -128,7 +129,7 @@ const Album = () => {
               {MEDALS[masteryOf(picked.count)] && (
                 <span className="album-card-medal">{MEDALS[masteryOf(picked.count)]}</span>
               )}
-              <img src={picked.character.imageSrc} alt="" draggable={false} />
+              <img src={picked.character.imageSrc} alt="" draggable={false} style={portraitStyle(picked.character.imageSrc)} />
               <strong>{picked.character.label}</strong>
               {picked.character.breed && <span>{picked.character.breed}</span>}
               <div className="album-colors" aria-label="Couleurs dominantes">

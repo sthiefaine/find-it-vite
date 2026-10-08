@@ -1,5 +1,6 @@
 import publishedAnimals from "../content/publishedAnimals.json";
 import publishedPeople from "../content/publishedPeople.json";
+import publishedFlags from "../content/publishedFlags.json";
 import { normalizedAnimalMetadata } from "../content/animalTaxonomy";
 import type { AnimalMetadata } from "../content/animalTaxonomy";
 
@@ -37,3 +38,10 @@ export const charactersDetails: CharacterDetails[] = [...animalsPack];
 
 // Les personnalités restent dans leur propre thème, disponible dès le départ.
 export const peoplePack: CharacterDetails[] = (publishedPeople as CharacterDetails[]).map((person) => ({ ...person }));
+
+export type FlagDetails = CharacterDetails & { countryCode: string; duplicateOf?: string };
+export const flagsPack: FlagDetails[] = (publishedFlags as FlagDetails[]).map((flag) => ({ ...flag }));
+
+// Les territoires qui partagent un dessin gardent leur asset, mais une partie
+// propose un seul nom par drapeau. L’Antarctique n’a pas de drapeau officiel.
+export const playableFlagsPack: CharacterDetails[] = flagsPack.filter((flag) => !flag.duplicateOf && flag.name !== "flag-aq");

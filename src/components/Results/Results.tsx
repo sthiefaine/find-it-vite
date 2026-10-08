@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, useReducedMotion, Variants } from "framer-motion";
 import { useShallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
+import { portraitStyle } from "../../helpers/portraitScale";
 import NumberFlow from "@number-flow/react";
 import {
   CircleX,
@@ -300,7 +301,7 @@ export default function Results() {
             <div className="results-new-list">
               {gameRecord.newCharacters.slice(0, 5).map((c) => (
                 <figure key={c.name}>
-                  <img src={c.imageSrc} alt="" width={48} height={48} />
+                  <img src={c.imageSrc} alt="" width={48} height={48} style={portraitStyle(c.imageSrc)} />
                   <figcaption lang="fr">{c.label}</figcaption>
                 </figure>
               ))}
@@ -310,7 +311,7 @@ export default function Results() {
 
         {escaped && (
           <motion.div className="results-escaped" variants={item}>
-            <img src={wantedCharacter.imageSrc} alt="" width={52} height={52} />
+            <img src={wantedCharacter.imageSrc} alt="" width={52} height={52} style={portraitStyle(wantedCharacter.imageSrc)} />
             <div>
               <span>Il t'a échappé</span>
               <strong lang="fr">{wantedCharacter.label}</strong>

@@ -127,7 +127,10 @@ describe("variantes de foule", () => {
           if (kind.endsWith("-mixed")) {
             expect(crowd.every((item) => item.accessory !== undefined)).toBe(true);
             const similar = ACCESSORY_LOOKALIKES[target!];
-            expect(sameDecoys.some((item) => similar.includes(item.accessory!))).toBe(true);
+            if (similar.length) expect(sameDecoys.some((item) => similar.includes(item.accessory!))).toBe(true);
+            // Le nez rouge n'a pas de sosie dans le catalogue : ses leurres
+            // restent tous habillés, avec plusieurs autres accessoires.
+            else expect(new Set(sameDecoys.map((item) => item.accessory)).size).toBeGreaterThan(1);
           }
           expect(crowdOf(spec)).toEqual(crowd);
         }

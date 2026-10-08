@@ -1,0 +1,32 @@
+Flag artwork provenance and copyright declarations
+
+The 247 unmodified upstream SVG files are from hampusborgos/country-flags,
+commit c09927e63705529bbf59ca6684cd9b23225dddad, by Hampus Nilsson and
+contributors. The upstream package declares "PD" and its README states that
+the flag drawings originate from Wikimedia Commons and are public domain.
+https://github.com/hampusborgos/country-flags/tree/c09927e63705529bbf59ca6684cd9b23225dddad
+
+The following three SVG files replace outdated upstream drawings:
+
+svg/af.svg — Lexicon (vector). Wikimedia Commons declares this ancient-script
+representation public domain; the vector creator also releases any copyright
+arising from the vector file, with an unconditional fallback license where a
+public-domain release is not legally possible.
+https://commons.wikimedia.org/wiki/File:Flag_of_the_Taliban.svg
+
+svg/kg.svg — Shakiev N.T., Primov U.B. Wikimedia Commons declares this official
+state-symbol drawing public domain.
+https://commons.wikimedia.org/wiki/File:Flag_of_Kyrgyzstan.svg
+
+svg/mq.svg — MapGrid / HapHaxion / Femfem5 / Triton, based on Carport.
+Wikimedia Commons declares this simple geometric drawing public domain
+(PD shape).
+https://commons.wikimedia.org/wiki/File:Flag-of-Martinique.svg
+
+Sources are copied unchanged. Raster sprites preserve the same drawings,
+adding only a transparent canvas and rasterization. No MIT license is claimed
+for these public-domain sources. See provenance.json for download URLs and
+countries.json for the SHA-256 digest of every included source file.
+
+Copyright status is independent of rules concerning the use of national or
+official insignia. Source description pages retain their own terms.

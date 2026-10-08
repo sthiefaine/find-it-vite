@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { X } from "lucide-react";
 
 import { randomSeed } from "../../engine";
+import { portraitStyle } from "../../helpers/portraitScale";
 import { playThemeFromSearch, playThemePool } from "../../content/playThemes";
 import type { PlayThemeId } from "../../content/playThemes";
 import {
@@ -354,7 +355,7 @@ function PlayPanel(props: {
     <div className={`duel-play${locked ? " is-locked" : ""}`}>
       <div className="duel-poster">
         <span className="duel-poster-label">Trouve</span>
-        <img src={round.spec.wanted.imageSrc} alt={round.spec.wanted.label} draggable={false} />
+        <img src={round.spec.wanted.imageSrc} alt={round.spec.wanted.label} draggable={false} style={portraitStyle(round.spec.wanted.imageSrc)} />
       </div>
       <motion.div
         className="duel-grid"
@@ -373,7 +374,7 @@ function PlayPanel(props: {
                 onCell(i);
               }}
             >
-              <img src={c.imageSrc} alt="" draggable={false} />
+              <img src={c.imageSrc} alt="" draggable={false} style={portraitStyle(c.imageSrc)} />
             </div>
           );
         })}

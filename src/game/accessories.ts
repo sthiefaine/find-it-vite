@@ -12,7 +12,7 @@ export function readAccessoryPreview(search: string, development: boolean): Acce
 }
 
 export function withAccessoryPreview(spec: LevelSpec, id: AccessoryId | undefined): LevelSpec {
-  if (!id || spec.rule !== "classic") return spec;
+  if (!id || spec.rule !== "classic" || spec.wanted.serie === "flags") return spec;
   // Une variante garde son plan : seule la tenue de la cible change, jamais son absence.
   if (spec.crowdVariant) return spec.crowdVariant.dress === "bare" ? spec : { ...spec, accessories: { target: id, decoyChance: 1 } };
   return { ...spec, accessories: { target: id, decoyChance: .6 } };
@@ -21,6 +21,7 @@ export function withAccessoryPreview(spec: LevelSpec, id: AccessoryId | undefine
 // Flux séparé : le choix des tenues ne consomme pas l'aléatoire du placement.
 // Les dispositions protègent ensuite l'accessoire de la cible si nécessaire.
 export function planAccessories(spec: LevelSpec, tier: Tier, breather: boolean): AccessoryPlan | undefined {
+  if (spec.wanted.serie === "flags") return undefined;
   const first = tier === "easy" ? 23 : 13;
   if (spec.index < first || breather || spec.rule !== "classic") return undefined;
   const rng = createRng(spec.seed).fork("accessories");

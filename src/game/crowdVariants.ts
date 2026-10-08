@@ -87,7 +87,7 @@ export function pickPartner(wanted: CharacterDetails, pool: CharacterDetails[], 
 
 // Applique une variante à une spec classique. Sans sosie possible, la spec reste classique.
 export function applyCrowdVariant(spec: LevelSpec, kind: CrowdVariantKind, pool: CharacterDetails[], tier: Tier): LevelSpec {
-  if (spec.rule !== "classic") return spec;
+  if (spec.rule !== "classic" || spec.wanted.serie === "flags") return spec;
   const rng = createRng(spec.seed).fork("crowd-variant");
   const { species, dress } = parseKind(kind);
   // Une tenue cachée dans un tas ou un essaim ferait passer un leurre pour la

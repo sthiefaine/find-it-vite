@@ -103,7 +103,7 @@ export default function Multiplayer() {
     setPoolStatus("loading");
     void preloadImages([
       ...playThemePool("duel", currentTheme, {}).map(character => character.imageSrc),
-      ...ACCESSORIES.map(accessory => accessory.imageSrc),
+      ...(currentTheme === "drapeaux" ? [] : ACCESSORIES.map(accessory => accessory.imageSrc)),
     ], controller.signal).then(() => {
       if (!controller.signal.aborted) setPoolStatus("ready");
     }, () => { if (!controller.signal.aborted) setPoolStatus("error"); });

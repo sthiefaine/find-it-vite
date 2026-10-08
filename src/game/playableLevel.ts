@@ -146,6 +146,12 @@ export function generatePlayableLevel(index: number, context: GenContext, option
     seagulls: definition.seagulls && !(easy && definition.foliage),
   };
   const playable = { ...spec, scene, layout: definition.layout, params };
+  // Le dessin du drapeau est le seul indice : aucune tenue ni variante habillée.
+  if (spec.wanted.serie === "flags") return { ...playable, scene: { ...scene,
+    hint: scene.foliage ? "Écarte le feuillage pour retrouver le drapeau."
+      : scene.seagulls ? "Retrouve le drapeau entre les passages d’oiseaux."
+        : "Retrouve le drapeau de l’avis de recherche.",
+  } };
   // Les lunettes et coiffures des personnalités font partie de leur identité.
   // Les déguisements restent réservés aux portraits animaliers.
   if (spec.wanted.serie === "politics") return { ...playable, scene: { ...scene,

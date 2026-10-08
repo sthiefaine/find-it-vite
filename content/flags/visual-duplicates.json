@@ -1,0 +1,58 @@
+[
+  {
+    "representative": "flag-au",
+    "members": [
+      "flag-au",
+      "flag-hm"
+    ],
+    "pixelSha256": "49bba32d08b5d2f377bd09da8805f3c62792aac632e648357d83f16d723bc49e"
+  },
+  {
+    "representative": "flag-fr",
+    "members": [
+      "flag-bl",
+      "flag-fr",
+      "flag-gf",
+      "flag-gp",
+      "flag-mf",
+      "flag-nc",
+      "flag-pm",
+      "flag-re",
+      "flag-yt"
+    ],
+    "pixelSha256": "27845210528b4722724385cf7630d07a61807e2519409715eb95cca00a11bb8b"
+  },
+  {
+    "representative": "flag-nl",
+    "members": [
+      "flag-bq",
+      "flag-nl"
+    ],
+    "pixelSha256": "59b06a900326b0b759b90d6784ce323342b56e7f94676021088da2d45d9f8d03"
+  },
+  {
+    "representative": "flag-no",
+    "members": [
+      "flag-bv",
+      "flag-no",
+      "flag-sj"
+    ],
+    "pixelSha256": "f5afbd1505057515332f82127ed3afcacbcc96bdc2a4607a64b42f0a75c9f486"
+  },
+  {
+    "representative": "flag-gb",
+    "members": [
+      "flag-gb",
+      "flag-sh"
+    ],
+    "pixelSha256": "5c3dc9efa20484040f1db8fdc30786e420e81b6cc4f83e5635c2b1d5d9699735"
+  },
+  {
+    "representative": "flag-us",
+    "members": [
+      "flag-um",
+      "flag-us"
+    ],
+    "pixelSha256": "ea5ffc4b4a6c84862bc7fb4dd06f9e7138378442ff88f391930cd66cf35acb8c"
+  }
+]

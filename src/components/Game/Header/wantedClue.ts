@@ -7,6 +7,7 @@ const ACCESSORY_CLUES: Record<AccessoryId, string> = {
   sunglasses: "Avec des lunettes de soleil",
   "bow-tie": "Avec un nœud papillon",
   moustache: "Avec une fausse moustache",
+  "clown-nose": "Avec un nez de clown",
 };
 
 // Dans une foule de sosies, le nom seul ne décrit pas la cible unique.

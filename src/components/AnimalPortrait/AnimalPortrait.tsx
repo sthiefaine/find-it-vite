@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { portraitStyle } from "../../helpers/portraitScale";
 import { ACCESSORY_OUTLINE_OFFSETS, getAccessory, getAccessoryBox, needsAccessoryOutline, type AccessoryId } from "../../content/accessories";
 import "./AnimalPortrait.css";
 
@@ -14,7 +15,7 @@ type Props = {
 export function AnimalPortrait({ imageSrc, label, accessoryId, size, className = "", hidden = false }: Props) {
   const accessory = getAccessory(accessoryId);
   const box = accessory ? getAccessoryBox(accessory, imageSrc) : undefined;
-  const style: CSSProperties | undefined = size ? { width: size, height: size } : undefined;
+  const style: CSSProperties = { ...(size ? { width: size, height: size } : {}), ...portraitStyle(imageSrc) };
   return <span className={`animal-portrait ${className}`} style={style} hidden={hidden}
     role="img" aria-label={accessory ? `${label}, ${accessory.label.toLocaleLowerCase("fr")}` : label}
     data-accessory={accessory?.id ?? "none"}>
