@@ -5,16 +5,21 @@ import { historyPack, peoplePack } from "../../helpers/characters";
 import type { CharacterDetails } from "../../helpers/characters";
 import { MEDAL_THRESHOLDS } from "../../content/progress";
 import type { Mastery } from "../../content/progress";
+import { isPersonUnlocked, type PersonUnlockSave } from "../../content/personUnlocks";
+import { isAnimalUnlocked } from "../../content/unlockedAnimals";
 
 type AlbumSave = Pick<Save, "collection">;
 
 export const ALBUM_COLLECTIONS = [
   ...WORLDS.map((world) => ({ ...world, alwaysAvailable: false, allowColorFilter: true })),
   { id: "politique", name: "Politique française", emoji: "🏛️", characters: peoplePack,
-    background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: true, allowColorFilter: false },
+    background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: false, allowColorFilter: false },
   { id: "histoire", name: "Histoire", emoji: "📜", characters: historyPack,
-    background: "linear-gradient(160deg, #f9e8c8 0%, #d7b77c 100%)", alwaysAvailable: true, allowColorFilter: false },
+    background: "linear-gradient(160deg, #f9e8c8 0%, #d7b77c 100%)", alwaysAvailable: false, allowColorFilter: false },
 ];
+export const isAlbumCharacterUnlocked = (save: AlbumSave & PersonUnlockSave, character: CharacterDetails) =>
+  character.serie === "politics" || character.serie === "history"
+    ? isPersonUnlocked(save, character.name) : isAnimalUnlocked(save, character.name);
 const albumCharacters = ALBUM_COLLECTIONS.flatMap((collection) => collection.characters);
 
 export function caughtCount(save: AlbumSave, characters: CharacterDetails[] = albumCharacters) {

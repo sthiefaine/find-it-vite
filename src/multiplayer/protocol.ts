@@ -67,8 +67,8 @@ export type SelfSnapshot = {
 };
 
 export type ClientMessage = (
-  | { type: "create"; name: string; theme: MultiplayerTheme }
-  | { type: "join"; code: string; name: string }
+  | { type: "create"; name: string; theme: MultiplayerTheme; purchasedPeople?: string[] }
+  | { type: "join"; code: string; name: string; purchasedPeople?: string[] }
   | { type: "resume"; code: string; token: string }
   | { type: "ready"; ready: boolean }
   | { type: "assetsReady"; levelNonce: string }

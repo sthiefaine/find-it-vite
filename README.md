@@ -149,7 +149,7 @@ permettent de restreindre la collection ; Personnes et Drapeaux sont annoncés
 Le thème Océan d’Infini et de Duel utilise les portraits marins publiés dans
 l’atelier. Le monde Océan de l’Aventure conserve ses personnages historiques.
 
-Le thème **Politique française** ajoute 41 portraits disponibles immédiatement en
+Le thème **Politique française** ajoute 41 portraits, dont 12 disponibles au départ en
 Infini, Duel local et salons en ligne. Il comprend des présidents et figures
 historiques, ainsi que les sénateurs Gérard Larcher, Claude Malhuret, Patrick Kanner,
 Cécile Cukierman, Laurence Rossignol, Mathieu Darnaud et Bruno Retailleau, et les députés Yaël
@@ -159,11 +159,11 @@ Les PNG transparents 512 × 512 sont dans `public/assets/images/characters/peopl
 les prompts et la charte dans `content/sprites/`, les originaux dans
 `artifacts/sprite-originals/politics-2026-10-08/`. Le manifeste
 `src/content/publishedPeople.json` alimente ce thème et une collection dédiée dans
-l’album. La publication compte 143 portraits : 78 animaux, 41 personnalités politiques et 24 figures historiques.
+l’album. La publication contient des portraits animaliers, 41 personnalités politiques et 24 figures historiques.
 Les déguisements restent réservés aux animaux pour conserver les traits distinctifs
 des personnalités. Ces portraits ne créent pas de nouveau monde d’Aventure.
 
-Le thème **Histoire** propose 24 portraits transparents, disponibles dès le départ
+Le thème **Histoire** propose 24 portraits transparents, dont 12 au départ
 en Infini, Duel local et salons en ligne : de l’Antiquité aux figures des sciences,
 des arts et des droits civiques. Sa collection dédiée dans l’album permet de
 consulter une courte description, une période et un lien de référence.
@@ -416,3 +416,14 @@ est acceptée pour les navigateurs. `TRUST_PROXY=1` ne s’active que derrière 
 proxy de confiance qui remplace `X-Forwarded-For`. Les salons sont en mémoire :
 un redémarrage les termine. Une seule instance est prévue pour cette version.
 Le push Git seul ne déploie pas ce nouveau service sur un hébergeur statique.
+
+Les thèmes Histoire et Politique démarrent chacun avec 12 personnages.
+Les autres se débloquent dans l’album pour **100 étoiles par personnage**.
+Chaque portrait trouvé rapporte 1 étoile, quel que soit le thème. Le solde est
+visible sur l’accueil et dans l’album ; acheter ne compte pas comme une capture.
+Les notes 0–3 étoiles des étapes d’Aventure restent une progression distincte.
+La sauvegarde v8 transforme les captures enregistrées en solde initial, conserve
+les captures et remet les portraits supplémentaires derrière leur achat.
+En ligne, seuls les personnages de départ et les achats communs aux deux joueurs
+sont utilisés. Les scores récompensés sont mémorisés pour éviter de créditer deux
+fois une partie après une reconnexion.

@@ -4,6 +4,7 @@ import type { FrameId, PlayerTier } from "./schema";
 import { getSaveVersion, migrate } from "./migrations";
 import type { StorageAdapter } from "./storage";
 import { platformStorage } from "../platform/storage";
+import { isPerson, isPersonUnlocked, PERSON_PRICE } from "../content/personUnlocks";
 
 export type GameResult = {
   score: number;
@@ -34,6 +35,8 @@ type SaveActions = {
   setFrame: (frame: FrameId) => void;
   recordStars: (worldId: string, level: number, stars: number) => void;
   recordCollection: (name: string, n?: number) => void;
+  purchasePerson: (id: string) => PurchaseResult;
+  recordOnlineScore: (matchId: string, score: number) => void;
   recordDaily: (dateISO: string, score: number) => void;
   flush: () => Promise<void>;
   reset: () => Promise<void>;
@@ -42,6 +45,22 @@ type SaveActions = {
 };
 
 export type SaveStore = SaveState & SaveActions;
+export type PurchaseResult = "purchased" | "already-unlocked" | "not-enough-stars" | "unknown-character" | "unavailable";
+
+export function applyPersonPurchase(save: Save, id: string): { save: Save; result: PurchaseResult } {
+  if (!isPerson(id)) return { save, result: "unknown-character" };
+  if (isPersonUnlocked(save, id)) return { save, result: "already-unlocked" };
+  if (save.wallet.stars < PERSON_PRICE) return { save, result: "not-enough-stars" };
+  return { result: "purchased", save: { ...save, wallet: { ...save.wallet, stars: save.wallet.stars - PERSON_PRICE }, purchasedPeople: [...save.purchasedPeople, id] } };
+}
+
+export function applyOnlineScore(save: Save, matchId: string, score: number): Save {
+  if (!/^[A-Z0-9]+:[a-f0-9]+$/.test(matchId) || matchId.length >= 80 || !Number.isSafeInteger(score) || score < 0) return save;
+  const previous = save.wallet.onlineRewards[matchId] ?? 0;
+  if (score <= previous) return save;
+  const onlineRewards = Object.fromEntries([...Object.entries(save.wallet.onlineRewards).filter(([id]) => id !== matchId), [matchId, score]].slice(-100));
+  return { ...save, wallet: { stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + score - previous), onlineRewards } };
+}
 
 export function applyGameResult(save: Save, result: GameResult): Save {
   const { progress } = save;
@@ -68,8 +87,9 @@ export function applyStars(save: Save, worldId: string, level: number, stars: nu
 
 export function applyCollection(save: Save, name: string, n = 1): Save {
   const add = Math.floor(n);
-  if (!name || !(add > 0)) return save;
-  return { ...save, collection: { ...save.collection, [name]: (save.collection[name] ?? 0) + add } };
+  if (!name || !Number.isSafeInteger(add) || !(add > 0)) return save;
+  return { ...save, collection: { ...save.collection, [name]: (save.collection[name] ?? 0) + add },
+    wallet: { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + add) } };
 }
 
 // Défi du jour : meilleur score et nombre de parties, remis à zéro chaque nouveau jour
@@ -183,6 +203,13 @@ export function createSaveStore(
 
       recordStars: (worldId, level, stars) => update(applyStars(get().save, worldId, level, stars)),
       recordCollection: (name, n = 1) => update(applyCollection(get().save, name, n)),
+      purchasePerson: (id) => {
+        if (!get().loaded || get().readOnly) return "unavailable";
+        const purchase = applyPersonPurchase(get().save, id);
+        update(purchase.save);
+        return purchase.result;
+      },
+      recordOnlineScore: (matchId, score) => update(applyOnlineScore(get().save, matchId, score)),
       recordDaily: (dateISO, score) => update(applyDaily(get().save, dateISO, score)),
 
       flush: () => (timer ? write() : Promise.resolve()),

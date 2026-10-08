@@ -5,7 +5,7 @@ import { isLevelUnlocked, isWorldUnlocked } from "../../content/progress";
 import { getWorld } from "../../content/worlds";
 
 // Champs ajoutés par la v4, tels qu'une migration les crée
-const V4_EXTRA = { adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
+const V4_EXTRA = { wallet: { stars: 0, onlineRewards: {} }, purchasedPeople: [], adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
 const v4Settings = (sound: boolean) => ({ sound, calm: false, frame: "classic" });
 
 describe("migrate", () => {
@@ -107,6 +107,8 @@ describe("migrate", () => {
         ...v4,
         version: SAVE_VERSION,
         adventure: { stars: { "ocean:2": 3 }, unlocked: ["ocean"] },
+        wallet: { stars: 2, onlineRewards: {} },
+        purchasedPeople: [],
         profile: { tier: "normal" },
       });
     });
@@ -231,7 +233,7 @@ describe("migrate", () => {
     it("garde Océan ouvert après l'ancien final Animaux sans déplacer les étoiles", () => {
       const stars = { "animaux:1": 3, "animaux:10": 1, "dinos:5": 2 };
       const save = migrate({ ...defaultSave(), version: 6, adventure: { stars, unlocked: [] } });
-      expect(save.version).toBe(7);
+      expect(save.version).toBe(SAVE_VERSION);
       expect(save.adventure.stars).toEqual(stars);
       expect(isWorldUnlocked(save, getWorld("ocean")!)).toBe(true);
       expect(isLevelUnlocked(save, "ocean", 1)).toBe(true);

@@ -7,6 +7,7 @@ import { X } from "lucide-react";
 
 import { randomSeed } from "../../engine";
 import { portraitStyle } from "../../helpers/portraitScale";
+import { useSaveStore } from "../../save/saveStore";
 import { playThemeFromSearch, playThemePool } from "../../content/playThemes";
 import type { PlayThemeId } from "../../content/playThemes";
 import {
@@ -47,7 +48,8 @@ export default function Duel() {
 function DuelSession({ theme }: { theme: PlayThemeId }) {
   const { t: tr } = useTranslation();
   const navigate = useNavigate();
-  const pool = useMemo(() => playThemePool("duel", theme, {}), [theme]);
+  const purchasedPeople = useSaveStore(state => state.save.purchasedPeople);
+  const pool = useMemo(() => playThemePool("duel", theme, { purchasedPeople }), [theme, purchasedPeople]);
   const [phase, setPhase] = useState<Phase>("setup");
   const [target, setTarget] = useState<DuelTarget>(5);
   const [ready, setReady] = useState<Record<Player, boolean>>({ top: false, bottom: false });
@@ -174,6 +176,7 @@ function DuelSession({ theme }: { theme: PlayThemeId }) {
       later(() => setLocked((l) => ({ ...l, [player]: false })), LOCK_MS);
       return;
     }
+    useSaveStore.getState().recordCollection(r.spec.wanted.name);
     playDuelSound(playPopSound);
     haptics.tapLight();
     later(() => {

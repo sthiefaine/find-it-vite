@@ -65,7 +65,7 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
                 <span className="play-theme-name">{tr(theme.label)}</span>
                 <span className="play-theme-description">{tr(theme.description)}</span>
                 <span className="play-theme-count">
-                  {theme.comingSoon ? tr("Bientôt") : mode === "endless"
+                  {theme.comingSoon ? tr("Bientôt") : (mode === "endless" || theme.id === "politique" || theme.id === "histoire")
                     ? <>{tr("{{available}}/{{total}} disponibles", { available: availableCount, total: totalCount })}{!enabled ? tr(" · 3 requis") : ""}</>
                     : <>{tr(theme.id === "drapeaux" ? "{{count}} drapeaux" : "{{count}} portraits", { count: totalCount })}{!enabled ? tr(" · 3 requis") : ""}</>}
                 </span>
@@ -74,10 +74,8 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
           })}
         </div>
         <p className="play-setup-hint">
-          {selectedId === "politique"
-            ? tr("Tous les portraits politiques sont disponibles dès le départ.")
-            : selectedId === "histoire"
-            ? tr("Tous les portraits historiques sont disponibles dès le départ.")
+          {(selectedId === "politique" || selectedId === "histoire")
+            ? tr("12 personnages de départ. Débloque les autres avec tes étoiles dans l’album.")
             : selectedId === "drapeaux"
             ? tr("Tous les drapeaux sont disponibles dès le départ, sans accessoires.")
             : mode === "endless"

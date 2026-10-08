@@ -4,7 +4,7 @@
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
 
-export const SAVE_VERSION = 7 as const;
+export const SAVE_VERSION = 8 as const;
 export const SAVE_KEY = "find-it:save";
 
 export type SaveSettings = {
@@ -92,6 +92,13 @@ export type SaveV6 = Omit<SaveV5, "version" | "adventure"> & {
 // étapes sont inscrits dans unlocked ; les clés d'étoiles ne sont jamais déplacées.
 export type SaveV7 = Omit<SaveV6, "version"> & { version: 7 };
 
+// v8: spendable stars and purchased portraits, separate from adventure ratings.
+export type SaveV8 = Omit<SaveV7, "version"> & {
+  version: 8;
+  wallet: { stars: number; onlineRewards: Record<string, number> };
+  purchasedPeople: string[];
+};
+
 export const ADVENTURE_WORLD_IDS: readonly string[] = ["animaux", "ocean", "dinos", "halloween", "espace"];
 
 export const TIERS: readonly Tier[] = ["easy", "normal", "expert"];
@@ -100,9 +107,9 @@ export const DEFAULT_TIER: PlayerTier = "normal";
 export const FRAME_IDS: readonly FrameId[] = ["classic", "neon", "gold", "ice"];
 
 // Format courant
-export type Save = SaveV7;
+export type Save = SaveV8;
 
-export function defaultSave(): SaveV7 {
+export function defaultSave(): SaveV8 {
   return {
     version: SAVE_VERSION,
     settings: { sound: true, calm: false, frame: "classic" },
@@ -112,6 +119,8 @@ export function defaultSave(): SaveV7 {
     adventure: { stars: {}, unlocked: [] },
     collection: {},
     daily: null,
+    wallet: { stars: 0, onlineRewards: {} },
+    purchasedPeople: [],
   };
 }
 

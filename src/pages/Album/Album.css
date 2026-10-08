@@ -7,7 +7,20 @@
 .album-total {
   display: flex;
   justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
+
+.album-wallet { color: #ffc800; font-size: 22px; padding: 8px 18px; }
+.album-owned-count { margin: 0; text-align: center; font-weight: 800; color: #ffc800; }
+.album-card-locked { background: #e9e5ef; border-style: dashed; border-color: #9b8aab; }
+.album-card-locked img { filter: grayscale(1); opacity: .65; }
+.album-price { color: #573a70; font-size: 12px; font-weight: 800; }
+.album-purchase { display: grid; gap: 8px; width: 100%; text-align: center; font-size: 14px; }
+.album-purchase progress { width: 100%; accent-color: #8739f9; }
+.album-purchase button { min-height: 46px; padding: 10px; border: 0; border-radius: 12px; background: #ffc800; color: #321356; font: inherit; font-weight: 900; }
+.album-purchase button:disabled { opacity: .5; cursor: not-allowed; }
+.album-purchase button:focus-visible { outline: 3px solid #8739f9; outline-offset: 3px; }
 
 .album-total-chip {
   font-size: 22px;

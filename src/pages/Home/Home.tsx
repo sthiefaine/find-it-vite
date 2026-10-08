@@ -4,7 +4,7 @@ import { Tile } from "../../components/Buttons/Tile";
 import { GameIcon } from "../../components/Icons/GameIcon";
 import { Title } from "../../components/Title/Title";
 import { useSaveStore } from "../../save/saveStore";
-import { todayISO, totalStars } from "../../content/progress";
+import { todayISO } from "../../content/progress";
 import { caughtCount } from "../Album/albumLogic";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { HomeAnimals } from "./HomeAnimals";
@@ -14,7 +14,7 @@ import "./Home.css";
 const Home = () => {
   const { t: tr } = useTranslation();
   const save = useSaveStore((s) => s.save);
-  const stars = totalStars(save);
+  const stars = save.wallet.stars;
   const { caught, total } = caughtCount(save);
   const dailyNew = save.daily?.date !== todayISO();
   const best = save.progress.bestScore;

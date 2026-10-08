@@ -1,4 +1,4 @@
-import type { AnimalUnlockSave } from "../content/unlockedAnimals";
+import type { CharacterUnlockSave } from "../content/playThemes";
 import { playThemePool } from "../content/playThemes";
 import type { PlayThemeId } from "../content/playThemes";
 import { getWorld } from "../content/worlds";
@@ -9,7 +9,7 @@ import type { GameMode } from "./modes";
 
 // La cible et tous les figurants viennent du même catalogue autorisé. Le thème
 // sélectionné ne peut jamais ajouter un animal verrouillé à l'Infini.
-export function characterPoolFor(mode: GameMode, step: number, save: AnimalUnlockSave, theme: PlayThemeId = "animaux"): CharacterDetails[] {
+export function characterPoolFor(mode: GameMode, step: number, save: CharacterUnlockSave, theme: PlayThemeId = "animaux"): CharacterDetails[] {
   if (mode === "adventure") return poolOfStep(step);
   if (mode === "daily") return getWorld("animaux")?.characters ?? charactersDetails;
   return playThemePool("endless", theme, save);

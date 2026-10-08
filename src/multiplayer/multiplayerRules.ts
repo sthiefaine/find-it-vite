@@ -5,12 +5,13 @@ import { animalsPack, historyPack, peoplePack, playableFlagsPack } from "../help
 import { getWorld } from "../content/worlds";
 import type { CharacterDetails } from "../helpers/characters";
 import type { MultiplayerTheme } from "./protocol";
+import { unlockedPeople } from "../content/personUnlocks";
 
 export const MULTIPLAYER_THEMES: readonly MultiplayerTheme[] = ["animaux", "ferme", "foret", "savane", "ocean", "politique", "histoire", "drapeaux"];
 
-export function multiplayerPool(theme: MultiplayerTheme): CharacterDetails[] {
-  if (theme === "politique") return peoplePack;
-  if (theme === "histoire") return historyPack;
+export function multiplayerPool(theme: MultiplayerTheme, purchasedPeople: readonly string[] = []): CharacterDetails[] {
+  if (theme === "politique") return unlockedPeople({ purchasedPeople }, peoplePack);
+  if (theme === "histoire") return unlockedPeople({ purchasedPeople }, historyPack);
   if (theme === "drapeaux") return playableFlagsPack;
   if (theme === "ocean") {
     // Emoji portraits are drawn by the browser after receiving the spec. Do not
@@ -20,8 +21,8 @@ export function multiplayerPool(theme: MultiplayerTheme): CharacterDetails[] {
   return theme === "animaux" ? animalsPack : animalsPack.filter((animal) => animal.tags?.includes(theme));
 }
 
-export function multiplayerLevel(index: number, seed: number, theme: MultiplayerTheme): LevelSpec {
-  const spec = generatePlayableLevel(index, { seed, tier: "normal", pool: multiplayerPool(theme) }, { crowdVariants: false });
+export function multiplayerLevel(index: number, seed: number, theme: MultiplayerTheme, purchasedPeople: readonly string[] = []): LevelSpec {
+  const spec = generatePlayableLevel(index, { seed, tier: "normal", pool: multiplayerPool(theme, purchasedPeople) }, { crowdVariants: false });
   // Multiplayer owns its clock and renderer, including their independent state.
   // The same four layouts/accessories stay deterministic on both devices.
   return { ...spec, scene: spec.scene ? { ...spec.scene, foliage: undefined, seagulls: false } : undefined };

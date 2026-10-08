@@ -3,6 +3,8 @@ import { animalsPack, historyPack, peoplePack, playableFlagsPack } from "../help
 import type { CharacterDetails } from "../helpers/characters";
 import { unlockedAnimals } from "./unlockedAnimals";
 import type { AnimalUnlockSave } from "./unlockedAnimals";
+import { unlockedPeople, type PersonUnlockSave } from "./personUnlocks";
+export type CharacterUnlockSave = AnimalUnlockSave & PersonUnlockSave;
 
 export type PlayMode = "endless" | "duel";
 export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "politique" | "histoire" | "personnes" | "drapeaux";
@@ -41,12 +43,13 @@ function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
   }
 }
 
-function availablePool(mode: PlayMode, id: PlayThemeId, save: AnimalUnlockSave): CharacterDetails[] {
+function availablePool(mode: PlayMode, id: PlayThemeId, save: CharacterUnlockSave): CharacterDetails[] {
   const published = publishedThemePool(id);
-  return mode === "duel" || id === "politique" || id === "histoire" || id === "drapeaux" ? published : unlockedAnimals(save, published);
+  if (id === "politique" || id === "histoire") return unlockedPeople(save, published);
+  return mode === "duel" || id === "drapeaux" ? published : unlockedAnimals(save, published);
 }
 
-export function themeOptions(mode: PlayMode, save: AnimalUnlockSave) {
+export function themeOptions(mode: PlayMode, save: CharacterUnlockSave) {
   return PLAY_THEMES.map((theme) => {
     const totalCount = publishedThemePool(theme.id).length;
     const availableCount = availablePool(mode, theme.id, save).length;
@@ -59,7 +62,7 @@ export function playThemeFromSearch(search: string): PlayThemeId {
   return PLAY_THEMES.find((theme) => theme.id === id && !theme.comingSoon)?.id ?? "animaux";
 }
 
-export function playThemePool(mode: PlayMode, id: PlayThemeId, save: AnimalUnlockSave): CharacterDetails[] {
+export function playThemePool(mode: PlayMode, id: PlayThemeId, save: CharacterUnlockSave): CharacterDetails[] {
   const pool = availablePool(mode, id, save);
   // Un lien ancien, un thème à venir ou trop peu de portraits ne doit jamais
   // contourner le déblocage : le repli conserve le catalogue autorisé du mode.

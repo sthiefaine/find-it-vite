@@ -5,6 +5,7 @@ import { animalsPack, historyPack, peoplePack } from "../../helpers/characters";
 import { generateRound } from "../../pages/Duel/duelLogic";
 import { defaultSave } from "../../save/schema";
 import { PLAY_THEMES, playThemeFromSearch, playThemePool, themeOptions } from "../playThemes";
+import { unlockedPeople } from "../personUnlocks";
 import type { PlayThemeId } from "../playThemes";
 import { isAnimalUnlocked, unlockedAnimals } from "../unlockedAnimals";
 import { getWorld } from "../worlds";
@@ -16,7 +17,7 @@ describe("thèmes proposés avant une partie", () => {
     const duel = themeOptions("duel", save);
     expect(endless[0]).toMatchObject({ theme: { id: "animaux" }, availableCount: 5, totalCount: animalsPack.length, enabled: true });
     for (const option of duel) {
-      expect(option.availableCount).toBe(option.totalCount);
+      expect(option.availableCount).toBe(option.theme.id === "politique" || option.theme.id === "histoire" ? 12 : option.totalCount);
       expect(option.enabled).toBe(!option.theme.comingSoon && option.availableCount >= 3);
     }
     for (const id of ["ferme", "foret", "savane", "ocean"] as const) {
@@ -101,12 +102,12 @@ describe("thèmes proposés avant une partie", () => {
     expect(characterPoolFor("endless", 1, save, "ferme")).toEqual(playThemePool("endless", "ferme", save));
   });
 
-  it("rend les 24 portraits historiques disponibles dans les deux modes sans déguisement", () => {
+  it("rend 12 portraits historiques disponibles dans les deux modes sans déguisement", () => {
     expect(historyPack).toHaveLength(24);
     expect(playThemeFromSearch("?theme=histoire")).toBe("histoire");
     for (const mode of ["endless", "duel"] as const) {
-      expect(playThemePool(mode, "histoire", defaultSave())).toEqual(historyPack);
-      expect(themeOptions(mode, defaultSave()).find(({ theme }) => theme.id === "histoire")).toMatchObject({ enabled: true, availableCount: 24 });
+      expect(playThemePool(mode, "histoire", defaultSave())).toEqual(unlockedPeople({}, historyPack));
+      expect(themeOptions(mode, defaultSave()).find(({ theme }) => theme.id === "histoire")).toMatchObject({ enabled: true, availableCount: 12 });
     }
     for (const index of [1, 6, 12, 40]) {
       const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool: historyPack });
@@ -120,8 +121,8 @@ describe("thèmes proposés avant une partie", () => {
     const save = defaultSave();
     for (const mode of ["endless", "duel"] as const) {
       expect(themeOptions(mode, save).find(({ theme }) => theme.id === "politique"))
-        .toMatchObject({ availableCount: peoplePack.length, totalCount: peoplePack.length, enabled: true });
-      expect(playThemePool(mode, "politique", save)).toEqual(peoplePack);
+        .toMatchObject({ availableCount: 12, totalCount: peoplePack.length, enabled: true });
+      expect(playThemePool(mode, "politique", save)).toEqual(unlockedPeople({}, peoplePack));
       expect(playThemePool(mode, "animaux", save).every((character) => character.serie === "animal")).toBe(true);
     }
     expect(playThemeFromSearch("?theme=politique")).toBe("politique");

@@ -11,6 +11,7 @@ import { levelAssetUrls, preloadImages } from "../../game/assetReadiness";
 import { useMultiplayer } from "../../multiplayer/useMultiplayer";
 import { invitationUrl, normalizeRoomCode, playerTimeSeconds, remainingSeconds } from "../../multiplayer/clientUtils";
 import type { PublicPlayer, MultiplayerTheme } from "../../multiplayer/protocol";
+import { useSaveStore } from "../../save/saveStore";
 import { MatchBoard } from "./MatchBoard";
 import "../../components/Buttons/ui.css";
 import "./Multiplayer.css";
@@ -55,6 +56,7 @@ export default function Multiplayer() {
   const { t: tr } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
+  const purchasedPeople = useSaveStore(state => state.save.purchasedPeople);
   const initialCode = useRef(normalizeRoomCode(new URLSearchParams(location.search).get("room") ?? ""));
   const theme = playThemeFromSearch(location.search) as MultiplayerTheme;
   const { match, connection, pending, error, send, request, leave, serverNow } = useMultiplayer(initialCode.current);
@@ -106,13 +108,18 @@ export default function Multiplayer() {
     const controller = new AbortController();
     setPoolStatus("loading");
     void preloadImages([
-      ...playThemePool("duel", currentTheme, {}).map(character => character.imageSrc),
+      ...playThemePool("duel", currentTheme, { purchasedPeople }).map(character => character.imageSrc),
       ...(currentTheme === "drapeaux" ? [] : ACCESSORIES.map(accessory => accessory.imageSrc)),
     ], controller.signal).then(() => {
       if (!controller.signal.aborted) setPoolStatus("ready");
     }, () => { if (!controller.signal.aborted) setPoolStatus("error"); });
     return () => controller.abort();
-  }, [currentTheme, attempt]);
+  }, [currentTheme, purchasedPeople, attempt]);
+
+  const ownScore = me?.score;
+  useEffect(() => {
+    if (roomCode && self?.playerId && ownScore !== undefined) useSaveStore.getState().recordOnlineScore(`${roomCode}:${self.playerId}`, ownScore);
+  }, [roomCode, self?.playerId, ownScore]);
 
   useEffect(() => {
     if (!spec || !self?.levelNonce) return;
@@ -157,8 +164,8 @@ export default function Multiplayer() {
     event.preventDefault();
     const playerName = name.trim();
     if (!playerName) return;
-    if (join) request({ type: "join", code, name: playerName });
-    else request({ type: "create", theme, name: playerName });
+    if (join) request({ type: "join", code, name: playerName, purchasedPeople });
+    else request({ type: "create", theme, name: playerName, purchasedPeople });
   };
   const share = async (copy = false) => {
     try {

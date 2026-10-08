@@ -8,6 +8,8 @@ import { levelCharacterIds, multiplayerLevel, MULTIPLAYER_THEMES } from "../src/
 import { DEFAULT_MATCH_RULES, MULTIPLAYER_PATH, MULTIPLAYER_PROTOCOL_VERSION, ROOM_CODE_PATTERN } from "../src/multiplayer/protocol";
 import type { ClientMessage, LastResult, MatchRules, MultiplayerTheme, PublicPlayer, RoomSnapshot, SelfSnapshot, ServerMessage } from "../src/multiplayer/protocol";
 
+import { validPurchasedPeople } from "../src/content/personUnlocks";
+
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const WAITING_TTL_MS = 10 * 60_000;
 const FINISHED_TTL_MS = 5 * 60_000;
@@ -22,6 +24,7 @@ type Player = PublicPlayer & SelfSnapshot & {
   allIds: Set<number>;
   wantedIds: Set<number>;
   lastTapAt: number;
+  purchasedPeople: string[];
 };
 type Room = Omit<RoomSnapshot, "players"> & {
   players: Player[];
@@ -60,6 +63,8 @@ function cleanName(value: unknown): string | null {
 function validMessage(value: unknown): value is ClientMessage {
   if (!value || typeof value !== "object" || !("type" in value)) return false;
   const v = value as Record<string, unknown>;
+  if ((v.type === "create" || v.type === "join") && v.purchasedPeople !== undefined &&
+    (!Array.isArray(v.purchasedPeople) || v.purchasedPeople.length > 100 || v.purchasedPeople.some(id => typeof id !== "string" || id.length > 64))) return false;
   switch (v.type) {
     case "create": return cleanName(v.name) !== null && MULTIPLAYER_THEMES.includes(v.theme as MultiplayerTheme);
     case "join": return cleanName(v.name) !== null && typeof v.code === "string" && ROOM_CODE_PATTERN.test(v.code);
@@ -120,7 +125,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       score: 0, lives: rules.lives, level: 1, phase: "waiting", levelNonce: null, spec: null, startsAt: null, deadline: null,
       prepareDeadline: null, lastResult: null, resultSequence: 0, assetsReady: false, disconnectedAt: null,
       allIds: new Set(), wantedIds: new Set(), lastTapAt: -Infinity,
-      remainingMs: rules.initialTimeMs,
+      remainingMs: rules.initialTimeMs, purchasedPeople: [],
     };
   }
   function freezeClocks(room: Room) {
@@ -148,7 +153,8 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
     player.resultSequence++;
   }
   function prepare(room: Room) {
-    const spec = multiplayerLevel(room.players[0].level, room.seed, room.theme);
+    const commonPurchases = room.players[0].purchasedPeople.filter(id => room.players.every(player => player.purchasedPeople.includes(id)));
+    const spec = multiplayerLevel(room.players[0].level, room.seed, room.theme, commonPurchases);
     const ids = levelCharacterIds(spec);
     const nonce = randomBytes(16).toString("hex");
     room.status = "countdown";
@@ -228,6 +234,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       let code: string;
       do { code = Array.from({ length: 5 }, () => CODE_ALPHABET[randomInt(CODE_ALPHABET.length)]).join(""); } while (rooms.has(code));
       const player = newPlayer(cleanName(message.name)!);
+      player.purchasedPeople = validPurchasedPeople(message.purchasedPeople);
       const room: Room = { code, status: "waiting", theme: message.theme, players: [player], rules, seed: randomInt(0x100000000), createdAt: now(), startedAt: null, finishedAt: null, winnerIds: [], finishReason: null };
       rooms.set(code, room);
       bind(peer, room, player);
@@ -252,6 +259,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
         if (room.status !== "waiting") { error(peer, "ALREADY_STARTED", "Cette partie a déjà commencé."); return; }
         if (room.players.length >= 2) { error(peer, "ROOM_FULL", "Ce salon contient déjà deux joueurs."); return; }
         const player = newPlayer(cleanName(message.name)!);
+      player.purchasedPeople = validPurchasedPeople(message.purchasedPeople);
         room.players.push(player);
         bind(peer, room, player);
       }
