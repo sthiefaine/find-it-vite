@@ -5,7 +5,14 @@ import { getWorld, LEVELS_PER_WORLD, WORLDS } from "./worlds";
 import type { World } from "./worlds";
 
 export type { FrameId };
-export type Mastery = "none" | "caught" | "bronze" | "silver" | "gold";
+export type Mastery = "none" | "caught" | "bronze" | "silver" | "gold" | "platinum";
+
+export const MEDAL_THRESHOLDS = [
+  { mastery: "bronze", count: 25 },
+  { mastery: "silver", count: 50 },
+  { mastery: "gold", count: 100 },
+  { mastery: "platinum", count: 250 },
+] as const;
 
 type StarsSave = Pick<Save, "adventure">;
 
@@ -36,9 +43,10 @@ export function isLevelUnlocked(save: StarsSave, worldId: string, level: number)
 }
 
 export function masteryOf(count: number): Mastery {
-  if (count >= 10) return "gold";
-  if (count >= 6) return "silver";
-  if (count >= 3) return "bronze";
+  for (let i = MEDAL_THRESHOLDS.length - 1; i >= 0; i--) {
+    const threshold = MEDAL_THRESHOLDS[i];
+    if (count >= threshold.count) return threshold.mastery;
+  }
   if (count >= 1) return "caught";
   return "none";
 }

@@ -158,7 +158,16 @@
   box-shadow: 0 4px 0 #b35a00, 0 0 18px rgba(255, 200, 0, 0.65);
 }
 
-.album-card-gold::after {
+/* platine : carte nacrée et éclat turquoise */
+.album-card-platinum,
+.album-big.album-card-platinum {
+  border-color: #e4ffff;
+  background: linear-gradient(145deg, #ffffff, #c6e5ec 45%, #92b8d0);
+  box-shadow: 0 4px 0 #527d98, 0 0 20px rgba(165, 241, 255, 0.75);
+}
+
+.album-card-gold::after,
+.album-card-platinum::after {
   content: "";
   position: absolute;
   inset: -50%;
@@ -234,7 +243,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .album-card-gold::after { animation: none; }
+  .album-card-gold::after,
+  .album-card-platinum::after { animation: none; }
 }
 
 .album-filters { display: flex; flex-wrap: wrap; gap: 8px; }

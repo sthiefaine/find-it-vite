@@ -19,11 +19,19 @@ describe("caughtCount", () => {
 
 describe("nextMedal", () => {
   it("annonce la médaille suivante", () => {
-    expect(nextMedal(1)).toEqual({ left: 2, medal: "🥉" });
-    expect(nextMedal(3)).toEqual({ left: 3, medal: "🥈" });
-    expect(nextMedal(9)).toEqual({ left: 1, medal: "🥇" });
+    expect(nextMedal(0)).toEqual({ left: 25, medal: "🥉" });
+    expect(nextMedal(1)).toEqual({ left: 24, medal: "🥉" });
+    expect(nextMedal(24)).toEqual({ left: 1, medal: "🥉" });
+    expect(nextMedal(25)).toEqual({ left: 25, medal: "🥈" });
+    expect(nextMedal(49)).toEqual({ left: 1, medal: "🥈" });
+    expect(nextMedal(50)).toEqual({ left: 50, medal: "🥇" });
+    expect(nextMedal(99)).toEqual({ left: 1, medal: "🥇" });
+    expect(nextMedal(100)).toEqual({ left: 150, medal: "💎" });
+    expect(nextMedal(199)).toEqual({ left: 51, medal: "💎" });
+    expect(nextMedal(249)).toEqual({ left: 1, medal: "💎" });
   });
-  it("rien après l'or", () => {
-    expect(nextMedal(10)).toBeNull();
+  it("rien après le platine", () => {
+    expect(nextMedal(250)).toBeNull();
+    expect(nextMedal(1000)).toBeNull();
   });
 });

@@ -60,10 +60,11 @@ describe("progress", () => {
     expect(isLevelUnlocked(save, "inconnu", 1)).toBe(false);
   });
 
-  it("masteryOf : seuils 1 / 3 / 6 / 10", () => {
+  it("masteryOf : découvert à 1, médailles à 25 / 50 / 100 / 250", () => {
     const cases: [number, string][] = [
-      [0, "none"], [1, "caught"], [2, "caught"], [3, "bronze"], [5, "bronze"],
-      [6, "silver"], [9, "silver"], [10, "gold"], [99, "gold"],
+      [0, "none"], [1, "caught"], [3, "caught"], [6, "caught"], [10, "caught"], [24, "caught"],
+      [25, "bronze"], [49, "bronze"], [50, "silver"], [99, "silver"],
+      [100, "gold"], [249, "gold"], [250, "platinum"], [1000, "platinum"],
     ];
     for (const [n, m] of cases) expect(masteryOf(n)).toBe(m);
   });
