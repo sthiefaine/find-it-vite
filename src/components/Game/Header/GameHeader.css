@@ -156,15 +156,6 @@
   justify-content: center;
 }
 
-.wanted-clue {
-  margin-top: 4px;
-  color: var(--fi-ink);
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 14px;
-  text-align: center;
-}
-
 .wanted-name {
   display: flex;
   align-items: center;
@@ -266,41 +257,6 @@
 }
 
 /* oddOneOut : pastille ≠ en bas à gauche du portrait */
-/* Variante « sans accessoire » : la cible est la seule de son espèce sans tenue */
-.wanted-bare-badge {
-  position: absolute;
-  left: 50%;
-  bottom: -9px;
-  z-index: 3;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  padding: 1px 6px 1px 3px;
-  border: 2px solid #fff;
-  border-radius: 999px;
-  background: var(--fi-pink);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 800;
-  line-height: 1.2;
-  white-space: nowrap;
-  box-shadow: 0 2px 0 #a8164d;
-  pointer-events: none;
-}
-
-.wanted-bare-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #fff;
-  color: var(--fi-pink);
-  font-size: 11px;
-}
-
 .odd-sign {
   position: absolute;
   left: -12px;

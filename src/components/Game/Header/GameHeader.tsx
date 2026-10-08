@@ -14,7 +14,6 @@ import { GameIcon } from "../../Icons/GameIcon";
 import { getAccessory } from "../../../content/accessories";
 import { preloadImages } from "../../../game/assetReadiness";
 import { levelCountdownUntil } from "../../../game/levelPreparation";
-import { wantedClue } from "./wantedClue";
 
 const MEMORY_SHOW_MS = { easy: 2500, normal: 1500, expert: 1500 } as const;
 const MEMORY_PEEK_MS = 1000;
@@ -174,9 +173,6 @@ export const GameHeader = () => {
   };
 
   const showBack = isMemory && shown && cardHidden;
-  // Variante B : toute l'espèce est habillée sauf la cible, l'avis le dit en clair.
-  const bareTarget = rule === "classic" && spec?.crowdVariant?.dress === "bare";
-  const clue = wantedClue(spec);
   const isGold = rule === "goldRush" && shown;
 
   return (
@@ -207,7 +203,7 @@ export const GameHeader = () => {
                 }`}
                 imageSrc={wantedCharacter.imageSrc}
                 size={62}
-                label={bareTarget ? `${wantedCharacter.label}, sans accessoire` : wantedCharacter.label}
+                label={wantedCharacter.label}
                 accessoryId={spec?.accessories?.target}
                 hidden={showBack || isGold}
               />
@@ -218,11 +214,6 @@ export const GameHeader = () => {
               </div>
             )}
             {rule === "oddOneOut" && shown && <div className="odd-sign">≠</div>}
-            {bareTarget && shown && !showBack && (
-              <div className="wanted-bare-badge" aria-hidden>
-                <span className="wanted-bare-icon">∅</span>sans accessoire
-              </div>
-            )}
             {isGold && (
               <div className="gold-face">
                 <span className="gold-star">⭐</span>
@@ -241,7 +232,6 @@ export const GameHeader = () => {
             <p lang="fr" className="wanted-name">
               {renderName()}
             </p>
-            {clue && <span className="wanted-clue">{clue}</span>}
           </div>
         </div>
 
