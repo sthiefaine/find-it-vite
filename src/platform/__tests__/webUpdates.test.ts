@@ -62,8 +62,41 @@ describe("mises à jour web et PWA", () => {
     vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ buildId: "nouvelle-version" }) } as Response);
     await updates.checkWebUpdates();
     expect(updates.useWebUpdateStore.getState().status).toBe("downloading");
+    expect(updates.useWebUpdateStore.getState().available).toBe(true);
     updates.callbacks.onNeedReload?.();
     expect(updates.useWebUpdateStore.getState().status).toBe("ready");
+  });
+
+  it("garde la mise à jour disponible si son téléchargement échoue ou si le réseau se coupe", async () => {
+    const updates = await start();
+    vi.mocked(fetch).mockResolvedValue({ ok: true, json: async () => ({ buildId: "nouvelle-version" }) } as Response);
+    worker.update.mockRejectedValueOnce(new Error("téléchargement interrompu"));
+    await updates.checkWebUpdates();
+    expect(updates.useWebUpdateStore.getState()).toEqual({ status: "error", available: true });
+    network.onLine = false;
+    await updates.checkWebUpdates();
+    expect(updates.useWebUpdateStore.getState()).toEqual({ status: "offline", available: true });
+  });
+
+  it("attend le clic sur l'accueil avant d'appliquer une mise à jour prête", async () => {
+    const updates = await start();
+    updates.callbacks.onNeedReload?.();
+    browser.location.pathname = "/";
+    await updates.applyWebUpdate(false, true);
+    expect(save.flush).not.toHaveBeenCalled();
+    expect(browser.location.reload).not.toHaveBeenCalled();
+    await updates.applyWebUpdate();
+    expect(save.flush).toHaveBeenCalledOnce();
+    expect(browser.location.reload).toHaveBeenCalledOnce();
+  });
+
+  it("annule l'actualisation automatique si l'accueil s'ouvre pendant la sauvegarde", async () => {
+    const updates = await start();
+    updates.callbacks.onNeedReload?.();
+    save.flush.mockImplementationOnce(async () => { browser.location.pathname = "/"; });
+    await updates.applyWebUpdate(false, true);
+    expect(browser.location.reload).not.toHaveBeenCalled();
+    expect(updates.useWebUpdateStore.getState().available).toBe(true);
   });
 
   it("ne recharge jamais une partie, un duel ou un salon, même en pause", async () => {

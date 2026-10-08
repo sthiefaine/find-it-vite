@@ -1,5 +1,4 @@
 import { useTranslation } from "../../i18n";
-import { ButtonXL } from "../../components/Buttons/ButtonXL";
 import { Tile } from "../../components/Buttons/Tile";
 import { GameIcon } from "../../components/Icons/GameIcon";
 import { Title } from "../../components/Title/Title";
@@ -8,6 +7,7 @@ import { todayISO } from "../../content/progress";
 import { caughtCount } from "../Album/albumLogic";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { HomeAnimals } from "./HomeAnimals";
+import { HomePlayButton } from "./HomePlayButton";
 import "../../components/Buttons/ui.css";
 import "./Home.css";
 
@@ -34,9 +34,7 @@ const Home = () => {
         <HomeAnimals />
 
         <div className="home-play">
-          <ButtonXL text={tr("Jouer")} link="/adventure" variant="bling">
-            <GameIcon name="play" />
-          </ButtonXL>
+          <HomePlayButton />
         </div>
 
         <div className="home-tiles-2">

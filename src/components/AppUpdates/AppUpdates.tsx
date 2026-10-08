@@ -8,8 +8,8 @@ export function AppUpdates() {
   const ready = useWebUpdateStore((state) => state.status === "ready");
   const loaded = useSaveStore((state) => state.loaded);
   useEffect(() => {
-    if (!ready || !loaded) return;
-    const apply = () => { void applyWebUpdate(); };
+    if (!ready || !loaded || pathname === "/") return;
+    const apply = () => { void applyWebUpdate(false, true); };
     apply();
     document.addEventListener("visibilitychange", apply);
     return () => document.removeEventListener("visibilitychange", apply);
