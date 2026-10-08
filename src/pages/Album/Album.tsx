@@ -1,21 +1,26 @@
 import { useTranslation } from "../../i18n";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { BookOpen, ChevronDown, HelpCircle, Sparkles, Star } from "lucide-react";
 import { useSaveStore } from "../../save/saveStore";
-import { masteryOf } from "../../content/progress";
+import { masteryOf, MEDAL_THRESHOLDS } from "../../content/progress";
 import type { CharacterDetails } from "../../helpers/characters";
 import { portraitStyle } from "../../helpers/portraitScale";
 import { ALBUM_COLLECTIONS, caughtCount, isAlbumCharacterUnlocked, MEDALS, nextMedal } from "./albumLogic";
 import { albumCharacterLabel, sortedAlbumEntries } from "./albumNames";
-import { ANIMAL_COLORS, animalCategoryLabel, animalSpeciesLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
+import { ANIMAL_COLORS, animalCategoryLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
 import { isPerson, PERSON_PRICE } from "../../content/personUnlocks";
+import { AlbumCollectionRail } from "./AlbumCollectionRail";
+import { AlbumCategoryRail } from "./AlbumCategoryRail";
+import { AlbumPortraitCard } from "./AlbumPortraitCard";
 import "../../components/Buttons/ui.css";
 import "./Album.css";
 
-type Picked = { character: CharacterDetails; count: number };
+type Picked = { character: CharacterDetails };
 
 const Album = () => {
-  const { locale, languageTag, t: tr } = useTranslation();
+  const { locale, t: tr } = useTranslation();
+  const reduceMotion = useReducedMotion();
   const save = useSaveStore((s) => s.save);
   const loaded = useSaveStore((s) => s.loaded);
   const readOnly = useSaveStore((s) => s.readOnly);
@@ -25,27 +30,21 @@ const Album = () => {
   const [picked, setPicked] = useState<Picked | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const [category, setCategory] = useState("");
-  const [species, setSpecies] = useState("");
-  const [color, setColor] = useState("");
   const world = ALBUM_COLLECTIONS.find((w) => w.id === worldId) ?? ALBUM_COLLECTIONS[0];
   const peopleCollection = world.id === "politique" || world.id === "histoire";
   const unlockedCount = world.characters.filter(character => isAlbumCharacterUnlocked(save, character)).length;
   const pickedLocked = !!picked && isPerson(picked.character.name) && !isAlbumCharacterUnlocked(save, picked.character);
+  const pickedCount = picked ? collection[picked.character.name] ?? 0 : 0;
   const missingStars = Math.max(0, PERSON_PRICE - save.wallet.stars);
   const all = caughtCount({ collection });
-  const compareNames = useMemo(() => new Intl.Collator(languageTag, { sensitivity: "base" }).compare, [languageTag]);
-  const categories = [...new Set(world.characters.flatMap((c) => c.tags ?? []))]
-    .sort((left, right) => compareNames(tr(animalCategoryLabel(left)), tr(animalCategoryLabel(right))));
-  const speciesList = [...new Set(world.characters.flatMap((c) => c.species ? [c.species] : []))]
-    .sort((left, right) => compareNames(tr(animalSpeciesLabel(left)), tr(animalSpeciesLabel(right))));
-  const colors = Object.entries(ANIMAL_COLORS)
-    .sort(([, left], [, right]) => compareNames(tr(left.label), tr(right.label)));
-  const entries = useMemo(() => sortedAlbumEntries(world.characters, locale), [world.characters, locale]);
-  const visible = entries.filter(({ character: animal }) => {
-    const metadata = normalizedAnimalMetadata(animal);
-    return (!category || metadata.tags.includes(category)) && (!species || metadata.species === species)
-      && (!world.allowColorFilter || !color || metadata.dominantColors.some((c) => c === color));
-  });
+  const entries = useMemo(() => sortedAlbumEntries(world.characters, locale).map((entry, index) => ({ ...entry, index })), [world.characters, locale]);
+  const visible = category ? entries.filter(({ character }) => character.tags?.includes(category)) : entries;
+  const worldCount = caughtCount({ collection }, world.characters);
+  const visibleCount = caughtCount({ collection }, visible.map(({ character }) => character));
+  const completion = all.total ? Math.round(all.caught / all.total * 100) : 0;
+  const worldCompletion = worldCount.total ? worldCount.caught / worldCount.total * 100 : 0;
+  const collectionComplete = worldCount.caught === worldCount.total;
+  const selectWorld = (id: string) => { setWorldId(id); setCategory(""); };
 
   useEffect(() => {
     if (!picked) return;
@@ -79,89 +78,83 @@ const Album = () => {
   }, [picked]);
 
   return (
-    <div className="fi-screen">
+    <div className="fi-screen album-screen">
       <div className="fi-inner album-inner">
-        <div className="album-total">
-          <span className="fi-chip album-total-chip">
-            📖 {all.caught}/{all.total}
+        <section className="album-intro" aria-label={tr("Ta collection")}>
+          <div className="album-intro-copy">
+            <span className="album-eyebrow"><BookOpen size={14} aria-hidden="true" /> {tr("Ta collection")}</span>
+            <h2>{tr("Chaque découverte compte.")}</h2>
+            <span className="album-intro-total">{tr("{{caught}} sur {{total}} portraits trouvés", { caught: all.caught, total: all.total })}</span>
+          </div>
+          <div className="album-completion" aria-label={`${tr("Ta collection")} : ${completion}%`}>
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <circle className="album-completion-track" cx="32" cy="32" r="27" />
+              <circle className="album-completion-fill" cx="32" cy="32" r="27" pathLength="100" strokeDasharray={`${completion} 100`} />
+            </svg>
+            <Sparkles size={17} aria-hidden="true" />
+            <strong>{completion}<small>%</small></strong>
+          </div>
+        </section>
+
+        <div className="album-collections-heading">
+          <h2>{tr("Collections")}</h2>
+          <span className="album-wallet" aria-label={tr("{{count}} étoiles", { count: save.wallet.stars })}>
+            <Star size={16} fill="currentColor" aria-hidden="true" /> {save.wallet.stars}
           </span>
-          <span className="fi-chip album-wallet" aria-label={tr("{{count}} étoiles", { count: save.wallet.stars })}>★ {save.wallet.stars}</span>
         </div>
+        <AlbumCollectionRail collections={ALBUM_COLLECTIONS} selectedId={worldId} collection={collection} onSelect={selectWorld} />
 
-        <div className="album-tabs" role="tablist">
-          {ALBUM_COLLECTIONS.map((w) => {
-            const n = caughtCount({ collection }, w.characters);
-            return (
-              <button
-                key={w.id}
-                role="tab"
-                aria-selected={w.id === worldId}
-                aria-label={tr(w.name)}
-                className={`album-tab${w.id === worldId ? " album-tab-on" : ""}`}
-                onClick={() => { setWorldId(w.id); setCategory(""); setSpecies(""); setColor(""); }}
-              >
-                <span className="album-tab-emoji">{w.emoji}</span>
-                <span className="album-tab-count">{n.caught}/{n.total}</span>
-              </button>
-            );
-          })}
-        </div>
+        <section className="album-sheet" id="album-collection-panel" role="tabpanel" aria-labelledby={`album-collection-${world.id}`}>
+          <div className="album-sheet-heading">
+            <div>
+              <span className="album-sheet-eyebrow">{collectionComplete ? tr("Collection complète !") : tr("À toi de les retrouver")}</span>
+              <h2 id="album-world-title">{tr(world.name)}</h2>
+            </div>
+            <span className="album-sheet-count"><BookOpen size={17} aria-hidden="true" /><b>{worldCount.caught}</b><span>/{worldCount.total}</span></span>
+          </div>
+          <div className="album-world-progress" role="progressbar" aria-label={tr("{{caught}} sur {{total}} portraits trouvés", { caught: worldCount.caught, total: worldCount.total })} aria-valuenow={worldCount.caught} aria-valuemin={0} aria-valuemax={worldCount.total}>
+            <span style={{ width: `${worldCompletion}%` }} />
+          </div>
 
-        <h2 className="album-world" style={{ background: world.background }}>
-          {tr(world.name)}
-        </h2>
-        {world.id === "animaux" && <p className="album-unlock-hint">{tr("Cinq animaux sont disponibles dès le départ. Retrouve les autres dans l’Aventure ou le défi du jour pour les débloquer en Infini.")}</p>}
-        {peopleCollection && <>
-          <p className="album-unlock-hint">{tr("12 personnages de départ. Débloque les autres avec tes étoiles dans l’album.")}</p>
-          <p className="album-unlock-hint">{tr("1 portrait trouvé = 1 étoile. Un personnage coûte {{price}} étoiles.", { price: PERSON_PRICE })}</p>
-          <p className="album-owned-count" aria-live="polite">{tr("{{available}}/{{total}} débloqués", { available: unlockedCount, total: world.characters.length })}</p>
-          <p className="album-unlock-hint">{tr("Touche un portrait pour découvrir son histoire.")}</p>
-        </>}
+          <AlbumCategoryRail key={world.id} characters={world.characters} category={category} onSelect={setCategory} />
+          <div className="album-page-heading" aria-live="polite">
+            <h3>{category ? tr(animalCategoryLabel(category)) : tr("Tous les portraits")}</h3>
+            <span>{visibleCount.caught}/{visibleCount.total} <span className="album-found-label">{tr("trouvés", { count: visibleCount.caught })}</span></span>
+          </div>
+          <div className="album-grid" key={`${world.id}:${category}`}>
+            {visible.map(({ character, label, index }) => (
+              <AlbumPortraitCard
+                key={character.name}
+                character={character}
+                label={label}
+                count={collection[character.name] ?? 0}
+                locked={!isAlbumCharacterUnlocked(save, character)}
+                purchasable={peopleCollection}
+                index={index}
+                onOpen={() => setPicked({ character })}
+              />
+            ))}
+          </div>
+          {visible.length === 0 && <p className="album-empty">{tr("Aucun portrait ne correspond à ces filtres.")}</p>}
+          <div className="album-page-end" aria-hidden="true"><span /><Sparkles size={16} /><span /></div>
+        </section>
 
-        <div className="album-filters">
-          {categories.length > 0 && <label>{tr("Catégorie")}<select value={category} onChange={(event) => setCategory(event.target.value)}>
-            <option value="">{tr("Toutes")}</option>
-            {categories.map((tag) => <option key={tag} value={tag}>{tr(animalCategoryLabel(tag))}</option>)}
-          </select></label>}
-          {speciesList.length > 0 && <label>{tr("Espèce")}<select value={species} onChange={(event) => setSpecies(event.target.value)}>
-            <option value="">{tr("Toutes")}</option>
-            {speciesList.map((id) => <option key={id} value={id}>{tr(animalSpeciesLabel(id))}</option>)}
-          </select></label>}
-          {world.allowColorFilter && <label>{tr("Couleur")}<select value={color} onChange={(event) => setColor(event.target.value)}>
-            <option value="">{tr("Toutes")}</option>
-            {colors.map(([id, value]) => <option key={id} value={id}>{tr(value.label)}</option>)}
-          </select></label>}
-        </div>
-        <p className="album-filter-count" aria-live="polite">{tr("{{count}} portraits", { count: visible.length })}</p>
-        <div className="album-grid">
-          {visible.map(({ character: c, label }) => {
-            const count = collection[c.name] ?? 0;
-            const mastery = masteryOf(count);
-            const medal = MEDALS[mastery];
-            const locked = !isAlbumCharacterUnlocked(save, c);
-            if (!peopleCollection && locked) {
-              return (
-                <div key={c.name} className="album-card album-card-unknown" aria-label={tr("Pas encore trouvé")}>
-                  <img src={c.imageSrc} alt="" draggable={false} style={portraitStyle(c.imageSrc)} />
-                  <span className="album-card-q">?</span>
-                </div>
-              );
-            }
-            return (
-              <button
-                key={c.name}
-                className={`album-card${locked ? " album-card-locked" : ` album-card-${mastery}${count === 0 ? " album-card-available" : ""}`}`}
-                onClick={() => setPicked({ character: c, count })}
-              >
-                {medal && !locked && <span className="album-card-medal">{medal}</span>}
-                <img src={c.imageSrc} alt="" draggable={false} style={portraitStyle(c.imageSrc)} />
-                <span className="album-card-label">{label}</span>
-                {locked ? <span className="album-price">🔒 {PERSON_PRICE} ★</span> : count === 0 && <span className="album-available-label">{tr("Disponible")}</span>}
-              </button>
-            );
-          })}
-        </div>
-        {visible.length === 0 && <p className="album-empty">{tr("Aucun portrait ne correspond à ces filtres.")}</p>}
+        <details className="album-guide" key={world.id}>
+          <summary><HelpCircle size={18} aria-hidden="true" /><span>{tr("Comment compléter l’album ?")}</span><ChevronDown size={18} aria-hidden="true" /></summary>
+          <div className="album-guide-content">
+            {world.id === "animaux" && <p>{tr("Cinq animaux sont disponibles dès le départ. Retrouve les autres dans l’Aventure ou le défi du jour pour les débloquer en Infini.")}</p>}
+            {peopleCollection ? <>
+              <p>{tr("12 personnages de départ. Débloque les autres avec tes étoiles dans l’album.")}</p>
+              <p>{tr("1 portrait trouvé = 1 étoile. Un personnage coûte {{price}} étoiles.", { price: PERSON_PRICE })}</p>
+              <p className="album-owned-count">{tr("{{available}}/{{total}} débloqués", { available: unlockedCount, total: world.characters.length })}</p>
+              <p>{tr("Touche un portrait pour découvrir son histoire.")}</p>
+            </> : <p>{tr("Retrouve les portraits en jouant pour remplir ton album.")}</p>}
+            <div className="album-medal-guide" aria-label={tr("Médailles")}>
+              {MEDAL_THRESHOLDS.map(tier => <span key={tier.mastery}><span aria-hidden="true">{MEDALS[tier.mastery]}</span><b>{tier.count}</b></span>)}
+            </div>
+            <p>{tr("Retrouve le même portrait pour gagner des médailles.")}</p>
+          </div>
+        </details>
       </div>
 
       <AnimatePresence>
@@ -180,18 +173,18 @@ const Album = () => {
             <motion.div
               ref={dialogRef}
               tabIndex={-1}
-              className={`album-big album-card-${masteryOf(picked.count)}`}
+              className={`album-big album-card-${masteryOf(pickedCount)}`}
               onClick={(event) => event.stopPropagation()}
-              initial={{ scale: 0.6 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.6 }}
-              transition={{ type: "spring", stiffness: 380, damping: 24 }}
+              initial={{ scale: reduceMotion ? 1 : 0.9, y: reduceMotion ? 0 : 18 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: reduceMotion ? 1 : 0.96, y: 0 }}
+              transition={reduceMotion ? { duration: 0.1 } : { type: "spring", stiffness: 380, damping: 28 }}
             >
               <button type="button" className="album-close" aria-label={tr("Fermer")} onClick={() => setPicked(null)}>×</button>
-              {!pickedLocked && MEDALS[masteryOf(picked.count)] && (
-                <span className="album-card-medal">{MEDALS[masteryOf(picked.count)]}</span>
+              {!pickedLocked && MEDALS[masteryOf(pickedCount)] && (
+                <span className="album-card-medal">{MEDALS[masteryOf(pickedCount)]}</span>
               )}
-              <img src={picked.character.imageSrc} alt="" draggable={false} style={portraitStyle(picked.character.imageSrc)} />
+              <div className="album-big-portrait"><img src={picked.character.imageSrc} alt="" draggable={false} style={portraitStyle(picked.character.imageSrc)} /></div>
               <strong id="album-character-name">{albumCharacterLabel(picked.character, locale)}</strong>
               {picked.character.profile && <div className="album-biography" lang="fr" dir="ltr">
                 {picked.character.profile.period && <span className="album-biography-period">{picked.character.profile.period}</span>}
@@ -214,15 +207,16 @@ const Album = () => {
                 {normalizedAnimalMetadata(picked.character).dominantColors.map((color) => <span key={color} title={tr(ANIMAL_COLORS[color].label)} style={{ background: ANIMAL_COLORS[color].hex }} aria-label={tr(ANIMAL_COLORS[color].label)} />)}
               </div>}
               {!pickedLocked && <span className="album-big-count">
-                {picked.count > 0 ? tr("Trouvé {{count}} fois", { count: picked.count }) : tr("Disponible en Infini")}
+                {pickedCount > 0 ? tr("Trouvé {{count}} fois", { count: pickedCount }) : tr("Disponible en Infini")}
               </span>}
               {(() => {
                 if (pickedLocked) return null;
-                const next = nextMedal(picked.count);
+                const next = nextMedal(pickedCount);
                 return next ? (
-                  <span className="album-big-next">
-                    {tr("Encore {{count}}", { count: next.left })} → {next.medal}
-                  </span>
+                  <div className="album-big-next">
+                    <span>{tr("Encore {{count}}", { count: next.left })} → {next.medal}</span>
+                    <progress value={pickedCount} max={pickedCount + next.left} aria-label={tr("Prochaine médaille")} />
+                  </div>
                 ) : null;
               })()}
             </motion.div>

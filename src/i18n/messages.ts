@@ -1,4 +1,5 @@
 import { animalExpansionMessages } from "./animalExpansionMessages";
+import { albumMessages } from "./albumMessages";
 
 // Columns follow LANGUAGES: fr, en, pt_BR, es, it, ru, ku, ckb, zh, de.
 // A pipe separates plural forms: one/other, or one/few/many for Russian.
@@ -12,6 +13,7 @@ export const messages: Record<string, readonly [string, string, string, string, 
   "Encore {{count}} étoiles à gagner": ["Encore {{count}} étoiles à gagner","Earn {{count}} more stars","Ganhe mais {{count}} estrelas","Gana {{count}} estrellas más","Guadagna altre {{count}} stelle","Заработай ещё {{count}} звёзд","{{count}} stêrkên din bi dest bixe","{{count}} ئەستێرەی تر بەدەست بهێنە","还需获得{{count}}颗星星","Verdiene noch {{count}} Sterne"],
   "Débloqué": ["Débloqué","Unlocked","Desbloqueado","Desbloqueado","Sbloccato","Открыто","Vekirî","کراوەتەوە","已解锁","Freigeschaltet"],
   ...animalExpansionMessages,
+  ...albumMessages,
   "Mettre à jour": ["Mettre à jour", "Update", "Atualizar", "Actualizar", "Aggiorna", "Обновить", "Nû bike", "نوێ بکەرەوە", "更新", "Aktualisieren"],
   "Mise à jour…": ["Mise à jour…", "Updating…", "Atualizando…", "Actualizando…", "Aggiornamento…", "Обновление…", "Nû dibe…", "نوێ دەکرێتەوە…", "正在更新…", "Wird aktualisiert…"],
   "Des figures de toutes les époques à retrouver.": ["Des figures de toutes les époques à retrouver.","Find figures from every era.","Encontre figuras de todas as épocas.","Encuentra figuras de todas las épocas.","Trova personaggi di ogni epoca.","Найди людей из разных эпох.","Kesayetiyên ji hemû serdeman bibîne.","کەسایەتییەکانی هەموو سەردەمەکان بدۆزەرەوە.","寻找各个时代的人物。","Finde Persönlichkeiten aus allen Epochen."],

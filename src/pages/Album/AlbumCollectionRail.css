@@ -1,0 +1,210 @@
+.album-collection-rail {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 12px;
+  width: 100%;
+  min-width: 0;
+  padding: 7px 4px 13px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #b29acb transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.album-collection-card {
+  --collection-paper: #fff4db;
+  --collection-glow: #f2d387;
+  --collection-accent: #aa6930;
+  position: relative;
+  display: flex;
+  flex: 1 0 clamp(150px, 39vw, 184px);
+  flex-direction: column;
+  align-items: stretch;
+  gap: 5px;
+  min-width: 0;
+  min-height: 172px;
+  padding: 10px 13px 13px;
+  border: 2px solid rgba(74, 37, 89, .15);
+  border-radius: 22px;
+  background: linear-gradient(150deg, #fffdf9, var(--collection-paper));
+  box-shadow: 0 4px 0 rgba(29, 10, 51, .24);
+  color: #3b1c53;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  scroll-snap-align: start;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.album-collection-card--ocean {
+  --collection-paper: #dcf5f4;
+  --collection-glow: #9bd8e2;
+  --collection-accent: #327c90;
+}
+
+.album-collection-card--politique {
+  --collection-paper: #ede6fa;
+  --collection-glow: #cab9ec;
+  --collection-accent: #79519e;
+}
+
+.album-collection-card--histoire {
+  --collection-paper: #f9e6de;
+  --collection-glow: #e6b6a7;
+  --collection-accent: #a65755;
+}
+
+.album-collection-card.is-selected {
+  border-color: #71418d;
+  box-shadow: 0 0 0 2px #ffd878, 0 6px 0 #51306a, 0 9px 13px rgba(29, 10, 51, .15);
+}
+
+.album-collection-card:focus-visible {
+  outline: 3px solid #fff6c7;
+  outline-offset: 4px;
+}
+
+.album-collection-card__art {
+  position: relative;
+  display: block;
+  aspect-ratio: 2.05;
+  margin: 0 -6px 2px;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+.album-collection-card__halo {
+  position: absolute;
+  inset: 9px 13px -2px;
+  border-radius: 50% 50% 42% 42%;
+  background: radial-gradient(ellipse at center, var(--collection-glow), transparent 72%);
+  opacity: .75;
+}
+
+.album-collection-card__portrait {
+  position: absolute;
+  bottom: 0;
+  width: 57%;
+  aspect-ratio: 1;
+  filter: drop-shadow(0 3px 2px rgba(61, 29, 64, .15));
+}
+
+.album-collection-card__portrait img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.album-collection-card__portrait--0 {
+  inset-inline-start: -4px;
+  bottom: 1px;
+  transform: rotate(-11deg) scale(.88);
+}
+
+.album-collection-card__portrait--1 {
+  inset-inline-start: 21.5%;
+  z-index: 2;
+  bottom: -4px;
+}
+
+.album-collection-card__portrait--2 {
+  inset-inline-end: -4px;
+  bottom: 1px;
+  transform: rotate(11deg) scale(.88);
+}
+
+.album-collection-card__spark {
+  position: absolute;
+  inset-inline-start: 7px;
+  top: 0;
+  color: var(--collection-accent);
+  font-size: 14px;
+  opacity: .6;
+}
+
+.album-collection-card__check {
+  position: absolute;
+  top: 8px;
+  inset-inline-end: 8px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid rgba(91, 53, 111, .18);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .65);
+  color: #4a275c;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.album-collection-card.is-selected .album-collection-card__check {
+  border-color: #e6b34e;
+  background: #ffd878;
+}
+
+.album-collection-card__name {
+  display: flex;
+  align-items: center;
+  min-height: 30px;
+  margin-top: 2px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.album-collection-card__count {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: auto;
+  color: #745c7b;
+  font-size: 12px;
+  line-height: 1.3;
+  font-variant-numeric: tabular-nums;
+}
+
+.album-collection-card__count strong {
+  color: #4a275c;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.album-collection-card__progress {
+  display: block;
+  height: 6px;
+  margin-top: 2px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(87, 49, 106, .11);
+}
+
+.album-collection-card__progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--collection-accent);
+}
+
+.album-collection-card.is-selected .album-collection-card__progress > span {
+  background: linear-gradient(90deg, #9564b3, #6b3b87);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .album-collection-card:hover { transform: translateY(-2px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .album-collection-rail { scroll-behavior: auto; }
+  .album-collection-card { transition: none; }
+  .album-collection-card:hover { transform: none; }
+}
