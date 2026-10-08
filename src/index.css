@@ -13,3 +13,9 @@ body, html {
   overflow: hidden;
 }
 
+
+/* Keep physical board coordinates stable across writing directions. */
+.boardWrap, .gridContainer, .mp-board-frame, .duel-grid { direction: ltr; }
+[dir="rtl"] .header-back svg { transform: rotate(180deg); }
+[dir="rtl"] .opt-switch { direction: ltr; }
+[dir="rtl"] .wanted-name, [dir="rtl"] .mp-player-name { line-height: 1.5; }

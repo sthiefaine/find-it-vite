@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useId, useLayoutEffect, useMemo, useRef } from "react";
 import type { CSSProperties, RefObject } from "react";
 import { GameStateEnum, useGameStore } from "../../../store/store";
@@ -16,6 +17,7 @@ import "./Foliage.css";
 const ORIGIN: FoliagePoint = { x: 0, y: 0 };
 
 export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDivElement>; spec: LevelSpec }) {
+  const { t: tr } = useTranslation();
   const layerRef = useRef<HTMLDivElement>(null);
   const keyboardClear = useRef<(id: number) => void>(() => undefined);
   const tier = useGameStore(state => state.tier);
@@ -200,13 +202,13 @@ export default function Foliage({ boardRef, spec }: { boardRef: RefObject<HTMLDi
   }, [boardRef, patches, seed, loading, obstacles]);
 
   if (!density || loading) return null;
-  return <div ref={layerRef} className="foliage-layer" data-ready="false" data-active="false" aria-label={political ? "Avocats et CRS à écarter" : "Feuillages à écarter"}>
-    <span id={instructionsId} className="foliage-instructions">{political ? "Fais glisser les avocats et les CRS pour regarder derrière." : "Fais glisser les feuilles pour regarder dessous."} Au clavier, appuie sur Entrée ou Espace pour les écarter.</span>
+  return <div ref={layerRef} className="foliage-layer" data-ready="false" data-active="false" aria-label={political ? tr("Avocats et CRS à écarter") : tr("Feuillages à écarter")}>
+    <span id={instructionsId} className="foliage-instructions">{political ? tr("Fais glisser les avocats et les CRS pour regarder derrière.") : tr("Fais glisser les feuilles pour regarder dessous.")} {tr("Au clavier, appuie sur Entrée ou Espace pour les écarter.")}</span>
     {patches.map(patch => <button
       key={`${seed}-${patch.id}`}
       type="button"
       className="foliage-patch"
-      aria-label={`Écarter ${political ? obstacles[(patch.id + seed) % obstacles.length].label === "CRS" ? "le CRS" : "l’avocat" : "le feuillage"} ${patch.id + 1}`}
+      aria-label={tr("Écarter {{obstacle}} {{number}}", { obstacle: tr(political ? obstacles[(patch.id + seed) % obstacles.length].label === "CRS" ? "le CRS" : "l’avocat" : "le feuillage"), number: patch.id + 1 })}
       aria-describedby={instructionsId}
       tabIndex={-1}
       style={{ left: `${patch.x / BOARD.w * 100}%`, top: `${patch.y / BOARD.h * 100}%`, width: `${patch.size / BOARD.w * 100}%` } as CSSProperties}

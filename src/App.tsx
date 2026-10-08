@@ -1,4 +1,6 @@
-import { lazy, Suspense } from "react";
+import { useTranslation } from "./i18n";
+import { localeDirection } from "./i18n/locales";
+import { lazy, Suspense, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import Home from "./pages/Home/Home";
@@ -24,6 +26,11 @@ const Multiplayer = lazy(() => import("./pages/Multiplayer/Multiplayer"));
 if (import.meta.env.DEV) void import("./helpers/devFindIt");
 
 function App() {
+  const { locale, languageTag } = useTranslation();
+  useEffect(() => {
+    document.documentElement.lang = languageTag;
+    document.documentElement.dir = localeDirection(locale);
+  }, [locale, languageTag]);
   useAndroidBackButton();
   const defaultImgPack: string[] = animalsPack.map((c) => c.imageSrc);
 

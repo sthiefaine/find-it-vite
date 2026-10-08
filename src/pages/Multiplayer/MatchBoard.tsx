@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useEffect, useMemo, useRef, type PointerEvent } from "react";
 import { BOARD, type LevelSpec } from "../../engine/types";
 import { ACCESSORY_OUTLINE_OFFSETS, getAccessory, getAccessoryBox } from "../../content/accessories";
@@ -15,6 +16,7 @@ type Props = {
 };
 
 export function MatchBoard({ spec, startsAt, serverNow, enabled, onTap }: Props) {
+  const { t: tr } = useTranslation();
   const canvas = useRef<HTMLCanvasElement>(null);
   const painted = useRef<MatchSprite[]>([]);
   const atTime = useMemo(() => createMatchBoard(spec), [spec]);
@@ -86,7 +88,7 @@ export function MatchBoard({ spec, startsAt, serverNow, enabled, onTap }: Props)
   };
 
   return <canvas ref={canvas} className="mp-board" tabIndex={enabled ? 0 : -1}
-    role="application" aria-label={`Trouve ${spec.wanted.label}. Au clavier, déplace le cercle avec les flèches, puis appuie sur Entrée.`}
+    role="application" aria-label={tr("Trouve {{name}}. Au clavier, déplace le cercle avec les flèches, puis appuie sur Entrée.", { name: tr(spec.wanted.label) })}
     onPointerDown={pointer} onContextMenu={event => event.preventDefault()}
     onBlur={() => { cursor.current = null; }}
     onKeyDown={event => {

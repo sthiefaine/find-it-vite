@@ -1,3 +1,5 @@
+import { useTranslation } from "../../i18n";
+import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { useEffect, useRef, useState } from "react";
 import { useSaveStore } from "../../save/saveStore";
 import { FRAMES, isFrameUnlocked } from "../../content/progress";
@@ -27,6 +29,7 @@ function Toggle({ on, onChange, label }: { on: boolean; onChange: (v: boolean) =
 }
 
 const Options = () => {
+  const { t: tr } = useTranslation();
   const save = useSaveStore((s) => s.save);
   const { setSound, setCalm, setFrame, setProfileTier, resetSave } = useSaveStore.getState();
   const [confirmReset, setConfirmReset] = useState(false);
@@ -41,14 +44,15 @@ const Options = () => {
   return (
     <div className="fi-screen">
       <div className="fi-inner opt-inner">
+        <section className="opt-card"><LanguageSelector /></section>
         <section className="opt-card opt-row">
           <span className="opt-icon" aria-hidden="true">{sound ? "🔊" : "🔇"}</span>
-          <span className="opt-name">Son</span>
-          <Toggle on={sound} onChange={setSound} label="Son" />
+          <span className="opt-name">{tr("Son")}</span>
+          <Toggle on={sound} onChange={setSound} label={tr("Son")} />
         </section>
 
         <section className="opt-card">
-          <h2 className="opt-title">Qui joue ?</h2>
+          <h2 className="opt-title">{tr("Qui joue ?")}</h2>
           <div className="opt-tiers">
             {PROFILES.map((p) => (
               <button
@@ -59,7 +63,7 @@ const Options = () => {
                 onClick={() => setProfileTier(p.tier)}
               >
                 <span className="opt-tier-emoji" aria-hidden="true">{p.emoji}</span>
-                <span>{p.label}</span>
+                <span>{tr(p.label)}</span>
               </button>
             ))}
           </div>
@@ -68,14 +72,14 @@ const Options = () => {
         <section className="opt-card">
           <div className="opt-row">
             <span className="opt-icon" aria-hidden="true">🐢</span>
-            <span className="opt-name">Mode calme</span>
-            <Toggle on={calm} onChange={setCalm} label="Mode calme" />
+            <span className="opt-name">{tr("Mode calme")}</span>
+            <Toggle on={calm} onChange={setCalm} label={tr("Mode calme")} />
           </div>
-          <p className="opt-hint">Pas de chrono : on cherche tranquille.</p>
+          <p className="opt-hint">{tr("Pas de chrono : on cherche tranquille.")}</p>
         </section>
 
         <section className="opt-card">
-          <h2 className="opt-title">Cadre de l'avis</h2>
+          <h2 className="opt-title">{tr("Cadre de l'avis")}</h2>
           <div className="opt-frames">
             {FRAMES.map((f) => {
               const unlocked = isFrameUnlocked(save, f.id);
@@ -91,7 +95,7 @@ const Options = () => {
                     🐾
                   </span>
                   <span className="opt-frame-name">
-                    {unlocked ? f.name : <>🔒 {f.unlockStars}<span className="fi-star">★</span></>}
+                    {unlocked ? tr(f.name) : <>🔒 {f.unlockStars}<span className="fi-star">★</span></>}
                   </span>
                 </button>
               );
@@ -104,15 +108,13 @@ const Options = () => {
         <section className="opt-card opt-danger">
           {!confirmReset ? (
             <button className="opt-reset" onClick={() => setConfirmReset(true)}>
-              🗑️ Tout effacer
-            </button>
+              {tr("🗑️ Tout effacer")} </button>
           ) : (
             <div className="opt-confirm" ref={confirmRef}>
-              <p>Sûr ? Étoiles et album seront perdus.</p>
+              <p>{tr("Sûr ? Étoiles et album seront perdus.")}</p>
               <div className="opt-confirm-btns">
                 <button className="opt-no" onClick={() => setConfirmReset(false)}>
-                  Non
-                </button>
+                  {tr("Non")} </button>
                 <button
                   className="opt-reset"
                   onClick={() => {
@@ -120,8 +122,7 @@ const Options = () => {
                     setConfirmReset(false);
                   }}
                 >
-                  Oui, effacer
-                </button>
+                  {tr("Oui, effacer")} </button>
               </div>
             </div>
           )}

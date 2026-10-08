@@ -18,7 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 2.4rem;
+  font-size: clamp(1.25rem, 5.8vw, 2.4rem);
   font-weight: 900;
   text-transform: uppercase;
   box-shadow: 0 4px 0 rgb(95, 40, 175), 0 8px 12px rgba(0, 0, 0, 0.2);
@@ -74,6 +74,8 @@
 
 .button-text {
   flex-grow: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
   text-align: center;
   margin: 0 0.8rem;
   letter-spacing: 0.03em;
@@ -185,172 +187,6 @@
   }
 }
 
-.bling-element {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 20;
-}
-
-.bling-coin {
-  animation: coin-float 2s ease-out forwards;
-}
-
-.bling-star {
-  animation: star-float 1.5s ease-out forwards;
-}
-
-@keyframes coin-float {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0) rotate(0deg);
-  }
-  10% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.2) rotate(20deg);
-  }
-  20% {
-    transform: translate(-50%, -50%) scale(1) rotate(40deg);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, calc(-50% - 100px)) scale(0.5) rotate(360deg);
-  }
-}
-
-@keyframes star-float {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
-  }
-  25% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.3);
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, calc(-50% - 80px)) scale(0.2);
-  }
-}
-
-.coin-svg {
-  animation: coin-spin 1s linear infinite;
-  filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.8));
-}
-
-.bling-star-svg {
-  animation: star-pulse 0.8s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 3px rgba(255, 255, 0, 0.8));
-}
-
-@keyframes coin-spin {
-  0% {
-    transform: rotateY(0deg);
-  }
-  50% {
-    transform: rotateY(90deg);
-  }
-  100% {
-    transform: rotateY(180deg);
-  }
-}
-
-@keyframes star-pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1.1);
-    opacity: 1;
-  }
-}
-
-.sparkle-group {
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  pointer-events: none;
-  z-index: 15;
-}
-
-.top-left {
-  top: -10px;
-  left: -10px;
-}
-
-.top-right {
-  top: -10px;
-  right: -10px;
-}
-
-.bottom-left {
-  bottom: -10px;
-  left: -10px;
-}
-
-.bottom-right {
-  bottom: -10px;
-  right: -10px;
-}
-
-.sparkle {
-  position: absolute;
-  background-color: #FFD700;
-  border-radius: 50%;
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.gold-sparkle:before, .gold-sparkle:after {
-  content: "";
-  position: absolute;
-  background-color: #FFD700;
-  border-radius: 2px;
-}
-
-.gold-sparkle:before {
-  width: 100%;
-  height: 30%;
-  top: 35%;
-  left: 0;
-}
-
-.gold-sparkle:after {
-  width: 30%;
-  height: 100%;
-  top: 0;
-  left: 35%;
-}
-
-.gold-sparkle.sm {
-  width: 6px;
-  height: 6px;
-  animation: sparkle-twinkle 1s ease-in-out infinite alternate;
-}
-
-.gold-sparkle.md {
-  width: 8px;
-  height: 8px;
-  animation: sparkle-twinkle 1.2s ease-in-out 0.2s infinite alternate;
-}
-
-@keyframes sparkle-twinkle {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.5;
-    box-shadow: 0 0 5px 0 rgba(255, 215, 0, 0.3);
-  }
-  100% {
-    transform: scale(1.2);
-    opacity: 1;
-    box-shadow: 0 0 10px 2px rgba(255, 215, 0, 0.7);
-  }
-}
-
 .bling-wrapper {
   animation: initial-pulse 0.6s ease-out;
 }
@@ -373,4 +209,29 @@
   color: rgba(255, 255, 255, 0.7);
   cursor: not-allowed;
   transform: none;
+}
+.play-cat {
+  position: absolute;
+  z-index: 8;
+  top: -55px;
+  right: 12px;
+  width: 82px;
+  height: 76px;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 2px rgba(35, 12, 49, .2));
+}
+.play-cat svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.play-cat-paw { transform-origin: 85px 76px; animation: cat-tap 3s ease-in-out infinite; }
+.play-cat-tail { transform-origin: 92px 80px; animation: cat-tail 3s ease-in-out infinite; }
+.play-cat-tap { opacity: 0; animation: cat-tap-lines 3s ease-in-out infinite; }
+@keyframes cat-tap {
+  0%, 40%, 72%, 100% { transform: translateY(0) rotate(0); }
+  47%, 60% { transform: translateY(-10px) rotate(-10deg); }
+  53%, 66% { transform: translateY(4px) rotate(5deg); }
+}
+@keyframes cat-tail { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(7deg); } }
+@keyframes cat-tap-lines { 0%, 49%, 57%, 62%, 72%, 100% { opacity: 0; } 53%, 66% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .play-cat-paw, .play-cat-tail, .play-cat-tap, .bling-bling-button, .golden-shine { animation: none; }
+  .play-cat-tap { display: none; }
 }

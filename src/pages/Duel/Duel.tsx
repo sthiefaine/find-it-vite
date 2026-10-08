@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -44,6 +45,7 @@ export default function Duel() {
 }
 
 function DuelSession({ theme }: { theme: PlayThemeId }) {
+  const { t: tr } = useTranslation();
   const navigate = useNavigate();
   const pool = useMemo(() => playThemePool("duel", theme, {}), [theme]);
   const [phase, setPhase] = useState<Phase>("setup");
@@ -232,14 +234,12 @@ function DuelSession({ theme }: { theme: PlayThemeId }) {
         {content}
         {confirmQuit && (
           <div className="duel-confirm">
-            <p>Quitter le duel ?</p>
+            <p>{tr("Quitter le duel ?")}</p>
             <div className="duel-row">
               <button className="duel-btn duel-btn--danger" onClick={quit}>
-                Oui
-              </button>
+                {tr("Oui")} </button>
               <button className="duel-btn" onClick={() => setConfirmQuit(false)}>
-                Non
-              </button>
+                {tr("Non")} </button>
             </div>
           </div>
         )}
@@ -252,7 +252,7 @@ function DuelSession({ theme }: { theme: PlayThemeId }) {
       {renderHalf("top")}
       <div className="duel-middle">
         <ScoreChip player="bottom" score={duel.score} target={target} />
-        <button className="duel-quit" aria-label="Quitter" onClick={onQuitButton}>
+        <button className="duel-quit" aria-label={tr("Quitter")} onClick={onQuitButton}>
           <X size={20} strokeWidth={3} />
         </button>
         <ScoreChip player="top" score={duel.score} target={target} />
@@ -274,13 +274,14 @@ function ScoreChip({ player, score, target }: { player: Player; score: Record<Pl
 }
 
 function SetupPanel({ onChoose }: { onChoose: (t: DuelTarget) => void }) {
+  const { t: tr } = useTranslation();
   return (
     <div className="duel-panel">
-      <h2 className="duel-title">Duel</h2>
+      <h2 className="duel-title">{tr("Duel")}</h2>
       <div className="duel-row">
         {([5, 10] as DuelTarget[]).map((t) => (
           <button key={t} className="duel-btn duel-btn--big" onPointerDown={() => onChoose(t)}>
-            Premier à {t}
+            {tr("Premier à {{target}}", { target: t })}
           </button>
         ))}
       </div>
@@ -289,12 +290,13 @@ function SetupPanel({ onChoose }: { onChoose: (t: DuelTarget) => void }) {
 }
 
 function ReadyPanel(props: { target: number; isReady: boolean; otherReady: boolean; onReady: () => void }) {
+  const { t: tr } = useTranslation();
   return (
     <div className="duel-panel">
-      <h2 className="duel-title">Prêts ?</h2>
-      <p className="duel-sub">Premier à {props.target}</p>
+      <h2 className="duel-title">{tr("Prêts ?")}</h2>
+      <p className="duel-sub">{tr("Premier à {{target}}", { target: props.target })}</p>
       {props.isReady ? (
-        <p className="duel-wait">{props.otherReady ? "C'est parti !" : "On attend l'autre…"}</p>
+        <p className="duel-wait">{props.otherReady ? tr("C'est parti !") : tr("On attend l'autre…")}</p>
       ) : (
         <motion.button
           className="duel-btn duel-btn--ready"
@@ -302,19 +304,19 @@ function ReadyPanel(props: { target: number; isReady: boolean; otherReady: boole
           animate={{ scale: [1, 1.06, 1] }}
           transition={{ repeat: Infinity, duration: 1.2 }}
         >
-          Prêt !
-        </motion.button>
+          {tr("Prêt !")} </motion.button>
       )}
     </div>
   );
 }
 
 function CountdownPanel({ count, assetsStatus, onRetry }: { count: number; assetsStatus: AssetsStatus; onRetry: () => void }) {
+  const { t: tr } = useTranslation();
   if (count <= 0 && assetsStatus !== "ready") {
     const failed = assetsStatus === "error";
     return <div className="duel-panel duel-assets" role={failed ? "alert" : "status"}>
-      <p>{failed ? "Certaines images n’ont pas pu être chargées." : "Préparation du duel…"}</p>
-      {failed && <button type="button" className="duel-btn" onClick={onRetry}>Réessayer</button>}
+      <p>{failed ? tr("Certaines images n’ont pas pu être chargées.") : tr("Préparation du duel…")}</p>
+      {failed && <button type="button" className="duel-btn" onClick={onRetry}>{tr("Réessayer")}</button>}
     </div>;
   }
   return (
@@ -328,7 +330,7 @@ function CountdownPanel({ count, assetsStatus, onRetry }: { count: number; asset
           exit={{ scale: 1.6, opacity: 0 }}
           transition={{ duration: 0.3 }}
         >
-          {count > 0 ? count : "Go !"}
+          {count > 0 ? count : tr("Go !")}
         </motion.div>
       </AnimatePresence>
     </div>
@@ -343,6 +345,7 @@ function PlayPanel(props: {
   roundWinner: Player | null;
   onCell: (i: number) => void;
 }) {
+  const { t: tr } = useTranslation();
   const { round, player, locked, missKey, roundWinner, onCell } = props;
   const controls = useAnimationControls();
   useEffect(() => {
@@ -354,8 +357,8 @@ function PlayPanel(props: {
   return (
     <div className={`duel-play${locked ? " is-locked" : ""}`}>
       <div className="duel-poster">
-        <span className="duel-poster-label">Trouve</span>
-        <img src={round.spec.wanted.imageSrc} alt={round.spec.wanted.label} draggable={false} style={portraitStyle(round.spec.wanted.imageSrc)} />
+        <span className="duel-poster-label">{tr("Trouve")}</span>
+        <img src={round.spec.wanted.imageSrc} alt={tr(round.spec.wanted.label)} draggable={false} style={portraitStyle(round.spec.wanted.imageSrc)} />
       </div>
       <motion.div
         className="duel-grid"
@@ -382,8 +385,7 @@ function PlayPanel(props: {
       <AnimatePresence>
         {locked && (
           <motion.div className="duel-flag duel-flag--miss" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            Raté !
-          </motion.div>
+            {tr("Raté !")} </motion.div>
         )}
         {won && (
           <motion.div
@@ -399,8 +401,7 @@ function PlayPanel(props: {
         )}
         {lost && (
           <motion.div key="lost" className="duel-flag duel-flag--lost" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            Il était là !
-          </motion.div>
+            {tr("Il était là !")} </motion.div>
         )}
       </AnimatePresence>
     </div>
@@ -414,21 +415,20 @@ function VictoryPanel(props: {
   onRematch: () => void;
   onHome: () => void;
 }) {
+  const { t: tr } = useTranslation();
   const { won, player, score } = props;
   return (
     <motion.div className="duel-panel" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
       <div className="duel-trophy">{won ? "🏆" : "💪"}</div>
-      <h2 className="duel-title">{won ? "Bravo !" : "Revanche ?"}</h2>
+      <h2 className="duel-title">{won ? tr("Bravo !") : tr("Revanche ?")}</h2>
       <p className="duel-sub">
         {score[player]} – {score[other(player)]}
       </p>
       <div className="duel-row">
         <button className="duel-btn duel-btn--big" onClick={props.onRematch}>
-          Revanche
-        </button>
+          {tr("Revanche")} </button>
         <button className="duel-btn" onClick={props.onHome}>
-          Accueil
-        </button>
+          {tr("Accueil")} </button>
       </div>
     </motion.div>
   );

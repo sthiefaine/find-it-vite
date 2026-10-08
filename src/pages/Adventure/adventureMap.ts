@@ -1,3 +1,4 @@
+import { translate as tr } from "../../i18n";
 // Calculs d'affichage de la carte Aventure (sans React)
 import type { Save } from "../../save/schema";
 import { starsFor } from "../../content/progress";
@@ -19,7 +20,7 @@ export function nextLevel(save: MapSave): LevelRef {
 export function unlockHint(world: World): string {
   const i = WORLDS.findIndex((w) => w.id === world.id);
   const prev = i > 0 ? WORLDS[i - 1] : undefined;
-  return prev ? `Finis ${prev.emoji} ${prev.name} ${LEVELS_PER_WORLD}` : "";
+  return prev ? tr("Finis {{world}} {{level}}", { world: `${prev.emoji} ${tr(prev.name)}`, level: LEVELS_PER_WORLD }) : "";
 }
 
 export function worldStars(save: MapSave, world: World): number {

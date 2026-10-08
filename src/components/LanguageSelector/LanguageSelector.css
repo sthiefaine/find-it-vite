@@ -1,0 +1,146 @@
+.language-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  color: #fff;
+}
+
+.language-selector-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 900;
+}
+
+.language-selector-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  min-height: 46px;
+  padding: 3px 12px 3px 6px;
+  border: 2px solid #ffffff35;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff20, #ffffff0b);
+  box-shadow: 0 3px 0 #140b2f55, inset 0 1px 0 #ffffff14;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease;
+}
+
+.language-selector-trigger:hover,
+.language-selector-trigger[aria-expanded="true"] {
+  border-color: #ffd76a;
+  background: #ffffff22;
+}
+
+.language-selector-flag { width: 36px; height: 36px; object-fit: contain; flex: none; }
+.language-selector-chevron { flex: none; margin-inline-start: 2px; color: #eadcfa; }
+.language-selector-trigger > span { overflow-wrap: anywhere; }
+.language-selector--compact { max-width: 225px; }
+
+.language-dialog {
+  width: min(440px, calc(100% - 32px));
+  max-height: calc(100% - 32px - var(--safe-top) - var(--safe-bottom));
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 28px;
+  background: transparent;
+  color: #fff;
+  box-shadow: 0 20px 80px #0c022a80;
+  overscroll-behavior: contain;
+}
+
+.language-dialog::backdrop { background: #100623b8; backdrop-filter: blur(8px); }
+.language-dialog-panel {
+  padding: 22px;
+  border: 2px solid #bca0e359;
+  border-radius: inherit;
+  background: radial-gradient(ellipse at top left, #68458b, transparent 70%), #35214f;
+}
+
+.language-dialog-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.language-dialog-globe {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border: 1px solid #ffd76a55;
+  border-radius: 16px;
+  background: #ffce5721;
+  color: #ffdc80;
+}
+.language-dialog-header h2 { flex: 1; margin: 0; font-size: 26px; font-weight: 900; }
+.language-dialog-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #ffffff25;
+  border-radius: 50%;
+  background: #1c103c55;
+  color: #e9dff9;
+  cursor: pointer;
+}
+
+.language-dialog-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* The native names stay in the same alphabetical order in RTL languages. */
+  direction: ltr;
+}
+.language-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 68px;
+  height: 100%;
+  padding: 10px 12px 10px 6px;
+  border: 2px solid #ffffff1c;
+  border-radius: 17px;
+  background: #ffffff0b;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: start;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease;
+}
+.language-option img { width: 42px; height: 42px; object-fit: contain; flex: none; }
+.language-option span { overflow-wrap: anywhere; }
+.language-option span[lang="zh-CN"] { word-break: keep-all; overflow-wrap: normal; }
+.language-option:hover { background: #ffffff19; border-color: #ffffff60; }
+.language-option[aria-pressed="true"] { border-color: #ffd46c; background: #ffd46c1c; color: #ffe9b1; }
+.language-option-check { position: absolute; top: 5px; right: 5px; color: #ffdc80; }
+.language-selector button:focus-visible,
+.language-dialog button:focus-visible { outline: 3px solid #ffdf8b; outline-offset: 3px; }
+
+@media (max-width: 360px) {
+  .language-selector:not(.language-selector--compact) { flex-wrap: wrap; }
+  .language-selector-label { font-size: 20px; }
+  .language-dialog-panel { padding: 16px 12px; }
+  .language-dialog-options { gap: 8px; }
+  .language-option { gap: 4px; padding-inline-end: 6px; font-size: 12px; }
+  .language-option img { width: 34px; height: 38px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .language-selector-trigger, .language-option { transition: none; }
+}

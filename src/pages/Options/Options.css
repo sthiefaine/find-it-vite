@@ -160,7 +160,8 @@
 .opt-frame-name {
   font-size: 13px;
   font-weight: 900;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 /* aperçus approximatifs des cadres d'avis */

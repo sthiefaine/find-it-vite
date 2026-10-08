@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { APP_BUILD, applyWebUpdate, checkWebUpdates, useWebUpdateStore } from "../../platform/webUpdates";
 import { isNative } from "../../platform/native";
 
@@ -12,26 +13,26 @@ const STATUS_TEXT = {
 };
 
 export function AppVersion() {
+  const { t: tr } = useTranslation();
   const status = useWebUpdateStore((state) => state.status);
   const webUpdates = !isNative() && !import.meta.env.DEV;
   return (
     <section className="opt-card opt-version">
-      <h2 className="opt-title">Version du jeu</h2>
+      <h2 className="opt-title">{tr("Version du jeu")}</h2>
       <p className="opt-version-number">{APP_BUILD.buildId}</p>
       {webUpdates && <>
-        <p className="opt-hint" role="status">{STATUS_TEXT[status]}</p>
+        <p className="opt-hint" role="status">{tr(STATUS_TEXT[status])}</p>
         <button
           className="opt-no opt-update"
           disabled={status === "checking" || status === "ready"}
           onClick={() => { void checkWebUpdates(); }}
         >
-          Rechercher une mise à jour
-        </button>
+          {tr("Rechercher une mise à jour")} </button>
         {(status === "downloading" || status === "error") && <button
           className="opt-no opt-update"
           onClick={() => { void applyWebUpdate(true); }}
         >
-          Actualiser maintenant
+          {tr("Actualiser maintenant")}
         </button>}
       </>}
     </section>

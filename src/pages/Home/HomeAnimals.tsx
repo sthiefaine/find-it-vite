@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 const FRIENDS = [
   { id: "vache", className: "cow" },
   { id: "chat-siamois", className: "cat" },
@@ -7,11 +8,13 @@ const FRIENDS = [
   { id: "capybara", className: "capybara" },
 ] as const;
 
-export const HomeAnimals = () => (
+export const HomeAnimals = () => {
+  const { t: tr } = useTranslation();
+  return (
   <div
     className="home-animals"
     role="img"
-    aria-label="Le capybara et sa bande : une vache, un chat, un mouton, un renard et un chien"
+    aria-label={tr("Le capybara et sa bande : une vache, un chat, un mouton, un renard et un chien")}
   >
     <svg className="home-animals-decor" viewBox="0 0 400 190" fill="none" aria-hidden="true">
       <ellipse cx="204" cy="109" rx="168" ry="72" fill="#ad71ed" fillOpacity=".12" />
@@ -38,3 +41,4 @@ export const HomeAnimals = () => (
     ))}
   </div>
 );
+};

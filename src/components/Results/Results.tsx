@@ -1,3 +1,5 @@
+import { formatDailyDate } from "../../i18n/format";
+import { useTranslation, translate as tr } from "../../i18n";
 import { useEffect, useState } from "react";
 import { motion, useReducedMotion, Variants } from "framer-motion";
 import { useShallow } from "zustand/shallow";
@@ -78,6 +80,7 @@ async function copyText(text: string): Promise<boolean> {
 }
 
 export default function Results() {
+  const { t: tr } = useTranslation();
   const navigate = useNavigate();
   const reducedMotion = useReducedMotion();
   const {
@@ -201,33 +204,33 @@ export default function Results() {
 
         {mode === "adventure" && run ? (
           <>
-            <motion.div className="results-score" variants={item} aria-label={`${run.starsEarned} étoiles gagnées`}>
+            <motion.div className="results-score" variants={item} aria-label={tr("{{count}} étoiles gagnées", { count: run.starsEarned })}>
               <GameIcon name="star" className="results-score-star" />
               <div className="results-score-total">
                 <span className="results-score-value"><NumberFlow value={shownScore} animated={!reducedMotion} /></span>
-                <span className="results-score-label">étoiles gagnées</span>
+                <span className="results-score-label">{tr("étoiles gagnées", { count: run.starsEarned })}</span>
               </div>
             </motion.div>
             <motion.ul className="results-stats" variants={item}>
               <li className="stat-level">
                 <Flag size={22} />
                 <strong>{run.stepsCleared}</strong>
-                <span>{run.stepsCleared > 1 ? "étapes" : "étape"}</span>
+                <span>{tr("étapes", { count: run.stepsCleared })}</span>
               </li>
               <li className="stat-found">
                 <GameIcon name="check" />
                 <strong>{stats.found}</strong>
-                <span>trouvés</span>
+                <span>{tr("trouvés", { count: stats.found })}</span>
               </li>
               <li className="stat-world">
                 <Compass size={22} />
                 <strong>{run.discoveredWorlds.length}</strong>
-                <span>{run.discoveredWorlds.length > 1 ? "mondes" : "monde"}</span>
+                <span>{tr("mondes", { count: run.discoveredWorlds.length })}</span>
               </li>
               <li className="stat-new">
                 <Sparkles size={22} />
                 <strong>{gameRecord.newCharacters.length}</strong>
-                <span>nouveaux</span>
+                <span>{tr("nouveaux", { count: gameRecord.newCharacters.length })}</span>
               </li>
             </motion.ul>
           </>
@@ -237,28 +240,27 @@ export default function Results() {
               <GameIcon name="star" className="results-score-star" />
               <div className="results-score-total">
                 <span className="results-score-value"><NumberFlow value={shownScore} animated={!reducedMotion} /></span>
-                <span className="results-score-label">{score > 1 ? "points" : "point"}</span>
+                <span className="results-score-label">{tr("points", { count: score })}</span>
               </div>
             </motion.div>
 
             <motion.div variants={item}>
               {mode === "daily" ? (
                 <div className="results-record">
-                  <GameIcon name="trophy" /> Meilleur du jour&nbsp;: {gameRecord.dailyBest}
+                  <GameIcon name="trophy" /> {tr("Meilleur du jour :")} {gameRecord.dailyBest}
                 </div>
               ) : gameRecord.calm ? (
-                <div className="results-record"><GameIcon name="infinity" /> Mode calme</div>
+                <div className="results-record"><GameIcon name="infinity" /> {tr("Mode calme")}</div>
               ) : isNewRecord ? (
                 <motion.div
                   className="results-record results-record-new"
                   animate={reducedMotion ? undefined : { scale: [1, 1.03, 1] }}
                   transition={{ delay: 0.6, duration: 0.5 }}
                 >
-                  <GameIcon name="trophy" /> Nouveau record&nbsp;!
-                </motion.div>
+                  <GameIcon name="trophy" /> {tr("Nouveau record !")} </motion.div>
               ) : (
                 <div className="results-record">
-                  <GameIcon name="trophy" /> Record&nbsp;: {gameRecord.bestScore}
+                  <GameIcon name="trophy" /> {tr("Record :")} {gameRecord.bestScore}
                 </div>
               )}
             </motion.div>
@@ -267,22 +269,22 @@ export default function Results() {
               <li className="stat-found">
                 <GameIcon name="check" />
                 <strong>{stats.found}</strong>
-                <span>trouvés</span>
+                <span>{tr("trouvés", { count: stats.found })}</span>
               </li>
               <li className="stat-miss">
                 <CircleX size={22} />
                 <strong>{stats.misses}</strong>
-                <span>erreurs</span>
+                <span>{tr("erreurs", { count: stats.misses })}</span>
               </li>
               <li className="stat-fast">
                 <Zap size={22} />
                 <strong>{formatSeconds(stats.fastestFoundMs)}</strong>
-                <span>plus rapide</span>
+                <span>{tr("plus rapide")}</span>
               </li>
               <li className="stat-level">
                 <Flag size={22} />
                 <strong>{gameRecord.level}</strong>
-                <span>niveau</span>
+                <span>{tr("niveau")}</span>
               </li>
             </motion.ul>
           </>
@@ -295,14 +297,14 @@ export default function Results() {
           >
             <span className="results-new-label"><GameIcon name="album" />
               {frenchSpacing(
-                gameRecord.newCharacters.length > 1 ? "Nouvelles découvertes !" : "Nouvelle découverte !"
+                gameRecord.newCharacters.length > 1 ? tr("Nouvelles découvertes !") : tr("Nouvelle découverte !")
               )}
             </span>
             <div className="results-new-list">
               {gameRecord.newCharacters.slice(0, 5).map((c) => (
                 <figure key={c.name}>
                   <img src={c.imageSrc} alt="" width={48} height={48} style={portraitStyle(c.imageSrc)} />
-                  <figcaption lang="fr">{c.label}</figcaption>
+                  <figcaption>{tr(c.label)}</figcaption>
                 </figure>
               ))}
             </div>
@@ -313,8 +315,8 @@ export default function Results() {
           <motion.div className="results-escaped" variants={item}>
             <img src={wantedCharacter.imageSrc} alt="" width={52} height={52} style={portraitStyle(wantedCharacter.imageSrc)} />
             <div>
-              <span>Il t'a échappé</span>
-              <strong lang="fr">{wantedCharacter.label}</strong>
+              <span>{tr("Il t'a échappé")}</span>
+              <strong>{tr(wantedCharacter.label)}</strong>
             </div>
           </motion.div>
         )}
@@ -327,7 +329,7 @@ export default function Results() {
               whileTap={tap}
               autoFocus
             >
-              <Share2 size={26} /> {copied ? frenchSpacing("Copié !") : "Partager"}
+              <Share2 size={26} /> {copied ? frenchSpacing(tr("Copié !")) : tr("Partager")}
             </motion.button>
           )}
           <motion.button
@@ -336,8 +338,7 @@ export default function Results() {
             whileTap={tap}
             autoFocus={mode !== "daily"}
           >
-            <RefreshCw size={mode === "daily" ? 22 : 28} /> Rejouer
-          </motion.button>
+            <RefreshCw size={mode === "daily" ? 22 : 28} /> {tr("Rejouer")} </motion.button>
           <div className="results-row">
             {mode !== "daily" && (
               <motion.button
@@ -345,16 +346,14 @@ export default function Results() {
                 onClick={() => goTo("/adventure")}
                 whileTap={tap}
               >
-                <MapIcon size={22} /> Carte
-              </motion.button>
+                <MapIcon size={22} /> {tr("Carte")} </motion.button>
             )}
             <motion.button
               className="results-btn results-btn-home"
               onClick={() => goTo("/")}
               whileTap={tap}
             >
-              <House size={22} /> Accueil
-            </motion.button>
+              <House size={22} /> {tr("Accueil")} </motion.button>
           </div>
         </motion.div>
       </motion.div>
@@ -365,5 +364,5 @@ export default function Results() {
 // « Défi du 03/10 »
 function dailyLabel(record: GameRecord): string {
   const [, month, day] = (record.dailyDate ?? "").split("-");
-  return month && day ? `Défi du ${day}/${month}` : "Défi du jour";
+  return month && day ? tr("Défi du {{date}}", { date: formatDailyDate(record.dailyDate ?? "") }) : tr("Défi du jour");
 }

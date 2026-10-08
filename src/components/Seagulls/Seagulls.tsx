@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useEffect, useRef } from "react";
 import type { RefObject } from "react";
 import { GameStateEnum, useGameStore } from "../../../store/store";
@@ -13,6 +14,7 @@ const PREVIEWS: [FlightKind, string][] = [["solo", "1 goéland"], ["small", "2�
 const CROWD_PREVIEWS: [FlightKind, string][] = [["solo", "1"], ["small", "2–5"], ["flock", "6–14"], ["horde", "15–20"], ["surge", "21–36"]];
 
 export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElement> }) {
+  const { t: tr } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const directorRef = useRef<SeagullDirector | null>(null);
   const seed = useGameStore(s => s.runSeed);
@@ -152,11 +154,11 @@ export default function Seagulls({ boardRef }: { boardRef: RefObject<HTMLDivElem
   return <>
     <canvas ref={canvasRef} className="seagulls-layer" aria-hidden="true" />
     <div className="seagulls-notice" role="status" aria-live="polite">
-      {blocked && <span>Un géant de passage !</span>}
+      {blocked && <span>{tr("Un géant de passage !")}</span>}
     </div>
-    {preview && !over && <div className="seagulls-preview" aria-label={political ? "Aperçu des foules" : "Aperçu des goélands"}>
+    {preview && !over && <div className="seagulls-preview" aria-label={tr(political ? "Aperçu des foules" : "Aperçu des goélands")}>
       {(political ? CROWD_PREVIEWS.map(([kind, label]) => [kind, kind === "surge" && tier !== "expert" ? "21–30" : label] as const) : PREVIEWS)
-        .map(([kind, label]) => <button key={kind} type="button" onClick={() => directorRef.current?.preview(kind)}>{label}</button>)}
+        .map(([kind, label]) => <button key={kind} type="button" onClick={() => directorRef.current?.preview(kind)}>{tr(label)}</button>)}
     </div>}
   </>;
 }

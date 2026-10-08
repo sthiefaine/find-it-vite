@@ -1,3 +1,5 @@
+import { translate as tr } from "../i18n";
+import { formatDailyDate } from "../i18n/format";
 // Modes de partie (Infini, Défi du jour, Aventure) : logique pure, sans React.
 import { hash32 } from "../engine/rng";
 import { wantedAt } from "../engine/generateLevel";
@@ -120,7 +122,5 @@ export function adventureUrl(worldId: string, level: number): string {
 
 // « Find It – Défi du 03/10 : 23 trouvés ! »
 export function dailyShareText(dateISO: string, score: number): string {
-  const [, month, day] = dateISO.split("-");
-  const found = score > 1 ? `${score} trouvés` : `${score} trouvé`;
-  return `Find It – Défi du ${day}/${month} : ${found} !`;
+  return tr("Find It – Défi du {{date}} : {{count}} trouvés !", { date: formatDailyDate(dateISO), count: score });
 }

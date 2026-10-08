@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSaveStore } from "../../save/saveStore";
@@ -13,6 +14,7 @@ import "./Album.css";
 type Picked = { character: CharacterDetails; count: number };
 
 const Album = () => {
+  const { t: tr } = useTranslation();
   const collection = useSaveStore((s) => s.save.collection);
   const [worldId, setWorldId] = useState(ALBUM_COLLECTIONS[0].id);
   const [picked, setPicked] = useState<Picked | null>(null);
@@ -46,7 +48,7 @@ const Album = () => {
                 key={w.id}
                 role="tab"
                 aria-selected={w.id === worldId}
-                aria-label={w.name}
+                aria-label={tr(w.name)}
                 className={`album-tab${w.id === worldId ? " album-tab-on" : ""}`}
                 onClick={() => { setWorldId(w.id); setCategory(""); setSpecies(""); setColor(""); }}
               >
@@ -58,26 +60,26 @@ const Album = () => {
         </div>
 
         <h2 className="album-world" style={{ background: world.background }}>
-          {world.name}
+          {tr(world.name)}
         </h2>
-        {world.id === "animaux" && <p className="album-unlock-hint">Cinq animaux sont disponibles dès le départ. Retrouve les autres dans l’Aventure ou le défi du jour pour les débloquer en Infini.</p>}
-        {world.alwaysAvailable && <p className="album-unlock-hint">Tous ces portraits sont disponibles dès le départ en Infini et en Duel.</p>}
+        {world.id === "animaux" && <p className="album-unlock-hint">{tr("Cinq animaux sont disponibles dès le départ. Retrouve les autres dans l’Aventure ou le défi du jour pour les débloquer en Infini.")}</p>}
+        {world.alwaysAvailable && <p className="album-unlock-hint">{tr("Tous ces portraits sont disponibles dès le départ en Infini et en Duel.")}</p>}
 
         <div className="album-filters">
-          {categories.length > 0 && <label>Catégorie<select value={category} onChange={(event) => setCategory(event.target.value)}>
-            <option value="">Toutes</option>
-            {categories.map((tag) => <option key={tag} value={tag}>{animalCategoryLabel(tag)}</option>)}
+          {categories.length > 0 && <label>{tr("Catégorie")}<select value={category} onChange={(event) => setCategory(event.target.value)}>
+            <option value="">{tr("Toutes")}</option>
+            {categories.map((tag) => <option key={tag} value={tag}>{tr(animalCategoryLabel(tag))}</option>)}
           </select></label>}
-          {speciesList.length > 0 && <label>Espèce<select value={species} onChange={(event) => setSpecies(event.target.value)}>
-            <option value="">Toutes</option>
-            {speciesList.map((id) => <option key={id} value={id}>{animalSpeciesLabel(id)}</option>)}
+          {speciesList.length > 0 && <label>{tr("Espèce")}<select value={species} onChange={(event) => setSpecies(event.target.value)}>
+            <option value="">{tr("Toutes")}</option>
+            {speciesList.map((id) => <option key={id} value={id}>{tr(animalSpeciesLabel(id))}</option>)}
           </select></label>}
-          {world.allowColorFilter && <label>Couleur<select value={color} onChange={(event) => setColor(event.target.value)}>
-            <option value="">Toutes</option>
-            {Object.entries(ANIMAL_COLORS).map(([id, value]) => <option key={id} value={id}>{value.label}</option>)}
+          {world.allowColorFilter && <label>{tr("Couleur")}<select value={color} onChange={(event) => setColor(event.target.value)}>
+            <option value="">{tr("Toutes")}</option>
+            {Object.entries(ANIMAL_COLORS).map(([id, value]) => <option key={id} value={id}>{tr(value.label)}</option>)}
           </select></label>}
         </div>
-        <p className="album-filter-count" aria-live="polite">{visible.length} portrait{visible.length > 1 ? "s" : ""}</p>
+        <p className="album-filter-count" aria-live="polite">{tr("{{count}} portraits", { count: visible.length })}</p>
         <div className="album-grid">
           {visible.map((c) => {
             const count = collection[c.name] ?? 0;
@@ -85,7 +87,7 @@ const Album = () => {
             const medal = MEDALS[mastery];
             if (!world.alwaysAvailable && !isAnimalUnlocked({ collection }, c.name)) {
               return (
-                <div key={c.name} className="album-card album-card-unknown" aria-label="Pas encore trouvé">
+                <div key={c.name} className="album-card album-card-unknown" aria-label={tr("Pas encore trouvé")}>
                   <img src={c.imageSrc} alt="" draggable={false} style={portraitStyle(c.imageSrc)} />
                   <span className="album-card-q">?</span>
                 </div>
@@ -99,13 +101,13 @@ const Album = () => {
               >
                 {medal && <span className="album-card-medal">{medal}</span>}
                 <img src={c.imageSrc} alt="" draggable={false} style={portraitStyle(c.imageSrc)} />
-                <span className="album-card-label">{c.label}</span>
-                {count === 0 && <span className="album-available-label">Disponible</span>}
+                <span className="album-card-label">{tr(c.label)}</span>
+                {count === 0 && <span className="album-available-label">{tr("Disponible")}</span>}
               </button>
             );
           })}
         </div>
-        {visible.length === 0 && <p className="album-empty">Aucun portrait ne correspond à ces filtres.</p>}
+        {visible.length === 0 && <p className="album-empty">{tr("Aucun portrait ne correspond à ces filtres.")}</p>}
       </div>
 
       <AnimatePresence>
@@ -130,19 +132,19 @@ const Album = () => {
                 <span className="album-card-medal">{MEDALS[masteryOf(picked.count)]}</span>
               )}
               <img src={picked.character.imageSrc} alt="" draggable={false} style={portraitStyle(picked.character.imageSrc)} />
-              <strong>{picked.character.label}</strong>
-              {picked.character.breed && <span>{picked.character.breed}</span>}
-              <div className="album-colors" aria-label="Couleurs dominantes">
-                {normalizedAnimalMetadata(picked.character).dominantColors.map((color) => <span key={color} title={ANIMAL_COLORS[color].label} style={{ background: ANIMAL_COLORS[color].hex }} aria-label={ANIMAL_COLORS[color].label} />)}
+              <strong>{tr(picked.character.label)}</strong>
+              {picked.character.breed && <span>{tr(picked.character.breed)}</span>}
+              <div className="album-colors" aria-label={tr("Couleurs dominantes")}>
+                {normalizedAnimalMetadata(picked.character).dominantColors.map((color) => <span key={color} title={tr(ANIMAL_COLORS[color].label)} style={{ background: ANIMAL_COLORS[color].hex }} aria-label={tr(ANIMAL_COLORS[color].label)} />)}
               </div>
               <span className="album-big-count">
-                {picked.count > 0 ? `Trouvé ${picked.count} fois` : "Disponible en Infini"}
+                {picked.count > 0 ? tr("Trouvé {{count}} fois", { count: picked.count }) : tr("Disponible en Infini")}
               </span>
               {(() => {
                 const next = nextMedal(picked.count);
                 return next ? (
                   <span className="album-big-next">
-                    Encore {next.left} → {next.medal}
+                    {tr("Encore {{count}}", { count: next.left })} → {next.medal}
                   </span>
                 ) : null;
               })()}

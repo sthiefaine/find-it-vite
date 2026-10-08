@@ -1,3 +1,4 @@
+import { useTranslation } from "../../../i18n";
 import { CircleStop, Volume2, VolumeX } from "lucide-react";
 import styles from "./inGameActionButton.module.css";
 import { motion } from "framer-motion";
@@ -7,6 +8,7 @@ import { playClickSound } from "../../../helpers/sounds";
 import { Button } from "../../Buttons/button/button";
 
 export default function InGameActionButton() {
+  const { t: tr } = useTranslation();
   const { gameState, setSound, sound, setSoundSrc } = useGameStore(
     useShallow((state) => ({
       gameState: state.gameState,
@@ -32,7 +34,7 @@ export default function InGameActionButton() {
       >
         <Button
           icon={sound ? <Volume2 /> : <VolumeX />}
-          label={sound ? "Couper le son" : "Activer le son"}
+          label={tr(sound ? "Couper le son" : "Activer le son")}
           onClick={() => handleOnClickSoundButton()}
         />
       </motion.div>
@@ -46,7 +48,7 @@ export default function InGameActionButton() {
           >
             <Button
               icon={<CircleStop />}
-              text="Arrêter"
+              text={tr("Arrêter")}
               gameState={GameStateEnum.END}
             />
           </motion.div>

@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import type { CSSProperties } from "react";
 import { portraitStyle } from "../../helpers/portraitScale";
 import { ACCESSORY_OUTLINE_OFFSETS, getAccessory, getAccessoryBox, needsAccessoryOutline, type AccessoryId } from "../../content/accessories";
@@ -13,11 +14,12 @@ type Props = {
 };
 
 export function AnimalPortrait({ imageSrc, label, accessoryId, size, className = "", hidden = false }: Props) {
+  const { t: tr } = useTranslation();
   const accessory = getAccessory(accessoryId);
   const box = accessory ? getAccessoryBox(accessory, imageSrc) : undefined;
   const style: CSSProperties = { ...(size ? { width: size, height: size } : {}), ...portraitStyle(imageSrc) };
   return <span className={`animal-portrait ${className}`} style={style} hidden={hidden}
-    role="img" aria-label={accessory ? `${label}, ${accessory.label.toLocaleLowerCase("fr")}` : label}
+    role="img" aria-label={accessory ? `${tr(label)}, ${tr(accessory.label)}` : tr(label)}
     data-accessory={accessory?.id ?? "none"}>
     <img className="animal-portrait__head" src={imageSrc} alt="" draggable={false} />
     {accessory && box && needsAccessoryOutline(accessory) ? ACCESSORY_OUTLINE_OFFSETS.map((offset, index) => (

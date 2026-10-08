@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Lock, Play } from "lucide-react";
@@ -28,8 +29,9 @@ function pathD(): string {
 const PATH = pathD();
 
 function Stars({ n }: { n: number }) {
+  const { t: tr } = useTranslation();
   return (
-    <span className="adv-stars" aria-label={`${n} étoile${n > 1 ? "s" : ""} sur 3`}>
+    <span className="adv-stars" aria-label={tr("{{count}} étoiles sur 3", { count: n })}>
       {[1, 2, 3].map((i) => (
         <span key={i} className={i <= n ? "on" : "off"}>★</span>
       ))}
@@ -45,6 +47,7 @@ type WorldProps = {
 };
 
 function WorldSection({ world, save, current, currentRef }: WorldProps) {
+  const { t: tr } = useTranslation();
   const navigate = useNavigate();
   const open = isWorldUnlocked(save, world);
 
@@ -53,7 +56,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
       <div className="adv-world-bg" style={{ background: world.background }} aria-hidden="true" />
       <header className="adv-banner">
         <span className="adv-banner-emoji" aria-hidden="true">{world.emoji}</span>
-        <h2>{world.name}</h2>
+        <h2>{tr(world.name)}</h2>
         {open ? (
           <span className="fi-chip adv-banner-chip">
             <span className="fi-star">★</span> {worldStars(save, world)}/{LEVELS_PER_WORLD * 3}
@@ -80,7 +83,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
               className={`adv-node${unlocked ? "" : " adv-node-locked"}${isCurrent ? " adv-node-current" : ""}${boss ? " adv-node-boss" : ""}`}
               style={{ left: `${nodeX(level)}%`, top: STEP / 2 + i * STEP, ["--accent" as string]: world.accent }}
               disabled={!unlocked}
-              aria-label={`Étape ${level} : ${scene.name}${unlocked ? "" : ", fermée"}`}
+              aria-label={tr("Étape {{level}} : {{scene}}{{locked}}", { level, scene: tr(scene.name), locked: unlocked ? "" : tr(", fermée") })}
               onClick={() => navigate(levelUrl(world.id, level))}
             >
               {isCurrent && (
@@ -89,7 +92,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
               <span className="adv-node-disc">
                 {unlocked ? <span className="adv-node-num">{boss ? "👑" : level}</span> : <Lock size={24} strokeWidth={3} />}
               </span>
-              <span className="adv-node-name">{scene.name}</span>
+              <span className="adv-node-name">{tr(scene.name)}</span>
               {unlocked && <Stars n={stars} />}
             </button>
           );
@@ -100,6 +103,7 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
 }
 
 const Adventure = () => {
+  const { t: tr } = useTranslation();
   const save = useSaveStore((s) => s.save);
   const loaded = useSaveStore((s) => s.loaded);
   const navigate = useNavigate();
@@ -128,9 +132,9 @@ const Adventure = () => {
         >
           <Play size={30} fill="currentColor" aria-hidden="true" />
           <span className="adv-continue-text">
-            <strong>Continuer l'aventure</strong>
+            <strong>{tr("Continuer l'aventure")}</strong>
             <small>
-              {currentWorld?.emoji} {currentWorld ? sceneForIndex(currentWorld.startIndex + current.level - 1).name : `Étape ${current.level}`}
+              {currentWorld?.emoji} {currentWorld ? tr(sceneForIndex(currentWorld.startIndex + current.level - 1).name) : tr("Étape {{level}}", { level: current.level })}
             </small>
           </span>
         </button>

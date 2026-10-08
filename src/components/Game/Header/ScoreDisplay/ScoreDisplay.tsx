@@ -1,3 +1,4 @@
+import { useTranslation } from "../../../../i18n";
 import React, { useState, useEffect, useRef } from 'react';
 import './ScoreDisplay.css';
 import NumberFlow from '@number-flow/react';
@@ -7,6 +8,7 @@ interface ScoreDisplayProps {
 }
 
 const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ score }) => {
+  const { t: tr } = useTranslation();
   const [previousScore, setPreviousScore] = useState(score);
   const [isIncreasing, setIsIncreasing] = useState(false);
   const [isDecreasing, setIsDecreasing] = useState(false);
@@ -56,7 +58,7 @@ const ScoreDisplay: React.FC<ScoreDisplayProps> = ({ score }) => {
   return (
     <div className="score-container">
       <div className={`score-badge ${getScoreColor()}`}>
-        <div className="score-label">SCORE</div>
+        <div className="score-label">{tr("SCORE")}</div>
         <div className={`score-value ${getScoreClass()}`}>
           <NumberFlow value={score} />
         </div>

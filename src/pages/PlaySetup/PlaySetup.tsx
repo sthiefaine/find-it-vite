@@ -1,3 +1,4 @@
+import { useTranslation } from "../../i18n";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { themeOptions } from "../../content/playThemes";
@@ -17,6 +18,7 @@ const themeIcons: Partial<Record<PlayThemeId, GameIconName>> = {
 };
 
 function ThemeSelection({ mode }: { mode: PlayMode }) {
+  const { t: tr } = useTranslation();
   const save = useSaveStore((state) => state.save);
   const loaded = useSaveStore((state) => state.loaded);
   const [selectedId, setSelectedId] = useState<PlayThemeId>("animaux");
@@ -34,13 +36,13 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
   return (
     <div className="fi-screen play-setup-screen">
       <main className="fi-inner play-setup-inner">
-        <h2 id="play-theme-title" className="play-setup-title">{mode === "duel" ? "Duel" : "Infini"}</h2>
-        {mode === "duel" && <div className="play-duel-devices" role="group" aria-label="Où jouer au duel ?">
+        <h2 id="play-theme-title" className="play-setup-title">{mode === "duel" ? tr("Duel") : tr("Infini")}</h2>
+        {mode === "duel" && <div className="play-duel-devices" role="group" aria-label={tr("Où jouer au duel ?")}>
           <button type="button" aria-pressed={duelDevice === "online"} onClick={() => setDuelDevice("online")}>
-            <GameIcon name="duel" /><strong>En ligne</strong><span>Chacun son écran</span>
+            <GameIcon name="duel" /><strong>{tr("En ligne")}</strong><span>{tr("Chacun son écran")}</span>
           </button>
           <button type="button" aria-pressed={duelDevice === "local"} onClick={() => setDuelDevice("local")}>
-            <GameIcon name="people" /><strong>Côte à côte</strong><span>Sur le même écran</span>
+            <GameIcon name="people" /><strong>{tr("Côte à côte")}</strong><span>{tr("Sur le même écran")}</span>
           </button>
         </div>}
         <div className="play-theme-grid" role="group" aria-labelledby="play-theme-title">
@@ -59,12 +61,12 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
                   {theme.preview ? <img src={theme.preview} alt="" draggable={false} style={portraitStyle(theme.preview)} /> : <GameIcon name={themeIcons[theme.id] ?? "paw"} />}
                   {selected ? <span className="play-theme-check"><GameIcon name="check" /></span> : null}
                 </span>
-                <span className="play-theme-name">{theme.label}</span>
-                <span className="play-theme-description">{theme.description}</span>
+                <span className="play-theme-name">{tr(theme.label)}</span>
+                <span className="play-theme-description">{tr(theme.description)}</span>
                 <span className="play-theme-count">
-                  {theme.comingSoon ? "Bientôt" : mode === "endless"
-                    ? <>{availableCount}/{totalCount} disponibles{!enabled ? " · 3 requis" : ""}</>
-                    : <>{totalCount} {theme.id === "drapeaux" ? "drapeaux" : "portraits"}{!enabled ? " · 3 requis" : ""}</>}
+                  {theme.comingSoon ? tr("Bientôt") : mode === "endless"
+                    ? <>{tr("{{available}}/{{total}} disponibles", { available: availableCount, total: totalCount })}{!enabled ? tr(" · 3 requis") : ""}</>
+                    : <>{tr(theme.id === "drapeaux" ? "{{count}} drapeaux" : "{{count}} portraits", { count: totalCount })}{!enabled ? tr(" · 3 requis") : ""}</>}
                 </span>
               </button>
             );
@@ -72,16 +74,16 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
         </div>
         <p className="play-setup-hint">
           {selectedId === "politique"
-            ? "Tous les portraits politiques sont disponibles dès le départ."
+            ? tr("Tous les portraits politiques sont disponibles dès le départ.")
             : selectedId === "drapeaux"
-            ? "Tous les drapeaux sont disponibles dès le départ, sans accessoires."
+            ? tr("Tous les drapeaux sont disponibles dès le départ, sans accessoires.")
             : mode === "endless"
-            ? "Retrouve des animaux dans l’Aventure ou le Défi du jour pour les débloquer en Infini."
-            : "En Duel, tous les portraits du thème sont disponibles."}
+            ? tr("Retrouve des animaux dans l’Aventure ou le Défi du jour pour les débloquer en Infini.")
+            : tr("En Duel, tous les portraits du thème sont disponibles.")}
         </p>
         <div className="play-setup-action">
           <button type="button" className="play-setup-start" disabled={!canPlay} onClick={start}>
-            {!loaded ? "Chargement…" : mode === "duel" ? (duelDevice === "online" ? "Ouvrir les salons" : "Préparer le duel") : "Jouer en Infini"}
+            {!loaded ? tr("Chargement…") : mode === "duel" ? (duelDevice === "online" ? tr("Ouvrir les salons") : tr("Préparer le duel")) : tr("Jouer en Infini")}
           </button>
         </div>
       </main>

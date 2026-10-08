@@ -1,3 +1,4 @@
+import { useTranslation } from "../../../i18n";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import "./GameHeader.css";
 import { GameStateEnum, useGameStore } from "../../../../store/store";
@@ -30,6 +31,7 @@ const stampIcon = (spec: LevelSpec | null) => {
 };
 
 export const GameHeader = () => {
+  const { t: tr } = useTranslation();
   const {
     animationLevelLoading,
     wantedCharacter,
@@ -147,28 +149,28 @@ export const GameHeader = () => {
   // --- Nom affiché sous le portrait ---
   const remaining = spec ? Math.max(0, targetCount(spec) - foundCount) : 0;
   const renderName = () => {
-    if (animationLevelLoading && wantedCharacter && rule === "classic") return wantedCharacter.label;
+    if (animationLevelLoading && wantedCharacter && rule === "classic") return tr(wantedCharacter.label);
     if (!shown) return "???";
     switch (rule) {
       case "silhouette":
         return "???";
       case "memory":
-        return cardHidden ? "???" : wantedCharacter!.label;
+        return cardHidden ? "???" : tr(wantedCharacter!.label);
       case "oddOneOut":
-        return "L'intrus\u00a0!";
+        return tr("L'intrus !");
       case "goldRush":
-        return "BONUS\u00a0!";
+        return tr("BONUS !");
       case "findAll":
         return (
           <>
-            {wantedCharacter!.label}
+            {tr(wantedCharacter!.label)}
             <span key={remaining} className="wanted-count">
               ×{remaining}
             </span>
           </>
         );
       default:
-        return wantedCharacter!.label;
+        return tr(wantedCharacter!.label);
     }
   };
 
@@ -186,7 +188,7 @@ export const GameHeader = () => {
           }${showBack && !flipping ? " wanted-tappable" : ""}`}
           onPointerDown={peek}
         >
-          {animationLevelLoading && spec && <span className="wanted-level">Niveau {spec.index}</span>}
+          {animationLevelLoading && spec && <span className="wanted-level">{tr("Niveau")} {spec.index}</span>}
           <div
             className={`wanted-image-container${flipping ? " card-flipping" : ""}`}
           >
@@ -203,7 +205,7 @@ export const GameHeader = () => {
                 }`}
                 imageSrc={wantedCharacter.imageSrc}
                 size={62}
-                label={wantedCharacter.label}
+                label={tr(wantedCharacter.label)}
                 accessoryId={spec?.accessories?.target}
                 hidden={showBack || isGold}
               />
@@ -229,7 +231,7 @@ export const GameHeader = () => {
             {stampIcon(spec)}
           </div>
           <div className="wanted-name-container">
-            <p lang="fr" className="wanted-name">
+            <p className="wanted-name">
               {renderName()}
             </p>
           </div>
@@ -238,7 +240,7 @@ export const GameHeader = () => {
         <div className="score-column">
           <ScoreDisplay score={score} />
           {mode === "adventure" && (
-            <div className="mission-progress" aria-label={`${missionFound} avis sur ${MISSION_GOAL}`}>
+            <div className="mission-progress" aria-label={tr("{{found}} avis sur {{goal}}", { found: missionFound, goal: MISSION_GOAL })}>
               <span key={missionFound} className="mission-count">
                 {missionFound}
               </span>
