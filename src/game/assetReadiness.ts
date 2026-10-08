@@ -86,19 +86,31 @@ async function loadTexture(url: string, signal: AbortSignal): Promise<void> {
 
 type LoadAsset = (url: string, signal: AbortSignal) => Promise<void>;
 
+function preparedTextureReady(url: string): boolean {
+  const valid = (source: string) => {
+    const texture = utils.TextureCache[source];
+    return !!texture?.valid && !!texture.baseTexture?.valid && !texture.baseTexture.destroyed;
+  };
+  const accessory = ACCESSORIES.find(item => item.imageSrc === url);
+  return valid(url) && (!accessory || !needsAccessoryOutline(accessory) || valid(accessoryOutlineSource(url)));
+}
+
 // Une seule promesse par URL, y compris si préchargement, StrictMode et niveau
 // demandent la même image simultanément. Un échec est évincé pour permettre Retry.
 export function createAssetReadiness(load: LoadAsset = loadTexture, timeoutMs = ASSET_TIMEOUT_MS) {
-  const pending = new Map<string, Promise<void>>();
+  const pending = new Map<string, { promise: Promise<void>; ready: boolean }>();
   const ensure = (url: string): Promise<void> => {
     const existing = pending.get(url);
-    if (existing) return existing;
+    // Une promesse résolue ne garantit pas qu'une texture existe encore après
+    // le démontage d'un plateau ou une éviction du cache Pixi.
+    if (existing && (!existing.ready || load !== loadTexture || preparedTextureReady(url))) return existing.promise;
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(new Error(`Chargement trop long : ${url}`)), timeoutMs);
     const promise = withAbort(Promise.resolve().then(() => load(url, controller.signal)), controller.signal)
-      .catch(error => { if (pending.get(url) === promise) pending.delete(url); throw error; })
+      .then(() => { const current = pending.get(url); if (current?.promise === promise) current.ready = true; })
+      .catch(error => { if (pending.get(url)?.promise === promise) pending.delete(url); throw error; })
       .finally(() => clearTimeout(timeout));
-    pending.set(url, promise);
+    pending.set(url, { promise, ready: false });
     return promise;
   };
   return (urls: readonly string[], signal?: AbortSignal): Promise<void> => {

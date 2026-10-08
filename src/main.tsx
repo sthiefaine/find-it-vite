@@ -8,6 +8,12 @@ import "./index.css";
 import App from "./App.tsx";
 import { initNativeShell } from "./platform/init";
 import { startWebUpdates } from "./platform/webUpdates";
+import { ACCESSORIES } from "./content/accessories";
+import { preloadImages } from "./game/assetReadiness";
+
+// Précharger les six tenues dès l'accueil. Un échec sera retenté par la
+// barrière de chargement du niveau, qui attend toujours aussi les leurres.
+void preloadImages(ACCESSORIES.map(accessory => accessory.imageSrc)).catch(() => undefined);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

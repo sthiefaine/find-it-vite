@@ -226,6 +226,10 @@ Le paramètre `accessory` est ignoré en production.
 Un fin contour clair détoure les lunettes et moustaches pour les rendre visibles
 sur les têtes sombres, dans l’avis comme sur le plateau. Dans les variantes de
 foule, l’affiche précise aussi la tenue à chercher ou « Sans accessoire ».
+Les six accessoires et leurs contours sont préchargés dès l’ouverture du jeu.
+Chaque niveau attend aussi tous les accessoires de ses leurres, même quand la
+cible est sans accessoire. Une texture disparue ou invalidée dans le cache Pixi
+est rechargée avant d’ouvrir le plateau.
 
 ### Plancher de difficulté et variantes de foule
 

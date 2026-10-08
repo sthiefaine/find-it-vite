@@ -176,6 +176,10 @@ export const GameHeader = () => {
 
   const showBack = isMemory && shown && cardHidden;
   const isGold = rule === "goldRush" && shown;
+  const wantedAccessory = getAccessory(spec?.accessories?.target);
+  const accessoryHint = shown && rule === "classic" && spec?.accessories
+    ? wantedAccessory?.label ?? (spec.crowdVariant?.dress === "bare" ? "Sans accessoire" : undefined)
+    : undefined;
 
   return (
     <div className="header-container">
@@ -233,6 +237,7 @@ export const GameHeader = () => {
           <div className="wanted-name-container">
             <p className="wanted-name">
               {renderName()}
+              {accessoryHint && <span className="wanted-accessory-hint">{tr(accessoryHint)}</span>}
             </p>
           </div>
         </div>
