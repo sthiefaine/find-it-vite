@@ -3,6 +3,7 @@ import { useSaveStore } from "../../save/saveStore";
 import { FRAMES, isFrameUnlocked } from "../../content/progress";
 import { DEFAULT_TIER } from "../../save/schema";
 import type { PlayerTier } from "../../save/schema";
+import { AppVersion } from "../../components/AppUpdates/AppVersion";
 import "../../components/Buttons/ui.css";
 import "./Options.css";
 
@@ -97,6 +98,8 @@ const Options = () => {
             })}
           </div>
         </section>
+
+        <AppVersion />
 
         <section className="opt-card opt-danger">
           {!confirmReset ? (

@@ -97,7 +97,7 @@ export function sceneParams(scene: SceneDefinition, index: number, tier: Tier): 
       // Les rondes sont plus denses et s'accélèrent un peu avec le niveau.
       const raw = easy ? 20 + density * 55
         : movement === "orbit" ? (index >= 20 ? 75 + density * 120 : 40 + density * 100)
-          : movement === "crossing" ? 60 + density * 85
+          : movement === "crossing" ? (index <= 40 ? 34 + density * 65 : 60 + density * 85)
             : movement === "scatter" ? 50 + density * 100
               : 32 + density * 88;
       const boost = !easy && movement === "orbit" ? Math.min(.1, Math.max(0, index - 20) * .002) : 0;

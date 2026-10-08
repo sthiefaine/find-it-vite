@@ -16,6 +16,7 @@ import { AudioGestion } from "./components/Game/gameHelpers/audioGestion/audioGe
 import { animalsPack } from "./helpers/characters";
 import { ImagePreloader } from "./components/ImagesPreloader/ImagesPreloader";
 import { useAndroidBackButton } from "./platform/backButton";
+import { AppUpdates } from "./components/AppUpdates/AppUpdates";
 
 const Multiplayer = lazy(() => import("./pages/Multiplayer/Multiplayer"));
 
@@ -28,6 +29,7 @@ function App() {
 
   return (
     <>
+      <AppUpdates />
       <IsPlaying />
       <AudioGestion />
       <Header />

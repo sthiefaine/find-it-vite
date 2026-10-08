@@ -2,12 +2,17 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path';
+import { readFileSync } from 'node:fs';
 import { studioPlugin } from './scripts/studioPlugin';
+import { buildVersion, versionPlugin } from './scripts/buildVersion';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
+  const { version } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'));
+  const build = buildVersion(version);
   return {
+  define: { __APP_BUILD__: JSON.stringify(build) },
   server: {
     ...(mode === 'studio' ? { host: '127.0.0.1', port: 5174, strictPort: true } : {}),
     proxy: { '/ws': { target: env.MULTIPLAYER_PROXY_TARGET || 'ws://127.0.0.1:3001', ws: true } },
@@ -19,6 +24,7 @@ export default defineConfig(({ mode }) => {
   },
   plugins: [
     react(),
+    versionPlugin(build),
     ...(mode === 'studio' ? [studioPlugin()] : []),
     VitePWA({
       registerType: 'autoUpdate',

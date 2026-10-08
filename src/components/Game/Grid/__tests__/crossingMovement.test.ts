@@ -13,6 +13,23 @@ const makeSpec = (seed = 42, count = 140, speed = .5): LevelSpec => ({
 });
 
 describe("vagues qui traversent le plateau", () => {
+  it("garde les membres d'un même groupe espacés pendant les traversées et les virages", () => {
+    for (const seed of [1, 7, 42, 800]) for (const count of [40, 75, 100, 140, 160]) {
+      const spec = makeSpec(seed, count);
+      const area = areaOf(spec);
+      const routes = createCrossingRoutes(spec, placeSwarm(spec), area);
+      let smallestGap = Infinity;
+      for (let time = 0; time <= 60; time += .25) {
+        const positions = routes.map((route) => crossingCharacterAt(route, time, area));
+        for (let a = 0; a < routes.length; a++) for (let b = a + 1; b < routes.length; b++) {
+          if (routes[a].group !== routes[b].group) continue;
+          smallestGap = Math.min(smallestGap, Math.hypot(positions[a].x - positions[b].x, positions[a].y - positions[b].y));
+        }
+      }
+      expect(smallestGap, `seed=${seed}, count=${count}`).toBeGreaterThan(area.size);
+    }
+  });
+
   it("prépare des groupes opposés et asynchrones, des courbes variées et un tirage reproductible", () => {
     const spec = makeSpec();
     const area = areaOf(spec);

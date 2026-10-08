@@ -173,7 +173,11 @@ describe("objectif unique des parties", () => {
       expect(wanted.line).toBeGreaterThan(0);
       expect(wanted.line).toBeLessThan(layout.speeds.length - 1);
     }
-    for (const index of [18, 53, 56]) {
+    const introduction = generatePlayableLevel(18, context);
+    expect(introduction.params.movement).toBe("crossing");
+    expect(placeSwarm(introduction).length).toBeGreaterThanOrEqual(60);
+    expect(placeSwarm(introduction).length).toBeLessThanOrEqual(70);
+    for (const index of [53, 56]) {
       const spec = generatePlayableLevel(index, context);
       expect(spec.params.movement).toBe("crossing");
       expect(placeSwarm(spec).length).toBeGreaterThanOrEqual(99);

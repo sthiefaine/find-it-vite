@@ -54,7 +54,10 @@ Enfant gardent trois ellipses simples. À partir du deuxième cycle de reprises
 (étape 57), les parades Normal et Expert alternent vagues et marche-arrêt, avec
 plus de flux opposés. Les vagues avancées varient aussi leur forme par rangée.
 Les vagues traversantes arrivent des deux côtés, avec des groupes asynchrones et des courbes
-seedées renouvelées hors écran. La cible suit les mêmes lois que les leurres.
+seedées renouvelées hors écran. Chaque groupe garde une formation espacée, avec
+une place distincte par portrait, y compris dans les virages. La cible suit les mêmes lois que les leurres.
+La première traversée présente environ 64 animaux en Normal ; les grandes foules
+de plus de 140 portraits arrivent dans les reprises avancées.
 L’Enfant conserve des grilles plus petites, des tas sans fond supplémentaire et
 au maximum 60 animaux mobiles.
 
@@ -318,9 +321,16 @@ Le `Dockerfile` construit le jeu avec pnpm (lockfile figé), puis le sert avec n
 - les routes de la SPA renvoient vers `index.html` ;
 - les fichiers hashés sont en cache pendant 1 an ;
 - `index.html`, `sw.js` et le manifeste ne sont jamais mis en cache longtemps ;
+- `version.json` porte un identifiant unique par compilation et n'est pas mis en cache ;
 - un fichier manquant sous `/assets/` renvoie une vraie 404.
 
 Dans Coolify, choisissez le build pack *Dockerfile* et le port 80.
+
+La version affichée dans les Options combine `package.json` et la date UTC de
+compilation. La PWA vérifie les mises à jour au retour au premier plan, au retour
+du réseau et toutes les cinq minutes. Elle recharge depuis les menus après avoir
+terminé les écritures de sauvegarde ; les parties en cours attendent le retour
+à un menu. Le bouton des Options permet aussi une vérification immédiate.
 
 ```bash
 docker build -t find-it . && docker run -p 8080:80 find-it

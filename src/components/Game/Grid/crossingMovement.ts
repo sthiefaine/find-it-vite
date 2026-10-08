@@ -32,23 +32,36 @@ export function createCrossingRoutes(spec: LevelSpec, characters: SwarmCharacter
   // Une tête entièrement sortie redevient entièrement visible en moins de 3 s.
   const minimumSpeed = 2 * (clearance + radius) / 2.8;
   const speed = clamp((spec.params.speed ?? .4) * 60, minimumSpeed / .93, 56);
+  // Chaque membre a une place dans une petite formation. Le tirage de quelques
+  // pixels autour d'un centre commun empilait auparavant jusqu'à 12 portraits.
+  const spacing = Math.max(area.size * 1.12, radius * 2 + 3);
   const phaseOrder = rng.shuffle(Array.from({ length: groupCount }, (_, index) => index));
   const groups = Array.from({ length: groupCount }, (_, group) => {
     const groupRng = rng.fork(group);
+    const members = Math.ceil((characters.length - group) / groupCount);
+    const rows = Math.ceil(Math.sqrt(members));
+    const columns = Math.ceil(members / rows);
+    const halfHeight = (rows - 1) * spacing / 2;
+    const halfWidth = (columns - 1) * spacing / 2;
+    const minY = radius + halfHeight;
+    const maxY = area.h - minY;
     const curves = Array.from({ length: CURVE_COUNT }, (_, cycle): CrossingCurve => {
       const curveRng = groupRng.fork(cycle);
       // Répartition en hauteur, renouvelée à chaque passage ; les quatre points
       // dessinent une traversée courbe plutôt qu'une rangée qui ondule sur place.
       const band = ((group + .5) / groupCount + cycle * .381966 + (curveRng.next() - .5) * .18) % 1;
-      const center = radius + (.1 + .8 * band) * (area.h - radius * 2);
+      const center = minY + (.1 + .8 * band) * (maxY - minY);
       const tilt = (curveRng.next() - .5) * area.h * .28;
       const bend = (curveRng.next() - .5) * area.h * .30;
-      return [center - tilt, center + bend, center - bend, center + tilt];
+      const fit = (y: number) => clamp(y, minY, maxY);
+      return [fit(center - tilt), fit(center + bend), fit(center - bend), fit(center + tilt)];
     });
+    const phaseMargin = (clearance + radius + halfWidth + 2) / distance;
     return {
+      rows, columns,
       direction: (group % 2 === 0 ? 1 : -1) as 1 | -1,
       duration: distance / (speed * (.93 + groupRng.next() * .14)),
-      phase: .17 + .66 * (phaseOrder[group] + .5) / groupCount,
+      phase: phaseMargin + (1 - 2 * phaseMargin) * (phaseOrder[group] + .5) / groupCount,
       curves,
     };
   });
@@ -59,9 +72,13 @@ export function createCrossingRoutes(spec: LevelSpec, characters: SwarmCharacter
     const group = index % groupCount;
     const wave = groups[group];
     const memberRng = rng.fork(`member:${character.id}`);
-    const offset = (memberRng.next() - .5) * area.size * 1.7;
+    const member = Math.floor(index / groupCount);
+    const column = Math.floor(member / wave.rows);
+    const row = member % wave.rows;
+    const offset = (row - (wave.rows - 1) / 2) * spacing;
     const curves = wave.curves.map((curve): CrossingCurve => {
-      const adjust = (y: number) => clamp(y + offset + (memberRng.next() - .5) * area.size * .45, radius, area.h - radius);
+      // La courbe commune conserve l'écart vertical, même dans les virages.
+      const adjust = (y: number) => y + offset;
       return [adjust(curve[0]), adjust(curve[1]), adjust(curve[2]), adjust(curve[3])];
     });
     return {
@@ -71,7 +88,8 @@ export function createCrossingRoutes(spec: LevelSpec, characters: SwarmCharacter
       direction: wave.direction,
       duration: wave.duration,
       // Tous démarrent dans le plateau ; la cible n'a aucun traitement à part.
-      phase: wave.phase + (memberRng.next() - .5) * .08,
+      phase: wave.phase + (column - (wave.columns - 1) / 2) * spacing / distance
+        + (memberRng.next() - .5) * .002,
       clearance,
       curves,
     };

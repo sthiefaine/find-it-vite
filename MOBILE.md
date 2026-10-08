@@ -16,7 +16,11 @@ npx vite preview --host --port 4173
 - Dans Chrome DevTools, onglet *Application* : le manifeste doit s'afficher sans erreur et le service worker doit être *activated*.
 - Pour tester le hors-ligne : chargez la page une fois, cochez *Offline*, puis rechargez.
 - Pour installer la PWA : sur Android, menu Chrome puis « Installer l'application ». Sur iOS, Safari, puis Partager, puis « Sur l'écran d'accueil ».
-- Une nouvelle version déployée s'applique toute seule (`autoUpdate`) au chargement suivant.
+- Chaque compilation produit une version unique, visible dans **Options → Version du jeu**.
+- Les mises à jour sont recherchées au démarrage, au retour dans l'application, au retour du réseau et toutes les cinq minutes lorsque le jeu est visible. Le bouton **Rechercher une mise à jour** permet de vérifier immédiatement.
+- La PWA télécharge les fichiers modifiés, puis recharge automatiquement depuis un menu (accueil, options, album, aventure ou choix de partie). Une partie ou un salon en cours attend le retour à un menu. Les écritures de sauvegarde sont terminées avant le rechargement.
+- `version.json` est lu directement sur le réseau, sans cache. Hors ligne, le jeu continue d'utiliser sa version installée.
+- Si le téléchargement reste bloqué, **Actualiser maintenant** vérifie l'accès réseau puis réenregistre la PWA. Ce bouton conserve le cache du jeu et la progression ; il n'est disponible que dans les Options.
 
 Les icônes sont générées par `pnpm icons` (`scripts/make-icons.mjs`) :
 
