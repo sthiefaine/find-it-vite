@@ -1,14 +1,7 @@
-// Sons du duel : jamais bloquants, le jeu marche sans
+// Duel shares volume, mute, voice limits and audio lifecycle with the solo game.
+import { playLegacySound } from "../../audio/engine";
 import { useGameStore } from "../../../store/store";
 
-export function playDuelSound(src: string, volume = 0.6) {
-  try {
-    if (!useGameStore.getState().sound) return;
-    const audio = new Audio(src);
-    audio.volume = volume;
-    const p = audio.play();
-    if (p) p.catch(() => {});
-  } catch {
-    // pas de son disponible
-  }
+export function playDuelSound(src: string, volume = 1) {
+  if (useGameStore.getState().sound) playLegacySound(src, volume);
 }

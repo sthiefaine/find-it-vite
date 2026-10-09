@@ -32,6 +32,7 @@ type SaveActions = {
   load: () => Promise<void>;
   recordGame: (result: GameResult) => RecordOutcome;
   setSound: (sound: boolean) => void;
+  setSoundVolume: (volume: number) => void;
   setProfileTier: (tier: PlayerTier) => void;
   markMechanicsSeen: (mechanics: string[]) => void;
   setCalm: (calm: boolean) => void;
@@ -209,6 +210,13 @@ export function createSaveStore(
         if (get().save.settings.sound === sound) return;
         set({ save: { ...get().save, settings: { ...get().save.settings, sound } } });
         scheduleWrite();
+      },
+
+      setSoundVolume: (volume) => {
+        if (!Number.isFinite(volume)) return;
+        const soundVolume = Math.max(0, Math.min(1, volume));
+        if (get().save.settings.soundVolume === soundVolume) return;
+        update({ ...get().save, settings: { ...get().save.settings, soundVolume } });
       },
 
       setProfileTier: (tier) => {

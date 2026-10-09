@@ -14,6 +14,8 @@ import type { PhaseId, StepResult } from "../src/game/adventureRun";
 import { advanceStreaks, emptyStreaks, type StreakEvent, type Streaks } from "../src/game/streaks";
 import { dailyRewardClaimed, dailyRewardPerson } from "../src/game/dailyReward";
 import { isPortraitUnlocked } from "../src/content/portraitUnlocks";
+import { playLegacySound, playSound, unlockAudio } from "../src/audio/engine";
+import { captureFeedbackFor, type CaptureFeedback } from "../src/game/audioFeedback";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -129,6 +131,7 @@ type GameState = {
   gameRecord: GameRecord | null; // non nul une fois la partie enregistrée
   streaks: Streaks;
   bonusToast: { key: number; stars: number } | null;
+  captureFeedback: (CaptureFeedback & { key: number }) | null;
   dailyReward: GameRecord["dailyReward"];
   runStars: number;
   foundIds: number[]; // cibles déjà trouvées dans le niveau en cours
@@ -213,6 +216,7 @@ export const defaultInitState: GameState = {
   gameRecord: null,
   streaks: emptyStreaks(),
   bonusToast: null,
+  captureFeedback: null,
   dailyReward: null,
   runStars: 0,
   foundIds: [],
@@ -243,10 +247,11 @@ function discoveryOf(spec: LevelSpec): Discovery {
 
 export const useGameStore = create<GameStore>((set, get) => ({
   ...defaultInitState,
-  setSoundSrc: (data) => set({soundSrc: data}),
+  setSoundSrc: (data) => { if (get().sound) playLegacySound(data); },
   setSound: (data) => {
     set({ sound: data });
     useSaveStore.getState().setSound(data);
+    if (data) unlockAudio();
   },
   startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null }) => {
     const step = mode === "adventure" && worldId ? globalStep(worldId, adventureLevel) : 1;
@@ -277,6 +282,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       runStars: 0,
       streaks: emptyStreaks(),
       bonusToast: null,
+      captureFeedback: null,
       dailyReward: date ? { person: dailyRewardPerson(save, date), claimedBefore: dailyRewardClaimed(save, date), unlocked: false, stars: 0 } : null,
     });
   },
@@ -318,6 +324,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
           runPhases: [...runPhases, next.phase],
         }),
       });
+      if (newPhase && get().sound) playSound("world");
       return;
     }
     set({ level: level + 1 });
@@ -368,7 +375,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     });
   },
   recordTargetFound: (id, levelDone) => {
-    const { stats, levelShownAt, foundIds, currentSpec, wantedFound } = get();
+    const before = get();
+    const { stats, levelShownAt, foundIds, currentSpec, wantedFound } = before;
     if (foundIds.includes(id)) return;
     // un avis réussi (hors bonus doré) : collection et progression de mission
     if (levelDone && !wantedFound && currentSpec && currentSpec.rule !== "goldRush") {
@@ -394,6 +402,17 @@ export const useGameStore = create<GameStore>((set, get) => ({
             : Math.min(elapsed, stats.fastestFoundMs ?? Infinity),
       },
     });
+    const after = get();
+    const dailyStars = !before.dailyReward?.unlocked && after.dailyReward?.unlocked ? after.dailyReward.stars : 0;
+    const feedback = captureFeedbackFor({
+      golden: currentSpec?.rule === "goldRush",
+      levelDone,
+      streaks: after.streaks,
+      bonusStars: (before.bonusToast !== after.bonusToast ? after.bonusToast?.stars ?? 0 : 0) + dailyStars,
+      stepStars: before.stepToast !== after.stepToast ? after.stepToast?.stars ?? null : null,
+    });
+    set({ captureFeedback: { ...feedback, key: stats.found + 1 } });
+    if (get().sound) playSound(feedback.cue, feedback.options);
   },
   startBonus: (durationS) => {
     if (get().bonusDone || get().bonusEndsAt !== null) return;
@@ -416,7 +435,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     get().markDiscoverySeen();
     if (gameState !== GameStateEnum.PLAYING) return;
     // le bonus compte comme un avis en Aventure
+    const previousToast = get().stepToast;
     countMissionStep();
+    if (get().stepToast !== previousToast && get().sound) playSound("step", { stars: get().stepToast?.stars });
     if (get().mode === "adventure" && get().missionFound >= MISSION_GOAL) get().advanceLevel();
     else set({ level: level + 1 });
   },

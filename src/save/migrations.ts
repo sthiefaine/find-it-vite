@@ -1,4 +1,4 @@
-import { ADVENTURE_WORLD_IDS, DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
+import { ADVENTURE_WORLD_IDS, DEFAULT_SOUND_VOLUME, DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
 import type { FrameId, PlayerTier, SaveDaily } from "./schema";
 import { isPerson, validPurchasedPeople } from "../content/personUnlocks";
 import { validPurchasedAnimals } from "../content/portraitUnlocks";
@@ -57,6 +57,11 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
   8: (data) => ({ ...data, version: 9, goals: { person: null, contract: null, completedContracts: [] } }),
   9: (data) => ({ ...data, version: 10, dailyRewards: {} }),
   10: (data) => ({ ...data, version: 11, purchasedAnimals: [] }),
+  11: (data) => ({
+    ...data,
+    version: 12,
+    settings: { ...(isObject(data.settings) ? data.settings : {}), soundVolume: DEFAULT_SOUND_VOLUME },
+  }),
 };
 
 // Ancienne règle (v5) : étoiles à réunir pour ouvrir chaque monde
@@ -153,6 +158,9 @@ function sanitize(data: RawObject): Save {
     settings: {
       sound:
         typeof settings.sound === "boolean" ? settings.sound : base.settings.sound,
+      soundVolume: typeof settings.soundVolume === "number" && Number.isFinite(settings.soundVolume)
+        ? Math.max(0, Math.min(1, settings.soundVolume))
+        : base.settings.soundVolume,
       calm: typeof settings.calm === "boolean" ? settings.calm : base.settings.calm,
       frame: FRAME_IDS.includes(settings.frame as FrameId)
         ? (settings.frame as FrameId)

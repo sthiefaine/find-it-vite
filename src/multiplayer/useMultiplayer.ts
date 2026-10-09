@@ -4,7 +4,7 @@ import { MULTIPLAYER_PROTOCOL_VERSION } from "./protocol";
 import { encodeClientMessage, multiplayerUrl, stableSelfSnapshot } from "./clientUtils";
 
 type Session = { code: string; token: string; playerId: string };
-type MatchState = { room: RoomSnapshot; self: SelfSnapshot };
+type MatchState = { room: RoomSnapshot; self: SelfSnapshot; connectionEpoch: number };
 type Connection = "connecting" | "connected" | "reconnecting" | "closed";
 const storageKey = (code: string) => `find-it:multiplayer:${code}`;
 
@@ -43,11 +43,13 @@ export function useMultiplayer(initialCode: string) {
     let disposed = false;
     let incompatible = false;
     let retry = 0;
+    let connectionEpoch = 0;
     let reconnectTimer: ReturnType<typeof setTimeout> | undefined;
     let pingTimer: ReturnType<typeof setInterval> | undefined;
     let connectionTimer: ReturnType<typeof setTimeout> | undefined;
     const connect = () => {
       if (disposed) return;
+      const epoch = ++connectionEpoch;
       let ws: WebSocket;
       try { ws = new WebSocket(multiplayerUrl(window.location, import.meta.env.VITE_MULTIPLAYER_URL)); }
       catch {
@@ -96,7 +98,7 @@ export function useMultiplayer(initialCode: string) {
           setPending(false);
         } else if (message.type === "state") {
           if (clockOffset.current === 0) clockOffset.current = message.serverNow - Date.now();
-          setMatch(previous => ({ room: message.room, self: stableSelfSnapshot(previous?.self, message.self) }));
+          setMatch(previous => ({ room: message.room, self: stableSelfSnapshot(previous?.self, message.self), connectionEpoch: epoch }));
           setPending(false);
         } else if (message.type === "error") {
           setError(message.message);

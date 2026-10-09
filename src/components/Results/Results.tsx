@@ -19,11 +19,7 @@ import {
   Zap,
 } from "lucide-react";
 import { GameStateEnum, GameRecord, useGameStore } from "../../../store/store";
-import {
-  playClickSound,
-  playFinishSound,
-  playNewHihScoreSound,
-} from "../../helpers/sounds";
+import { playClickSound } from "../../helpers/sounds";
 import {
   adventureRunMessage,
   formatSeconds,
@@ -35,6 +31,7 @@ import { dailyShareText } from "../../game/modes";
 import { GameIcon } from "../Icons/GameIcon";
 import { DAILY_REWARD_TARGET } from "../../game/dailyReward";
 import { STREAK_REWARD } from "../../game/streaks";
+import { playSound } from "../../audio/engine";
 import { albumCharacterLabel } from "../../pages/Album/albumNames";
 import "./Results.css";
 
@@ -138,12 +135,12 @@ export default function Results() {
     timers.push(setTimeout(() => setShownScore(shownValue), reducedMotion ? 0 : 250));
     timers.push(
       setTimeout(
-        () => setSoundSrc(isNewRecord ? playNewHihScoreSound : playFinishSound),
-        (0.1 + STEP_S * RECORD_STEP) * 1000
+        () => playSound(isNewRecord ? "record" : mode === "adventure" && won ? "win" : "finish"),
+        reducedMotion ? 0 : (0.1 + STEP_S * RECORD_STEP) * 1000
       )
     );
     return () => timers.forEach(clearTimeout);
-  }, [gameRecord, shownValue, isNewRecord, setSoundSrc, reducedMotion]);
+  }, [gameRecord, shownValue, isNewRecord, mode, won, reducedMotion]);
 
   if (!gameRecord) return null;
 

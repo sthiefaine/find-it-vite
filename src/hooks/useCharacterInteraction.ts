@@ -3,7 +3,7 @@ import { useShallow } from "zustand/shallow";
 import { GameStateEnum, useGameStore } from "../../store/store";
 import { pointColorsArray, randomIntFromInterval } from "../helpers/gameUtils";
 import { showPointsEffect } from "../helpers/animationUtils";
-import { playHitGoldenSound, playPopSound } from "../helpers/sounds";
+import { playSound } from "../audio/engine";
 import { resolveTap, sameLevel } from "../game/session";
 import * as haptics from "../platform/haptics";
 
@@ -32,7 +32,6 @@ export const useCharacterInteraction = () => {
     setTimeLeft,
     setPauseTimer,
     advanceLevel,
-    setSoundSrc,
     recordTargetFound,
     recordMiss,
     endBonus,
@@ -44,7 +43,6 @@ export const useCharacterInteraction = () => {
       setTimeLeft: state.setTimeLeft,
       setPauseTimer: state.setPauseTimer,
       advanceLevel: state.advanceLevel,
-      setSoundSrc: state.setSoundSrc,
       recordTargetFound: state.recordTargetFound,
       recordMiss: state.recordMiss,
       endBonus: state.endBonus,
@@ -78,7 +76,6 @@ export const useCharacterInteraction = () => {
     const canvas = canvasRef.current;
 
     if (result.kind === "target") {
-      setSoundSrc(result.golden ? playHitGoldenSound : playPopSound);
       const color = result.golden
         ? "#ffd54a"
         : pointColorsArray[randomIntFromInterval(0, pointColorsArray.length - 1)];
@@ -123,7 +120,7 @@ export const useCharacterInteraction = () => {
       return;
     }
 
-    setSoundSrc(playPopSound);
+    playSound(result.countsAsMiss ? "miss" : "tap");
     haptics.error();
     setIsCorrectSelection(false);
     // pendant un bonus, une erreur ne montre aucun « -1 »

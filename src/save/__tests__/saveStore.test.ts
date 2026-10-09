@@ -54,6 +54,28 @@ describe("useSaveStore", () => {
     expect(JSON.parse(storage.data.get(SAVE_KEY)!).settings.sound).toBe(true);
   });
 
+  it("persiste le volume indépendamment du silence et borne les valeurs", async () => {
+    const storage = createMemoryStorage();
+    const store = createSaveStore(storage, { debounceMs: 50 });
+    await store.getState().load();
+    store.getState().setSoundVolume(0.35);
+    store.getState().setSound(false);
+    await store.getState().flush();
+    const restored = createSaveStore(storage);
+    await restored.getState().load();
+    expect(restored.getState().save.settings.soundVolume).toBe(0.35);
+    expect(restored.getState().save.settings.sound).toBe(false);
+    restored.getState().setSound(true);
+    expect(restored.getState().save.settings.soundVolume).toBe(0.35);
+    restored.getState().setSoundVolume(9);
+    expect(restored.getState().save.settings.soundVolume).toBe(1);
+    restored.getState().setSoundVolume(-1);
+    expect(restored.getState().save.settings.soundVolume).toBe(0);
+    restored.getState().setSoundVolume(NaN);
+    restored.getState().setSoundVolume(Infinity);
+    expect(restored.getState().save.settings.soundVolume).toBe(0);
+  });
+
   it("enregistre le profil choisi et réécrit une v1 au format courant", async () => {
     const storage = createMemoryStorage({
       [SAVE_KEY]: JSON.stringify({
@@ -70,7 +92,7 @@ describe("useSaveStore", () => {
     await store.getState().flush();
     const saved = JSON.parse(storage.data.get(SAVE_KEY)!);
     expect(saved.version).toBe(SAVE_VERSION);
-    expect(saved.settings).toEqual({ sound: true, calm: false, frame: "classic" });
+    expect(saved.settings).toEqual({ sound: true, soundVolume: 0.65, calm: false, frame: "classic" });
     expect(saved.profile).toEqual({ tier: "easy" });
     expect(saved.seenMechanics).toEqual([]);
     expect(saved.progress.bestScore).toBe(4);
@@ -112,7 +134,7 @@ describe("useSaveStore", () => {
     store.getState().setCalm(true);
     store.getState().setFrame("neon");
     await store.getState().flush();
-    expect(JSON.parse(storage.data.get(SAVE_KEY)!).settings).toEqual({ sound: true, calm: true, frame: "neon" });
+    expect(JSON.parse(storage.data.get(SAVE_KEY)!).settings).toEqual({ sound: true, soundVolume: 0.65, calm: true, frame: "neon" });
   });
 
   it("recordStars, recordCollection et recordDaily sont persistés, resetSave efface tout", async () => {

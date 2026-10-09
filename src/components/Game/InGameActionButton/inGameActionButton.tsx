@@ -20,8 +20,9 @@ export default function InGameActionButton() {
 
   const handleOnClickSoundButton = () => {
     if (!sound) {
+      setSound(true);
       setSoundSrc(playClickSound);
-      return setSound(!sound);
+      return;
     }
     setSound(!sound);
   };

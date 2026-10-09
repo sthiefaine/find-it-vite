@@ -1,14 +1,25 @@
 import { useTranslation } from "../../../../i18n";
 import { useShallow } from "zustand/shallow";
-import { useGameStore } from "../../../../../store/store";
+import { GameStateEnum, useGameStore } from "../../../../../store/store";
+import { useEffect, useRef } from "react";
+import { playSound } from "../../../../audio/engine";
 import "./Timer.css";
 import NumberFlow from "@number-flow/react";
 
 export const Timer = () => {
   const { t: tr } = useTranslation();
-  const { timeLeft, calm } = useGameStore(
-    useShallow((state) => ({ timeLeft: state.timeLeft, calm: state.calm }))
+  const { timeLeft, calm, searching, runSeed } = useGameStore(
+    useShallow((state) => ({ timeLeft: state.timeLeft, calm: state.calm, runSeed: state.runSeed,
+      searching: state.gameState === GameStateEnum.PLAYING && !state.pauseTimer && !state.animationLevelLoading && !state.worldBanner && state.bonusEndsAt === null }))
   );
+  const warned = useRef(false);
+  useEffect(() => { warned.current = false; }, [runSeed]);
+  useEffect(() => {
+    if (timeLeft > 10) warned.current = false;
+    if (calm || !searching || warned.current || timeLeft > 5 || timeLeft <= 0) return;
+    warned.current = true;
+    playSound("warning");
+  }, [timeLeft, calm, searching]);
 
   const isUrgent = !calm && timeLeft <= 10 && timeLeft > 0;
 

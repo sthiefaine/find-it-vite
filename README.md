@@ -267,6 +267,25 @@ utilisés par le jeu sont versionnés dans Git.
 
 Stack : React 18, Vite 6, TypeScript, Pixi.js 7 et Zustand. Le jeu est livré en PWA hors ligne et en app native avec Capacitor 7.
 
+## Sons et séries
+
+Les effets utilisent une palette originale de 17 sons courts, synthétisés avec
+Web Audio sans téléchargement ni dépendance supplémentaire. Les captures et
+les erreurs ont des signatures distinctes ; les séries rapides font monter
+la mélodie et célèbrent les paliers. Les bonus réellement versés, les étapes,
+les nouveaux mondes, les portraits et les records ont leurs propres accents.
+Le duel utilise le même moteur, avec un décompte et des retours fondés sur les
+résultats confirmés par le serveur. Une reconnexion absorbe les résultats anciens.
+
+Dans **Options**, le volume des effets et le choix Son sont mémorisés ; un bouton
+permet d'écouter un aperçu. Couper le son, régler le volume à zéro, quitter une
+page ou passer en arrière-plan arrête les notes en cours. Aucun événement audio
+n'est rejoué au retour. Les animations et les jauges restent utilisables en silence.
+La sauvegarde v12 conserve la progression existante et ajoute le volume.
+
+La palette et ses intentions sont détaillées dans
+[`content/audio/SOUND_DESIGN.md`](content/audio/SOUND_DESIGN.md).
+
 ## Scripts
 
 | Commande | Rôle |

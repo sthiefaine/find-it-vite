@@ -6,7 +6,7 @@ import { getWorld } from "../../content/worlds";
 
 // Champs ajoutés par la v4, tels qu'une migration les crée
 const V4_EXTRA = { dailyRewards: defaultSave().dailyRewards, wallet: { stars: 0, onlineRewards: {} }, purchasedPeople: [], purchasedAnimals: [], adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
-const v4Settings = (sound: boolean) => ({ sound, calm: false, frame: "classic" });
+const v4Settings = (sound: boolean) => ({ sound, soundVolume: 0.65, calm: false, frame: "classic" });
 
 describe("migrate", () => {
   it("donne la sauvegarde par défaut si rien n'est lisible", () => {
@@ -42,6 +42,40 @@ describe("migrate", () => {
     for (const tier of ["easy", "normal"] as const) {
       const save = { ...defaultSave(), profile: { tier } };
       expect(migrate(JSON.stringify(save))).toEqual(save);
+    }
+  });
+
+  it("ajoute le volume en v12 sans perdre le silence ni la progression v11", () => {
+    const save = {
+      ...defaultSave(),
+      version: 11,
+      settings: { sound: false, calm: true, frame: "neon" },
+      progress: { bestScore: 120, bestLevel: 20, gamesPlayed: 8, totalFound: 240 },
+      adventure: { stars: { "animaux:20": 3 }, unlocked: ["ocean"] },
+      collection: { chat: 3 },
+      wallet: { stars: 150, onlineRewards: {} },
+      purchasedPeople: ["hypatie"],
+      purchasedAnimals: ["dauphin"],
+    };
+    expect(migrate(save)).toEqual({
+      ...save,
+      version: SAVE_VERSION,
+      settings: { ...save.settings, soundVolume: 0.65 },
+    });
+  });
+
+  it("migre toutes les versions précédentes avec un volume modéré et le son conservé", () => {
+    for (let version = 1; version <= 11; version++) {
+      const save = migrate({ ...defaultSave(), version, settings: { sound: false } });
+      expect(save.version).toBe(12);
+      expect(save.settings.sound).toBe(false);
+      expect(save.settings.soundVolume).toBe(0.65);
+    }
+  });
+
+  it("répare seulement un volume courant invalide, y compris le vrai silence à zéro", () => {
+    for (const [raw, expected] of [[0, 0], [0.35, 0.35], [-3, 0], [9, 1], [NaN, 0.65], [Infinity, 0.65], ["fort", 0.65]] as const) {
+      expect(migrate({ ...defaultSave(), settings: { ...defaultSave().settings, soundVolume: raw } }).settings.soundVolume).toBe(expected);
     }
   });
 
@@ -106,6 +140,7 @@ describe("migrate", () => {
       expect(migrate(JSON.stringify({ ...v4, profile: { tier: null } }))).toEqual({
         ...v4,
         version: SAVE_VERSION,
+        settings: { ...v4.settings, soundVolume: 0.65 },
         adventure: { stars: { "ocean:2": 3 }, unlocked: ["ocean"] },
         wallet: { stars: 2, onlineRewards: {} },
         purchasedPeople: [], purchasedAnimals: [],
@@ -173,7 +208,7 @@ describe("migrate", () => {
   it("relit les champs v4 et nettoie les valeurs invalides", () => {
     const save = {
       ...defaultSave(),
-      settings: { sound: true, calm: true, frame: "gold" },
+      settings: { sound: true, soundVolume: 0.65, calm: true, frame: "gold" },
       adventure: { stars: { "ocean:3": 2, "animaux:1": 3 }, unlocked: ["ocean"] },
       collection: { chat: 4, "ocean-requin": 1 },
       daily: { date: "2026-10-03", best: 12, played: 3 },
@@ -187,7 +222,7 @@ describe("migrate", () => {
       collection: { chat: 2.9, chien: 0, "": 3, lion: "beaucoup" },
       daily: { date: "hier", best: 3, played: 1 },
     });
-    expect(messy.settings).toEqual({ sound: true, calm: false, frame: "classic" });
+    expect(messy.settings).toEqual({ sound: true, soundVolume: 0.65, calm: false, frame: "classic" });
     expect(messy.adventure.stars).toEqual({ "ocean:3": 3, "espace:4": 1 });
     expect(messy.collection).toEqual({ chat: 2 });
     expect(messy.daily).toBeNull();

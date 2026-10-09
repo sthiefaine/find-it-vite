@@ -4,7 +4,8 @@
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
 
-export const SAVE_VERSION = 11 as const;
+export const SAVE_VERSION = 12 as const;
+export const DEFAULT_SOUND_VOLUME = 0.65;
 export const SAVE_KEY = "find-it:save";
 
 export type SaveSettings = {
@@ -104,6 +105,12 @@ export type SaveV9 = Omit<SaveV8, "version"> & { version: 9; goals: SaveGoals };
 // v10: automatic in-game bonuses and daily portrait rewards replace selected goals.
 export type SaveV10 = Omit<SaveV9, "version" | "goals"> & { version: 10; dailyRewards: Record<string, string | null> };
 export type SaveV11 = Omit<SaveV10, "version"> & { version: 11; purchasedAnimals: string[] };
+// v12 : volume des effets indépendant du bouton de silence.
+export type SaveSettingsV12 = SaveSettingsV4 & { soundVolume: number };
+export type SaveV12 = Omit<SaveV11, "version" | "settings"> & {
+  version: 12;
+  settings: SaveSettingsV12;
+};
 
 export const ADVENTURE_WORLD_IDS: readonly string[] = ["animaux", "ocean", "dinos", "halloween", "espace"];
 
@@ -113,12 +120,12 @@ export const DEFAULT_TIER: PlayerTier = "normal";
 export const FRAME_IDS: readonly FrameId[] = ["classic", "neon", "gold", "ice"];
 
 // Format courant
-export type Save = SaveV11;
+export type Save = SaveV12;
 
 export function defaultSave(): Save {
   return {
     version: SAVE_VERSION,
-    settings: { sound: true, calm: false, frame: "classic" },
+    settings: { sound: true, soundVolume: DEFAULT_SOUND_VOLUME, calm: false, frame: "classic" },
     progress: { bestScore: 0, bestLevel: 1, gamesPlayed: 0, totalFound: 0 },
     profile: { tier: DEFAULT_TIER },
     seenMechanics: [],

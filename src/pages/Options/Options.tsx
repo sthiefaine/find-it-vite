@@ -6,6 +6,7 @@ import { FRAMES, isFrameUnlocked } from "../../content/progress";
 import { DEFAULT_TIER } from "../../save/schema";
 import type { PlayerTier } from "../../save/schema";
 import { AppVersion } from "../../components/AppUpdates/AppVersion";
+import { configureAudio, playSound, unlockAudio } from "../../audio/engine";
 import "../../components/Buttons/ui.css";
 import "./Options.css";
 
@@ -31,9 +32,10 @@ function Toggle({ on, onChange, label }: { on: boolean; onChange: (v: boolean) =
 const Options = () => {
   const { t: tr } = useTranslation();
   const save = useSaveStore((s) => s.save);
-  const { setSound, setCalm, setFrame, setProfileTier, resetSave } = useSaveStore.getState();
+  const { setSound, setSoundVolume, setCalm, setFrame, setProfileTier, resetSave } = useSaveStore.getState();
   const [confirmReset, setConfirmReset] = useState(false);
-  const { sound, calm, frame } = save.settings;
+  const { sound, soundVolume, calm, frame } = save.settings;
+  const previewIndex = useRef(0);
   const tier = save.profile.tier ?? DEFAULT_TIER;
   // Sur petit écran, la confirmation tombe sous le bord : on la fait défiler dans la vue
   const confirmRef = useRef<HTMLDivElement>(null);
@@ -45,10 +47,40 @@ const Options = () => {
     <div className="fi-screen">
       <div className="fi-inner opt-inner">
         <section className="opt-card"><LanguageSelector /></section>
-        <section className="opt-card opt-row">
-          <span className="opt-icon" aria-hidden="true">{sound ? "🔊" : "🔇"}</span>
-          <span className="opt-name">{tr("Son")}</span>
-          <Toggle on={sound} onChange={setSound} label={tr("Son")} />
+        <section className="opt-card opt-audio">
+          <div className="opt-row">
+            <span className="opt-icon" aria-hidden="true">{sound ? "🔊" : "🔇"}</span>
+            <span className="opt-name">{tr("Son")}</span>
+            <Toggle on={sound} onChange={setSound} label={tr("Son")} />
+          </div>
+          <p className="opt-hint">{tr("Des sons courts pour les trouvailles, les séries et les découvertes.")}</p>
+          <div className="opt-volume-heading">
+            <label htmlFor="sound-volume">{tr("Volume des effets")}</label>
+            <output htmlFor="sound-volume">{Math.round(soundVolume * 100)} %</output>
+          </div>
+          <input
+            id="sound-volume"
+            className="opt-volume"
+            type="range"
+            min="0"
+            max="100"
+            step="5"
+            value={Math.round(soundVolume * 100)}
+            aria-valuetext={`${Math.round(soundVolume * 100)} %`}
+            onChange={(event) => setSoundVolume(Number(event.currentTarget.value) / 100)}
+          />
+          <button
+            className="opt-preview"
+            disabled={!sound || soundVolume === 0}
+            onClick={() => {
+              configureAudio({ enabled: sound, volume: soundVolume });
+              unlockAudio();
+              // Alternate without timers so backgrounding cannot defer a preview.
+              playSound(previewIndex.current++ % 2 === 0 ? "found" : "reward");
+            }}
+          >
+            <span aria-hidden="true">♫ </span>{tr("Écouter les sons")}
+          </button>
         </section>
 
         <section className="opt-card">

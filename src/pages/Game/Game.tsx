@@ -18,6 +18,7 @@ import StepToast from "../../components/StepToast/StepToast.tsx";
 import Seagulls from "../../components/Seagulls/Seagulls.tsx";
 import Foliage from "../../components/Foliage/Foliage.tsx";
 import { PortraitReveal } from "../../components/PortraitReveal/PortraitReveal";
+import { CaptureCelebration } from "../../components/Game/CaptureCelebration/CaptureCelebration";
 
 const renderGrid = (spec: LevelSpec) => {
   switch (spec.layout) {
@@ -75,6 +76,7 @@ const Game = () => {
         className={`boardWrap${hasFlashlight ? " boardWrap--flashlight" : ""}`}
       >
         {spec ? renderGrid(spec) : <div className="gridContainer" />}
+        {!isOver && <CaptureCelebration />}
         {spec && hasFlashlight && (
           <Flashlight
             key={`flashlight-${spec.seed}`}

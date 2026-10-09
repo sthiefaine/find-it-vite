@@ -32,7 +32,7 @@ export function StreakDisplay() {
     { id: "quick", target: QUICK_TARGET, value: streaks.quick % QUICK_TARGET, description: tr("{{count}} portraits d’affilée en moins de 10 secondes chacun.", { count: QUICK_TARGET }), icon: <Zap aria-hidden="true" fill="currentColor" /> },
   ] as const;
   return <div className="streak-hud">
-    {rows.map(row => <button key={row.id} type="button" className={`streak-pill streak-${row.id}`}
+    {rows.map(row => <button key={row.id} type="button" className={`streak-pill streak-${row.id}${row.value >= row.target - 2 ? " streak-close" : ""}`}
       onClick={() => setHint(hint === row.id ? null : row.id)} aria-expanded={hint === row.id}
       aria-label={`${row.description} ${row.value}/${row.target}. ${tr("Étoiles gagnées : +{{count}}", { count: STREAK_REWARD })}`}>
       <span className="streak-fill" style={{ width: `${row.value / row.target * 100}%` }} />
@@ -47,7 +47,7 @@ export function StreakDisplay() {
     <AnimatePresence>
       {toast && visibleToast && <motion.div key={toast.key} className="streak-bonus" role="status"
         initial={reduced ? false : { opacity: 0, y: 8, scale: .8 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0 }}>
-        +{toast.stars}<GameIcon name="star" />
+        <small>{tr("Bonus de série !")}</small><span>+{toast.stars}<GameIcon name="star" /></span>
       </motion.div>}
     </AnimatePresence>
   </div>;

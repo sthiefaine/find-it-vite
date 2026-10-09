@@ -8,6 +8,7 @@ import { useTranslation } from "../../i18n";
 import { albumCharacterLabel } from "../../pages/Album/albumNames";
 import { GameIcon } from "../Icons/GameIcon";
 import "./PortraitReveal.css";
+import { playSound } from "../../audio/engine";
 
 type Props = { character: CharacterDetails; onContinue: () => void };
 const TILES = Array.from({ length: 64 }, (_, index) => index);
@@ -46,7 +47,7 @@ export function PortraitReveal({ character, onContinue }: Props) {
   }, []);
   useEffect(() => {
     if (!ready) return;
-    const timer = setTimeout(() => setRevealed(true), reduced ? 100 : 1950);
+    const timer = setTimeout(() => { setRevealed(true); playSound("reveal"); }, reduced ? 100 : 1950);
     return () => clearTimeout(timer);
   }, [ready, reduced]);
 

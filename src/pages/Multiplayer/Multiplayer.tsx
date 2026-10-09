@@ -2,7 +2,7 @@ import { useTranslation, translate as tr } from "../../i18n";
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import QRCode from "qrcode";
-import { ArrowLeft, Copy, Share2, X } from "lucide-react";
+import { ArrowLeft, Copy, Share2, Volume2, VolumeX, X } from "lucide-react";
 import { AnimalPortrait } from "../../components/AnimalPortrait/AnimalPortrait";
 import { GameIcon } from "../../components/Icons/GameIcon";
 import { playThemeFromSearch, playThemePool, PLAY_THEMES } from "../../content/playThemes";
@@ -13,6 +13,9 @@ import { invitationUrl, normalizeRoomCode, playerTimeSeconds, remainingSeconds }
 import type { PublicPlayer, MultiplayerTheme } from "../../multiplayer/protocol";
 import { useSaveStore } from "../../save/saveStore";
 import { MatchBoard } from "./MatchBoard";
+import { playSound } from "../../audio/engine";
+import { emptyMatchSoundSnapshot, matchSoundEvents, type MatchSoundSnapshot } from "../../multiplayer/audioFeedback";
+import { useGameStore } from "../../../store/store";
 import "../../components/Buttons/ui.css";
 import "./Multiplayer.css";
 
@@ -82,6 +85,22 @@ export default function Multiplayer() {
   const other = room?.players.find(player => player.id !== self?.playerId);
   const invitation = useMemo(() => roomCode ? invitationUrl(window.location.origin, roomCode) : "", [roomCode]);
   const connected = connection === "connected";
+  const sound = useGameStore(state => state.sound);
+  const soundSnapshot = useRef(emptyMatchSoundSnapshot());
+  const countdown = self?.phase === "countdown" ? remainingSeconds(self.startsAt, clock) : null;
+  const outcome = room?.winnerIds.length !== 1 ? "draw" : room.winnerIds.includes(self?.playerId ?? "") ? "win" : "lose";
+  useEffect(() => {
+    const next: MatchSoundSnapshot = {
+      matchId: roomCode && self?.playerId ? `${roomCode}:${self.playerId}` : null,
+      connectionEpoch: match?.connectionEpoch ?? 0,
+      sequence: self?.resultSequence ?? 0, result: self?.lastResult ?? null,
+      phase: self?.phase ?? null, nonce: self?.levelNonce ?? null,
+      countdown, finished: room?.status === "finished", outcome, connected,
+    };
+    const cues = matchSoundEvents(soundSnapshot.current, next);
+    soundSnapshot.current = next;
+    cues.forEach(cue => playSound(cue));
+  }, [roomCode, match?.connectionEpoch, self?.playerId, self?.resultSequence, self?.lastResult, self?.phase, self?.levelNonce, countdown, room?.status, outcome, connected]);
 
   useEffect(() => {
     const timer = setInterval(() => setClock(serverNow()), 100);
@@ -186,6 +205,8 @@ export default function Multiplayer() {
       <header className="mp-heading">
         <button type="button" className="mp-icon-button" aria-label={tr("Retour à l’accueil")} onClick={onBack}><ArrowLeft size={22} /></button>
         <span><strong>{tr("Duel en ligne")}</strong><small>{room ? tr("Salon {{code}}", { code: room.code }) : tr(themeLabel)}</small></span>
+        <button type="button" className="mp-icon-button" aria-label={tr(sound ? "Couper le son" : "Activer le son")} aria-pressed={sound}
+          onClick={() => { useGameStore.getState().setSound(!sound); if (!sound) playSound("tap"); }}>{sound ? <Volume2 size={22} /> : <VolumeX size={22} />}</button>
         <span className={`mp-connection ${connected ? "is-connected" : ""}`} role="status" aria-label={connected ? tr("Connecté") : connection === "closed" ? tr("Déconnecté") : tr("Connexion en cours")} />
       </header>
 

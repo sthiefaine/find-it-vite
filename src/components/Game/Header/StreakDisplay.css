@@ -16,4 +16,8 @@
 .streak-bonus { position: absolute; inset: -4px -4px; z-index: 3; display: flex; justify-content: center; align-items: center; gap: 3px; border: 3px solid #fff1b0; border-radius: 14px; background: linear-gradient(#ffdc63, #ff9800); box-shadow: 0 4px 0 #b96513, 0 0 20px #ffc80070; color: #4c185a; font-size: 28px; font-weight: 900; pointer-events: none; }
 .streak-bonus svg { width: 35px; height: 35px; }
 .streak-pill:focus-visible { outline: 3px solid #ffe17b; outline-offset: 3px; }
+.streak-close { border-color: #fff0a3; box-shadow: 0 2px 0 #781738, 0 0 12px #ffc80066; }
+.streak-bonus { flex-direction: column; gap: 0; }
+.streak-bonus small { font-size: 10px; text-align: center; }
+.streak-bonus > span { display: flex; align-items: center; justify-content: center; }
 @media (prefers-reduced-motion: reduce) { .streak-fill { transition: none; } }

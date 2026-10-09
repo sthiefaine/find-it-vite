@@ -1,0 +1,4 @@
+.capture-celebration-layer { position: absolute; top: 12px; inset-inline: 0; z-index: 35; display: flex; justify-content: center; pointer-events: none; }
+.capture-celebration { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border: 2px solid #fff2ad; border-radius: 999px; background: linear-gradient(135deg, #ffdd63, #ff9e1c); color: #46115e; box-shadow: 0 4px 0 #aa5115, 0 0 20px #ffc80066; font-size: 20px; font-weight: 900; }
+.capture-celebration svg { width: 23px; height: 23px; flex: none; }
+@media (max-width: 360px) { .capture-celebration { padding: 8px 14px; font-size: 17px; } }
