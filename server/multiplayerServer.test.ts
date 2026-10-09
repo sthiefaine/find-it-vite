@@ -5,6 +5,8 @@ import { createMultiplayerServer, type MultiplayerServerOptions } from "./multip
 import { levelCharacterIds } from "../src/multiplayer/multiplayerRules";
 import type { ClientMessage, ServerMessage } from "../src/multiplayer/protocol";
 import { MULTIPLAYER_PROTOCOL_VERSION } from "../src/multiplayer/protocol";
+import { historyPack, peoplePack } from "../src/helpers/characters";
+import { isPersonUnlocked } from "../src/content/personUnlocks";
 
 type State = Extract<ServerMessage, { type: "state" }>;
 type Session = Extract<ServerMessage, { type: "session" }>;
@@ -75,6 +77,29 @@ function ids(state: State) {
 }
 
 describe("real multiplayer WebSocket server", () => {
+  it("starts an all-characters room using both collections and only shared purchases", async () => {
+    const f = await fixture();
+    const host = await connect(f.url);
+    const guest = await connect(f.url);
+    const purchases = [peoplePack, historyPack].map(pack => pack.find(person => !isPersonUnlocked({}, person.name))!.name);
+    host.send({ type: "create", name: "Alice", theme: "personnages", purchasedPeople: purchases });
+    const session = await host.session();
+    guest.send({ type: "join", code: session.code, name: "Bob", purchasedPeople: [purchases[0]] });
+    await guest.session();
+    await host.state(state => state.room.players.length === 2);
+    host.send({ type: "ready", ready: true });
+    guest.send({ type: "ready", ready: true });
+    const prepared = await host.state(state => state.self.phase === "preparing");
+    expect(prepared.room.theme).toBe("personnages");
+    const spec = prepared.self.spec!;
+    for (const person of [spec.wanted, ...spec.decoys]) {
+      expect(["politics", "history"]).toContain(person.serie);
+      expect(isPersonUnlocked({ purchasedPeople: [purchases[0]] }, person.name)).toBe(true);
+      expect(person.name).not.toBe(purchases[1]);
+    }
+    await Promise.all([host.close(), guest.close()]);
+  });
+
   it("refuses a country room with fewer than three unlocked portraits without losing the connection", async () => {
     const f = await fixture();
     const player = await connect(f.url);

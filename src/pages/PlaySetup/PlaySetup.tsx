@@ -15,7 +15,11 @@ import "../../components/Buttons/Tile.css";
 import "./PlaySetup.css";
 
 const familyColors: Record<ThemeFamilyId, string> = { animaux: "orange", personnages: "pink", drapeaux: "teal" };
-const personGroups = ["politique", "histoire"] as const;
+const personGroups = [
+  { id: "tous", theme: "personnages", label: "Tous" },
+  { id: "politique", theme: "politique", label: "Politique" },
+  { id: "histoire", theme: "histoire", label: "Histoire" },
+] as const;
 const countryFlags = { fr: "🇫🇷", br: "🇧🇷", us: "🇺🇸" };
 
 // Keep each illustration inside its theme and prefer three different silhouettes.
@@ -23,6 +27,10 @@ const themePreviews = new Map(PLAY_THEMES.map(theme => {
   const pool = publishedThemePool(theme.id);
   const first = pool.find(character => character.imageSrc === theme.preview);
   const portraits: CharacterDetails[] = first ? [first] : [];
+  if (theme.id === "personnages" && first) {
+    const otherCollection = pool.find(character => character.serie !== first.serie);
+    if (otherCollection) portraits.push(otherCollection);
+  }
   for (const character of pool) {
     if (portraits.length === 3) break;
     if (!portraits.some(portrait => portrait.name === character.name
@@ -79,7 +87,7 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
   const needsPortraits = !theme.comingSoon && !enabled;
   const selectTheme = (id: PlayThemeId) => setSelections(current => ({ ...current, [family]: id }));
 
-  function selectGroup(nextGroup: typeof personGroups[number]) {
+  function selectGroup(nextGroup: typeof personGroups[number]["id"]) {
     if (nextGroup === group) return;
     const next = options.find(({ theme }) => theme.family === "personnages" && theme.group === nextGroup);
     if (next) selectTheme(next.theme.id);
@@ -115,14 +123,14 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
         </div>
 
         {family === "personnages" ? <div className="play-person-groups" role="group" aria-label={tr("Personnages")}>
-          {personGroups.map(item => <button type="button" key={item} aria-pressed={group === item}
-            className={group === item ? "is-selected" : ""} onClick={() => selectGroup(item)}>
-            <ThemePortraits theme={options.find(option => option.theme.id === item)!.theme} save={save} />
-            <span>{tr(item === "politique" ? "Politique" : "Histoire")}</span>
+          {personGroups.map(item => <button type="button" key={item.id} aria-pressed={group === item.id}
+            className={group === item.id ? "is-selected" : ""} onClick={() => selectGroup(item.id)}>
+            <ThemePortraits theme={options.find(option => option.theme.id === item.theme)!.theme} save={save} />
+            <span>{tr(item.label)}</span>
           </button>)}
         </div> : null}
 
-        {family !== "drapeaux" ? <div className={`play-subthemes play-subthemes--${family}`} role="group"
+        {family !== "drapeaux" && !(family === "personnages" && group === "tous") ? <div className={`play-subthemes play-subthemes--${family}`} role="group"
           aria-label={tr(family === "animaux" ? "Habitats" : "Pays")}>
           {visibleOptions.map(({ theme: option, enabled: playable }) => <button
             type="button" key={option.id} aria-pressed={theme.id === option.id} onClick={() => selectTheme(option.id)}
@@ -142,7 +150,7 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
             <span className="play-theme-spark play-theme-spark--right">✦</span>
           </div>
           <div className="play-theme-copy">
-            <h3>{tr(family === "personnages" ? theme.shortLabel : theme.label)}</h3>
+            <h3>{tr(family === "personnages" && theme.id !== "personnages" ? theme.shortLabel : theme.label)}</h3>
             {theme.comingSoon ? <p className="play-theme-count">{tr("Ce thème arrive bientôt.")}</p> : <>
               <span className="fi-chip play-theme-count">
                 <GameIcon name={family === "drapeaux" ? "flags" : "album"} />
@@ -160,7 +168,8 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
         </section>
 
         <p className="play-setup-hint">
-          {theme.comingSoon ? tr("Bientôt") : family === "personnages"
+          {theme.comingSoon ? tr("Bientôt") : theme.id === "personnages"
+            ? tr("Tous tes personnages débloqués, de la politique à l’histoire.") : family === "personnages"
             ? tr("12 personnages de départ. Débloque les autres avec tes étoiles dans l’album.")
             : family === "drapeaux"
             ? tr("Tous les drapeaux sont disponibles dès le départ, sans accessoires.")

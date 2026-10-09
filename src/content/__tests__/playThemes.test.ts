@@ -140,7 +140,7 @@ describe("thèmes proposés avant une partie", () => {
   it("organise les catalogues en familles et choisit la ferme par défaut", () => {
     expect(THEME_FAMILIES.map(family => family.id)).toEqual(["animaux", "personnages", "drapeaux"]);
     expect(defaultThemeForFamily("animaux")).toBe("ferme");
-    expect(defaultThemeForFamily("personnages")).toBe("politique");
+    expect(defaultThemeForFamily("personnages")).toBe("personnages");
     expect(defaultThemeForFamily("drapeaux")).toBe("drapeaux");
     expect(playThemeFromSearch("")).toBe("ferme");
     expect(themeOptions("endless", defaultSave()).find(option => option.theme.id === "ferme"))

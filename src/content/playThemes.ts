@@ -9,11 +9,11 @@ export type CharacterUnlockSave = AnimalUnlockSave & PersonUnlockSave;
 
 export type PlayMode = "endless" | "duel";
 export type ThemeFamilyId = "animaux" | "personnages" | "drapeaux";
-export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "jungle" | "polaires" | "politique" | "politique-br" | "politique-us" | "histoire" | "histoire-fr" | "histoire-us" | "personnes" | "drapeaux";
+export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "jungle" | "polaires" | "personnages" | "politique" | "politique-br" | "politique-us" | "histoire" | "histoire-fr" | "histoire-us" | "personnes" | "drapeaux";
 export type PlayTheme = {
   id: PlayThemeId;
   family: ThemeFamilyId;
-  group?: "politique" | "histoire";
+  group?: "tous" | "politique" | "histoire";
   region?: "fr" | "br" | "us";
   label: string;
   shortLabel: string;
@@ -25,7 +25,7 @@ export type PlayTheme = {
 
 export const THEME_FAMILIES: readonly { id: ThemeFamilyId; label: string; emoji: string; defaultThemeId: PlayThemeId }[] = [
   { id: "animaux", label: "Animaux", emoji: "🐾", defaultThemeId: "ferme" },
-  { id: "personnages", label: "Personnages", emoji: "🙂", defaultThemeId: "politique" },
+  { id: "personnages", label: "Personnages", emoji: "🙂", defaultThemeId: "personnages" },
   { id: "drapeaux", label: "Drapeaux", emoji: "🏳️", defaultThemeId: "drapeaux" },
 ];
 
@@ -41,6 +41,7 @@ export const PLAY_THEMES: readonly PlayTheme[] = [
   { id: "ocean", family: "animaux", label: "Océan", shortLabel: "Océan", description: "Une plongée parmi les animaux marins.", emoji: "🐳", preview: "/assets/images/characters/animals/dauphin.png" },
   { id: "jungle", family: "animaux", label: "Jungle", shortLabel: "Jungle", description: "Explore la jungle et ses habitants.", emoji: "🌴", preview: "/assets/images/characters/animals/toucan.png" },
   { id: "polaires", family: "animaux", label: "Régions froides", shortLabel: "Polaires", description: "Retrouve les animaux des régions froides.", emoji: "❄️", preview: "/assets/images/characters/animals/ours-polaire.png" },
+  { id: "personnages", family: "personnages", group: "tous", label: "Tous les personnages", shortLabel: "Tous", description: "Un mélange de personnalités politiques et historiques.", emoji: "🙂", preview: "/assets/images/characters/people/emmanuel-macron.png" },
   { id: "politique", family: "personnages", group: "politique", region: "fr", label: "Politique française", shortLabel: "France", description: "Des personnalités, députés et sénateurs à reconnaître.", emoji: "🏛️", preview: "/assets/images/characters/people/emmanuel-macron.png" },
   { id: "politique-br", family: "personnages", group: "politique", region: "br", label: "Politique brésilienne", shortLabel: "Brésil", description: "Ce thème arrive bientôt.", emoji: "🇧🇷", comingSoon: true },
   { id: "politique-us", family: "personnages", group: "politique", region: "us", label: "Politique américaine", shortLabel: "États-Unis", description: "Ce thème arrive bientôt.", emoji: "🇺🇸", comingSoon: true },
@@ -53,6 +54,7 @@ export const PLAY_THEMES: readonly PlayTheme[] = [
 
 export function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
   switch (id) {
+    case "personnages": return [...peoplePack, ...historyPack];
     case "politique": return peoplePack;
     case "histoire": return historyPack;
     case "histoire-fr": return charactersInRegion(historyPack, "fr");
