@@ -9,7 +9,7 @@ import { ACCESSORY_LOOKALIKES } from "../../content/accessories";
 import { charactersDetails, historyPack, peoplePack } from "../../helpers/characters";
 import { isPersonUnlocked } from "../../content/personUnlocks";
 import { advanceStreaks, emptyStreaks } from "../streaks";
-import { dailyRewardPerson } from "../dailyReward";
+import { dailyRewardPerson, DAILY_REWARD_TARGET } from "../dailyReward";
 import { crowdVariantAt } from "../crowdVariants";
 
 const spec = generatePlayableLevel(1, { seed: 42, tier: "normal", pool: charactersDetails });
@@ -101,14 +101,14 @@ describe("bonus automatiques", () => {
 });
 
 describe("portrait du défi quotidien", () => {
-  it("choisit un personnage encore verrouillé et ne débloque rien avant 10 trouvailles", () => {
+  it("choisit un personnage encore verrouillé et ne débloque rien avant 40 trouvailles", () => {
     const save = defaultSave();
     const person = dailyRewardPerson(save, date)!;
     expect(isPersonUnlocked(save, person.name)).toBe(false);
     expect(dailyRewardPerson(save, date)).toBe(person);
-    for (const count of [0, 9, NaN, Infinity]) expect(applyDailyReward(save, date, count).save).toBe(save);
-    expect(applyDailyReward(save, "bad-date", 10).save).toBe(save);
-    const { save: earned, reward } = applyDailyReward(save, date, 10);
+    for (const count of [0, DAILY_REWARD_TARGET - 1, NaN, Infinity]) expect(applyDailyReward(save, date, count).save).toBe(save);
+    expect(applyDailyReward(save, "bad-date", DAILY_REWARD_TARGET).save).toBe(save);
+    const { save: earned, reward } = applyDailyReward(save, date, DAILY_REWARD_TARGET);
     expect(reward).toMatchObject({ person, stars: 0 });
     expect(isPersonUnlocked(earned, person.name)).toBe(true);
     expect(earned.collection[person.name]).toBeUndefined();
@@ -118,9 +118,9 @@ describe("portrait du défi quotidien", () => {
   it("enregistre le portrait pendant la partie, puis interdit les doublons au rejeu et après rechargement", async () => {
     useGameStore.getState().startRun({ ...config, mode: "daily", dailyDate: date });
     const person = useGameStore.getState().dailyReward!.person!;
-    for (let i = 0; i < 9; i++) finishPortrait(i, 15_000);
+    for (let i = 0; i < DAILY_REWARD_TARGET - 1; i++) finishPortrait(i, 15_000);
     expect(isPersonUnlocked(useSaveStore.getState().save, person.name)).toBe(false);
-    finishPortrait(9, 15_000);
+    finishPortrait(DAILY_REWARD_TARGET - 1, 15_000);
     expect(useGameStore.getState().dailyReward).toMatchObject({ person, unlocked: true, claimedBefore: false });
     const earned = useSaveStore.getState().save;
     expect(earned.purchasedPeople).toEqual([person.name]);
@@ -130,28 +130,28 @@ describe("portrait du défi quotidien", () => {
     useGameStore.getState().setClearGameStore();
     useGameStore.getState().startRun({ ...config, mode: "daily", dailyDate: date });
     expect(useGameStore.getState().dailyReward).toMatchObject({ person, claimedBefore: true, unlocked: false });
-    for (let i = 0; i < 10; i++) finishPortrait(i, 15_000);
+    for (let i = 0; i < DAILY_REWARD_TARGET; i++) finishPortrait(i, 15_000);
     expect(useSaveStore.getState().save.purchasedPeople).toEqual([person.name]);
-    const next = applyDailyReward(useSaveStore.getState().save, "2026-10-10", 10);
+    const next = applyDailyReward(useSaveStore.getState().save, "2026-10-10", DAILY_REWARD_TARGET);
     expect(next.reward?.person?.name).not.toBe(person.name);
     const storage = createMemoryStorage();
     const store = createSaveStore(storage);
     await store.getState().load();
-    store.getState().claimDailyReward(date, 10);
+    store.getState().claimDailyReward(date, DAILY_REWARD_TARGET);
     await store.getState().flush();
     expect(JSON.parse(storage.data.get(SAVE_KEY)!).dailyRewards[date]).toBe(person.name);
     const restored = createSaveStore(storage);
     await restored.getState().load();
-    expect(restored.getState().claimDailyReward(date, 10)).toBeNull();
+    expect(restored.getState().claimDailyReward(date, DAILY_REWARD_TARGET)).toBeNull();
   });
   it("donne une prime de remplacement une seule fois si tous les personnages sont disponibles", () => {
     const save = defaultSave();
     save.purchasedPeople = [...historyPack, ...peoplePack].filter(person => !isPersonUnlocked(save, person.name)).map(person => person.name);
     expect(dailyRewardPerson(save, date)).toBeNull();
-    const next = applyDailyReward(save, date, 10);
+    const next = applyDailyReward(save, date, DAILY_REWARD_TARGET);
     expect(next.reward).toEqual({ person: null, stars: 5 });
     expect(next.save.wallet.stars).toBe(5);
-    expect(applyDailyReward(next.save, date, 10).save).toBe(next.save);
+    expect(applyDailyReward(next.save, date, DAILY_REWARD_TARGET).save).toBe(next.save);
   });
   it("conserve étoiles, achats et captures d'une v9 tout en retirant les anciens menus", () => {
     const person = dailyRewardPerson(defaultSave(), date)!;
@@ -164,7 +164,7 @@ describe("portrait du défi quotidien", () => {
   it("refuse les primes avant chargement et en lecture seule", () => {
     for (const state of [{ loaded: false, readOnly: false }, { loaded: true, readOnly: true }]) {
       useSaveStore.setState(state);
-      expect(useSaveStore.getState().claimDailyReward(date, 10)).toBeNull();
+      expect(useSaveStore.getState().claimDailyReward(date, DAILY_REWARD_TARGET)).toBeNull();
       expect(useSaveStore.getState().awardStreakBonus(5)).toBe(0);
       expect(useSaveStore.getState().save).toEqual(defaultSave());
     }

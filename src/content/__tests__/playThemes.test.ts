@@ -4,8 +4,9 @@ import { generatePlayableLevel } from "../../game/playableLevel";
 import { animalsPack, historyPack, peoplePack } from "../../helpers/characters";
 import { generateRound } from "../../pages/Duel/duelLogic";
 import { defaultSave } from "../../save/schema";
-import { PLAY_THEMES, playThemeFromSearch, playThemePool, themeOptions } from "../playThemes";
+import { defaultThemeForFamily, PLAY_THEMES, playThemeFromSearch, playThemePool, publishedThemePool, THEME_FAMILIES, themeOptions } from "../playThemes";
 import { unlockedPeople } from "../personUnlocks";
+import { CHARACTER_REGIONS, charactersInRegion } from "../characterRegions";
 import type { PlayThemeId } from "../playThemes";
 import { isAnimalUnlocked, unlockedAnimals } from "../unlockedAnimals";
 import { getWorld } from "../worlds";
@@ -17,10 +18,11 @@ describe("thèmes proposés avant une partie", () => {
     const duel = themeOptions("duel", save);
     expect(endless[0]).toMatchObject({ theme: { id: "animaux" }, availableCount: 5, totalCount: animalsPack.length, enabled: true });
     for (const option of duel) {
-      expect(option.availableCount).toBe(option.theme.id === "politique" || option.theme.id === "histoire" ? 12 : option.totalCount);
+      expect(option.availableCount).toBe(option.theme.family === "personnages"
+        ? unlockedPeople({}, publishedThemePool(option.theme.id)).length : option.totalCount);
       expect(option.enabled).toBe(!option.theme.comingSoon && option.availableCount >= 3);
     }
-    for (const id of ["ferme", "foret", "savane", "ocean"] as const) {
+    for (const id of ["ferme", "foret", "savane", "ocean", "jungle", "polaires"] as const) {
       const candidates = animalsPack.filter((animal) => animal.tags?.includes(id));
       const option = endless.find(({ theme }) => theme.id === id)!;
       expect(option.totalCount).toBe(candidates.length);
@@ -53,7 +55,7 @@ describe("thèmes proposés avant une partie", () => {
 
   it("ignore les anciens liens serie et les thèmes inconnus ou à venir", () => {
     for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=personnes", "?theme=__proto__"]) {
-      expect(playThemeFromSearch(search)).toBe("animaux");
+      expect(playThemeFromSearch(search)).toBe("ferme");
     }
     expect(playThemeFromSearch("?theme=foret&serie=ferme")).toBe("foret");
     for (const id of ["personnes", "inconnu"] as PlayThemeId[]) {
@@ -67,7 +69,8 @@ describe("thèmes proposés avant une partie", () => {
     const save = { collection: Object.fromEntries([...animalsPack.filter((animal) => ["renard", "ours", "singe", "giraffe", "zebre", "elephant"].includes(animal.name)), ...ocean.slice(0, 3)].map((animal) => [animal.name, 1])) };
     for (const theme of PLAY_THEMES) {
       const pool = playThemePool("endless", theme.id, save);
-      expect(pool.every((animal) => theme.id === "politique" || theme.id === "histoire" || theme.id === "drapeaux" || isAnimalUnlocked(save, animal.name))).toBe(true);
+      expect(pool.every((animal) => theme.family === "personnages" || theme.id === "drapeaux" || isAnimalUnlocked(save, animal.name))).toBe(true);
+      if (pool.length < 3) continue;
       const ids = new Set(pool.map((animal) => animal.name));
       for (const index of [1, 3, 6, 11, 19, 40, 100, 4000]) {
         const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool });
@@ -131,6 +134,57 @@ describe("thèmes proposés avant une partie", () => {
       expect([spec.wanted, ...spec.decoys].every((character) => character.serie === "politics")).toBe(true);
       expect(spec.accessories).toBeUndefined();
       expect(spec.crowdVariant).toBeUndefined();
+    }
+  });
+
+  it("organise les catalogues en familles et choisit la ferme par défaut", () => {
+    expect(THEME_FAMILIES.map(family => family.id)).toEqual(["animaux", "personnages", "drapeaux"]);
+    expect(defaultThemeForFamily("animaux")).toBe("ferme");
+    expect(defaultThemeForFamily("personnages")).toBe("politique");
+    expect(defaultThemeForFamily("drapeaux")).toBe("drapeaux");
+    expect(playThemeFromSearch("")).toBe("ferme");
+    expect(themeOptions("endless", defaultSave()).find(option => option.theme.id === "ferme"))
+      .toMatchObject({ availableCount: 3, enabled: true });
+    for (const id of ["jungle", "polaires", "histoire-fr", "histoire-us"] as const) {
+      expect(playThemeFromSearch(`?theme=${id}`)).toBe(id);
+    }
+  });
+
+  it("n'invente pas de catalogues politiques brésilien ou américain", () => {
+    for (const id of ["politique-br", "politique-us"] as const) {
+      expect(publishedThemePool(id)).toEqual([]);
+      expect(themeOptions("duel", defaultSave()).find(option => option.theme.id === id))
+        .toMatchObject({ availableCount: 0, totalCount: 0, enabled: false, theme: { comingSoon: true, family: "personnages", group: "politique" } });
+      expect(playThemeFromSearch(`?theme=${id}`)).toBe("ferme");
+    }
+  });
+
+  it("partage des régions historiques explicites, y compris les liens à plusieurs pays", () => {
+    const french = charactersInRegion(historyPack, "fr");
+    const american = charactersInRegion(historyPack, "us");
+    expect(french).toHaveLength(9);
+    expect(american.map(character => character.name)).toEqual(["josephine-baker", "rosa-parks", "martin-luther-king"]);
+    expect(CHARACTER_REGIONS["josephine-baker"]).toEqual(["fr", "us"]);
+    expect(french.some(character => character.name === "leonard-de-vinci")).toBe(true);
+    for (const id of Object.keys(CHARACTER_REGIONS)) {
+      expect(historyPack.find(character => character.name === id)?.profile).toBeDefined();
+    }
+    for (const character of french) expect(character.profile!.description).toMatch(/France|français|Orléans/);
+    for (const character of american) expect(character.profile!.description).toMatch(/États-Unis|américain/);
+    expect(publishedThemePool("histoire-fr")).toEqual(french);
+    expect(publishedThemePool("histoire-us")).toEqual(american);
+  });
+
+  it("garde une région historique verrouillée sans repli sur les animaux", () => {
+    const save = defaultSave();
+    for (const mode of ["endless", "duel"] as const) {
+      expect(playThemePool(mode, "histoire-us", save).map(character => character.name)).toEqual(["rosa-parks"]);
+      expect(themeOptions(mode, save).find(option => option.theme.id === "histoire-us"))
+        .toMatchObject({ availableCount: 1, totalCount: 3, enabled: false });
+      const unlocked = { ...save, purchasedPeople: ["josephine-baker", "martin-luther-king"] };
+      expect(playThemePool(mode, "histoire-us", unlocked)).toEqual(charactersInRegion(historyPack, "us"));
+      expect(themeOptions(mode, unlocked).find(option => option.theme.id === "histoire-us"))
+        .toMatchObject({ availableCount: 3, enabled: true });
     }
   });
 });

@@ -16,6 +16,7 @@ import { levelAssetUrls, preloadImages, startLevelAssetLoad } from "../../../../
 import { beginLevelCountdown, generateRunLevel, levelCountdownUntil, nextRunLevel } from "../../../../game/levelPreparation";
 import { playStartSound } from "../../../../helpers/sounds";
 import { LevelAssetStatus } from "./LevelAssetStatus";
+import { playThemeFromSearch, themeOptions } from "../../../../content/playThemes";
 
 const TICK_MS = 100;
 const BONUS_GRACE_MS = 150;
@@ -157,6 +158,14 @@ export function IsPlaying() {
     if (useGameStore.getState().gameState !== GameStateEnum.INIT) return;
     const debug = readDebugParams(location.search);
     const params = readModeParams(location.search);
+    if (params.mode === "endless") {
+      const theme = playThemeFromSearch(location.search);
+      const option = themeOptions("endless", useSaveStore.getState().save).find(option => option.theme.id === theme);
+      if (!option?.enabled) {
+        navigate(`/play?mode=endless&theme=${encodeURIComponent(theme)}`, { replace: true });
+        return;
+      }
+    }
     // Mission verrouillée (URL tapée à la main, lien partagé…) : retour à la carte
     if (
       params.mode === "adventure" &&
@@ -304,7 +313,7 @@ export function IsPlaying() {
   }, [worldBanner]);
 
   useEffect(() => {
-    if (gameState !== GameStateEnum.PLAYING) clockAcc.current = 0;
+    if (gameState !== GameStateEnum.PLAYING && gameState !== GameStateEnum.PAUSED) clockAcc.current = 0;
     if (!clockRunning) return;
     let last = performance.now();
     const interval = setInterval(() => {

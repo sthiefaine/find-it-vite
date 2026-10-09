@@ -6,7 +6,10 @@ import { useTranslation } from "../../i18n";
 import "./AlbumCollectionRail.css";
 import "./AlbumCategoryRail.css";
 
-type Props = { characters: CharacterDetails[]; category: string; onSelect: (tag: string) => void };
+import { isAlbumCharacterUnlocked } from "./albumLogic";
+import type { Save } from "../../save/schema";
+
+type Props = { save: Save; characters: CharacterDetails[]; category: string; onSelect: (tag: string) => void };
 const PREVIEWS: Readonly<Record<string, readonly string[]>> = {
   "": ["ara-bleu", "lion", "chat"],
   ferme: ["vache-highland", "cochon", "mouton"], felins: ["tigre", "lion", "chat"],
@@ -38,7 +41,7 @@ function previews(characters: CharacterDetails[], tag: string) {
   return selected.slice(0, 3);
 }
 
-export function AlbumCategoryRail({ characters, category, onSelect }: Props) {
+export function AlbumCategoryRail({ save, characters, category, onSelect }: Props) {
   const { languageTag, t: tr } = useTranslation();
   const options = useMemo(() => {
     const byTag = new Map<string, CharacterDetails[]>();
@@ -72,7 +75,7 @@ export function AlbumCategoryRail({ characters, category, onSelect }: Props) {
         <span className="album-collection-card__art" aria-hidden="true">
           <span className="album-collection-card__halo" />
           {illustrations.map((character, position) => <span key={character.name} className={`album-collection-card__portrait album-collection-card__portrait--${illustrations.length === 1 ? 1 : illustrations.length === 2 ? position * 2 : position}`}>
-            <img src={character.imageSrc} alt="" loading="lazy" decoding="async" draggable={false} style={portraitStyle(character.imageSrc)} />
+            <img className={isAlbumCharacterUnlocked(save, character) ? "" : "is-mystery"} src={character.imageSrc} alt="" loading="lazy" decoding="async" draggable={false} style={portraitStyle(character.imageSrc)} />
           </span>)}
           <span className="album-collection-card__spark">✦</span>
         </span>

@@ -19,7 +19,7 @@ export type AlbumPortraitCardProps = {
 
 export function AlbumPortraitCard({ character, label, count, locked, purchasable, index, onOpen }: AlbumPortraitCardProps) {
   const { t: tr, languageTag } = useTranslation();
-  const unknown = locked && !purchasable;
+  const unknown = locked;
   const medal = locked ? undefined : MEDALS[masteryOf(count)];
   const status = locked
     ? purchasable ? tr("Débloquer pour {{price}} étoiles", { price: PERSON_PRICE }) : tr("Pas encore trouvé")
@@ -43,7 +43,7 @@ export function AlbumPortraitCard({ character, label, count, locked, purchasable
     </span>
   </>;
 
-  return <button type="button" className={className} aria-label={`${label}. ${status}`} onClick={onOpen}>{content}</button>;
+  return <button type="button" className={className} aria-label={`${unknown ? tr("À découvrir") : label}. ${status}`} onClick={onOpen}>{content}</button>;
 }
 
 export default AlbumPortraitCard;

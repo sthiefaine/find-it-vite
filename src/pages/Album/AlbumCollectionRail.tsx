@@ -1,13 +1,15 @@
 import { useLayoutEffect, useMemo, useRef, type KeyboardEvent } from "react";
 import { useTranslation } from "../../i18n";
 import { portraitStyle } from "../../helpers/portraitScale";
-import { caughtCount, type ALBUM_COLLECTIONS } from "./albumLogic";
+import { unlockedAlbumCount, isAlbumCharacterUnlocked, type ALBUM_COLLECTIONS } from "./albumLogic";
 import "./AlbumCollectionRail.css";
+
+import type { Save } from "../../save/schema";
 
 type Props = {
   collections: typeof ALBUM_COLLECTIONS;
   selectedId: string;
-  collection: Record<string, number>;
+  save: Save;
   onSelect: (id: string) => void;
 };
 
@@ -18,7 +20,7 @@ const PREVIEWS: Readonly<Record<string, readonly string[]>> = {
   histoire: ["history/cleopatre", "history/napoleon-bonaparte", "history/marie-curie"],
 };
 
-export function AlbumCollectionRail({ collections, selectedId, collection, onSelect }: Props) {
+export function AlbumCollectionRail({ collections, selectedId, save, onSelect }: Props) {
   const { t: tr, languageTag } = useTranslation();
   const numbers = useMemo(() => new Intl.NumberFormat(languageTag), [languageTag]);
   const activeId = collections.some(item => item.id === selectedId) ? selectedId : collections[0]?.id;
@@ -64,7 +66,7 @@ export function AlbumCollectionRail({ collections, selectedId, collection, onSel
     <div ref={railRef} className="album-collection-rail" role="tablist" aria-label={tr("Album")} aria-orientation="horizontal">
       {collections.map((item, index) => {
         const selected = item.id === activeId;
-        const { caught, total } = caughtCount({ collection }, item.characters);
+        const { caught, total } = unlockedAlbumCount(save, item.characters);
         const previews = PREVIEWS[item.id]?.map(path => `/assets/images/characters/${path}.png`)
           ?? item.characters.slice(0, 3).map(character => character.imageSrc);
         return (
@@ -85,7 +87,7 @@ export function AlbumCollectionRail({ collections, selectedId, collection, onSel
               <span className="album-collection-card__halo" />
               {previews.map((imageSrc, portraitIndex) => (
                 <span className={`album-collection-card__portrait album-collection-card__portrait--${portraitIndex}`} key={imageSrc}>
-                  <img src={imageSrc} alt="" draggable={false} decoding="async" width={100} height={100} style={portraitStyle(imageSrc)} />
+                  <img className={item.characters.some(character => character.imageSrc === imageSrc && isAlbumCharacterUnlocked(save, character)) ? "" : "is-mystery"} src={imageSrc} alt="" draggable={false} decoding="async" width={100} height={100} style={portraitStyle(imageSrc)} />
                 </span>
               ))}
               <span className="album-collection-card__spark">✦</span>

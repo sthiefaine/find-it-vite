@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useSaveStore } from "../../save/saveStore";
 import { MEDAL_THRESHOLDS } from "../../content/progress";
 import type { CharacterDetails } from "../../helpers/characters";
-import { ALBUM_COLLECTIONS, caughtCount, isAlbumCharacterUnlocked, MEDALS } from "./albumLogic";
+import { ALBUM_COLLECTIONS, unlockedAlbumCount, isAlbumCharacterUnlocked, MEDALS } from "./albumLogic";
 import { sortedAlbumEntries } from "./albumNames";
 import { animalCategoryLabel } from "../../content/animalTaxonomy";
 import { isPerson, PERSON_PRICE } from "../../content/personUnlocks";
@@ -15,6 +15,8 @@ import { AlbumPortraitCard } from "./AlbumPortraitCard";
 import { AlbumPortraitDialog } from "./AlbumPortraitDialog";
 import "../../components/Buttons/ui.css";
 import "./Album.css";
+import { GameIcon } from "../../components/Icons/GameIcon";
+import { charactersInRegion } from "../../content/characterRegions";
 
 type Picked = { character: CharacterDetails };
 
@@ -29,11 +31,14 @@ const Album = () => {
   const world = ALBUM_COLLECTIONS.find((w) => w.id === worldId) ?? ALBUM_COLLECTIONS[0];
   const peopleCollection = world.id === "politique" || world.id === "histoire";
   const unlockedCount = world.characters.filter(character => isAlbumCharacterUnlocked(save, character)).length;
-  const all = caughtCount({ collection });
+  const all = unlockedAlbumCount(save);
   const entries = useMemo(() => sortedAlbumEntries(world.characters, locale).map((entry, index) => ({ ...entry, index })), [world.characters, locale]);
-  const visible = category ? entries.filter(({ character }) => character.tags?.includes(category)) : entries;
-  const worldCount = caughtCount({ collection }, world.characters);
-  const visibleCount = caughtCount({ collection }, visible.map(({ character }) => character));
+  const regionIds = world.id === "histoire" && (category === "fr" || category === "us")
+    ? new Set(charactersInRegion(world.characters, category).map(character => character.name)) : null;
+  const visible = regionIds ? entries.filter(({ character }) => regionIds.has(character.name))
+    : category ? entries.filter(({ character }) => character.tags?.includes(category)) : entries;
+  const worldCount = unlockedAlbumCount(save, world.characters);
+  const visibleCount = unlockedAlbumCount(save, visible.map(({ character }) => character));
   const completion = all.total ? Math.round(all.caught / all.total * 100) : 0;
   const collectionComplete = worldCount.caught === worldCount.total;
   const selectWorld = (id: string) => { setWorldId(id); setCategory(""); };
@@ -42,10 +47,13 @@ const Album = () => {
     const params = new URLSearchParams(location.search);
     const requested = params.get("person");
     const targetWorld = ALBUM_COLLECTIONS.find(world => world.characters.some(character => isPerson(character.name) && character.name === requested))
-      ?? ALBUM_COLLECTIONS.find(world => world.id === params.get("collection"));
+      ?? ALBUM_COLLECTIONS.find(world => world.id === (params.get("collection") === "ocean" ? "animaux" : params.get("collection")));
     if (!targetWorld) return;
     setWorldId(targetWorld.id);
-    setCategory("");
+    const requestedCategory = params.get("category") ?? (params.get("collection") === "ocean" ? "ocean" : "");
+    const validCategory = (targetWorld.id === "histoire" && ["fr", "us"].includes(requestedCategory))
+      || targetWorld.characters.some(character => character.tags?.includes(requestedCategory));
+    setCategory(validCategory ? requestedCategory : "");
     const character = targetWorld.characters.find(character => character.name === requested);
     setPicked(character ? { character } : null);
   }, [location.key, location.search]);
@@ -58,8 +66,8 @@ const Album = () => {
         <section className="album-intro" aria-label={tr("Ta collection")}>
           <div className="album-intro-copy">
             <span className="album-eyebrow"><BookOpen size={14} aria-hidden="true" /> {tr("Ta collection")}</span>
-            <h2>{tr("Chaque découverte compte.")}</h2>
-            <span className="album-intro-total">{tr("{{caught}} sur {{total}} portraits trouvés", { caught: all.caught, total: all.total })}</span>
+            <h2>{tr("Album")}</h2>
+            <span className="album-intro-total">{tr("{{available}}/{{total}} débloqués", { available: all.caught, total: all.total })}</span>
           </div>
           <div className="album-completion" aria-label={`${tr("Ta collection")} : ${completion}%`}>
             <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -77,9 +85,13 @@ const Album = () => {
             <Star size={16} fill="currentColor" aria-hidden="true" /> {save.wallet.stars}
           </span>
         </div>
-        <AlbumCollectionRail collections={ALBUM_COLLECTIONS} selectedId={worldId} collection={collection} onSelect={selectWorld} />
+        <div className="album-families" role="group" aria-label={tr("Collections")}>
+          <button type="button" aria-pressed={!peopleCollection} onClick={() => selectWorld("animaux")}><GameIcon name="paw" />{tr("Animaux")}</button>
+          <button type="button" aria-pressed={peopleCollection} onClick={() => selectWorld("politique")}><GameIcon name="people" />{tr("Personnages")}</button>
+        </div>
+        {peopleCollection && <AlbumCollectionRail collections={ALBUM_COLLECTIONS.filter(collection => collection.id !== "animaux")} selectedId={worldId} save={save} onSelect={selectWorld} />}
 
-        <section className="album-sheet" id="album-collection-panel" role="tabpanel" aria-labelledby={`album-collection-${world.id}`}>
+        <section className="album-sheet" id="album-collection-panel" aria-labelledby="album-world-title">
           <div className="album-sheet-heading">
             <div>
               <span className="album-sheet-eyebrow">{collectionComplete ? tr("Collection complète !") : tr("À toi de les retrouver")}</span>
@@ -89,10 +101,15 @@ const Album = () => {
           </div>
 
 
-          <AlbumCategoryRail key={world.id} characters={world.characters} category={category} onSelect={setCategory} />
+          {peopleCollection ? <div className="album-regions" role="group" aria-label={tr("Collections")}>
+            {world.id === "histoire" && <button type="button" aria-pressed={!category} onClick={() => setCategory("")}>🌍 {tr("Monde")}</button>}
+            <button type="button" aria-pressed={world.id === "politique" || category === "fr"} onClick={() => setCategory(world.id === "politique" ? "" : "fr")}>🇫🇷 {tr("France")}</button>
+            <button type="button" disabled>🇧🇷 {tr("Brésil")}<small>{tr("Bientôt")}</small></button>
+            <button type="button" disabled={world.id === "politique"} aria-pressed={category === "us"} onClick={() => setCategory("us")}>🇺🇸 {tr("États-Unis")}{world.id === "politique" && <small>{tr("Bientôt")}</small>}</button>
+          </div> : <AlbumCategoryRail key={world.id} save={save} characters={world.characters} category={category} onSelect={setCategory} />}
           <div className="album-page-heading" aria-live="polite">
-            <h3>{category ? tr(animalCategoryLabel(category)) : tr("Tous les portraits")}</h3>
-            <span>{visibleCount.caught}/{visibleCount.total} <span className="album-found-label">{tr("trouvés", { count: visibleCount.caught })}</span></span>
+            <h3>{category ? tr(category === "fr" ? "France" : category === "us" ? "États-Unis" : animalCategoryLabel(category)) : tr("Tous les portraits")}</h3>
+            <span>{visibleCount.caught}/{visibleCount.total} <span className="album-found-label">{tr("Débloqué")}</span></span>
           </div>
           <div className="album-grid" key={`${world.id}:${category}`}>
             {visible.map(({ character, label, index }) => (
@@ -102,7 +119,7 @@ const Album = () => {
                 label={label}
                 count={collection[character.name] ?? 0}
                 locked={!isAlbumCharacterUnlocked(save, character)}
-                purchasable={peopleCollection}
+                purchasable={true}
                 index={index}
                 onOpen={() => setPicked({ character })}
               />

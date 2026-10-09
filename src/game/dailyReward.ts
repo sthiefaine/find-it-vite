@@ -3,7 +3,7 @@ import { historyPack, peoplePack } from "../helpers/characters";
 import { isPersonUnlocked } from "../content/personUnlocks";
 import type { Save } from "../save/schema";
 
-export const DAILY_REWARD_TARGET = 10;
+export const DAILY_REWARD_TARGET = 40;
 export const DAILY_COMPLETE_COLLECTION_STARS = 5;
 export const dailyRewardClaimed = (save: Save, date: string) => Object.prototype.hasOwnProperty.call(save.dailyRewards, date);
 

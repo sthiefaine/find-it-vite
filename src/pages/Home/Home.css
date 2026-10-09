@@ -174,3 +174,5 @@
 }
 
 .home-tiles-2 .fi-tile-sub { max-width: 100%; white-space: normal; font-size: 11px; line-height: 1.3; }
+
+.home-daily-prize.is-mystery img { filter: brightness(0) drop-shadow(0 3px 0 #ffffff38); opacity: .85; }

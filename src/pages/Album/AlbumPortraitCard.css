@@ -1,55 +1,29 @@
 .album-portrait-card {
-  --portrait-tint: #efe8f5;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  min-width: 0;
-  padding: 5px 5px 11px;
-  border: 1px solid #e8dfeb;
-  border-radius: 18px;
-  background: #fffdf9;
-  box-shadow: 0 2px 7px #3c244b0a;
-  color: #3c294e;
-  text-align: center;
-  font: inherit;
-  -webkit-tap-highlight-color: transparent;
+  --portrait-edge: #5f28af;
+  position: relative; display: flex; flex-direction: column; align-items: stretch;
+  min-width: 0; padding: 7px 6px 10px; border: 3px solid #b58aff;
+  border-radius: 18px; background: linear-gradient(#974fff, #712dd0);
+  box-shadow: 0 5px 0 var(--portrait-edge), 0 7px 14px #0003;
+  color: #fff; text-align: center; font: inherit; cursor: pointer; touch-action: manipulation;
+  transition: transform .1s, box-shadow .1s; -webkit-tap-highlight-color: transparent;
 }
-button.album-portrait-card { touch-action: manipulation; transition: border-color .16s, box-shadow .16s, transform .16s; }
-.album-portrait-art {
-  position: relative;
-  display: grid;
-  place-items: center;
-  aspect-ratio: 1;
-  margin-bottom: 9px;
-  border-radius: 13px;
-  background: radial-gradient(ellipse at 50% 90%, var(--portrait-tint), #fffdf900 75%);
-}
-.album-portrait-art img { width: 96%; height: 96%; object-fit: contain; user-select: none; filter: drop-shadow(0 4px 3px #40284d14); }
-.album-portrait-number { position: absolute; top: 4px; inset-inline-start: 4px; z-index: 1; font-size: 8px; font-weight: 700; color: #a695ab; font-variant-numeric: tabular-nums; }
-.album-portrait-medal { position: absolute; z-index: 2; top: 0; inset-inline-end: 0; font-size: 23px; line-height: 1; }
-.album-portrait-lock { position: absolute; bottom: 2px; inset-inline-end: 2px; z-index: 2; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 2px solid #fffdf9; background: #e9e0ee; color: #846f92; }
-.album-portrait-name { display: -webkit-box; min-height: 2.5em; padding-inline: 2px; overflow: hidden; font-size: clamp(10px, 2.8vw, 13px); line-height: 1.25; font-weight: 800; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.album-portrait-status { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 20px; margin-top: 3px; color: #9b7b43; font-size: 10px; line-height: 1.3; font-weight: 700; font-variant-numeric: tabular-nums; }
-.album-portrait-status > span { line-height: 1.3; }
-.album-portrait-caught .album-portrait-status { color: #94749e; }
-.album-portrait-none .album-portrait-status { color: #719075; }
-.album-portrait-bronze { --portrait-tint: #f6e4d4; border-color: #dec2a6; }
-.album-portrait-silver { --portrait-tint: #e5edf6; border-color: #c7d4e2; }
-.album-portrait-gold { --portrait-tint: #faebbd; border-color: #e8cc7d; }
-.album-portrait-platinum { --portrait-tint: #d7f1ed; border-color: #abd8d2; }
-.album-portrait-locked { background: #faf7fb; }
-.album-portrait-locked .album-portrait-art img { filter: saturate(.35); opacity: .75; }
-.album-portrait-unknown .album-portrait-art img { filter: brightness(0); opacity: .13; }
-.album-portrait-unknown .album-portrait-name { color: #a08bab; font-size: 10px; font-weight: 600; }
-button.album-portrait-card:focus-visible { outline: 3px solid #9865bc; outline-offset: 3px; }
-button.album-portrait-card:active { transform: scale(.98); }
-@media (hover: hover) and (pointer: fine) {
-  button.album-portrait-card:hover { transform: translateY(-2px); border-color: #b48bc9; box-shadow: 0 6px 15px #3c244b12; }
-}
-@media (min-width: 600px) {
-  .album-portrait-card { padding: 7px 7px 13px; border-radius: 20px; }
-  .album-portrait-name { font-size: 13px; }
-  .album-portrait-status { font-size: 11px; }
-}
-@media (prefers-reduced-motion: reduce) { button.album-portrait-card { transition: none; } button.album-portrait-card:hover, button.album-portrait-card:active { transform: none; } }
+.album-portrait-art { position: relative; display: grid; place-items: center; aspect-ratio: 1; margin-bottom: 8px; border: 2px solid #fff5; border-radius: 13px; background: radial-gradient(circle, #fff6e8, #e2ccff); }
+.album-portrait-art img { width: 94%; height: 94%; object-fit: contain; user-select: none; filter: drop-shadow(0 3px 0 #4c236a25); }
+.album-portrait-number { position: absolute; top: 3px; inset-inline-start: 3px; z-index: 1; padding: 1px 4px; border-radius: 5px; background: #542388; color: #e8d1ff; font-size: 8px; font-weight: 900; font-variant-numeric: tabular-nums; }
+.album-portrait-medal { position: absolute; top: -9px; inset-inline-end: -8px; z-index: 2; font-size: 25px; line-height: 1; filter: drop-shadow(0 2px 0 #44245f66); }
+.album-portrait-lock { position: absolute; bottom: -5px; inset-inline-end: -5px; z-index: 2; display: grid; place-items: center; width: 25px; height: 25px; border: 2px solid #fff; border-radius: 50%; background: #ff3d7f; color: #fff; box-shadow: 0 2px 0 #a8164d; }
+.album-portrait-name { display: -webkit-box; min-height: 2.5em; padding-inline: 1px; overflow: hidden; font-size: clamp(10px, 2.8vw, 13px); line-height: 1.25; font-weight: 900; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; text-shadow: 0 2px 0 #471477; }
+.album-portrait-status { display: flex; align-items: center; justify-content: center; gap: 4px; min-height: 21px; margin-top: 4px; padding: 2px 4px; border-radius: 8px; background: #36126480; color: #ffdf74; font-size: 10px; font-weight: 800; line-height: 1.3; font-variant-numeric: tabular-nums; }
+.album-portrait-locked { border-color: #8963b3; background: linear-gradient(#563082, #39205f); --portrait-edge: #25103e; }
+.album-portrait-locked .album-portrait-art { background: radial-gradient(circle, #c4a5e8, #a981d2); border-color: #b996e0; }
+.album-portrait-locked .album-portrait-art img { filter: brightness(0); opacity: .8; }
+.album-portrait-locked .album-portrait-name { color: #dbc5f5; }
+.album-portrait-bronze { border-color: #ffc38f; --portrait-edge: #914e36; }
+.album-portrait-silver { border-color: #d7ebff; --portrait-edge: #496993; }
+.album-portrait-gold { border-color: #ffe474; background: linear-gradient(#ffbf40, #ed8b1c); --portrait-edge: #a75815; }
+.album-portrait-gold .album-portrait-name { text-shadow: 0 2px 0 #a75000; }
+.album-portrait-platinum { border-color: #b8fff1; background: linear-gradient(#24baa8, #138685); --portrait-edge: #0a595d; }
+.album-portrait-card:focus-visible { outline: 3px solid #ffe474; outline-offset: 4px; }
+.album-portrait-card:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--portrait-edge); }
+@media (hover: hover) and (pointer: fine) { .album-portrait-card:hover { transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { .album-portrait-card { transition: none; } }

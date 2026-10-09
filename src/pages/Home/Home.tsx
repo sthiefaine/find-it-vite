@@ -4,7 +4,7 @@ import { GameIcon } from "../../components/Icons/GameIcon";
 import { Title } from "../../components/Title/Title";
 import { useSaveStore } from "../../save/saveStore";
 import { todayISO } from "../../content/progress";
-import { caughtCount } from "../Album/albumLogic";
+import { unlockedAlbumCount } from "../Album/albumLogic";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { HomeAnimals } from "./HomeAnimals";
 import { HomePlayButton } from "./HomePlayButton";
@@ -16,7 +16,7 @@ const Home = () => {
   const { t: tr } = useTranslation();
   const save = useSaveStore((s) => s.save);
   const stars = save.wallet.stars;
-  const { caught, total } = caughtCount(save);
+  const { caught, total } = unlockedAlbumCount(save);
   const dailyClaimed = dailyRewardClaimed(save, todayISO());
   const dailyPerson = dailyRewardPerson(save, todayISO());
   const best = save.progress.bestScore;
@@ -49,7 +49,7 @@ const Home = () => {
           />
           <Tile
             to="/game?mode=daily"
-            icon={dailyPerson ? <span className="home-daily-prize"><img src={dailyPerson.imageSrc} alt="" /><GameIcon name={dailyClaimed ? "check" : "daily"} /></span> : <GameIcon name="daily" />}
+            icon={dailyPerson ? <span className={`home-daily-prize${dailyClaimed ? "" : " is-mystery"}`}><img src={dailyPerson.imageSrc} alt="" /><GameIcon name={dailyClaimed ? "check" : "daily"} /></span> : <GameIcon name="daily" />}
             label={tr("Défi du jour")}
             sub={dailyClaimed ? tr("Récompense obtenue") : dailyPerson ? tr("{{count}} trouvés = 1 personnage", { count: DAILY_REWARD_TARGET }) : <>{DAILY_REWARD_TARGET} <GameIcon name="check" /> = +5 <GameIcon name="star" /></>}
             badge={!dailyClaimed ? tr(dailyPerson ? "À débloquer" : "Nouveau") : undefined}

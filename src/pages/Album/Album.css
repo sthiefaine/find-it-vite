@@ -114,3 +114,56 @@
 @media (prefers-reduced-motion: reduce) { .album-guide summary > svg:last-child { transition: none; } .album-big { animation: none; } }
 
 .album-inner .collection-goal progress { display: none; }
+
+/* Collection cards use the same saturated tiles and raised edges as Home. */
+.album-screen { background: radial-gradient(circle at 15% 10%, #ffc8002e, transparent 40%), radial-gradient(circle at 90% 60%, #ff3d7f2e, transparent 45%), linear-gradient(#2d0d66, #1c0840); }
+.album-intro h2 { color: #fff3b0; text-shadow: 0 3px 0 #1c0840; }
+.album-intro-total { color: #dfc8ff; font-weight: 800; }
+.album-wallet { border: 2px solid #ffffff26; border-radius: 999px; background: #0005; color: #ffdf74; font-size: 17px; }
+.album-sheet { color: #fff; background: linear-gradient(#461984aa, #290b56aa); border: 3px solid #9259d4; box-shadow: 0 5px 0 #180530; }
+.album-sheet::before { display: none; }
+.album-sheet-eyebrow, .album-page-heading h3 { color: #e0c8ff; font-weight: 800; }
+.album-sheet-heading h2 { color: #fff3b0; text-shadow: 0 2px 0 #1c0840; }
+.album-sheet-count { background: #8739f9; border: 2px solid #b897ff; border-radius: 12px; color: #e1ccff; box-shadow: 0 3px 0 #4b1a88; }
+.album-sheet-count b { color: #fff; }
+.album-page-heading > span { color: #d3b1ff; }
+.album-grid { gap: 14px 10px; padding-bottom: 3px; }
+.album-guide { background: #351067; border: 2px solid #8551b9; color: #e1ccff; box-shadow: 0 4px 0 #1a0639; }
+.album-big { gap: 12px; border: 3px solid #b58aff; background: radial-gradient(circle at 50% 10%, #9b5fff33, transparent 60%), linear-gradient(#51208b, #270a56); color: #fff; box-shadow: 0 7px 0 #180530, 0 22px 70px #0006; }
+.album-big.album-card-gold, .album-big.album-card-platinum { background: linear-gradient(#51208b, #270a56); box-shadow: 0 7px 0 #180530, 0 22px 70px #0006; }
+.album-big.album-card-gold { border-color: #ffe474; } .album-big.album-card-platinum { border-color: #b8fff1; }
+.album-big > strong { color: #fff3b0; text-shadow: 0 3px 0 #19052f; }
+.album-big > span { color: #dfc8ff; font-weight: 700; }
+.album-big .album-detail-kicker { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 900; color: #ffdf74; }
+.album-detail-kicker svg { width: 25px; height: 25px; }
+.album-big-portrait { width: 176px; height: 176px; border: 4px solid #fff; border-radius: 25px; background: radial-gradient(circle, #fff7e6, #dcc1ff); box-shadow: 0 5px 0 #9861bf; transform: rotate(-3deg); }
+.album-big-portrait.is-mystery img { filter: brightness(0); opacity: .8; }
+.album-close { border: 3px solid #ffc0d8; border-radius: 13px; background: linear-gradient(#ff659d, #ed276c); color: #fff; box-shadow: 0 3px 0 #971441; }
+.album-purchase { border: 2px solid #9b6bd640; background: #1c084055; color: #e3ceff; }
+.album-purchase-wallet { color: #dfc8ff; } .album-purchase-wallet b { color: #ffdf74; }
+.album-purchase button { border: 3px solid #ffe89b; border-radius: 15px; background: linear-gradient(#ffc800, #ff8a00); box-shadow: 0 5px 0 #a95300; color: #fff; text-shadow: 0 2px 0 #a75000; font-size: 15px; }
+.album-purchase button:disabled { border-color: #a080bd; background: #61417b; color: #cdb8dd; text-shadow: none; box-shadow: 0 3px 0 #321347; }
+.album-purchase > .album-earn-hint { color: #d2b6ee; }
+.album-earn-link { background: #8739f940; border: 2px solid #b58aff66; color: #fff; font-weight: 800; }
+.album-big > .album-available-label { background: #11b5a4; border: 2px solid #a6ffe0; color: #fff; box-shadow: 0 3px 0 #096f65; font-weight: 900; }
+.album-big > .album-big-count { background: #8739f9; border: 2px solid #b58aff; color: #fff; font-weight: 900; box-shadow: 0 3px 0 #4b1a88; }
+.album-medal-track > span { border: 2px solid #8156af; background: #3f176a; color: #c7a6ed; }
+.album-medal-track > .is-earned { border-color: #ffe474; background: #ffc80025; color: #ffdf74; box-shadow: 0 3px 0 #785024; }
+.album-big > .album-big-next { color: #d9b9ff; font-weight: 700; }
+.album-lore { width: 100%; border: 2px solid #985de0; border-radius: 14px; background: #8739f933; overflow: hidden; }
+.album-lore summary { display: flex; align-items: center; gap: 7px; min-height: 44px; padding: 9px 12px; font-size: 13px; font-weight: 900; color: #ffe79c; cursor: pointer; list-style: none; }
+.album-lore summary::-webkit-details-marker { display: none; } .album-lore summary > svg { width: 25px; height: 25px; }
+.album-lore summary > span { margin-inline-start: auto; font-size: 20px; } .album-lore[open] summary > span { transform: rotate(45deg); }
+.album-biography { padding: 0 13px 14px; color: #e3ceff; } .album-biography-period { color: #ffe79c; font-size: 12px; }
+.album-biography p { font-size: 12px; line-height: 1.5; } .album-biography a { color: #b7ffe7; font-size: 11px; }
+.album-lore summary:focus-visible { outline: 3px solid #ffe79c; outline-offset: -4px; }
+.album-families { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.album-families button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 68px; padding: 8px; border: 3px solid #b58aff; border-radius: 18px; background: linear-gradient(#974fff, #712dd0); box-shadow: 0 5px 0 #4b1a88; color: #fff; font-size: 17px; font-weight: 900; cursor: pointer; text-shadow: 0 2px 0 #0004; }
+.album-families button > svg { width: 43px; height: 43px; flex: none; }
+.album-families button[aria-pressed="true"] { border-color: #ffe89b; background: linear-gradient(#ffc800, #ff8a00); box-shadow: 0 5px 0 #a95300; }
+.album-regions { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 7px 10px; }
+.album-regions button { display: flex; align-items: center; gap: 5px; min-height: 36px; padding: 6px 9px; border: 2px solid #b58aff66; border-radius: 11px; background: #8739f940; color: #fff; font-size: 12px; font-weight: 800; cursor: pointer; }
+.album-regions button[aria-pressed="true"] { border-color: #ffe89b; background: #ffc80025; color: #ffe79c; }
+.album-regions button:disabled { color: #baa0d6; opacity: .65; cursor: default; }
+.album-regions small { font-size: 8px; }
+.album-families button:focus-visible, .album-regions button:focus-visible { outline: 3px solid #b9ffe8; outline-offset: 3px; }

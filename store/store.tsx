@@ -13,6 +13,7 @@ import { entersNewPhase, globalStep, runSummary, stepInfo, stepStars } from "../
 import type { PhaseId, StepResult } from "../src/game/adventureRun";
 import { advanceStreaks, emptyStreaks, type StreakEvent, type Streaks } from "../src/game/streaks";
 import { dailyRewardClaimed, dailyRewardPerson } from "../src/game/dailyReward";
+import { isPortraitUnlocked } from "../src/content/portraitUnlocks";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -106,6 +107,7 @@ type GameState = {
   calm: boolean; // pas de chrono (Infini et Aventure)
   dailyDate: string | null;
   newCharacters: CharacterDetails[];
+  unlockQueue: CharacterDetails[];
   runSeed: number; // graine de la partie : avec level et tier, fixe tout le niveau
   tier: Tier;
   currentSpec: LevelSpec | null;
@@ -139,6 +141,7 @@ type GameState = {
 
 export type GameActions = {
   startRun: (run: RunConfig) => void;
+  dismissUnlock: () => void;
   // Aventure : temps de jeu réel (chrono en marche, ou qui le serait en mode calme)
   addPlayTime: (ms: number) => void;
   hideWorldBanner: () => void;
@@ -188,6 +191,7 @@ export const defaultInitState: GameState = {
   calm: false,
   dailyDate: null,
   newCharacters: [],
+  unlockQueue: [],
   runSeed: 0,
   tier: "normal",
   currentSpec: null,
@@ -269,11 +273,23 @@ export const useGameStore = create<GameStore>((set, get) => ({
       stepToast: null,
       worldBanner: null,
       newCharacters: [],
+      unlockQueue: [],
       runStars: 0,
       streaks: emptyStreaks(),
       bonusToast: null,
       dailyReward: date ? { person: dailyRewardPerson(save, date), claimedBefore: dailyRewardClaimed(save, date), unlocked: false, stars: 0 } : null,
     });
+  },
+  dismissUnlock: () => {
+    const { unlockQueue, gameState } = get();
+    if (!unlockQueue.length) return;
+    const remaining = unlockQueue.slice(1);
+    set({ unlockQueue: remaining });
+    if (remaining.length || gameState !== GameStateEnum.PAUSED) return;
+    set({ gameState: GameStateEnum.PLAYING, pauseTimer: false });
+    // The capture animation may have finished while the reveal was open.
+    // Its delayed callback checks the old level, so only this advance can run.
+    if (get().wantedFound) get().advanceLevel();
   },
   addPlayTime: (ms) => {
     if (get().mode !== "adventure" || !(ms > 0)) return;
@@ -338,6 +354,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   // Mode calme : le chrono ne bouge pas (ni bonus ni pénalité)
   setTimeLeft: (delta: number) => {
     if (get().calm) return;
+    if (delta < 0 && get().unlockQueue.length) return;
     set({ timeLeft: nextTime(get().mode, get().timeLeft, delta) });
   },
   setTimeLeftValue: (timeLeft: number) => set({ timeLeft: timeLeft }),
@@ -472,7 +489,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
 function collect(wanted: CharacterDetails) {
   const save = useSaveStore.getState();
   const before = save.save.collection[wanted.name] ?? 0;
+  const unlockedBefore = isPortraitUnlocked(save.save, wanted.name);
   save.recordCollection(wanted.name);
+  if (!unlockedBefore && isPortraitUnlocked(useSaveStore.getState().save, wanted.name)) queueUnlock(wanted);
   useGameStore.setState({ runStars: useGameStore.getState().runStars + 1 });
   if (before > 0) return;
   const { newCharacters } = useGameStore.getState();
@@ -489,10 +508,18 @@ function updateStreaks(event: StreakEvent) {
   });
   if (current.mode !== "daily" || !current.dailyDate || current.dailyReward?.claimedBefore || current.dailyReward?.unlocked) return;
   const reward = useSaveStore.getState().claimDailyReward(current.dailyDate, next.streaks.found);
+  if (reward?.person) queueUnlock(reward.person);
   if (reward) useGameStore.setState({
     dailyReward: { ...reward, claimedBefore: false, unlocked: true },
     runStars: useGameStore.getState().runStars + reward.stars,
   });
+}
+
+function queueUnlock(character: CharacterDetails) {
+  const state = useGameStore.getState();
+  if (state.gameState !== GameStateEnum.PLAYING && !(state.gameState === GameStateEnum.PAUSED && state.unlockQueue.length)) return;
+  if (state.unlockQueue.some(portrait => portrait.name === character.name)) return;
+  useGameStore.setState({ unlockQueue: [...state.unlockQueue, character], gameState: GameStateEnum.PAUSED, pauseTimer: true });
 }
 
 let bonusKey = 0;

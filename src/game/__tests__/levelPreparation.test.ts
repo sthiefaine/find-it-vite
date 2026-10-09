@@ -35,7 +35,8 @@ describe("préparation de l'avis suivant", () => {
       const next = generateRunLevel(nextRunLevel(untouched), useSaveStore.getState().save, sample.search, true);
       expect(useGameStore.getState()).toBe(untouched);
       untouched.recordTargetFound(1, true);
-      untouched.advanceLevel();
+      if (useGameStore.getState().unlockQueue.length) untouched.dismissUnlock();
+      else untouched.advanceLevel();
       const actual = generateRunLevel(useGameStore.getState(), useSaveStore.getState().save, sample.search, true);
       expect(next).toEqual(actual);
       expect(levelAssetUrls(next)).toEqual(levelAssetUrls(actual));

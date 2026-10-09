@@ -8,12 +8,12 @@ import { portraitStyle } from "../../helpers/portraitScale";
 import NumberFlow from "@number-flow/react";
 import {
   CircleX,
+  BookOpen,
   Compass,
   Flag,
   House,
   Map as MapIcon,
   ChevronRight,
-  RefreshCw,
   Share2,
   Sparkles,
   Zap,
@@ -52,7 +52,7 @@ const item: Variants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.24 },
+    transition: { type: "spring", stiffness: 350, damping: 24 },
   },
 };
 
@@ -88,20 +88,14 @@ export default function Results() {
   const navigate = useNavigate();
   const reducedMotion = useReducedMotion();
   const {
-    gameState,
     gameRecord,
     stats,
-    wantedCharacter,
-    wantedFound,
     setGameState,
     setSoundSrc,
   } = useGameStore(
     useShallow((state) => ({
-      gameState: state.gameState,
       gameRecord: state.gameRecord,
       stats: state.stats,
-      wantedCharacter: state.wantedCharacter,
-      wantedFound: state.wantedFound,
       setGameState: state.setGameState,
       setSoundSrc: state.setSoundSrc,
     }))
@@ -136,10 +130,6 @@ export default function Results() {
   const won = gameRecord?.won ?? false;
   const run = gameRecord?.adventure ?? null;
   const shownValue = mode === "adventure" ? (run?.stepsCleared ?? 0) : score;
-  const escaped =
-    gameState === GameStateEnum.FINISH &&
-    !wantedFound &&
-    wantedCharacter;
 
   // Le score défile, puis le son arrive avec la ligne du record
   useEffect(() => {
@@ -223,6 +213,7 @@ export default function Results() {
         initial={reducedMotion ? false : "hidden"}
         animate="show"
       >
+        {celebration && !reducedMotion && <div className="results-confetti" aria-hidden="true">{Array.from({ length: 16 }, (_, index) => <span key={index} style={{ left: `${(index * 17 % 96) + 2}%`, background: ["#ffc800", "#ff3d7f", "#11b5a4", "#c49bff"][index % 4], animationDelay: `${index % 5 * .08}s`, transform: `rotate(${index * 27}deg)` }} />)}</div>}
         <motion.header className="results-title" variants={pop}>
           <div className="results-emblem" aria-hidden="true">
             <GameIcon name={celebration ? "trophy" : "paw"} />
@@ -242,7 +233,7 @@ export default function Results() {
           </div>
           <div className="results-daily-copy">
             <span>{tr(dailyEarned ? dailyPerson ? "Débloqué" : "Récompense obtenue" : "À débloquer")}</span>
-            <strong>{dailyPerson ? albumCharacterLabel(dailyPerson, locale) : tr("Étoiles gagnées : +{{count}}", { count: 5 })}</strong>
+            <strong>{dailyPerson ? dailyEarned ? albumCharacterLabel(dailyPerson, locale) : "???" : tr("Étoiles gagnées : +{{count}}", { count: 5 })}</strong>
             {dailyEarned ? <button type="button" onClick={() => goTo(dailyPerson ? `/album?person=${encodeURIComponent(dailyPerson.name)}` : "/album")}>{tr("Voir dans l’album")}<ChevronRight size={15} aria-hidden="true" /></button>
               : <><div className="results-daily-track" role="progressbar" aria-label={tr("Défi du jour")} aria-valuemin={0} aria-valuemax={DAILY_REWARD_TARGET} aria-valuenow={Math.min(gameRecord.streaks.found, DAILY_REWARD_TARGET)}><span style={{ width: `${Math.min(gameRecord.streaks.found / DAILY_REWARD_TARGET, 1) * 100}%` }} /></div><b>{Math.min(gameRecord.streaks.found, DAILY_REWARD_TARGET)}/{DAILY_REWARD_TARGET}</b></>}
           </div>
@@ -336,37 +327,6 @@ export default function Results() {
           </>
         )}
 
-        {mode === "adventure" && gameRecord.newCharacters.length > 0 && (
-          <motion.div
-            className="results-new"
-            variants={item}
-          >
-            <span className="results-new-label"><GameIcon name="album" />
-              {frenchSpacing(
-                gameRecord.newCharacters.length > 1 ? tr("Nouvelles découvertes !") : tr("Nouvelle découverte !")
-              )}
-            </span>
-            <div className="results-new-list">
-              {gameRecord.newCharacters.slice(0, 5).map((c) => (
-                <figure key={c.name}>
-                  <img src={c.imageSrc} alt="" width={48} height={48} style={portraitStyle(c.imageSrc)} />
-                  <figcaption>{tr(c.label)}</figcaption>
-                </figure>
-              ))}
-            </div>
-          </motion.div>
-        )}
-
-        {escaped && (
-          <motion.div className="results-escaped" variants={item}>
-            <img src={wantedCharacter.imageSrc} alt="" width={52} height={52} style={portraitStyle(wantedCharacter.imageSrc)} />
-            <div>
-              <span>{tr("Il t'a échappé")}</span>
-              <strong>{tr(wantedCharacter.label)}</strong>
-            </div>
-          </motion.div>
-        )}
-
         <motion.section className="results-loot" variants={item} aria-label={tr("Ton butin")}>
           <GameIcon name="star" />
           <div><span>{tr("Ton butin")}</span><strong>+{gameRecord.earnedStars}</strong></div>
@@ -381,25 +341,11 @@ export default function Results() {
             onClick={mode === "daily" && dailyEarned ? () => goTo("/adventure") : handleReplay} whileTap={tap}>
             <GameIcon name="play" /> {tr(mode === "daily" && dailyEarned ? "Continuer à jouer" : "Rejouer")}
           </motion.button>
-          {mode === "daily" && <div className="results-row">
-            <motion.button type="button" className="results-btn results-btn-second" onClick={handleShare} whileTap={tap}><Share2 size={18} />{copied ? frenchSpacing(tr("Copié !")) : tr("Partager")}</motion.button>
-            {dailyEarned && <motion.button type="button" className="results-btn results-btn-second" onClick={handleReplay} whileTap={tap}><RefreshCw size={18} />{tr("Rejouer")}</motion.button>}
-          </div>}
           <div className="results-row">
-            {mode !== "daily" && (
-              <motion.button
-                className="results-btn results-btn-home results-btn-map"
-                onClick={() => goTo("/adventure")}
-                whileTap={tap}
-              >
-                <MapIcon size={22} /> {tr("Carte")} </motion.button>
-            )}
-            <motion.button
-              className="results-btn results-btn-home"
-              onClick={() => goTo("/")}
-              whileTap={tap}
-            >
-              <House size={22} /> {tr("Accueil")} </motion.button>
+            <motion.button type="button" className="results-btn results-btn-home" onClick={() => goTo("/")} whileTap={tap}><House size={19} />{tr("Accueil")}</motion.button>
+            <motion.button type="button" className="results-btn results-btn-home" onClick={() => goTo("/album")} whileTap={tap}><BookOpen size={19} />{tr("Album")}</motion.button>
+            {mode === "daily" ? <motion.button type="button" className="results-btn results-btn-home" onClick={handleShare} whileTap={tap}><Share2 size={19} />{copied ? tr("Copié !") : tr("Partager")}</motion.button>
+              : <motion.button type="button" className="results-btn results-btn-home" onClick={() => goTo("/adventure")} whileTap={tap}><MapIcon size={19} />{tr("Carte")}</motion.button>}
           </div>
         </motion.div>
       </motion.div>

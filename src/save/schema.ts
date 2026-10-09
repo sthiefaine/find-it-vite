@@ -4,7 +4,7 @@
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
 
-export const SAVE_VERSION = 10 as const;
+export const SAVE_VERSION = 11 as const;
 export const SAVE_KEY = "find-it:save";
 
 export type SaveSettings = {
@@ -103,6 +103,7 @@ export type SaveGoals = { person: string | null; contract: string | null; comple
 export type SaveV9 = Omit<SaveV8, "version"> & { version: 9; goals: SaveGoals };
 // v10: automatic in-game bonuses and daily portrait rewards replace selected goals.
 export type SaveV10 = Omit<SaveV9, "version" | "goals"> & { version: 10; dailyRewards: Record<string, string | null> };
+export type SaveV11 = Omit<SaveV10, "version"> & { version: 11; purchasedAnimals: string[] };
 
 export const ADVENTURE_WORLD_IDS: readonly string[] = ["animaux", "ocean", "dinos", "halloween", "espace"];
 
@@ -112,7 +113,7 @@ export const DEFAULT_TIER: PlayerTier = "normal";
 export const FRAME_IDS: readonly FrameId[] = ["classic", "neon", "gold", "ice"];
 
 // Format courant
-export type Save = SaveV10;
+export type Save = SaveV11;
 
 export function defaultSave(): Save {
   return {
@@ -126,6 +127,7 @@ export function defaultSave(): Save {
     daily: null,
     wallet: { stars: 0, onlineRewards: {} },
     purchasedPeople: [],
+    purchasedAnimals: [],
     dailyRewards: {},
   };
 }

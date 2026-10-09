@@ -75,6 +75,54 @@ function ids(state: State) {
 }
 
 describe("real multiplayer WebSocket server", () => {
+  it("refuses a country room with fewer than three unlocked portraits without losing the connection", async () => {
+    const f = await fixture();
+    const player = await connect(f.url);
+    player.send({ type: "create", name: "Alice", theme: "histoire-us" });
+    const failure = await player.error("NOT_ENOUGH_PORTRAITS");
+    expect(failure.message).toContain("3 portraits");
+    expect(player.messages.some(message => message.type === "session")).toBe(false);
+    expect(player.messages.some(message => message.type === "error" && message.code === "SERVER_ERROR")).toBe(false);
+    player.send({ type: "create", name: "Alice", theme: "ferme" });
+    await player.session();
+    expect((await player.state()).room.theme).toBe("ferme");
+  });
+
+  it("keeps a country room waiting when the players do not share three portraits and recovers with a compatible guest", async () => {
+    const f = await fixture();
+    const host = await connect(f.url);
+    const guest = await connect(f.url);
+    const purchases = ["josephine-baker", "martin-luther-king"];
+    host.send({ type: "create", name: "Alice", theme: "histoire-us", purchasedPeople: purchases });
+    const session = await host.session();
+    guest.send({ type: "join", code: session.code, name: "Bob", purchasedPeople: ["martin-luther-king"] });
+    await guest.session();
+    await host.state(state => state.room.players.length === 2);
+    const hostFrom = host.messages.length;
+    const guestFrom = guest.messages.length;
+    host.send({ type: "ready", ready: true });
+    guest.send({ type: "ready", ready: true });
+    await Promise.all([host.error("NOT_ENOUGH_PORTRAITS", hostFrom), guest.error("NOT_ENOUGH_PORTRAITS", guestFrom)]);
+    const waiting = await host.state(state => state.room.players.every(player => !player.ready), hostFrom);
+    expect(waiting.room.status).toBe("waiting");
+    expect(waiting.self.phase).toBe("waiting");
+    expect(waiting.self.spec).toBeNull();
+    expect(waiting.self.deadline).toBeNull();
+    expect(host.messages.some(message => message.type === "error" && message.code === "SERVER_ERROR")).toBe(false);
+    guest.send({ type: "leave" });
+    await host.state(state => state.room.players.length === 1, hostFrom);
+    const compatible = await connect(f.url);
+    compatible.send({ type: "join", code: session.code, name: "Claire", purchasedPeople: purchases });
+    await compatible.session();
+    const replayFrom = host.messages.length;
+    host.send({ type: "ready", ready: true });
+    compatible.send({ type: "ready", ready: true });
+    const ready = await host.state(state => state.self.phase === "preparing", replayFrom);
+    expect(ready.room.status).toBe("countdown");
+    expect(ready.self.spec?.wanted.serie).toBe("history");
+    expect(ready.self.spec?.decoys.every(character => purchases.includes(character.name) || character.name === "rosa-parks")).toBe(true);
+  });
+
   it("creates private rooms with one shared grid and accepts only the first correct tap", async () => {
     const f = await match();
     expect(f.sessionA.code).toMatch(/^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{5}$/);

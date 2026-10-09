@@ -1,6 +1,7 @@
 import { ADVENTURE_WORLD_IDS, DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
 import type { FrameId, PlayerTier, SaveDaily } from "./schema";
 import { isPerson, validPurchasedPeople } from "../content/personUnlocks";
+import { validPurchasedAnimals } from "../content/portraitUnlocks";
 
 type RawObject = Record<string, unknown>;
 
@@ -55,6 +56,7 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
   },
   8: (data) => ({ ...data, version: 9, goals: { person: null, contract: null, completedContracts: [] } }),
   9: (data) => ({ ...data, version: 10, dailyRewards: {} }),
+  10: (data) => ({ ...data, version: 11, purchasedAnimals: [] }),
 };
 
 // Ancienne règle (v5) : étoiles à réunir pour ouvrir chaque monde
@@ -174,6 +176,7 @@ function sanitize(data: RawObject): Save {
     daily: sanitizeDaily(data.daily),
     wallet: { stars: Math.min(Number.MAX_SAFE_INTEGER, count(wallet.stars, 0)), onlineRewards },
     purchasedPeople,
+    purchasedAnimals: validPurchasedAnimals(data.purchasedAnimals),
     dailyRewards,
   };
 }

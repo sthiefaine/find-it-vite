@@ -1,5 +1,5 @@
 import type { GameMode, LevelSpec, Tier } from "../engine/types";
-import type { AnimalUnlockSave } from "../content/unlockedAnimals";
+import type { CharacterUnlockSave } from "../content/playThemes";
 import { playThemeFromSearch } from "../content/playThemes";
 import { characterPoolFor } from "./characterPool";
 import { stepTarget } from "./adventureRun";
@@ -46,7 +46,7 @@ export function nextRunLevel(position: RunLevelPosition): RunLevelPosition {
 
 // Préchargement et montage empruntent exactement le même chemin de génération,
 // notamment pour les graines d'avis et le pool lors d'un changement de monde.
-export function generateRunLevel(position: RunLevelPosition, save: AnimalUnlockSave, search: string, development: boolean) {
+export function generateRunLevel(position: RunLevelPosition, save: CharacterUnlockSave, search: string, development: boolean) {
   const { mode, adventureStep, missionFound, runSeed, level, tier } = position;
   const pool = characterPoolFor(mode, adventureStep, save, playThemeFromSearch(search));
   const target = mode === "adventure" ? stepTarget(adventureStep, missionFound + 1, pool) : levelTarget(mode, runSeed, level);

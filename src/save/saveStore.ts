@@ -7,6 +7,7 @@ import { platformStorage } from "../platform/storage";
 import { isPerson, isPersonUnlocked, PERSON_PRICE } from "../content/personUnlocks";
 import { dailyRewardClaimed, dailyRewardPerson, DAILY_REWARD_TARGET, DAILY_COMPLETE_COLLECTION_STARS } from "../game/dailyReward";
 import type { CharacterDetails } from "../helpers/characters";
+import { isPurchasablePortrait, isPortraitUnlocked, PORTRAIT_PRICE } from "../content/portraitUnlocks";
 
 export type GameResult = {
   score: number;
@@ -38,6 +39,7 @@ type SaveActions = {
   recordStars: (worldId: string, level: number, stars: number) => void;
   recordCollection: (name: string, n?: number) => void;
   purchasePerson: (id: string) => PurchaseResult;
+  purchasePortrait: (id: string) => PurchaseResult;
   awardStreakBonus: (stars: number) => number;
   claimDailyReward: (date: string, found: number) => DailyRewardOutcome | null;
   recordOnlineScore: (matchId: string, score: number) => void;
@@ -57,6 +59,14 @@ export function applyPersonPurchase(save: Save, id: string): { save: Save; resul
   if (isPersonUnlocked(save, id)) return { save, result: "already-unlocked" };
   if (save.wallet.stars < PERSON_PRICE) return { save, result: "not-enough-stars" };
   return { result: "purchased", save: { ...save, wallet: { ...save.wallet, stars: save.wallet.stars - PERSON_PRICE }, purchasedPeople: [...save.purchasedPeople, id] } };
+}
+
+export function applyPortraitPurchase(save: Save, id: string): { save: Save; result: PurchaseResult } {
+  if (isPerson(id)) return applyPersonPurchase(save, id);
+  if (!isPurchasablePortrait(id)) return { save, result: "unknown-character" };
+  if (isPortraitUnlocked(save, id)) return { save, result: "already-unlocked" };
+  if (save.wallet.stars < PORTRAIT_PRICE) return { save, result: "not-enough-stars" };
+  return { result: "purchased", save: { ...save, wallet: { ...save.wallet, stars: save.wallet.stars - PORTRAIT_PRICE }, purchasedAnimals: [...save.purchasedAnimals, id] } };
 }
 
 export function applyDailyReward(save: Save, date: string, found: number): { save: Save; reward: DailyRewardOutcome | null } {
@@ -223,6 +233,12 @@ export function createSaveStore(
       purchasePerson: (id) => {
         if (!get().loaded || get().readOnly) return "unavailable";
         const purchase = applyPersonPurchase(get().save, id);
+        update(purchase.save);
+        return purchase.result;
+      },
+      purchasePortrait: (id) => {
+        if (!get().loaded || get().readOnly) return "unavailable";
+        const purchase = applyPortraitPurchase(get().save, id);
         update(purchase.save);
         return purchase.result;
       },

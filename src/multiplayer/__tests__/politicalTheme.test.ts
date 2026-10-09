@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import { historyPack, peoplePack } from "../../helpers/characters";
 import { unlockedPeople } from "../../content/personUnlocks";
 import { MULTIPLAYER_THEMES, levelCharacterIds, multiplayerLevel, multiplayerPool } from "../multiplayerRules";
+import { charactersInRegion } from "../../content/characterRegions";
+import { playThemePool } from "../../content/playThemes";
+import { defaultSave } from "../../save/schema";
 
 describe.each([["politique", peoplePack], ["histoire", historyPack]] as const)("%s dans les salons en ligne", (theme, pack) => {
   it("propose les mêmes portraits sur le serveur et dans le jeu", () => {
@@ -14,5 +17,28 @@ describe.each([["politique", peoplePack], ["histoire", historyPack]] as const)("
       expect(levelCharacterIds(spec).wanted.size).toBe(1);
       expect(spec.accessories).toBeUndefined();
     }
+  });
+});
+
+describe("catalogues communs des salons", () => {
+  it("utilise les 19 sprites marins publiés, comme la sélection de thème", () => {
+    const ocean = multiplayerPool("ocean");
+    expect(ocean).toHaveLength(19);
+    expect(ocean).toEqual(playThemePool("duel", "ocean", defaultSave()));
+    expect(ocean.every(character => !character.emoji && character.tags?.includes("ocean") && character.imageSrc.startsWith("/assets/images/characters/animals/"))).toBe(true);
+    const spec = multiplayerLevel(1, 42, "ocean");
+    expect([spec.wanted, ...spec.decoys].every(character => ocean.some(item => item.name === character.name))).toBe(true);
+  });
+
+  it("partage les sous-régions historiques en respectant les achats", () => {
+    expect(MULTIPLAYER_THEMES).toEqual(expect.arrayContaining(["jungle", "polaires", "histoire-fr", "histoire-us"]));
+    expect(MULTIPLAYER_THEMES).not.toContain("politique-br");
+    expect(MULTIPLAYER_THEMES).not.toContain("politique-us");
+    expect(multiplayerPool("histoire-fr")).toEqual(unlockedPeople({}, charactersInRegion(historyPack, "fr")));
+    expect(multiplayerPool("histoire-us").map(character => character.name)).toEqual(["rosa-parks"]);
+    const purchases = ["josephine-baker", "martin-luther-king"];
+    expect(multiplayerPool("histoire-us", purchases)).toEqual(charactersInRegion(historyPack, "us"));
+    const spec = multiplayerLevel(1, 42, "histoire-us", purchases);
+    expect([spec.wanted, ...spec.decoys].every(character => charactersInRegion(historyPack, "us").some(item => item.name === character.name))).toBe(true);
   });
 });

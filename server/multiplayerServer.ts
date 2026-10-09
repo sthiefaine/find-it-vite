@@ -4,11 +4,12 @@ import { createReadStream } from "node:fs";
 import { realpath, stat } from "node:fs/promises";
 import path from "node:path";
 import { WebSocket, WebSocketServer } from "ws";
-import { levelCharacterIds, multiplayerLevel, MULTIPLAYER_THEMES } from "../src/multiplayer/multiplayerRules";
+import { levelCharacterIds, multiplayerLevel, multiplayerPool, MULTIPLAYER_THEMES } from "../src/multiplayer/multiplayerRules";
 import { DEFAULT_MATCH_RULES, MULTIPLAYER_PATH, MULTIPLAYER_PROTOCOL_VERSION, ROOM_CODE_PATTERN } from "../src/multiplayer/protocol";
 import type { ClientMessage, LastResult, MatchRules, MultiplayerTheme, PublicPlayer, RoomSnapshot, SelfSnapshot, ServerMessage } from "../src/multiplayer/protocol";
 
 import { validPurchasedPeople } from "../src/content/personUnlocks";
+import { MIN_POOL_SIZE } from "../src/engine/generateLevel";
 
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const WAITING_TTL_MS = 10 * 60_000;
@@ -154,6 +155,13 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
   }
   function prepare(room: Room) {
     const commonPurchases = room.players[0].purchasedPeople.filter(id => room.players.every(player => player.purchasedPeople.includes(id)));
+    if (multiplayerPool(room.theme, commonPurchases).length < MIN_POOL_SIZE) {
+      for (const player of room.players) {
+        player.ready = false;
+        if (player.peer) error(player.peer, "NOT_ENOUGH_PORTRAITS", "Débloquez au moins 3 portraits en commun dans ce thème pour jouer ensemble.");
+      }
+      return false;
+    }
     const spec = multiplayerLevel(room.players[0].level, room.seed, room.theme, commonPurchases);
     const ids = levelCharacterIds(spec);
     const nonce = randomBytes(16).toString("hex");
@@ -169,6 +177,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       player.deadline = null;
       player.prepareDeadline = now() + rules.preparationTimeoutMs;
     }
+    return true;
   }
   function startCountdown(room: Room) {
     const startsAt = now() + rules.countdownMs;
@@ -235,6 +244,9 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       do { code = Array.from({ length: 5 }, () => CODE_ALPHABET[randomInt(CODE_ALPHABET.length)]).join(""); } while (rooms.has(code));
       const player = newPlayer(cleanName(message.name)!);
       player.purchasedPeople = validPurchasedPeople(message.purchasedPeople);
+      if (multiplayerPool(message.theme, player.purchasedPeople).length < MIN_POOL_SIZE) {
+        error(peer, "NOT_ENOUGH_PORTRAITS", "Débloque au moins 3 portraits dans ce thème avant de créer un salon."); return;
+      }
       const room: Room = { code, status: "waiting", theme: message.theme, players: [player], rules, seed: randomInt(0x100000000), createdAt: now(), startedAt: null, finishedAt: null, winnerIds: [], finishReason: null };
       rooms.set(code, room);
       bind(peer, room, player);
@@ -259,7 +271,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
         if (room.status !== "waiting") { error(peer, "ALREADY_STARTED", "Cette partie a déjà commencé."); return; }
         if (room.players.length >= 2) { error(peer, "ROOM_FULL", "Ce salon contient déjà deux joueurs."); return; }
         const player = newPlayer(cleanName(message.name)!);
-      player.purchasedPeople = validPurchasedPeople(message.purchasedPeople);
+        player.purchasedPeople = validPurchasedPeople(message.purchasedPeople);
         room.players.push(player);
         bind(peer, room, player);
       }
@@ -271,9 +283,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       if (room.status !== "waiting") return;
       player.ready = message.ready;
       if (room.players.length === 2 && room.players.every((other) => other.ready && other.connected)) {
-        room.status = "countdown";
-        room.startedAt = now();
-        prepare(room);
+        if (prepare(room)) room.startedAt = now();
       }
       broadcast(room);
       return;

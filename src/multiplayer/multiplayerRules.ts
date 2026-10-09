@@ -1,24 +1,18 @@
 import { layoutGrid, layoutScroll, placePile, placeSwarm } from "../components/Game/Grid/layouts";
 import type { LevelSpec } from "../engine/types";
 import { generatePlayableLevel } from "../game/playableLevel";
-import { animalsPack, historyPack, peoplePack, playableFlagsPack } from "../helpers/characters";
-import { getWorld } from "../content/worlds";
 import type { CharacterDetails } from "../helpers/characters";
 import type { MultiplayerTheme } from "./protocol";
 import { unlockedPeople } from "../content/personUnlocks";
+import { PLAY_THEMES, publishedThemePool } from "../content/playThemes";
 
-export const MULTIPLAYER_THEMES: readonly MultiplayerTheme[] = ["animaux", "ferme", "foret", "savane", "ocean", "politique", "histoire", "drapeaux"];
+export const MULTIPLAYER_THEMES: readonly MultiplayerTheme[] = PLAY_THEMES
+  .filter(theme => !theme.comingSoon).map(theme => theme.id as MultiplayerTheme);
 
 export function multiplayerPool(theme: MultiplayerTheme, purchasedPeople: readonly string[] = []): CharacterDetails[] {
-  if (theme === "politique") return unlockedPeople({ purchasedPeople }, peoplePack);
-  if (theme === "histoire") return unlockedPeople({ purchasedPeople }, historyPack);
-  if (theme === "drapeaux") return playableFlagsPack;
-  if (theme === "ocean") {
-    // Emoji portraits are drawn by the browser after receiving the spec. Do not
-    // evaluate the DOM-backed getter while serializing on the Node server.
-    return (getWorld("ocean")?.characters ?? []).map((animal) => ({ ...animal, imageSrc: "" }));
-  }
-  return theme === "animaux" ? animalsPack : animalsPack.filter((animal) => animal.tags?.includes(theme));
+  const pool = publishedThemePool(theme);
+  return PLAY_THEMES.find(item => item.id === theme)?.family === "personnages"
+    ? unlockedPeople({ purchasedPeople }, pool) : pool;
 }
 
 export function multiplayerLevel(index: number, seed: number, theme: MultiplayerTheme, purchasedPeople: readonly string[] = []): LevelSpec {

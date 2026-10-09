@@ -126,7 +126,8 @@ describe("Aventure continue", () => {
     s.addPlayTime(playMs);
     s.setCurrentSpec({ ...spec, seed: s.level * 1000 + s.adventureStep });
     s.recordTargetFound(1, true);
-    s.advanceLevel();
+    if (useGameStore.getState().unlockQueue.length) s.dismissUnlock();
+    else s.advanceLevel();
   };
 
   it("5 avis = 1 étape : étoiles enregistrées tout de suite, bandeau, sans fin de partie", () => {

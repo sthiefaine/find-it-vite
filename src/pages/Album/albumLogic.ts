@@ -7,20 +7,25 @@ import { MEDAL_THRESHOLDS } from "../../content/progress";
 import type { Mastery } from "../../content/progress";
 import { isPersonUnlocked, type PersonUnlockSave } from "../../content/personUnlocks";
 import { isAnimalUnlocked } from "../../content/unlockedAnimals";
+import type { AnimalUnlockSave } from "../../content/unlockedAnimals";
 
 type AlbumSave = Pick<Save, "collection">;
 
 export const ALBUM_COLLECTIONS = [
-  ...WORLDS.map((world) => ({ ...world, alwaysAvailable: false, allowColorFilter: true })),
+  { ...WORLDS[0], characters: WORLDS.flatMap(world => world.characters.map(character => world.id === "ocean" ? { ...character, tags: ["ocean"] } : character)), alwaysAvailable: false, allowColorFilter: true },
   { id: "politique", name: "Politique française", emoji: "🏛️", characters: peoplePack,
     background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: false, allowColorFilter: false },
   { id: "histoire", name: "Histoire", emoji: "📜", characters: historyPack,
     background: "linear-gradient(160deg, #f9e8c8 0%, #d7b77c 100%)", alwaysAvailable: false, allowColorFilter: false },
 ];
-export const isAlbumCharacterUnlocked = (save: AlbumSave & PersonUnlockSave, character: CharacterDetails) =>
+export const isAlbumCharacterUnlocked = (save: AlbumSave & PersonUnlockSave & AnimalUnlockSave, character: CharacterDetails) =>
   character.serie === "politics" || character.serie === "history"
     ? isPersonUnlocked(save, character.name) : isAnimalUnlocked(save, character.name);
 const albumCharacters = ALBUM_COLLECTIONS.flatMap((collection) => collection.characters);
+
+export function unlockedAlbumCount(save: AlbumSave & PersonUnlockSave & AnimalUnlockSave, characters: readonly CharacterDetails[] = albumCharacters) {
+  return { caught: characters.filter(character => isAlbumCharacterUnlocked(save, character)).length, total: characters.length };
+}
 
 export function caughtCount(save: AlbumSave, characters: CharacterDetails[] = albumCharacters) {
   const caught = characters.filter((c) => (save.collection[c.name] ?? 0) > 0).length;

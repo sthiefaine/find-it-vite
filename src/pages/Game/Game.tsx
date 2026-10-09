@@ -17,6 +17,7 @@ import { stepInfo } from "../../game/adventureRun.ts";
 import StepToast from "../../components/StepToast/StepToast.tsx";
 import Seagulls from "../../components/Seagulls/Seagulls.tsx";
 import Foliage from "../../components/Foliage/Foliage.tsx";
+import { PortraitReveal } from "../../components/PortraitReveal/PortraitReveal";
 
 const renderGrid = (spec: LevelSpec) => {
   switch (spec.layout) {
@@ -46,6 +47,8 @@ const Game = () => {
       }))
     );
   const board = useMemo(() => getBoard(), []);
+  const unlock = useGameStore(state => state.unlockQueue[0]);
+  const dismissUnlock = useGameStore(state => state.dismissUnlock);
   const boardRef = useRef<HTMLDivElement>(null);
   const isOver =
     gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END;
@@ -95,6 +98,7 @@ const Game = () => {
       <AnimatePresence>
         {isOver && <Results key="results" />}
       </AnimatePresence>
+      {unlock && <PortraitReveal key={unlock.name} character={unlock} onContinue={dismissUnlock} />}
     </div>
   );
 };

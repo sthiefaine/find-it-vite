@@ -188,3 +188,14 @@
   .album-collection-card { transition: none; }
   .album-collection-card:hover { transform: none; }
 }
+
+.album-collection-card { color: #fff; border: 3px solid #b58aff; background: linear-gradient(#984eff, #712bd1); box-shadow: 0 5px 0 #4b1a88, 0 7px 14px #0003; }
+.album-collection-card--ocean { background: linear-gradient(#22bed5, #1688be); border-color: #a8ecff; box-shadow: 0 5px 0 #095a8a; }
+.album-collection-card--politique { background: linear-gradient(#ff659d, #e7286b); border-color: #ffbbd3; box-shadow: 0 5px 0 #a8164d; }
+.album-collection-card--histoire { background: linear-gradient(#ffae31, #e37717); border-color: #ffdc8c; box-shadow: 0 5px 0 #a95300; }
+.album-collection-card.is-selected { border-color: #fff1b0; box-shadow: 0 0 0 2px #ffc800, 0 6px 0 #4b1a88; }
+.album-collection-card__name { color: #fff; text-shadow: 0 2px 0 #0004; }
+.album-collection-card__count, .album-collection-card__count strong, .album-category-card__count { color: #ffe9a6; }
+.album-collection-card__check { border: 2px solid #fff; background: #4b1a8860; color: #fff; }
+.album-collection-card__portrait img.is-mystery { filter: brightness(0); opacity: .85; }
+.album-collection-card__spark { color: #ffe9a6; opacity: 1; }
