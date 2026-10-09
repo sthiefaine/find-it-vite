@@ -29,7 +29,7 @@ const Album = () => {
   const [picked, setPicked] = useState<Picked | null>(null);
   const [category, setCategory] = useState("");
   const world = ALBUM_COLLECTIONS.find((w) => w.id === worldId) ?? ALBUM_COLLECTIONS[0];
-  const peopleCollection = world.id === "politique" || world.id === "histoire";
+  const peopleCollection = world.id === "politique" || world.id === "histoire" || world.id === "personnes";
   const unlockedCount = world.characters.filter(character => isAlbumCharacterUnlocked(save, character)).length;
   const all = unlockedAlbumCount(save);
   const entries = useMemo(() => sortedAlbumEntries(world.characters, locale).map((entry, index) => ({ ...entry, index })), [world.characters, locale]);
@@ -101,7 +101,7 @@ const Album = () => {
           </div>
 
 
-          {peopleCollection ? <div className="album-regions" role="group" aria-label={tr("Collections")}>
+          {peopleCollection && world.id !== "personnes" ? <div className="album-regions" role="group" aria-label={tr("Collections")}>
             {world.id === "histoire" && <button type="button" aria-pressed={!category} onClick={() => setCategory("")}>🌍 {tr("Monde")}</button>}
             <button type="button" aria-pressed={world.id === "politique" || category === "fr"} onClick={() => setCategory(world.id === "politique" ? "" : "fr")}>🇫🇷 {tr("France")}</button>
             <button type="button" disabled>🇧🇷 {tr("Brésil")}<small>{tr("Bientôt")}</small></button>

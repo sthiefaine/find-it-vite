@@ -1,6 +1,7 @@
 import publishedAnimals from "../content/publishedAnimals.json";
 import publishedPeople from "../content/publishedPeople.json";
 import publishedHistory from "../content/publishedHistory.json";
+import publishedCelebrities from "../content/publishedCelebrities.json";
 import personProfiles from "../content/personProfiles.json";
 import publishedFlags from "../content/publishedFlags.json";
 import { normalizedAnimalMetadata } from "../content/animalTaxonomy";
@@ -49,6 +50,7 @@ export const charactersDetails: CharacterDetails[] = [...animalsPack];
 const profiles: Record<string, PersonProfile> = personProfiles;
 export const peoplePack: CharacterDetails[] = (publishedPeople as CharacterDetails[]).map((person) => ({ ...person, profile: profiles[person.name] }));
 export const historyPack: CharacterDetails[] = (publishedHistory as CharacterDetails[]).map((person) => ({ ...person, profile: profiles[person.name] }));
+export const celebritiesPack: CharacterDetails[] = (publishedCelebrities as CharacterDetails[]).map((person) => ({ ...person }));
 
 export type FlagDetails = CharacterDetails & { countryCode: string; duplicateOf?: string };
 export const flagsPack: FlagDetails[] = (publishedFlags as FlagDetails[]).map((flag) => ({ ...flag }));

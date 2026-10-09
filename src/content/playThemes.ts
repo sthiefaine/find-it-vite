@@ -1,5 +1,5 @@
 import { MIN_POOL_SIZE } from "../engine/generateLevel";
-import { animalsPack, historyPack, peoplePack, playableFlagsPack } from "../helpers/characters";
+import { animalsPack, celebritiesPack, historyPack, peoplePack, playableFlagsPack } from "../helpers/characters";
 import type { CharacterDetails } from "../helpers/characters";
 import { unlockedAnimals } from "./unlockedAnimals";
 import type { AnimalUnlockSave } from "./unlockedAnimals";
@@ -13,7 +13,7 @@ export type PlayThemeId = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "
 export type PlayTheme = {
   id: PlayThemeId;
   family: ThemeFamilyId;
-  group?: "tous" | "politique" | "histoire";
+  group?: "tous" | "politique" | "histoire" | "celebrites";
   region?: "fr" | "br" | "us";
   label: string;
   shortLabel: string;
@@ -41,20 +41,21 @@ export const PLAY_THEMES: readonly PlayTheme[] = [
   { id: "ocean", family: "animaux", label: "Océan", shortLabel: "Océan", description: "Une plongée parmi les animaux marins.", emoji: "🐳", preview: "/assets/images/characters/animals/dauphin.png" },
   { id: "jungle", family: "animaux", label: "Jungle", shortLabel: "Jungle", description: "Explore la jungle et ses habitants.", emoji: "🌴", preview: "/assets/images/characters/animals/toucan.png" },
   { id: "polaires", family: "animaux", label: "Régions froides", shortLabel: "Polaires", description: "Retrouve les animaux des régions froides.", emoji: "❄️", preview: "/assets/images/characters/animals/ours-polaire.png" },
-  { id: "personnages", family: "personnages", group: "tous", label: "Tous les personnages", shortLabel: "Tous", description: "Un mélange de personnalités politiques et historiques.", emoji: "🙂", preview: "/assets/images/characters/people/emmanuel-macron.png" },
+  { id: "personnages", family: "personnages", group: "tous", label: "Tous les personnages", shortLabel: "Tous", description: "Politique, histoire et célébrités à retrouver.", emoji: "🙂", preview: "/assets/images/characters/people/emmanuel-macron.png" },
   { id: "politique", family: "personnages", group: "politique", region: "fr", label: "Politique française", shortLabel: "France", description: "Des personnalités, députés et sénateurs à reconnaître.", emoji: "🏛️", preview: "/assets/images/characters/people/emmanuel-macron.png" },
   { id: "politique-br", family: "personnages", group: "politique", region: "br", label: "Politique brésilienne", shortLabel: "Brésil", description: "Ce thème arrive bientôt.", emoji: "🇧🇷", comingSoon: true },
   { id: "politique-us", family: "personnages", group: "politique", region: "us", label: "Politique américaine", shortLabel: "États-Unis", description: "Ce thème arrive bientôt.", emoji: "🇺🇸", comingSoon: true },
   { id: "histoire", family: "personnages", group: "histoire", label: "Histoire", shortLabel: "Monde", description: "Des figures de toutes les époques à retrouver.", emoji: "📜", preview: "/assets/images/characters/history/napoleon-bonaparte.png" },
   { id: "histoire-fr", family: "personnages", group: "histoire", region: "fr", label: "Histoire de France", shortLabel: "France", description: "Des figures qui ont marqué l’histoire de France.", emoji: "🇫🇷", preview: "/assets/images/characters/history/napoleon-bonaparte.png" },
   { id: "histoire-us", family: "personnages", group: "histoire", region: "us", label: "Histoire des États-Unis", shortLabel: "États-Unis", description: "Des figures qui ont marqué l’histoire des États-Unis.", emoji: "🇺🇸", preview: "/assets/images/characters/history/rosa-parks.png" },
-  { id: "personnes", family: "personnages", label: "Personnes", shortLabel: "Personnes", description: "Une nouvelle galerie de visages.", emoji: "🙂", comingSoon: true },
+  { id: "personnes", family: "personnages", group: "celebrites", label: "Célébrités", shortLabel: "Célébrités", description: "Cinéma, télévision, cuisine, humour, musique et sport.", emoji: "⭐", preview: celebritiesPack[0]?.imageSrc, comingSoon: celebritiesPack.length < MIN_POOL_SIZE },
   { id: "drapeaux", family: "drapeaux", label: "Drapeaux", shortLabel: "Tous", description: "Les couleurs du monde entier.", emoji: "🏳️", preview: "/assets/images/characters/flags/fr.png" },
 ];
 
 export function publishedThemePool(id: PlayThemeId): CharacterDetails[] {
   switch (id) {
-    case "personnages": return [...peoplePack, ...historyPack];
+    case "personnages": return [...peoplePack, ...historyPack, ...celebritiesPack];
+    case "personnes": return celebritiesPack;
     case "politique": return peoplePack;
     case "histoire": return historyPack;
     case "histoire-fr": return charactersInRegion(historyPack, "fr");

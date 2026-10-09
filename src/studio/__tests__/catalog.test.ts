@@ -113,6 +113,24 @@ describe("catalogue local", () => {
     expect(validSource("/assets/images/characters/people/personnalite.png")).toBe(true);
     expect(validSource("/assets/images/characters/people/../secret.png")).toBe(false);
   });
+  it("publie les célébrités validées dans leur propre manifeste et conserve leurs brouillons", async () => {
+    const { root, store } = await fixture();
+    const asset = await store.upload(await transparentImage());
+    const catalog = sample();
+    catalog.themes.push({ id: "personnes", name: "Célébrités", category: "people", destination: "game" });
+    catalog.sprites = Array.from({ length: 5 }, (_, i) => ({ id: `animal-${i}`, themeId: "animaux", label: `Animal ${i}`, subject: `animal ${i}`, color: "brown", family: "brun", status: "ready", source: asset.source, notes: "" }));
+    catalog.sprites.push({ id: "philippe-etchebest", themeId: "personnes", label: "Philippe Etchebest", subject: "Philippe Etchebest", color: "grey", family: "chauve-barbe", status: "ready", source: asset.source, notes: "", tags: ["celebrites", "cuisine"] });
+    catalog.sprites.push({ id: "sans-portrait", themeId: "personnes", label: "Sans portrait", subject: "Sans portrait", color: "grey", family: "celebrites", status: "draft", source: null, notes: "" });
+    const saved = await store.save(catalog);
+    const published = await store.publish(saved.revision);
+    const celebrities = JSON.parse(await readFile(path.join(root, "src/content/publishedCelebrities.json"), "utf8"));
+    expect(celebrities).toEqual([expect.objectContaining({ name: "philippe-etchebest", serie: "celebrity", tags: ["celebrites", "cuisine"] })]);
+    expect(published).toHaveLength(6);
+    expect((await store.state()).published).toEqual(published);
+    expect((await store.read()).sprites.find(sprite => sprite.id === "sans-portrait")).toMatchObject({ status: "draft", source: null });
+    expect(validSource("/assets/images/characters/celebrities/philippe-etchebest.png")).toBe(true);
+    expect(validSource("/assets/images/characters/celebrities/../secret.png")).toBe(false);
+  });
   it("refuse les images invalides, les SVG et les catalogues trop petits pour le jeu", async () => {
     const { store } = await fixture();
     await expect(inspectImage(Buffer.from("not an image"))).rejects.toThrow();

@@ -23,6 +23,8 @@ export const ANIMAL_CATEGORIES = {
   foret: "Forêt", savane: "Savane", ocean: "Océan",
   jungle: "Jungle", polaires: "Régions froides", rongeurs: "Rongeurs",
   amphibiens: "Amphibiens", primates: "Primates",
+  australie: "Australie", desert: "Désert", insectes: "Insectes",
+  arachnides: "Arachnides", invertebres: "Invertébrés",
 } as const;
 
 export const ANIMAL_SPECIES: Record<string, string> = {
@@ -54,6 +56,16 @@ export const ANIMAL_SPECIES: Record<string, string> = {
   okapi: "Okapi", mandrill: "Mandrill", tarsier: "Tarsier", hamster: "Hamster",
   "cochon-inde": "Cochon d’Inde", furet: "Furet", chinchilla: "Chinchilla", gerbille: "Gerbille",
   hippocampe: "Hippocampe", crabe: "Crabe", homard: "Homard", raie: "Raie", narval: "Narval",
+  kangourou: "Kangourou", wombat: "Wombat", ornithorynque: "Ornithorynque", echidne: "Échidné",
+  "diable-de-tasmanie": "Diable de Tasmanie", dingo: "Dingo", quokka: "Quokka", fennec: "Fennec",
+  dromadaire: "Dromadaire", chameau: "Chameau", baleine: "Baleine", "poisson-clown": "Poisson-clown",
+  meduse: "Méduse", calamar: "Calamar", seiche: "Seiche", murene: "Murène", "poisson-lune": "Poisson-lune",
+  "poisson-chirurgien": "Poisson-chirurgien", lamantin: "Lamantin", dugong: "Dugong",
+  "poisson-lion": "Poisson-lion",
+  abeille: "Abeille", bourdon: "Bourdon", coccinelle: "Coccinelle", papillon: "Papillon", mante: "Mante",
+  libellule: "Libellule", fourmi: "Fourmi", scarabee: "Scarabée", escargot: "Escargot", araignee: "Araignée",
+  chimpanze: "Chimpanzé", gibbon: "Gibbon", jaguar: "Jaguar", ocelot: "Ocelot", salamandre: "Salamandre",
+  triton: "Triton", crapaud: "Crapaud", harfang: "Harfang", "boeuf-musque": "Bœuf musqué", lagopede: "Lagopède",
 };
 
 /** Creative starting points; adding a suggestion never adds a sprite to the game. */
@@ -81,6 +93,7 @@ export function normalizedAnimalMetadata(animal: AnimalMetadata & { color: Chara
 }
 
 const PEOPLE_CATEGORIES: Record<string, string> = {
+  celebrites: "Célébrités", cinema: "Cinéma", television: "Télévision", cuisine: "Cuisine", humour: "Humour", musique: "Musique", sport: "Sport",
   politique: "Politique", france: "France", presidents: "Présidents", histoire: "Histoire", senateurs: "Sénateurs", deputes: "Députés",
   antiquite: "Antiquité", "moyen-age": "Moyen Âge", renaissance: "Renaissance", sciences: "Sciences", arts: "Arts", "droits-civiques": "Droits civiques", souverains: "Souverains",
 };

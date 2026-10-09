@@ -1,4 +1,4 @@
-import { historyPack, peoplePack } from "../helpers/characters";
+import { celebritiesPack, historyPack, peoplePack } from "../helpers/characters";
 import type { CharacterDetails } from "../helpers/characters";
 
 export const PERSON_PRICE = 100;
@@ -12,8 +12,13 @@ export const STARTER_HISTORY_IDS = [
   "frida-kahlo", "cleopatre", "jules-cesar", "jeanne-d-arc",
   "leonard-de-vinci", "wolfgang-amadeus-mozart", "nelson-mandela", "rosa-parks",
 ] as const;
-const starters = new Set<string>([...STARTER_POLITICAL_IDS, ...STARTER_HISTORY_IDS]);
-const people = new Set([...peoplePack, ...historyPack].map(person => person.name));
+export const STARTER_CELEBRITY_IDS = [
+  "philippe-etchebest", "will-smith", "leonardo-dicaprio", "brad-pitt",
+  "tom-cruise", "omar-sy", "jean-dujardin", "angelina-jolie",
+  "beyonce", "celine-dion", "zinedine-zidane", "kylian-mbappe",
+] as const;
+const starters = new Set<string>([...STARTER_POLITICAL_IDS, ...STARTER_HISTORY_IDS, ...STARTER_CELEBRITY_IDS]);
+const people = new Set([...peoplePack, ...historyPack, ...celebritiesPack].map(person => person.name));
 export type PersonUnlockSave = { purchasedPeople?: readonly string[] };
 export const isPerson = (id: string) => people.has(id);
 export const isPersonUnlocked = (save: PersonUnlockSave, id: string) =>

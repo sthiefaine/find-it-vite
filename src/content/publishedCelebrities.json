@@ -1,0 +1,1706 @@
+[
+  {
+    "name": "leonardo-dicaprio",
+    "label": "Leonardo DiCaprio",
+    "imageSrc": "/assets/images/characters/celebrities/leonardo-dicaprio.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "brad-pitt",
+    "label": "Brad Pitt",
+    "imageSrc": "/assets/images/characters/celebrities/brad-pitt.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "tom-cruise",
+    "label": "Tom Cruise",
+    "imageSrc": "/assets/images/characters/celebrities/tom-cruise.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "will-smith",
+    "label": "Will Smith",
+    "imageSrc": "/assets/images/characters/celebrities/will-smith.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "denzel-washington",
+    "label": "Denzel Washington",
+    "imageSrc": "/assets/images/characters/celebrities/denzel-washington.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "morgan-freeman",
+    "label": "Morgan Freeman",
+    "imageSrc": "/assets/images/characters/celebrities/morgan-freeman.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "robert-de-niro",
+    "label": "Robert De Niro",
+    "imageSrc": "/assets/images/characters/celebrities/robert-de-niro.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "al-pacino",
+    "label": "Al Pacino",
+    "imageSrc": "/assets/images/characters/celebrities/al-pacino.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "keanu-reeves",
+    "label": "Keanu Reeves",
+    "imageSrc": "/assets/images/characters/celebrities/keanu-reeves.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "robert-downey-jr",
+    "label": "Robert Downey Jr.",
+    "imageSrc": "/assets/images/characters/celebrities/robert-downey-jr.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "ryan-reynolds",
+    "label": "Ryan Reynolds",
+    "imageSrc": "/assets/images/characters/celebrities/ryan-reynolds.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "ryan-gosling",
+    "label": "Ryan Gosling",
+    "imageSrc": "/assets/images/characters/celebrities/ryan-gosling.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "dwayne-johnson",
+    "label": "Dwayne Johnson",
+    "imageSrc": "/assets/images/characters/celebrities/dwayne-johnson.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "chauve",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "jackie-chan",
+    "label": "Jackie Chan",
+    "imageSrc": "/assets/images/characters/celebrities/jackie-chan.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "jim-carrey",
+    "label": "Jim Carrey",
+    "imageSrc": "/assets/images/characters/celebrities/jim-carrey.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "harrison-ford",
+    "label": "Harrison Ford",
+    "imageSrc": "/assets/images/characters/celebrities/harrison-ford.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "christian-bale",
+    "label": "Christian Bale",
+    "imageSrc": "/assets/images/characters/celebrities/christian-bale.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "joaquin-phoenix",
+    "label": "Joaquin Phoenix",
+    "imageSrc": "/assets/images/characters/celebrities/joaquin-phoenix.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "angelina-jolie",
+    "label": "Angelina Jolie",
+    "imageSrc": "/assets/images/characters/celebrities/angelina-jolie.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "julia-roberts",
+    "label": "Julia Roberts",
+    "imageSrc": "/assets/images/characters/celebrities/julia-roberts.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "meryl-streep",
+    "label": "Meryl Streep",
+    "imageSrc": "/assets/images/characters/celebrities/meryl-streep.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "nicole-kidman",
+    "label": "Nicole Kidman",
+    "imageSrc": "/assets/images/characters/celebrities/nicole-kidman.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "natalie-portman",
+    "label": "Natalie Portman",
+    "imageSrc": "/assets/images/characters/celebrities/natalie-portman.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "emma-watson",
+    "label": "Emma Watson",
+    "imageSrc": "/assets/images/characters/celebrities/emma-watson.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "jennifer-lawrence",
+    "label": "Jennifer Lawrence",
+    "imageSrc": "/assets/images/characters/celebrities/jennifer-lawrence.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "margot-robbie",
+    "label": "Margot Robbie",
+    "imageSrc": "/assets/images/characters/celebrities/margot-robbie.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "zendaya",
+    "label": "Zendaya",
+    "imageSrc": "/assets/images/characters/celebrities/zendaya.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "omar-sy",
+    "label": "Omar Sy",
+    "imageSrc": "/assets/images/characters/celebrities/omar-sy.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "jean-dujardin",
+    "label": "Jean Dujardin",
+    "imageSrc": "/assets/images/characters/celebrities/jean-dujardin.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "marion-cotillard",
+    "label": "Marion Cotillard",
+    "imageSrc": "/assets/images/characters/celebrities/marion-cotillard.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "lea-seydoux",
+    "label": "Léa Seydoux",
+    "imageSrc": "/assets/images/characters/celebrities/lea-seydoux.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "vincent-cassel",
+    "label": "Vincent Cassel",
+    "imageSrc": "/assets/images/characters/celebrities/vincent-cassel.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "catherine-deneuve",
+    "label": "Catherine Deneuve",
+    "imageSrc": "/assets/images/characters/celebrities/catherine-deneuve.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "sophie-marceau",
+    "label": "Sophie Marceau",
+    "imageSrc": "/assets/images/characters/celebrities/sophie-marceau.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "louis-de-funes",
+    "label": "Louis de Funès",
+    "imageSrc": "/assets/images/characters/celebrities/louis-de-funes.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "audrey-tautou",
+    "label": "Audrey Tautou",
+    "imageSrc": "/assets/images/characters/celebrities/audrey-tautou.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "beyonce",
+    "label": "Beyoncé",
+    "imageSrc": "/assets/images/characters/celebrities/beyonce.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "rihanna",
+    "label": "Rihanna",
+    "imageSrc": "/assets/images/characters/celebrities/rihanna.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "celine-dion",
+    "label": "Céline Dion",
+    "imageSrc": "/assets/images/characters/celebrities/celine-dion.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "lady-gaga",
+    "label": "Lady Gaga",
+    "imageSrc": "/assets/images/characters/celebrities/lady-gaga.png",
+    "serie": "celebrity",
+    "color": "white",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "zinedine-zidane",
+    "label": "Zinédine Zidane",
+    "imageSrc": "/assets/images/characters/celebrities/zinedine-zidane.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "chauve",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  },
+  {
+    "name": "serena-williams",
+    "label": "Serena Williams",
+    "imageSrc": "/assets/images/characters/celebrities/serena-williams.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-attaches",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  },
+  {
+    "name": "usain-bolt",
+    "label": "Usain Bolt",
+    "imageSrc": "/assets/images/characters/celebrities/usain-bolt.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  },
+  {
+    "name": "philippe-etchebest",
+    "label": "Philippe Etchebest",
+    "imageSrc": "/assets/images/characters/celebrities/philippe-etchebest.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "chauve-barbe",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "jean-luc-reichmann",
+    "label": "Jean-Luc Reichmann",
+    "imageSrc": "/assets/images/characters/celebrities/jean-luc-reichmann.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "cyril-lignac",
+    "label": "Cyril Lignac",
+    "imageSrc": "/assets/images/characters/celebrities/cyril-lignac.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "gordon-ramsay",
+    "label": "Gordon Ramsay",
+    "imageSrc": "/assets/images/characters/celebrities/gordon-ramsay.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "alain-ducasse",
+    "label": "Alain Ducasse",
+    "imageSrc": "/assets/images/characters/celebrities/alain-ducasse.png",
+    "serie": "celebrity",
+    "color": "white",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "paul-bocuse",
+    "label": "Paul Bocuse",
+    "imageSrc": "/assets/images/characters/celebrities/paul-bocuse.png",
+    "serie": "celebrity",
+    "color": "white",
+    "family": "cheveux-gris",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "joel-robuchon",
+    "label": "Joël Robuchon",
+    "imageSrc": "/assets/images/characters/celebrities/joel-robuchon.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "helene-darroze",
+    "label": "Hélène Darroze",
+    "imageSrc": "/assets/images/characters/celebrities/helene-darroze.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "anne-sophie-pic",
+    "label": "Anne-Sophie Pic",
+    "imageSrc": "/assets/images/characters/celebrities/anne-sophie-pic.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "thierry-marx",
+    "label": "Thierry Marx",
+    "imageSrc": "/assets/images/characters/celebrities/thierry-marx.png",
+    "serie": "celebrity",
+    "color": "pink",
+    "family": "chauve",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "michel-sarran",
+    "label": "Michel Sarran",
+    "imageSrc": "/assets/images/characters/celebrities/michel-sarran.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "norbert-tarayre",
+    "label": "Norbert Tarayre",
+    "imageSrc": "/assets/images/characters/celebrities/norbert-tarayre.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "jean-francois-piege",
+    "label": "Jean-François Piège",
+    "imageSrc": "/assets/images/characters/celebrities/jean-francois-piege.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "christophe-michalak",
+    "label": "Christophe Michalak",
+    "imageSrc": "/assets/images/characters/celebrities/christophe-michalak.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "pierre-herme",
+    "label": "Pierre Hermé",
+    "imageSrc": "/assets/images/characters/celebrities/pierre-herme.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ]
+  },
+  {
+    "name": "stephane-bern",
+    "label": "Stéphane Bern",
+    "imageSrc": "/assets/images/characters/celebrities/stephane-bern.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "stephane-plaza",
+    "label": "Stéphane Plaza",
+    "imageSrc": "/assets/images/characters/celebrities/stephane-plaza.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "nikos-aliagas",
+    "label": "Nikos Aliagas",
+    "imageSrc": "/assets/images/characters/celebrities/nikos-aliagas.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "nagui",
+    "label": "Nagui",
+    "imageSrc": "/assets/images/characters/celebrities/nagui.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "michel-drucker",
+    "label": "Michel Drucker",
+    "imageSrc": "/assets/images/characters/celebrities/michel-drucker.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "arthur",
+    "label": "Arthur",
+    "imageSrc": "/assets/images/characters/celebrities/arthur.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "patrick-sebastien",
+    "label": "Patrick Sébastien",
+    "imageSrc": "/assets/images/characters/celebrities/patrick-sebastien.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "moustache",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "jean-pierre-foucault",
+    "label": "Jean-Pierre Foucault",
+    "imageSrc": "/assets/images/characters/celebrities/jean-pierre-foucault.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "laurence-boccolini",
+    "label": "Laurence Boccolini",
+    "imageSrc": "/assets/images/characters/celebrities/laurence-boccolini.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "christophe-dechavanne",
+    "label": "Christophe Dechavanne",
+    "imageSrc": "/assets/images/characters/celebrities/christophe-dechavanne.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "laurent-ruquier",
+    "label": "Laurent Ruquier",
+    "imageSrc": "/assets/images/characters/celebrities/laurent-ruquier.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "laurent-delahousse",
+    "label": "Laurent Delahousse",
+    "imageSrc": "/assets/images/characters/celebrities/laurent-delahousse.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "anne-sophie-lapix",
+    "label": "Anne-Sophie Lapix",
+    "imageSrc": "/assets/images/characters/celebrities/anne-sophie-lapix.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "lea-salame",
+    "label": "Léa Salamé",
+    "imageSrc": "/assets/images/characters/celebrities/lea-salame.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "elise-lucet",
+    "label": "Élise Lucet",
+    "imageSrc": "/assets/images/characters/celebrities/elise-lucet.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "anne-claire-coudray",
+    "label": "Anne-Claire Coudray",
+    "imageSrc": "/assets/images/characters/celebrities/anne-claire-coudray.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "claire-chazal",
+    "label": "Claire Chazal",
+    "imageSrc": "/assets/images/characters/celebrities/claire-chazal.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "julien-courbet",
+    "label": "Julien Courbet",
+    "imageSrc": "/assets/images/characters/celebrities/julien-courbet.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "julien-lepers",
+    "label": "Julien Lepers",
+    "imageSrc": "/assets/images/characters/celebrities/julien-lepers.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "olivier-minne",
+    "label": "Olivier Minne",
+    "imageSrc": "/assets/images/characters/celebrities/olivier-minne.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "denis-brogniart",
+    "label": "Denis Brogniart",
+    "imageSrc": "/assets/images/characters/celebrities/denis-brogniart.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "benjamin-castaldi",
+    "label": "Benjamin Castaldi",
+    "imageSrc": "/assets/images/characters/celebrities/benjamin-castaldi.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "faustine-bollaert",
+    "label": "Faustine Bollaert",
+    "imageSrc": "/assets/images/characters/celebrities/faustine-bollaert.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "karine-le-marchand",
+    "label": "Karine Le Marchand",
+    "imageSrc": "/assets/images/characters/celebrities/karine-le-marchand.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "cristina-cordula",
+    "label": "Cristina Cordula",
+    "imageSrc": "/assets/images/characters/celebrities/cristina-cordula.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "sophie-davant",
+    "label": "Sophie Davant",
+    "imageSrc": "/assets/images/characters/celebrities/sophie-davant.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "evelyne-dheliat",
+    "label": "Évelyne Dhéliat",
+    "imageSrc": "/assets/images/characters/celebrities/evelyne-dheliat.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "valerie-damidot",
+    "label": "Valérie Damidot",
+    "imageSrc": "/assets/images/characters/celebrities/valerie-damidot.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "frederic-lopez",
+    "label": "Frédéric Lopez",
+    "imageSrc": "/assets/images/characters/celebrities/frederic-lopez.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "camille-combal",
+    "label": "Camille Combal",
+    "imageSrc": "/assets/images/characters/celebrities/camille-combal.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "cyril-feraud",
+    "label": "Cyril Féraud",
+    "imageSrc": "/assets/images/characters/celebrities/cyril-feraud.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "cyril-hanouna",
+    "label": "Cyril Hanouna",
+    "imageSrc": "/assets/images/characters/celebrities/cyril-hanouna.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "bruno-guillon",
+    "label": "Bruno Guillon",
+    "imageSrc": "/assets/images/characters/celebrities/bruno-guillon.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "michel-cymes",
+    "label": "Michel Cymes",
+    "imageSrc": "/assets/images/characters/celebrities/michel-cymes.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "jamy-gourmaud",
+    "label": "Jamy Gourmaud",
+    "imageSrc": "/assets/images/characters/celebrities/jamy-gourmaud.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "fred-courant",
+    "label": "Fred Courant",
+    "imageSrc": "/assets/images/characters/celebrities/fred-courant.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "television"
+    ]
+  },
+  {
+    "name": "alain-chabat",
+    "label": "Alain Chabat",
+    "imageSrc": "/assets/images/characters/celebrities/alain-chabat.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "jamel-debbouze",
+    "label": "Jamel Debbouze",
+    "imageSrc": "/assets/images/characters/celebrities/jamel-debbouze.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "gad-elmaleh",
+    "label": "Gad Elmaleh",
+    "imageSrc": "/assets/images/characters/celebrities/gad-elmaleh.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "florence-foresti",
+    "label": "Florence Foresti",
+    "imageSrc": "/assets/images/characters/celebrities/florence-foresti.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "muriel-robin",
+    "label": "Muriel Robin",
+    "imageSrc": "/assets/images/characters/celebrities/muriel-robin.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "michele-laroque",
+    "label": "Michèle Laroque",
+    "imageSrc": "/assets/images/characters/celebrities/michele-laroque.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "anne-roumanoff",
+    "label": "Anne Roumanoff",
+    "imageSrc": "/assets/images/characters/celebrities/anne-roumanoff.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "dany-boon",
+    "label": "Dany Boon",
+    "imageSrc": "/assets/images/characters/celebrities/dany-boon.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "kad-merad",
+    "label": "Kad Merad",
+    "imageSrc": "/assets/images/characters/celebrities/kad-merad.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "chauve-barbe",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "franck-dubosc",
+    "label": "Franck Dubosc",
+    "imageSrc": "/assets/images/characters/celebrities/franck-dubosc.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-coiffes",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "elie-semoun",
+    "label": "Élie Semoun",
+    "imageSrc": "/assets/images/characters/celebrities/elie-semoun.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "kev-adams",
+    "label": "Kev Adams",
+    "imageSrc": "/assets/images/characters/celebrities/kev-adams.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "fabrice-eboue",
+    "label": "Fabrice Éboué",
+    "imageSrc": "/assets/images/characters/celebrities/fabrice-eboue.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "blanche-gardin",
+    "label": "Blanche Gardin",
+    "imageSrc": "/assets/images/characters/celebrities/blanche-gardin.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "francois-xavier-demaison",
+    "label": "François-Xavier Demaison",
+    "imageSrc": "/assets/images/characters/celebrities/francois-xavier-demaison.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "jean-marie-bigard",
+    "label": "Jean-Marie Bigard",
+    "imageSrc": "/assets/images/characters/celebrities/jean-marie-bigard.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "coluche",
+    "label": "Coluche",
+    "imageSrc": "/assets/images/characters/celebrities/coluche.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "humour"
+    ]
+  },
+  {
+    "name": "pierre-richard",
+    "label": "Pierre Richard",
+    "imageSrc": "/assets/images/characters/celebrities/pierre-richard.png",
+    "serie": "celebrity",
+    "color": "white",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "daniel-auteuil",
+    "label": "Daniel Auteuil",
+    "imageSrc": "/assets/images/characters/celebrities/daniel-auteuil.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-coiffes",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "christian-clavier",
+    "label": "Christian Clavier",
+    "imageSrc": "/assets/images/characters/celebrities/christian-clavier.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-coiffes",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "gerard-jugnot",
+    "label": "Gérard Jugnot",
+    "imageSrc": "/assets/images/characters/celebrities/gerard-jugnot.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "moustache",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "thierry-lhermitte",
+    "label": "Thierry Lhermitte",
+    "imageSrc": "/assets/images/characters/celebrities/thierry-lhermitte.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "josiane-balasko",
+    "label": "Josiane Balasko",
+    "imageSrc": "/assets/images/characters/celebrities/josiane-balasko.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "isabelle-adjani",
+    "label": "Isabelle Adjani",
+    "imageSrc": "/assets/images/characters/celebrities/isabelle-adjani.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "isabelle-huppert",
+    "label": "Isabelle Huppert",
+    "imageSrc": "/assets/images/characters/celebrities/isabelle-huppert.png",
+    "serie": "celebrity",
+    "color": "orange",
+    "family": "roux",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "jean-paul-belmondo",
+    "label": "Jean-Paul Belmondo",
+    "imageSrc": "/assets/images/characters/celebrities/jean-paul-belmondo.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-coiffes",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "alain-delon",
+    "label": "Alain Delon",
+    "imageSrc": "/assets/images/characters/celebrities/alain-delon.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-coiffes",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "gilles-lellouche",
+    "label": "Gilles Lellouche",
+    "imageSrc": "/assets/images/characters/celebrities/gilles-lellouche.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "francois-cluzet",
+    "label": "François Cluzet",
+    "imageSrc": "/assets/images/characters/celebrities/francois-cluzet.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "cinema"
+    ]
+  },
+  {
+    "name": "julien-dore",
+    "label": "Julien Doré",
+    "imageSrc": "/assets/images/characters/celebrities/julien-dore.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "florent-pagny",
+    "label": "Florent Pagny",
+    "imageSrc": "/assets/images/characters/celebrities/florent-pagny.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "patrick-bruel",
+    "label": "Patrick Bruel",
+    "imageSrc": "/assets/images/characters/celebrities/patrick-bruel.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "jean-jacques-goldman",
+    "label": "Jean-Jacques Goldman",
+    "imageSrc": "/assets/images/characters/celebrities/jean-jacques-goldman.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "johnny-hallyday",
+    "label": "Johnny Hallyday",
+    "imageSrc": "/assets/images/characters/celebrities/johnny-hallyday.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-coiffes",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "mylene-farmer",
+    "label": "Mylène Farmer",
+    "imageSrc": "/assets/images/characters/celebrities/mylene-farmer.png",
+    "serie": "celebrity",
+    "color": "orange",
+    "family": "roux",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "pascal-obispo",
+    "label": "Pascal Obispo",
+    "imageSrc": "/assets/images/characters/celebrities/pascal-obispo.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "chauve-barbe",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "francis-cabrel",
+    "label": "Francis Cabrel",
+    "imageSrc": "/assets/images/characters/celebrities/francis-cabrel.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "vitaa",
+    "label": "Vitaa",
+    "imageSrc": "/assets/images/characters/celebrities/vitaa.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "slimane",
+    "label": "Slimane",
+    "imageSrc": "/assets/images/characters/celebrities/slimane.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "soprano",
+    "label": "Soprano",
+    "imageSrc": "/assets/images/characters/celebrities/soprano.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "gims",
+    "label": "Gims",
+    "imageSrc": "/assets/images/characters/celebrities/gims.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "lunettes",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "stromae",
+    "label": "Stromae",
+    "imageSrc": "/assets/images/characters/celebrities/stromae.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "angele",
+    "label": "Angèle",
+    "imageSrc": "/assets/images/characters/celebrities/angele.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "tags": [
+      "celebrites",
+      "musique"
+    ]
+  },
+  {
+    "name": "kylian-mbappe",
+    "label": "Kylian Mbappé",
+    "imageSrc": "/assets/images/characters/celebrities/kylian-mbappe.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  },
+  {
+    "name": "antoine-griezmann",
+    "label": "Antoine Griezmann",
+    "imageSrc": "/assets/images/characters/celebrities/antoine-griezmann.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  },
+  {
+    "name": "tony-parker",
+    "label": "Tony Parker",
+    "imageSrc": "/assets/images/characters/celebrities/tony-parker.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  },
+  {
+    "name": "teddy-riner",
+    "label": "Teddy Riner",
+    "imageSrc": "/assets/images/characters/celebrities/teddy-riner.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "barbe-courte",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  },
+  {
+    "name": "antoine-dupont",
+    "label": "Antoine Dupont",
+    "imageSrc": "/assets/images/characters/celebrities/antoine-dupont.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "tags": [
+      "celebrites",
+      "sport"
+    ]
+  }
+]

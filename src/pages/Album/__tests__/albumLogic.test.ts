@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { caughtCount, nextMedal } from "../albumLogic";
 import { allCharacters } from "../../../content/worlds";
-import { historyPack, peoplePack } from "../../../helpers/characters";
+import { celebritiesPack, historyPack, peoplePack } from "../../../helpers/characters";
 
 describe("caughtCount", () => {
   it("compte les persos trouvés au moins une fois", () => {
     const [a, b] = allCharacters();
     const r = caughtCount({ collection: { [a.name]: 2, [b.name]: 0, inconnu: 5 } });
     expect(r.caught).toBe(1);
-    expect(r.total).toBe(allCharacters().length + peoplePack.length + historyPack.length);
+    expect(r.total).toBe(allCharacters().length + peoplePack.length + historyPack.length + celebritiesPack.length);
   });
   it("compte une capture politique sans inventer de captures pour les portraits disponibles", () => {
     const person = peoplePack[0];

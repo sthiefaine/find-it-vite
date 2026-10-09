@@ -1,4 +1,5 @@
 import { animalExpansionMessages } from "./animalExpansionMessages";
+import { animalGapsMessages } from "./animalGapsMessages";
 import { albumMessages } from "./albumMessages";
 import { engagementMessages } from "./engagementMessages";
 import { themeNavigationMessages } from "./themeNavigationMessages";
@@ -16,6 +17,7 @@ export const messages: Record<string, readonly [string, string, string, string, 
   "Encore {{count}} étoiles à gagner": ["Encore {{count}} étoiles à gagner","Earn {{count}} more stars","Ganhe mais {{count}} estrelas","Gana {{count}} estrellas más","Guadagna altre {{count}} stelle","Заработай ещё {{count}} звёзд","{{count}} stêrkên din bi dest bixe","{{count}} ئەستێرەی تر بەدەست بهێنە","还需获得{{count}}颗星星","Verdiene noch {{count}} Sterne"],
   "Débloqué": ["Débloqué","Unlocked","Desbloqueado","Desbloqueado","Sbloccato","Открыто","Vekirî","کراوەتەوە","已解锁","Freigeschaltet"],
   ...animalExpansionMessages,
+  ...animalGapsMessages,
   ...albumMessages,
   ...engagementMessages,
   ...themeNavigationMessages,

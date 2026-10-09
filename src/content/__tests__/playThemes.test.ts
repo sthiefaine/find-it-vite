@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { characterPoolFor } from "../../game/characterPool";
 import { generatePlayableLevel } from "../../game/playableLevel";
-import { animalsPack, historyPack, peoplePack } from "../../helpers/characters";
+import { animalsPack, celebritiesPack, historyPack, peoplePack } from "../../helpers/characters";
 import { generateRound } from "../../pages/Duel/duelLogic";
 import { defaultSave } from "../../save/schema";
 import { defaultThemeForFamily, PLAY_THEMES, playThemeFromSearch, playThemePool, publishedThemePool, THEME_FAMILIES, themeOptions } from "../playThemes";
@@ -29,8 +29,8 @@ describe("thèmes proposés avant une partie", () => {
       expect(option.availableCount).toBe(unlockedAnimals(save, candidates).length);
       expect(option.enabled).toBe(option.availableCount >= 3);
     }
-    for (const options of [endless, duel]) for (const id of ["personnes"]) {
-      expect(options.find(({ theme }) => theme.id === id)).toMatchObject({ availableCount: 0, totalCount: 0, enabled: false, theme: { comingSoon: true } });
+    for (const options of [endless, duel]) {
+      expect(options.find(({ theme }) => theme.id === "personnes")).toMatchObject({ availableCount: unlockedPeople(save, celebritiesPack).length, totalCount: celebritiesPack.length });
     }
   });
 
@@ -54,11 +54,11 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("ignore les anciens liens serie et les thèmes inconnus ou à venir", () => {
-    for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=personnes", "?theme=__proto__"]) {
+    for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=politique-br", "?theme=__proto__"]) {
       expect(playThemeFromSearch(search)).toBe("ferme");
     }
     expect(playThemeFromSearch("?theme=foret&serie=ferme")).toBe("foret");
-    for (const id of ["personnes", "inconnu"] as PlayThemeId[]) {
+    for (const id of ["politique-br", "inconnu"] as PlayThemeId[]) {
       expect(playThemePool("endless", id, defaultSave())).toEqual(unlockedAnimals(defaultSave()));
       expect(playThemePool("duel", id, defaultSave())).toEqual(animalsPack);
     }

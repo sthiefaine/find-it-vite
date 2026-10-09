@@ -6,7 +6,7 @@ import { applyDailyReward, createSaveStore, useSaveStore } from "../../save/save
 import { createMemoryStorage } from "../../save/storage";
 import { generatePlayableLevel } from "../playableLevel";
 import { ACCESSORY_LOOKALIKES } from "../../content/accessories";
-import { charactersDetails, historyPack, peoplePack } from "../../helpers/characters";
+import { celebritiesPack, charactersDetails, historyPack, peoplePack } from "../../helpers/characters";
 import { isPersonUnlocked } from "../../content/personUnlocks";
 import { advanceStreaks, emptyStreaks } from "../streaks";
 import { dailyRewardPerson, DAILY_REWARD_TARGET } from "../dailyReward";
@@ -146,7 +146,7 @@ describe("portrait du défi quotidien", () => {
   });
   it("donne une prime de remplacement une seule fois si tous les personnages sont disponibles", () => {
     const save = defaultSave();
-    save.purchasedPeople = [...historyPack, ...peoplePack].filter(person => !isPersonUnlocked(save, person.name)).map(person => person.name);
+    save.purchasedPeople = [...historyPack, ...peoplePack, ...celebritiesPack].filter(person => !isPersonUnlocked(save, person.name)).map(person => person.name);
     expect(dailyRewardPerson(save, date)).toBeNull();
     const next = applyDailyReward(save, date, DAILY_REWARD_TARGET);
     expect(next.reward).toEqual({ person: null, stars: 5 });

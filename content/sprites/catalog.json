@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "revision": 13,
+  "revision": 43,
   "themes": [
     {
       "id": "animaux",
@@ -22,9 +22,9 @@
     },
     {
       "id": "personnes",
-      "name": "Personnes",
+      "name": "Célébrités",
       "category": "people",
-      "destination": "fun"
+      "destination": "game"
     },
     {
       "id": "histoire",
@@ -496,7 +496,8 @@
       ],
       "tags": [
         "sauvages",
-        "foret"
+        "foret",
+        "australie"
       ]
     },
     {
@@ -669,7 +670,8 @@
       ],
       "tags": [
         "sauvages",
-        "foret"
+        "foret",
+        "jungle"
       ]
     },
     {
@@ -1557,7 +1559,8 @@
       ],
       "tags": [
         "ocean",
-        "sauvages"
+        "sauvages",
+        "polaires"
       ]
     },
     {
@@ -1578,7 +1581,8 @@
       ],
       "tags": [
         "ocean",
-        "sauvages"
+        "sauvages",
+        "polaires"
       ]
     },
     {
@@ -1687,7 +1691,8 @@
       "tags": [
         "ocean",
         "sauvages",
-        "oiseaux"
+        "oiseaux",
+        "polaires"
       ]
     },
     {
@@ -1707,7 +1712,8 @@
       ],
       "tags": [
         "ocean",
-        "sauvages"
+        "sauvages",
+        "polaires"
       ]
     },
     {
@@ -2916,7 +2922,8 @@
       ],
       "tags": [
         "oiseaux",
-        "domestiques"
+        "domestiques",
+        "jungle"
       ]
     },
     {
@@ -2938,7 +2945,8 @@
       ],
       "tags": [
         "oiseaux",
-        "sauvages"
+        "sauvages",
+        "jungle"
       ]
     },
     {
@@ -2960,7 +2968,8 @@
       ],
       "tags": [
         "oiseaux",
-        "domestiques"
+        "domestiques",
+        "jungle"
       ]
     },
     {
@@ -2982,7 +2991,8 @@
       ],
       "tags": [
         "oiseaux",
-        "domestiques"
+        "domestiques",
+        "jungle"
       ]
     },
     {
@@ -3140,7 +3150,8 @@
       "tags": [
         "oiseaux",
         "sauvages",
-        "ocean"
+        "ocean",
+        "polaires"
       ]
     },
     {
@@ -3206,7 +3217,8 @@
       ],
       "tags": [
         "reptiles",
-        "sauvages"
+        "sauvages",
+        "jungle"
       ]
     },
     {
@@ -4302,6 +4314,3168 @@
         "ocean",
         "sauvages",
         "polaires"
+      ]
+    },
+    {
+      "id": "leonardo-dicaprio",
+      "themeId": "personnes",
+      "label": "Leonardo DiCaprio",
+      "subject": "Leonardo DiCaprio",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/leonardo-dicaprio.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/leonardo-dicaprio.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/leonardo-dicaprio.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "brad-pitt",
+      "themeId": "personnes",
+      "label": "Brad Pitt",
+      "subject": "Brad Pitt",
+      "color": "yellow",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/brad-pitt.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/brad-pitt.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/brad-pitt.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "tom-cruise",
+      "themeId": "personnes",
+      "label": "Tom Cruise",
+      "subject": "Tom Cruise",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/tom-cruise.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/tom-cruise.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/tom-cruise.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "johnny-depp",
+      "themeId": "personnes",
+      "label": "Johnny Depp",
+      "subject": "Johnny Depp",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "will-smith",
+      "themeId": "personnes",
+      "label": "Will Smith",
+      "subject": "Will Smith",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/will-smith.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/will-smith.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/will-smith.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "denzel-washington",
+      "themeId": "personnes",
+      "label": "Denzel Washington",
+      "subject": "Denzel Washington",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/denzel-washington.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/denzel-washington.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/denzel-washington.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "morgan-freeman",
+      "themeId": "personnes",
+      "label": "Morgan Freeman",
+      "subject": "Morgan Freeman",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/morgan-freeman.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/morgan-freeman.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/morgan-freeman.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "tom-hanks",
+      "themeId": "personnes",
+      "label": "Tom Hanks",
+      "subject": "Tom Hanks",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "robert-de-niro",
+      "themeId": "personnes",
+      "label": "Robert De Niro",
+      "subject": "Robert De Niro",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/robert-de-niro.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/robert-de-niro.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/robert-de-niro.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "al-pacino",
+      "themeId": "personnes",
+      "label": "Al Pacino",
+      "subject": "Al Pacino",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/al-pacino.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/al-pacino.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/al-pacino.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "keanu-reeves",
+      "themeId": "personnes",
+      "label": "Keanu Reeves",
+      "subject": "Keanu Reeves",
+      "color": "black",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/keanu-reeves.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/keanu-reeves.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/keanu-reeves.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "robert-downey-jr",
+      "themeId": "personnes",
+      "label": "Robert Downey Jr.",
+      "subject": "Robert Downey Jr.",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/robert-downey-jr.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/robert-downey-jr.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/robert-downey-jr.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "ryan-reynolds",
+      "themeId": "personnes",
+      "label": "Ryan Reynolds",
+      "subject": "Ryan Reynolds",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/ryan-reynolds.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/ryan-reynolds.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/ryan-reynolds.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "ryan-gosling",
+      "themeId": "personnes",
+      "label": "Ryan Gosling",
+      "subject": "Ryan Gosling",
+      "color": "yellow",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/ryan-gosling.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/ryan-gosling.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/ryan-gosling.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "dwayne-johnson",
+      "themeId": "personnes",
+      "label": "Dwayne Johnson",
+      "subject": "Dwayne Johnson",
+      "color": "brown",
+      "family": "chauve",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/dwayne-johnson.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/dwayne-johnson.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/dwayne-johnson.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "jackie-chan",
+      "themeId": "personnes",
+      "label": "Jackie Chan",
+      "subject": "Jackie Chan",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jackie-chan.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jackie-chan.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jackie-chan.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "jim-carrey",
+      "themeId": "personnes",
+      "label": "Jim Carrey",
+      "subject": "Jim Carrey",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jim-carrey.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jim-carrey.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jim-carrey.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "harrison-ford",
+      "themeId": "personnes",
+      "label": "Harrison Ford",
+      "subject": "Harrison Ford",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/harrison-ford.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/harrison-ford.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/harrison-ford.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "christian-bale",
+      "themeId": "personnes",
+      "label": "Christian Bale",
+      "subject": "Christian Bale",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/christian-bale.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/christian-bale.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/christian-bale.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "joaquin-phoenix",
+      "themeId": "personnes",
+      "label": "Joaquin Phoenix",
+      "subject": "Joaquin Phoenix",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/joaquin-phoenix.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/joaquin-phoenix.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/joaquin-phoenix.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "scarlett-johansson",
+      "themeId": "personnes",
+      "label": "Scarlett Johansson",
+      "subject": "Scarlett Johansson",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "angelina-jolie",
+      "themeId": "personnes",
+      "label": "Angelina Jolie",
+      "subject": "Angelina Jolie",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/angelina-jolie.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/angelina-jolie.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/angelina-jolie.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "julia-roberts",
+      "themeId": "personnes",
+      "label": "Julia Roberts",
+      "subject": "Julia Roberts",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/julia-roberts.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/julia-roberts.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/julia-roberts.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "meryl-streep",
+      "themeId": "personnes",
+      "label": "Meryl Streep",
+      "subject": "Meryl Streep",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/meryl-streep.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/meryl-streep.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/meryl-streep.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "nicole-kidman",
+      "themeId": "personnes",
+      "label": "Nicole Kidman",
+      "subject": "Nicole Kidman",
+      "color": "yellow",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/nicole-kidman.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/nicole-kidman.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/nicole-kidman.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "natalie-portman",
+      "themeId": "personnes",
+      "label": "Natalie Portman",
+      "subject": "Natalie Portman",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/natalie-portman.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/natalie-portman.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/natalie-portman.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "emma-watson",
+      "themeId": "personnes",
+      "label": "Emma Watson",
+      "subject": "Emma Watson",
+      "color": "brown",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/emma-watson.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/emma-watson.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/emma-watson.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "jennifer-lawrence",
+      "themeId": "personnes",
+      "label": "Jennifer Lawrence",
+      "subject": "Jennifer Lawrence",
+      "color": "yellow",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jennifer-lawrence.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jennifer-lawrence.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jennifer-lawrence.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "margot-robbie",
+      "themeId": "personnes",
+      "label": "Margot Robbie",
+      "subject": "Margot Robbie",
+      "color": "yellow",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/margot-robbie.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/margot-robbie.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/margot-robbie.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "zendaya",
+      "themeId": "personnes",
+      "label": "Zendaya",
+      "subject": "Zendaya",
+      "color": "brown",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/zendaya.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/zendaya.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/zendaya.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "omar-sy",
+      "themeId": "personnes",
+      "label": "Omar Sy",
+      "subject": "Omar Sy",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/omar-sy.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/omar-sy.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/omar-sy.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "jean-dujardin",
+      "themeId": "personnes",
+      "label": "Jean Dujardin",
+      "subject": "Jean Dujardin",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jean-dujardin.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jean-dujardin.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jean-dujardin.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "marion-cotillard",
+      "themeId": "personnes",
+      "label": "Marion Cotillard",
+      "subject": "Marion Cotillard",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/marion-cotillard.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/marion-cotillard.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/marion-cotillard.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "lea-seydoux",
+      "themeId": "personnes",
+      "label": "Léa Seydoux",
+      "subject": "Léa Seydoux",
+      "color": "yellow",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/lea-seydoux.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/lea-seydoux.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/lea-seydoux.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "vincent-cassel",
+      "themeId": "personnes",
+      "label": "Vincent Cassel",
+      "subject": "Vincent Cassel",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/vincent-cassel.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/vincent-cassel.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/vincent-cassel.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "catherine-deneuve",
+      "themeId": "personnes",
+      "label": "Catherine Deneuve",
+      "subject": "Catherine Deneuve",
+      "color": "yellow",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/catherine-deneuve.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/catherine-deneuve.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/catherine-deneuve.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "sophie-marceau",
+      "themeId": "personnes",
+      "label": "Sophie Marceau",
+      "subject": "Sophie Marceau",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/sophie-marceau.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/sophie-marceau.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/sophie-marceau.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "louis-de-funes",
+      "themeId": "personnes",
+      "label": "Louis de Funès",
+      "subject": "Louis de Funès",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/louis-de-funes.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/louis-de-funes.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/louis-de-funes.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "jean-reno",
+      "themeId": "personnes",
+      "label": "Jean Reno",
+      "subject": "Jean Reno",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "audrey-tautou",
+      "themeId": "personnes",
+      "label": "Audrey Tautou",
+      "subject": "Audrey Tautou",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/audrey-tautou.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/audrey-tautou.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/audrey-tautou.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "beyonce",
+      "themeId": "personnes",
+      "label": "Beyoncé",
+      "subject": "Beyoncé",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/beyonce.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/beyonce.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/beyonce.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "rihanna",
+      "themeId": "personnes",
+      "label": "Rihanna",
+      "subject": "Rihanna",
+      "color": "black",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/rihanna.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/rihanna.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/rihanna.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "celine-dion",
+      "themeId": "personnes",
+      "label": "Céline Dion",
+      "subject": "Céline Dion",
+      "color": "brown",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/celine-dion.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/celine-dion.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/celine-dion.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "lady-gaga",
+      "themeId": "personnes",
+      "label": "Lady Gaga",
+      "subject": "Lady Gaga",
+      "color": "white",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/lady-gaga.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/lady-gaga.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/lady-gaga.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "taylor-swift",
+      "themeId": "personnes",
+      "label": "Taylor Swift",
+      "subject": "Taylor Swift",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "michael-jackson",
+      "themeId": "personnes",
+      "label": "Michael Jackson",
+      "subject": "Michael Jackson",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "zinedine-zidane",
+      "themeId": "personnes",
+      "label": "Zinédine Zidane",
+      "subject": "Zinédine Zidane",
+      "color": "brown",
+      "family": "chauve",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/zinedine-zidane.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/zinedine-zidane.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/zinedine-zidane.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "lionel-messi",
+      "themeId": "personnes",
+      "label": "Lionel Messi",
+      "subject": "Lionel Messi",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "serena-williams",
+      "themeId": "personnes",
+      "label": "Serena Williams",
+      "subject": "Serena Williams",
+      "color": "brown",
+      "family": "cheveux-attaches",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/serena-williams.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/serena-williams.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/serena-williams.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "usain-bolt",
+      "themeId": "personnes",
+      "label": "Usain Bolt",
+      "subject": "Usain Bolt",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/usain-bolt.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/usain-bolt.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/usain-bolt.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "philippe-etchebest",
+      "themeId": "personnes",
+      "label": "Philippe Etchebest",
+      "subject": "Philippe Etchebest",
+      "color": "grey",
+      "family": "chauve-barbe",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/philippe-etchebest.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/philippe-etchebest.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/philippe-etchebest.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "jean-luc-reichmann",
+      "themeId": "personnes",
+      "label": "Jean-Luc Reichmann",
+      "subject": "Jean-Luc Reichmann",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jean-luc-reichmann.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jean-luc-reichmann.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jean-luc-reichmann.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "cyril-lignac",
+      "themeId": "personnes",
+      "label": "Cyril Lignac",
+      "subject": "Cyril Lignac",
+      "color": "black",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/cyril-lignac.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/cyril-lignac.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/cyril-lignac.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "gordon-ramsay",
+      "themeId": "personnes",
+      "label": "Gordon Ramsay",
+      "subject": "Gordon Ramsay",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/gordon-ramsay.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/gordon-ramsay.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/gordon-ramsay.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "alain-ducasse",
+      "themeId": "personnes",
+      "label": "Alain Ducasse",
+      "subject": "Alain Ducasse",
+      "color": "white",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/alain-ducasse.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/alain-ducasse.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/alain-ducasse.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "paul-bocuse",
+      "themeId": "personnes",
+      "label": "Paul Bocuse",
+      "subject": "Paul Bocuse",
+      "color": "white",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/paul-bocuse.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/paul-bocuse.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/paul-bocuse.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "joel-robuchon",
+      "themeId": "personnes",
+      "label": "Joël Robuchon",
+      "subject": "Joël Robuchon",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/joel-robuchon.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/joel-robuchon.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/joel-robuchon.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "helene-darroze",
+      "themeId": "personnes",
+      "label": "Hélène Darroze",
+      "subject": "Hélène Darroze",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/helene-darroze.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/helene-darroze.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/helene-darroze.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "anne-sophie-pic",
+      "themeId": "personnes",
+      "label": "Anne-Sophie Pic",
+      "subject": "Anne-Sophie Pic",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/anne-sophie-pic.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/anne-sophie-pic.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/anne-sophie-pic.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "thierry-marx",
+      "themeId": "personnes",
+      "label": "Thierry Marx",
+      "subject": "Thierry Marx",
+      "color": "pink",
+      "family": "chauve",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/thierry-marx.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/thierry-marx.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/thierry-marx.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "michel-sarran",
+      "themeId": "personnes",
+      "label": "Michel Sarran",
+      "subject": "Michel Sarran",
+      "color": "grey",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/michel-sarran.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/michel-sarran.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/michel-sarran.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "norbert-tarayre",
+      "themeId": "personnes",
+      "label": "Norbert Tarayre",
+      "subject": "Norbert Tarayre",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/norbert-tarayre.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/norbert-tarayre.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/norbert-tarayre.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "jean-francois-piege",
+      "themeId": "personnes",
+      "label": "Jean-François Piège",
+      "subject": "Jean-François Piège",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jean-francois-piege.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jean-francois-piege.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jean-francois-piege.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "christophe-michalak",
+      "themeId": "personnes",
+      "label": "Christophe Michalak",
+      "subject": "Christophe Michalak",
+      "color": "grey",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/christophe-michalak.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/christophe-michalak.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/christophe-michalak.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "pierre-herme",
+      "themeId": "personnes",
+      "label": "Pierre Hermé",
+      "subject": "Pierre Hermé",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/pierre-herme.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/pierre-herme.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/pierre-herme.png.",
+      "tags": [
+        "celebrites",
+        "cuisine"
+      ]
+    },
+    {
+      "id": "stephane-bern",
+      "themeId": "personnes",
+      "label": "Stéphane Bern",
+      "subject": "Stéphane Bern",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/stephane-bern.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/stephane-bern.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/stephane-bern.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "stephane-plaza",
+      "themeId": "personnes",
+      "label": "Stéphane Plaza",
+      "subject": "Stéphane Plaza",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/stephane-plaza.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/stephane-plaza.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/stephane-plaza.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "nikos-aliagas",
+      "themeId": "personnes",
+      "label": "Nikos Aliagas",
+      "subject": "Nikos Aliagas",
+      "color": "black",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/nikos-aliagas.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/nikos-aliagas.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/nikos-aliagas.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "nagui",
+      "themeId": "personnes",
+      "label": "Nagui",
+      "subject": "Nagui",
+      "color": "grey",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/nagui.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/nagui.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/nagui.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "michel-drucker",
+      "themeId": "personnes",
+      "label": "Michel Drucker",
+      "subject": "Michel Drucker",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/michel-drucker.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/michel-drucker.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/michel-drucker.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "arthur",
+      "themeId": "personnes",
+      "label": "Arthur",
+      "subject": "Arthur",
+      "color": "black",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/arthur.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/arthur.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/arthur.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "patrick-sebastien",
+      "themeId": "personnes",
+      "label": "Patrick Sébastien",
+      "subject": "Patrick Sébastien",
+      "color": "grey",
+      "family": "moustache",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/patrick-sebastien.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/patrick-sebastien.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/patrick-sebastien.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "jean-pierre-foucault",
+      "themeId": "personnes",
+      "label": "Jean-Pierre Foucault",
+      "subject": "Jean-Pierre Foucault",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jean-pierre-foucault.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jean-pierre-foucault.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jean-pierre-foucault.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "laurence-boccolini",
+      "themeId": "personnes",
+      "label": "Laurence Boccolini",
+      "subject": "Laurence Boccolini",
+      "color": "yellow",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/laurence-boccolini.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/laurence-boccolini.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/laurence-boccolini.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "christophe-dechavanne",
+      "themeId": "personnes",
+      "label": "Christophe Dechavanne",
+      "subject": "Christophe Dechavanne",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/christophe-dechavanne.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/christophe-dechavanne.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/christophe-dechavanne.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "laurent-ruquier",
+      "themeId": "personnes",
+      "label": "Laurent Ruquier",
+      "subject": "Laurent Ruquier",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/laurent-ruquier.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/laurent-ruquier.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/laurent-ruquier.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "laurent-delahousse",
+      "themeId": "personnes",
+      "label": "Laurent Delahousse",
+      "subject": "Laurent Delahousse",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/laurent-delahousse.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/laurent-delahousse.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/laurent-delahousse.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "anne-sophie-lapix",
+      "themeId": "personnes",
+      "label": "Anne-Sophie Lapix",
+      "subject": "Anne-Sophie Lapix",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/anne-sophie-lapix.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/anne-sophie-lapix.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/anne-sophie-lapix.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "lea-salame",
+      "themeId": "personnes",
+      "label": "Léa Salamé",
+      "subject": "Léa Salamé",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/lea-salame.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/lea-salame.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/lea-salame.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "elise-lucet",
+      "themeId": "personnes",
+      "label": "Élise Lucet",
+      "subject": "Élise Lucet",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/elise-lucet.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/elise-lucet.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/elise-lucet.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "anne-claire-coudray",
+      "themeId": "personnes",
+      "label": "Anne-Claire Coudray",
+      "subject": "Anne-Claire Coudray",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/anne-claire-coudray.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/anne-claire-coudray.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/anne-claire-coudray.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "claire-chazal",
+      "themeId": "personnes",
+      "label": "Claire Chazal",
+      "subject": "Claire Chazal",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/claire-chazal.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/claire-chazal.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/claire-chazal.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "julien-courbet",
+      "themeId": "personnes",
+      "label": "Julien Courbet",
+      "subject": "Julien Courbet",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/julien-courbet.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/julien-courbet.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/julien-courbet.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "julien-lepers",
+      "themeId": "personnes",
+      "label": "Julien Lepers",
+      "subject": "Julien Lepers",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/julien-lepers.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/julien-lepers.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/julien-lepers.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "olivier-minne",
+      "themeId": "personnes",
+      "label": "Olivier Minne",
+      "subject": "Olivier Minne",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/olivier-minne.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/olivier-minne.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/olivier-minne.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "denis-brogniart",
+      "themeId": "personnes",
+      "label": "Denis Brogniart",
+      "subject": "Denis Brogniart",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/denis-brogniart.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/denis-brogniart.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/denis-brogniart.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "benjamin-castaldi",
+      "themeId": "personnes",
+      "label": "Benjamin Castaldi",
+      "subject": "Benjamin Castaldi",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/benjamin-castaldi.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/benjamin-castaldi.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/benjamin-castaldi.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "faustine-bollaert",
+      "themeId": "personnes",
+      "label": "Faustine Bollaert",
+      "subject": "Faustine Bollaert",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/faustine-bollaert.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/faustine-bollaert.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/faustine-bollaert.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "karine-le-marchand",
+      "themeId": "personnes",
+      "label": "Karine Le Marchand",
+      "subject": "Karine Le Marchand",
+      "color": "black",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/karine-le-marchand.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/karine-le-marchand.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/karine-le-marchand.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "cristina-cordula",
+      "themeId": "personnes",
+      "label": "Cristina Cordula",
+      "subject": "Cristina Cordula",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/cristina-cordula.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/cristina-cordula.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/cristina-cordula.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "sophie-davant",
+      "themeId": "personnes",
+      "label": "Sophie Davant",
+      "subject": "Sophie Davant",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/sophie-davant.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/sophie-davant.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/sophie-davant.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "evelyne-dheliat",
+      "themeId": "personnes",
+      "label": "Évelyne Dhéliat",
+      "subject": "Évelyne Dhéliat",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/evelyne-dheliat.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/evelyne-dheliat.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/evelyne-dheliat.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "valerie-damidot",
+      "themeId": "personnes",
+      "label": "Valérie Damidot",
+      "subject": "Valérie Damidot",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/valerie-damidot.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/valerie-damidot.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/valerie-damidot.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "frederic-lopez",
+      "themeId": "personnes",
+      "label": "Frédéric Lopez",
+      "subject": "Frédéric Lopez",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/frederic-lopez.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/frederic-lopez.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/frederic-lopez.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "camille-combal",
+      "themeId": "personnes",
+      "label": "Camille Combal",
+      "subject": "Camille Combal",
+      "color": "brown",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/camille-combal.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/camille-combal.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/camille-combal.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "cyril-feraud",
+      "themeId": "personnes",
+      "label": "Cyril Féraud",
+      "subject": "Cyril Féraud",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/cyril-feraud.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/cyril-feraud.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/cyril-feraud.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "cyril-hanouna",
+      "themeId": "personnes",
+      "label": "Cyril Hanouna",
+      "subject": "Cyril Hanouna",
+      "color": "black",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/cyril-hanouna.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/cyril-hanouna.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/cyril-hanouna.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "bruno-guillon",
+      "themeId": "personnes",
+      "label": "Bruno Guillon",
+      "subject": "Bruno Guillon",
+      "color": "grey",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/bruno-guillon.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/bruno-guillon.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/bruno-guillon.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "michel-cymes",
+      "themeId": "personnes",
+      "label": "Michel Cymes",
+      "subject": "Michel Cymes",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/michel-cymes.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/michel-cymes.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/michel-cymes.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "jamy-gourmaud",
+      "themeId": "personnes",
+      "label": "Jamy Gourmaud",
+      "subject": "Jamy Gourmaud",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jamy-gourmaud.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jamy-gourmaud.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jamy-gourmaud.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "fred-courant",
+      "themeId": "personnes",
+      "label": "Fred Courant",
+      "subject": "Fred Courant",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/fred-courant.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/fred-courant.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/fred-courant.png.",
+      "tags": [
+        "celebrites",
+        "television"
+      ]
+    },
+    {
+      "id": "alain-chabat",
+      "themeId": "personnes",
+      "label": "Alain Chabat",
+      "subject": "Alain Chabat",
+      "color": "grey",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/alain-chabat.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/alain-chabat.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/alain-chabat.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "jamel-debbouze",
+      "themeId": "personnes",
+      "label": "Jamel Debbouze",
+      "subject": "Jamel Debbouze",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jamel-debbouze.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jamel-debbouze.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jamel-debbouze.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "gad-elmaleh",
+      "themeId": "personnes",
+      "label": "Gad Elmaleh",
+      "subject": "Gad Elmaleh",
+      "color": "grey",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/gad-elmaleh.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/gad-elmaleh.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/gad-elmaleh.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "florence-foresti",
+      "themeId": "personnes",
+      "label": "Florence Foresti",
+      "subject": "Florence Foresti",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/florence-foresti.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/florence-foresti.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/florence-foresti.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "muriel-robin",
+      "themeId": "personnes",
+      "label": "Muriel Robin",
+      "subject": "Muriel Robin",
+      "color": "grey",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/muriel-robin.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/muriel-robin.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/muriel-robin.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "michele-laroque",
+      "themeId": "personnes",
+      "label": "Michèle Laroque",
+      "subject": "Michèle Laroque",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/michele-laroque.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/michele-laroque.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/michele-laroque.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "anne-roumanoff",
+      "themeId": "personnes",
+      "label": "Anne Roumanoff",
+      "subject": "Anne Roumanoff",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/anne-roumanoff.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/anne-roumanoff.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/anne-roumanoff.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "dany-boon",
+      "themeId": "personnes",
+      "label": "Dany Boon",
+      "subject": "Dany Boon",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/dany-boon.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/dany-boon.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/dany-boon.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "kad-merad",
+      "themeId": "personnes",
+      "label": "Kad Merad",
+      "subject": "Kad Merad",
+      "color": "grey",
+      "family": "chauve-barbe",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/kad-merad.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/kad-merad.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/kad-merad.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "franck-dubosc",
+      "themeId": "personnes",
+      "label": "Franck Dubosc",
+      "subject": "Franck Dubosc",
+      "color": "grey",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/franck-dubosc.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/franck-dubosc.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/franck-dubosc.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "elie-semoun",
+      "themeId": "personnes",
+      "label": "Élie Semoun",
+      "subject": "Élie Semoun",
+      "color": "grey",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/elie-semoun.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/elie-semoun.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/elie-semoun.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "kev-adams",
+      "themeId": "personnes",
+      "label": "Kev Adams",
+      "subject": "Kev Adams",
+      "color": "brown",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/kev-adams.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/kev-adams.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/kev-adams.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "fabrice-eboue",
+      "themeId": "personnes",
+      "label": "Fabrice Éboué",
+      "subject": "Fabrice Éboué",
+      "color": "brown",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/fabrice-eboue.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/fabrice-eboue.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/fabrice-eboue.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "blanche-gardin",
+      "themeId": "personnes",
+      "label": "Blanche Gardin",
+      "subject": "Blanche Gardin",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/blanche-gardin.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/blanche-gardin.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/blanche-gardin.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "francois-xavier-demaison",
+      "themeId": "personnes",
+      "label": "François-Xavier Demaison",
+      "subject": "François-Xavier Demaison",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/francois-xavier-demaison.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/francois-xavier-demaison.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/francois-xavier-demaison.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "jean-marie-bigard",
+      "themeId": "personnes",
+      "label": "Jean-Marie Bigard",
+      "subject": "Jean-Marie Bigard",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jean-marie-bigard.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jean-marie-bigard.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jean-marie-bigard.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "coluche",
+      "themeId": "personnes",
+      "label": "Coluche",
+      "subject": "Coluche",
+      "color": "brown",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/coluche.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/coluche.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/coluche.png.",
+      "tags": [
+        "celebrites",
+        "humour"
+      ]
+    },
+    {
+      "id": "pierre-richard",
+      "themeId": "personnes",
+      "label": "Pierre Richard",
+      "subject": "Pierre Richard",
+      "color": "white",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/pierre-richard.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/pierre-richard.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/pierre-richard.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "daniel-auteuil",
+      "themeId": "personnes",
+      "label": "Daniel Auteuil",
+      "subject": "Daniel Auteuil",
+      "color": "grey",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/daniel-auteuil.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/daniel-auteuil.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/daniel-auteuil.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "christian-clavier",
+      "themeId": "personnes",
+      "label": "Christian Clavier",
+      "subject": "Christian Clavier",
+      "color": "grey",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/christian-clavier.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/christian-clavier.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/christian-clavier.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "gerard-jugnot",
+      "themeId": "personnes",
+      "label": "Gérard Jugnot",
+      "subject": "Gérard Jugnot",
+      "color": "grey",
+      "family": "moustache",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/gerard-jugnot.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/gerard-jugnot.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/gerard-jugnot.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "thierry-lhermitte",
+      "themeId": "personnes",
+      "label": "Thierry Lhermitte",
+      "subject": "Thierry Lhermitte",
+      "color": "grey",
+      "family": "cheveux-gris",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/thierry-lhermitte.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/thierry-lhermitte.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/thierry-lhermitte.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "josiane-balasko",
+      "themeId": "personnes",
+      "label": "Josiane Balasko",
+      "subject": "Josiane Balasko",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/josiane-balasko.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/josiane-balasko.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/josiane-balasko.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "isabelle-adjani",
+      "themeId": "personnes",
+      "label": "Isabelle Adjani",
+      "subject": "Isabelle Adjani",
+      "color": "black",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/isabelle-adjani.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/isabelle-adjani.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/isabelle-adjani.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "isabelle-huppert",
+      "themeId": "personnes",
+      "label": "Isabelle Huppert",
+      "subject": "Isabelle Huppert",
+      "color": "orange",
+      "family": "roux",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/isabelle-huppert.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/isabelle-huppert.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/isabelle-huppert.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "jean-paul-belmondo",
+      "themeId": "personnes",
+      "label": "Jean-Paul Belmondo",
+      "subject": "Jean-Paul Belmondo",
+      "color": "grey",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jean-paul-belmondo.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jean-paul-belmondo.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jean-paul-belmondo.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "alain-delon",
+      "themeId": "personnes",
+      "label": "Alain Delon",
+      "subject": "Alain Delon",
+      "color": "brown",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/alain-delon.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/alain-delon.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/alain-delon.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "gilles-lellouche",
+      "themeId": "personnes",
+      "label": "Gilles Lellouche",
+      "subject": "Gilles Lellouche",
+      "color": "brown",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/gilles-lellouche.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/gilles-lellouche.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/gilles-lellouche.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "francois-cluzet",
+      "themeId": "personnes",
+      "label": "François Cluzet",
+      "subject": "François Cluzet",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/francois-cluzet.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/francois-cluzet.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/francois-cluzet.png.",
+      "tags": [
+        "celebrites",
+        "cinema"
+      ]
+    },
+    {
+      "id": "julien-dore",
+      "themeId": "personnes",
+      "label": "Julien Doré",
+      "subject": "Julien Doré",
+      "color": "yellow",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/julien-dore.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/julien-dore.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/julien-dore.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "florent-pagny",
+      "themeId": "personnes",
+      "label": "Florent Pagny",
+      "subject": "Florent Pagny",
+      "color": "grey",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/florent-pagny.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/florent-pagny.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/florent-pagny.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "patrick-bruel",
+      "themeId": "personnes",
+      "label": "Patrick Bruel",
+      "subject": "Patrick Bruel",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/patrick-bruel.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/patrick-bruel.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/patrick-bruel.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "jean-jacques-goldman",
+      "themeId": "personnes",
+      "label": "Jean-Jacques Goldman",
+      "subject": "Jean-Jacques Goldman",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/jean-jacques-goldman.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/jean-jacques-goldman.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/jean-jacques-goldman.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "johnny-hallyday",
+      "themeId": "personnes",
+      "label": "Johnny Hallyday",
+      "subject": "Johnny Hallyday",
+      "color": "yellow",
+      "family": "cheveux-coiffes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/johnny-hallyday.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/johnny-hallyday.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/johnny-hallyday.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "mylene-farmer",
+      "themeId": "personnes",
+      "label": "Mylène Farmer",
+      "subject": "Mylène Farmer",
+      "color": "orange",
+      "family": "roux",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/mylene-farmer.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/mylene-farmer.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/mylene-farmer.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "pascal-obispo",
+      "themeId": "personnes",
+      "label": "Pascal Obispo",
+      "subject": "Pascal Obispo",
+      "color": "black",
+      "family": "chauve-barbe",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/pascal-obispo.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/pascal-obispo.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/pascal-obispo.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "francis-cabrel",
+      "themeId": "personnes",
+      "label": "Francis Cabrel",
+      "subject": "Francis Cabrel",
+      "color": "brown",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/francis-cabrel.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/francis-cabrel.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/francis-cabrel.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "zazie",
+      "themeId": "personnes",
+      "label": "Zazie",
+      "subject": "Zazie",
+      "color": "grey",
+      "family": "celebrites",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait non créé : demande refusée par l’outil image_gen le 9 octobre 2026. Fiche conservée en brouillon.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "vitaa",
+      "themeId": "personnes",
+      "label": "Vitaa",
+      "subject": "Vitaa",
+      "color": "brown",
+      "family": "cheveux-longs",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/vitaa.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/vitaa.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/vitaa.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "slimane",
+      "themeId": "personnes",
+      "label": "Slimane",
+      "subject": "Slimane",
+      "color": "black",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/slimane.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/slimane.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/slimane.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "soprano",
+      "themeId": "personnes",
+      "label": "Soprano",
+      "subject": "Soprano",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/soprano.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/soprano.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/soprano.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "gims",
+      "themeId": "personnes",
+      "label": "Gims",
+      "subject": "Gims",
+      "color": "black",
+      "family": "lunettes",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/gims.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/gims.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/gims.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "stromae",
+      "themeId": "personnes",
+      "label": "Stromae",
+      "subject": "Stromae",
+      "color": "brown",
+      "family": "cheveux-boucles",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/stromae.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/stromae.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/stromae.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "angele",
+      "themeId": "personnes",
+      "label": "Angèle",
+      "subject": "Angèle",
+      "color": "yellow",
+      "family": "cheveux-blonds",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/angele.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/angele.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/angele.png.",
+      "tags": [
+        "celebrites",
+        "musique"
+      ]
+    },
+    {
+      "id": "kylian-mbappe",
+      "themeId": "personnes",
+      "label": "Kylian Mbappé",
+      "subject": "Kylian Mbappé",
+      "color": "black",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/kylian-mbappe.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/kylian-mbappe.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/kylian-mbappe.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "antoine-griezmann",
+      "themeId": "personnes",
+      "label": "Antoine Griezmann",
+      "subject": "Antoine Griezmann",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/antoine-griezmann.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/antoine-griezmann.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/antoine-griezmann.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "tony-parker",
+      "themeId": "personnes",
+      "label": "Tony Parker",
+      "subject": "Tony Parker",
+      "color": "black",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/tony-parker.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/tony-parker.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/tony-parker.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "teddy-riner",
+      "themeId": "personnes",
+      "label": "Teddy Riner",
+      "subject": "Teddy Riner",
+      "color": "black",
+      "family": "barbe-courte",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/teddy-riner.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/teddy-riner.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/teddy-riner.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "antoine-dupont",
+      "themeId": "personnes",
+      "label": "Antoine Dupont",
+      "subject": "Antoine Dupont",
+      "color": "brown",
+      "family": "cheveux-courts",
+      "status": "ready",
+      "source": "/assets/images/characters/celebrities/antoine-dupont.png",
+      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/antoine-dupont.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/antoine-dupont.png.",
+      "tags": [
+        "celebrites",
+        "sport"
+      ]
+    },
+    {
+      "id": "kangourou-roux",
+      "themeId": "animaux",
+      "label": "Kangourou roux",
+      "subject": "Kangourou roux",
+      "color": "orange",
+      "family": "roux",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/kangourou-roux.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/kangourou-roux.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/kangourou-roux.png.",
+      "species": "kangourou",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "australie"
+      ]
+    },
+    {
+      "id": "wombat",
+      "themeId": "animaux",
+      "label": "Wombat",
+      "subject": "Wombat",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/wombat.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/wombat.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/wombat.png.",
+      "species": "wombat",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "australie"
+      ]
+    },
+    {
+      "id": "ornithorynque",
+      "themeId": "animaux",
+      "label": "Ornithorynque",
+      "subject": "Ornithorynque",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ornithorynque.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/ornithorynque.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/ornithorynque.png.",
+      "species": "ornithorynque",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "australie"
+      ]
+    },
+    {
+      "id": "echidne",
+      "themeId": "animaux",
+      "label": "Échidné",
+      "subject": "Échidné",
+      "color": "brown",
+      "family": "piquants",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/echidne.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/echidne.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/echidne.png.",
+      "species": "echidne",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "australie"
+      ]
+    },
+    {
+      "id": "diable-de-tasmanie",
+      "themeId": "animaux",
+      "label": "Diable de Tasmanie",
+      "subject": "Diable de Tasmanie",
+      "color": "black",
+      "family": "noir",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/diable-de-tasmanie.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/diable-de-tasmanie.edit.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/diable-de-tasmanie-v2.png.",
+      "species": "diable-de-tasmanie",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "brown",
+        "pink"
+      ],
+      "tags": [
+        "sauvages",
+        "australie"
+      ]
+    },
+    {
+      "id": "dingo",
+      "themeId": "animaux",
+      "label": "Dingo",
+      "subject": "Dingo",
+      "color": "orange",
+      "family": "canide",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/dingo.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/dingo.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/dingo.png.",
+      "species": "dingo",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "white",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "canides",
+        "australie"
+      ]
+    },
+    {
+      "id": "quokka",
+      "themeId": "animaux",
+      "label": "Quokka",
+      "subject": "Quokka",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/quokka.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/quokka.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/quokka.png.",
+      "species": "quokka",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "australie"
+      ]
+    },
+    {
+      "id": "fennec",
+      "themeId": "animaux",
+      "label": "Fennec",
+      "subject": "Fennec",
+      "color": "yellow",
+      "family": "canide",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/fennec.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/fennec.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/fennec.png.",
+      "species": "fennec",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "white",
+        "pink"
+      ],
+      "tags": [
+        "sauvages",
+        "canides",
+        "desert"
+      ]
+    },
+    {
+      "id": "dromadaire",
+      "themeId": "animaux",
+      "label": "Dromadaire",
+      "subject": "Dromadaire",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/dromadaire.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/dromadaire.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/dromadaire.png.",
+      "species": "dromadaire",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white",
+        "orange"
+      ],
+      "tags": [
+        "sauvages",
+        "desert"
+      ]
+    },
+    {
+      "id": "chameau-de-bactriane",
+      "themeId": "animaux",
+      "label": "Chameau de Bactriane",
+      "subject": "Chameau de Bactriane",
+      "color": "brown",
+      "family": "brun",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chameau-de-bactriane.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/chameau-de-bactriane.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/chameau-de-bactriane.png.",
+      "species": "chameau",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "orange",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "desert"
+      ]
+    },
+    {
+      "id": "baleine-bleue",
+      "themeId": "ocean",
+      "label": "Baleine bleue",
+      "subject": "Baleine bleue",
+      "color": "blue",
+      "family": "cetace",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/baleine-bleue.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/baleine-bleue.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/baleine-bleue.png.",
+      "species": "baleine",
+      "breed": "",
+      "dominantColors": [
+        "blue",
+        "grey",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "poisson-clown",
+      "themeId": "ocean",
+      "label": "Poisson-clown",
+      "subject": "Poisson-clown",
+      "color": "orange",
+      "family": "poisson",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/poisson-clown.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/poisson-clown.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/poisson-clown.png.",
+      "species": "poisson-clown",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "meduse",
+      "themeId": "ocean",
+      "label": "Méduse",
+      "subject": "Méduse",
+      "color": "pink",
+      "family": "tentacules",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/meduse.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/meduse.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/meduse.png.",
+      "species": "meduse",
+      "breed": "",
+      "dominantColors": [
+        "pink",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean",
+        "invertebres"
+      ]
+    },
+    {
+      "id": "calamar",
+      "themeId": "ocean",
+      "label": "Calamar",
+      "subject": "Calamar",
+      "color": "orange",
+      "family": "tentacules",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/calamar.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/calamar.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/calamar.png.",
+      "species": "calamar",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean",
+        "invertebres"
+      ]
+    },
+    {
+      "id": "seiche",
+      "themeId": "ocean",
+      "label": "Seiche",
+      "subject": "Seiche",
+      "color": "brown",
+      "family": "tentacules",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/seiche.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/seiche.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/seiche.png.",
+      "species": "seiche",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean",
+        "invertebres"
+      ]
+    },
+    {
+      "id": "murene",
+      "themeId": "ocean",
+      "label": "Murène",
+      "subject": "Murène",
+      "color": "green",
+      "family": "poisson",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/murene.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/murene.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/murene.png.",
+      "species": "murene",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "yellow",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "poisson-lune",
+      "themeId": "ocean",
+      "label": "Poisson-lune",
+      "subject": "Poisson-lune",
+      "color": "grey",
+      "family": "poisson",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/poisson-lune.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/poisson-lune.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/poisson-lune.png.",
+      "species": "poisson-lune",
+      "breed": "",
+      "dominantColors": [
+        "grey",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "poisson-chirurgien-bleu",
+      "themeId": "ocean",
+      "label": "Poisson-chirurgien bleu",
+      "subject": "Poisson-chirurgien bleu",
+      "color": "blue",
+      "family": "poisson",
+      "status": "draft",
+      "source": null,
+      "notes": "Portrait refusé par image_gen le 9 octobre 2026. Fiche conservée en brouillon, sans image publiée.",
+      "species": "poisson-chirurgien",
+      "breed": "",
+      "dominantColors": [
+        "blue"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "lamantin",
+      "themeId": "ocean",
+      "label": "Lamantin",
+      "subject": "Lamantin",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/lamantin.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/lamantin.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/lamantin.png.",
+      "species": "lamantin",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "dugong",
+      "themeId": "ocean",
+      "label": "Dugong",
+      "subject": "Dugong",
+      "color": "grey",
+      "family": "gris",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/dugong.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/dugong.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/dugong.png.",
+      "species": "dugong",
+      "breed": "",
+      "dominantColors": [
+        "grey"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
+      ]
+    },
+    {
+      "id": "abeille",
+      "themeId": "animaux",
+      "label": "Abeille",
+      "subject": "Abeille",
+      "color": "yellow",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/abeille.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/abeille.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/abeille.png.",
+      "species": "abeille",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "black",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "bourdon",
+      "themeId": "animaux",
+      "label": "Bourdon",
+      "subject": "Bourdon",
+      "color": "black",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/bourdon.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/bourdon.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/bourdon.png.",
+      "species": "bourdon",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "yellow",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "coccinelle",
+      "themeId": "animaux",
+      "label": "Coccinelle",
+      "subject": "Coccinelle",
+      "color": "red",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/coccinelle.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/coccinelle.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/coccinelle.png.",
+      "species": "coccinelle",
+      "breed": "",
+      "dominantColors": [
+        "red",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "papillon-monarque",
+      "themeId": "animaux",
+      "label": "Papillon monarque",
+      "subject": "Papillon monarque",
+      "color": "orange",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/papillon-monarque.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/papillon-monarque.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/papillon-monarque.png.",
+      "species": "papillon",
+      "breed": "",
+      "dominantColors": [
+        "orange",
+        "black",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "mante-religieuse",
+      "themeId": "animaux",
+      "label": "Mante religieuse",
+      "subject": "Mante religieuse",
+      "color": "green",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/mante-religieuse.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/mante-religieuse.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/mante-religieuse.png.",
+      "species": "mante",
+      "breed": "",
+      "dominantColors": [
+        "green",
+        "yellow"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "libellule",
+      "themeId": "animaux",
+      "label": "Libellule",
+      "subject": "Libellule",
+      "color": "blue",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/libellule.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/libellule.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/libellule.png.",
+      "species": "libellule",
+      "breed": "",
+      "dominantColors": [
+        "blue",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "fourmi",
+      "themeId": "animaux",
+      "label": "Fourmi",
+      "subject": "Fourmi",
+      "color": "brown",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/fourmi.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/fourmi-final.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/fourmi.png.",
+      "species": "fourmi",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "red",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "scarabee-rhinoceros",
+      "themeId": "animaux",
+      "label": "Scarabée rhinocéros",
+      "subject": "Scarabée rhinocéros",
+      "color": "brown",
+      "family": "insecte",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/scarabee-rhinoceros.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/scarabee-rhinoceros.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/scarabee-rhinoceros.png.",
+      "species": "scarabee",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "insectes",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "escargot",
+      "themeId": "animaux",
+      "label": "Escargot",
+      "subject": "Escargot",
+      "color": "brown",
+      "family": "coquille",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/escargot.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/escargot.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/escargot.png.",
+      "species": "escargot",
+      "breed": "",
+      "dominantColors": [
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "araignee-sauteuse",
+      "themeId": "animaux",
+      "label": "Araignée sauteuse",
+      "subject": "Araignée sauteuse",
+      "color": "black",
+      "family": "arachnide",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/araignee-sauteuse.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/araignee-sauteuse.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/araignee-sauteuse.png.",
+      "species": "araignee",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "grey",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "arachnides",
+        "invertebres",
+        "foret"
+      ]
+    },
+    {
+      "id": "chimpanze",
+      "themeId": "animaux",
+      "label": "Chimpanzé",
+      "subject": "Chimpanzé",
+      "color": "black",
+      "family": "primate",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/chimpanze.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/chimpanze.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/chimpanze.png.",
+      "species": "chimpanze",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "primates",
+        "jungle"
+      ]
+    },
+    {
+      "id": "gibbon",
+      "themeId": "animaux",
+      "label": "Gibbon",
+      "subject": "Gibbon",
+      "color": "yellow",
+      "family": "primate",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/gibbon.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/gibbon.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/gibbon.png.",
+      "species": "gibbon",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "primates",
+        "jungle"
+      ]
+    },
+    {
+      "id": "jaguar",
+      "themeId": "animaux",
+      "label": "Jaguar",
+      "subject": "Jaguar",
+      "color": "yellow",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/jaguar.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/jaguar.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/jaguar.png.",
+      "species": "jaguar",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "black",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "felins",
+        "jungle"
+      ]
+    },
+    {
+      "id": "ocelot",
+      "themeId": "animaux",
+      "label": "Ocelot",
+      "subject": "Ocelot",
+      "color": "yellow",
+      "family": "tachete",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/ocelot.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/ocelot.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/ocelot.png.",
+      "species": "ocelot",
+      "breed": "",
+      "dominantColors": [
+        "yellow",
+        "black",
+        "white"
+      ],
+      "tags": [
+        "sauvages",
+        "felins",
+        "jungle"
+      ]
+    },
+    {
+      "id": "salamandre-tachetee",
+      "themeId": "animaux",
+      "label": "Salamandre tachetée",
+      "subject": "Salamandre tachetée",
+      "color": "black",
+      "family": "amphibien",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/salamandre-tachetee.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/salamandre-tachetee.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/salamandre-tachetee.png.",
+      "species": "salamandre",
+      "breed": "",
+      "dominantColors": [
+        "black",
+        "yellow"
+      ],
+      "tags": [
+        "sauvages",
+        "amphibiens",
+        "foret"
+      ]
+    },
+    {
+      "id": "triton-crete",
+      "themeId": "animaux",
+      "label": "Triton crêté",
+      "subject": "Triton crêté",
+      "color": "brown",
+      "family": "amphibien",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/triton-crete.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/triton-crete.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/triton-crete.png.",
+      "species": "triton",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "orange"
+      ],
+      "tags": [
+        "sauvages",
+        "amphibiens",
+        "foret"
+      ]
+    },
+    {
+      "id": "crapaud-commun",
+      "themeId": "animaux",
+      "label": "Crapaud commun",
+      "subject": "Crapaud commun",
+      "color": "brown",
+      "family": "amphibien",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/crapaud-commun.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/crapaud-commun.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/crapaud-commun.png.",
+      "species": "crapaud",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "orange"
+      ],
+      "tags": [
+        "sauvages",
+        "amphibiens",
+        "foret"
+      ]
+    },
+    {
+      "id": "harfang-des-neiges",
+      "themeId": "animaux",
+      "label": "Harfang des neiges",
+      "subject": "Harfang des neiges",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/harfang-des-neiges.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/harfang-des-neiges.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/harfang-des-neiges.png.",
+      "species": "harfang",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "grey",
+        "yellow"
+      ],
+      "tags": [
+        "sauvages",
+        "oiseaux",
+        "polaires"
+      ]
+    },
+    {
+      "id": "boeuf-musque",
+      "themeId": "animaux",
+      "label": "Bœuf musqué",
+      "subject": "Bœuf musqué",
+      "color": "brown",
+      "family": "cornes",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/boeuf-musque.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/boeuf-musque.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/boeuf-musque.png.",
+      "species": "boeuf-musque",
+      "breed": "",
+      "dominantColors": [
+        "brown",
+        "white",
+        "black"
+      ],
+      "tags": [
+        "sauvages",
+        "polaires"
+      ]
+    },
+    {
+      "id": "lagopede-alpin",
+      "themeId": "animaux",
+      "label": "Lagopède alpin",
+      "subject": "Lagopède alpin",
+      "color": "white",
+      "family": "blanc",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/lagopede-alpin.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition tête frontale seule. Prompt : content/sprites/animal-gaps/lagopede-alpin.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/lagopede-alpin.png.",
+      "species": "lagopede",
+      "breed": "",
+      "dominantColors": [
+        "white",
+        "black",
+        "red"
+      ],
+      "tags": [
+        "sauvages",
+        "oiseaux",
+        "polaires"
+      ]
+    },
+    {
+      "id": "poisson-lion",
+      "themeId": "ocean",
+      "label": "Poisson-lion",
+      "subject": "Poisson-lion",
+      "color": "red",
+      "family": "poisson",
+      "status": "ready",
+      "source": "/assets/images/characters/animals/poisson-lion.png",
+      "notes": "Espèce complémentaire créée le 9 octobre 2026 avec image_gen intégré. PNG transparent 512 × 512, composition compacte anatomique. Prompt : content/sprites/animal-gaps/poisson-lion.prompt.txt. Original : artifacts/sprite-originals/animal-gaps-2026-10-09/poisson-lion.png.",
+      "species": "poisson-lion",
+      "breed": "",
+      "dominantColors": [
+        "red",
+        "white",
+        "brown"
+      ],
+      "tags": [
+        "sauvages",
+        "ocean"
       ]
     }
   ]

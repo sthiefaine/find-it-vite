@@ -19,6 +19,7 @@ const personGroups = [
   { id: "tous", theme: "personnages", label: "Tous" },
   { id: "politique", theme: "politique", label: "Politique" },
   { id: "histoire", theme: "histoire", label: "Histoire" },
+  { id: "celebrites", theme: "personnes", label: "Célébrités" },
 ] as const;
 const countryFlags = { fr: "🇫🇷", br: "🇧🇷", us: "🇺🇸" };
 
@@ -28,8 +29,10 @@ const themePreviews = new Map(PLAY_THEMES.map(theme => {
   const first = pool.find(character => character.imageSrc === theme.preview);
   const portraits: CharacterDetails[] = first ? [first] : [];
   if (theme.id === "personnages" && first) {
-    const otherCollection = pool.find(character => character.serie !== first.serie);
-    if (otherCollection) portraits.push(otherCollection);
+    for (const character of pool) {
+      if (portraits.length === 3) break;
+      if (!portraits.some(portrait => portrait.serie === character.serie)) portraits.push(character);
+    }
   }
   for (const character of pool) {
     if (portraits.length === 3) break;
@@ -57,7 +60,7 @@ function ThemePortraits({ theme, save }: { theme: PlayTheme; save: Save }) {
 }
 
 function albumLink(theme: PlayTheme) {
-  const collection = theme.family === "personnages" ? theme.group : "animaux";
+  const collection = theme.id === "personnes" ? "personnes" : theme.family === "personnages" ? theme.group : "animaux";
   const params = new URLSearchParams({ collection: collection ?? "animaux" });
   if (theme.family === "animaux" && theme.id !== "animaux") params.set("category", theme.id);
   if (theme.group === "histoire" && theme.region) params.set("category", theme.region);
@@ -69,7 +72,7 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
   const save = useSaveStore((state) => state.save);
   const loaded = useSaveStore((state) => state.loaded);
   const navigate = useNavigate();
-  const options = themeOptions(mode, save).filter(({ theme }) => theme.id !== "personnes");
+  const options = themeOptions(mode, save);
   const initialTheme = options.find(({ theme }) => theme.id === playThemeFromSearch(search))!.theme;
   const [family, setFamily] = useState<ThemeFamilyId>(initialTheme.family);
   const [selections, setSelections] = useState<Record<ThemeFamilyId, PlayThemeId>>(() => ({
@@ -130,7 +133,7 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
           </button>)}
         </div> : null}
 
-        {family !== "drapeaux" && !(family === "personnages" && group === "tous") ? <div className={`play-subthemes play-subthemes--${family}`} role="group"
+        {family !== "drapeaux" && !(family === "personnages" && (group === "tous" || group === "celebrites")) ? <div className={`play-subthemes play-subthemes--${family}`} role="group"
           aria-label={tr(family === "animaux" ? "Habitats" : "Pays")}>
           {visibleOptions.map(({ theme: option, enabled: playable }) => <button
             type="button" key={option.id} aria-pressed={theme.id === option.id} onClick={() => selectTheme(option.id)}
@@ -169,7 +172,7 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
 
         <p className="play-setup-hint">
           {theme.comingSoon ? tr("Bientôt") : theme.id === "personnages"
-            ? tr("Tous tes personnages débloqués, de la politique à l’histoire.") : family === "personnages"
+            ? tr("Tous tes personnages débloqués.") : family === "personnages"
             ? tr("12 personnages de départ. Débloque les autres avec tes étoiles dans l’album.")
             : family === "drapeaux"
             ? tr("Tous les drapeaux sont disponibles dès le départ, sans accessoires.")

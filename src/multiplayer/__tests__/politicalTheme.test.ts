@@ -23,9 +23,13 @@ describe.each([["politique", peoplePack], ["histoire", historyPack]] as const)("
 });
 
 describe("catalogues communs des salons", () => {
-  it("utilise les 19 sprites marins publiés, comme la sélection de thème", () => {
+  it("utilise les 29 portraits marins publiés, comme la sélection de thème", () => {
     const ocean = multiplayerPool("ocean");
-    expect(ocean).toHaveLength(19);
+    expect(ocean).toHaveLength(29);
+    expect(ocean.map(character => character.name)).toEqual(expect.arrayContaining([
+      "baleine-bleue", "poisson-clown", "meduse", "calamar", "seiche",
+      "murene", "poisson-lune", "poisson-lion", "lamantin", "dugong",
+    ]));
     expect(ocean).toEqual(playThemePool("duel", "ocean", defaultSave()));
     expect(ocean.every(character => !character.emoji && character.tags?.includes("ocean") && character.imageSrc.startsWith("/assets/images/characters/animals/"))).toBe(true);
     const spec = multiplayerLevel(1, 42, "ocean");

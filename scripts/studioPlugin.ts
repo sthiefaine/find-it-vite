@@ -51,6 +51,7 @@ export function createStudioStore(root: string) {
   const manifestFile = path.join(root, "src/content/publishedAnimals.json");
   const peopleManifestFile = path.join(root, "src/content/publishedPeople.json");
   const historyManifestFile = path.join(root, "src/content/publishedHistory.json");
+  const celebritiesManifestFile = path.join(root, "src/content/publishedCelebrities.json");
   async function publishedExtra(file: string): Promise<PublishedCharacter[]> {
     try { return JSON.parse(await readFile(file, "utf8")); }
     catch (error) { if ((error as NodeJS.ErrnoException).code === "ENOENT") return []; throw error; }
@@ -87,8 +88,8 @@ export function createStudioStore(root: string) {
         try { return await info(source); } catch { return { source, width: 0, height: 0, transparent: false }; }
       }));
       const published: PublishedCharacter[] = JSON.parse(await readFile(manifestFile, "utf8"));
-      const [people, history] = await Promise.all([publishedExtra(peopleManifestFile), publishedExtra(historyManifestFile)]);
-      return { catalog, assets, published: [...published, ...people, ...history] };
+      const [people, history, celebrities] = await Promise.all([publishedExtra(peopleManifestFile), publishedExtra(historyManifestFile), publishedExtra(celebritiesManifestFile)]);
+      return { catalog, assets, published: [...published, ...people, ...history, ...celebrities] };
     },
     save(input: unknown) {
       return serialize(async () => {
@@ -135,12 +136,13 @@ export function createStudioStore(root: string) {
             await copyFile(file, destination);
           }
           const category = categories.get(sprite.themeId);
-          const serie = category === "politics" ? "politics" : category === "history" ? "history" : "animal";
+          const serie = category === "politics" ? "politics" : category === "history" ? "history" : category === "people" ? "celebrity" : "animal";
           published.push({ name: sprite.id, label: sprite.label, imageSrc, serie, color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite) });
         }
         await atomicJson(manifestFile, published.filter((character) => character.serie === "animal"));
         await atomicJson(peopleManifestFile, published.filter((character) => character.serie === "politics"));
         await atomicJson(historyManifestFile, published.filter((character) => character.serie === "history"));
+        await atomicJson(celebritiesManifestFile, published.filter((character) => character.serie === "celebrity"));
         return published;
       });
     },

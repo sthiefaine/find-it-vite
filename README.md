@@ -306,11 +306,31 @@ Utilisez Node 22 (`nvm use`) et pnpm 10 (`corepack enable`).
 ## Atelier local des sprites
 
 Lancer `pnpm studio`, puis ouvrir `http://127.0.0.1:5174/studio.html`.
+
+Le thème **Célébrités** contient 150 fiches sans influenceurs : cinéma,
+télévision, cuisine, humour, musique et sport, dont Philippe Etchebest et
+Jean-Luc Reichmann. Les portraits générés et validés rejoignent l’album, l’Infini
+et le Duel ; les fiches sans image restent en brouillon dans l’atelier. Douze
+célébrités sont offertes au départ, les autres se débloquent avec des étoiles.
+Les PNG transparents 512 × 512 sont dans `public/assets/images/characters/celebrities/`,
+les prompts exacts dans `content/sprites/celebrities/`, la charte dans
+`content/sprites/celebrities-style.prompt.txt` et le manifeste dans
+`src/content/publishedCelebrities.json`.
+
+La collection animale comprend 40 espèces complémentaires pour l’Australie,
+le désert, la vie marine, les insectes, les amphibiens et les régions froides.
+Les invertébrés utilisent une silhouette compacte lorsque leur tête seule ne
+permet pas de les reconnaître. Les nouveaux filtres de l’album sont traduits,
+et les catégories polaires et jungle incluent également les portraits existants
+qui y correspondent. Prompts : `content/sprites/animal-gaps/` ; charte :
+`content/sprites/animal-gaps-style.prompt.txt`. Les images rejoignent le manifeste
+animal existant et suivent ses règles de déblocage.
+
 Le backoffice est local : il n’est pas inclus dans le site de production ni dans l’APK.
 Il n’utilise pas de compte, de serveur distant ou de clé d’API.
 
-1. Choisir ou créer un thème. Animaux, vie marine, politique et histoire alimentent le jeu ;
-   personnes, drapeaux et imaginaire restent des collections « pour le fun ».
+1. Choisir ou créer un thème. Animaux, vie marine, politique, histoire et célébrités
+   alimentent le jeu ; l’imaginaire reste une collection de l’atelier.
 2. Ajouter un sprite, renseigner son nom, le sujet du prompt, son espèce et sa
    race/variété, ses couleurs dominantes, ses catégories et sa famille visuelle.
    Le prompt reprend l’espèce, la variété et la palette choisies. Essayer les cinq
@@ -322,7 +342,7 @@ Il n’utilise pas de compte, de serveur distant ou de clé d’API.
 4. Importer un PNG ou WebP (8 Mo et 4096 × 4096 pixels maximum), comparer sur les fonds
    clair/sombre/damier et dans l’aperçu à 45 pixels. Enregistrer en brouillon ou validé.
 5. Cliquer sur **Mettre à jour le jeu**. Les portraits validés des thèmes animaliers
-   politiques et historiques sont exportés vers leurs manifestes respectifs.
+   politiques, historiques et de célébrités sont exportés vers leurs manifestes respectifs.
    Les images du jeu doivent être carrées, transparentes, mesurer au moins 128 pixels
    et peser au maximum 5 Mo. Au moins 5 personnages sont requis.
 6. Tester dans le navigateur, puis refaire `pnpm android:debug` pour embarquer les images

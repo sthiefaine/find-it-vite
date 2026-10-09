@@ -380,7 +380,8 @@
     ],
     "tags": [
       "sauvages",
-      "foret"
+      "foret",
+      "australie"
     ]
   },
   {
@@ -529,7 +530,8 @@
     ],
     "tags": [
       "sauvages",
-      "foret"
+      "foret",
+      "jungle"
     ]
   },
   {
@@ -1291,7 +1293,8 @@
     ],
     "tags": [
       "ocean",
-      "sauvages"
+      "sauvages",
+      "polaires"
     ]
   },
   {
@@ -1309,7 +1312,8 @@
     ],
     "tags": [
       "ocean",
-      "sauvages"
+      "sauvages",
+      "polaires"
     ]
   },
   {
@@ -1403,7 +1407,8 @@
     "tags": [
       "ocean",
       "sauvages",
-      "oiseaux"
+      "oiseaux",
+      "polaires"
     ]
   },
   {
@@ -1420,7 +1425,8 @@
     ],
     "tags": [
       "ocean",
-      "sauvages"
+      "sauvages",
+      "polaires"
     ]
   },
   {
@@ -1439,7 +1445,8 @@
     ],
     "tags": [
       "oiseaux",
-      "domestiques"
+      "domestiques",
+      "jungle"
     ]
   },
   {
@@ -1458,7 +1465,8 @@
     ],
     "tags": [
       "oiseaux",
-      "sauvages"
+      "sauvages",
+      "jungle"
     ]
   },
   {
@@ -1477,7 +1485,8 @@
     ],
     "tags": [
       "oiseaux",
-      "domestiques"
+      "domestiques",
+      "jungle"
     ]
   },
   {
@@ -1496,7 +1505,8 @@
     ],
     "tags": [
       "oiseaux",
-      "domestiques"
+      "domestiques",
+      "jungle"
     ]
   },
   {
@@ -1633,7 +1643,8 @@
     "tags": [
       "oiseaux",
       "sauvages",
-      "ocean"
+      "ocean",
+      "polaires"
     ]
   },
   {
@@ -1690,7 +1701,8 @@
     ],
     "tags": [
       "reptiles",
-      "sauvages"
+      "sauvages",
+      "jungle"
     ]
   },
   {
@@ -2636,6 +2648,778 @@
       "ocean",
       "sauvages",
       "polaires"
+    ]
+  },
+  {
+    "name": "kangourou-roux",
+    "label": "Kangourou roux",
+    "imageSrc": "/assets/images/characters/animals/kangourou-roux.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "roux",
+    "species": "kangourou",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "australie"
+    ]
+  },
+  {
+    "name": "wombat",
+    "label": "Wombat",
+    "imageSrc": "/assets/images/characters/animals/wombat.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "wombat",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "australie"
+    ]
+  },
+  {
+    "name": "ornithorynque",
+    "label": "Ornithorynque",
+    "imageSrc": "/assets/images/characters/animals/ornithorynque.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "ornithorynque",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "australie"
+    ]
+  },
+  {
+    "name": "echidne",
+    "label": "Échidné",
+    "imageSrc": "/assets/images/characters/animals/echidne.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "piquants",
+    "species": "echidne",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "australie"
+    ]
+  },
+  {
+    "name": "diable-de-tasmanie",
+    "label": "Diable de Tasmanie",
+    "imageSrc": "/assets/images/characters/animals/diable-de-tasmanie.png",
+    "serie": "animal",
+    "color": "black",
+    "family": "noir",
+    "species": "diable-de-tasmanie",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "sauvages",
+      "australie"
+    ]
+  },
+  {
+    "name": "dingo",
+    "label": "Dingo",
+    "imageSrc": "/assets/images/characters/animals/dingo.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "canide",
+    "species": "dingo",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "white",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "canides",
+      "australie"
+    ]
+  },
+  {
+    "name": "quokka",
+    "label": "Quokka",
+    "imageSrc": "/assets/images/characters/animals/quokka.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "quokka",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "australie"
+    ]
+  },
+  {
+    "name": "fennec",
+    "label": "Fennec",
+    "imageSrc": "/assets/images/characters/animals/fennec.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "canide",
+    "species": "fennec",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "white",
+      "pink"
+    ],
+    "tags": [
+      "sauvages",
+      "canides",
+      "desert"
+    ]
+  },
+  {
+    "name": "dromadaire",
+    "label": "Dromadaire",
+    "imageSrc": "/assets/images/characters/animals/dromadaire.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "dromadaire",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white",
+      "orange"
+    ],
+    "tags": [
+      "sauvages",
+      "desert"
+    ]
+  },
+  {
+    "name": "chameau-de-bactriane",
+    "label": "Chameau de Bactriane",
+    "imageSrc": "/assets/images/characters/animals/chameau-de-bactriane.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "brun",
+    "species": "chameau",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "orange",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "desert"
+    ]
+  },
+  {
+    "name": "baleine-bleue",
+    "label": "Baleine bleue",
+    "imageSrc": "/assets/images/characters/animals/baleine-bleue.png",
+    "serie": "animal",
+    "color": "blue",
+    "family": "cetace",
+    "species": "baleine",
+    "breed": "",
+    "dominantColors": [
+      "blue",
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean"
+    ]
+  },
+  {
+    "name": "poisson-clown",
+    "label": "Poisson-clown",
+    "imageSrc": "/assets/images/characters/animals/poisson-clown.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "poisson",
+    "species": "poisson-clown",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean"
+    ]
+  },
+  {
+    "name": "meduse",
+    "label": "Méduse",
+    "imageSrc": "/assets/images/characters/animals/meduse.png",
+    "serie": "animal",
+    "color": "pink",
+    "family": "tentacules",
+    "species": "meduse",
+    "breed": "",
+    "dominantColors": [
+      "pink",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean",
+      "invertebres"
+    ]
+  },
+  {
+    "name": "calamar",
+    "label": "Calamar",
+    "imageSrc": "/assets/images/characters/animals/calamar.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "tentacules",
+    "species": "calamar",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean",
+      "invertebres"
+    ]
+  },
+  {
+    "name": "seiche",
+    "label": "Seiche",
+    "imageSrc": "/assets/images/characters/animals/seiche.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "tentacules",
+    "species": "seiche",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean",
+      "invertebres"
+    ]
+  },
+  {
+    "name": "murene",
+    "label": "Murène",
+    "imageSrc": "/assets/images/characters/animals/murene.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "poisson",
+    "species": "murene",
+    "breed": "",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean"
+    ]
+  },
+  {
+    "name": "poisson-lune",
+    "label": "Poisson-lune",
+    "imageSrc": "/assets/images/characters/animals/poisson-lune.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "poisson",
+    "species": "poisson-lune",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean"
+    ]
+  },
+  {
+    "name": "lamantin",
+    "label": "Lamantin",
+    "imageSrc": "/assets/images/characters/animals/lamantin.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "lamantin",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean"
+    ]
+  },
+  {
+    "name": "dugong",
+    "label": "Dugong",
+    "imageSrc": "/assets/images/characters/animals/dugong.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "gris",
+    "species": "dugong",
+    "breed": "",
+    "dominantColors": [
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean"
+    ]
+  },
+  {
+    "name": "abeille",
+    "label": "Abeille",
+    "imageSrc": "/assets/images/characters/animals/abeille.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "insecte",
+    "species": "abeille",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "black",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "bourdon",
+    "label": "Bourdon",
+    "imageSrc": "/assets/images/characters/animals/bourdon.png",
+    "serie": "animal",
+    "color": "black",
+    "family": "insecte",
+    "species": "bourdon",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "yellow",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "coccinelle",
+    "label": "Coccinelle",
+    "imageSrc": "/assets/images/characters/animals/coccinelle.png",
+    "serie": "animal",
+    "color": "red",
+    "family": "insecte",
+    "species": "coccinelle",
+    "breed": "",
+    "dominantColors": [
+      "red",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "papillon-monarque",
+    "label": "Papillon monarque",
+    "imageSrc": "/assets/images/characters/animals/papillon-monarque.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "insecte",
+    "species": "papillon",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "mante-religieuse",
+    "label": "Mante religieuse",
+    "imageSrc": "/assets/images/characters/animals/mante-religieuse.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "insecte",
+    "species": "mante",
+    "breed": "",
+    "dominantColors": [
+      "green",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "libellule",
+    "label": "Libellule",
+    "imageSrc": "/assets/images/characters/animals/libellule.png",
+    "serie": "animal",
+    "color": "blue",
+    "family": "insecte",
+    "species": "libellule",
+    "breed": "",
+    "dominantColors": [
+      "blue",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "fourmi",
+    "label": "Fourmi",
+    "imageSrc": "/assets/images/characters/animals/fourmi.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "insecte",
+    "species": "fourmi",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "red",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "scarabee-rhinoceros",
+    "label": "Scarabée rhinocéros",
+    "imageSrc": "/assets/images/characters/animals/scarabee-rhinoceros.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "insecte",
+    "species": "scarabee",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "insectes",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "escargot",
+    "label": "Escargot",
+    "imageSrc": "/assets/images/characters/animals/escargot.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "coquille",
+    "species": "escargot",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "araignee-sauteuse",
+    "label": "Araignée sauteuse",
+    "imageSrc": "/assets/images/characters/animals/araignee-sauteuse.png",
+    "serie": "animal",
+    "color": "black",
+    "family": "arachnide",
+    "species": "araignee",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "grey",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "arachnides",
+      "invertebres",
+      "foret"
+    ]
+  },
+  {
+    "name": "chimpanze",
+    "label": "Chimpanzé",
+    "imageSrc": "/assets/images/characters/animals/chimpanze.png",
+    "serie": "animal",
+    "color": "black",
+    "family": "primate",
+    "species": "chimpanze",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "primates",
+      "jungle"
+    ]
+  },
+  {
+    "name": "gibbon",
+    "label": "Gibbon",
+    "imageSrc": "/assets/images/characters/animals/gibbon.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "primate",
+    "species": "gibbon",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "primates",
+      "jungle"
+    ]
+  },
+  {
+    "name": "jaguar",
+    "label": "Jaguar",
+    "imageSrc": "/assets/images/characters/animals/jaguar.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "tachete",
+    "species": "jaguar",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "felins",
+      "jungle"
+    ]
+  },
+  {
+    "name": "ocelot",
+    "label": "Ocelot",
+    "imageSrc": "/assets/images/characters/animals/ocelot.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "tachete",
+    "species": "ocelot",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "felins",
+      "jungle"
+    ]
+  },
+  {
+    "name": "salamandre-tachetee",
+    "label": "Salamandre tachetée",
+    "imageSrc": "/assets/images/characters/animals/salamandre-tachetee.png",
+    "serie": "animal",
+    "color": "black",
+    "family": "amphibien",
+    "species": "salamandre",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "amphibiens",
+      "foret"
+    ]
+  },
+  {
+    "name": "triton-crete",
+    "label": "Triton crêté",
+    "imageSrc": "/assets/images/characters/animals/triton-crete.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "amphibien",
+    "species": "triton",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "orange"
+    ],
+    "tags": [
+      "sauvages",
+      "amphibiens",
+      "foret"
+    ]
+  },
+  {
+    "name": "crapaud-commun",
+    "label": "Crapaud commun",
+    "imageSrc": "/assets/images/characters/animals/crapaud-commun.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "amphibien",
+    "species": "crapaud",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "orange"
+    ],
+    "tags": [
+      "sauvages",
+      "amphibiens",
+      "foret"
+    ]
+  },
+  {
+    "name": "harfang-des-neiges",
+    "label": "Harfang des neiges",
+    "imageSrc": "/assets/images/characters/animals/harfang-des-neiges.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "harfang",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "grey",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "polaires"
+    ]
+  },
+  {
+    "name": "boeuf-musque",
+    "label": "Bœuf musqué",
+    "imageSrc": "/assets/images/characters/animals/boeuf-musque.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "cornes",
+    "species": "boeuf-musque",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "polaires"
+    ]
+  },
+  {
+    "name": "lagopede-alpin",
+    "label": "Lagopède alpin",
+    "imageSrc": "/assets/images/characters/animals/lagopede-alpin.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "blanc",
+    "species": "lagopede",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "black",
+      "red"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "polaires"
+    ]
+  },
+  {
+    "name": "poisson-lion",
+    "label": "Poisson-lion",
+    "imageSrc": "/assets/images/characters/animals/poisson-lion.png",
+    "serie": "animal",
+    "color": "red",
+    "family": "poisson",
+    "species": "poisson-lion",
+    "breed": "",
+    "dominantColors": [
+      "red",
+      "white",
+      "brown"
+    ],
+    "tags": [
+      "sauvages",
+      "ocean"
     ]
   }
 ]

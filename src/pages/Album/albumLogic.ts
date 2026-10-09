@@ -1,7 +1,7 @@
 // Calculs d'affichage de l'album (sans React)
 import type { Save } from "../../save/schema";
 import { WORLDS } from "../../content/worlds";
-import { historyPack, peoplePack } from "../../helpers/characters";
+import { celebritiesPack, historyPack, peoplePack } from "../../helpers/characters";
 import type { CharacterDetails } from "../../helpers/characters";
 import { MEDAL_THRESHOLDS } from "../../content/progress";
 import type { Mastery } from "../../content/progress";
@@ -17,9 +17,11 @@ export const ALBUM_COLLECTIONS = [
     background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: false, allowColorFilter: false },
   { id: "histoire", name: "Histoire", emoji: "📜", characters: historyPack,
     background: "linear-gradient(160deg, #f9e8c8 0%, #d7b77c 100%)", alwaysAvailable: false, allowColorFilter: false },
+  { id: "personnes", name: "Célébrités", emoji: "⭐", characters: celebritiesPack,
+    background: "linear-gradient(160deg, #f4dfff 0%, #c5a1ed 100%)", alwaysAvailable: false, allowColorFilter: false },
 ];
 export const isAlbumCharacterUnlocked = (save: AlbumSave & PersonUnlockSave & AnimalUnlockSave, character: CharacterDetails) =>
-  character.serie === "politics" || character.serie === "history"
+  character.serie === "politics" || character.serie === "history" || character.serie === "celebrity"
     ? isPersonUnlocked(save, character.name) : isAnimalUnlocked(save, character.name);
 const albumCharacters = ALBUM_COLLECTIONS.flatMap((collection) => collection.characters);
 

@@ -5,7 +5,7 @@ import { createMultiplayerServer, type MultiplayerServerOptions } from "./multip
 import { levelCharacterIds } from "../src/multiplayer/multiplayerRules";
 import type { ClientMessage, ServerMessage } from "../src/multiplayer/protocol";
 import { MULTIPLAYER_PROTOCOL_VERSION } from "../src/multiplayer/protocol";
-import { historyPack, peoplePack } from "../src/helpers/characters";
+import { celebritiesPack, historyPack, peoplePack } from "../src/helpers/characters";
 import { isPersonUnlocked } from "../src/content/personUnlocks";
 
 type State = Extract<ServerMessage, { type: "state" }>;
@@ -77,11 +77,11 @@ function ids(state: State) {
 }
 
 describe("real multiplayer WebSocket server", () => {
-  it("starts an all-characters room using both collections and only shared purchases", async () => {
+  it("starts an all-characters room using every collection and only shared purchases", async () => {
     const f = await fixture();
     const host = await connect(f.url);
     const guest = await connect(f.url);
-    const purchases = [peoplePack, historyPack].map(pack => pack.find(person => !isPersonUnlocked({}, person.name))!.name);
+    const purchases = [peoplePack, historyPack, celebritiesPack].map(pack => pack.find(person => !isPersonUnlocked({}, person.name))!.name);
     host.send({ type: "create", name: "Alice", theme: "personnages", purchasedPeople: purchases });
     const session = await host.session();
     guest.send({ type: "join", code: session.code, name: "Bob", purchasedPeople: [purchases[0]] });
@@ -93,9 +93,9 @@ describe("real multiplayer WebSocket server", () => {
     expect(prepared.room.theme).toBe("personnages");
     const spec = prepared.self.spec!;
     for (const person of [spec.wanted, ...spec.decoys]) {
-      expect(["politics", "history"]).toContain(person.serie);
+      expect(["politics", "history", "celebrity"]).toContain(person.serie);
       expect(isPersonUnlocked({ purchasedPeople: [purchases[0]] }, person.name)).toBe(true);
-      expect(person.name).not.toBe(purchases[1]);
+      expect(purchases.slice(1)).not.toContain(person.name);
     }
     await Promise.all([host.close(), guest.close()]);
   });
@@ -190,7 +190,7 @@ describe("real multiplayer WebSocket server", () => {
     expect(a.self.levelNonce).toBe(b.self.levelNonce);
   });
 
-  it.each(["ferme", "drapeaux"] as const)("waits for both asset acknowledgements before the first shared countdown (%s)", async (theme) => {
+  it.each(["ferme", "drapeaux", "personnes"] as const)("waits for both asset acknowledgements before the first shared countdown (%s)", async (theme) => {
     const f = await fixture();
     const a = await connect(f.url), b = await connect(f.url);
     a.send({ type: "create", name: "A", theme });
@@ -203,6 +203,10 @@ describe("real multiplayer WebSocket server", () => {
       expect(first.self.spec?.wanted.serie).toBe("flags");
       expect(first.self.spec?.accessories).toBeUndefined();
       expect(first.self.spec?.crowdVariant).toBeUndefined();
+    }
+    if (theme === "personnes") {
+      expect(first.self.spec?.wanted.serie).toBe("celebrity");
+      expect([first.self.spec!.wanted, ...first.self.spec!.decoys].every(person => isPersonUnlocked({}, person.name))).toBe(true);
     }
     a.send({ type: "assetsReady", levelNonce: first.self.levelNonce! });
     const acknowledged = await a.state((s) => s.self.phase === "preparing", a.messages.length);

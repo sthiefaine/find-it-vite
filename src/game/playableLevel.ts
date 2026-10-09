@@ -153,7 +153,7 @@ export function generatePlayableLevel(index: number, context: GenContext, option
         : "Retrouve le drapeau de l’avis de recherche.",
   } };
   // Les personnages gardent leurs décors, avec les mêmes tenues que les animaux.
-  if (spec.wanted.serie === "history") playable.scene.hint = "Retrouve le portrait de l’avis de recherche.";
+  if (spec.wanted.serie === "history" || spec.wanted.serie === "celebrity") playable.scene.hint = "Retrouve le portrait de l’avis de recherche.";
   if (spec.wanted.serie === "politics") playable.scene.hint = scene.foliage
     ? "Écarte les avocats et les CRS pour retrouver le portrait."
     : scene.seagulls ? "Retrouve le portrait entre les passages de foule."
