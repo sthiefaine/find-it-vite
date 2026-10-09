@@ -1,21 +1,52 @@
 import { useTranslation } from "../../i18n";
 import { useState } from "react";
+import { UserRound } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { defaultThemeForFamily, playThemeFromSearch, THEME_FAMILIES, themeOptions } from "../../content/playThemes";
+import { defaultThemeForFamily, PLAY_THEMES, playThemeFromSearch, publishedThemePool, THEME_FAMILIES, themeOptions } from "../../content/playThemes";
 import type { PlayMode, PlayTheme, PlayThemeId, ThemeFamilyId } from "../../content/playThemes";
 import { isPortraitUnlocked } from "../../content/portraitUnlocks";
 import { useSaveStore } from "../../save/saveStore";
 import { GameIcon } from "../../components/Icons/GameIcon";
-import type { GameIconName } from "../../components/Icons/GameIcon";
 import { portraitStyle } from "../../helpers/portraitScale";
+import type { CharacterDetails } from "../../helpers/characters";
+import type { Save } from "../../save/schema";
 import "../../components/Buttons/ui.css";
 import "../../components/Buttons/Tile.css";
 import "./PlaySetup.css";
 
-const familyIcons: Record<ThemeFamilyId, GameIconName> = { animaux: "paw", personnages: "people", drapeaux: "flags" };
 const familyColors: Record<ThemeFamilyId, string> = { animaux: "orange", personnages: "pink", drapeaux: "teal" };
 const personGroups = ["politique", "histoire"] as const;
 const countryFlags = { fr: "🇫🇷", br: "🇧🇷", us: "🇺🇸" };
+
+// Keep each illustration inside its theme and prefer three different silhouettes.
+const themePreviews = new Map(PLAY_THEMES.map(theme => {
+  const pool = publishedThemePool(theme.id);
+  const first = pool.find(character => character.imageSrc === theme.preview);
+  const portraits: CharacterDetails[] = first ? [first] : [];
+  for (const character of pool) {
+    if (portraits.length === 3) break;
+    if (!portraits.some(portrait => portrait.name === character.name
+      || (portrait.species && portrait.species === character.species))) portraits.push(character);
+  }
+  for (const character of pool) {
+    if (portraits.length === 3) break;
+    if (!portraits.includes(character)) portraits.push(character);
+  }
+  return [theme.id, portraits] as const;
+}));
+
+function ThemePortraits({ theme, save }: { theme: PlayTheme; save: Save }) {
+  const portraits = themePreviews.get(theme.id) ?? [];
+  return <span className="theme-portraits" aria-hidden="true">
+    {[0, 1, 2].map(index => {
+      const character = portraits[index];
+      const hidden = character && theme.family !== "drapeaux" && !isPortraitUnlocked(save, character.name);
+      return <span key={character?.name ?? index} className={`theme-portrait${hidden ? " is-mystery" : ""}${!character ? " is-placeholder" : ""}`}>
+        {character ? <img src={character.imageSrc} alt="" draggable={false} decoding="async" style={portraitStyle(character.imageSrc)} /> : <UserRound />}
+      </span>;
+    })}
+  </span>;
+}
 
 function albumLink(theme: PlayTheme) {
   const collection = theme.family === "personnages" ? theme.group : "animaux";
@@ -44,9 +75,6 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
   const visibleOptions = options.filter(({ theme: candidate }) => candidate.family === family
     && (family !== "personnages" || candidate.group === group))
     .sort((left, right) => Number(right.theme.id === "ferme") - Number(left.theme.id === "ferme"));
-  const previewId = theme.preview?.split("/").pop()?.replace(/\.png$/, "");
-  const hiddenPortrait = Boolean(theme.preview && family !== "drapeaux" && previewId
-    && (family === "personnages" || mode === "endless") && !isPortraitUnlocked(save, previewId));
   const canPlay = loaded && enabled;
   const needsPortraits = !theme.comingSoon && !enabled;
   const selectTheme = (id: PlayThemeId) => setSelections(current => ({ ...current, [family]: id }));
@@ -79,7 +107,8 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
             type="button" key={item.id} aria-pressed={family === item.id} onClick={() => setFamily(item.id)}
             className={`fi-tile fi-tile-${familyColors[item.id]} play-family${family === item.id ? " is-selected" : ""}`}
           >
-            <span className="fi-tile-icon" aria-hidden="true"><GameIcon name={familyIcons[item.id]} /></span>
+            <ThemePortraits theme={options.find(option => option.theme.id === selections[item.id] && !option.theme.comingSoon)?.theme
+              ?? options.find(option => option.theme.id === item.defaultThemeId)!.theme} save={save} />
             <span className="fi-tile-label">{tr(item.label)}</span>
             {family === item.id ? <span className="play-family-check" aria-hidden="true"><GameIcon name="check" /></span> : null}
           </button>)}
@@ -88,7 +117,8 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
         {family === "personnages" ? <div className="play-person-groups" role="group" aria-label={tr("Personnages")}>
           {personGroups.map(item => <button type="button" key={item} aria-pressed={group === item}
             className={group === item ? "is-selected" : ""} onClick={() => selectGroup(item)}>
-            <span aria-hidden="true">{item === "politique" ? "🏛️" : "📜"}</span>{tr(item === "politique" ? "Politique" : "Histoire")}
+            <ThemePortraits theme={options.find(option => option.theme.id === item)!.theme} save={save} />
+            <span>{tr(item === "politique" ? "Politique" : "Histoire")}</span>
           </button>)}
         </div> : null}
 
@@ -98,20 +128,18 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
             type="button" key={option.id} aria-pressed={theme.id === option.id} onClick={() => selectTheme(option.id)}
             className={`play-subtheme${theme.id === option.id ? " is-selected" : ""}${option.comingSoon ? " is-soon" : ""}`}
           >
-            <span className="play-subtheme-symbol" aria-hidden="true">{option.region ? countryFlags[option.region] : option.emoji}</span>
-            <span>{tr(option.shortLabel)}</span>
+            <ThemePortraits theme={option} save={save} />
+            <span className="play-subtheme-label">{option.region ? <span aria-hidden="true">{countryFlags[option.region]} </span> : null}{tr(option.shortLabel)}</span>
             {option.comingSoon ? <small>{tr("Bientôt")}</small> : !playable && loaded ? <span className="play-subtheme-lock" aria-hidden="true">✦</span> : null}
           </button>)}
         </div> : null}
 
         <section className={`play-theme-spotlight play-theme-spotlight--${family}`} aria-label={tr(theme.label)}>
-          <div className={`play-theme-art${hiddenPortrait ? " is-mystery" : ""}`} aria-hidden="true">
+          <div className="play-theme-art" aria-hidden="true">
             <span className="play-theme-glow" />
-            {theme.preview ? <img src={theme.preview} alt="" draggable={false} style={portraitStyle(theme.preview)} />
-              : <GameIcon name={familyIcons[family]} />}
+            <ThemePortraits key={theme.id} theme={theme} save={save} />
             <span className="play-theme-spark play-theme-spark--left">✦</span>
             <span className="play-theme-spark play-theme-spark--right">✦</span>
-            {hiddenPortrait ? <span className="play-theme-mystery">?</span> : null}
           </div>
           <div className="play-theme-copy">
             <h3>{tr(family === "personnages" ? theme.shortLabel : theme.label)}</h3>
