@@ -114,5 +114,3 @@
 @media (prefers-reduced-motion: reduce) { .album-guide summary > svg:last-child { transition: none; } .album-big { animation: none; } }
 
 .album-inner .collection-goal progress { display: none; }
-.album-overlay .album-purchase .album-goal-toggle { min-height: 38px; background: transparent; border: 1px solid #ddcce7; color: #886294; font-size: 11px; font-weight: 700; box-shadow: none; }
-.album-overlay .album-purchase .album-goal-toggle[aria-pressed="true"] { background: #eee2f3; border-color: #c6a9d8; }

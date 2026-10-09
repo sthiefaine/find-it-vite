@@ -1,6 +1,6 @@
 import { formatDailyDate } from "../../i18n/format";
 import { useTranslation, translate as tr } from "../../i18n";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion, Variants } from "framer-motion";
 import { useShallow } from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   Flag,
   House,
   Map as MapIcon,
+  ChevronRight,
   RefreshCw,
   Share2,
   Sparkles,
@@ -32,9 +33,9 @@ import {
 } from "./resultsHelpers";
 import { dailyShareText } from "../../game/modes";
 import { GameIcon } from "../Icons/GameIcon";
-import { CollectionGoal } from "../ProgressGoals/CollectionGoal";
-import { ContractSummary } from "../ProgressGoals/ContractProgress";
-import { ContractPicker } from "../ProgressGoals/ContractPicker";
+import { DAILY_REWARD_TARGET } from "../../game/dailyReward";
+import { STREAK_REWARD } from "../../game/streaks";
+import { albumCharacterLabel } from "../../pages/Album/albumNames";
 import "./Results.css";
 
 // Apparition des blocs les uns après les autres
@@ -83,7 +84,7 @@ async function copyText(text: string): Promise<boolean> {
 }
 
 export default function Results() {
-  const { t: tr } = useTranslation();
+  const { locale, t: tr } = useTranslation();
   const navigate = useNavigate();
   const reducedMotion = useReducedMotion();
   const {
@@ -107,13 +108,34 @@ export default function Results() {
   );
   const [shownScore, setShownScore] = useState(0);
   const [copied, setCopied] = useState(false);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!gameRecord) return;
+    const dialog = dialogRef.current;
+    dialog?.focus({ preventScroll: true });
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || !dialog) return;
+      const buttons = dialog.querySelectorAll<HTMLButtonElement>("button:not([disabled])");
+      const first = buttons[0];
+      const last = buttons[buttons.length - 1];
+      if (!first) return;
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
+        event.preventDefault(); last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault(); first.focus();
+      }
+    };
+    document.addEventListener("keydown", trapFocus);
+    return () => document.removeEventListener("keydown", trapFocus);
+  }, [gameRecord]);
 
   const mode = gameRecord?.mode ?? "endless";
   const score = gameRecord?.score ?? 0;
   const isNewRecord = gameRecord?.isNewRecord ?? false;
   const won = gameRecord?.won ?? false;
   const run = gameRecord?.adventure ?? null;
-  const shownValue = mode === "adventure" ? (run?.starsEarned ?? 0) : score;
+  const shownValue = mode === "adventure" ? (run?.stepsCleared ?? 0) : score;
   const escaped =
     gameState === GameStateEnum.FINISH &&
     !wantedFound &&
@@ -165,14 +187,20 @@ export default function Results() {
     }
   };
 
-  const title = () => resultsTitle(mode, { won, score, dailyLabel: dailyLabel(gameRecord) });
+  const dailyReward = gameRecord.dailyReward;
+  const dailyEarned = dailyReward?.unlocked || dailyReward?.claimedBefore;
+  const dailyPerson = dailyReward?.person;
+  const dailyLeft = Math.max(0, DAILY_REWARD_TARGET - gameRecord.streaks.found);
+  const title = () => mode === "daily" && dailyReward?.unlocked && dailyPerson
+    ? tr("Nouveau personnage !") : resultsTitle(mode, { won, score, dailyLabel: dailyLabel(gameRecord) });
 
   const message = () => {
+    if (mode === "daily") return dailyEarned ? tr("Récompense obtenue") : tr("Encore {{count}} portraits pour ta récompense.", { count: dailyLeft });
     if (mode === "adventure" && run) return adventureRunMessage({ ...run, phases: [] });
     return frenchSpacing(scoreMessage(score));
   };
 
-  const celebration = mode === "adventure" ? won : score > 0;
+  const celebration = mode === "daily" ? !!dailyEarned : mode === "adventure" ? won : score > 0;
   const tap = reducedMotion ? undefined : { scale: 0.97 };
 
   return (
@@ -188,6 +216,8 @@ export default function Results() {
       aria-describedby="results-message"
     >
       <motion.div
+        ref={dialogRef}
+        tabIndex={-1}
         className="results-card"
         variants={list}
         initial={reducedMotion ? false : "hidden"}
@@ -205,20 +235,33 @@ export default function Results() {
           <p id="results-message" className="results-message">{message()}</p>
         </motion.header>
 
+        {mode === "daily" && dailyReward && <motion.div className={`results-daily-prize${dailyEarned ? " is-earned" : ""}`} variants={pop}>
+          <div className="results-daily-portrait">
+            {dailyPerson ? <img src={dailyPerson.imageSrc} alt="" style={portraitStyle(dailyPerson.imageSrc)} /> : <GameIcon name="star" />}
+            <span><GameIcon name={dailyEarned ? "check" : "daily"} /></span>
+          </div>
+          <div className="results-daily-copy">
+            <span>{tr(dailyEarned ? dailyPerson ? "Débloqué" : "Récompense obtenue" : "À débloquer")}</span>
+            <strong>{dailyPerson ? albumCharacterLabel(dailyPerson, locale) : tr("Étoiles gagnées : +{{count}}", { count: 5 })}</strong>
+            {dailyEarned ? <button type="button" onClick={() => goTo(dailyPerson ? `/album?person=${encodeURIComponent(dailyPerson.name)}` : "/album")}>{tr("Voir dans l’album")}<ChevronRight size={15} aria-hidden="true" /></button>
+              : <><div className="results-daily-track" role="progressbar" aria-label={tr("Défi du jour")} aria-valuemin={0} aria-valuemax={DAILY_REWARD_TARGET} aria-valuenow={Math.min(gameRecord.streaks.found, DAILY_REWARD_TARGET)}><span style={{ width: `${Math.min(gameRecord.streaks.found / DAILY_REWARD_TARGET, 1) * 100}%` }} /></div><b>{Math.min(gameRecord.streaks.found, DAILY_REWARD_TARGET)}/{DAILY_REWARD_TARGET}</b></>}
+          </div>
+        </motion.div>}
+
         {mode === "adventure" && run ? (
           <>
-            <motion.div className="results-score" variants={item} aria-label={tr("{{count}} étoiles gagnées", { count: run.starsEarned })}>
-              <GameIcon name="star" className="results-score-star" />
+            <motion.div className="results-score" variants={item} aria-label={`${run.stepsCleared} ${tr("étapes", { count: run.stepsCleared })}`}>
+              <GameIcon name="trophy" className="results-score-star" />
               <div className="results-score-total">
                 <span className="results-score-value"><NumberFlow value={shownScore} animated={!reducedMotion} /></span>
-                <span className="results-score-label">{tr("étoiles gagnées", { count: run.starsEarned })}</span>
+                <span className="results-score-label">{tr("étapes", { count: run.stepsCleared })}</span>
               </div>
             </motion.div>
             <motion.ul className="results-stats" variants={item}>
               <li className="stat-level">
-                <Flag size={22} />
-                <strong>{run.stepsCleared}</strong>
-                <span>{tr("étapes", { count: run.stepsCleared })}</span>
+                <GameIcon name="star" />
+                <strong>{run.starsEarned}</strong>
+                <span>{tr("étoiles gagnées", { count: run.starsEarned })}</span>
               </li>
               <li className="stat-found">
                 <GameIcon name="check" />
@@ -240,7 +283,7 @@ export default function Results() {
         ) : (
           <>
             <motion.div className="results-score" variants={item}>
-              <GameIcon name="star" className="results-score-star" />
+              <GameIcon name="trophy" className="results-score-star" />
               <div className="results-score-total">
                 <span className="results-score-value"><NumberFlow value={shownScore} animated={!reducedMotion} /></span>
                 <span className="results-score-label">{tr("points", { count: score })}</span>
@@ -324,30 +367,24 @@ export default function Results() {
           </motion.div>
         )}
 
-        <motion.div className="results-goals" variants={item}>
-          <strong>{tr("Étoiles gagnées : +{{count}}", { count: gameRecord.earnedStars })}</strong>
-          <ContractSummary run={gameRecord.contract} />
-          <CollectionGoal prompt />
-          <ContractPicker />
-        </motion.div>
+        <motion.section className="results-loot" variants={item} aria-label={tr("Ton butin")}>
+          <GameIcon name="star" />
+          <div><span>{tr("Ton butin")}</span><strong>+{gameRecord.earnedStars}</strong></div>
+          <span className="results-loot-caption">{tr("Dans ta réserve d’étoiles")}</span>
+          {(gameRecord.streaks.cleanBonuses + gameRecord.streaks.quickBonuses > 0) && <div className="results-loot-bonuses">
+            {gameRecord.streaks.cleanBonuses > 0 && <span><GameIcon name="check" />{tr("Sans erreur")} <b>+{gameRecord.streaks.cleanBonuses * STREAK_REWARD}</b></span>}
+            {gameRecord.streaks.quickBonuses > 0 && <span><Zap size={14} aria-hidden="true" />{tr("Rapidité")} <b>+{gameRecord.streaks.quickBonuses * STREAK_REWARD}</b></span>}
+          </div>}
+        </motion.section>
         <motion.div className="results-actions" variants={item}>
-          {mode === "daily" && (
-            <motion.button
-              className="results-btn results-btn-share"
-              onClick={handleShare}
-              whileTap={tap}
-              autoFocus
-            >
-              <Share2 size={26} /> {copied ? frenchSpacing(tr("Copié !")) : tr("Partager")}
-            </motion.button>
-          )}
-          <motion.button
-            className={`results-btn ${mode === "daily" ? "results-btn-second" : "results-btn-replay"}`}
-            onClick={handleReplay}
-            whileTap={tap}
-            autoFocus={mode !== "daily"}
-          >
-            <RefreshCw size={mode === "daily" ? 22 : 28} /> {tr("Rejouer")} </motion.button>
+          <motion.button type="button" className="results-btn results-btn-replay"
+            onClick={mode === "daily" && dailyEarned ? () => goTo("/adventure") : handleReplay} whileTap={tap}>
+            <GameIcon name="play" /> {tr(mode === "daily" && dailyEarned ? "Continuer à jouer" : "Rejouer")}
+          </motion.button>
+          {mode === "daily" && <div className="results-row">
+            <motion.button type="button" className="results-btn results-btn-second" onClick={handleShare} whileTap={tap}><Share2 size={18} />{copied ? frenchSpacing(tr("Copié !")) : tr("Partager")}</motion.button>
+            {dailyEarned && <motion.button type="button" className="results-btn results-btn-second" onClick={handleReplay} whileTap={tap}><RefreshCw size={18} />{tr("Rejouer")}</motion.button>}
+          </div>}
           <div className="results-row">
             {mode !== "daily" && (
               <motion.button

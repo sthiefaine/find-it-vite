@@ -8,8 +8,7 @@ import { caughtCount } from "../Album/albumLogic";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { HomeAnimals } from "./HomeAnimals";
 import { HomePlayButton } from "./HomePlayButton";
-import { CollectionGoal } from "../../components/ProgressGoals/CollectionGoal";
-import { ContractPicker } from "../../components/ProgressGoals/ContractPicker";
+import { dailyRewardClaimed, dailyRewardPerson, DAILY_REWARD_TARGET } from "../../game/dailyReward";
 import "../../components/Buttons/ui.css";
 import "./Home.css";
 
@@ -18,7 +17,8 @@ const Home = () => {
   const save = useSaveStore((s) => s.save);
   const stars = save.wallet.stars;
   const { caught, total } = caughtCount(save);
-  const dailyNew = save.daily?.date !== todayISO();
+  const dailyClaimed = dailyRewardClaimed(save, todayISO());
+  const dailyPerson = dailyRewardPerson(save, todayISO());
   const best = save.progress.bestScore;
 
   return (
@@ -49,10 +49,10 @@ const Home = () => {
           />
           <Tile
             to="/game?mode=daily"
-            icon={<GameIcon name="daily" />}
+            icon={dailyPerson ? <span className="home-daily-prize"><img src={dailyPerson.imageSrc} alt="" /><GameIcon name={dailyClaimed ? "check" : "daily"} /></span> : <GameIcon name="daily" />}
             label={tr("Défi du jour")}
-            sub={save.daily?.date === todayISO() ? <><GameIcon name="trophy" /> {save.daily.best}</> : undefined}
-            badge={dailyNew ? tr("Nouveau") : undefined}
+            sub={dailyClaimed ? tr("Récompense obtenue") : dailyPerson ? tr("{{count}} trouvés = 1 personnage", { count: DAILY_REWARD_TARGET }) : <>{DAILY_REWARD_TARGET} <GameIcon name="check" /> = +5 <GameIcon name="star" /></>}
+            badge={!dailyClaimed ? tr(dailyPerson ? "À débloquer" : "Nouveau") : undefined}
             color="pink"
           />
         </div>
@@ -61,8 +61,6 @@ const Home = () => {
           <Tile to="/album" icon={<GameIcon name="album" />} label={tr("Album")} sub={`${caught}/${total}`} color="purple" size="sm" />
           <Tile to="/options" icon={<GameIcon name="settings" />} label={tr("Options")} color="slate" size="sm" />
         </div>
-        <CollectionGoal prompt />
-        <ContractPicker />
       </main>
     </div>
   );

@@ -150,6 +150,10 @@
   grid-template-columns: 1fr 1fr 1fr;
 }
 
+.home-daily-prize { position: relative; display: block; width: 56px; height: 56px; }
+.home-daily-prize img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 3px 0 #58103960); }
+.fi-tile .home-daily-prize > .game-icon { position: absolute; right: -10px; bottom: -2px; width: 28px; height: 28px; }
+
 @media (max-height: 720px) {
   .home-main {
     gap: 8px;
@@ -168,3 +172,5 @@
     animation: none;
   }
 }
+
+.home-tiles-2 .fi-tile-sub { max-width: 100%; white-space: normal; font-size: 11px; line-height: 1.3; }

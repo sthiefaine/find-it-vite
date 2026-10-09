@@ -5,7 +5,8 @@ import { getSaveVersion, migrate } from "./migrations";
 import type { StorageAdapter } from "./storage";
 import { platformStorage } from "../platform/storage";
 import { isPerson, isPersonUnlocked, PERSON_PRICE } from "../content/personUnlocks";
-import { getContract, type ContractId } from "../game/contracts";
+import { dailyRewardClaimed, dailyRewardPerson, DAILY_REWARD_TARGET, DAILY_COMPLETE_COLLECTION_STARS } from "../game/dailyReward";
+import type { CharacterDetails } from "../helpers/characters";
 
 export type GameResult = {
   score: number;
@@ -37,9 +38,8 @@ type SaveActions = {
   recordStars: (worldId: string, level: number, stars: number) => void;
   recordCollection: (name: string, n?: number) => void;
   purchasePerson: (id: string) => PurchaseResult;
-  setPersonGoal: (id: string | null) => void;
-  selectContract: (id: ContractId | null) => void;
-  completeContract: (id: ContractId) => number;
+  awardStreakBonus: (stars: number) => number;
+  claimDailyReward: (date: string, found: number) => DailyRewardOutcome | null;
   recordOnlineScore: (matchId: string, score: number) => void;
   recordDaily: (dateISO: string, score: number) => void;
   flush: () => Promise<void>;
@@ -50,20 +50,25 @@ type SaveActions = {
 
 export type SaveStore = SaveState & SaveActions;
 export type PurchaseResult = "purchased" | "already-unlocked" | "not-enough-stars" | "unknown-character" | "unavailable";
+export type DailyRewardOutcome = { person: CharacterDetails | null; stars: number };
 
 export function applyPersonPurchase(save: Save, id: string): { save: Save; result: PurchaseResult } {
   if (!isPerson(id)) return { save, result: "unknown-character" };
   if (isPersonUnlocked(save, id)) return { save, result: "already-unlocked" };
   if (save.wallet.stars < PERSON_PRICE) return { save, result: "not-enough-stars" };
-  return { result: "purchased", save: { ...save, wallet: { ...save.wallet, stars: save.wallet.stars - PERSON_PRICE }, purchasedPeople: [...save.purchasedPeople, id],
-    goals: { ...save.goals, person: save.goals.person === id ? null : save.goals.person } } };
+  return { result: "purchased", save: { ...save, wallet: { ...save.wallet, stars: save.wallet.stars - PERSON_PRICE }, purchasedPeople: [...save.purchasedPeople, id] } };
 }
 
-export function applyContractReward(save: Save, id: ContractId): Save {
-  const contract = getContract(id);
-  if (!contract || save.goals.contract !== id || save.goals.completedContracts.includes(id)) return save;
-  return { ...save, wallet: { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + contract.reward) },
-    goals: { ...save.goals, contract: null, completedContracts: [...save.goals.completedContracts, id] } };
+export function applyDailyReward(save: Save, date: string, found: number): { save: Save; reward: DailyRewardOutcome | null } {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isSafeInteger(found) || found < DAILY_REWARD_TARGET || dailyRewardClaimed(save, date)) return { save, reward: null };
+  const person = dailyRewardPerson(save, date);
+  const stars = person ? 0 : DAILY_COMPLETE_COLLECTION_STARS;
+  return { reward: { person, stars }, save: {
+    ...save,
+    dailyRewards: { ...save.dailyRewards, [date]: person?.name ?? null },
+    purchasedPeople: person ? [...save.purchasedPeople, person.name] : save.purchasedPeople,
+    wallet: { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + stars) },
+  } };
 }
 
 export function applyOnlineScore(save: Save, matchId: string, score: number): Save {
@@ -221,20 +226,17 @@ export function createSaveStore(
         update(purchase.save);
         return purchase.result;
       },
-      setPersonGoal: (id) => {
-        if (!get().loaded || get().readOnly || (id !== null && (!isPerson(id) || isPersonUnlocked(get().save, id)))) return;
-        update({ ...get().save, goals: { ...get().save.goals, person: id } });
+      awardStreakBonus: (stars) => {
+        if (!get().loaded || get().readOnly || (stars !== 5 && stars !== 10)) return 0;
+        const save = get().save;
+        update({ ...save, wallet: { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + stars) } });
+        return stars;
       },
-      selectContract: (id) => {
-        if (!get().loaded || get().readOnly || (id !== null && (!getContract(id) || get().save.goals.completedContracts.includes(id)))) return;
-        update({ ...get().save, goals: { ...get().save.goals, contract: id } });
-      },
-      completeContract: (id) => {
-        if (!get().loaded || get().readOnly) return 0;
-        const previous = get().save;
-        const next = applyContractReward(previous, id);
-        update(next);
-        return next === previous ? 0 : getContract(id)!.reward;
+      claimDailyReward: (date, found) => {
+        if (!get().loaded || get().readOnly) return null;
+        const result = applyDailyReward(get().save, date, found);
+        update(result.save);
+        return result.reward;
       },
       recordOnlineScore: (matchId, score) => update(applyOnlineScore(get().save, matchId, score)),
       recordDaily: (dateISO, score) => update(applyDaily(get().save, dateISO, score)),

@@ -13,7 +13,6 @@ import { AlbumCollectionRail } from "./AlbumCollectionRail";
 import { AlbumCategoryRail } from "./AlbumCategoryRail";
 import { AlbumPortraitCard } from "./AlbumPortraitCard";
 import { AlbumPortraitDialog } from "./AlbumPortraitDialog";
-import { CollectionGoal } from "../../components/ProgressGoals/CollectionGoal";
 import "../../components/Buttons/ui.css";
 import "./Album.css";
 
@@ -72,7 +71,6 @@ const Album = () => {
           </div>
         </section>
 
-        <CollectionGoal />
         <div className="album-collections-heading">
           <h2>{tr("Collections")}</h2>
           <span className="album-wallet" aria-label={tr("{{count}} étoiles", { count: save.wallet.stars })}>

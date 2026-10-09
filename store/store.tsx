@@ -11,7 +11,8 @@ import type { WorldId } from "../src/content/worlds";
 import { isWorldUnlocked, todayISO } from "../src/content/progress";
 import { entersNewPhase, globalStep, runSummary, stepInfo, stepStars } from "../src/game/adventureRun";
 import type { PhaseId, StepResult } from "../src/game/adventureRun";
-import { advanceContract, getContract, type ContractEvent, type ContractRun } from "../src/game/contracts";
+import { advanceStreaks, emptyStreaks, type StreakEvent, type Streaks } from "../src/game/streaks";
+import { dailyRewardClaimed, dailyRewardPerson } from "../src/game/dailyReward";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -60,7 +61,8 @@ export type GameRecord = {
   dailyDate: string | null;
   dailyBest: number;
   earnedStars: number;
-  contract: ContractRun | null;
+  streaks: Streaks;
+  dailyReward: { person: CharacterDetails | null; claimedBefore: boolean; unlocked: boolean; stars: number } | null;
 };
 
 // Bilan d'une partie d'Aventure (continue)
@@ -123,7 +125,9 @@ type GameState = {
   levelShownAt: number | null;
   wantedFound: boolean; // le perso du niveau en cours a été trouvé
   gameRecord: GameRecord | null; // non nul une fois la partie enregistrée
-  contractRun: ContractRun | null;
+  streaks: Streaks;
+  bonusToast: { key: number; stars: number } | null;
+  dailyReward: GameRecord["dailyReward"];
   runStars: number;
   foundIds: number[]; // cibles déjà trouvées dans le niveau en cours
   isDiscovery: boolean; // le niveau contient une mécanique jamais vue
@@ -203,7 +207,9 @@ export const defaultInitState: GameState = {
   levelShownAt: null,
   wantedFound: false,
   gameRecord: null,
-  contractRun: null,
+  streaks: emptyStreaks(),
+  bonusToast: null,
+  dailyReward: null,
   runStars: 0,
   foundIds: [],
   isDiscovery: false,
@@ -241,7 +247,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null }) => {
     const step = mode === "adventure" && worldId ? globalStep(worldId, adventureLevel) : 1;
     const save = useSaveStore.getState().save;
-    const contract = getContract(save.goals.contract);
+    const date = mode === "daily" ? dailyDate ?? todayISO() : null;
     set({
       runSeed,
       tier,
@@ -254,7 +260,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       startStep: step,
       // mode calme : Infini et Aventure ; le Défi du jour garde son chrono
       calm: mode !== "daily" && calm,
-      dailyDate,
+      dailyDate: date,
       missionFound: 0,
       stepPlayMs: 0,
       runSteps: [],
@@ -264,8 +270,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
       worldBanner: null,
       newCharacters: [],
       runStars: 0,
-      contractRun: contract && !save.goals.completedContracts.includes(contract.id)
-        ? { id: contract.id, progress: 0, complete: false, bonus: 0 } : null,
+      streaks: emptyStreaks(),
+      bonusToast: null,
+      dailyReward: date ? { person: dailyRewardPerson(save, date), claimedBefore: dailyRewardClaimed(save, date), unlocked: false, stars: 0 } : null,
     });
   },
   addPlayTime: (ms) => {
@@ -350,7 +357,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (levelDone && !wantedFound && currentSpec && currentSpec.rule !== "goldRush") {
       collect(currentSpec.wanted);
       countMissionStep();
-      updateContract({ type: "found", layout: currentSpec.layout, elapsedMs: levelShownAt === null ? null : Math.round(now() - levelShownAt) });
+      updateStreaks({ type: "found", elapsedMs: levelShownAt === null ? null : Math.round(now() - levelShownAt) });
     }
     // « plus rapide » : temps pour finir un niveau, hors bonus
     // niveau réussi sans fermer la carte de découverte : mécaniques vues quand même
@@ -399,7 +406,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
   recordMiss: () => {
     const { stats } = get();
     set({ stats: { ...stats, misses: stats.misses + 1 } });
-    updateContract({ type: "miss" });
+    updateStreaks({ type: "miss" });
   },
   // Une seule fois par partie
   submitGameResult: () => {
@@ -422,7 +429,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
       dailyDate: null,
       dailyBest: 0,
       earnedStars: get().runStars,
-      contract: get().contractRun,
+      streaks: get().streaks,
+      dailyReward: get().dailyReward,
     };
     if (mode === "adventure") {
       // les étoiles sont déjà enregistrées à chaque étape franchie
@@ -472,14 +480,22 @@ function collect(wanted: CharacterDetails) {
     useGameStore.setState({ newCharacters: [...newCharacters, wanted] });
 }
 
-function updateContract(event: ContractEvent) {
+function updateStreaks(event: StreakEvent) {
   const current = useGameStore.getState();
-  if (!current.contractRun) return;
-  const next = advanceContract(current.contractRun, event);
-  if (next === current.contractRun) return;
-  if (next.complete) next.bonus = useSaveStore.getState().completeContract(next.id);
-  useGameStore.setState({ contractRun: next, runStars: current.runStars + next.bonus });
+  const next = advanceStreaks(current.streaks, event);
+  const bonus = next.reward ? useSaveStore.getState().awardStreakBonus(next.reward) : 0;
+  useGameStore.setState({ streaks: next.streaks, runStars: current.runStars + bonus,
+    ...(bonus > 0 && { bonusToast: { key: ++bonusKey, stars: bonus } }),
+  });
+  if (current.mode !== "daily" || !current.dailyDate || current.dailyReward?.claimedBefore || current.dailyReward?.unlocked) return;
+  const reward = useSaveStore.getState().claimDailyReward(current.dailyDate, next.streaks.found);
+  if (reward) useGameStore.setState({
+    dailyReward: { ...reward, claimedBefore: false, unlocked: true },
+    runStars: useGameStore.getState().runStars + reward.stars,
+  });
 }
+
+let bonusKey = 0;
 
 let toastKey = 0;
 

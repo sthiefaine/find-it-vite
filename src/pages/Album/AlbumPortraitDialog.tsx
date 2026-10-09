@@ -20,7 +20,6 @@ export function AlbumPortraitDialog({ character, allowColors, onClose }: Props) 
   const loaded = useSaveStore(state => state.loaded);
   const readOnly = useSaveStore(state => state.readOnly);
   const purchasePerson = useSaveStore(state => state.purchasePerson);
-  const setPersonGoal = useSaveStore(state => state.setPersonGoal);
   const dialogRef = useRef<HTMLDivElement>(null);
   const count = save.collection[character.name] ?? 0;
   const locked = !isAlbumCharacterUnlocked(save, character);
@@ -77,11 +76,6 @@ export function AlbumPortraitDialog({ character, allowColors, onClose }: Props) 
             {!loaded ? tr("Chargement…") : tr("Débloquer pour {{price}} étoiles", { price: PERSON_PRICE })}
           </button>
           {missingStars > 0 && <span>{tr("Encore {{count}} étoiles à gagner", { count: missingStars })}</span>}
-          <button type="button" className="album-goal-toggle" disabled={!loaded || readOnly}
-            aria-pressed={save.goals.person === character.name}
-            onClick={() => setPersonGoal(save.goals.person === character.name ? null : character.name)}>
-            {tr(save.goals.person === character.name ? "Retirer l’objectif" : "Choisir comme objectif")}
-          </button>
           <span className="album-earn-hint">{tr("1 portrait trouvé = 1 étoile.")}</span>
           {missingStars > 0 && <Link to="/play" className="album-earn-link"><Gamepad2 size={16} aria-hidden="true" />{tr("Jouer pour gagner des étoiles")}</Link>}
         </div>}

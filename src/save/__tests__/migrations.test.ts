@@ -5,7 +5,7 @@ import { isLevelUnlocked, isWorldUnlocked } from "../../content/progress";
 import { getWorld } from "../../content/worlds";
 
 // Champs ajoutés par la v4, tels qu'une migration les crée
-const V4_EXTRA = { goals: defaultSave().goals, wallet: { stars: 0, onlineRewards: {} }, purchasedPeople: [], adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
+const V4_EXTRA = { dailyRewards: defaultSave().dailyRewards, wallet: { stars: 0, onlineRewards: {} }, purchasedPeople: [], adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
 const v4Settings = (sound: boolean) => ({ sound, calm: false, frame: "classic" });
 
 describe("migrate", () => {
@@ -109,7 +109,7 @@ describe("migrate", () => {
         adventure: { stars: { "ocean:2": 3 }, unlocked: ["ocean"] },
         wallet: { stars: 2, onlineRewards: {} },
         purchasedPeople: [],
-        goals: defaultSave().goals,
+        dailyRewards: defaultSave().dailyRewards,
         profile: { tier: "normal" },
       });
     });

@@ -7,7 +7,6 @@ import { useSaveStore } from "../../save/saveStore";
 import { GameIcon } from "../../components/Icons/GameIcon";
 import { portraitStyle } from "../../helpers/portraitScale";
 import type { GameIconName } from "../../components/Icons/GameIcon";
-import { ContractPicker } from "../../components/ProgressGoals/ContractPicker";
 import "../../components/Buttons/ui.css";
 import "./PlaySetup.css";
 
@@ -75,7 +74,6 @@ function ThemeSelection({ mode }: { mode: PlayMode }) {
             ? tr("Retrouve des animaux dans l’Aventure ou le Défi du jour pour les débloquer en Infini.")
             : tr("En Duel, tous les portraits du thème sont disponibles.")}
         </p>
-        {mode === "endless" && <ContractPicker />}
         <div className="play-setup-action">
           <button type="button" className="play-setup-start" disabled={!canPlay} onClick={start}>
             {!loaded ? tr("Chargement…") : mode === "duel" ? tr("Ouvrir les salons") : tr("Jouer en Infini")}

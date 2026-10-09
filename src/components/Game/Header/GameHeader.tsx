@@ -15,6 +15,7 @@ import { GameIcon } from "../../Icons/GameIcon";
 import { getAccessory } from "../../../content/accessories";
 import { preloadImages } from "../../../game/assetReadiness";
 import { levelCountdownUntil } from "../../../game/levelPreparation";
+import { StreakDisplay } from "./StreakDisplay";
 
 const MEMORY_SHOW_MS = { easy: 2500, normal: 1500, expert: 1500 } as const;
 const MEMORY_PEEK_MS = 1000;
@@ -244,6 +245,7 @@ export const GameHeader = () => {
 
         <div className="score-column">
           <ScoreDisplay score={score} />
+          <StreakDisplay />
           {mode === "adventure" && (
             <div className="mission-progress" aria-label={tr("{{found}} avis sur {{goal}}", { found: missionFound, goal: MISSION_GOAL })}>
               <span key={missionFound} className="mission-count">

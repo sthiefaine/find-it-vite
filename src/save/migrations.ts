@@ -1,7 +1,6 @@
 import { ADVENTURE_WORLD_IDS, DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
 import type { FrameId, PlayerTier, SaveDaily } from "./schema";
-import { isPerson, isPersonUnlocked, validPurchasedPeople } from "../content/personUnlocks";
-import { CONTRACTS, getContract } from "../game/contracts";
+import { isPerson, validPurchasedPeople } from "../content/personUnlocks";
 
 type RawObject = Record<string, unknown>;
 
@@ -55,6 +54,7 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
     return { ...data, version: 8, wallet: { stars, onlineRewards: {} }, purchasedPeople: [] };
   },
   8: (data) => ({ ...data, version: 9, goals: { person: null, contract: null, completedContracts: [] } }),
+  9: (data) => ({ ...data, version: 10, dailyRewards: {} }),
 };
 
 // Ancienne règle (v5) : étoiles à réunir pour ouvrir chaque monde
@@ -140,10 +140,9 @@ function sanitize(data: RawObject): Save {
   const progress = isObject(data.progress) ? data.progress : {};
   const profile = isObject(data.profile) ? data.profile : {};
   const wallet = isObject(data.wallet) ? data.wallet : {};
-  const goals = isObject(data.goals) ? data.goals : {};
   const purchasedPeople = validPurchasedPeople(data.purchasedPeople);
-  const completedContracts = CONTRACTS.filter(contract => Array.isArray(goals.completedContracts) && goals.completedContracts.includes(contract.id)).map(contract => contract.id);
-  const contract = getContract(goals.contract);
+  const dailyRewards = isObject(data.dailyRewards) ? Object.fromEntries(Object.entries(data.dailyRewards)
+    .filter(([date, person]) => DATE_ISO.test(date) && (person === null || (typeof person === "string" && isPerson(person))))) as Save["dailyRewards"] : {};
   const onlineRewards = isObject(wallet.onlineRewards) ? Object.fromEntries(Object.entries(wallet.onlineRewards)
     .filter(([id, value]) => /^[A-Z0-9]+:[a-f0-9]+$/.test(id) && id.length < 80 && Number.isSafeInteger(value) && (value as number) >= 0)
     .slice(-100)) as Record<string, number> : {};
@@ -175,11 +174,7 @@ function sanitize(data: RawObject): Save {
     daily: sanitizeDaily(data.daily),
     wallet: { stars: Math.min(Number.MAX_SAFE_INTEGER, count(wallet.stars, 0)), onlineRewards },
     purchasedPeople,
-    goals: {
-      person: typeof goals.person === "string" && isPerson(goals.person) && !isPersonUnlocked({ purchasedPeople }, goals.person) ? goals.person : null,
-      contract: contract && !completedContracts.includes(contract.id) ? contract.id : null,
-      completedContracts,
-    },
+    dailyRewards,
   };
 }
 

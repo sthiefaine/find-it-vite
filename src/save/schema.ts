@@ -3,9 +3,8 @@
 // 2. passer SAVE_VERSION et `Save` à la nouvelle version,
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
-import type { ContractId } from "../game/contracts";
 
-export const SAVE_VERSION = 9 as const;
+export const SAVE_VERSION = 10 as const;
 export const SAVE_KEY = "find-it:save";
 
 export type SaveSettings = {
@@ -100,8 +99,10 @@ export type SaveV8 = Omit<SaveV7, "version"> & {
   purchasedPeople: string[];
 };
 
-export type SaveGoals = { person: string | null; contract: ContractId | null; completedContracts: ContractId[] };
+export type SaveGoals = { person: string | null; contract: string | null; completedContracts: string[] };
 export type SaveV9 = Omit<SaveV8, "version"> & { version: 9; goals: SaveGoals };
+// v10: automatic in-game bonuses and daily portrait rewards replace selected goals.
+export type SaveV10 = Omit<SaveV9, "version" | "goals"> & { version: 10; dailyRewards: Record<string, string | null> };
 
 export const ADVENTURE_WORLD_IDS: readonly string[] = ["animaux", "ocean", "dinos", "halloween", "espace"];
 
@@ -111,9 +112,9 @@ export const DEFAULT_TIER: PlayerTier = "normal";
 export const FRAME_IDS: readonly FrameId[] = ["classic", "neon", "gold", "ice"];
 
 // Format courant
-export type Save = SaveV9;
+export type Save = SaveV10;
 
-export function defaultSave(): SaveV9 {
+export function defaultSave(): Save {
   return {
     version: SAVE_VERSION,
     settings: { sound: true, calm: false, frame: "classic" },
@@ -125,7 +126,7 @@ export function defaultSave(): SaveV9 {
     daily: null,
     wallet: { stars: 0, onlineRewards: {} },
     purchasedPeople: [],
-    goals: { person: null, contract: null, completedContracts: [] },
+    dailyRewards: {},
   };
 }
 
