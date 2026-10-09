@@ -105,18 +105,18 @@ describe("thèmes proposés avant une partie", () => {
     expect(characterPoolFor("endless", 1, save, "ferme")).toEqual(playThemePool("endless", "ferme", save));
   });
 
-  it("rend 12 portraits historiques disponibles dans les deux modes sans déguisement", () => {
+  it("rend 12 portraits historiques disponibles avec des tenues progressives", () => {
     expect(historyPack).toHaveLength(24);
     expect(playThemeFromSearch("?theme=histoire")).toBe("histoire");
     for (const mode of ["endless", "duel"] as const) {
       expect(playThemePool(mode, "histoire", defaultSave())).toEqual(unlockedPeople({}, historyPack));
       expect(themeOptions(mode, defaultSave()).find(({ theme }) => theme.id === "histoire")).toMatchObject({ enabled: true, availableCount: 12 });
     }
-    for (const index of [1, 6, 12, 40]) {
+    for (const index of [1, 6, 12, 13, 40]) {
       const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool: historyPack });
       expect([spec.wanted, ...spec.decoys].every(character => character.serie === "history")).toBe(true);
-      expect(spec.accessories).toBeUndefined();
-      expect(spec.crowdVariant).toBeUndefined();
+      if (index < 13) expect(spec.accessories).toBeUndefined();
+      if (index === 13) expect(spec.accessories?.target).toBeTruthy();
     }
   });
 
@@ -132,8 +132,8 @@ describe("thèmes proposés avant une partie", () => {
     for (const index of [1, 13, 47, 100]) {
       const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool: peoplePack });
       expect([spec.wanted, ...spec.decoys].every((character) => character.serie === "politics")).toBe(true);
-      expect(spec.accessories).toBeUndefined();
-      expect(spec.crowdVariant).toBeUndefined();
+      if (index < 13) expect(spec.accessories).toBeUndefined();
+      if (index === 13) expect(spec.accessories?.target).toBeTruthy();
     }
   });
 

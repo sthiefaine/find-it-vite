@@ -152,16 +152,12 @@ export function generatePlayableLevel(index: number, context: GenContext, option
       : scene.seagulls ? "Retrouve le drapeau entre les passages d’oiseaux."
         : "Retrouve le drapeau de l’avis de recherche.",
   } };
-  // Les lunettes et coiffures des personnalités font partie de leur identité.
-  // Les déguisements restent réservés aux portraits animaliers.
-  if (spec.wanted.serie === "history") return { ...playable, scene: { ...scene,
-    hint: "Retrouve le portrait de l’avis de recherche.",
-  } };
-  if (spec.wanted.serie === "politics") return { ...playable, scene: { ...scene,
-    hint: scene.foliage ? "Écarte les avocats et les CRS pour retrouver le portrait."
-      : scene.seagulls ? "Retrouve le portrait entre les passages de foule."
-        : "Retrouve le portrait de l’avis de recherche.",
-  } };
+  // Les personnages gardent leurs décors, avec les mêmes tenues que les animaux.
+  if (spec.wanted.serie === "history") playable.scene.hint = "Retrouve le portrait de l’avis de recherche.";
+  if (spec.wanted.serie === "politics") playable.scene.hint = scene.foliage
+    ? "Écarte les avocats et les CRS pour retrouver le portrait."
+    : scene.seagulls ? "Retrouve le portrait entre les passages de foule."
+      : "Retrouve le portrait de l’avis de recherche.";
   const kind = options.forceVariant ?? (options.crowdVariants === false ? undefined
     : crowdVariantAt(index, context.tier, definition.layout, options.variantStream ?? { seed: context.seed, position: index }, definition.breather));
   if (kind && playable.rule === "classic") {

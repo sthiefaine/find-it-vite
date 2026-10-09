@@ -15,7 +15,9 @@ describe.each([["politique", peoplePack], ["histoire", historyPack]] as const)("
       expect(spec).toEqual(multiplayerLevel(index, 42, theme));
       expect([spec.wanted, ...spec.decoys].every((character) => pack.some((person) => person.name === character.name))).toBe(true);
       expect(levelCharacterIds(spec).wanted.size).toBe(1);
-      expect(spec.accessories).toBeUndefined();
+      if (index < 13) expect(spec.accessories).toBeUndefined();
+      if (index === 13) expect(spec.accessories?.target).toBeTruthy();
+      expect(spec.crowdVariant).toBeUndefined();
     }
   });
 });
