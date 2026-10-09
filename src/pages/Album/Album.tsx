@@ -132,7 +132,7 @@ const Album = () => {
         <details className="album-guide" key={world.id}>
           <summary><HelpCircle size={18} aria-hidden="true" /><span>{tr("Comment compléter l’album ?")}</span><ChevronDown size={18} aria-hidden="true" /></summary>
           <div className="album-guide-content">
-            {world.id === "animaux" && <p>{tr("Cinq animaux sont disponibles dès le départ. Retrouve les autres dans l’Aventure ou le défi du jour pour les débloquer en Infini.")}</p>}
+            {world.id === "animaux" && <p>{tr("Cinq animaux sont disponibles dès le départ. Débloque les autres dans l’Aventure ou avec tes étoiles dans l’album.")}</p>}
             {peopleCollection ? <>
               <p>{tr("12 personnages de départ. Débloque les autres avec tes étoiles dans l’album.")}</p>
               <p>{tr("1 portrait trouvé = 1 étoile. Un personnage coûte {{price}} étoiles.", { price: PERSON_PRICE })}</p>

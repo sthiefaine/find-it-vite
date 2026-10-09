@@ -165,7 +165,7 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
             : family === "drapeaux"
             ? tr("Tous les drapeaux sont disponibles dès le départ, sans accessoires.")
             : mode === "endless"
-            ? tr("Retrouve des animaux dans l’Aventure ou le Défi du jour pour les débloquer en Infini.")
+            ? tr("Débloque les animaux dans l’Aventure ou avec tes étoiles dans l’album.")
             : tr("En Duel, tous les portraits du thème sont disponibles.")}
         </p>
         <div className="play-setup-action">

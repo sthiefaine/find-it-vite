@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { applyCollection, applyDaily, applyGameResult, applyStars, createSaveStore } from "../saveStore";
 import { createMemoryStorage } from "../storage";
 import { defaultSave, SAVE_KEY, SAVE_VERSION } from "../schema";
+import { isPortraitUnlocked } from "../../content/portraitUnlocks";
 
 describe("applyGameResult", () => {
   it("met à jour record, niveau, parties et trouvés", () => {
@@ -133,6 +134,27 @@ describe("useSaveStore", () => {
     await store.getState().resetSave();
     expect(store.getState().save).toEqual(defaultSave());
     expect(storage.data.has(SAVE_KEY)).toBe(false);
+  });
+
+  it("persiste les étoiles du défi sans débloquer ses cibles et garde la maîtrise des portraits possédés", async () => {
+    const storage = createMemoryStorage();
+    const store = createSaveStore(storage);
+    store.getState().recordDailyFind("dauphin");
+    expect(store.getState().save.wallet.stars).toBe(0);
+    await store.getState().load();
+    store.getState().recordDailyFind("dauphin");
+    store.getState().recordDailyFind("hypatie");
+    store.getState().recordDailyFind("chat");
+    store.getState().recordDailyFind("inconnu");
+    await store.getState().flush();
+    const restored = createSaveStore(storage);
+    await restored.getState().load();
+    expect(restored.getState().save.wallet.stars).toBe(3);
+    expect(restored.getState().save.collection).toEqual({ chat: 1 });
+    expect(isPortraitUnlocked(restored.getState().save, "dauphin")).toBe(false);
+    expect(isPortraitUnlocked(restored.getState().save, "hypatie")).toBe(false);
+    expect(restored.getState().save.purchasedAnimals).toEqual([]);
+    expect(restored.getState().save.purchasedPeople).toEqual([]);
   });
 });
 

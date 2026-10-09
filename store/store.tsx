@@ -488,12 +488,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
 // Ajoute le recherché à la collection ; retient s'il est attrapé pour la 1re fois
 function collect(wanted: CharacterDetails) {
   const save = useSaveStore.getState();
+  const daily = useGameStore.getState().mode === "daily";
   const before = save.save.collection[wanted.name] ?? 0;
   const unlockedBefore = isPortraitUnlocked(save.save, wanted.name);
-  save.recordCollection(wanted.name);
-  if (!unlockedBefore && isPortraitUnlocked(useSaveStore.getState().save, wanted.name)) queueUnlock(wanted);
+  if (daily) save.recordDailyFind(wanted.name);
+  else save.recordCollection(wanted.name);
+  if (!daily && !unlockedBefore && isPortraitUnlocked(useSaveStore.getState().save, wanted.name)) queueUnlock(wanted);
   useGameStore.setState({ runStars: useGameStore.getState().runStars + 1 });
-  if (before > 0) return;
+  if (daily || before > 0) return;
   const { newCharacters } = useGameStore.getState();
   if (!newCharacters.some((c) => c.name === wanted.name))
     useGameStore.setState({ newCharacters: [...newCharacters, wanted] });

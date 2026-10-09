@@ -38,6 +38,7 @@ type SaveActions = {
   setFrame: (frame: FrameId) => void;
   recordStars: (worldId: string, level: number, stars: number) => void;
   recordCollection: (name: string, n?: number) => void;
+  recordDailyFind: (name: string) => void;
   purchasePerson: (id: string) => PurchaseResult;
   purchasePortrait: (id: string) => PurchaseResult;
   awardStreakBonus: (stars: number) => number;
@@ -117,6 +118,14 @@ export function applyCollection(save: Save, name: string, n = 1): Save {
   if (!name || !Number.isSafeInteger(add) || !(add > 0)) return save;
   return { ...save, collection: { ...save.collection, [name]: (save.collection[name] ?? 0) + add },
     wallet: { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + add) } };
+}
+
+// Daily targets earn stars, but only already-owned portraits gain album captures.
+// The daily reward is the sole unlock, handled separately by claimDailyReward.
+export function applyDailyFind(save: Save, name: string): Save {
+  if (!isPurchasablePortrait(name)) return save;
+  if (isPortraitUnlocked(save, name)) return applyCollection(save, name);
+  return { ...save, wallet: { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + 1) } };
 }
 
 // Défi du jour : meilleur score et nombre de parties, remis à zéro chaque nouveau jour
@@ -230,6 +239,10 @@ export function createSaveStore(
 
       recordStars: (worldId, level, stars) => update(applyStars(get().save, worldId, level, stars)),
       recordCollection: (name, n = 1) => update(applyCollection(get().save, name, n)),
+      recordDailyFind: (name) => {
+        if (!get().loaded || get().readOnly) return;
+        update(applyDailyFind(get().save, name));
+      },
       purchasePerson: (id) => {
         if (!get().loaded || get().readOnly) return "unavailable";
         const purchase = applyPersonPurchase(get().save, id);

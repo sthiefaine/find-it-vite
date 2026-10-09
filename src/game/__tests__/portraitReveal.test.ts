@@ -6,6 +6,7 @@ import { animalsPack } from "../../helpers/characters";
 import { generateLevel } from "../../engine";
 import { emptyStreaks } from "../streaks";
 import { DAILY_REWARD_TARGET } from "../dailyReward";
+import { isPortraitUnlocked } from "../../content/portraitUnlocks";
 
 const portrait = animalsPack.find(animal => animal.name === "dauphin")!;
 const spec = generateLevel(1, { seed: 7, tier: "normal", pool: animalsPack });
@@ -39,18 +40,34 @@ describe("pause de révélation", () => {
     useGameStore.getState().dismissUnlock(); // double clic
     expect(useGameStore.getState()).toMatchObject({ gameState: GameStateEnum.PLAYING, pauseTimer: false, unlockQueue: [], level: 2, timeLeft: 23 });
   });
-  it("enchaîne les deux révélations si l’animal et la récompense quotidienne arrivent ensemble à 40", () => {
+  it("révèle uniquement le personnage récompense à 40, sans débloquer la cible du défi", () => {
     expect(DAILY_REWARD_TARGET).toBe(40);
     useGameStore.getState().startRun({ ...config, mode: "daily", dailyDate: "2026-10-09" });
     const person = useGameStore.getState().dailyReward!.person!;
     useGameStore.setState({ streaks: { ...emptyStreaks(), found: 39 } });
     capture();
-    expect(useGameStore.getState().unlockQueue).toEqual([portrait, person]);
-    useGameStore.getState().dismissUnlock();
+    expect(isPortraitUnlocked(useSaveStore.getState().save, portrait.name)).toBe(false);
+    expect(useSaveStore.getState().save.collection[portrait.name]).toBeUndefined();
+    expect(isPortraitUnlocked(useSaveStore.getState().save, person.name)).toBe(true);
     expect(useGameStore.getState()).toMatchObject({ gameState: GameStateEnum.PAUSED, unlockQueue: [person], level: 1 });
     useGameStore.getState().dismissUnlock();
     expect(useGameStore.getState()).toMatchObject({ gameState: GameStateEnum.PLAYING, unlockQueue: [], level: 2 });
     expect(useSaveStore.getState().save.dailyRewards).toEqual({ "2026-10-09": person.name });
+  });
+  it("garde les nouvelles cibles verrouillées pendant le défi et au rejeu, avec les étoiles et bonus", () => {
+    for (let run = 0; run < 2; run++) {
+      useGameStore.getState().startRun({ ...config, mode: "daily", dailyDate: "2026-10-09" });
+      for (let index = 0; index < 39; index++) {
+        capture();
+        useGameStore.getState().recordTargetFound(1, true); // doublon de toucher
+        expect(useGameStore.getState().unlockQueue).toEqual([]);
+      }
+      expect(useGameStore.getState()).toMatchObject({ gameState: GameStateEnum.PLAYING, newCharacters: [], runStars: 44, streaks: { found: 39, cleanBonuses: 1 } });
+    }
+    expect(useSaveStore.getState().save.wallet.stars).toBe(88);
+    expect(isPortraitUnlocked(useSaveStore.getState().save, portrait.name)).toBe(false);
+    expect(useSaveStore.getState().save.dailyRewards).toEqual({});
+    expect(useSaveStore.getState().save.collection).toEqual({});
   });
   it("ne répète pas la révélation d’un portrait déjà acheté, capturé ou disponible au départ", () => {
     for (const save of [
