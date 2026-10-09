@@ -11,10 +11,15 @@ export function encodeClientMessage(message: ClientMessage): string {
 }
 
 export function multiplayerUrl(location: Pick<Location, "protocol" | "host">, configured?: string): string {
-  if (configured) {
-    const url = new URL(configured);
+  const address = configured?.trim();
+  if (address) {
+    let url: URL;
+    try { url = address.startsWith("/") ? new URL(address, `${location.protocol}//${location.host}`) : new URL(address); }
+    catch { throw new Error("Adresse du salon invalide."); }
     url.protocol = url.protocol === "https:" ? "wss:" : url.protocol === "http:" ? "ws:" : url.protocol;
-    if (url.protocol !== "ws:" && url.protocol !== "wss:") throw new Error("Adresse du salon invalide.");
+    if ((url.protocol !== "ws:" && url.protocol !== "wss:") || url.hash) throw new Error("Adresse du salon invalide.");
+    if (location.protocol === "https:" && url.protocol !== "wss:") throw new Error("La connexion au salon doit être sécurisée (WSS).");
+    if (url.pathname === "/") url.pathname = MULTIPLAYER_PATH;
     return url.href;
   }
   return `${location.protocol === "https:" ? "wss:" : "ws:"}//${location.host}${MULTIPLAYER_PATH}`;

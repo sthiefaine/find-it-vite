@@ -52,9 +52,10 @@ export function useMultiplayer(initialCode: string) {
       const epoch = ++connectionEpoch;
       let ws: WebSocket;
       try { ws = new WebSocket(multiplayerUrl(window.location, import.meta.env.VITE_MULTIPLAYER_URL)); }
-      catch {
-        setError("Le salon est indisponible pour le moment.");
-        setConnection("reconnecting");
+      catch (cause) {
+        setError(cause instanceof Error && ["Adresse du salon invalide.", "La connexion au salon doit être sécurisée (WSS)."].includes(cause.message)
+          ? cause.message : "Le salon est indisponible pour le moment.");
+        setConnection("closed");
         return;
       }
       socket.current = ws;

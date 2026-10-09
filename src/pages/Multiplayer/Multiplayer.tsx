@@ -2,14 +2,15 @@ import { useTranslation, translate as tr } from "../../i18n";
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import QRCode from "qrcode";
-import { ArrowLeft, Copy, Share2, Volume2, VolumeX, X } from "lucide-react";
+import { ArrowLeft, Copy, Dices, Share2, Volume2, VolumeX, X } from "lucide-react";
 import { AnimalPortrait } from "../../components/AnimalPortrait/AnimalPortrait";
 import { GameIcon } from "../../components/Icons/GameIcon";
-import { playThemeFromSearch, playThemePool, PLAY_THEMES } from "../../content/playThemes";
+import { playThemeFromSearch, playThemePool, publishedThemePool, PLAY_THEMES } from "../../content/playThemes";
 import { ACCESSORIES } from "../../content/accessories";
 import { levelAssetUrls, preloadImages } from "../../game/assetReadiness";
 import { useMultiplayer } from "../../multiplayer/useMultiplayer";
 import { invitationUrl, normalizeRoomCode, playerTimeSeconds, remainingSeconds } from "../../multiplayer/clientUtils";
+import { generateNickname, NICKNAME_MAX_LENGTH, readNickname, saveNickname } from "../../multiplayer/nickname";
 import type { PublicPlayer, MultiplayerTheme } from "../../multiplayer/protocol";
 import { useSaveStore } from "../../save/saveStore";
 import { MatchBoard } from "./MatchBoard";
@@ -56,14 +57,14 @@ async function copyText(text: string) {
 }
 
 export default function Multiplayer() {
-  const { t: tr } = useTranslation();
+  const { t: tr, locale } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
   const purchasedPeople = useSaveStore(state => state.save.purchasedPeople);
   const initialCode = useRef(normalizeRoomCode(new URLSearchParams(location.search).get("room") ?? ""));
   const theme = playThemeFromSearch(location.search) as MultiplayerTheme;
   const { match, connection, pending, error, send, request, leave, serverNow } = useMultiplayer(initialCode.current);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(() => readNickname(locale));
   const [code, setCode] = useState(initialCode.current);
   const [notice, setNotice] = useState("");
   const [qr, setQr] = useState("");
@@ -183,6 +184,7 @@ export default function Multiplayer() {
     event.preventDefault();
     const playerName = name.trim();
     if (!playerName) return;
+    saveNickname(playerName);
     if (join) request({ type: "join", code, name: playerName, purchasedPeople });
     else request({ type: "create", theme, name: playerName, purchasedPeople });
   };
@@ -198,12 +200,19 @@ export default function Multiplayer() {
   const playing = self?.phase === "playing" && room?.status !== "finished";
   const inMatch = room && room.status !== "waiting" && room.status !== "finished";
   const readyAssetsError = poolStatus === "error" || (inMatch && assetsStatus === "error");
-  const themeLabel = PLAY_THEMES.find(item => item.id === currentTheme)?.label ?? tr("Animaux");
+  const themeLabel = PLAY_THEMES.find(item => item.id === currentTheme)?.label ?? "Animaux";
+  const entryPortraits = useMemo(() => {
+    const pool = publishedThemePool(currentTheme);
+    const first = pool[0];
+    const second = pool.find(character => character.name !== first?.name && (!first?.species || character.species !== first.species)) ?? pool[1];
+    return [first, second].filter(character => character !== undefined);
+  }, [currentTheme]);
+  const changeName = (value: string) => { setName(value); saveNickname(value); };
 
-  return <main className={`fi-screen mp-page ${inMatch ? "mp-page--playing" : ""}`}>
+  return <main className={`fi-screen mp-page ${!room ? "mp-page--entry" : ""} ${inMatch ? "mp-page--playing" : ""}`}>
     <div className="mp-inner">
       <header className="mp-heading">
-        <button type="button" className="mp-icon-button" aria-label={tr("Retour à l’accueil")} onClick={onBack}><ArrowLeft size={22} /></button>
+        <button type="button" className="mp-icon-button" aria-label={tr(room ? "Retour à l’accueil" : "Choisir un thème")} onClick={() => room ? onBack() : navigate(`/play?mode=duel&theme=${encodeURIComponent(theme)}`)}><ArrowLeft size={22} /></button>
         <span><strong>{tr("Duel en ligne")}</strong><small>{room ? tr("Salon {{code}}", { code: room.code }) : tr(themeLabel)}</small></span>
         <button type="button" className="mp-icon-button" aria-label={tr(sound ? "Couper le son" : "Activer le son")} aria-pressed={sound}
           onClick={() => { useGameStore.getState().setSound(!sound); if (!sound) playSound("tap"); }}>{sound ? <Volume2 size={22} /> : <VolumeX size={22} />}</button>
@@ -213,21 +222,36 @@ export default function Multiplayer() {
       {error && <p className="mp-error" role="alert">{tr(error)}</p>}
       {room && connection === "reconnecting" && <p className="mp-error" role="status">{tr("Reconnexion… Le chrono continue.")}</p>}
 
-      {!room && <section className="mp-card mp-entry">
-        <GameIcon name="duel" className="mp-hero-icon" />
-        <h1>{tr("À deux, chacun son écran !")}</h1>
-        <p>{tr("La même grille, 3 vies chacun.")}<br />{tr("Trouve le portrait avant ton adversaire !")}</p>
-        <form onSubmit={event => submit(event, false)}>
-          <label htmlFor="mp-name">{tr("Ton prénom ou pseudo")}</label>
-          <input id="mp-name" value={name} onChange={event => setName(event.target.value)} placeholder={tr("Ton pseudo")} autoComplete="nickname" maxLength={20} required />
-          <button type="submit" className="mp-button mp-button--gold" disabled={!connected || pending || !name.trim()}>{tr("Créer un salon")}</button>
+      {!room && <section className="mp-entry" aria-labelledby="mp-entry-title">
+        <div className="mp-entry-hero">
+          <div className="mp-entry-art" aria-hidden="true">
+            {entryPortraits.map(character => <AnimalPortrait key={character.name} imageSrc={character.imageSrc} label={character.label} />)}
+            <GameIcon name="duel" className="mp-hero-icon" />
+            <span className="mp-entry-spark">✦</span><span className="mp-entry-spark mp-entry-spark--right">✦</span>
+          </div>
+          <h1 id="mp-entry-title">{tr("À deux, chacun son écran !")}</h1>
+          <p>{tr("Trouve le portrait avant ton adversaire !")}</p>
+          <div className="mp-entry-tags"><span className="fi-chip">{tr(themeLabel)}</span><span className="fi-chip"><Hearts count={3} />{tr("La même grille")}</span></div>
+        </div>
+        <form className="mp-create-form" onSubmit={event => submit(event, false)}>
+          <div className="mp-identity">
+            <label htmlFor="mp-name">{tr("Ton pseudo")}</label>
+            <div className="mp-name-row">
+              <input id="mp-name" value={name} onChange={event => changeName(event.target.value)} placeholder={tr("Ton pseudo")} autoComplete="nickname" spellCheck={false} maxLength={NICKNAME_MAX_LENGTH} required aria-describedby="mp-name-hint" />
+              <button type="button" className="mp-icon-button mp-shuffle" aria-label={tr("Tirer un pseudo au hasard")} onClick={() => changeName(generateNickname(locale, name))}><Dices size={23} /></button>
+            </div>
+            <p id="mp-name-hint">{tr("Un pseudo pour toi. Tu peux le changer !")}</p>
+          </div>
+          <button type="submit" className="mp-button mp-button--gold mp-create-button" disabled={!connected || pending || !name.trim()}><GameIcon name="duel" />{tr(pending ? "Chargement…" : "Créer un salon")}</button>
         </form>
         <div className="mp-divider"><span>{tr("ou rejoins un ami")}</span></div>
-        <form onSubmit={event => submit(event, true)}>
+        <form className="mp-join-form" onSubmit={event => submit(event, true)}>
           <label htmlFor="mp-code">{tr("Code du salon")}</label>
-          <input id="mp-code" className="mp-code-input" value={code} onChange={event => setCode(normalizeRoomCode(event.target.value))}
-            placeholder="A3B7K" autoComplete="off" autoCapitalize="characters" spellCheck={false} maxLength={5} required />
-          <button type="submit" className="mp-button" disabled={!connected || pending || !name.trim() || code.length !== 5}>{tr("Rejoindre")}</button>
+          <div className="mp-join-row">
+            <input id="mp-code" className="mp-code-input" value={code} onChange={event => setCode(normalizeRoomCode(event.target.value))}
+              placeholder="A3B7K" autoComplete="off" autoCapitalize="characters" spellCheck={false} maxLength={5} required />
+            <button type="submit" className="mp-button" disabled={!connected || pending || !name.trim() || code.length !== 5}>{tr("Rejoindre")}</button>
+          </div>
         </form>
       </section>}
 

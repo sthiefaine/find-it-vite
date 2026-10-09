@@ -12,6 +12,24 @@ describe("client des salons", () => {
     expect(() => multiplayerUrl({ protocol: "https:", host: "findit.example" }, "javascript:alert(1)")).toThrow();
   });
 
+  it("ajoute /ws aux domaines seuls et accepte une configuration de même origine", () => {
+    const location = { protocol: "https:", host: "findit.example" };
+    expect(multiplayerUrl(location, " https://rooms.example \n")).toBe("wss://rooms.example/ws");
+    expect(multiplayerUrl(location, "wss://rooms.example")).toBe("wss://rooms.example/ws");
+    expect(multiplayerUrl(location, "/ws")).toBe("wss://findit.example/ws");
+    expect(multiplayerUrl(location, "  ")).toBe("wss://findit.example/ws");
+    expect(multiplayerUrl(location, "https://rooms.example/custom/ws?region=eu")).toBe("wss://rooms.example/custom/ws?region=eu");
+  });
+
+  it("explique le blocage HTTP depuis HTTPS au lieu d’annoncer une reconnexion", () => {
+    const location = { protocol: "https:", host: "findit.example" };
+    for (const configured of ["http://rooms.example", "ws://rooms.example/ws"])
+      expect(() => multiplayerUrl(location, configured)).toThrow("La connexion au salon doit être sécurisée (WSS).");
+    expect(multiplayerUrl({ protocol: "http:", host: "localhost:5173" }, "http://localhost:3001")).toBe("ws://localhost:3001/ws");
+    for (const configured of ["adresse incorrecte", "wss://", "https://rooms.example/ws#fragment"])
+      expect(() => multiplayerUrl(location, configured)).toThrow("Adresse du salon invalide.");
+  });
+
   it("partage seulement le code public du salon et normalise la saisie", () => {
     expect(normalizeRoomCode(" a3-b7 k \n")).toBe("A3B7K");
     expect(normalizeRoomCode("A3B7KTOOLONG")).toBe("A3B7K");
