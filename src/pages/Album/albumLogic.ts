@@ -1,7 +1,7 @@
 // Calculs d'affichage de l'album (sans React)
 import type { Save } from "../../save/schema";
 import { WORLDS } from "../../content/worlds";
-import { celebritiesPack, historyPack, peoplePack } from "../../helpers/characters";
+import { animalsPack, celebritiesPack, historyPack, peoplePack } from "../../helpers/characters";
 import type { CharacterDetails } from "../../helpers/characters";
 import { MEDAL_THRESHOLDS } from "../../content/progress";
 import type { Mastery } from "../../content/progress";
@@ -12,8 +12,8 @@ import type { AnimalUnlockSave } from "../../content/unlockedAnimals";
 type AlbumSave = Pick<Save, "collection">;
 
 export const ALBUM_COLLECTIONS = [
-  { ...WORLDS[0], characters: WORLDS.flatMap(world => world.characters.map(character => world.id === "ocean" ? { ...character, tags: ["ocean"] } : character)), alwaysAvailable: false, allowColorFilter: true },
-  { id: "politique", name: "Politique française", emoji: "🏛️", characters: peoplePack,
+  { ...WORLDS[0], characters: WORLDS.flatMap(world => (world.id === "animaux" ? animalsPack : world.characters).map(character => world.id === "ocean" ? { ...character, tags: ["ocean"] } : character)), alwaysAvailable: false, allowColorFilter: true },
+  { id: "politique", name: "Politique", emoji: "🏛️", characters: peoplePack,
     background: "linear-gradient(160deg, #dce6ff 0%, #a9bce8 100%)", alwaysAvailable: false, allowColorFilter: false },
   { id: "histoire", name: "Histoire", emoji: "📜", characters: historyPack,
     background: "linear-gradient(160deg, #f9e8c8 0%, #d7b77c 100%)", alwaysAvailable: false, allowColorFilter: false },

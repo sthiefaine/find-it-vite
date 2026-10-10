@@ -2,6 +2,10 @@
 import { animalsPack } from "../helpers/characters";
 import type { CharacterColor, CharacterDetails } from "../helpers/characters";
 import { emojiImage } from "../helpers/emojiImage";
+import legacyAnimalIds from "./legacyAnimalIds.json";
+
+const animalById = new Map(animalsPack.map(animal => [animal.name, animal]));
+const legacyAnimals = legacyAnimalIds.map(id => animalById.get(id)).filter((animal): animal is CharacterDetails => !!animal);
 
 export type WorldId = "animaux" | "ocean" | "dinos" | "halloween" | "espace";
 
@@ -123,7 +127,7 @@ const ORIGINAL_WORLDS: World[] = [
     name: "Animaux",
     emoji: "🦁",
     startIndex: 1,
-    characters: animalsPack,
+    characters: legacyAnimals,
     background: "linear-gradient(160deg, #ffe08a 0%, #f6b94c 55%, #d9893a 100%)",
     accent: "#e07a1f",
     unlockStars: 0,
@@ -180,9 +184,10 @@ export function getWorld(id: string): World | undefined {
 }
 
 export function allCharacters(): CharacterDetails[] {
-  return WORLDS.flatMap((w) => w.characters);
+  return [...animalsPack, ...ocean];
 }
 
 export function worldOfCharacter(name: string): World | undefined {
+  if (animalsPack.some(character => character.name === name)) return getWorld("animaux");
   return WORLDS.find((w) => w.characters.some((c) => c.name === name));
 }

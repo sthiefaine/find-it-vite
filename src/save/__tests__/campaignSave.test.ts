@@ -1,0 +1,111 @@
+import { describe, expect, it } from "vitest";
+import { applyChapterEntry, applyChapterGrant, applyChapterStars, applyPortraitPurchase, createSaveStore } from "../saveStore";
+import { defaultSave, SAVE_KEY, SAVE_VERSION } from "../schema";
+import { migrate } from "../migrations";
+import { CAMPAIGN_CHAPTERS } from "../../content/campaign";
+import { isPortraitUnlocked } from "../../content/portraitUnlocks";
+import { createMemoryStorage } from "../storage";
+import { isFrameUnlocked, isWorldUnlocked, totalStars } from "../../content/progress";
+import { getWorld } from "../../content/worlds";
+
+const chapter = CAMPAIGN_CHAPTERS.find(c => c.id === "personnages-cinema-01")!;
+describe("sauvegarde des chapitres", () => {
+  it("compte les étoiles des chapitres pour l’en-tête et les cadres sans ouvrir l’ancien Océan", () => {
+    const save = defaultSave();
+    save.campaign.chapterStars[chapter.id] = Object.fromEntries(Array.from({ length: 10 }, (_, i) => [`s${String(i + 1).padStart(2, "0")}`, 3]));
+    expect(totalStars(save)).toBe(30);
+    expect(isFrameUnlocked(save, "neon")).toBe(true);
+    expect(isFrameUnlocked(save, "gold")).toBe(true);
+    expect(isWorldUnlocked(save, getWorld("ocean")!)).toBe(false);
+    save.adventure.stars["animaux:1"] = 2;
+    expect(totalStars(save)).toBe(32);
+  });
+  it("ouvre deux portraits d’appui sans achat, capture ni débit du portefeuille", () => {
+    const initial = defaultSave();
+    const entered = applyChapterEntry(initial, chapter.id, 1);
+    expect(entered.campaign.grantedPortraits).toEqual(chapter.cohortIds.slice(0, 2));
+    expect(entered.wallet).toEqual(initial.wallet);
+    expect(entered.collection).toEqual({});
+    expect(entered.purchasedPeople).toEqual([]);
+    expect(isPortraitUnlocked(entered, chapter.cohortIds[0])).toBe(true);
+    expect(applyPortraitPurchase(entered, chapter.cohortIds[0]).result).toBe("already-unlocked");
+    expect(applyChapterEntry(initial, chapter.id, 2)).toBe(initial);
+  });
+  it("ne donne qu’un portrait du chapitre, sans doublon ni fausse capture", () => {
+    const save = applyChapterGrant(defaultSave(), chapter.id, chapter.cohortIds[2]);
+    expect(save.collection).toEqual({});
+    expect(isPortraitUnlocked(save, chapter.cohortIds[2])).toBe(true);
+    expect(applyChapterGrant(save, chapter.id, chapter.cohortIds[2])).toBe(save);
+    expect(applyChapterGrant(save, chapter.id, "chat")).toBe(save);
+  });
+  it("garde le meilleur score et accorde le bonus final une seule fois, après rechargement", () => {
+    let save = defaultSave();
+    expect(applyChapterStars(save, chapter.id, 10, 3).reward).toBe(0);
+    for (let mission = 1; mission <= 10; mission++) save = applyChapterStars(save, chapter.id, mission, 2).save;
+    expect(save.wallet.stars).toBe(10);
+    expect(save.campaign.rewardReceipts).toHaveLength(1);
+    const improved = applyChapterStars(migrate(JSON.stringify(save)), chapter.id, 10, 3);
+    expect(improved.reward).toBe(0);
+    expect(improved.save.wallet.stars).toBe(10);
+    expect(improved.save.campaign.chapterStars[chapter.id].s10).toBe(3);
+    expect(applyChapterStars(improved.save, chapter.id, 10, 1).save.campaign.chapterStars[chapter.id].s10).toBe(3);
+  });
+  it("migre v12 sans déplacer les étoiles, perdre les achats, ni refermer le Grand Mélange", () => {
+    const legacy = { ...defaultSave(), version: 12, adventure: { stars: { "ocean:20": 3, "animaux:2": 2 }, unlocked: ["ocean"] }, collection: { chat: 4 }, wallet: { stars: 97, onlineRewards: {} }, purchasedAnimals: ["dauphin"], purchasedPeople: ["hypatie"] };
+    const save = migrate(legacy);
+    expect(save.version).toBe(SAVE_VERSION);
+    expect(save.adventure).toEqual(legacy.adventure);
+    expect(save.wallet).toEqual(legacy.wallet);
+    expect(save.collection).toEqual(legacy.collection);
+    expect(save.purchasedAnimals).toEqual(legacy.purchasedAnimals);
+    expect(save.purchasedPeople).toEqual(legacy.purchasedPeople);
+    expect(save.campaign).toEqual({ ...defaultSave().campaign, legacyMixUnlocked: true });
+    expect(migrate({ ...legacy, adventure: { stars: { "animaux:20": 3 } } }).campaign.legacyMixUnlocked).toBe(false);
+    expect(migrate({ ...legacy, adventure: { stars: { "espace:10": 1 } } }).campaign.legacyMixUnlocked).toBe(true);
+  });
+  it("nettoie les données abîmées tout en gardant les identités d’anciens chapitres", () => {
+    const save = migrate({ ...defaultSave(), campaign: { chapterStars: { "retired-chapter": { s01: 9, s02: -1, s11: 3 } }, grantedPortraits: ["old-portrait", "old-portrait", "bad id"], rewardReceipts: ["chapter:retired-chapter:complete:v1", "junk"], resume: { kind: "chapter", chapterId: "retired-chapter", mission: 2 }, legacyMixUnlocked: true } });
+    expect(save.campaign.grantedPortraits).toEqual(["old-portrait"]);
+    expect(save.campaign.chapterStars["retired-chapter"]).toEqual({ s01: 3 });
+    expect(save.campaign.rewardReceipts).toEqual(["chapter:retired-chapter:complete:v1"]);
+    expect(save.campaign.resume).toEqual({ kind: "chapter", chapterId: "retired-chapter", mission: 2 });
+  });
+  it("persiste les déblocages et protège une sauvegarde future", async () => {
+    const storage = createMemoryStorage(), store = createSaveStore(storage);
+    await store.getState().load();
+    expect(store.getState().enterChapter(chapter.id, 1)).toBe(true);
+    store.getState().grantChapterPortrait(chapter.id, chapter.cohortIds[2]);
+    store.getState().recordChapterStars(chapter.id, 1, 3);
+    await store.getState().flush();
+    const restored = createSaveStore(storage);
+    await restored.getState().load();
+    expect(restored.getState().save.campaign).toEqual(store.getState().save.campaign);
+    const future = JSON.stringify({ ...defaultSave(), version: SAVE_VERSION + 1 });
+    const guardedStorage = createMemoryStorage({ [SAVE_KEY]: future }), guarded = createSaveStore(guardedStorage);
+    await guarded.getState().load();
+    expect(guarded.getState().enterChapter(chapter.id, 1)).toBe(false);
+    guarded.getState().grantChapterPortrait(chapter.id, chapter.cohortIds[2]);
+    guarded.getState().recordChapterStars(chapter.id, 1, 3);
+    await guarded.getState().flush();
+    expect(guardedStorage.data.get(SAVE_KEY)).toBe(future);
+  });
+  it("reprend une étape classique rejouée même si son meilleur score ne change pas", async () => {
+    const store = createSaveStore(createMemoryStorage());
+    await store.getState().load();
+    store.getState().recordStars("animaux", 3, 3);
+    store.getState().enterChapter(chapter.id, 1);
+    store.getState().recordStars("animaux", 3, 1);
+    store.getState().recordLegacyCheckpoint(4);
+    expect(store.getState().save.adventure.stars["animaux:3"]).toBe(3);
+    expect(store.getState().save.campaign.resume).toEqual({ kind: "legacy", step: 4 });
+    store.getState().recordLegacyCheckpoint(45);
+    expect(store.getState().save.campaign.resume).toEqual({ kind: "legacy", step: 4 });
+    store.getState().recordStars("ocean", 20, 2);
+    store.getState().recordLegacyCheckpoint(45);
+    expect(store.getState().save.campaign.resume).toEqual({ kind: "legacy", step: 45 });
+    store.getState().enterChapter(chapter.id, 1);
+    expect(store.getState().save.campaign.legacyStep).toBe(45);
+    expect(store.getState().save.campaign.resume).toEqual({ kind: "chapter", chapterId: chapter.id, mission: 1 });
+    await store.getState().flush();
+  });
+});

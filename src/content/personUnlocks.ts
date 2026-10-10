@@ -19,10 +19,10 @@ export const STARTER_CELEBRITY_IDS = [
 ] as const;
 const starters = new Set<string>([...STARTER_POLITICAL_IDS, ...STARTER_HISTORY_IDS, ...STARTER_CELEBRITY_IDS]);
 const people = new Set([...peoplePack, ...historyPack, ...celebritiesPack].map(person => person.name));
-export type PersonUnlockSave = { purchasedPeople?: readonly string[] };
+export type PersonUnlockSave = { purchasedPeople?: readonly string[]; campaign?: { grantedPortraits?: readonly string[] } };
 export const isPerson = (id: string) => people.has(id);
 export const isPersonUnlocked = (save: PersonUnlockSave, id: string) =>
-  people.has(id) && (starters.has(id) || !!save.purchasedPeople?.includes(id));
+  people.has(id) && (starters.has(id) || !!save.purchasedPeople?.includes(id) || !!save.campaign?.grantedPortraits?.includes(id));
 export const unlockedPeople = (save: PersonUnlockSave, pool: readonly CharacterDetails[]) =>
   pool.filter(person => isPersonUnlocked(save, person.name));
 

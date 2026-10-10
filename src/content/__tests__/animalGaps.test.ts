@@ -29,7 +29,7 @@ describe("40 espèces complémentaires", () => {
       expect(animal.serie).toBe("animal");
       expect(animal.breed).toBe("");
       expect(existsSync(`public${animal.imageSrc}`), animal.name).toBe(true);
-      expect(catalog.sprites.find(sprite => sprite.id === animal.name)).toMatchObject({ status: "ready", source: animal.imageSrc });
+      expect(catalog.sprites.find(sprite => sprite.id === animal.name)).toMatchObject({ status: "ready", source: animal.detailImageSrc });
       expect(messages[animal.label], animal.name).toHaveLength(10);
       expect(publishedThemePool("animaux")).toContain(animal);
       expect(playThemePool("duel", "animaux", defaultSave())).toContain(animal);

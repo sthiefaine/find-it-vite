@@ -3421,5 +3421,488 @@
       "sauvages",
       "ocean"
     ]
+  },
+  {
+    "name": "rougegorge-familier",
+    "label": "Rougegorge familier",
+    "imageSrc": "/assets/images/characters/animals/rougegorge-familier.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "bec-court",
+    "species": "rougegorge-familier",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "brown",
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "jardins",
+      "foret"
+    ]
+  },
+  {
+    "name": "mesange-bleue",
+    "label": "Mésange bleue",
+    "imageSrc": "/assets/images/characters/animals/mesange-bleue.png",
+    "serie": "animal",
+    "color": "blue",
+    "family": "bec-court",
+    "species": "mesange-bleue",
+    "breed": "",
+    "dominantColors": [
+      "blue",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "jardins",
+      "foret"
+    ]
+  },
+  {
+    "name": "huppe-fasciee",
+    "label": "Huppe fasciée",
+    "imageSrc": "/assets/images/characters/animals/huppe-fasciee.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "huppe",
+    "species": "huppe-fasciee",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "jardins",
+      "prairies"
+    ]
+  },
+  {
+    "name": "cigogne-blanche",
+    "label": "Cigogne blanche",
+    "imageSrc": "/assets/images/characters/animals/cigogne-blanche.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "bec-long",
+    "species": "cigogne-blanche",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "red"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "zones-humides",
+      "prairies"
+    ]
+  },
+  {
+    "name": "spatule-blanche",
+    "label": "Spatule blanche",
+    "imageSrc": "/assets/images/characters/animals/spatule-blanche.png",
+    "serie": "animal",
+    "color": "white",
+    "family": "bec-spatule",
+    "species": "spatule-blanche",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "zones-humides"
+    ]
+  },
+  {
+    "name": "saiga",
+    "label": "Saïga",
+    "imageSrc": "/assets/images/characters/animals/saiga.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "nez-large",
+    "species": "saiga",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "steppe"
+    ]
+  },
+  {
+    "name": "caracal",
+    "label": "Caracal",
+    "imageSrc": "/assets/images/characters/animals/caracal.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "oreilles-pointues",
+    "species": "caracal",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "savane",
+      "desert"
+    ]
+  },
+  {
+    "name": "orycterope",
+    "label": "Oryctérope",
+    "imageSrc": "/assets/images/characters/animals/orycterope.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "museau-pointu",
+    "species": "orycterope",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "sauvages",
+      "savane"
+    ]
+  },
+  {
+    "name": "coati-roux",
+    "label": "Coati roux",
+    "imageSrc": "/assets/images/characters/animals/coati-roux.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "museau-pointu",
+    "species": "coati-roux",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "white",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "foret",
+      "jungle"
+    ]
+  },
+  {
+    "name": "tatou-neuf-bandes",
+    "label": "Tatou à neuf bandes",
+    "imageSrc": "/assets/images/characters/animals/tatou-neuf-bandes.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "armure",
+    "species": "tatou-neuf-bandes",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "sauvages",
+      "foret"
+    ]
+  },
+  {
+    "name": "grand-bilby",
+    "label": "Grand bilby",
+    "imageSrc": "/assets/images/characters/animals/grand-bilby.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "grandes-oreilles",
+    "species": "grand-bilby",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "pink",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "desert",
+      "australie"
+    ]
+  },
+  {
+    "name": "casoar-a-casque",
+    "label": "Casoar à casque",
+    "imageSrc": "/assets/images/characters/animals/casoar-a-casque.png",
+    "serie": "animal",
+    "color": "blue",
+    "family": "casque",
+    "species": "casoar-a-casque",
+    "breed": "",
+    "dominantColors": [
+      "blue",
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "jungle",
+      "australie"
+    ]
+  },
+  {
+    "name": "kakapo",
+    "label": "Kākāpō",
+    "imageSrc": "/assets/images/characters/animals/kakapo.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "disque-facial",
+    "species": "kakapo",
+    "breed": "",
+    "dominantColors": [
+      "green",
+      "brown",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "oiseaux",
+      "foret",
+      "nouvelle-zelande"
+    ]
+  },
+  {
+    "name": "cobra-royal",
+    "label": "Cobra royal",
+    "imageSrc": "/assets/images/characters/animals/cobra-royal.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "coiffe",
+    "species": "cobra-royal",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "reptiles",
+      "jungle",
+      "asie"
+    ]
+  },
+  {
+    "name": "rainette-yeux-rouges",
+    "label": "Rainette aux yeux rouges",
+    "imageSrc": "/assets/images/characters/animals/rainette-yeux-rouges.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "amphibien",
+    "species": "rainette-yeux-rouges",
+    "breed": "",
+    "dominantColors": [
+      "green",
+      "red",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "amphibiens",
+      "jungle"
+    ]
+  },
+  {
+    "name": "grenouille-tomate",
+    "label": "Grenouille tomate",
+    "imageSrc": "/assets/images/characters/animals/grenouille-tomate.png",
+    "serie": "animal",
+    "color": "orange",
+    "family": "amphibien",
+    "species": "grenouille-tomate",
+    "breed": "",
+    "dominantColors": [
+      "orange",
+      "white",
+      "yellow"
+    ],
+    "tags": [
+      "sauvages",
+      "amphibiens",
+      "jungle",
+      "madagascar"
+    ]
+  },
+  {
+    "name": "dendrobate-bleu",
+    "label": "Dendrobate bleu",
+    "imageSrc": "/assets/images/characters/animals/dendrobate-bleu.png",
+    "serie": "animal",
+    "color": "blue",
+    "family": "amphibien",
+    "species": "dendrobate-bleu",
+    "breed": "",
+    "dominantColors": [
+      "blue",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "amphibiens",
+      "jungle"
+    ]
+  },
+  {
+    "name": "brochet",
+    "label": "Grand brochet",
+    "imageSrc": "/assets/images/characters/animals/brochet.png",
+    "serie": "animal",
+    "color": "green",
+    "family": "poisson-allonge",
+    "species": "brochet",
+    "breed": "",
+    "dominantColors": [
+      "green",
+      "yellow",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "aquatiques",
+      "eau-douce"
+    ]
+  },
+  {
+    "name": "silure-glane",
+    "label": "Silure glane",
+    "imageSrc": "/assets/images/characters/animals/silure-glane.png",
+    "serie": "animal",
+    "color": "grey",
+    "family": "barbillons",
+    "species": "silure-glane",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "brown",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "aquatiques",
+      "eau-douce"
+    ]
+  },
+  {
+    "name": "discus-heckel",
+    "label": "Discus de Heckel",
+    "imageSrc": "/assets/images/characters/animals/discus-heckel.png",
+    "serie": "animal",
+    "color": "purple",
+    "family": "poisson-disque",
+    "species": "discus-heckel",
+    "breed": "",
+    "dominantColors": [
+      "purple",
+      "brown",
+      "blue"
+    ],
+    "tags": [
+      "sauvages",
+      "aquatiques",
+      "eau-douce",
+      "amazonie"
+    ]
+  },
+  {
+    "name": "poisson-coffre-jaune",
+    "label": "Poisson-coffre jaune",
+    "imageSrc": "/assets/images/characters/animals/poisson-coffre-jaune.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "poisson-coffre",
+    "species": "poisson-coffre-jaune",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "black"
+    ],
+    "tags": [
+      "sauvages",
+      "aquatiques",
+      "ocean",
+      "recif"
+    ]
+  },
+  {
+    "name": "etoile-mer-rouge",
+    "label": "Étoile de mer rouge",
+    "imageSrc": "/assets/images/characters/animals/etoile-mer-rouge.png",
+    "serie": "animal",
+    "color": "red",
+    "family": "radial",
+    "species": "etoile-mer-rouge",
+    "breed": "",
+    "dominantColors": [
+      "red",
+      "orange"
+    ],
+    "tags": [
+      "sauvages",
+      "aquatiques",
+      "ocean",
+      "mediterranee",
+      "invertebres"
+    ]
+  },
+  {
+    "name": "poisson-vache-cornes",
+    "label": "Poisson-vache à longues cornes",
+    "imageSrc": "/assets/images/characters/animals/poisson-vache-cornes.png",
+    "serie": "animal",
+    "color": "yellow",
+    "family": "cornes-faciales",
+    "species": "poisson-vache-cornes",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "blue",
+      "white"
+    ],
+    "tags": [
+      "sauvages",
+      "aquatiques",
+      "ocean",
+      "recif"
+    ]
+  },
+  {
+    "name": "poisson-scie-petites-dents",
+    "label": "Poisson-scie à petites dents",
+    "imageSrc": "/assets/images/characters/animals/poisson-scie-petites-dents.png",
+    "serie": "animal",
+    "color": "brown",
+    "family": "rostre-scie",
+    "species": "poisson-scie-petites-dents",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey"
+    ],
+    "tags": [
+      "sauvages",
+      "aquatiques",
+      "ocean",
+      "estuaire",
+      "raie"
+    ]
   }
 ]

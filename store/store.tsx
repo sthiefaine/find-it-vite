@@ -16,6 +16,7 @@ import { dailyRewardClaimed, dailyRewardPerson } from "../src/game/dailyReward";
 import { isPortraitUnlocked } from "../src/content/portraitUnlocks";
 import { playLegacySound, playSound, unlockAudio } from "../src/audio/engine";
 import { captureFeedbackFor, type CaptureFeedback } from "../src/game/audioFeedback";
+import { CHAPTER_MISSIONS } from "../src/content/campaign";
 
 export const gameConstants = {
   LEVEL: 1,
@@ -51,6 +52,8 @@ export type GameStats = {
 
 // Résultat enregistré dans la sauvegarde à la fin de la partie
 export type GameRecord = {
+  chapterId?: string | null;
+  chapterComplete?: boolean;
   mode: GameMode;
   score: number;
   level: number;
@@ -83,6 +86,8 @@ export type StepToast = { key: number; level: number; stars: number };
 export type WorldBanner = { key: number; phase: PhaseId };
 
 export type RunConfig = {
+  chapterId?: string | null;
+  resumeStep?: number;
   runSeed: number;
   tier: Tier;
   level: number;
@@ -94,6 +99,7 @@ export type RunConfig = {
 };
 
 type GameState = {
+  chapterId: string | null;
   mode: GameMode;
   worldId: WorldId | null; // Aventure
   adventureLevel: number; // Aventure : étape dans le monde (1 à 20)
@@ -179,6 +185,7 @@ export type GameActions = {
 export type GameStore = GameState & GameActions;
 
 export const defaultInitState: GameState = {
+  chapterId: null,
   mode: "endless",
   worldId: null,
   adventureLevel: 1,
@@ -253,8 +260,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     useSaveStore.getState().setSound(data);
     if (data) unlockAudio();
   },
-  startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null }) => {
-    const step = mode === "adventure" && worldId ? globalStep(worldId, adventureLevel) : 1;
+  startRun: ({ runSeed, tier, level, mode = "endless", worldId = null, adventureLevel = 1, calm = false, dailyDate = null, chapterId = null, resumeStep }) => {
+    const step = chapterId ? adventureLevel : mode === "adventure" ? resumeStep ?? (worldId ? globalStep(worldId, adventureLevel) : 1) : 1;
     const save = useSaveStore.getState().save;
     const date = mode === "daily" ? dailyDate ?? todayISO() : null;
     set({
@@ -263,6 +270,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       level,
       currentSpec: null,
       mode,
+      chapterId,
       worldId,
       adventureLevel,
       adventureStep: step,
@@ -273,7 +281,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
       missionFound: 0,
       stepPlayMs: 0,
       runSteps: [],
-      runPhases: mode === "adventure" ? [stepInfo(step).phase] : [],
+      runPhases: mode === "adventure" && !chapterId ? [stepInfo(step).phase] : [],
       lockedAtStart: WORLDS.filter((w) => !isWorldUnlocked(save, w)).map((w) => w.id),
       stepToast: null,
       worldBanner: null,
@@ -305,9 +313,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (get().worldBanner) set({ worldBanner: null });
   },
   advanceLevel: () => {
-    const { mode, missionFound, gameState, level, adventureStep, runPhases } = get();
+    const { mode, missionFound, gameState, level, adventureStep, runPhases, chapterId } = get();
     if (gameState !== GameStateEnum.PLAYING) return;
     if (mode === "adventure" && missionFound >= MISSION_GOAL) {
+      if (chapterId) {
+        if (adventureStep >= CHAPTER_MISSIONS) { set({ gameState: GameStateEnum.FINISH }); return; }
+        set({ adventureStep: adventureStep + 1, adventureLevel: adventureStep + 1, missionFound: 0, stepPlayMs: 0, level: level + 1 });
+        return;
+      }
       // étape franchie : la suivante, sans écran intermédiaire (monde suivant après la 10)
       const next = stepInfo(adventureStep + 1);
       const newPhase = entersNewPhase(adventureStep);
@@ -454,6 +467,8 @@ export const useGameStore = create<GameStore>((set, get) => ({
     const { score, level, stats, mode, calm, adventureLevel, newCharacters } = get();
     const save = useSaveStore.getState();
     const record: GameRecord = {
+      chapterId: get().chapterId,
+      chapterComplete: !!get().chapterId && get().runSteps.some(step => step.level === CHAPTER_MISSIONS),
       mode,
       score,
       level,
@@ -512,6 +527,8 @@ function collect(wanted: CharacterDetails) {
   const daily = useGameStore.getState().mode === "daily";
   const before = save.save.collection[wanted.name] ?? 0;
   const unlockedBefore = isPortraitUnlocked(save.save, wanted.name);
+  const chapterId = useGameStore.getState().chapterId;
+  if (chapterId) save.grantChapterPortrait(chapterId, wanted.name);
   if (daily) save.recordDailyFind(wanted.name);
   else save.recordCollection(wanted.name);
   if (!daily && !unlockedBefore && isPortraitUnlocked(useSaveStore.getState().save, wanted.name)) queueUnlock(wanted);
@@ -559,10 +576,18 @@ function countMissionStep() {
 
 // Étape franchie : étoiles enregistrées tout de suite, bandeau « Étape 3 ★★☆ »
 function completeStep() {
-  const { adventureStep, stepPlayMs, runSteps } = useGameStore.getState();
+  const { adventureStep, stepPlayMs, runSteps, chapterId } = useGameStore.getState();
+  if (chapterId) {
+    const stars = stepStars(stepPlayMs);
+    const reward = useSaveStore.getState().recordChapterStars(chapterId, adventureStep, stars);
+    useGameStore.setState({ runSteps: [...runSteps, { step: adventureStep, worldId: null, level: adventureStep, stars }], stepPlayMs: 0,
+      stepToast: { key: ++toastKey, level: adventureStep, stars }, runStars: useGameStore.getState().runStars + reward });
+    return;
+  }
   const info = stepInfo(adventureStep);
   const stars = stepStars(stepPlayMs);
   if (info.worldId) useSaveStore.getState().recordStars(info.worldId, info.level, stars);
+  useSaveStore.getState().recordLegacyCheckpoint(info.step + 1);
   useGameStore.setState({
     runSteps: [...runSteps, { step: info.step, worldId: info.worldId, level: info.level, stars }],
     stepPlayMs: 0,

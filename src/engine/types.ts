@@ -103,6 +103,7 @@ export interface LevelSpec {
 }
 
 export interface GenContext {
+  wantedId?: string; // calendrier explicite des chapitres ; absent pour les graines historiques
   seed: number; // graine de la partie
   tier: Tier;
   pool: CharacterDetails[]; // persos disponibles (thème / déblocages)

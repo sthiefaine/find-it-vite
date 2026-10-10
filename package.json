@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "dev host": "vite --host",
-    "build": "tsc -b && tsc -p server/tsconfig.json && vite build",
+    "build": "node scripts/prepare-portrait-assets.mjs && tsc -b && tsc -p server/tsconfig.json && vite build",
+    "assets:portraits": "node scripts/prepare-portrait-assets.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "studio": "vite --mode studio --host 127.0.0.1 --port 5174 --strictPort --open /studio.html",

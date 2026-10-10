@@ -1,9 +1,10 @@
 import type { LevelSpec } from "../engine/types";
+import type { PlayThemeId } from "../content/playThemes";
 
 export const MULTIPLAYER_PATH = "/ws";
 export const MULTIPLAYER_PROTOCOL_VERSION = 2;
 export const ROOM_CODE_PATTERN = /^[ABCDEFGHJKMNPQRSTUVWXYZ23456789]{5}$/;
-export type MultiplayerTheme = "animaux" | "ferme" | "foret" | "savane" | "ocean" | "jungle" | "polaires" | "personnages" | "politique" | "histoire" | "histoire-fr" | "histoire-us" | "personnes" | "drapeaux";
+export type MultiplayerTheme = PlayThemeId;
 export type RoomStatus = "waiting" | "countdown" | "playing" | "finished";
 export type PlayerPhase = "waiting" | "preparing" | "countdown" | "playing" | "eliminated";
 export type LastResult = "correct" | "wrong" | "timeout" | "disconnected" | "left" | "assets-timeout";

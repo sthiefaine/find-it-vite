@@ -1,5 +1,5 @@
 import { ADVENTURE_WORLD_IDS, DEFAULT_SOUND_VOLUME, DEFAULT_TIER, defaultSave, FRAME_IDS, PLAYER_TIERS, Save, SAVE_VERSION } from "./schema";
-import type { FrameId, PlayerTier, SaveDaily } from "./schema";
+import type { FrameId, PlayerTier, SaveDaily, SaveCampaign } from "./schema";
 import { isPerson, validPurchasedPeople } from "../content/personUnlocks";
 import { validPurchasedAnimals } from "../content/portraitUnlocks";
 
@@ -62,6 +62,9 @@ const migrations: Record<number, (data: RawObject) => RawObject> = {
     version: 12,
     settings: { ...(isObject(data.settings) ? data.settings : {}), soundVolume: DEFAULT_SOUND_VOLUME },
   }),
+  12: (data) => ({ ...data, version: 13, campaign: { ...defaultSave().campaign,
+    legacyMixUnlocked: isObject(data.adventure) && isObject(data.adventure.stars) && (count(data.adventure.stars["ocean:20"], 0) > 0 || count(data.adventure.stars["espace:10"], 0) > 0),
+  } }),
 };
 
 // Ancienne règle (v5) : étoiles à réunir pour ouvrir chaque monde
@@ -140,6 +143,28 @@ function sanitizeDaily(raw: unknown): SaveDaily | null {
   return { date: raw.date, best: count(raw.best, 0), played: count(raw.played, 0) };
 }
 
+const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const validSlug = (value: unknown): value is string => typeof value === "string" && value.length <= 64 && SLUG.test(value);
+function sanitizeCampaign(raw: unknown): SaveCampaign {
+  const base = defaultSave().campaign;
+  if (!isObject(raw)) return base;
+  const chapterStars: SaveCampaign["chapterStars"] = {};
+  if (isObject(raw.chapterStars)) for (const [id, missions] of Object.entries(raw.chapterStars)) {
+    if (!validSlug(id) || !isObject(missions)) continue;
+    chapterStars[id] = Object.fromEntries(Object.entries(missions).filter(([key, value]) => /^s(?:0[1-9]|10)$/.test(key) && count(value, -1) >= 0).map(([key, value]) => [key, Math.min(3, count(value, 0))]));
+  }
+  const grantedPortraits = Array.isArray(raw.grantedPortraits) ? [...new Set(raw.grantedPortraits.filter(validSlug))] : [];
+  const rewardReceipts = Array.isArray(raw.rewardReceipts) ? [...new Set(raw.rewardReceipts.filter((value): value is string => typeof value === "string" && value.length <= 110 && /^chapter:[a-z0-9]+(?:-[a-z0-9]+)*:complete:v[1-9]\d*$/.test(value)))] : [];
+  const resume = isObject(raw.resume) ? raw.resume : {};
+  const legacyStep = count(raw.legacyStep, 0) || (resume.kind === "legacy" ? count(resume.step, 0) : 0);
+  return { chapterStars, grantedPortraits, rewardReceipts, legacyMixUnlocked: raw.legacyMixUnlocked === true,
+    legacyStep: legacyStep > 0 && legacyStep <= 1_000_000 ? legacyStep : null,
+    resume: resume.kind === "chapter" && validSlug(resume.chapterId) && count(resume.mission, 0) >= 1 && count(resume.mission, 0) <= 10
+      ? { kind: "chapter", chapterId: resume.chapterId, mission: count(resume.mission, 1) }
+      : resume.kind === "legacy" && count(resume.step, 0) > 0 && count(resume.step, 0) <= 1_000_000 ? { kind: "legacy", step: count(resume.step, 1) } : null,
+  };
+}
+
 // Garde les champs valides, remplace les autres par la valeur par défaut
 function sanitize(data: RawObject): Save {
   const base = defaultSave();
@@ -186,6 +211,7 @@ function sanitize(data: RawObject): Save {
     purchasedPeople,
     purchasedAnimals: validPurchasedAnimals(data.purchasedAnimals),
     dailyRewards,
+    campaign: sanitizeCampaign(data.campaign),
   };
 }
 

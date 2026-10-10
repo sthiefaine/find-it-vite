@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { historyPack, peoplePack } from "../../helpers/characters";
+import { animalsPack, historyPack, peoplePack } from "../../helpers/characters";
 import { unlockedPeople } from "../../content/personUnlocks";
 import { MULTIPLAYER_THEMES, levelCharacterIds, multiplayerLevel, multiplayerPool } from "../multiplayerRules";
 import { charactersInRegion } from "../../content/characterRegions";
-import { playThemePool } from "../../content/playThemes";
+import { playThemePool, themeOptions } from "../../content/playThemes";
 import { defaultSave } from "../../save/schema";
 
-describe.each([["politique", peoplePack], ["histoire", historyPack]] as const)("%s dans les salons en ligne", (theme, pack) => {
+describe.each([["politique", charactersInRegion(peoplePack, "fr")], ["histoire", historyPack]] as const)("%s dans les salons en ligne", (theme, pack) => {
   it("propose les mêmes portraits sur le serveur et dans le jeu", () => {
     expect(MULTIPLAYER_THEMES).toContain(theme);
     expect(multiplayerPool(theme)).toEqual(unlockedPeople({}, pack));
@@ -23,9 +23,10 @@ describe.each([["politique", peoplePack], ["histoire", historyPack]] as const)("
 });
 
 describe("catalogues communs des salons", () => {
-  it("utilise les 29 portraits marins publiés, comme la sélection de thème", () => {
+  it("utilise les portraits marins publiés, comme la sélection de thème", () => {
     const ocean = multiplayerPool("ocean");
-    expect(ocean).toHaveLength(29);
+    expect(ocean).toEqual(animalsPack.filter(animal => animal.tags?.includes("ocean")));
+    expect(ocean.length).toBeGreaterThanOrEqual(29);
     expect(ocean.map(character => character.name)).toEqual(expect.arrayContaining([
       "baleine-bleue", "poisson-clown", "meduse", "calamar", "seiche",
       "murene", "poisson-lune", "poisson-lion", "lamantin", "dugong",
@@ -38,13 +39,34 @@ describe("catalogues communs des salons", () => {
 
   it("partage les sous-régions historiques en respectant les achats", () => {
     expect(MULTIPLAYER_THEMES).toEqual(expect.arrayContaining(["jungle", "polaires", "histoire-fr", "histoire-us"]));
-    expect(MULTIPLAYER_THEMES).not.toContain("politique-br");
-    expect(MULTIPLAYER_THEMES).not.toContain("politique-us");
+    expect(MULTIPLAYER_THEMES).toContain("politique-br");
+    expect(MULTIPLAYER_THEMES).toContain("politique-us");
     expect(multiplayerPool("histoire-fr")).toEqual(unlockedPeople({}, charactersInRegion(historyPack, "fr")));
     expect(multiplayerPool("histoire-us").map(character => character.name)).toEqual(["rosa-parks"]);
     const purchases = ["josephine-baker", "martin-luther-king"];
     expect(multiplayerPool("histoire-us", purchases)).toEqual(charactersInRegion(historyPack, "us"));
     const spec = multiplayerLevel(1, 42, "histoire-us", purchases);
     expect([spec.wanted, ...spec.decoys].every(character => charactersInRegion(historyPack, "us").some(item => item.name === character.name))).toBe(true);
+  });
+
+  it("utilise les mêmes politiques USA/Brésil achetés côté serveur et sélection de duel", () => {
+    for (const [theme, country] of [["politique-us", "us"], ["politique-br", "br"]] as const) {
+      const pack = charactersInRegion(peoplePack, country);
+      expect(pack.length).toBeGreaterThanOrEqual(3);
+      expect(multiplayerPool(theme)).toEqual([]);
+      for (const count of [0, 2, 3]) {
+        const purchasedPeople = pack.slice(0, count).map(person => person.name);
+        expect(multiplayerPool(theme, purchasedPeople)).toEqual(pack.slice(0, count));
+        expect(multiplayerPool(theme, purchasedPeople)).toEqual(playThemePool("duel", theme, { purchasedPeople }));
+        expect(themeOptions("duel", { purchasedPeople }).find(option => option.theme.id === theme)?.enabled).toBe(count >= 3);
+      }
+      const purchases = pack.slice(0, 3).map(person => person.name);
+      const ids = new Set(purchases);
+      for (const index of [1, 13, 43]) {
+        const spec = multiplayerLevel(index, 42, theme, purchases);
+        expect(spec).toEqual(multiplayerLevel(index, 42, theme, purchases));
+        expect([spec.wanted, ...spec.decoys].every(person => ids.has(person.name))).toBe(true);
+      }
+    }
   });
 });

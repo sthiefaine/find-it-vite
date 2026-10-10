@@ -5,7 +5,7 @@ import { isLevelUnlocked, isWorldUnlocked } from "../../content/progress";
 import { getWorld } from "../../content/worlds";
 
 // Champs ajoutés par la v4, tels qu'une migration les crée
-const V4_EXTRA = { dailyRewards: defaultSave().dailyRewards, wallet: { stars: 0, onlineRewards: {} }, purchasedPeople: [], purchasedAnimals: [], adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
+const V4_EXTRA = { campaign: defaultSave().campaign, dailyRewards: defaultSave().dailyRewards, wallet: { stars: 0, onlineRewards: {} }, purchasedPeople: [], purchasedAnimals: [], adventure: { stars: {}, unlocked: [] }, collection: {}, daily: null };
 const v4Settings = (sound: boolean) => ({ sound, soundVolume: 0.65, calm: false, frame: "classic" });
 
 describe("migrate", () => {
@@ -67,7 +67,7 @@ describe("migrate", () => {
   it("migre toutes les versions précédentes avec un volume modéré et le son conservé", () => {
     for (let version = 1; version <= 11; version++) {
       const save = migrate({ ...defaultSave(), version, settings: { sound: false } });
-      expect(save.version).toBe(12);
+      expect(save.version).toBe(SAVE_VERSION);
       expect(save.settings.sound).toBe(false);
       expect(save.settings.soundVolume).toBe(0.65);
     }
@@ -145,6 +145,7 @@ describe("migrate", () => {
         wallet: { stars: 2, onlineRewards: {} },
         purchasedPeople: [], purchasedAnimals: [],
         dailyRewards: defaultSave().dailyRewards,
+        campaign: defaultSave().campaign,
         profile: { tier: "normal" },
       });
     });

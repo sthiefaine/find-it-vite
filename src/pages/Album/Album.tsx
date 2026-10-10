@@ -16,7 +16,8 @@ import { AlbumPortraitDialog } from "./AlbumPortraitDialog";
 import "../../components/Buttons/ui.css";
 import "./Album.css";
 import { GameIcon } from "../../components/Icons/GameIcon";
-import { charactersInRegion } from "../../content/characterRegions";
+import { characterRegionFlag, characterRegionLabel, regionsInPool } from "../../content/characterRegions";
+import { albumCategoryTags, filterAlbumCharacters } from "./albumCountryFilters";
 
 type Picked = { character: CharacterDetails };
 
@@ -28,20 +29,20 @@ const Album = () => {
   const [worldId, setWorldId] = useState(ALBUM_COLLECTIONS[0].id);
   const [picked, setPicked] = useState<Picked | null>(null);
   const [category, setCategory] = useState("");
+  const [region, setRegion] = useState("");
   const world = ALBUM_COLLECTIONS.find((w) => w.id === worldId) ?? ALBUM_COLLECTIONS[0];
   const peopleCollection = world.id === "politique" || world.id === "histoire" || world.id === "personnes";
   const unlockedCount = world.characters.filter(character => isAlbumCharacterUnlocked(save, character)).length;
   const all = unlockedAlbumCount(save);
   const entries = useMemo(() => sortedAlbumEntries(world.characters, locale).map((entry, index) => ({ ...entry, index })), [world.characters, locale]);
-  const regionIds = world.id === "histoire" && (category === "fr" || category === "us")
-    ? new Set(charactersInRegion(world.characters, category).map(character => character.name)) : null;
-  const visible = regionIds ? entries.filter(({ character }) => regionIds.has(character.name))
-    : category ? entries.filter(({ character }) => character.tags?.includes(category)) : entries;
+  const regions = useMemo(() => peopleCollection ? regionsInPool(world.characters) : [], [peopleCollection, world.characters]);
+  const filteredIds = useMemo(() => new Set(filterAlbumCharacters(world.characters, category, region).map(character => character.name)), [world.characters, category, region]);
+  const visible = entries.filter(({ character }) => filteredIds.has(character.name));
   const worldCount = unlockedAlbumCount(save, world.characters);
   const visibleCount = unlockedAlbumCount(save, visible.map(({ character }) => character));
   const completion = all.total ? Math.round(all.caught / all.total * 100) : 0;
   const collectionComplete = worldCount.caught === worldCount.total;
-  const selectWorld = (id: string) => { setWorldId(id); setCategory(""); };
+  const selectWorld = (id: string) => { setWorldId(id); setCategory(""); setRegion(""); };
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -51,9 +52,13 @@ const Album = () => {
     if (!targetWorld) return;
     setWorldId(targetWorld.id);
     const requestedCategory = params.get("category") ?? (params.get("collection") === "ocean" ? "ocean" : "");
-    const validCategory = (targetWorld.id === "histoire" && ["fr", "us"].includes(requestedCategory))
-      || targetWorld.characters.some(character => character.tags?.includes(requestedCategory));
+    const countries = targetWorld.id === "animaux" ? [] : regionsInPool(targetWorld.characters);
+    // Preserve historical category=fr/us links while separating country and profession filters.
+    const oldCountry = countries.includes(requestedCategory.toLowerCase()) ? requestedCategory.toLowerCase() : "";
+    const requestedRegion = (params.get("country") ?? oldCountry).toLowerCase();
+    const validCategory = !oldCountry && targetWorld.characters.some(character => albumCategoryTags(character).includes(requestedCategory));
     setCategory(validCategory ? requestedCategory : "");
+    setRegion(countries.includes(requestedRegion) ? requestedRegion : "");
     const character = targetWorld.characters.find(character => character.name === requested);
     setPicked(character ? { character } : null);
   }, [location.key, location.search]);
@@ -101,17 +106,18 @@ const Album = () => {
           </div>
 
 
-          {peopleCollection && world.id !== "personnes" ? <div className="album-regions" role="group" aria-label={tr("Collections")}>
-            {world.id === "histoire" && <button type="button" aria-pressed={!category} onClick={() => setCategory("")}>🌍 {tr("Monde")}</button>}
-            <button type="button" aria-pressed={world.id === "politique" || category === "fr"} onClick={() => setCategory(world.id === "politique" ? "" : "fr")}>🇫🇷 {tr("France")}</button>
-            <button type="button" disabled>🇧🇷 {tr("Brésil")}<small>{tr("Bientôt")}</small></button>
-            <button type="button" disabled={world.id === "politique"} aria-pressed={category === "us"} onClick={() => setCategory("us")}>🇺🇸 {tr("États-Unis")}{world.id === "politique" && <small>{tr("Bientôt")}</small>}</button>
-          </div> : <AlbumCategoryRail key={world.id} save={save} characters={world.characters} category={category} onSelect={setCategory} />}
+          {peopleCollection && regions.length > 0 && <div className="album-regions" role="group" aria-label={tr("Pays")}>
+            <button type="button" aria-pressed={!region} onClick={() => setRegion("")}>🌍 {tr("Tous les pays")}</button>
+            {regions.map(code => <button type="button" key={code} aria-pressed={region === code} onClick={() => setRegion(code)}>
+              <span aria-hidden="true">{characterRegionFlag(code)}</span> {tr(characterRegionLabel(code))}
+            </button>)}
+          </div>}
+          {(!peopleCollection || world.id === "personnes") && <AlbumCategoryRail key={world.id} save={save} characters={world.characters} category={category} onSelect={setCategory} />}
           <div className="album-page-heading" aria-live="polite">
-            <h3>{category ? tr(category === "fr" ? "France" : category === "us" ? "États-Unis" : animalCategoryLabel(category)) : tr("Tous les portraits")}</h3>
+            <h3>{[region ? tr(characterRegionLabel(region)) : "", category ? tr(animalCategoryLabel(category)) : ""].filter(Boolean).join(" · ") || tr("Tous les portraits")}</h3>
             <span>{visibleCount.caught}/{visibleCount.total} <span className="album-found-label">{tr("Débloqué")}</span></span>
           </div>
-          <div className="album-grid" key={`${world.id}:${category}`}>
+          <div className="album-grid" key={`${world.id}:${region}:${category}`}>
             {visible.map(({ character, label, index }) => (
               <AlbumPortraitCard
                 key={character.name}

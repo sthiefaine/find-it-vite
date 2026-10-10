@@ -45,6 +45,11 @@ export function wantedAt(index: number, ctx: GenContext): CharacterDetails {
   const pool = ctx.pool;
   const P = pool.length;
   if (P < MIN_POOL_SIZE) throw new Error(`generateLevel : il faut au moins ${MIN_POOL_SIZE} persos dans le pool`);
+  if (ctx.wantedId !== undefined) {
+    const wanted = pool.find(character => character.name === ctx.wantedId);
+    if (!wanted) throw new Error(`Cible absente du pool : ${ctx.wantedId}`);
+    return wanted;
+  }
   if (P < 6) {
     // petit pool : un ordre fixe parcouru en boucle (distinct des 2 précédents car P ≥ 3)
     const order = createRng(hash32(GEN_VERSION, ctx.seed, "order")).shuffle(pool);

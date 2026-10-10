@@ -717,5 +717,429 @@
       "france",
       "senateurs"
     ]
+  },
+  {
+    "name": "george-washington",
+    "label": "George Washington",
+    "imageSrc": "/assets/images/characters/people/george-washington.png",
+    "serie": "politics",
+    "color": "white",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/georgewashington"
+      }
+    ]
+  },
+  {
+    "name": "abraham-lincoln",
+    "label": "Abraham Lincoln",
+    "imageSrc": "/assets/images/characters/people/abraham-lincoln.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "barbe",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/abrahamlincoln"
+      }
+    ]
+  },
+  {
+    "name": "john-f-kennedy",
+    "label": "John F. Kennedy",
+    "imageSrc": "/assets/images/characters/people/john-f-kennedy.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/johnfkennedy"
+      }
+    ]
+  },
+  {
+    "name": "barack-obama",
+    "label": "Barack Obama",
+    "imageSrc": "/assets/images/characters/people/barack-obama.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/barackobama"
+      }
+    ]
+  },
+  {
+    "name": "joe-biden",
+    "label": "Joe Biden",
+    "imageSrc": "/assets/images/characters/people/joe-biden.png",
+    "serie": "politics",
+    "color": "white",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/administration/vice-president-biden"
+      }
+    ]
+  },
+  {
+    "name": "donald-trump",
+    "label": "Donald Trump",
+    "imageSrc": "/assets/images/characters/people/donald-trump.png",
+    "serie": "politics",
+    "color": "yellow",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://trumpwhitehouse.archives.gov/people/donald-j-trump/"
+      }
+    ]
+  },
+  {
+    "name": "kamala-harris",
+    "label": "Kamala Harris",
+    "imageSrc": "/assets/images/characters/people/kamala-harris.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.archives.gov/presidential-records/vice-presidential-records/selected-vice-presidential-records/harris-records"
+      }
+    ]
+  },
+  {
+    "name": "hillary-clinton",
+    "label": "Hillary Clinton",
+    "imageSrc": "/assets/images/characters/people/hillary-clinton.png",
+    "serie": "politics",
+    "color": "yellow",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "etats-unis",
+      "us"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "birthplace",
+        "sourceUrl": "https://history.state.gov/departmenthistory/people/clinton-hillary-rodham"
+      }
+    ]
+  },
+  {
+    "name": "luiz-inacio-lula-da-silva",
+    "label": "Luiz Inácio Lula da Silva",
+    "imageSrc": "/assets/images/characters/people/luiz-inacio-lula-da-silva.png",
+    "serie": "politics",
+    "color": "white",
+    "family": "barbe",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.gov.br/secretariageral/pt-br/centrais-de-conteudo/biblioteca-da-pr/galeria-dos-ex-presidentes/luiz-inacio-lula-da-silva/biografia-completa"
+      }
+    ]
+  },
+  {
+    "name": "jair-bolsonaro",
+    "label": "Jair Bolsonaro",
+    "imageSrc": "/assets/images/characters/people/jair-bolsonaro.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/bolsonaro/biografia/biografia"
+      }
+    ]
+  },
+  {
+    "name": "dilma-rousseff",
+    "label": "Dilma Rousseff",
+    "imageSrc": "/assets/images/characters/people/dilma-rousseff.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/dilma-rousseff/biografia"
+      }
+    ]
+  },
+  {
+    "name": "fernando-henrique-cardoso",
+    "label": "Fernando Henrique Cardoso",
+    "imageSrc": "/assets/images/characters/people/fernando-henrique-cardoso.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/fernando-henrique-cardoso/biografia"
+      }
+    ]
+  },
+  {
+    "name": "marina-silva",
+    "label": "Marina Silva",
+    "imageSrc": "/assets/images/characters/people/marina-silva.png",
+    "serie": "politics",
+    "color": "black",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "grey",
+      "brown"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www25.senado.leg.br/web/senadores/senador/-/perfil/59"
+      }
+    ]
+  },
+  {
+    "name": "michel-temer",
+    "label": "Michel Temer",
+    "imageSrc": "/assets/images/characters/people/michel-temer.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.camara.leg.br/deputados/73552/biografia"
+      }
+    ]
+  },
+  {
+    "name": "getulio-vargas",
+    "label": "Getúlio Vargas",
+    "imageSrc": "/assets/images/characters/people/getulio-vargas.png",
+    "serie": "politics",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://academia.org.br/academicos/getulio-vargas/biografia"
+      }
+    ]
+  },
+  {
+    "name": "juscelino-kubitschek",
+    "label": "Juscelino Kubitschek",
+    "imageSrc": "/assets/images/characters/people/juscelino-kubitschek.png",
+    "serie": "politics",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "politique",
+      "bresil",
+      "br"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.camara.leg.br/deputados/2876/biografia"
+      }
+    ]
   }
 ]

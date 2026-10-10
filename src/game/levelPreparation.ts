@@ -7,6 +7,7 @@ import { levelTarget, MISSION_GOAL } from "./modes";
 import { generatePlayableLevel } from "./playableLevel";
 import { readAccessoryPreview, withAccessoryPreview } from "./accessories";
 import { readVariantPreview } from "./crowdVariants";
+import { generateChapterLevel } from "./chapterRun";
 
 export const LEVEL_COUNTDOWN_MS = 3000;
 
@@ -29,6 +30,7 @@ export type RunLevelPosition = {
   mode: GameMode;
   adventureStep: number;
   missionFound: number;
+  chapterId?: string | null;
 };
 
 // Projection seulement : aucun score, déblocage ou changement de niveau avant
@@ -48,6 +50,7 @@ export function nextRunLevel(position: RunLevelPosition): RunLevelPosition {
 // notamment pour les graines d'avis et le pool lors d'un changement de monde.
 export function generateRunLevel(position: RunLevelPosition, save: CharacterUnlockSave, search: string, development: boolean) {
   const { mode, adventureStep, missionFound, runSeed, level, tier } = position;
+  if (mode === "adventure" && position.chapterId) return generateChapterLevel(position.chapterId, adventureStep, missionFound + 1, tier);
   const pool = characterPoolFor(mode, adventureStep, save, playThemeFromSearch(search));
   const target = mode === "adventure" ? stepTarget(adventureStep, missionFound + 1, pool) : levelTarget(mode, runSeed, level);
   // Les variantes de foule suivent les avis de la partie (jamais trois fois la même de suite).

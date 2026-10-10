@@ -9,6 +9,7 @@ import { PORTRAIT_PRICE } from "../../content/portraitUnlocks";
 import { ANIMAL_COLORS, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
 import type { CharacterDetails } from "../../helpers/characters";
 import { portraitStyle } from "../../helpers/portraitScale";
+import { portraitDetailSource } from "../../helpers/portraitAssets";
 import { albumCharacterLabel } from "./albumNames";
 import { isAlbumCharacterUnlocked, MEDALS, nextMedal } from "./albumLogic";
 import { PortraitReveal } from "../../components/PortraitReveal/PortraitReveal";
@@ -68,7 +69,7 @@ export function AlbumPortraitDialog({ character, allowColors, onClose }: Props) 
         <button type="button" className="album-close" aria-label={tr("Fermer")} onClick={onClose}><X size={20} /></button>
         {!locked && MEDALS[mastery] && <span className="album-card-medal" aria-hidden="true">{MEDALS[mastery]}</span>}
         <span className="album-detail-kicker"><GameIcon name={locked ? "daily" : "album"} />{tr(locked ? "À découvrir" : "Ta collection")}</span>
-        <div className={`album-big-portrait${locked ? " is-mystery" : ""}`}><img src={character.imageSrc} alt="" draggable={false} style={portraitStyle(character.imageSrc)} /></div>
+        <div className={`album-big-portrait${locked ? " is-mystery" : ""}`}><img src={portraitDetailSource(character)} alt="" draggable={false} style={portraitStyle(character.imageSrc)} onError={event => { if (event.currentTarget.src.endsWith(character.imageSrc)) return; event.currentTarget.src = character.imageSrc; }} /></div>
         <strong id="album-character-name">{locked ? "???" : albumCharacterLabel(character, locale)}</strong>
 
         {locked && <div className="album-purchase">

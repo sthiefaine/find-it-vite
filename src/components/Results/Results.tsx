@@ -33,6 +33,7 @@ import { DAILY_REWARD_TARGET } from "../../game/dailyReward";
 import { STREAK_REWARD } from "../../game/streaks";
 import { playSound } from "../../audio/engine";
 import { albumCharacterLabel } from "../../pages/Album/albumNames";
+import { chapterMapUrl } from "../../content/campaign";
 import "./Results.css";
 
 // Apparition des blocs les uns après les autres
@@ -335,8 +336,8 @@ export default function Results() {
         </motion.section>
         <motion.div className="results-actions" variants={item}>
           <motion.button type="button" className="results-btn results-btn-replay"
-            onClick={mode === "daily" && dailyEarned ? () => goTo("/adventure") : handleReplay} whileTap={tap}>
-            <GameIcon name="play" /> {tr(mode === "daily" && dailyEarned ? "Continuer à jouer" : "Rejouer")}
+            onClick={gameRecord.chapterId ? () => goTo(chapterMapUrl(gameRecord.chapterId!)) : mode === "daily" && dailyEarned ? () => goTo("/adventure") : handleReplay} whileTap={tap}>
+            <GameIcon name="play" /> {tr(gameRecord.chapterId ? gameRecord.chapterComplete ? "Chapitre terminé" : "Continuer le chapitre" : mode === "daily" && dailyEarned ? "Continuer à jouer" : "Rejouer")}
           </motion.button>
           <div className="results-row">
             <motion.button type="button" className="results-btn results-btn-home" onClick={() => goTo("/")} whileTap={tap}><House size={19} />{tr("Accueil")}</motion.button>

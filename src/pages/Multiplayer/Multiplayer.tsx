@@ -5,7 +5,7 @@ import QRCode from "qrcode";
 import { ArrowLeft, Copy, Dices, Share2, Volume2, VolumeX, X } from "lucide-react";
 import { AnimalPortrait } from "../../components/AnimalPortrait/AnimalPortrait";
 import { GameIcon } from "../../components/Icons/GameIcon";
-import { playThemeFromSearch, playThemePool, publishedThemePool, PLAY_THEMES } from "../../content/playThemes";
+import { playThemeFromSearch, playThemePool, publishedThemePool, PLAY_THEMES, translatedThemeLabel } from "../../content/playThemes";
 import { ACCESSORIES } from "../../content/accessories";
 import { levelAssetUrls, preloadImages } from "../../game/assetReadiness";
 import { useMultiplayer } from "../../multiplayer/useMultiplayer";
@@ -200,7 +200,8 @@ export default function Multiplayer() {
   const playing = self?.phase === "playing" && room?.status !== "finished";
   const inMatch = room && room.status !== "waiting" && room.status !== "finished";
   const readyAssetsError = poolStatus === "error" || (inMatch && assetsStatus === "error");
-  const themeLabel = PLAY_THEMES.find(item => item.id === currentTheme)?.label ?? "Animaux";
+  const currentThemeDetails = PLAY_THEMES.find(item => item.id === currentTheme);
+  const themeLabel = currentThemeDetails ? translatedThemeLabel(currentThemeDetails, tr) : tr("Animaux");
   const entryPortraits = useMemo(() => {
     const pool = publishedThemePool(currentTheme);
     const first = pool[0];
@@ -213,7 +214,7 @@ export default function Multiplayer() {
     <div className="mp-inner">
       <header className="mp-heading">
         <button type="button" className="mp-icon-button" aria-label={tr(room ? "Retour à l’accueil" : "Choisir un thème")} onClick={() => room ? onBack() : navigate(`/play?mode=duel&theme=${encodeURIComponent(theme)}`)}><ArrowLeft size={22} /></button>
-        <span><strong>{tr("Duel en ligne")}</strong><small>{room ? tr("Salon {{code}}", { code: room.code }) : tr(themeLabel)}</small></span>
+        <span><strong>{tr("Duel en ligne")}</strong><small>{room ? tr("Salon {{code}}", { code: room.code }) : themeLabel}</small></span>
         <button type="button" className="mp-icon-button" aria-label={tr(sound ? "Couper le son" : "Activer le son")} aria-pressed={sound}
           onClick={() => { useGameStore.getState().setSound(!sound); if (!sound) playSound("tap"); }}>{sound ? <Volume2 size={22} /> : <VolumeX size={22} />}</button>
         <span className={`mp-connection ${connected ? "is-connected" : ""}`} role="status" aria-label={connected ? tr("Connecté") : connection === "closed" ? tr("Déconnecté") : tr("Connexion en cours")} />
@@ -231,7 +232,7 @@ export default function Multiplayer() {
           </div>
           <h1 id="mp-entry-title">{tr("À deux, chacun son écran !")}</h1>
           <p>{tr("Trouve le portrait avant ton adversaire !")}</p>
-          <div className="mp-entry-tags"><span className="fi-chip">{tr(themeLabel)}</span><span className="fi-chip"><Hearts count={3} />{tr("La même grille")}</span></div>
+          <div className="mp-entry-tags"><span className="fi-chip">{themeLabel}</span><span className="fi-chip"><Hearts count={3} />{tr("La même grille")}</span></div>
         </div>
         <form className="mp-create-form" onSubmit={event => submit(event, false)}>
           <div className="mp-identity">

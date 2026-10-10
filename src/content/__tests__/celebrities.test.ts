@@ -12,19 +12,19 @@ import { playThemeFromSearch, playThemePool, publishedThemePool, themeOptions } 
 import { isPersonUnlocked, PERSON_PRICE, STARTER_CELEBRITY_IDS, unlockedPeople } from "../personUnlocks";
 
 describe("portraits de célébrités", () => {
-  it("publie les portraits validés parmi les 150 noms et garde les fiches sans image en brouillon", () => {
+  it("publie les portraits validés du catalogue et garde les fiches sans image en brouillon", () => {
     expect(() => validateCatalog(catalog)).not.toThrow();
     const sprites = catalog.sprites.filter(sprite => sprite.themeId === "personnes");
-    expect(sprites).toHaveLength(150);
-    expect(new Set(sprites.map(sprite => sprite.id)).size).toBe(150);
+    expect(sprites.length).toBeGreaterThanOrEqual(150);
+    expect(new Set(sprites.map(sprite => sprite.id)).size).toBe(sprites.length);
     expect(celebritiesPack.map(person => person.name).sort()).toEqual(sprites.filter(sprite => sprite.status === "ready").map(sprite => sprite.id).sort());
     for (const sprite of sprites.filter(sprite => sprite.status === "draft")) expect(sprite.source).toBeNull();
     for (const person of celebritiesPack) {
       expect(person.serie).toBe("celebrity");
       expect(person.tags).toContain("celebrites");
-      expect(person.imageSrc).toMatch(/^\/assets\/images\/characters\/celebrities\/[a-z0-9-]+\.png$/);
+      expect(person.detailImageSrc).toMatch(/^\/assets\/images\/characters\/celebrities\/[a-z0-9-]+\.png$/);
       expect(existsSync(`public${person.imageSrc}`), person.name).toBe(true);
-      expect(sprites.find(sprite => sprite.id === person.name)).toMatchObject({ label: person.label, status: "ready", source: person.imageSrc });
+      expect(sprites.find(sprite => sprite.id === person.name)).toMatchObject({ label: person.label, status: "ready", source: person.detailImageSrc });
     }
     expect(celebritiesPack.length).toBeGreaterThanOrEqual(3);
   });

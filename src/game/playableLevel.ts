@@ -112,6 +112,8 @@ export function sceneParams(scene: SceneDefinition, index: number, tier: Tier): 
 }
 
 export type PlayableOptions = {
+  scene?: SceneDefinition;
+  accessories?: boolean;
   // Rang de l'avis dans la partie (par défaut : la graine et l'index du niveau)
   variantStream?: VariantStream;
   // false : jamais de variante de foule (salons en ligne : l'avis distant n'a pas le badge)
@@ -123,7 +125,7 @@ export type PlayableOptions = {
 // La difficulté vient de la foule et de la visibilité. L'objectif reste toujours
 // de retrouver l'unique animal de l'avis, dans tous les modes du jeu.
 export function generatePlayableLevel(index: number, context: GenContext, options: PlayableOptions = {}): LevelSpec {
-  const definition = sceneForIndex(index);
+  const definition = options.scene ?? sceneForIndex(index);
   const easy = context.tier === "easy";
   const params = sceneParams(definition, index, context.tier);
   const spec = generateLevel(index, {
@@ -164,6 +166,6 @@ export function generatePlayableLevel(index: number, context: GenContext, option
     const varied = applyCrowdVariant(playable, kind, context.pool, context.tier);
     if (varied.crowdVariant) return varied;
   }
-  const accessories = planAccessories(playable, context.tier, Boolean(definition.breather));
+  const accessories = options.accessories === false ? undefined : planAccessories(playable, context.tier, Boolean(definition.breather));
   return accessories ? { ...playable, accessories } : playable;
 }

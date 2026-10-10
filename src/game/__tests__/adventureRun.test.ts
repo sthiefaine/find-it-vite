@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { generateLevel } from "../../engine";
-import { allCharacters, getWorld, LEVELS_PER_WORLD, WORLDS } from "../../content/worlds";
+import { getWorld, LEVELS_PER_WORLD, WORLDS } from "../../content/worlds";
 import { defaultSave } from "../../save/schema";
 import {
   entersNewPhase,
@@ -48,10 +48,10 @@ describe("étapes globales", () => {
     expect(entersNewPhase(WORLD_STEPS + 10)).toBe(false);
   });
 
-  it("pool : celui du monde, puis tous les persos", () => {
+  it("pool : celui du monde, puis le mélange historique stable", () => {
     expect(poolOfStep(1)).toBe(WORLDS[0].characters);
     expect(poolOfStep(25)).toBe(getWorld("ocean")!.characters);
-    expect(poolOfStep(WORLD_STEPS + 3)).toHaveLength(allCharacters().length);
+    expect(poolOfStep(WORLD_STEPS + 3)).toEqual(WORLDS.flatMap(world => world.characters));
   });
 
   it("bandeaux de bienvenue", () => {

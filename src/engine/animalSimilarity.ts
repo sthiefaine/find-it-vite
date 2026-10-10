@@ -25,21 +25,37 @@ const CLOSE_SPECIES: Record<string, string> = {
 };
 const LEGACY_SHAPES = new Set(["poisson", "baleine", "tentacules", "pinces"]);
 
-type VisualProfile = ReturnType<typeof visualProfile>;
-function visualProfile(animal: CharacterDetails) {
+type VisualProfile = { species: string; family: string; colors: CharacterDetails["color"][]; color: CharacterDetails["color"]; silhouette: string; husky: boolean };
+type ProfileSnapshot = Pick<CharacterDetails, "name" | "species" | "family" | "color" | "breed" | "dominantColors" | "tags"> & { profile: VisualProfile };
+const profiles = new WeakMap<CharacterDetails, ProfileSnapshot>();
+const sameItems = (a: readonly string[] | undefined, b: readonly string[] | undefined) => {
+  if (!a || !b) return a === b;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+};
+function visualProfile(animal: CharacterDetails): VisualProfile {
+  // Un même portrait traverse plusieurs centaines de foules. Normaliser son
+  // anatomie une fois suffit ; les copies permettent aussi les éditions locales.
+  const cached = profiles.get(animal);
+  if (cached && cached.name === animal.name && cached.species === animal.species && cached.family === animal.family
+    && cached.color === animal.color && cached.breed === animal.breed && sameItems(cached.dominantColors, animal.dominantColors) && sameItems(cached.tags, animal.tags)) return cached.profile;
   const name = normalized(animal.name);
   const oldSpecies = name.replace(/^ocean-/, "").split("-")[0];
   const species = normalized(animal.species)
     || (SILHOUETTES[oldSpecies] || CLOSE_SPECIES[oldSpecies] ? oldSpecies : "");
   const family = normalized(animal.family);
-  const colors = animal.dominantColors?.length ? animal.dominantColors : [animal.color];
-  return {
+  const colors = animal.dominantColors?.length ? [...animal.dominantColors] : [animal.color];
+  const profile: VisualProfile = {
     species, family, colors, color: animal.color,
     silhouette: SILHOUETTES[species]
       || animal.tags?.find((tag) => tag === "felins" || tag === "canides" || tag === "oiseaux")
       || (LEGACY_SHAPES.has(family) ? family : ""),
     husky: species === "chien" && (name.includes("husky") || /husky|malamute/.test(normalized(animal.breed))),
   };
+  profiles.set(animal, { name: animal.name, species: animal.species, family: animal.family, color: animal.color, breed: animal.breed,
+    dominantColors: animal.dominantColors && [...animal.dominantColors], tags: animal.tags && [...animal.tags], profile });
+  return profile;
 }
 
 const sharedColors = (a: VisualProfile, b: VisualProfile) => a.colors.filter((color) => b.colors.includes(color)).length;

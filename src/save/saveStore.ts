@@ -8,6 +8,7 @@ import { isPerson, isPersonUnlocked, PERSON_PRICE } from "../content/personUnloc
 import { dailyRewardClaimed, dailyRewardPerson, DAILY_REWARD_TARGET, DAILY_COMPLETE_COLLECTION_STARS } from "../game/dailyReward";
 import type { CharacterDetails } from "../helpers/characters";
 import { isPurchasablePortrait, isPortraitUnlocked, PORTRAIT_PRICE } from "../content/portraitUnlocks";
+import { CHAPTER_COMPLETION_STARS, CHAPTER_MISSIONS, completionReceipt, getChapter, isChapterMissionUnlocked } from "../content/campaign";
 
 export type GameResult = {
   score: number;
@@ -38,6 +39,10 @@ type SaveActions = {
   setCalm: (calm: boolean) => void;
   setFrame: (frame: FrameId) => void;
   recordStars: (worldId: string, level: number, stars: number) => void;
+  enterChapter: (id: string, mission: number) => boolean;
+  grantChapterPortrait: (chapterId: string, portraitId: string) => void;
+  recordChapterStars: (id: string, mission: number, stars: number) => number;
+  recordLegacyCheckpoint: (step: number) => void;
   recordCollection: (name: string, n?: number) => void;
   recordDailyFind: (name: string) => void;
   purchasePerson: (id: string) => PurchaseResult;
@@ -111,7 +116,41 @@ export function applyStars(save: Save, worldId: string, level: number, stars: nu
   const value = Math.max(0, Math.min(3, Math.floor(stars)));
   const previous = save.adventure.stars[key];
   if (!Number.isFinite(value) || (previous !== undefined && previous >= value)) return save;
-  return { ...save, adventure: { ...save.adventure, stars: { ...save.adventure.stars, [key]: value } } };
+  return { ...save, adventure: { ...save.adventure, stars: { ...save.adventure.stars, [key]: value } },
+    campaign: { ...save.campaign, legacyMixUnlocked: save.campaign.legacyMixUnlocked || (worldId === "ocean" && level === 20 && value > 0),
+    },
+  };
+}
+
+export function applyChapterEntry(save: Save, id: string, mission: number): Save {
+  const chapter = getChapter(id);
+  if (!chapter || !isChapterMissionUnlocked(save, id, mission)) return save;
+  return { ...save, campaign: { ...save.campaign,
+    grantedPortraits: [...new Set([...save.campaign.grantedPortraits, ...chapter.cohortIds.slice(0, 2)])],
+    resume: { kind: "chapter", chapterId: id, mission },
+  } };
+}
+
+export function applyChapterGrant(save: Save, chapterId: string, portraitId: string): Save {
+  if (!getChapter(chapterId)?.cohortIds.includes(portraitId) || save.campaign.grantedPortraits.includes(portraitId)) return save;
+  return { ...save, campaign: { ...save.campaign, grantedPortraits: [...save.campaign.grantedPortraits, portraitId] } };
+}
+
+export function applyChapterStars(save: Save, id: string, mission: number, stars: number): { save: Save; reward: number } {
+  const chapter = getChapter(id);
+  if (!chapter || !isChapterMissionUnlocked(save, id, mission) || !Number.isFinite(stars) || stars < 1) return { save, reward: 0 };
+  const key = `s${String(mission).padStart(2, "0")}`;
+  const prior = save.campaign.chapterStars[id] ?? {};
+  const value = Math.min(3, Math.max(prior[key] ?? 0, Math.floor(stars)));
+  const receipt = completionReceipt(chapter);
+  const reward = mission === CHAPTER_MISSIONS && !save.campaign.rewardReceipts.includes(receipt) ? CHAPTER_COMPLETION_STARS : 0;
+  return { reward, save: { ...save,
+    wallet: reward ? { ...save.wallet, stars: Math.min(Number.MAX_SAFE_INTEGER, save.wallet.stars + reward) } : save.wallet,
+    campaign: { ...save.campaign, chapterStars: { ...save.campaign.chapterStars, [id]: { ...prior, [key]: value } },
+      rewardReceipts: reward ? [...save.campaign.rewardReceipts, receipt] : save.campaign.rewardReceipts,
+      resume: { kind: "chapter", chapterId: id, mission: Math.min(CHAPTER_MISSIONS, mission + 1) },
+    },
+  } };
 }
 
 export function applyCollection(save: Save, name: string, n = 1): Save {
@@ -246,6 +285,27 @@ export function createSaveStore(
       },
 
       recordStars: (worldId, level, stars) => update(applyStars(get().save, worldId, level, stars)),
+      enterChapter: (id, mission) => {
+        if (!get().loaded || get().readOnly) return false;
+        const save = applyChapterEntry(get().save, id, mission);
+        if (save === get().save) return false;
+        update(save);
+        return true;
+      },
+      grantChapterPortrait: (chapterId, portraitId) => {
+        if (!get().loaded || get().readOnly) return;
+        update(applyChapterGrant(get().save, chapterId, portraitId));
+      },
+      recordChapterStars: (id, mission, stars) => {
+        if (!get().loaded || get().readOnly) return 0;
+        const result = applyChapterStars(get().save, id, mission, stars);
+        update(result.save);
+        return result.reward;
+      },
+      recordLegacyCheckpoint: (step) => {
+        if (!get().loaded || get().readOnly || !Number.isInteger(step) || step < 1 || step > 1_000_000 || (step > 40 && !get().save.campaign.legacyMixUnlocked)) return;
+        update({ ...get().save, campaign: { ...get().save.campaign, legacyStep: step, resume: { kind: "legacy", step } } });
+      },
       recordCollection: (name, n = 1) => update(applyCollection(get().save, name, n)),
       recordDailyFind: (name) => {
         if (!get().loaded || get().readOnly) return;

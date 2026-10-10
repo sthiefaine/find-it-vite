@@ -14,10 +14,12 @@ export const MEDAL_THRESHOLDS = [
   { mastery: "platinum", count: 250 },
 ] as const;
 
-type StarsSave = Pick<Save, "adventure">;
+type StarsSave = Pick<Save, "adventure"> & Partial<Pick<Save, "campaign">>;
 
 export function totalStars(save: StarsSave): number {
-  return Object.values(save.adventure.stars).reduce((sum, s) => sum + s, 0);
+  const legacy = Object.values(save.adventure.stars).reduce((sum, s) => sum + s, 0);
+  const chapters = Object.values(save.campaign?.chapterStars ?? {}).reduce((sum, missions) => sum + Object.values(missions).reduce((subtotal, stars) => subtotal + stars, 0), 0);
+  return legacy + chapters;
 }
 
 export function starsFor(save: StarsSave, worldId: string, level: number): number {

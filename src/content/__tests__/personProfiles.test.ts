@@ -7,7 +7,7 @@ import catalog from "../../../content/sprites/catalog.json";
 describe("fiches des personnalités dans l’album", () => {
   it("associe une description sourcée à chaque portrait historique et politique", () => {
     const people = [...historyPack, ...peoplePack];
-    expect(people).toHaveLength(65);
+    expect(people.length).toBeGreaterThanOrEqual(65);
     expect(new Set(people.map(person => person.name)).size).toBe(people.length);
     expect(Object.keys(profiles).sort()).toEqual(people.map(person => person.name).sort());
     for (const person of people) {
@@ -21,7 +21,7 @@ describe("fiches des personnalités dans l’album", () => {
       expect(person.profile?.period, person.name).toBeTruthy();
       expect(person.serie).toBe("history");
       expect(existsSync(`public${person.imageSrc}`), person.name).toBe(true);
-      expect(catalog.sprites.find(sprite => sprite.id === person.name)).toMatchObject({ themeId: "histoire", status: "ready", source: person.imageSrc });
+      expect(catalog.sprites.find(sprite => sprite.id === person.name)).toMatchObject({ themeId: "histoire", status: "ready", source: person.detailImageSrc });
     }
   });
 });

@@ -7,6 +7,7 @@ import type { GameMode } from "../engine/types";
 import type { CharacterDetails } from "../helpers/characters";
 import { getWorld, LEVELS_PER_WORLD } from "../content/worlds";
 import type { WorldId } from "../content/worlds";
+import { getChapter, CHAPTER_MISSIONS } from "../content/campaign";
 
 export type { GameMode };
 
@@ -16,7 +17,8 @@ export const MAX_PLAY_TIME_S = 60; // chrono de départ et plafond, dans tous le
 export type ModeParams =
   | { mode: "endless" }
   | { mode: "daily" }
-  | { mode: "adventure"; worldId: WorldId; level: number };
+  | { mode: "adventure"; worldId: WorldId; level: number; mixStep?: number; chapterId?: never }
+  | { mode: "adventure"; chapterId: string; level: number; worldId?: never; mixStep?: never };
 
 // /game, /game?mode=daily, /game?mode=adventure&world=ocean&level=3
 export function readModeParams(search: string): ModeParams {
@@ -24,6 +26,9 @@ export function readModeParams(search: string): ModeParams {
   const mode = params.get("mode");
   if (mode === "daily") return { mode: "daily" };
   if (mode === "adventure") {
+    const chapterId = params.get("chapter");
+    if (chapterId && getChapter(chapterId)) return { mode: "adventure", chapterId, level: Math.min(CHAPTER_MISSIONS, Math.max(1, Number(params.get("level")) || 1)) | 0 };
+    if (params.get("world") === "melange") return { mode: "adventure", worldId: "ocean", level: 20, mixStep: Math.min(1_000_000, Math.max(41, Number(params.get("step")) || 41)) | 0 };
     const world = getWorld(params.get("world") ?? "");
     const rawLevel = params.get("level");
     const level = rawLevel && /^\d+$/.test(rawLevel) ? Number(rawLevel) : 1;

@@ -1,5 +1,5 @@
 import { useMemo, type CSSProperties } from "react";
-import { animalCategoryLabel, normalizedAnimalMetadata } from "../../content/animalTaxonomy";
+import { animalCategoryLabel } from "../../content/animalTaxonomy";
 import type { CharacterDetails } from "../../helpers/characters";
 import { portraitStyle } from "../../helpers/portraitScale";
 import { useTranslation } from "../../i18n";
@@ -8,6 +8,7 @@ import "./AlbumCategoryRail.css";
 
 import { isAlbumCharacterUnlocked } from "./albumLogic";
 import type { Save } from "../../save/schema";
+import { albumCategoryTags } from "./albumCountryFilters";
 
 type Props = { save: Save; characters: CharacterDetails[]; category: string; onSelect: (tag: string) => void };
 const PREVIEWS: Readonly<Record<string, readonly string[]>> = {
@@ -46,8 +47,7 @@ export function AlbumCategoryRail({ save, characters, category, onSelect }: Prop
   const options = useMemo(() => {
     const byTag = new Map<string, CharacterDetails[]>();
     for (const character of characters) {
-      for (const tag of normalizedAnimalMetadata(character).tags) {
-        if (/^[a-z]{2}$/.test(tag)) continue;
+      for (const tag of albumCategoryTags(character)) {
         const group = byTag.get(tag) ?? [];
         group.push(character);
         byTag.set(tag, group);

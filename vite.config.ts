@@ -50,8 +50,15 @@ export default defineConfig(({ mode }) => {
         ],
       },
       workbox: {
-        // tout le jeu (shell, images, sons) est pré-caché pour jouer hors ligne
+        // Shell, sons et portraits de jeu compressés : tous les chapitres publiés hors ligne.
         globPatterns: ['**/*.{js,css,html,png,jpg,webp,svg,mp3,wav,ico,woff2}'],
+        globIgnores: ['assets/images/characters/{animals,people,history,celebrities}/*.png'],
+        // Les PNG512 de la fiche album arrivent uniquement lorsqu'on ouvre un portrait.
+        runtimeCaching: [{
+          urlPattern: ({ url }) => /\/assets\/images\/characters\/(animals|people|history|celebrities)\/[a-z0-9-]+\.png$/.test(url.pathname),
+          handler: 'CacheFirst',
+          options: { cacheName: 'find-it-portrait-details-v1', expiration: { maxEntries: 48, maxAgeSeconds: 30 * 24 * 60 * 60 }, cacheableResponse: { statuses: [200] } },
+        }],
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         navigateFallback: '/index.html',
         cleanupOutdatedCaches: true,

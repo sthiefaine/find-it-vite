@@ -17,6 +17,7 @@ import { beginLevelCountdown, generateRunLevel, levelCountdownUntil, nextRunLeve
 import { playStartSound } from "../../../../helpers/sounds";
 import { LevelAssetStatus } from "./LevelAssetStatus";
 import { playThemeFromSearch, themeOptions } from "../../../../content/playThemes";
+import { CHAPTER_MISSIONS, isChapterMissionUnlocked } from "../../../../content/campaign";
 
 const TICK_MS = 100;
 const BONUS_GRACE_MS = 150;
@@ -144,6 +145,7 @@ export function IsPlaying() {
     if (!inGame || !currentSpec || animationLevelLoading) return;
     const state = useGameStore.getState();
     if (state.wantedFound || state.bonusDone) return;
+    if (state.chapterId && state.adventureStep === CHAPTER_MISSIONS && state.missionFound === 4) return;
     const next = generateRunLevel(nextRunLevel(state), useSaveStore.getState().save, location.search, import.meta.env.DEV);
     const controller = new AbortController();
     const birds = import.meta.env.DEV && new URLSearchParams(location.search).get("birds") === "1";
@@ -158,6 +160,11 @@ export function IsPlaying() {
     if (useGameStore.getState().gameState !== GameStateEnum.INIT) return;
     const debug = readDebugParams(location.search);
     const params = readModeParams(location.search);
+    const query = new URLSearchParams(location.search);
+    if (query.get("mode") === "adventure" && query.has("chapter") && !(params.mode === "adventure" && params.chapterId)) {
+      navigate("/adventure", { replace: true });
+      return;
+    }
     if (params.mode === "endless") {
       const theme = playThemeFromSearch(location.search);
       const option = themeOptions("endless", useSaveStore.getState().save).find(option => option.theme.id === theme);
@@ -169,23 +176,32 @@ export function IsPlaying() {
     // Mission verrouillée (URL tapée à la main, lien partagé…) : retour à la carte
     if (
       params.mode === "adventure" &&
-      !isLevelUnlocked(useSaveStore.getState().save, params.worldId, params.level)
+      (params.chapterId ? !isChapterMissionUnlocked(useSaveStore.getState().save, params.chapterId, params.level)
+        : params.mixStep ? !useSaveStore.getState().save.campaign.legacyMixUnlocked
+          : !isLevelUnlocked(useSaveStore.getState().save, params.worldId!, params.level))
     ) {
       navigate("/adventure", { replace: true });
       return;
     }
     setClearGameStore();
     if (params.mode === "adventure") {
+      if (params.chapterId && !useSaveStore.getState().enterChapter(params.chapterId, params.level)) {
+        navigate("/adventure", { replace: true });
+        return;
+      }
       setTimeLeftValue(MAX_PLAY_TIME_S);
       startRun({
         mode: "adventure",
-        worldId: params.worldId,
+        worldId: params.worldId ?? null,
+        chapterId: params.chapterId,
+        resumeStep: params.mixStep,
         adventureLevel: params.level,
-        runSeed: missionSeed(params.worldId, params.level),
+        runSeed: missionSeed(params.chapterId ?? params.worldId!, params.level),
         tier: debug.tier ?? savedTier,
         level: 1,
         calm: useSaveStore.getState().save.settings.calm,
       });
+      if (!params.chapterId) useSaveStore.getState().recordLegacyCheckpoint(useGameStore.getState().adventureStep);
     } else if (params.mode === "daily") {
       const date = todayISO();
       setTimeLeftValue(MAX_PLAY_TIME_S);

@@ -1,0 +1,1878 @@
+{
+  "/assets/images/characters/animals/chat.png": {
+    "gameSrc": "/assets/images/characters/animals/chat.f400703d4a76.webp",
+    "revision": "5f691c61e11d"
+  },
+  "/assets/images/characters/animals/chien.png": {
+    "gameSrc": "/assets/images/characters/animals/chien.8e2eff6eda7f.webp",
+    "revision": "c0f219ed5d02"
+  },
+  "/assets/images/characters/animals/capybara.png": {
+    "gameSrc": "/assets/images/characters/animals/capybara.f307efed81e8.webp",
+    "revision": "623fdb33863d"
+  },
+  "/assets/images/characters/animals/coq.png": {
+    "gameSrc": "/assets/images/characters/animals/coq.096f0e62aad5.webp",
+    "revision": "3e945e6140c9"
+  },
+  "/assets/images/characters/animals/elephant.png": {
+    "gameSrc": "/assets/images/characters/animals/elephant.a996b2a13eec.webp",
+    "revision": "ff27f219c68c"
+  },
+  "/assets/images/characters/animals/hippopotame.png": {
+    "gameSrc": "/assets/images/characters/animals/hippopotame.7a061cb6abaf.webp",
+    "revision": "e1d31d116988"
+  },
+  "/assets/images/characters/animals/pigeon.png": {
+    "gameSrc": "/assets/images/characters/animals/pigeon.9e5f4883354d.webp",
+    "revision": "c1b6b8164568"
+  },
+  "/assets/images/characters/animals/giraffe.png": {
+    "gameSrc": "/assets/images/characters/animals/giraffe.81dd0f24b476.webp",
+    "revision": "da75a7ff2ef3"
+  },
+  "/assets/images/characters/animals/leopard.png": {
+    "gameSrc": "/assets/images/characters/animals/leopard.1750ed8ca6c2.webp",
+    "revision": "06910c1150e1"
+  },
+  "/assets/images/characters/animals/guepard.png": {
+    "gameSrc": "/assets/images/characters/animals/guepard.f8ba9d52e0b2.webp",
+    "revision": "d4427fce0527"
+  },
+  "/assets/images/characters/animals/zebre.png": {
+    "gameSrc": "/assets/images/characters/animals/zebre.5190fa409db6.webp",
+    "revision": "94e2406efc67"
+  },
+  "/assets/images/characters/animals/serpent.png": {
+    "gameSrc": "/assets/images/characters/animals/serpent.2c93d56b1bc7.webp",
+    "revision": "ef8c6284dfd8"
+  },
+  "/assets/images/characters/animals/renard.png": {
+    "gameSrc": "/assets/images/characters/animals/renard.0b8713bca773.webp",
+    "revision": "9e882fe7578e"
+  },
+  "/assets/images/characters/animals/panda.png": {
+    "gameSrc": "/assets/images/characters/animals/panda.54a699f4576a.webp",
+    "revision": "ef3dfa7e49ee"
+  },
+  "/assets/images/characters/animals/vache.png": {
+    "gameSrc": "/assets/images/characters/animals/vache.7f488b2d4a90.webp",
+    "revision": "5ea4c406e06e"
+  },
+  "/assets/images/characters/animals/cochon.png": {
+    "gameSrc": "/assets/images/characters/animals/cochon.627176ff654c.webp",
+    "revision": "f9144064e879"
+  },
+  "/assets/images/characters/animals/mouton.png": {
+    "gameSrc": "/assets/images/characters/animals/mouton.02d243e20c42.webp",
+    "revision": "c39c54f69a33"
+  },
+  "/assets/images/characters/animals/chevre.png": {
+    "gameSrc": "/assets/images/characters/animals/chevre.e8c28b34ea6b.webp",
+    "revision": "0c414ca9d3fe"
+  },
+  "/assets/images/characters/animals/lapin.png": {
+    "gameSrc": "/assets/images/characters/animals/lapin.bee9190a933a.webp",
+    "revision": "ea47675072c8"
+  },
+  "/assets/images/characters/animals/poule.png": {
+    "gameSrc": "/assets/images/characters/animals/poule.f988d775ab0a.webp",
+    "revision": "3304cbbeef9d"
+  },
+  "/assets/images/characters/animals/koala.png": {
+    "gameSrc": "/assets/images/characters/animals/koala.dc765b7be7fd.webp",
+    "revision": "a6f96a4f34e5"
+  },
+  "/assets/images/characters/animals/ane.png": {
+    "gameSrc": "/assets/images/characters/animals/ane.a71498bdbb71.webp",
+    "revision": "0719877a8c14"
+  },
+  "/assets/images/characters/animals/canard.png": {
+    "gameSrc": "/assets/images/characters/animals/canard.2941debbc9a2.webp",
+    "revision": "d3476bb5b5ff"
+  },
+  "/assets/images/characters/animals/oie.png": {
+    "gameSrc": "/assets/images/characters/animals/oie.197574daa489.webp",
+    "revision": "e933ca1d2d1f"
+  },
+  "/assets/images/characters/animals/dinde.png": {
+    "gameSrc": "/assets/images/characters/animals/dinde.5d482f7217e9.webp",
+    "revision": "53effa105118"
+  },
+  "/assets/images/characters/animals/tigre.png": {
+    "gameSrc": "/assets/images/characters/animals/tigre.5b1da188be90.webp",
+    "revision": "c36a06b38e1a"
+  },
+  "/assets/images/characters/animals/ours.png": {
+    "gameSrc": "/assets/images/characters/animals/ours.4d65508c6598.webp",
+    "revision": "62799967cd97"
+  },
+  "/assets/images/characters/animals/loup.png": {
+    "gameSrc": "/assets/images/characters/animals/loup.85729d103122.webp",
+    "revision": "80dec69ad8c1"
+  },
+  "/assets/images/characters/animals/singe.png": {
+    "gameSrc": "/assets/images/characters/animals/singe.a51a0a335b95.webp",
+    "revision": "991e89fbcdc9"
+  },
+  "/assets/images/characters/animals/ecureuil.png": {
+    "gameSrc": "/assets/images/characters/animals/ecureuil.3ac53c0bb922.webp",
+    "revision": "208990ac98b2"
+  },
+  "/assets/images/characters/animals/herisson.png": {
+    "gameSrc": "/assets/images/characters/animals/herisson.9d2683606b8a.webp",
+    "revision": "48b171886d92"
+  },
+  "/assets/images/characters/animals/hibou.png": {
+    "gameSrc": "/assets/images/characters/animals/hibou.2a1d339cfc66.webp",
+    "revision": "7e2c13b450ce"
+  },
+  "/assets/images/characters/animals/raton-laveur.png": {
+    "gameSrc": "/assets/images/characters/animals/raton-laveur.612869939e0c.webp",
+    "revision": "5e99829a0fd5"
+  },
+  "/assets/images/characters/animals/crocodile.png": {
+    "gameSrc": "/assets/images/characters/animals/crocodile.9385c6d6247f.webp",
+    "revision": "3123f0881cb9"
+  },
+  "/assets/images/characters/animals/mouton-merinos.png": {
+    "gameSrc": "/assets/images/characters/animals/mouton-merinos.449403f3c8da.webp",
+    "revision": "62f4cd4fbfc8"
+  },
+  "/assets/images/characters/animals/mouton-suffolk.png": {
+    "gameSrc": "/assets/images/characters/animals/mouton-suffolk.819ed1d546b9.webp",
+    "revision": "a7bf20497b12"
+  },
+  "/assets/images/characters/animals/mouton-nez-noir-valais.png": {
+    "gameSrc": "/assets/images/characters/animals/mouton-nez-noir-valais.6a37978e26cd.webp",
+    "revision": "3bc2f0b43f95"
+  },
+  "/assets/images/characters/animals/vache-normande.png": {
+    "gameSrc": "/assets/images/characters/animals/vache-normande.56b077e136c5.webp",
+    "revision": "f12b2a339459"
+  },
+  "/assets/images/characters/animals/vache-highland.png": {
+    "gameSrc": "/assets/images/characters/animals/vache-highland.129ed3e5d561.webp",
+    "revision": "755cb6b40331"
+  },
+  "/assets/images/characters/animals/vache-charolaise.png": {
+    "gameSrc": "/assets/images/characters/animals/vache-charolaise.4f8810530e6c.webp",
+    "revision": "e07f33f85d8f"
+  },
+  "/assets/images/characters/animals/chat-siamois.png": {
+    "gameSrc": "/assets/images/characters/animals/chat-siamois.05ea4759006e.webp",
+    "revision": "743568dd7887"
+  },
+  "/assets/images/characters/animals/chat-british-shorthair.png": {
+    "gameSrc": "/assets/images/characters/animals/chat-british-shorthair.fd847c890e88.webp",
+    "revision": "ef0607c26219"
+  },
+  "/assets/images/characters/animals/chat-maine-coon.png": {
+    "gameSrc": "/assets/images/characters/animals/chat-maine-coon.2f2f55620da9.webp",
+    "revision": "097d4ea75493"
+  },
+  "/assets/images/characters/animals/chat-sphynx.png": {
+    "gameSrc": "/assets/images/characters/animals/chat-sphynx.cce3670a6f80.webp",
+    "revision": "b5a5b6cbaacf"
+  },
+  "/assets/images/characters/animals/chien-husky.png": {
+    "gameSrc": "/assets/images/characters/animals/chien-husky.6c7710ca34e1.webp",
+    "revision": "b9506af2ba3f"
+  },
+  "/assets/images/characters/animals/chien-dalmatien.png": {
+    "gameSrc": "/assets/images/characters/animals/chien-dalmatien.41ecfd558c9f.webp",
+    "revision": "c8d2081f4aaf"
+  },
+  "/assets/images/characters/animals/chien-berger-allemand.png": {
+    "gameSrc": "/assets/images/characters/animals/chien-berger-allemand.c218baad3e90.webp",
+    "revision": "930b132caa84"
+  },
+  "/assets/images/characters/animals/chien-golden-retriever.png": {
+    "gameSrc": "/assets/images/characters/animals/chien-golden-retriever.b5b44279dc2a.webp",
+    "revision": "fc8011a68d75"
+  },
+  "/assets/images/characters/animals/cochon-kunekune.png": {
+    "gameSrc": "/assets/images/characters/animals/cochon-kunekune.d2248d99c95f.webp",
+    "revision": "960cc6b9e343"
+  },
+  "/assets/images/characters/animals/poney-shetland.png": {
+    "gameSrc": "/assets/images/characters/animals/poney-shetland.d27b47987379.webp",
+    "revision": "a5fc8aee648d"
+  },
+  "/assets/images/characters/animals/lama.png": {
+    "gameSrc": "/assets/images/characters/animals/lama.3a806e8671d1.webp",
+    "revision": "8c00fa4fcace"
+  },
+  "/assets/images/characters/animals/alpaga.png": {
+    "gameSrc": "/assets/images/characters/animals/alpaga.84d9ee0443e7.webp",
+    "revision": "3d1562b5d438"
+  },
+  "/assets/images/characters/animals/chevre-angora.png": {
+    "gameSrc": "/assets/images/characters/animals/chevre-angora.27bdda70cf18.webp",
+    "revision": "40801ba16435"
+  },
+  "/assets/images/characters/animals/chevre-saanen.png": {
+    "gameSrc": "/assets/images/characters/animals/chevre-saanen.816490468e97.webp",
+    "revision": "1bd911818dd0"
+  },
+  "/assets/images/characters/animals/lapin-belier.png": {
+    "gameSrc": "/assets/images/characters/animals/lapin-belier.091c0ecfa3d3.webp",
+    "revision": "6f30e8fafe1e"
+  },
+  "/assets/images/characters/animals/lapin-angora.png": {
+    "gameSrc": "/assets/images/characters/animals/lapin-angora.aa6aa0fcfe22.webp",
+    "revision": "b9edd5989595"
+  },
+  "/assets/images/characters/animals/poule-soie.png": {
+    "gameSrc": "/assets/images/characters/animals/poule-soie.9fffd42ac91d.webp",
+    "revision": "996fa5a2ceb5"
+  },
+  "/assets/images/characters/animals/canard-pekin.png": {
+    "gameSrc": "/assets/images/characters/animals/canard-pekin.bcb33d148434.webp",
+    "revision": "c41be1947305"
+  },
+  "/assets/images/characters/animals/rhinoceros.png": {
+    "gameSrc": "/assets/images/characters/animals/rhinoceros.11ec8702d7dd.webp",
+    "revision": "c7444e6319b1"
+  },
+  "/assets/images/characters/animals/lynx.png": {
+    "gameSrc": "/assets/images/characters/animals/lynx.f62c3f3d82b4.webp",
+    "revision": "f0fe39e93ee9"
+  },
+  "/assets/images/characters/animals/panda-roux.png": {
+    "gameSrc": "/assets/images/characters/animals/panda-roux.d1868fd8f683.webp",
+    "revision": "e8a6fcec0e96"
+  },
+  "/assets/images/characters/animals/cerf.png": {
+    "gameSrc": "/assets/images/characters/animals/cerf.ba80bcce0c73.webp",
+    "revision": "f6577de2befa"
+  },
+  "/assets/images/characters/animals/blaireau.png": {
+    "gameSrc": "/assets/images/characters/animals/blaireau.c7a6cf66d4ba.webp",
+    "revision": "00350f523071"
+  },
+  "/assets/images/characters/animals/castor.png": {
+    "gameSrc": "/assets/images/characters/animals/castor.1e858530a6c2.webp",
+    "revision": "5eb91ca1a3c7"
+  },
+  "/assets/images/characters/animals/chat-ragdoll.png": {
+    "gameSrc": "/assets/images/characters/animals/chat-ragdoll.558b5ed5bbd7.webp",
+    "revision": "ef3436721e8a"
+  },
+  "/assets/images/characters/animals/chat-bengal.png": {
+    "gameSrc": "/assets/images/characters/animals/chat-bengal.d04680f81100.webp",
+    "revision": "1a5de0acc58e"
+  },
+  "/assets/images/characters/animals/chien-shiba-inu.png": {
+    "gameSrc": "/assets/images/characters/animals/chien-shiba-inu.bae3d5e49104.webp",
+    "revision": "1f025ffeabb8"
+  },
+  "/assets/images/characters/animals/chien-berger-australien.png": {
+    "gameSrc": "/assets/images/characters/animals/chien-berger-australien.45000952c024.webp",
+    "revision": "fc50da77fb02"
+  },
+  "/assets/images/characters/animals/dauphin.png": {
+    "gameSrc": "/assets/images/characters/animals/dauphin.ffb358df1880.webp",
+    "revision": "c4cb170e7fd2"
+  },
+  "/assets/images/characters/animals/orque.png": {
+    "gameSrc": "/assets/images/characters/animals/orque.e10a611f4a71.webp",
+    "revision": "25bb1721529d"
+  },
+  "/assets/images/characters/animals/phoque.png": {
+    "gameSrc": "/assets/images/characters/animals/phoque.a39604682220.webp",
+    "revision": "50eac29a6e6f"
+  },
+  "/assets/images/characters/animals/morse.png": {
+    "gameSrc": "/assets/images/characters/animals/morse.465487505e02.webp",
+    "revision": "292d5a26066a"
+  },
+  "/assets/images/characters/animals/loutre-de-mer.png": {
+    "gameSrc": "/assets/images/characters/animals/loutre-de-mer.ec88dc4716db.webp",
+    "revision": "b54d91693e1c"
+  },
+  "/assets/images/characters/animals/tortue-marine.png": {
+    "gameSrc": "/assets/images/characters/animals/tortue-marine.45ec8c019fdd.webp",
+    "revision": "b82beeef2247"
+  },
+  "/assets/images/characters/animals/requin-marteau.png": {
+    "gameSrc": "/assets/images/characters/animals/requin-marteau.451c694f3397.webp",
+    "revision": "501671563c4f"
+  },
+  "/assets/images/characters/animals/poulpe.png": {
+    "gameSrc": "/assets/images/characters/animals/poulpe.d74634ff2809.webp",
+    "revision": "733a8564c8f9"
+  },
+  "/assets/images/characters/animals/manchot-empereur.png": {
+    "gameSrc": "/assets/images/characters/animals/manchot-empereur.0141af7cc4e9.webp",
+    "revision": "e3225c691c0c"
+  },
+  "/assets/images/characters/animals/beluga.png": {
+    "gameSrc": "/assets/images/characters/animals/beluga.2f003a00deeb.webp",
+    "revision": "d1caa170a93e"
+  },
+  "/assets/images/characters/animals/ara-bleu.png": {
+    "gameSrc": "/assets/images/characters/animals/ara-bleu.21b8f059002c.webp",
+    "revision": "bd61b32cbd28"
+  },
+  "/assets/images/characters/animals/ara-rouge.png": {
+    "gameSrc": "/assets/images/characters/animals/ara-rouge.fb49a69491e0.webp",
+    "revision": "a69f692c7471"
+  },
+  "/assets/images/characters/animals/perroquet-gris-du-gabon.png": {
+    "gameSrc": "/assets/images/characters/animals/perroquet-gris-du-gabon.d5527af98153.webp",
+    "revision": "2e0d1066a6da"
+  },
+  "/assets/images/characters/animals/perroquet-amazone.png": {
+    "gameSrc": "/assets/images/characters/animals/perroquet-amazone.0214ece381b1.webp",
+    "revision": "3880ff4983d8"
+  },
+  "/assets/images/characters/animals/cacatoes.png": {
+    "gameSrc": "/assets/images/characters/animals/cacatoes.21c655aba470.webp",
+    "revision": "8da4c431575b"
+  },
+  "/assets/images/characters/animals/perruche-ondulee.png": {
+    "gameSrc": "/assets/images/characters/animals/perruche-ondulee.81fc57aa695c.webp",
+    "revision": "34adc65ae636"
+  },
+  "/assets/images/characters/animals/toucan.png": {
+    "gameSrc": "/assets/images/characters/animals/toucan.d427e3cad6b5.webp",
+    "revision": "1c388f4fd932"
+  },
+  "/assets/images/characters/animals/flamant-rose.png": {
+    "gameSrc": "/assets/images/characters/animals/flamant-rose.54ea1efc2b91.webp",
+    "revision": "32e1c6b47279"
+  },
+  "/assets/images/characters/animals/pelican.png": {
+    "gameSrc": "/assets/images/characters/animals/pelican.b5a6c4bf6756.webp",
+    "revision": "6d0cde339c31"
+  },
+  "/assets/images/characters/animals/aigle.png": {
+    "gameSrc": "/assets/images/characters/animals/aigle.8ae6f7b83873.webp",
+    "revision": "d3b23d215a73"
+  },
+  "/assets/images/characters/animals/macareux.png": {
+    "gameSrc": "/assets/images/characters/animals/macareux.c52fbaea68ed.webp",
+    "revision": "82af5a99086e"
+  },
+  "/assets/images/characters/animals/paon.png": {
+    "gameSrc": "/assets/images/characters/animals/paon.c2bce0f8b656.webp",
+    "revision": "286c7f27cedb"
+  },
+  "/assets/images/characters/animals/cameleon.png": {
+    "gameSrc": "/assets/images/characters/animals/cameleon.47d408c88473.webp",
+    "revision": "2c5a1c55aa89"
+  },
+  "/assets/images/characters/animals/iguane.png": {
+    "gameSrc": "/assets/images/characters/animals/iguane.94994be3a2f5.webp",
+    "revision": "a378ce796f71"
+  },
+  "/assets/images/characters/animals/gecko.png": {
+    "gameSrc": "/assets/images/characters/animals/gecko.d60939002f08.webp",
+    "revision": "adc216904cb0"
+  },
+  "/assets/images/characters/animals/dragon-barbu.png": {
+    "gameSrc": "/assets/images/characters/animals/dragon-barbu.4bec2f994c7e.webp",
+    "revision": "ada53b923064"
+  },
+  "/assets/images/characters/animals/axolotl.png": {
+    "gameSrc": "/assets/images/characters/animals/axolotl.10e348fc2a0a.webp",
+    "revision": "f5ba4be28320"
+  },
+  "/assets/images/characters/animals/grenouille.png": {
+    "gameSrc": "/assets/images/characters/animals/grenouille.e2635ed9bc99.webp",
+    "revision": "1052efd6307f"
+  },
+  "/assets/images/characters/animals/lion.png": {
+    "gameSrc": "/assets/images/characters/animals/lion.e40bd6d0682c.webp",
+    "revision": "2e0d991cbd1b"
+  },
+  "/assets/images/characters/animals/hyene.png": {
+    "gameSrc": "/assets/images/characters/animals/hyene.5cc499a4d984.webp",
+    "revision": "9253134a3772"
+  },
+  "/assets/images/characters/animals/suricate.png": {
+    "gameSrc": "/assets/images/characters/animals/suricate.602b2e2fb51f.webp",
+    "revision": "29a71b13ca7b"
+  },
+  "/assets/images/characters/animals/phacochere.png": {
+    "gameSrc": "/assets/images/characters/animals/phacochere.b5dc68ec9bbd.webp",
+    "revision": "5c6c89d346ac"
+  },
+  "/assets/images/characters/animals/buffle-africain.png": {
+    "gameSrc": "/assets/images/characters/animals/buffle-africain.fafb3e4967c6.webp",
+    "revision": "7d6fff22120a"
+  },
+  "/assets/images/characters/animals/gnou.png": {
+    "gameSrc": "/assets/images/characters/animals/gnou.543d725d8874.webp",
+    "revision": "4d4a30301b4a"
+  },
+  "/assets/images/characters/animals/gazelle.png": {
+    "gameSrc": "/assets/images/characters/animals/gazelle.0ffb3c11eb7f.webp",
+    "revision": "d0b4de6cae00"
+  },
+  "/assets/images/characters/animals/oryx.png": {
+    "gameSrc": "/assets/images/characters/animals/oryx.a80068c02155.webp",
+    "revision": "0389198eda30"
+  },
+  "/assets/images/characters/animals/impala.png": {
+    "gameSrc": "/assets/images/characters/animals/impala.680f8b58291f.webp",
+    "revision": "e3a6971a8597"
+  },
+  "/assets/images/characters/animals/serval.png": {
+    "gameSrc": "/assets/images/characters/animals/serval.b8e1ec1bed68.webp",
+    "revision": "e4a629850e60"
+  },
+  "/assets/images/characters/animals/sanglier.png": {
+    "gameSrc": "/assets/images/characters/animals/sanglier.bca7ca51215a.webp",
+    "revision": "5f5efc8faf5e"
+  },
+  "/assets/images/characters/animals/elan.png": {
+    "gameSrc": "/assets/images/characters/animals/elan.60c1a389f8c0.webp",
+    "revision": "4dd0a83df96f"
+  },
+  "/assets/images/characters/animals/renne.png": {
+    "gameSrc": "/assets/images/characters/animals/renne.08c7fc8c1208.webp",
+    "revision": "fb9d876dd864"
+  },
+  "/assets/images/characters/animals/mouflon.png": {
+    "gameSrc": "/assets/images/characters/animals/mouflon.37e2495b7427.webp",
+    "revision": "9b007fd87e1a"
+  },
+  "/assets/images/characters/animals/marmotte.png": {
+    "gameSrc": "/assets/images/characters/animals/marmotte.0123bc58c62f.webp",
+    "revision": "faf887a0caf7"
+  },
+  "/assets/images/characters/animals/chauve-souris.png": {
+    "gameSrc": "/assets/images/characters/animals/chauve-souris.a0bfadf42830.webp",
+    "revision": "06b1df9dce97"
+  },
+  "/assets/images/characters/animals/glouton.png": {
+    "gameSrc": "/assets/images/characters/animals/glouton.898d2eb4fa01.webp",
+    "revision": "a0b017c8aba3"
+  },
+  "/assets/images/characters/animals/bison.png": {
+    "gameSrc": "/assets/images/characters/animals/bison.991557a219ff.webp",
+    "revision": "4463f0f7b6f2"
+  },
+  "/assets/images/characters/animals/lievre.png": {
+    "gameSrc": "/assets/images/characters/animals/lievre.77d0e4f0c4eb.webp",
+    "revision": "5a705be2248d"
+  },
+  "/assets/images/characters/animals/chevreuil.png": {
+    "gameSrc": "/assets/images/characters/animals/chevreuil.efdebc40730f.webp",
+    "revision": "11943c053f8e"
+  },
+  "/assets/images/characters/animals/gorille.png": {
+    "gameSrc": "/assets/images/characters/animals/gorille.f874541b9a4c.webp",
+    "revision": "dd8aa84b6980"
+  },
+  "/assets/images/characters/animals/orang-outan.png": {
+    "gameSrc": "/assets/images/characters/animals/orang-outan.6d9406490d1b.webp",
+    "revision": "c0e5c1714ac6"
+  },
+  "/assets/images/characters/animals/lemurien.png": {
+    "gameSrc": "/assets/images/characters/animals/lemurien.90a818f99c69.webp",
+    "revision": "85deae0c851f"
+  },
+  "/assets/images/characters/animals/paresseux.png": {
+    "gameSrc": "/assets/images/characters/animals/paresseux.3698c6decacb.webp",
+    "revision": "6cc5d1b087fe"
+  },
+  "/assets/images/characters/animals/tapir.png": {
+    "gameSrc": "/assets/images/characters/animals/tapir.5b23c359454d.webp",
+    "revision": "65d70d509316"
+  },
+  "/assets/images/characters/animals/tamanoir.png": {
+    "gameSrc": "/assets/images/characters/animals/tamanoir.91260dcd3862.webp",
+    "revision": "adfe4277c243"
+  },
+  "/assets/images/characters/animals/pangolin.png": {
+    "gameSrc": "/assets/images/characters/animals/pangolin.0d055738239f.webp",
+    "revision": "dbbc5608aec9"
+  },
+  "/assets/images/characters/animals/okapi.png": {
+    "gameSrc": "/assets/images/characters/animals/okapi.2161d40a0f61.webp",
+    "revision": "e47d1c441812"
+  },
+  "/assets/images/characters/animals/mandrill.png": {
+    "gameSrc": "/assets/images/characters/animals/mandrill.a364805784eb.webp",
+    "revision": "37d893de0489"
+  },
+  "/assets/images/characters/animals/tarsier.png": {
+    "gameSrc": "/assets/images/characters/animals/tarsier.cb72a4d0c57a.webp",
+    "revision": "859156de3497"
+  },
+  "/assets/images/characters/animals/hamster.png": {
+    "gameSrc": "/assets/images/characters/animals/hamster.f391629e56d2.webp",
+    "revision": "e42a7f4eb6ac"
+  },
+  "/assets/images/characters/animals/cochon-inde.png": {
+    "gameSrc": "/assets/images/characters/animals/cochon-inde.fd47255246e0.webp",
+    "revision": "fa437d8f108e"
+  },
+  "/assets/images/characters/animals/furet.png": {
+    "gameSrc": "/assets/images/characters/animals/furet.21deb2d7aa1d.webp",
+    "revision": "391df0c0ca55"
+  },
+  "/assets/images/characters/animals/chinchilla.png": {
+    "gameSrc": "/assets/images/characters/animals/chinchilla.d1203ceccf7a.webp",
+    "revision": "aac528238361"
+  },
+  "/assets/images/characters/animals/gerbille.png": {
+    "gameSrc": "/assets/images/characters/animals/gerbille.c26ebd5b6ef9.webp",
+    "revision": "5841dd0874b5"
+  },
+  "/assets/images/characters/animals/cheval-frison.png": {
+    "gameSrc": "/assets/images/characters/animals/cheval-frison.d20d4083ed01.webp",
+    "revision": "e87303261beb"
+  },
+  "/assets/images/characters/animals/poisson-ange.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-ange.d49f295337b7.webp",
+    "revision": "9c65e19d6ca9"
+  },
+  "/assets/images/characters/animals/poisson-globe.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-globe.3439c2401d18.webp",
+    "revision": "bcf81a042015"
+  },
+  "/assets/images/characters/animals/hippocampe.png": {
+    "gameSrc": "/assets/images/characters/animals/hippocampe.b5aba7417407.webp",
+    "revision": "183b55b4e755"
+  },
+  "/assets/images/characters/animals/crabe.png": {
+    "gameSrc": "/assets/images/characters/animals/crabe.2de7aae0354a.webp",
+    "revision": "b5b01923f9cb"
+  },
+  "/assets/images/characters/animals/homard.png": {
+    "gameSrc": "/assets/images/characters/animals/homard.c4638df62514.webp",
+    "revision": "67d6d4d4f8fd"
+  },
+  "/assets/images/characters/animals/raie-manta.png": {
+    "gameSrc": "/assets/images/characters/animals/raie-manta.76e11e44e31f.webp",
+    "revision": "5d72cd90cd7f"
+  },
+  "/assets/images/characters/animals/ours-polaire.png": {
+    "gameSrc": "/assets/images/characters/animals/ours-polaire.6073015c4cb0.webp",
+    "revision": "f5d6c80c9c3a"
+  },
+  "/assets/images/characters/animals/renard-polaire.png": {
+    "gameSrc": "/assets/images/characters/animals/renard-polaire.57ee2f568d50.webp",
+    "revision": "727de66f7f74"
+  },
+  "/assets/images/characters/animals/panthere-des-neiges.png": {
+    "gameSrc": "/assets/images/characters/animals/panthere-des-neiges.c5b3174feaf6.webp",
+    "revision": "85d0012bf38e"
+  },
+  "/assets/images/characters/animals/narval.png": {
+    "gameSrc": "/assets/images/characters/animals/narval.23b02e7d444b.webp",
+    "revision": "8a33edcd7d4e"
+  },
+  "/assets/images/characters/animals/kangourou-roux.png": {
+    "gameSrc": "/assets/images/characters/animals/kangourou-roux.0f441b98a365.webp",
+    "revision": "f7345312d486"
+  },
+  "/assets/images/characters/animals/wombat.png": {
+    "gameSrc": "/assets/images/characters/animals/wombat.bfe2303d2f9c.webp",
+    "revision": "249b11f7c1d1"
+  },
+  "/assets/images/characters/animals/ornithorynque.png": {
+    "gameSrc": "/assets/images/characters/animals/ornithorynque.1660b053d67b.webp",
+    "revision": "e98533b540d1"
+  },
+  "/assets/images/characters/animals/echidne.png": {
+    "gameSrc": "/assets/images/characters/animals/echidne.6fc3a53bd4e9.webp",
+    "revision": "a507ce07ed63"
+  },
+  "/assets/images/characters/animals/diable-de-tasmanie.png": {
+    "gameSrc": "/assets/images/characters/animals/diable-de-tasmanie.2a53b1249f4a.webp",
+    "revision": "5630c8bef892"
+  },
+  "/assets/images/characters/animals/dingo.png": {
+    "gameSrc": "/assets/images/characters/animals/dingo.8b5f9f13556e.webp",
+    "revision": "3a59ce7c50ac"
+  },
+  "/assets/images/characters/animals/quokka.png": {
+    "gameSrc": "/assets/images/characters/animals/quokka.9d8d91caf02d.webp",
+    "revision": "0c0a1c524239"
+  },
+  "/assets/images/characters/animals/fennec.png": {
+    "gameSrc": "/assets/images/characters/animals/fennec.f6b72cbeb8ff.webp",
+    "revision": "a44108302110"
+  },
+  "/assets/images/characters/animals/dromadaire.png": {
+    "gameSrc": "/assets/images/characters/animals/dromadaire.f6918eaed27e.webp",
+    "revision": "1ab3c16e2bba"
+  },
+  "/assets/images/characters/animals/chameau-de-bactriane.png": {
+    "gameSrc": "/assets/images/characters/animals/chameau-de-bactriane.3a364df40a10.webp",
+    "revision": "a5324d0a997b"
+  },
+  "/assets/images/characters/animals/baleine-bleue.png": {
+    "gameSrc": "/assets/images/characters/animals/baleine-bleue.3348546f9b3a.webp",
+    "revision": "16e46582ab5e"
+  },
+  "/assets/images/characters/animals/poisson-clown.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-clown.022fbab4a476.webp",
+    "revision": "8bb5897bc12f"
+  },
+  "/assets/images/characters/animals/meduse.png": {
+    "gameSrc": "/assets/images/characters/animals/meduse.f546d3b576f1.webp",
+    "revision": "846418b5e5eb"
+  },
+  "/assets/images/characters/animals/calamar.png": {
+    "gameSrc": "/assets/images/characters/animals/calamar.f7382aea7a02.webp",
+    "revision": "40c51b60983f"
+  },
+  "/assets/images/characters/animals/seiche.png": {
+    "gameSrc": "/assets/images/characters/animals/seiche.08ffb4aae388.webp",
+    "revision": "6cbb7dc31c11"
+  },
+  "/assets/images/characters/animals/murene.png": {
+    "gameSrc": "/assets/images/characters/animals/murene.fcc8de89974b.webp",
+    "revision": "a345daf1dcb6"
+  },
+  "/assets/images/characters/animals/poisson-lune.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-lune.85778e3f426a.webp",
+    "revision": "a62330c53884"
+  },
+  "/assets/images/characters/animals/lamantin.png": {
+    "gameSrc": "/assets/images/characters/animals/lamantin.9e8e54f8375f.webp",
+    "revision": "62b2d136d6a2"
+  },
+  "/assets/images/characters/animals/dugong.png": {
+    "gameSrc": "/assets/images/characters/animals/dugong.56ff0e3b9b51.webp",
+    "revision": "f8718ecd78b6"
+  },
+  "/assets/images/characters/animals/abeille.png": {
+    "gameSrc": "/assets/images/characters/animals/abeille.4c8a35f2768c.webp",
+    "revision": "2279964c0312"
+  },
+  "/assets/images/characters/animals/bourdon.png": {
+    "gameSrc": "/assets/images/characters/animals/bourdon.11f6e9d74bd9.webp",
+    "revision": "9394c58982e3"
+  },
+  "/assets/images/characters/animals/coccinelle.png": {
+    "gameSrc": "/assets/images/characters/animals/coccinelle.bcff379611d8.webp",
+    "revision": "55af5b1a286c"
+  },
+  "/assets/images/characters/animals/papillon-monarque.png": {
+    "gameSrc": "/assets/images/characters/animals/papillon-monarque.fedd494293b8.webp",
+    "revision": "634d87a4e8d7"
+  },
+  "/assets/images/characters/animals/mante-religieuse.png": {
+    "gameSrc": "/assets/images/characters/animals/mante-religieuse.254e135a2ee2.webp",
+    "revision": "e0249689e615"
+  },
+  "/assets/images/characters/animals/libellule.png": {
+    "gameSrc": "/assets/images/characters/animals/libellule.a9971dc775da.webp",
+    "revision": "2f1828defc57"
+  },
+  "/assets/images/characters/animals/fourmi.png": {
+    "gameSrc": "/assets/images/characters/animals/fourmi.9b4350cd0445.webp",
+    "revision": "43b0279ae4ed"
+  },
+  "/assets/images/characters/animals/scarabee-rhinoceros.png": {
+    "gameSrc": "/assets/images/characters/animals/scarabee-rhinoceros.866eb49ab11c.webp",
+    "revision": "a720e31273aa"
+  },
+  "/assets/images/characters/animals/escargot.png": {
+    "gameSrc": "/assets/images/characters/animals/escargot.669ac277f8b6.webp",
+    "revision": "18a7acd16f54"
+  },
+  "/assets/images/characters/animals/araignee-sauteuse.png": {
+    "gameSrc": "/assets/images/characters/animals/araignee-sauteuse.6cae48dacdbb.webp",
+    "revision": "87cedf4aa63e"
+  },
+  "/assets/images/characters/animals/chimpanze.png": {
+    "gameSrc": "/assets/images/characters/animals/chimpanze.53f042ff86ec.webp",
+    "revision": "72f7d33d6d3c"
+  },
+  "/assets/images/characters/animals/gibbon.png": {
+    "gameSrc": "/assets/images/characters/animals/gibbon.88e61ba331fb.webp",
+    "revision": "584167c9c43e"
+  },
+  "/assets/images/characters/animals/jaguar.png": {
+    "gameSrc": "/assets/images/characters/animals/jaguar.2de74eb00d2e.webp",
+    "revision": "eaf65ce19ea7"
+  },
+  "/assets/images/characters/animals/ocelot.png": {
+    "gameSrc": "/assets/images/characters/animals/ocelot.602b9cc48a1f.webp",
+    "revision": "fd550e54adf6"
+  },
+  "/assets/images/characters/animals/salamandre-tachetee.png": {
+    "gameSrc": "/assets/images/characters/animals/salamandre-tachetee.ff0a76eb3bc9.webp",
+    "revision": "4e81f89b685a"
+  },
+  "/assets/images/characters/animals/triton-crete.png": {
+    "gameSrc": "/assets/images/characters/animals/triton-crete.4cebc7209d5a.webp",
+    "revision": "fb26a671b9f3"
+  },
+  "/assets/images/characters/animals/crapaud-commun.png": {
+    "gameSrc": "/assets/images/characters/animals/crapaud-commun.e9eaa63f839e.webp",
+    "revision": "de7b591e06d9"
+  },
+  "/assets/images/characters/animals/harfang-des-neiges.png": {
+    "gameSrc": "/assets/images/characters/animals/harfang-des-neiges.6a69d1b71b38.webp",
+    "revision": "70d9836cfe22"
+  },
+  "/assets/images/characters/animals/boeuf-musque.png": {
+    "gameSrc": "/assets/images/characters/animals/boeuf-musque.08133cb7894f.webp",
+    "revision": "4caef70f8b8e"
+  },
+  "/assets/images/characters/animals/lagopede-alpin.png": {
+    "gameSrc": "/assets/images/characters/animals/lagopede-alpin.70f5613423aa.webp",
+    "revision": "933913daec20"
+  },
+  "/assets/images/characters/animals/poisson-lion.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-lion.c6babafe225a.webp",
+    "revision": "a8e767e36637"
+  },
+  "/assets/images/characters/animals/rougegorge-familier.png": {
+    "gameSrc": "/assets/images/characters/animals/rougegorge-familier.f0c96478c362.webp",
+    "revision": "ece0be9d38a7"
+  },
+  "/assets/images/characters/animals/mesange-bleue.png": {
+    "gameSrc": "/assets/images/characters/animals/mesange-bleue.d11c78add406.webp",
+    "revision": "1cde6b2421c1"
+  },
+  "/assets/images/characters/animals/huppe-fasciee.png": {
+    "gameSrc": "/assets/images/characters/animals/huppe-fasciee.bd565cb6d6ca.webp",
+    "revision": "561a1280270b"
+  },
+  "/assets/images/characters/animals/cigogne-blanche.png": {
+    "gameSrc": "/assets/images/characters/animals/cigogne-blanche.d6f530a9be1e.webp",
+    "revision": "850b07b5c696"
+  },
+  "/assets/images/characters/animals/spatule-blanche.png": {
+    "gameSrc": "/assets/images/characters/animals/spatule-blanche.550407974556.webp",
+    "revision": "f69b26e1ade4"
+  },
+  "/assets/images/characters/animals/saiga.png": {
+    "gameSrc": "/assets/images/characters/animals/saiga.98830e92fb72.webp",
+    "revision": "147e25206bb4"
+  },
+  "/assets/images/characters/animals/caracal.png": {
+    "gameSrc": "/assets/images/characters/animals/caracal.f76a266ac9e6.webp",
+    "revision": "f9ba40fa5160"
+  },
+  "/assets/images/characters/animals/orycterope.png": {
+    "gameSrc": "/assets/images/characters/animals/orycterope.0df1e1f828f7.webp",
+    "revision": "ea0ad23a9735"
+  },
+  "/assets/images/characters/animals/coati-roux.png": {
+    "gameSrc": "/assets/images/characters/animals/coati-roux.35ae9ac04d59.webp",
+    "revision": "94d54c6e3298"
+  },
+  "/assets/images/characters/animals/tatou-neuf-bandes.png": {
+    "gameSrc": "/assets/images/characters/animals/tatou-neuf-bandes.15a1daf3e2d5.webp",
+    "revision": "379df949368c"
+  },
+  "/assets/images/characters/animals/grand-bilby.png": {
+    "gameSrc": "/assets/images/characters/animals/grand-bilby.25ed743c6aa3.webp",
+    "revision": "66eb440aeb9f"
+  },
+  "/assets/images/characters/animals/casoar-a-casque.png": {
+    "gameSrc": "/assets/images/characters/animals/casoar-a-casque.5a775558e353.webp",
+    "revision": "d19e0a7f90d5"
+  },
+  "/assets/images/characters/animals/kakapo.png": {
+    "gameSrc": "/assets/images/characters/animals/kakapo.874e1e9b1d77.webp",
+    "revision": "58d86bd816e5"
+  },
+  "/assets/images/characters/animals/cobra-royal.png": {
+    "gameSrc": "/assets/images/characters/animals/cobra-royal.d33fca43cef9.webp",
+    "revision": "6bf4b38127f4"
+  },
+  "/assets/images/characters/animals/rainette-yeux-rouges.png": {
+    "gameSrc": "/assets/images/characters/animals/rainette-yeux-rouges.4a5c38bfd6e6.webp",
+    "revision": "301d327ec721"
+  },
+  "/assets/images/characters/animals/grenouille-tomate.png": {
+    "gameSrc": "/assets/images/characters/animals/grenouille-tomate.a95e70f3fc93.webp",
+    "revision": "cde351c5155e"
+  },
+  "/assets/images/characters/animals/dendrobate-bleu.png": {
+    "gameSrc": "/assets/images/characters/animals/dendrobate-bleu.5238691d4d58.webp",
+    "revision": "d8770b697fe0"
+  },
+  "/assets/images/characters/animals/brochet.png": {
+    "gameSrc": "/assets/images/characters/animals/brochet.efedc20b4858.webp",
+    "revision": "db65452967f0"
+  },
+  "/assets/images/characters/animals/silure-glane.png": {
+    "gameSrc": "/assets/images/characters/animals/silure-glane.260a7be449c1.webp",
+    "revision": "e6346b37f7a2"
+  },
+  "/assets/images/characters/animals/discus-heckel.png": {
+    "gameSrc": "/assets/images/characters/animals/discus-heckel.508af91f5e73.webp",
+    "revision": "7d3baed30efe"
+  },
+  "/assets/images/characters/animals/poisson-coffre-jaune.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-coffre-jaune.5c444f77d6ff.webp",
+    "revision": "eda9580a6ce4"
+  },
+  "/assets/images/characters/animals/etoile-mer-rouge.png": {
+    "gameSrc": "/assets/images/characters/animals/etoile-mer-rouge.89d3c50bb5ab.webp",
+    "revision": "6d2fa156b64f"
+  },
+  "/assets/images/characters/animals/poisson-vache-cornes.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-vache-cornes.f3afc606abed.webp",
+    "revision": "337f5f055d0d"
+  },
+  "/assets/images/characters/animals/poisson-scie-petites-dents.png": {
+    "gameSrc": "/assets/images/characters/animals/poisson-scie-petites-dents.ac6acb061e78.webp",
+    "revision": "ace38026a304"
+  },
+  "/assets/images/characters/people/emmanuel-macron.png": {
+    "gameSrc": "/assets/images/characters/people/emmanuel-macron.48e15f6ae691.webp",
+    "revision": "8449ceb0bcce"
+  },
+  "/assets/images/characters/people/nicolas-sarkozy.png": {
+    "gameSrc": "/assets/images/characters/people/nicolas-sarkozy.5cfa3d9d020d.webp",
+    "revision": "12d6f91215dc"
+  },
+  "/assets/images/characters/people/francois-hollande.png": {
+    "gameSrc": "/assets/images/characters/people/francois-hollande.e79393de8025.webp",
+    "revision": "55e2ca34fa75"
+  },
+  "/assets/images/characters/people/jacques-chirac.png": {
+    "gameSrc": "/assets/images/characters/people/jacques-chirac.eb39ecedaf8a.webp",
+    "revision": "cd3b646a3b0d"
+  },
+  "/assets/images/characters/people/francois-mitterrand.png": {
+    "gameSrc": "/assets/images/characters/people/francois-mitterrand.bc5e8ed16454.webp",
+    "revision": "7041569f9f00"
+  },
+  "/assets/images/characters/people/charles-de-gaulle.png": {
+    "gameSrc": "/assets/images/characters/people/charles-de-gaulle.90bb554997f2.webp",
+    "revision": "69ebce88289e"
+  },
+  "/assets/images/characters/people/simone-veil.png": {
+    "gameSrc": "/assets/images/characters/people/simone-veil.839422564039.webp",
+    "revision": "173c2489fd73"
+  },
+  "/assets/images/characters/people/christiane-taubira.png": {
+    "gameSrc": "/assets/images/characters/people/christiane-taubira.3edf28534c89.webp",
+    "revision": "6d8fafe85236"
+  },
+  "/assets/images/characters/people/segolene-royal.png": {
+    "gameSrc": "/assets/images/characters/people/segolene-royal.b68e02f460c0.webp",
+    "revision": "dd9e09dd3848"
+  },
+  "/assets/images/characters/people/lionel-jospin.png": {
+    "gameSrc": "/assets/images/characters/people/lionel-jospin.c8173a5dcbe5.webp",
+    "revision": "6ce95b362d17"
+  },
+  "/assets/images/characters/people/edouard-philippe.png": {
+    "gameSrc": "/assets/images/characters/people/edouard-philippe.99af6e6841ef.webp",
+    "revision": "8e317c1629d5"
+  },
+  "/assets/images/characters/people/gabriel-attal.png": {
+    "gameSrc": "/assets/images/characters/people/gabriel-attal.aa2c3b2133e4.webp",
+    "revision": "10c8ac027b4b"
+  },
+  "/assets/images/characters/people/francois-bayrou.png": {
+    "gameSrc": "/assets/images/characters/people/francois-bayrou.ae9d0440ecef.webp",
+    "revision": "1c7693937bd7"
+  },
+  "/assets/images/characters/people/elisabeth-borne.png": {
+    "gameSrc": "/assets/images/characters/people/elisabeth-borne.dd880bdc6d51.webp",
+    "revision": "ecb26c0dbefc"
+  },
+  "/assets/images/characters/people/jean-castex.png": {
+    "gameSrc": "/assets/images/characters/people/jean-castex.0c0f5cca4b58.webp",
+    "revision": "5f765fd86ebf"
+  },
+  "/assets/images/characters/people/jean-luc-melenchon.png": {
+    "gameSrc": "/assets/images/characters/people/jean-luc-melenchon.6108195707eb.webp",
+    "revision": "04313d30e8fc"
+  },
+  "/assets/images/characters/people/marine-le-pen.png": {
+    "gameSrc": "/assets/images/characters/people/marine-le-pen.14173c3966a6.webp",
+    "revision": "6734a9813fd7"
+  },
+  "/assets/images/characters/people/jordan-bardella.png": {
+    "gameSrc": "/assets/images/characters/people/jordan-bardella.bc1543f7fb36.webp",
+    "revision": "9845e7ab5824"
+  },
+  "/assets/images/characters/people/eric-zemmour.png": {
+    "gameSrc": "/assets/images/characters/people/eric-zemmour.f9246b384104.webp",
+    "revision": "f943c5b592ce"
+  },
+  "/assets/images/characters/people/eric-ciotti.png": {
+    "gameSrc": "/assets/images/characters/people/eric-ciotti.95e5fb02d20c.webp",
+    "revision": "bc21a2bf5a1e"
+  },
+  "/assets/images/characters/people/rachida-dati.png": {
+    "gameSrc": "/assets/images/characters/people/rachida-dati.07d0b5aeb4fd.webp",
+    "revision": "c53720ba1a3f"
+  },
+  "/assets/images/characters/people/valerie-pecresse.png": {
+    "gameSrc": "/assets/images/characters/people/valerie-pecresse.579bbf31a7fe.webp",
+    "revision": "2d5ae3b893aa"
+  },
+  "/assets/images/characters/people/mathieu-darnaud.png": {
+    "gameSrc": "/assets/images/characters/people/mathieu-darnaud.a5899a20ac0f.webp",
+    "revision": "4c40eb95bbc0"
+  },
+  "/assets/images/characters/people/francois-ruffin.png": {
+    "gameSrc": "/assets/images/characters/people/francois-ruffin.dcca625d175f.webp",
+    "revision": "5921f66ea839"
+  },
+  "/assets/images/characters/people/fabien-roussel.png": {
+    "gameSrc": "/assets/images/characters/people/fabien-roussel.7dcdb11a17a7.webp",
+    "revision": "6400d12cf086"
+  },
+  "/assets/images/characters/people/olivier-faure.png": {
+    "gameSrc": "/assets/images/characters/people/olivier-faure.00f86ec90e81.webp",
+    "revision": "fdbd9ca7521f"
+  },
+  "/assets/images/characters/people/raphael-glucksmann.png": {
+    "gameSrc": "/assets/images/characters/people/raphael-glucksmann.0290a0b33364.webp",
+    "revision": "da394c2da245"
+  },
+  "/assets/images/characters/people/marine-tondelier.png": {
+    "gameSrc": "/assets/images/characters/people/marine-tondelier.257ca6556539.webp",
+    "revision": "aa6a269af61e"
+  },
+  "/assets/images/characters/people/sandrine-rousseau.png": {
+    "gameSrc": "/assets/images/characters/people/sandrine-rousseau.0c6ad7329d8e.webp",
+    "revision": "eb7eccf8d8b1"
+  },
+  "/assets/images/characters/people/anne-hidalgo.png": {
+    "gameSrc": "/assets/images/characters/people/anne-hidalgo.a8174ec92ec3.webp",
+    "revision": "9ffcb30cd682"
+  },
+  "/assets/images/characters/people/gerard-larcher.png": {
+    "gameSrc": "/assets/images/characters/people/gerard-larcher.fcaa7891daa4.webp",
+    "revision": "327f484679e1"
+  },
+  "/assets/images/characters/people/claude-malhuret.png": {
+    "gameSrc": "/assets/images/characters/people/claude-malhuret.55f5fd986627.webp",
+    "revision": "44df8d3e84f2"
+  },
+  "/assets/images/characters/people/patrick-kanner.png": {
+    "gameSrc": "/assets/images/characters/people/patrick-kanner.f14ee4ad0587.webp",
+    "revision": "5611b962f4ae"
+  },
+  "/assets/images/characters/people/cecile-cukierman.png": {
+    "gameSrc": "/assets/images/characters/people/cecile-cukierman.405073d27599.webp",
+    "revision": "f6c6beedfb3f"
+  },
+  "/assets/images/characters/people/laurence-rossignol.png": {
+    "gameSrc": "/assets/images/characters/people/laurence-rossignol.1c557c3bcc1a.webp",
+    "revision": "370279eb8a34"
+  },
+  "/assets/images/characters/people/yael-braun-pivet.png": {
+    "gameSrc": "/assets/images/characters/people/yael-braun-pivet.38ffa8f7d6b5.webp",
+    "revision": "19b4109bcd29"
+  },
+  "/assets/images/characters/people/mathilde-panot.png": {
+    "gameSrc": "/assets/images/characters/people/mathilde-panot.719994e9a19f.webp",
+    "revision": "4ea09359878a"
+  },
+  "/assets/images/characters/people/manuel-bompard.png": {
+    "gameSrc": "/assets/images/characters/people/manuel-bompard.0ce3cf78a5d5.webp",
+    "revision": "28fe3b66a637"
+  },
+  "/assets/images/characters/people/sebastien-chenu.png": {
+    "gameSrc": "/assets/images/characters/people/sebastien-chenu.8a03d46f7594.webp",
+    "revision": "c0cbfc7612a4"
+  },
+  "/assets/images/characters/people/charles-de-courson.png": {
+    "gameSrc": "/assets/images/characters/people/charles-de-courson.063e6cbe29f2.webp",
+    "revision": "614ffaada226"
+  },
+  "/assets/images/characters/people/bruno-retailleau.png": {
+    "gameSrc": "/assets/images/characters/people/bruno-retailleau.bf14ec32ebc2.webp",
+    "revision": "25a74740ad79"
+  },
+  "/assets/images/characters/people/george-washington.png": {
+    "gameSrc": "/assets/images/characters/people/george-washington.acba05b7f869.webp",
+    "revision": "345e4ca57522"
+  },
+  "/assets/images/characters/people/abraham-lincoln.png": {
+    "gameSrc": "/assets/images/characters/people/abraham-lincoln.debbb7da6914.webp",
+    "revision": "9b58a3ce35d5"
+  },
+  "/assets/images/characters/people/john-f-kennedy.png": {
+    "gameSrc": "/assets/images/characters/people/john-f-kennedy.74666720ab39.webp",
+    "revision": "69c3b5a1eae3"
+  },
+  "/assets/images/characters/people/barack-obama.png": {
+    "gameSrc": "/assets/images/characters/people/barack-obama.f54d21e45488.webp",
+    "revision": "47c228524987"
+  },
+  "/assets/images/characters/people/joe-biden.png": {
+    "gameSrc": "/assets/images/characters/people/joe-biden.8d78c46403ce.webp",
+    "revision": "1f4a83440ce4"
+  },
+  "/assets/images/characters/people/donald-trump.png": {
+    "gameSrc": "/assets/images/characters/people/donald-trump.6fea7c7167a2.webp",
+    "revision": "4f8f5be6d339"
+  },
+  "/assets/images/characters/people/kamala-harris.png": {
+    "gameSrc": "/assets/images/characters/people/kamala-harris.894421a26e0e.webp",
+    "revision": "f73090afec98"
+  },
+  "/assets/images/characters/people/hillary-clinton.png": {
+    "gameSrc": "/assets/images/characters/people/hillary-clinton.690081f7fddc.webp",
+    "revision": "993f162d87f9"
+  },
+  "/assets/images/characters/people/luiz-inacio-lula-da-silva.png": {
+    "gameSrc": "/assets/images/characters/people/luiz-inacio-lula-da-silva.2fd870810d56.webp",
+    "revision": "7e944a52d44f"
+  },
+  "/assets/images/characters/people/jair-bolsonaro.png": {
+    "gameSrc": "/assets/images/characters/people/jair-bolsonaro.5152104c9e83.webp",
+    "revision": "0f5b277619ad"
+  },
+  "/assets/images/characters/people/dilma-rousseff.png": {
+    "gameSrc": "/assets/images/characters/people/dilma-rousseff.b44164218585.webp",
+    "revision": "3318426898ca"
+  },
+  "/assets/images/characters/people/fernando-henrique-cardoso.png": {
+    "gameSrc": "/assets/images/characters/people/fernando-henrique-cardoso.d8e02264529e.webp",
+    "revision": "7f1d10c6d137"
+  },
+  "/assets/images/characters/people/marina-silva.png": {
+    "gameSrc": "/assets/images/characters/people/marina-silva.4742fd908cec.webp",
+    "revision": "e08ee898bc23"
+  },
+  "/assets/images/characters/people/michel-temer.png": {
+    "gameSrc": "/assets/images/characters/people/michel-temer.a12e0e07cdb7.webp",
+    "revision": "db68b645422d"
+  },
+  "/assets/images/characters/people/getulio-vargas.png": {
+    "gameSrc": "/assets/images/characters/people/getulio-vargas.4dd4a6843734.webp",
+    "revision": "297a4dfe69f0"
+  },
+  "/assets/images/characters/people/juscelino-kubitschek.png": {
+    "gameSrc": "/assets/images/characters/people/juscelino-kubitschek.96a1aa19b34a.webp",
+    "revision": "1d7a97ecb02a"
+  },
+  "/assets/images/characters/history/napoleon-bonaparte.png": {
+    "gameSrc": "/assets/images/characters/history/napoleon-bonaparte.1e2552a303ce.webp",
+    "revision": "a383730da63d"
+  },
+  "/assets/images/characters/history/louis-xiv.png": {
+    "gameSrc": "/assets/images/characters/history/louis-xiv.bb1914d729e1.webp",
+    "revision": "599549154650"
+  },
+  "/assets/images/characters/history/marie-curie.png": {
+    "gameSrc": "/assets/images/characters/history/marie-curie.75d3d8d3552a.webp",
+    "revision": "f3ec7f863a6d"
+  },
+  "/assets/images/characters/history/albert-einstein.png": {
+    "gameSrc": "/assets/images/characters/history/albert-einstein.7a7c5f0a6707.webp",
+    "revision": "60f3cdfdb497"
+  },
+  "/assets/images/characters/history/frida-kahlo.png": {
+    "gameSrc": "/assets/images/characters/history/frida-kahlo.f98a31795bdd.webp",
+    "revision": "698df098f5b8"
+  },
+  "/assets/images/characters/history/toussaint-louverture.png": {
+    "gameSrc": "/assets/images/characters/history/toussaint-louverture.9f6667072462.webp",
+    "revision": "f90bdd60550d"
+  },
+  "/assets/images/characters/history/cleopatre.png": {
+    "gameSrc": "/assets/images/characters/history/cleopatre.340b2001d35f.webp",
+    "revision": "eebfecbcce3a"
+  },
+  "/assets/images/characters/history/jules-cesar.png": {
+    "gameSrc": "/assets/images/characters/history/jules-cesar.4ee418416dfa.webp",
+    "revision": "15b2f8de3da6"
+  },
+  "/assets/images/characters/history/ramses-ii.png": {
+    "gameSrc": "/assets/images/characters/history/ramses-ii.86e21d51214e.webp",
+    "revision": "510664045436"
+  },
+  "/assets/images/characters/history/nefertiti.png": {
+    "gameSrc": "/assets/images/characters/history/nefertiti.8b7990ce76f0.webp",
+    "revision": "cca5aea0dceb"
+  },
+  "/assets/images/characters/history/jeanne-d-arc.png": {
+    "gameSrc": "/assets/images/characters/history/jeanne-d-arc.69b916217d0c.webp",
+    "revision": "fec8f5601d12"
+  },
+  "/assets/images/characters/history/leonard-de-vinci.png": {
+    "gameSrc": "/assets/images/characters/history/leonard-de-vinci.65f16c39ac21.webp",
+    "revision": "cd98a99cdcc7"
+  },
+  "/assets/images/characters/history/francois-ier.png": {
+    "gameSrc": "/assets/images/characters/history/francois-ier.9035a97bbada.webp",
+    "revision": "2129dfc5abf7"
+  },
+  "/assets/images/characters/history/elisabeth-iere.png": {
+    "gameSrc": "/assets/images/characters/history/elisabeth-iere.19c52f1ac27d.webp",
+    "revision": "c4a3151d86dc"
+  },
+  "/assets/images/characters/history/marie-antoinette.png": {
+    "gameSrc": "/assets/images/characters/history/marie-antoinette.e89eee9534db.webp",
+    "revision": "4b6addea98dc"
+  },
+  "/assets/images/characters/history/olympe-de-gouges.png": {
+    "gameSrc": "/assets/images/characters/history/olympe-de-gouges.eb52872031ee.webp",
+    "revision": "96c96948871b"
+  },
+  "/assets/images/characters/history/ada-lovelace.png": {
+    "gameSrc": "/assets/images/characters/history/ada-lovelace.0bc6fc3ea29e.webp",
+    "revision": "1032ca2dc587"
+  },
+  "/assets/images/characters/history/hypatie.png": {
+    "gameSrc": "/assets/images/characters/history/hypatie.7b26ea4e9327.webp",
+    "revision": "9f8a79cba109"
+  },
+  "/assets/images/characters/history/victor-hugo.png": {
+    "gameSrc": "/assets/images/characters/history/victor-hugo.227b36079963.webp",
+    "revision": "ae45174bceca"
+  },
+  "/assets/images/characters/history/wolfgang-amadeus-mozart.png": {
+    "gameSrc": "/assets/images/characters/history/wolfgang-amadeus-mozart.3f7ea0c58ee1.webp",
+    "revision": "f75f0aa0281c"
+  },
+  "/assets/images/characters/history/josephine-baker.png": {
+    "gameSrc": "/assets/images/characters/history/josephine-baker.4576f2d258d4.webp",
+    "revision": "469bb043958f"
+  },
+  "/assets/images/characters/history/nelson-mandela.png": {
+    "gameSrc": "/assets/images/characters/history/nelson-mandela.002b67796518.webp",
+    "revision": "f1f2a048df7b"
+  },
+  "/assets/images/characters/history/rosa-parks.png": {
+    "gameSrc": "/assets/images/characters/history/rosa-parks.2028b8c58556.webp",
+    "revision": "491f59581f37"
+  },
+  "/assets/images/characters/history/martin-luther-king.png": {
+    "gameSrc": "/assets/images/characters/history/martin-luther-king.18f54956c883.webp",
+    "revision": "b78f6f2df4a7"
+  },
+  "/assets/images/characters/history/ludwig-van-beethoven.png": {
+    "gameSrc": "/assets/images/characters/history/ludwig-van-beethoven.e1610e85a6c0.webp",
+    "revision": "645d0186a902"
+  },
+  "/assets/images/characters/history/piotr-ilitch-tchaikovski.png": {
+    "gameSrc": "/assets/images/characters/history/piotr-ilitch-tchaikovski.8bf82d2a994a.webp",
+    "revision": "f721fdae9689"
+  },
+  "/assets/images/characters/history/max-planck.png": {
+    "gameSrc": "/assets/images/characters/history/max-planck.2a0f6727da2c.webp",
+    "revision": "a705d48bf799"
+  },
+  "/assets/images/characters/celebrities/leonardo-dicaprio.png": {
+    "gameSrc": "/assets/images/characters/celebrities/leonardo-dicaprio.cc19d4e301bf.webp",
+    "revision": "6b1ace29ad0c"
+  },
+  "/assets/images/characters/celebrities/brad-pitt.png": {
+    "gameSrc": "/assets/images/characters/celebrities/brad-pitt.06fea2b7384b.webp",
+    "revision": "b727434454ad"
+  },
+  "/assets/images/characters/celebrities/tom-cruise.png": {
+    "gameSrc": "/assets/images/characters/celebrities/tom-cruise.ae13c98620b0.webp",
+    "revision": "148241879865"
+  },
+  "/assets/images/characters/celebrities/will-smith.png": {
+    "gameSrc": "/assets/images/characters/celebrities/will-smith.251b8b333f7f.webp",
+    "revision": "475f92d238d4"
+  },
+  "/assets/images/characters/celebrities/denzel-washington.png": {
+    "gameSrc": "/assets/images/characters/celebrities/denzel-washington.9f5c2d6dcee9.webp",
+    "revision": "3c7c449d0114"
+  },
+  "/assets/images/characters/celebrities/morgan-freeman.png": {
+    "gameSrc": "/assets/images/characters/celebrities/morgan-freeman.305e786a9f11.webp",
+    "revision": "b08631f4df92"
+  },
+  "/assets/images/characters/celebrities/robert-de-niro.png": {
+    "gameSrc": "/assets/images/characters/celebrities/robert-de-niro.22a24d10e76d.webp",
+    "revision": "a2d2a741dce8"
+  },
+  "/assets/images/characters/celebrities/al-pacino.png": {
+    "gameSrc": "/assets/images/characters/celebrities/al-pacino.7540e49a7dd5.webp",
+    "revision": "8d6d1439018d"
+  },
+  "/assets/images/characters/celebrities/keanu-reeves.png": {
+    "gameSrc": "/assets/images/characters/celebrities/keanu-reeves.2246aa8b3026.webp",
+    "revision": "788aad52bbf5"
+  },
+  "/assets/images/characters/celebrities/robert-downey-jr.png": {
+    "gameSrc": "/assets/images/characters/celebrities/robert-downey-jr.88adaabec2e8.webp",
+    "revision": "7344f10dcc6f"
+  },
+  "/assets/images/characters/celebrities/ryan-reynolds.png": {
+    "gameSrc": "/assets/images/characters/celebrities/ryan-reynolds.0be49b007c4f.webp",
+    "revision": "97b23d496368"
+  },
+  "/assets/images/characters/celebrities/ryan-gosling.png": {
+    "gameSrc": "/assets/images/characters/celebrities/ryan-gosling.dadd47ea2108.webp",
+    "revision": "d57e24b411a9"
+  },
+  "/assets/images/characters/celebrities/dwayne-johnson.png": {
+    "gameSrc": "/assets/images/characters/celebrities/dwayne-johnson.82144b3591a8.webp",
+    "revision": "707a60a785bb"
+  },
+  "/assets/images/characters/celebrities/jackie-chan.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jackie-chan.4d13f5d316a5.webp",
+    "revision": "dc5f19317462"
+  },
+  "/assets/images/characters/celebrities/jim-carrey.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jim-carrey.b55a6d01dfd5.webp",
+    "revision": "5138095f5d82"
+  },
+  "/assets/images/characters/celebrities/harrison-ford.png": {
+    "gameSrc": "/assets/images/characters/celebrities/harrison-ford.1b2d4399e624.webp",
+    "revision": "5c954a0fcda1"
+  },
+  "/assets/images/characters/celebrities/christian-bale.png": {
+    "gameSrc": "/assets/images/characters/celebrities/christian-bale.2c12a778ea68.webp",
+    "revision": "d6c2b5e20f64"
+  },
+  "/assets/images/characters/celebrities/joaquin-phoenix.png": {
+    "gameSrc": "/assets/images/characters/celebrities/joaquin-phoenix.c2f0f542ed41.webp",
+    "revision": "27d2e9d1d665"
+  },
+  "/assets/images/characters/celebrities/angelina-jolie.png": {
+    "gameSrc": "/assets/images/characters/celebrities/angelina-jolie.ac481fd2a647.webp",
+    "revision": "db7343489532"
+  },
+  "/assets/images/characters/celebrities/julia-roberts.png": {
+    "gameSrc": "/assets/images/characters/celebrities/julia-roberts.c2a13c595a44.webp",
+    "revision": "5aad49dad7c3"
+  },
+  "/assets/images/characters/celebrities/meryl-streep.png": {
+    "gameSrc": "/assets/images/characters/celebrities/meryl-streep.b6946fcbd49e.webp",
+    "revision": "9bab54756f23"
+  },
+  "/assets/images/characters/celebrities/nicole-kidman.png": {
+    "gameSrc": "/assets/images/characters/celebrities/nicole-kidman.1978f8f27756.webp",
+    "revision": "8b5738275eb8"
+  },
+  "/assets/images/characters/celebrities/natalie-portman.png": {
+    "gameSrc": "/assets/images/characters/celebrities/natalie-portman.c6eedf5efd35.webp",
+    "revision": "03e84ed1020e"
+  },
+  "/assets/images/characters/celebrities/emma-watson.png": {
+    "gameSrc": "/assets/images/characters/celebrities/emma-watson.ebdfefb45dce.webp",
+    "revision": "6628db0597e1"
+  },
+  "/assets/images/characters/celebrities/jennifer-lawrence.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jennifer-lawrence.e3348daec808.webp",
+    "revision": "33f3904622f1"
+  },
+  "/assets/images/characters/celebrities/margot-robbie.png": {
+    "gameSrc": "/assets/images/characters/celebrities/margot-robbie.15ae454eb93e.webp",
+    "revision": "065e452574c1"
+  },
+  "/assets/images/characters/celebrities/zendaya.png": {
+    "gameSrc": "/assets/images/characters/celebrities/zendaya.2789d38b0f25.webp",
+    "revision": "ccd47ba011b7"
+  },
+  "/assets/images/characters/celebrities/omar-sy.png": {
+    "gameSrc": "/assets/images/characters/celebrities/omar-sy.361f88285913.webp",
+    "revision": "ad2c580e52b3"
+  },
+  "/assets/images/characters/celebrities/jean-dujardin.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jean-dujardin.4ae58871a137.webp",
+    "revision": "12a9fc5d6d1f"
+  },
+  "/assets/images/characters/celebrities/marion-cotillard.png": {
+    "gameSrc": "/assets/images/characters/celebrities/marion-cotillard.bd6e39220ac6.webp",
+    "revision": "94ed63d74f3b"
+  },
+  "/assets/images/characters/celebrities/lea-seydoux.png": {
+    "gameSrc": "/assets/images/characters/celebrities/lea-seydoux.ed23e8458467.webp",
+    "revision": "580d0d992b39"
+  },
+  "/assets/images/characters/celebrities/vincent-cassel.png": {
+    "gameSrc": "/assets/images/characters/celebrities/vincent-cassel.5ad25751f9b7.webp",
+    "revision": "8199cace1251"
+  },
+  "/assets/images/characters/celebrities/catherine-deneuve.png": {
+    "gameSrc": "/assets/images/characters/celebrities/catherine-deneuve.4db76f23280a.webp",
+    "revision": "e4263de812e2"
+  },
+  "/assets/images/characters/celebrities/sophie-marceau.png": {
+    "gameSrc": "/assets/images/characters/celebrities/sophie-marceau.726368081ff4.webp",
+    "revision": "1d369733bd92"
+  },
+  "/assets/images/characters/celebrities/louis-de-funes.png": {
+    "gameSrc": "/assets/images/characters/celebrities/louis-de-funes.d512d59390aa.webp",
+    "revision": "e1e2e3e814e8"
+  },
+  "/assets/images/characters/celebrities/audrey-tautou.png": {
+    "gameSrc": "/assets/images/characters/celebrities/audrey-tautou.011ecc45892b.webp",
+    "revision": "fe8b3a438864"
+  },
+  "/assets/images/characters/celebrities/beyonce.png": {
+    "gameSrc": "/assets/images/characters/celebrities/beyonce.33faa33b1095.webp",
+    "revision": "c2c09d1897d4"
+  },
+  "/assets/images/characters/celebrities/rihanna.png": {
+    "gameSrc": "/assets/images/characters/celebrities/rihanna.b2d75eb64cce.webp",
+    "revision": "2768f3cc266d"
+  },
+  "/assets/images/characters/celebrities/celine-dion.png": {
+    "gameSrc": "/assets/images/characters/celebrities/celine-dion.276769fce576.webp",
+    "revision": "b407acdad52e"
+  },
+  "/assets/images/characters/celebrities/lady-gaga.png": {
+    "gameSrc": "/assets/images/characters/celebrities/lady-gaga.ed39e01d3382.webp",
+    "revision": "01c49d797217"
+  },
+  "/assets/images/characters/celebrities/zinedine-zidane.png": {
+    "gameSrc": "/assets/images/characters/celebrities/zinedine-zidane.0a3b68af713c.webp",
+    "revision": "e4b65bbdc8b9"
+  },
+  "/assets/images/characters/celebrities/serena-williams.png": {
+    "gameSrc": "/assets/images/characters/celebrities/serena-williams.8a6167edba60.webp",
+    "revision": "64b71a9b7ba3"
+  },
+  "/assets/images/characters/celebrities/usain-bolt.png": {
+    "gameSrc": "/assets/images/characters/celebrities/usain-bolt.aa96e8674f73.webp",
+    "revision": "624bad3105e3"
+  },
+  "/assets/images/characters/celebrities/philippe-etchebest.png": {
+    "gameSrc": "/assets/images/characters/celebrities/philippe-etchebest.06ba63ce919b.webp",
+    "revision": "e8b64a02b891"
+  },
+  "/assets/images/characters/celebrities/jean-luc-reichmann.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jean-luc-reichmann.b98e078ec665.webp",
+    "revision": "f101e472b471"
+  },
+  "/assets/images/characters/celebrities/cyril-lignac.png": {
+    "gameSrc": "/assets/images/characters/celebrities/cyril-lignac.b12ca96df508.webp",
+    "revision": "2ec4515e5b3c"
+  },
+  "/assets/images/characters/celebrities/gordon-ramsay.png": {
+    "gameSrc": "/assets/images/characters/celebrities/gordon-ramsay.4d2ffd0adae6.webp",
+    "revision": "4566141e5be8"
+  },
+  "/assets/images/characters/celebrities/alain-ducasse.png": {
+    "gameSrc": "/assets/images/characters/celebrities/alain-ducasse.bc6e2e6e899b.webp",
+    "revision": "70ba36c61898"
+  },
+  "/assets/images/characters/celebrities/paul-bocuse.png": {
+    "gameSrc": "/assets/images/characters/celebrities/paul-bocuse.dced10ca449f.webp",
+    "revision": "a3c2f37084f0"
+  },
+  "/assets/images/characters/celebrities/joel-robuchon.png": {
+    "gameSrc": "/assets/images/characters/celebrities/joel-robuchon.34f8f0a5fe13.webp",
+    "revision": "30adc31f9472"
+  },
+  "/assets/images/characters/celebrities/helene-darroze.png": {
+    "gameSrc": "/assets/images/characters/celebrities/helene-darroze.d726096095e3.webp",
+    "revision": "4a8027d1b4e6"
+  },
+  "/assets/images/characters/celebrities/anne-sophie-pic.png": {
+    "gameSrc": "/assets/images/characters/celebrities/anne-sophie-pic.631040d20cad.webp",
+    "revision": "5f9d4eca8ec6"
+  },
+  "/assets/images/characters/celebrities/thierry-marx.png": {
+    "gameSrc": "/assets/images/characters/celebrities/thierry-marx.3c8639d8816a.webp",
+    "revision": "0841d474f70e"
+  },
+  "/assets/images/characters/celebrities/michel-sarran.png": {
+    "gameSrc": "/assets/images/characters/celebrities/michel-sarran.06ad0b17d832.webp",
+    "revision": "825ad695d502"
+  },
+  "/assets/images/characters/celebrities/norbert-tarayre.png": {
+    "gameSrc": "/assets/images/characters/celebrities/norbert-tarayre.ea27101976e7.webp",
+    "revision": "cd2de149c2ba"
+  },
+  "/assets/images/characters/celebrities/jean-francois-piege.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jean-francois-piege.d74973b46303.webp",
+    "revision": "40523942d066"
+  },
+  "/assets/images/characters/celebrities/christophe-michalak.png": {
+    "gameSrc": "/assets/images/characters/celebrities/christophe-michalak.768fe0cf0ae9.webp",
+    "revision": "c19aa8b79207"
+  },
+  "/assets/images/characters/celebrities/pierre-herme.png": {
+    "gameSrc": "/assets/images/characters/celebrities/pierre-herme.825bc375ab70.webp",
+    "revision": "347e7f06dded"
+  },
+  "/assets/images/characters/celebrities/stephane-bern.png": {
+    "gameSrc": "/assets/images/characters/celebrities/stephane-bern.ad721847e1ae.webp",
+    "revision": "1151160db605"
+  },
+  "/assets/images/characters/celebrities/stephane-plaza.png": {
+    "gameSrc": "/assets/images/characters/celebrities/stephane-plaza.0c8f08aca847.webp",
+    "revision": "50251a4429fd"
+  },
+  "/assets/images/characters/celebrities/nikos-aliagas.png": {
+    "gameSrc": "/assets/images/characters/celebrities/nikos-aliagas.0013884449e9.webp",
+    "revision": "eabbf34440d6"
+  },
+  "/assets/images/characters/celebrities/nagui.png": {
+    "gameSrc": "/assets/images/characters/celebrities/nagui.206200342f05.webp",
+    "revision": "23e1e2fa8454"
+  },
+  "/assets/images/characters/celebrities/michel-drucker.png": {
+    "gameSrc": "/assets/images/characters/celebrities/michel-drucker.39c3cea1d1df.webp",
+    "revision": "53b238a05649"
+  },
+  "/assets/images/characters/celebrities/arthur.png": {
+    "gameSrc": "/assets/images/characters/celebrities/arthur.59be6d7a1141.webp",
+    "revision": "e38a583d997f"
+  },
+  "/assets/images/characters/celebrities/patrick-sebastien.png": {
+    "gameSrc": "/assets/images/characters/celebrities/patrick-sebastien.d6703858be89.webp",
+    "revision": "ec8e950a0300"
+  },
+  "/assets/images/characters/celebrities/jean-pierre-foucault.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jean-pierre-foucault.256e7c1de3fc.webp",
+    "revision": "253b2210f9b0"
+  },
+  "/assets/images/characters/celebrities/laurence-boccolini.png": {
+    "gameSrc": "/assets/images/characters/celebrities/laurence-boccolini.73d566253f53.webp",
+    "revision": "c125771dd061"
+  },
+  "/assets/images/characters/celebrities/christophe-dechavanne.png": {
+    "gameSrc": "/assets/images/characters/celebrities/christophe-dechavanne.8be6b7f0c3e3.webp",
+    "revision": "174fdf7979c2"
+  },
+  "/assets/images/characters/celebrities/laurent-ruquier.png": {
+    "gameSrc": "/assets/images/characters/celebrities/laurent-ruquier.c751b50e2047.webp",
+    "revision": "2f2dfd178dd0"
+  },
+  "/assets/images/characters/celebrities/laurent-delahousse.png": {
+    "gameSrc": "/assets/images/characters/celebrities/laurent-delahousse.22082ac13d74.webp",
+    "revision": "5e49f7ccb2e6"
+  },
+  "/assets/images/characters/celebrities/anne-sophie-lapix.png": {
+    "gameSrc": "/assets/images/characters/celebrities/anne-sophie-lapix.d02ae8326243.webp",
+    "revision": "8e5b1db8797f"
+  },
+  "/assets/images/characters/celebrities/lea-salame.png": {
+    "gameSrc": "/assets/images/characters/celebrities/lea-salame.14f57e6918e3.webp",
+    "revision": "1dd6f8208776"
+  },
+  "/assets/images/characters/celebrities/elise-lucet.png": {
+    "gameSrc": "/assets/images/characters/celebrities/elise-lucet.5e2141266922.webp",
+    "revision": "dbb297e6e033"
+  },
+  "/assets/images/characters/celebrities/anne-claire-coudray.png": {
+    "gameSrc": "/assets/images/characters/celebrities/anne-claire-coudray.e4b007124760.webp",
+    "revision": "8abb8cfbc1b5"
+  },
+  "/assets/images/characters/celebrities/claire-chazal.png": {
+    "gameSrc": "/assets/images/characters/celebrities/claire-chazal.1c460209bcbf.webp",
+    "revision": "a6291f6dba01"
+  },
+  "/assets/images/characters/celebrities/julien-courbet.png": {
+    "gameSrc": "/assets/images/characters/celebrities/julien-courbet.06e042da48a9.webp",
+    "revision": "07e89df3d2e8"
+  },
+  "/assets/images/characters/celebrities/julien-lepers.png": {
+    "gameSrc": "/assets/images/characters/celebrities/julien-lepers.82898ff1da1b.webp",
+    "revision": "e41352f480df"
+  },
+  "/assets/images/characters/celebrities/olivier-minne.png": {
+    "gameSrc": "/assets/images/characters/celebrities/olivier-minne.b5ad6db1fb83.webp",
+    "revision": "1f79977c0df0"
+  },
+  "/assets/images/characters/celebrities/denis-brogniart.png": {
+    "gameSrc": "/assets/images/characters/celebrities/denis-brogniart.d53b924c48b5.webp",
+    "revision": "8f81a89826e6"
+  },
+  "/assets/images/characters/celebrities/benjamin-castaldi.png": {
+    "gameSrc": "/assets/images/characters/celebrities/benjamin-castaldi.8a0f5b1f6592.webp",
+    "revision": "ab673745f85f"
+  },
+  "/assets/images/characters/celebrities/faustine-bollaert.png": {
+    "gameSrc": "/assets/images/characters/celebrities/faustine-bollaert.367d5ef3a61a.webp",
+    "revision": "20f50743e6b9"
+  },
+  "/assets/images/characters/celebrities/karine-le-marchand.png": {
+    "gameSrc": "/assets/images/characters/celebrities/karine-le-marchand.3335618be3b1.webp",
+    "revision": "9b2bfbef780c"
+  },
+  "/assets/images/characters/celebrities/cristina-cordula.png": {
+    "gameSrc": "/assets/images/characters/celebrities/cristina-cordula.9d139b49d714.webp",
+    "revision": "4ee23c8112bf"
+  },
+  "/assets/images/characters/celebrities/sophie-davant.png": {
+    "gameSrc": "/assets/images/characters/celebrities/sophie-davant.edebda2131ce.webp",
+    "revision": "6b85f9928156"
+  },
+  "/assets/images/characters/celebrities/evelyne-dheliat.png": {
+    "gameSrc": "/assets/images/characters/celebrities/evelyne-dheliat.b5ea93bae2bd.webp",
+    "revision": "94deda2d4bc1"
+  },
+  "/assets/images/characters/celebrities/valerie-damidot.png": {
+    "gameSrc": "/assets/images/characters/celebrities/valerie-damidot.be8378baee70.webp",
+    "revision": "c02eb6e73e9b"
+  },
+  "/assets/images/characters/celebrities/frederic-lopez.png": {
+    "gameSrc": "/assets/images/characters/celebrities/frederic-lopez.633329f82cac.webp",
+    "revision": "deba41550f44"
+  },
+  "/assets/images/characters/celebrities/camille-combal.png": {
+    "gameSrc": "/assets/images/characters/celebrities/camille-combal.b4bbbca446fd.webp",
+    "revision": "cc61b6117bdf"
+  },
+  "/assets/images/characters/celebrities/cyril-feraud.png": {
+    "gameSrc": "/assets/images/characters/celebrities/cyril-feraud.fad951cf4ebe.webp",
+    "revision": "420099bdfe55"
+  },
+  "/assets/images/characters/celebrities/cyril-hanouna.png": {
+    "gameSrc": "/assets/images/characters/celebrities/cyril-hanouna.2d529a1b75a3.webp",
+    "revision": "4ba4b96f223c"
+  },
+  "/assets/images/characters/celebrities/bruno-guillon.png": {
+    "gameSrc": "/assets/images/characters/celebrities/bruno-guillon.7028d63fb55d.webp",
+    "revision": "d9caf5c8e3b9"
+  },
+  "/assets/images/characters/celebrities/michel-cymes.png": {
+    "gameSrc": "/assets/images/characters/celebrities/michel-cymes.90361ca40a9b.webp",
+    "revision": "44f4ab58ffac"
+  },
+  "/assets/images/characters/celebrities/jamy-gourmaud.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jamy-gourmaud.3f2c77057abd.webp",
+    "revision": "d01675b5a921"
+  },
+  "/assets/images/characters/celebrities/fred-courant.png": {
+    "gameSrc": "/assets/images/characters/celebrities/fred-courant.ddce226d2fe7.webp",
+    "revision": "f738d5c2d764"
+  },
+  "/assets/images/characters/celebrities/alain-chabat.png": {
+    "gameSrc": "/assets/images/characters/celebrities/alain-chabat.9aaf2d8c5720.webp",
+    "revision": "859b1c1b3b50"
+  },
+  "/assets/images/characters/celebrities/jamel-debbouze.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jamel-debbouze.38ffbb160520.webp",
+    "revision": "68743f9fa02c"
+  },
+  "/assets/images/characters/celebrities/gad-elmaleh.png": {
+    "gameSrc": "/assets/images/characters/celebrities/gad-elmaleh.895f10fc6b62.webp",
+    "revision": "e129ef336cb4"
+  },
+  "/assets/images/characters/celebrities/florence-foresti.png": {
+    "gameSrc": "/assets/images/characters/celebrities/florence-foresti.4085a28b1723.webp",
+    "revision": "34e3831a61e1"
+  },
+  "/assets/images/characters/celebrities/muriel-robin.png": {
+    "gameSrc": "/assets/images/characters/celebrities/muriel-robin.2b81f3c47cfb.webp",
+    "revision": "73163deac9d4"
+  },
+  "/assets/images/characters/celebrities/michele-laroque.png": {
+    "gameSrc": "/assets/images/characters/celebrities/michele-laroque.a3c80228bfa8.webp",
+    "revision": "b822b80f0751"
+  },
+  "/assets/images/characters/celebrities/anne-roumanoff.png": {
+    "gameSrc": "/assets/images/characters/celebrities/anne-roumanoff.f80116ff5e03.webp",
+    "revision": "d91a0eb143c8"
+  },
+  "/assets/images/characters/celebrities/dany-boon.png": {
+    "gameSrc": "/assets/images/characters/celebrities/dany-boon.d02d5549c9cf.webp",
+    "revision": "b648dda96962"
+  },
+  "/assets/images/characters/celebrities/kad-merad.png": {
+    "gameSrc": "/assets/images/characters/celebrities/kad-merad.9146286918c5.webp",
+    "revision": "5b0b0d8519e0"
+  },
+  "/assets/images/characters/celebrities/franck-dubosc.png": {
+    "gameSrc": "/assets/images/characters/celebrities/franck-dubosc.1e79292b8f96.webp",
+    "revision": "a274a9d74444"
+  },
+  "/assets/images/characters/celebrities/elie-semoun.png": {
+    "gameSrc": "/assets/images/characters/celebrities/elie-semoun.bca1da7aeaa8.webp",
+    "revision": "c58343c83111"
+  },
+  "/assets/images/characters/celebrities/kev-adams.png": {
+    "gameSrc": "/assets/images/characters/celebrities/kev-adams.71ff67e2ef9c.webp",
+    "revision": "195ff037001f"
+  },
+  "/assets/images/characters/celebrities/fabrice-eboue.png": {
+    "gameSrc": "/assets/images/characters/celebrities/fabrice-eboue.6057e3d39d7a.webp",
+    "revision": "272bd193951d"
+  },
+  "/assets/images/characters/celebrities/blanche-gardin.png": {
+    "gameSrc": "/assets/images/characters/celebrities/blanche-gardin.dd517356cf93.webp",
+    "revision": "164899f019c6"
+  },
+  "/assets/images/characters/celebrities/francois-xavier-demaison.png": {
+    "gameSrc": "/assets/images/characters/celebrities/francois-xavier-demaison.99a16f87384a.webp",
+    "revision": "b19a110e66b2"
+  },
+  "/assets/images/characters/celebrities/jean-marie-bigard.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jean-marie-bigard.9d0eb7aeaa26.webp",
+    "revision": "279ed44799a0"
+  },
+  "/assets/images/characters/celebrities/coluche.png": {
+    "gameSrc": "/assets/images/characters/celebrities/coluche.cf58187c8d65.webp",
+    "revision": "cb196c43fcea"
+  },
+  "/assets/images/characters/celebrities/pierre-richard.png": {
+    "gameSrc": "/assets/images/characters/celebrities/pierre-richard.458150a7f003.webp",
+    "revision": "68354181c5ef"
+  },
+  "/assets/images/characters/celebrities/daniel-auteuil.png": {
+    "gameSrc": "/assets/images/characters/celebrities/daniel-auteuil.6e5642c345ee.webp",
+    "revision": "5abf83ae11c3"
+  },
+  "/assets/images/characters/celebrities/christian-clavier.png": {
+    "gameSrc": "/assets/images/characters/celebrities/christian-clavier.808cb0423d51.webp",
+    "revision": "47a99bb5ef42"
+  },
+  "/assets/images/characters/celebrities/gerard-jugnot.png": {
+    "gameSrc": "/assets/images/characters/celebrities/gerard-jugnot.272502904b24.webp",
+    "revision": "e85c9c974c40"
+  },
+  "/assets/images/characters/celebrities/thierry-lhermitte.png": {
+    "gameSrc": "/assets/images/characters/celebrities/thierry-lhermitte.d54298cbee08.webp",
+    "revision": "f175333516e9"
+  },
+  "/assets/images/characters/celebrities/josiane-balasko.png": {
+    "gameSrc": "/assets/images/characters/celebrities/josiane-balasko.b9ce9ca0eb69.webp",
+    "revision": "fbe98e0fc0ea"
+  },
+  "/assets/images/characters/celebrities/isabelle-adjani.png": {
+    "gameSrc": "/assets/images/characters/celebrities/isabelle-adjani.60a4acef5b1e.webp",
+    "revision": "067e10556f1a"
+  },
+  "/assets/images/characters/celebrities/isabelle-huppert.png": {
+    "gameSrc": "/assets/images/characters/celebrities/isabelle-huppert.58a7a9f5d056.webp",
+    "revision": "2507ae5c1342"
+  },
+  "/assets/images/characters/celebrities/jean-paul-belmondo.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jean-paul-belmondo.5314ffb63200.webp",
+    "revision": "f9c6cdf58083"
+  },
+  "/assets/images/characters/celebrities/alain-delon.png": {
+    "gameSrc": "/assets/images/characters/celebrities/alain-delon.9381b29854b5.webp",
+    "revision": "823346baffeb"
+  },
+  "/assets/images/characters/celebrities/gilles-lellouche.png": {
+    "gameSrc": "/assets/images/characters/celebrities/gilles-lellouche.f04b06771252.webp",
+    "revision": "5eb035633e3f"
+  },
+  "/assets/images/characters/celebrities/francois-cluzet.png": {
+    "gameSrc": "/assets/images/characters/celebrities/francois-cluzet.a2f23fd7c70e.webp",
+    "revision": "aa9ce17dc962"
+  },
+  "/assets/images/characters/celebrities/julien-dore.png": {
+    "gameSrc": "/assets/images/characters/celebrities/julien-dore.a14b7a3203de.webp",
+    "revision": "9c48858aacc1"
+  },
+  "/assets/images/characters/celebrities/florent-pagny.png": {
+    "gameSrc": "/assets/images/characters/celebrities/florent-pagny.b558c216ccb1.webp",
+    "revision": "004119fa759a"
+  },
+  "/assets/images/characters/celebrities/patrick-bruel.png": {
+    "gameSrc": "/assets/images/characters/celebrities/patrick-bruel.04f90400b572.webp",
+    "revision": "9556d912ef95"
+  },
+  "/assets/images/characters/celebrities/jean-jacques-goldman.png": {
+    "gameSrc": "/assets/images/characters/celebrities/jean-jacques-goldman.5731e0f235dd.webp",
+    "revision": "ea6469da29ed"
+  },
+  "/assets/images/characters/celebrities/johnny-hallyday.png": {
+    "gameSrc": "/assets/images/characters/celebrities/johnny-hallyday.ec705b6b430f.webp",
+    "revision": "eea10575f24d"
+  },
+  "/assets/images/characters/celebrities/mylene-farmer.png": {
+    "gameSrc": "/assets/images/characters/celebrities/mylene-farmer.f4c70ae1daf4.webp",
+    "revision": "5bf09342de73"
+  },
+  "/assets/images/characters/celebrities/pascal-obispo.png": {
+    "gameSrc": "/assets/images/characters/celebrities/pascal-obispo.e07a10f1c0df.webp",
+    "revision": "cad10f5a8302"
+  },
+  "/assets/images/characters/celebrities/francis-cabrel.png": {
+    "gameSrc": "/assets/images/characters/celebrities/francis-cabrel.0461b7a7a72f.webp",
+    "revision": "4ceb8cc7dbe6"
+  },
+  "/assets/images/characters/celebrities/vitaa.png": {
+    "gameSrc": "/assets/images/characters/celebrities/vitaa.9514e36076c0.webp",
+    "revision": "158e5f9b16ea"
+  },
+  "/assets/images/characters/celebrities/slimane.png": {
+    "gameSrc": "/assets/images/characters/celebrities/slimane.f1794cb9ec79.webp",
+    "revision": "42f9236c764e"
+  },
+  "/assets/images/characters/celebrities/soprano.png": {
+    "gameSrc": "/assets/images/characters/celebrities/soprano.35e1b95c5fb7.webp",
+    "revision": "7b588c146c3b"
+  },
+  "/assets/images/characters/celebrities/gims.png": {
+    "gameSrc": "/assets/images/characters/celebrities/gims.35b729b0010e.webp",
+    "revision": "a86f7a8e2dc5"
+  },
+  "/assets/images/characters/celebrities/stromae.png": {
+    "gameSrc": "/assets/images/characters/celebrities/stromae.0d23b588fab7.webp",
+    "revision": "045688adcb5b"
+  },
+  "/assets/images/characters/celebrities/angele.png": {
+    "gameSrc": "/assets/images/characters/celebrities/angele.0f3859ad0814.webp",
+    "revision": "a5708a2e1a5d"
+  },
+  "/assets/images/characters/celebrities/kylian-mbappe.png": {
+    "gameSrc": "/assets/images/characters/celebrities/kylian-mbappe.88cfe3738238.webp",
+    "revision": "7b8f20f9aaef"
+  },
+  "/assets/images/characters/celebrities/antoine-griezmann.png": {
+    "gameSrc": "/assets/images/characters/celebrities/antoine-griezmann.645d35dffb45.webp",
+    "revision": "c78c43ef5994"
+  },
+  "/assets/images/characters/celebrities/tony-parker.png": {
+    "gameSrc": "/assets/images/characters/celebrities/tony-parker.6ebe79716fff.webp",
+    "revision": "790726f7b5a0"
+  },
+  "/assets/images/characters/celebrities/teddy-riner.png": {
+    "gameSrc": "/assets/images/characters/celebrities/teddy-riner.c336b0116a91.webp",
+    "revision": "e79c00d40127"
+  },
+  "/assets/images/characters/celebrities/antoine-dupont.png": {
+    "gameSrc": "/assets/images/characters/celebrities/antoine-dupont.ce545af08743.webp",
+    "revision": "e2b9835b9608"
+  },
+  "/assets/images/characters/celebrities/george-clooney.png": {
+    "gameSrc": "/assets/images/characters/celebrities/george-clooney.28ec505acd6c.webp",
+    "revision": "6a2f154f706f"
+  },
+  "/assets/images/characters/celebrities/samuel-l-jackson.png": {
+    "gameSrc": "/assets/images/characters/celebrities/samuel-l-jackson.d706c39eaca9.webp",
+    "revision": "9e3905df467e"
+  },
+  "/assets/images/characters/celebrities/viola-davis.png": {
+    "gameSrc": "/assets/images/characters/celebrities/viola-davis.280be2ff3e79.webp",
+    "revision": "344a6ff6d689"
+  },
+  "/assets/images/characters/celebrities/anne-hathaway.png": {
+    "gameSrc": "/assets/images/characters/celebrities/anne-hathaway.b24192f82407.webp",
+    "revision": "265db4324331"
+  },
+  "/assets/images/characters/celebrities/eddie-murphy.png": {
+    "gameSrc": "/assets/images/characters/celebrities/eddie-murphy.2fcee80d49da.webp",
+    "revision": "9e0fc695a425"
+  },
+  "/assets/images/characters/celebrities/madonna.png": {
+    "gameSrc": "/assets/images/characters/celebrities/madonna.4ac5413f917e.webp",
+    "revision": "eb8e8c778b64"
+  },
+  "/assets/images/characters/celebrities/elvis-presley.png": {
+    "gameSrc": "/assets/images/characters/celebrities/elvis-presley.8240a73fb436.webp",
+    "revision": "731a8f50addc"
+  },
+  "/assets/images/characters/celebrities/prince.png": {
+    "gameSrc": "/assets/images/characters/celebrities/prince.57cf8db2f41c.webp",
+    "revision": "9fda015eccaa"
+  },
+  "/assets/images/characters/celebrities/michael-jordan.png": {
+    "gameSrc": "/assets/images/characters/celebrities/michael-jordan.aa09ae768826.webp",
+    "revision": "3f5bea25437d"
+  },
+  "/assets/images/characters/celebrities/simone-biles.png": {
+    "gameSrc": "/assets/images/characters/celebrities/simone-biles.fa69ef123ced.webp",
+    "revision": "61aa917f7421"
+  },
+  "/assets/images/characters/celebrities/michael-phelps.png": {
+    "gameSrc": "/assets/images/characters/celebrities/michael-phelps.3e9d28e3cb13.webp",
+    "revision": "7a1c1a2ac453"
+  },
+  "/assets/images/characters/celebrities/fernanda-montenegro.png": {
+    "gameSrc": "/assets/images/characters/celebrities/fernanda-montenegro.e4059c0c761c.webp",
+    "revision": "8e8498e716b9"
+  },
+  "/assets/images/characters/celebrities/fernanda-torres.png": {
+    "gameSrc": "/assets/images/characters/celebrities/fernanda-torres.1d960270eca6.webp",
+    "revision": "b9e82138c9b5"
+  },
+  "/assets/images/characters/celebrities/wagner-moura.png": {
+    "gameSrc": "/assets/images/characters/celebrities/wagner-moura.95582c12e622.webp",
+    "revision": "a0b64e4b7c97"
+  },
+  "/assets/images/characters/celebrities/silvio-santos.png": {
+    "gameSrc": "/assets/images/characters/celebrities/silvio-santos.c04431a289ff.webp",
+    "revision": "681a2664ac78"
+  },
+  "/assets/images/characters/celebrities/caetano-veloso.png": {
+    "gameSrc": "/assets/images/characters/celebrities/caetano-veloso.06fd177276af.webp",
+    "revision": "ef004adff89f"
+  },
+  "/assets/images/characters/celebrities/gilberto-gil.png": {
+    "gameSrc": "/assets/images/characters/celebrities/gilberto-gil.ac4a2ec8b4f0.webp",
+    "revision": "72b12f8d244a"
+  },
+  "/assets/images/characters/celebrities/anitta.png": {
+    "gameSrc": "/assets/images/characters/celebrities/anitta.09ee01f97ff6.webp",
+    "revision": "22f122019b03"
+  },
+  "/assets/images/characters/celebrities/pele.png": {
+    "gameSrc": "/assets/images/characters/celebrities/pele.75b58c0f0bd3.webp",
+    "revision": "5a85da35a10a"
+  },
+  "/assets/images/characters/celebrities/neymar.png": {
+    "gameSrc": "/assets/images/characters/celebrities/neymar.67e73313f075.webp",
+    "revision": "30aa39e8f383"
+  },
+  "/assets/images/characters/celebrities/marta.png": {
+    "gameSrc": "/assets/images/characters/celebrities/marta.206ccaeca7a4.webp",
+    "revision": "041b32a3e07a"
+  },
+  "/assets/images/characters/celebrities/ayrton-senna.png": {
+    "gameSrc": "/assets/images/characters/celebrities/ayrton-senna.df02b55a5cc1.webp",
+    "revision": "26a3d86549d0"
+  },
+  "/assets/images/characters/celebrities/daniel-craig.png": {
+    "gameSrc": "/assets/images/characters/celebrities/daniel-craig.c4ec33d4ff23.webp",
+    "revision": "83239eaf2281"
+  },
+  "/assets/images/characters/celebrities/benedict-cumberbatch.png": {
+    "gameSrc": "/assets/images/characters/celebrities/benedict-cumberbatch.8e47b127219f.webp",
+    "revision": "b3e30d807968"
+  },
+  "/assets/images/characters/celebrities/antonio-banderas.png": {
+    "gameSrc": "/assets/images/characters/celebrities/antonio-banderas.a245cd5fe30d.webp",
+    "revision": "c7722315df05"
+  },
+  "/assets/images/characters/celebrities/penelope-cruz.png": {
+    "gameSrc": "/assets/images/characters/celebrities/penelope-cruz.455fe465224c.webp",
+    "revision": "eaa0a9c9a2e6"
+  },
+  "/assets/images/characters/celebrities/whitney-houston.png": {
+    "gameSrc": "/assets/images/characters/celebrities/whitney-houston.4b037e02c575.webp",
+    "revision": "ed66d49be394"
+  },
+  "/assets/images/characters/celebrities/helena-rizzo.png": {
+    "gameSrc": "/assets/images/characters/celebrities/helena-rizzo.363b4b935cf9.webp",
+    "revision": "0dba9bd67ed7"
+  },
+  "/assets/images/characters/celebrities/sophia-loren.png": {
+    "gameSrc": "/assets/images/characters/celebrities/sophia-loren.4b045c897cd9.webp",
+    "revision": "ce87bf7774bb"
+  },
+  "/assets/images/characters/celebrities/monica-bellucci.png": {
+    "gameSrc": "/assets/images/characters/celebrities/monica-bellucci.553682e8e1e8.webp",
+    "revision": "f11b23637e96"
+  },
+  "/assets/images/characters/celebrities/zhang-ziyi.png": {
+    "gameSrc": "/assets/images/characters/celebrities/zhang-ziyi.1dd253b9c851.webp",
+    "revision": "73a7f000a3e3"
+  },
+  "/assets/images/characters/celebrities/lang-lang.png": {
+    "gameSrc": "/assets/images/characters/celebrities/lang-lang.42281e9f0782.webp",
+    "revision": "2c98de93e740"
+  },
+  "/assets/images/characters/celebrities/maria-sharapova.png": {
+    "gameSrc": "/assets/images/characters/celebrities/maria-sharapova.93766c80b976.webp",
+    "revision": "b2dff4265ba1"
+  },
+  "/assets/images/characters/celebrities/cristiano-ronaldo.png": {
+    "gameSrc": "/assets/images/characters/celebrities/cristiano-ronaldo.6b0bbb9c4ad2.webp",
+    "revision": "e2147c789b52"
+  },
+  "/assets/images/characters/celebrities/eusebio.png": {
+    "gameSrc": "/assets/images/characters/celebrities/eusebio.628fbd4934ec.webp",
+    "revision": "17acae16e1b0"
+  },
+  "/assets/images/characters/celebrities/juliette-binoche.png": {
+    "gameSrc": "/assets/images/characters/celebrities/juliette-binoche.bfb2de870ca0.webp",
+    "revision": "48c121728013"
+  },
+  "/assets/images/characters/celebrities/pierre-niney.png": {
+    "gameSrc": "/assets/images/characters/celebrities/pierre-niney.9d654b32c415.webp",
+    "revision": "8083aa00833f"
+  }
+}

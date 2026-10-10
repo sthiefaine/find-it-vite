@@ -137,7 +137,7 @@ export function createStudioStore(root: string) {
           }
           const category = categories.get(sprite.themeId);
           const serie = category === "politics" ? "politics" : category === "history" ? "history" : category === "people" ? "celebrity" : "animal";
-          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie, color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite) });
+          published.push({ name: sprite.id, label: sprite.label, imageSrc, serie, color: sprite.color, family: sprite.family, ...normalizedAnimalMetadata(sprite), ...(sprite.countryLinks === undefined ? {} : { countryLinks: sprite.countryLinks }) });
         }
         await atomicJson(manifestFile, published.filter((character) => character.serie === "animal"));
         await atomicJson(peopleManifestFile, published.filter((character) => character.serie === "politics"));

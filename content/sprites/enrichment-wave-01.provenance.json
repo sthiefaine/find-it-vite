@@ -1,0 +1,3170 @@
+[
+  {
+    "id": "george-clooney",
+    "label": "George Clooney",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/george-clooney.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/george-clooney.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis et carrière dans le cinéma américain",
+        "sourceUrl": "https://goldenglobes.com/person/george-clooney/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 121769,
+      "borderTransparencyRatio": 1,
+      "bytes": 302063,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "samuel-l-jackson",
+    "label": "Samuel L. Jackson",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/samuel-l-jackson.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/samuel-l-jackson.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "acteur américain ; carrière cinéma et télévision",
+        "sourceUrl": "https://walkoffame.com/samuel-l-jackson/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 110917,
+      "borderTransparencyRatio": 1,
+      "bytes": 273738,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "viola-davis",
+    "label": "Viola Davis",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/viola-davis.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/viola-davis.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis et carrière dans le cinéma américain",
+        "sourceUrl": "https://goldenglobes.com/person/viola-davis/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 161523,
+      "borderTransparencyRatio": 1,
+      "bytes": 375798,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "anne-hathaway",
+    "label": "Anne Hathaway",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/anne-hathaway.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/anne-hathaway.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis et carrière dans le cinéma américain",
+        "sourceUrl": "https://goldenglobes.com/person/anne-hathaway/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 163977,
+      "borderTransparencyRatio": 1,
+      "bytes": 374546,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "oprah-winfrey",
+    "label": "Oprah Winfrey",
+    "status": "draft",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/oprah-winfrey.v1.prompt.txt",
+    "originalPath": null,
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis ; carrière dans la télévision américaine",
+        "sourceUrl": "https://goldenglobes.com/person/oprah-winfrey/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "visualReview": "not-generated",
+      "generationError": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID f7068b8c-dd7e-48aa-942a-a515fda207c6.\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"other\\\"\\n      ]\\n    }\\n  }\\n}\")",
+      "moderationStage": "output",
+      "requestId": "f7068b8c-dd7e-48aa-942a-a515fda207c6",
+      "retry": false
+    }
+  },
+  {
+    "id": "eddie-murphy",
+    "label": "Eddie Murphy",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/eddie-murphy.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/eddie-murphy.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "acteur et humoriste américain",
+        "sourceUrl": "https://walkoffame.com/eddie-murphy/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 111556,
+      "borderTransparencyRatio": 1,
+      "bytes": 270293,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "madonna",
+    "label": "Madonna",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/madonna.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/madonna.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "carrière dans la musique populaire américaine",
+        "sourceUrl": "https://rockhall.com/inductees/madonna/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 163962,
+      "borderTransparencyRatio": 1,
+      "bytes": 413400,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "elvis-presley",
+    "label": "Elvis Presley",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/elvis-presley.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/elvis-presley.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis ; carrière musicale à Memphis",
+        "sourceUrl": "https://www.graceland.com/biography"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 117614,
+      "borderTransparencyRatio": 1,
+      "bytes": 288045,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "prince",
+    "label": "Prince",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/prince.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/prince.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "musicien né à Minneapolis ; ancrage musical américain",
+        "sourceUrl": "https://becoming.prince.com/map/paisley-park/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 128524,
+      "borderTransparencyRatio": 1,
+      "bytes": 317423,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "michael-jordan",
+    "label": "Michael Jordan",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/michael-jordan.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/michael-jordan.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "basketteur identifié USA par la NBA",
+        "sourceUrl": "https://www.nba.com/player/893/michael-jordan/profile"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 115503,
+      "borderTransparencyRatio": 1,
+      "bytes": 278376,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "simone-biles",
+    "label": "Simone Biles",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/simone-biles.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/simone-biles.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "gymnaste de la sélection nationale des États-Unis",
+        "sourceUrl": "https://members.usagym.org/pages/athletes/nationalTeamWomen.html?id=164887"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 113664,
+      "borderTransparencyRatio": 1,
+      "bytes": 270722,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "michael-phelps",
+    "label": "Michael Phelps",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/michael-phelps.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/michael-phelps.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "nageur identifié USA dans les résultats officiels de la fédération",
+        "sourceUrl": "https://www.usaswimming.org/docs/default-source/eventsdocuments/meet-results/olympic-trials-results/2008-us-olympic-team-trials.pdf"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 110540,
+      "borderTransparencyRatio": 1,
+      "bytes": 269056,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "fernanda-montenegro",
+    "label": "Fernanda Montenegro",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/fernanda-montenegro.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/fernanda-montenegro.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "actrice rattachée au Brésil par le Festival de Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/fernanda-montenegro/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 130819,
+      "borderTransparencyRatio": 1,
+      "bytes": 320927,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "fernanda-torres",
+    "label": "Fernanda Torres",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/fernanda-torres.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/fernanda-torres.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "interprète dans le cinéma brésilien ; film identifié Brazil par Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/f/eu-sei-que-vou-te-amar/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 158565,
+      "borderTransparencyRatio": 1,
+      "bytes": 379297,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "wagner-moura",
+    "label": "Wagner Moura",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/wagner-moura.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/wagner-moura.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "acteur rattaché au Brésil par le Festival de Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/wagner-moura/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 121872,
+      "borderTransparencyRatio": 1,
+      "bytes": 312913,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "silvio-santos",
+    "label": "Silvio Santos",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/silvio-santos.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/silvio-santos.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "carrière dans la télévision brésilienne documentée par SBT",
+        "sourceUrl": "https://silviosantos.sbt.com.br/animador.html"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 125665,
+      "borderTransparencyRatio": 1,
+      "bytes": 294011,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "xuxa-meneghel",
+    "label": "Xuxa Meneghel",
+    "status": "draft",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/xuxa-meneghel.v1.prompt.txt",
+    "originalPath": null,
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "animatrice de télévision brésilienne documentée par son diffuseur",
+        "sourceUrl": "https://record.r7.com/dancing-brasil-especial/xuxa-apresenta-o-dancing-brasil-especial-15092018/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "visualReview": "not-generated",
+      "generationError": "image generation failed: http 400 Bad Request: Some(\"{\\n  \\\"error\\\": {\\n    \\\"message\\\": \\\"Your request was rejected by the safety system. If you believe this is an error, contact us at help.openai.com and include the request ID e00b2bfe-7e8a-477b-aea6-3e74299d9092.\\\",\\n    \\\"type\\\": \\\"image_generation_user_error\\\",\\n    \\\"param\\\": null,\\n    \\\"code\\\": \\\"moderation_blocked\\\",\\n    \\\"moderation_details\\\": {\\n      \\\"moderation_stage\\\": \\\"output\\\",\\n      \\\"categories\\\": [\\n        \\\"other\\\"\\n      ]\\n    }\\n  }\\n}\")",
+      "moderationStage": "output",
+      "requestId": "e00b2bfe-7e8a-477b-aea6-3e74299d9092",
+      "retry": false
+    }
+  },
+  {
+    "id": "caetano-veloso",
+    "label": "Caetano Veloso",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/caetano-veloso.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/caetano-veloso.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "carrière musicale au Brésil documentée par le site officiel",
+        "sourceUrl": "https://www.caetanoveloso.com.br/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 121236,
+      "borderTransparencyRatio": 0.9998759920634921,
+      "bytes": 320692,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "gilberto-gil",
+    "label": "Gilberto Gil",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/gilberto-gil.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/gilberto-gil.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "carrière dans la musique brésilienne documentée par le site officiel",
+        "sourceUrl": "https://gilbertogil.com.br/gilberto-gil/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 124658,
+      "borderTransparencyRatio": 1,
+      "bytes": 348462,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "anitta",
+    "label": "Anitta",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/anitta.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/anitta.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "chanteuse brésilienne documentée par un entretien de la Recording Academy",
+        "sourceUrl": "https://www.grammy.com/news/anitta-funk-generation-new-album-interview-review/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 157360,
+      "borderTransparencyRatio": 1,
+      "bytes": 383794,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "pele",
+    "label": "Pelé",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/pele.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/pele.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "football avec la sélection brésilienne documenté par la FIFA",
+        "sourceUrl": "https://www.fifa.com/pt/articles/pele-apresentou-o-brasil-ao-mundo"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 118670,
+      "borderTransparencyRatio": 1,
+      "bytes": 296089,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "neymar",
+    "label": "Neymar",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/neymar.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/neymar.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "joueur du football brésilien identifié par la CBF",
+        "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/atletas/copa-do-brasil/masculino/2026/292791"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 115178,
+      "borderTransparencyRatio": 1,
+      "bytes": 290101,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "marta",
+    "label": "Marta",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/marta.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/marta.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "footballeuse de la sélection brésilienne documentée par la FIFA",
+        "sourceUrl": "https://www.fifa.com/en/tournaments/womens/u20womensworldcup/poland-2026/articles/u20-stars-marta-tribute"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 126363,
+      "borderTransparencyRatio": 1,
+      "bytes": 305787,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "ayrton-senna",
+    "label": "Ayrton Senna",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/ayrton-senna.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/ayrton-senna.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "pilote né à São Paulo ; parcours brésilien documenté par son institution officielle",
+        "sourceUrl": "https://www.senna.com/en/jornada-senna/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 121552,
+      "borderTransparencyRatio": 1,
+      "bytes": 292567,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "daniel-craig",
+    "label": "Daniel Craig",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/daniel-craig.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/daniel-craig.v1.png",
+    "countryLinks": [
+      {
+        "code": "GB",
+        "relation": "ancrage dans le cinéma britannique documenté dans un entretien BAFTA",
+        "sourceUrl": "https://www.bafta.org/media-centre/press-releases/bafta-a-life-in-pictures-daniel-craig/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 123171,
+      "borderTransparencyRatio": 1,
+      "bytes": 297657,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "benedict-cumberbatch",
+    "label": "Benedict Cumberbatch",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/benedict-cumberbatch.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/benedict-cumberbatch.v1.png",
+    "countryLinks": [
+      {
+        "code": "GB",
+        "relation": "acteur né à Londres ; carrière dans le cinéma et la télévision britanniques",
+        "sourceUrl": "https://goldenglobes.com/person/benedict-cumberbatch/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 114841,
+      "borderTransparencyRatio": 1,
+      "bytes": 278217,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "antonio-banderas",
+    "label": "Antonio Banderas",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/antonio-banderas.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/antonio-banderas.v1.png",
+    "countryLinks": [
+      {
+        "code": "ES",
+        "relation": "acteur né à Málaga ; carrière dans le cinéma espagnol",
+        "sourceUrl": "https://goldenglobes.com/person/antonio-banderas/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 121396,
+      "borderTransparencyRatio": 1,
+      "bytes": 316292,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "penelope-cruz",
+    "label": "Penélope Cruz",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/penelope-cruz.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/penelope-cruz.v1.png",
+    "countryLinks": [
+      {
+        "code": "ES",
+        "relation": "actrice rattachée à l'Espagne par le Festival de Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/penelope-cruz/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 152173,
+      "borderTransparencyRatio": 1,
+      "bytes": 351650,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "whitney-houston",
+    "label": "Whitney Houston",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/whitney-houston.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/whitney-houston.v1.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "chanteuse née à Newark ; ancrage dans la musique américaine",
+        "sourceUrl": "https://www.whitneyhouston.com/biography/"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 151891,
+      "borderTransparencyRatio": 1,
+      "bytes": 375856,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "helena-rizzo",
+    "label": "Helena Rizzo",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/helena-rizzo.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/international_a/helena-rizzo.v1.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "cheffe née au Rio Grande do Sul ; ancrage gastronomique à São Paulo",
+        "sourceUrl": "https://www.band.com.br/entretenimento/realities/masterchef/helena-rizzo-e-a-nova-jurada-do-masterchef-brasil-na-band-16342855"
+      }
+    ],
+    "review": {
+      "identitySourceVerified": true,
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "transparent": true,
+      "minAlpha": 0,
+      "maxAlpha": 255,
+      "visiblePixels": 125566,
+      "borderTransparencyRatio": 1,
+      "bytes": 310965,
+      "technicalPassed": true,
+      "likeness": "passed",
+      "framing": "head-only; full hairstyle and ears",
+      "readableAt45px": "passed",
+      "visualReview": "accepted",
+      "reviewedAt": "2026-10-10"
+    }
+  },
+  {
+    "id": "sophia-loren",
+    "label": "Sophia Loren",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/sophia-loren.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/sophia-loren.png",
+    "countryLinks": [
+      {
+        "code": "IT",
+        "relation": "nationality",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/sophia-loren/"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.5559349060058594,
+      "borderTransparencyRatio": 1,
+      "bytes": 345807,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/sophia-loren.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/sophia-loren.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "monica-bellucci",
+    "label": "Monica Bellucci",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/monica-bellucci.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/monica-bellucci.png",
+    "countryLinks": [
+      {
+        "code": "IT",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/monica-bellucci/"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.5947494506835938,
+      "borderTransparencyRatio": 1,
+      "bytes": 362274,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/monica-bellucci.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/monica-bellucci.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "ludwig-van-beethoven",
+    "label": "Ludwig van Beethoven",
+    "status": "ready",
+    "themeId": "histoire",
+    "promptPath": "content/sprites/ludwig-van-beethoven.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/ludwig-van-beethoven.png",
+    "countryLinks": [
+      {
+        "code": "DE",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.beethoven.de/de/beethoven"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.5343437194824219,
+      "borderTransparencyRatio": 1,
+      "bytes": 351887,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/ludwig-van-beethoven.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/ludwig-van-beethoven.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "michael-schumacher",
+    "label": "Michael Schumacher",
+    "status": "draft",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/michael-schumacher.v1.prompt.txt",
+    "originalPath": null,
+    "countryLinks": [
+      {
+        "code": "DE",
+        "relation": "nationality",
+        "sourceUrl": "https://www.michael-schumacher.de/en"
+      }
+    ],
+    "review": {
+      "status": "refused-by-tool",
+      "identitySourceVerified": true,
+      "moderationStage": "input",
+      "category": "public-figure",
+      "attemptCount": 1,
+      "definitive": true,
+      "failurePath": "artifacts/enrichment-wave-01/failures/michael-schumacher.json",
+      "noCircumvention": true
+    }
+  },
+  {
+    "id": "zhang-ziyi",
+    "label": "Zhang Ziyi",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/zhang-ziyi.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/zhang-ziyi.png",
+    "countryLinks": [
+      {
+        "code": "CN",
+        "relation": "nationality",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/zhang-ziyi/"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4388465881347656,
+      "borderTransparencyRatio": 1,
+      "bytes": 262000,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/zhang-ziyi.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/zhang-ziyi.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "lang-lang",
+    "label": "Lang Lang",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/lang-lang.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/lang-lang.png",
+    "countryLinks": [
+      {
+        "code": "CN",
+        "relation": "cultural-work",
+        "sourceUrl": "https://www.langlangofficial.com/"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4559135437011719,
+      "borderTransparencyRatio": 1,
+      "bytes": 276743,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/lang-lang.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/lang-lang.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "piotr-ilitch-tchaikovski",
+    "label": "Piotr Ilitch Tchaïkovski",
+    "status": "ready",
+    "themeId": "histoire",
+    "promptPath": "content/sprites/piotr-ilitch-tchaikovski.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/piotr-ilitch-tchaikovski.png",
+    "countryLinks": [
+      {
+        "code": "RU",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://tchaikovsky.house/chaykovskiy/biography/"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4594879150390625,
+      "borderTransparencyRatio": 1,
+      "bytes": 309130,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/piotr-ilitch-tchaikovski.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/piotr-ilitch-tchaikovski.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "maria-sharapova",
+    "label": "Maria Sharapova",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/maria-sharapova.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/maria-sharapova.png",
+    "countryLinks": [
+      {
+        "code": "RU",
+        "relation": "nationality",
+        "sourceUrl": "https://www.wtatennis.com/players/310137/maria-sharapova"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4729042053222656,
+      "borderTransparencyRatio": 1,
+      "bytes": 306791,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/maria-sharapova.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/maria-sharapova.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "cristiano-ronaldo",
+    "label": "Cristiano Ronaldo",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/cristiano-ronaldo.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/cristiano-ronaldo.png",
+    "countryLinks": [
+      {
+        "code": "PT",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.fpf.pt/pt/Jogadores/Cristiano-Ronaldo/contextId/178"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.44161224365234375,
+      "borderTransparencyRatio": 1,
+      "bytes": 276888,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/cristiano-ronaldo.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/cristiano-ronaldo.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "eusebio",
+    "label": "Eusébio",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/eusebio.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/eusebio.png",
+    "countryLinks": [
+      {
+        "code": "PT",
+        "relation": "cultural-work",
+        "sourceUrl": "https://www.slbenfica.pt/pt-pt/agora/noticias/2016_2017/06/historia-eusebio"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.45949554443359375,
+      "borderTransparencyRatio": 1,
+      "bytes": 289148,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/eusebio.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/eusebio.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "juliette-binoche",
+    "label": "Juliette Binoche",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/juliette-binoche.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/juliette-binoche.png",
+    "countryLinks": [
+      {
+        "code": "FR",
+        "relation": "nationality",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/juliette-binoche/"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.5617942810058594,
+      "borderTransparencyRatio": 1,
+      "bytes": 345414,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/juliette-binoche.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/juliette-binoche.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "pierre-niney",
+    "label": "Pierre Niney",
+    "status": "ready",
+    "themeId": "personnes",
+    "promptPath": "content/sprites/pierre-niney.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/pierre-niney.png",
+    "countryLinks": [
+      {
+        "code": "FR",
+        "relation": "cultural-work",
+        "sourceUrl": "https://comedie-francaise.fr/2013-2014/pierre-niney"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.462249755859375,
+      "borderTransparencyRatio": 1,
+      "bytes": 301394,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/pierre-niney.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/pierre-niney.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "george-washington",
+    "label": "George Washington",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/george-washington.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/george-washington.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/georgewashington"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.47039794921875,
+      "borderTransparencyRatio": 1,
+      "bytes": 284847,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/george-washington.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/george-washington.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "abraham-lincoln",
+    "label": "Abraham Lincoln",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/abraham-lincoln.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/abraham-lincoln.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/abrahamlincoln"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4609642028808594,
+      "borderTransparencyRatio": 1,
+      "bytes": 305066,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/abraham-lincoln.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/abraham-lincoln.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "john-f-kennedy",
+    "label": "John F. Kennedy",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/john-f-kennedy.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/john-f-kennedy.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/johnfkennedy"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4489250183105469,
+      "borderTransparencyRatio": 1,
+      "bytes": 287607,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/john-f-kennedy.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/john-f-kennedy.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "barack-obama",
+    "label": "Barack Obama",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/barack-obama.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/barack-obama.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/1600/presidents/barackobama"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4560050964355469,
+      "borderTransparencyRatio": 1,
+      "bytes": 293922,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/barack-obama.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/barack-obama.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "joe-biden",
+    "label": "Joe Biden",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/joe-biden.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/joe-biden.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://obamawhitehouse.archives.gov/administration/vice-president-biden"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4336357116699219,
+      "borderTransparencyRatio": 1,
+      "bytes": 277510,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/joe-biden.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/joe-biden.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "donald-trump",
+    "label": "Donald Trump",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/donald-trump.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/donald-trump.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://trumpwhitehouse.archives.gov/people/donald-j-trump/"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.5078697204589844,
+      "borderTransparencyRatio": 1,
+      "bytes": 322097,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/donald-trump.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/donald-trump.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "kamala-harris",
+    "label": "Kamala Harris",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/kamala-harris.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/kamala-harris.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.archives.gov/presidential-records/vice-presidential-records/selected-vice-presidential-records/harris-records"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.6160354614257812,
+      "borderTransparencyRatio": 1,
+      "bytes": 384280,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/kamala-harris.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/kamala-harris.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "hillary-clinton",
+    "label": "Hillary Clinton",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/hillary-clinton.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/hillary-clinton.png",
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "birthplace",
+        "sourceUrl": "https://history.state.gov/departmenthistory/people/clinton-hillary-rodham"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.5201606750488281,
+      "borderTransparencyRatio": 1,
+      "bytes": 327547,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/hillary-clinton.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/hillary-clinton.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "luiz-inacio-lula-da-silva",
+    "label": "Luiz Inácio Lula da Silva",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/luiz-inacio-lula-da-silva.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/luiz-inacio-lula-da-silva.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.gov.br/secretariageral/pt-br/centrais-de-conteudo/biblioteca-da-pr/galeria-dos-ex-presidentes/luiz-inacio-lula-da-silva/biografia-completa"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.47278594970703125,
+      "borderTransparencyRatio": 1,
+      "bytes": 321620,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/luiz-inacio-lula-da-silva.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/luiz-inacio-lula-da-silva.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "jair-bolsonaro",
+    "label": "Jair Bolsonaro",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/jair-bolsonaro.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/jair-bolsonaro.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/bolsonaro/biografia/biografia"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.477996826171875,
+      "borderTransparencyRatio": 1,
+      "bytes": 300679,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/jair-bolsonaro.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/jair-bolsonaro.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "dilma-rousseff",
+    "label": "Dilma Rousseff",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/dilma-rousseff.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/dilma-rousseff.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/dilma-rousseff/biografia"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.48233795166015625,
+      "borderTransparencyRatio": 1,
+      "bytes": 299850,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/dilma-rousseff.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/dilma-rousseff.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "fernando-henrique-cardoso",
+    "label": "Fernando Henrique Cardoso",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/fernando-henrique-cardoso.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/fernando-henrique-cardoso.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/fernando-henrique-cardoso/biografia"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.42977142333984375,
+      "borderTransparencyRatio": 1,
+      "bytes": 276439,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/fernando-henrique-cardoso.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/fernando-henrique-cardoso.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "marina-silva",
+    "label": "Marina Silva",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/marina-silva.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/marina-silva.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "birthplace",
+        "sourceUrl": "https://www25.senado.leg.br/web/senadores/senador/-/perfil/59"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.3976402282714844,
+      "borderTransparencyRatio": 1,
+      "bytes": 264700,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/marina-silva.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/marina-silva.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "michel-temer",
+    "label": "Michel Temer",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/michel-temer.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/michel-temer.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.camara.leg.br/deputados/73552/biografia"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4365348815917969,
+      "borderTransparencyRatio": 1,
+      "bytes": 276671,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/michel-temer.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/michel-temer.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "getulio-vargas",
+    "label": "Getúlio Vargas",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/getulio-vargas.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/getulio-vargas.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://academia.org.br/academicos/getulio-vargas/biografia"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4715576171875,
+      "borderTransparencyRatio": 1,
+      "bytes": 291506,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/getulio-vargas.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/getulio-vargas.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "juscelino-kubitschek",
+    "label": "Juscelino Kubitschek",
+    "status": "ready",
+    "themeId": "politique",
+    "promptPath": "content/sprites/juscelino-kubitschek.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/juscelino-kubitschek.png",
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.camara.leg.br/deputados/2876/biografia"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.451507568359375,
+      "borderTransparencyRatio": 1,
+      "bytes": 283545,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/juscelino-kubitschek.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/juscelino-kubitschek.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "max-planck",
+    "label": "Max Planck",
+    "status": "ready",
+    "themeId": "histoire",
+    "promptPath": "content/sprites/max-planck.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/max-planck.png",
+    "countryLinks": [
+      {
+        "code": "DE",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.mpg.de/19252700/max-planck-biographical-overview"
+      }
+    ],
+    "review": {
+      "status": "accepted",
+      "identitySourceVerified": true,
+      "sourceCheckedDate": "2026-10-10",
+      "tool": "built-in image_gen",
+      "referenceRole": "Macron and Curie STYLE ONLY",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "format": "PNG RGBA",
+      "transparent": true,
+      "alphaMin": 0,
+      "alphaMax": 255,
+      "visiblePixelRatio": 0.4828910827636719,
+      "borderTransparencyRatio": 1,
+      "bytes": 287326,
+      "generatedDimensions": {
+        "width": 1254,
+        "height": 1254
+      },
+      "preview45Path": "artifacts/enrichment-wave-01/qa/international_b/max-planck.45.png",
+      "previewExpandedPath": "artifacts/enrichment-wave-01/qa/international_b/max-planck.45-expanded.png",
+      "likeness": "Distinctive face, age, hairstyle and facial details visually inspected against intended subject.",
+      "headOnly": true,
+      "noNeckOrClothing": true,
+      "wholeHairstyle": true,
+      "closedMouth": true,
+      "naturalEyes": true,
+      "matteStyle": true,
+      "readableAt45px": true
+    }
+  },
+  {
+    "id": "rougegorge-familier",
+    "label": "Rougegorge familier",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/rougegorge-familier.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/rougegorge-familier-attempt1.png",
+    "scientificName": "Erithacus rubecula",
+    "referenceSources": [
+      {
+        "label": "RSPB — Robin",
+        "url": "https://www.rspb.org.uk/birds-and-wildlife/robin",
+        "verified": "Adult orange-red face and breast, brown upperparts; adult male and female have matching appearance."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Tête frontale complète ; face orange, petite calotte brune, petit bec fermé ; pas de corps ni d’accessoire.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 471157,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/rougegorge-familier-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Orange round face and short bill remain distinct on both backgrounds at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "mesange-bleue",
+    "label": "Mésange bleue",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/mesange-bleue.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/mesange-bleue-attempt1.png",
+    "scientificName": "Cyanistes caeruleus",
+    "referenceSources": [
+      {
+        "label": "RSPB — Blue Tit",
+        "url": "https://www.rspb.org.uk/birds-and-wildlife/blue-tit",
+        "verified": "Blue cap, white face, dark eye stripe, very short thin black beak."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Tête frontale complète ; calotte bleue, joues blanches et bande oculaire sombre, bec court ; silhouette distincte du rougegorge.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 437630,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/mesange-bleue-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Blue cap, white cheeks and dark facial band read clearly at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "huppe-fasciee",
+    "label": "Huppe fasciée",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/huppe-fasciee.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/huppe-fasciee-attempt1.png",
+    "scientificName": "Upupa epops",
+    "referenceSources": [
+      {
+        "label": "RSPB — Hoopoe",
+        "url": "https://www.rspb.org.uk/birds-and-wildlife/hoopoe/",
+        "verified": "Pinkish-brown crest, dark downward-curved bill, black and white markings."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Tête et huppe éventail à pointes noires entières ; bec long fermé jusqu’à sa pointe ; aucune portion de cou ou de corps.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.9996279761904762,
+      "bytes": 448251,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/huppe-fasciee-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Complete black-tipped crest and long bill are clear at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "cigogne-blanche",
+    "label": "Cigogne blanche",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/cigogne-blanche.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/cigogne-blanche-attempt1.png",
+    "scientificName": "Ciconia ciconia",
+    "referenceSources": [
+      {
+        "label": "LPO — Cigogne blanche",
+        "url": "https://www.lpo.fr/decouvrir-la-nature/fiches-especes/fiches-especes/oiseaux/cigogne-blanche",
+        "verified": "Adult white head and long red pointed bill; marshes and meadows."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Frontal white bird head, complete long straight red closed bill, no neck or wings.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 206525,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/cigogne-blanche-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "White head and complete red pointed bill are readable on light and dark backgrounds at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "spatule-blanche",
+    "label": "Spatule blanche",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/spatule-blanche.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/spatule-blanche-attempt1.png",
+    "scientificName": "Platalea leucorodia",
+    "referenceSources": [
+      {
+        "label": "RSPB — Spoonbill",
+        "url": "https://www.rspb.org.uk/birds-and-wildlife/spoonbill",
+        "verified": "White bird, long broad black spoon-shaped bill; breeding adult has yellow bill tip and short crest."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "White crested head, full black spatulate bill with rounded yellow tip, distinct from stork.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 300727,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/spatule-blanche-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Distinct broad rounded yellow-tipped paddle bill and white crest visible at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "saiga",
+    "label": "Saïga",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/saiga.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/saiga-attempt1.png",
+    "scientificName": "Saiga tatarica",
+    "referenceSources": [
+      {
+        "label": "San Diego Zoo — Saiga",
+        "url": "https://animals.sandiegozoo.org/animals/saiga",
+        "verified": "Cinnamon-buff coat, enlarged drooping nose, male ridged amber horns; open steppe."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Complete pair of ridged horns and ears, enlarged pendulous nose with two nostrils, head only.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.9963417658730159,
+      "bytes": 364613,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/saiga-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Drooping broad nose, ridged horns and both ears provide distinct silhouette at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "caracal",
+    "label": "Caracal",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/caracal.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/caracal-attempt1.png",
+    "scientificName": "Caracal caracal",
+    "referenceSources": [
+      {
+        "label": "San Diego Zoo — Caracal",
+        "url": "https://animals.sandiegozoo.org/animals/caracal",
+        "verified": "Unspotted reddish-gold fur, long black ear tufts; arid savanna and semi-desert."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Complete long black ear tufts, unspotted tawny coat, vertical cat pupils, white lower muzzle.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.996031746031746,
+      "bytes": 433075,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/caracal-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Black ear tufts and large pointed ears remain clear at 45 px; feline silhouette distinct.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "orycterope",
+    "label": "Oryctérope",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/orycterope.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/orycterope-attempt1.png",
+    "scientificName": "Orycteropus afer",
+    "referenceSources": [
+      {
+        "label": "Chester Zoo — Aardvark",
+        "url": "https://www.chesterzoo.org/animals/aardvark",
+        "verified": "Orycteropus afer; long snout and pointed ears."
+      },
+      {
+        "label": "Michigan State University — Aardvark specimen",
+        "url": "https://brains.anatomy.msu.edu/museum/brain/specimens/tubilidenta/aardvark/index.html",
+        "verified": "Pinkish-grey thick skin with sparse dull brown-grey bristles, long blunt muzzle with round nostrils."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Complete tall ears, elongated pinkish snout with two nostrils, sparsely bristled brown-grey head.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.9997519841269841,
+      "bytes": 379379,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/orycterope-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Tall ears and pink elongated nostril snout remain visible at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "coati-roux",
+    "label": "Coati roux",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/coati-roux.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/coati-roux-attempt1.png",
+    "scientificName": "Nasua nasua",
+    "referenceSources": [
+      {
+        "label": "Zoo de Guadeloupe — South American coati",
+        "url": "https://www.zoodeguadeloupe.com/en/animals/coati",
+        "verified": "Red coati species Nasua nasua."
+      },
+      {
+        "label": "Zoo Brasilia — Quati",
+        "url": "https://www.zoo.df.gov.br/quati",
+        "verified": "Nasua nasua, triangular head, small round ears and narrow snout."
+      },
+      {
+        "label": "San Diego Zoo — Coati",
+        "url": "https://animals.sandiegozoo.org/animals/coati",
+        "verified": "Long mobile snout and forest habitats; distinguishes Nasua nasua from white-nosed Nasua narica."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Small round ears, brown elongated tapered muzzle, reddish coat and restrained pale facial markings; head only.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 440623,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/coati-roux-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Reddish triangular head, small round ears and long dark muzzle read at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "tatou-neuf-bandes",
+    "label": "Tatou à neuf bandes",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/tatou-neuf-bandes.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/tatou-neuf-bandes-attempt1.png",
+    "scientificName": "Dasypus novemcinctus",
+    "referenceSources": [
+      {
+        "label": "Smithsonian — Nine-banded armadillo",
+        "url": "https://qrius.si.edu/browse/object/10027128",
+        "verified": "Dasypus novemcinctus; leathery bony plates forming head armor."
+      },
+      {
+        "label": "University of Michigan — Nine-banded armadillo",
+        "url": "https://animaldiversity.org/accounts/Dasypus_novemcinctus/",
+        "verified": "Partly plated head, hairless long ears, tapered softer pinkish muzzle; nine bands are on back, not head."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Frontal head with leathery crown plates, unarmored ears, tapered long muzzle; no back bands copied onto face.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 412867,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/tatou-neuf-bandes-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Plate texture across head and triangular long muzzle remain visible at 45 px; distinct from furry mammals.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "grand-bilby",
+    "label": "Grand bilby",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/grand-bilby.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/grand-bilby-attempt1.png",
+    "scientificName": "Macrotis lagotis",
+    "referenceSources": [
+      {
+        "label": "Australian Museum — Greater Bilby",
+        "url": "https://australian.museum/learn/animals/mammals/greater-bilby/",
+        "verified": "Macrotis lagotis, blue-grey silky fur, very long pinkish ears and pointed snout."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Complete tall pink ears, blue-grey coat and narrow pointed snout; no rabbit incisors.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 351723,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/grand-bilby-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Complete long pink ears and pale grey pointed face remain readable at 45 px. Potential sibling silhouette: aardvark/rabbit.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "casoar-a-casque",
+    "label": "Casoar à casque",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/casoar-a-casque.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/casoar-a-casque-attempt1.png",
+    "scientificName": "Casuarius casuarius",
+    "referenceSources": [
+      {
+        "label": "Australian Museum — Southern Cassowary",
+        "url": "https://australian.museum/learn/animals/birds/southern-cassowary/",
+        "verified": "Casuarius casuarius; large grey-brown helmet and bare blue head skin. Red wattles are on neck and excluded from head-only form."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Complete single tall casque, blue bare face skin, closed beak, no neck wattles or body.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.9966517857142857,
+      "bytes": 356795,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/casoar-a-casque-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Tall complete brown casque and blue face make unmistakable silhouette at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "kakapo",
+    "label": "Kākāpō",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/kakapo.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/kakapo-attempt1.png",
+    "scientificName": "Strigops habroptilus",
+    "referenceSources": [
+      {
+        "label": "New Zealand DOC — Kākāpō",
+        "url": "https://www.doc.govt.nz/nature/native-animals/birds/birds-a-z/kakapo/",
+        "verified": "Kākāpō, green flightless nocturnal parrot with owl-like facial disc."
+      },
+      {
+        "label": "New Zealand Birds Online / Te Papa, DOC and Birds NZ — Kākāpō",
+        "url": "https://www.nzbirdsonline.org.nz/species/kakapo",
+        "verified": "Scientific identity Strigops habroptilus."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Green mottled crown, pale owl-like facial disc and complete horn-coloured hooked parrot beak.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 558333,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/kakapo-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Moss-green owl-like disc with pale parrot bill visible at 45 px; distinct from macaws and owls.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "cobra-royal",
+    "label": "Cobra royal",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/cobra-royal.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/cobra-royal-attempt1.png",
+    "scientificName": "Ophiophagus hannah",
+    "referenceSources": [
+      {
+        "label": "European Journal of Taxonomy — King cobra revision 2024",
+        "url": "https://europeanjournaloftaxonomy.eu/index.php/ejt/article/view/2681",
+        "verified": "Ophiophagus hannah sensu stricto restricted to mainland northern/eastern India, Indo-Burma and Indochina, after four-species revision."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Complete expanded hood ending without trunk, head crown shields, round pupils and closed mouth, no tongue or fangs.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 484940,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/cobra-royal-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Oval expanded hood and pale ventral scale rows visible at 45 px. Hood is the deliberate identifying head-portrait appendage.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "rainette-yeux-rouges",
+    "label": "Rainette aux yeux rouges",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/rainette-yeux-rouges.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/rainette-yeux-rouges-attempt1.png",
+    "scientificName": "Agalychnis callidryas",
+    "referenceSources": [
+      {
+        "label": "Zoo Frankfurt — Red-eyed treefrog",
+        "url": "https://www.zoo-frankfurt.de/en/tiere-von-a-z-detailansicht/animal/tiere-von-a-z-detailansicht/rotaugenfrosch",
+        "verified": "Agalychnis callidryas, green coloration and large red eyes."
+      },
+      {
+        "label": "Smithsonian — New red-eyed tree frogs",
+        "url": "https://nationalzoo.si.edu/animals/news/new-zoo-red-eyed-tree-frogs",
+        "verified": "Natural vivid red eyes and leaf-dwelling treefrog appearance."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Green complete frog head with vivid red eyes, vertical black pupils and no eyelashes or mammal anatomy.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 405209,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/rainette-yeux-rouges-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Vivid red vertical-pupil eyes against green head remain distinct at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "grenouille-tomate",
+    "label": "Grenouille tomate",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/grenouille-tomate.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/grenouille-tomate-attempt1.png",
+    "scientificName": "Dyscophus antongilii",
+    "referenceSources": [
+      {
+        "label": "AMNH — Amphibian Species of the World",
+        "url": "https://amphibiansoftheworld.amnh.org/Amphibia/Anura/Microhylidae/Dyscophinae/Dyscophus/Dyscophus-antongilii",
+        "verified": "Dyscophus antongilii accepted species identity."
+      },
+      {
+        "label": "University of Michigan — Tomato frog",
+        "url": "https://animaldiversity.org/accounts/Dyscophus_antongilii/",
+        "verified": "Female bright reddish-orange skin, lower side fading to white and dark stripe behind each eye."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Orange-red female head, pale lower jaw, golden eyes with horizontal pupils and dark stripes behind eyes.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.986297123015873,
+      "bytes": 461548,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/grenouille-tomate-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Orange-red head and golden horizontal-pupil eyes remain clear at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "dendrobate-bleu",
+    "label": "Dendrobate bleu",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/dendrobate-bleu.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/dendrobate-bleu-attempt1.png",
+    "scientificName": "Dendrobates tinctorius",
+    "referenceSources": [
+      {
+        "label": "Toronto Zoo — Blue poison dart frog",
+        "url": "https://www.torontozoo.com/animals/Blue%20poison%20dart%20frog",
+        "verified": "Dendrobates tinctorius azureus, bright blue coloration with irregular dark blue/black head spots."
+      },
+      {
+        "label": "Amphibian and Reptile Conservation — Dendrobates azureus in Suriname",
+        "url": "https://www.amphibian-reptile-conservation.org/pdfs/Volume/Vol_13_no_2/ARC_13_2_%5BGeneral_Section%5D_95-101_e190.pdf",
+        "verified": "Azureus refers to a population of Dendrobates tinctorius described originally as D. azureus; not counted here as a separate species."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Blue real azureus form of D. tinctorius, irregular black head spots and dark round-pupil frog eyes; head only.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.9990079365079365,
+      "bytes": 431565,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/dendrobate-bleu-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Blue head and clear black spots form a distinct silhouette at 45 px; dark frog eyes correctly retained.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "brochet",
+    "label": "Grand brochet",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/brochet.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/brochet-attempt1.png",
+    "scientificName": "Esox lucius",
+    "referenceSources": [
+      {
+        "label": "Université de Bordeaux — Brochet",
+        "url": "https://collections-biologie.u-bordeaux.fr/Fiches_teleosteens/Brochet.html",
+        "verified": "Esox lucius; elongated freshwater body, depressed elongated snout."
+      },
+      {
+        "label": "DORIS / FFESSM — Brochet",
+        "url": "https://doris.ffessm.fr/Especes/Esox-lucius-Brochet-366",
+        "verified": "Duckbill-like head, rear dorsal fin, forked tail and long fusiform body."
+      }
+    ],
+    "review": {
+      "form": "compact",
+      "anatomy": "Whole elongated pike body, duckbill snout, closed mouth, rear dorsal, paired fins, anal fin and complete forked tail.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 0.9947296626984127,
+      "bytes": 266667,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/brochet-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Complete diagonal elongated silhouette, duckbill snout and forked tail remain legible at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "silure-glane",
+    "label": "Silure glane",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/silure-glane.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/silure-glane-attempt1.png",
+    "scientificName": "Silurus glanis",
+    "referenceSources": [
+      {
+        "label": "USGS — Wels catfish",
+        "url": "https://nas.er.usgs.gov/queries/greatlakes/FactSheet.aspx?Potential=Y&Species_ID=3651&Type=2",
+        "verified": "Silurus glanis; large scaleless flat head, tiny eyes and exactly six barbels: two long upper, four shorter lower."
+      },
+      {
+        "label": "DORIS / FFESSM — Silure glane",
+        "url": "https://doris.ffessm.fr/Especes/Silurus-glanis-Silure-glane-364",
+        "verified": "Broad flat head, olive/grey mottled scaleless skin, three pairs of barbels."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Exactly six complete barbels: two long upper-corner barbels and four short lower-jaw barbels; broad scaleless mottled head, tiny eyes.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 367587,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/silure-glane-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Broad dark head and six separate barbels remain visible at 45 px on both backgrounds.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "discus-heckel",
+    "label": "Discus de Heckel",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/discus-heckel.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/discus-heckel-attempt1.png",
+    "scientificName": "Symphysodon discus",
+    "referenceSources": [
+      {
+        "label": "Harvard Museum of Comparative Zoology — Symphysodon discus",
+        "url": "https://mczbase.mcz.harvard.edu/guid/MCZ%3AIch%3A15834",
+        "verified": "Symphysodon discus Heckel, 1840 specimen identity."
+      },
+      {
+        "label": "Farias and Hrbek 2008 — Patterns of diversification in discus",
+        "url": "https://aquawildlife.com/images/artikler/Patterns%20of%20diversification.pdf",
+        "verified": "S. discus distinctive broad central black vertical flank band, faint horizontal silvery striations, purplish-grey ground colour."
+      }
+    ],
+    "review": {
+      "form": "compact",
+      "anatomy": "Complete circular side-view cichlid body with central broad dark bar, dorsal/anal contour fins, paired fine pelvic rays and full fan tail.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 485085,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/discus-heckel-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Round high body, side profile and broad central dark band remain distinct at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "poisson-coffre-jaune",
+    "label": "Poisson-coffre jaune",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/poisson-coffre-jaune.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/poisson-coffre-jaune-attempt1.png",
+    "scientificName": "Ostracion cubicus",
+    "referenceSources": [
+      {
+        "label": "Australian Museum — Yellow Boxfish",
+        "url": "https://australian.museum/learn/animals/fishes/yellow-boxfish-ostracion-cubicus/",
+        "verified": "Ostracion cubicus; box-shaped body, juvenile bright yellow coloration and pupil-sized black spots."
+      }
+    ],
+    "review": {
+      "form": "compact",
+      "anatomy": "Whole angular box-shaped yellow spotted juvenile carapace, paired pectoral fins, dorsal/anal fins and complete tail; no horns.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 346562,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/poisson-coffre-jaune-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Bright yellow compact angular fish body with contrasting black dots remains clear at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "etoile-mer-rouge",
+    "label": "Étoile de mer rouge",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/etoile-mer-rouge.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/etoile-mer-rouge-attempt1.png",
+    "scientificName": "Echinaster sepositus",
+    "referenceSources": [
+      {
+        "label": "DORIS / FFESSM — Étoile de mer rouge",
+        "url": "https://doris.ffessm.fr/Especes/Echinaster-Echinaster-sepositus-Etoile-de-mer-rouge-260",
+        "verified": "Echinaster sepositus; red-orange five-armed starfish with irregular small aboral protuberances, hard substrates and seagrass beds."
+      },
+      {
+        "label": "ITIS — Echinaster sepositus",
+        "url": "https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=157183",
+        "verified": "Species Echinaster sepositus, red starfish."
+      }
+    ],
+    "review": {
+      "form": "compact",
+      "anatomy": "Exactly five complete gently tapered thick arms, red-orange pebbled dorsal surface, no central face or dorsal mouth.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 291343,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/etoile-mer-rouge-attempt1-45.png",
+      "readableAt45": true,
+      "attempt": 1,
+      "thumbnailReview": "Five complete radial red-orange arms make strong distinct silhouette at 45 px, with no invented face.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "poisson-vache-cornes",
+    "label": "Poisson-vache à longues cornes",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/poisson-vache-cornes.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/poisson-vache-cornes-attempt2.png",
+    "scientificName": "Lactoria cornuta",
+    "referenceSources": [
+      {
+        "label": "Museums Victoria — Fishes of Australia / Longhorn Cowfish",
+        "url": "https://fishesofaustralia.net.au/home/species/837",
+        "verified": "Lactoria cornuta; long spines project from front head, pale yellow/olive colour and blue spots. Reef-associated sandy/weedy habitats."
+      }
+    ],
+    "review": {
+      "form": "head",
+      "anatomy": "Corrected: exactly two complete long horns, no invented lateral spines, smooth angular side contour, closed tiny fish mouth.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 402245,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/poisson-vache-cornes-attempt2-45.png",
+      "readableAt45": true,
+      "attempt": 2,
+      "thumbnailReview": "Exactly two complete long horns, smooth angular head contour and blue spots remain legible at 45 px.",
+      "anatomyReviewed": true
+    }
+  },
+  {
+    "id": "poisson-scie-petites-dents",
+    "label": "Poisson-scie à petites dents",
+    "status": "ready",
+    "themeId": "animaux",
+    "promptPath": "content/sprites/poisson-scie-petites-dents.v1.prompt.txt",
+    "originalPath": "artifacts/sprite-originals/enrichment-wave-01/poisson-scie-petites-dents-attempt3.png",
+    "scientificName": "Pristis pectinata",
+    "referenceSources": [
+      {
+        "label": "NOAA Fisheries — Smalltooth Sawfish",
+        "url": "https://www.fisheries.noaa.gov/species/smalltooth-sawfish",
+        "verified": "Pristis pectinata is a ray, olive-grey/brown dorsally; long flat rostrum with 22–29 lateral teeth per side. Mouth and gills on underside."
+      }
+    ],
+    "review": {
+      "form": "compact",
+      "anatomy": "Complete dorsal three-quarter smalltooth sawfish; 23 distinct lateral rostral teeth on each side (within NOAA 22–29), both broad pectoral fins, pelvic pair, two dorsal fins, full asymmetrical tail, natural dorsal eyes and spiracles, uniform unspotted upper body.",
+      "style": "warm matte finely textured illustration",
+      "dimensions": {
+        "width": 512,
+        "height": 512
+      },
+      "alpha": true,
+      "borderTransparencyRatio": 1,
+      "bytes": 171064,
+      "thumbnailPath": "artifacts/enrichment-wave-01/animals-qa/poisson-scie-petites-dents-attempt3-45.png",
+      "readableAt45": true,
+      "attempt": 3,
+      "rostralTeethPerSide": [
+        23,
+        23
+      ],
+      "toothCountMethod": "Visual full-resolution inspection plus independent alpha-contour peak count.",
+      "thumbnailReview": "At actual 45 px on light and dark backgrounds: long straight toothed saw, broad ray fins, and complete tail remain recognizable; no silhouette cropping or background halo.",
+      "anatomyReviewed": true
+    }
+  }
+]

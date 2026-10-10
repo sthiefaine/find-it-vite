@@ -55,7 +55,8 @@ const Game = () => {
     gameState === GameStateEnum.FINISH || gameState === GameStateEnum.END;
   const hasFlashlight = !!spec?.modifiers.includes("flashlight");
   // Aventure : la page prend le décor du monde (ou du Grand Mélange)
-  const world = mode === "adventure" ? stepInfo(adventureStep) : undefined;
+  const chapterId = useGameStore(state => state.chapterId);
+  const world = mode === "adventure" && !chapterId ? stepInfo(adventureStep) : undefined;
   const scene = spec?.scene;
 
   return (

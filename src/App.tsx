@@ -18,8 +18,10 @@ import { animalsPack } from "./helpers/characters";
 import { ImagePreloader } from "./components/ImagesPreloader/ImagesPreloader";
 import { useAndroidBackButton } from "./platform/backButton";
 import { AppUpdates } from "./components/AppUpdates/AppUpdates";
+import { STARTER_ANIMAL_IDS } from "./content/unlockedAnimals";
 
 const Multiplayer = lazy(() => import("./pages/Multiplayer/Multiplayer"));
+const defaultImgPack = animalsPack.filter(c => STARTER_ANIMAL_IDS.includes(c.name as typeof STARTER_ANIMAL_IDS[number])).map(c => c.imageSrc);
 
 function LegacyDuel() {
   const { search } = useLocation();
@@ -36,7 +38,6 @@ function App() {
     document.documentElement.dir = localeDirection(locale);
   }, [locale, languageTag]);
   useAndroidBackButton();
-  const defaultImgPack: string[] = animalsPack.map((c) => c.imageSrc);
 
   return (
     <>

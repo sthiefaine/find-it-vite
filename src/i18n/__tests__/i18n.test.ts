@@ -1,7 +1,8 @@
 import { headerTitle } from "../../components/Headers/headerNav";
 import { animalsPack } from "../../helpers/characters";
 import { SCENES, ADVANCED_SCENES } from "../../content/scenes";
-import { PLAY_THEMES } from "../../content/playThemes";
+import { PLAY_THEMES, translatedThemeLabel } from "../../content/playThemes";
+import { characterRegionLabel } from "../../content/characterRegions";
 import { FRAMES } from "../../content/progress";
 import { WORLDS } from "../../content/worlds";
 import { ANIMAL_CATEGORIES, ANIMAL_COLORS, ANIMAL_SPECIES } from "../../content/animalTaxonomy";
@@ -37,12 +38,29 @@ describe("translation catalog", () => {
       ...animalsPack.flatMap(animal => [animal.label, ...(animal.breed ? [animal.breed] : [])]),
       ...WORLDS.flatMap(world => [world.name, ...world.characters.map(character => character.label)]),
       ...[...SCENES, ...ADVANCED_SCENES].map(scene => scene.name),
-      ...PLAY_THEMES.flatMap(theme => [theme.label, theme.description]),
+      ...PLAY_THEMES.flatMap(theme => [theme.labelKey ?? theme.label, theme.description, ...(theme.region ? [characterRegionLabel(theme.region)] : [])]),
       ...FRAMES.map(frame => frame.name),
       ...Object.values(ANIMAL_CATEGORIES), ...Object.values(ANIMAL_SPECIES),
       ...Object.values(ANIMAL_COLORS).map(color => color.label),
     ];
     for (const label of labels) expect(messages[label], label).toBeDefined();
+  });
+
+  it("translates country theme templates and interpolates the localized country in every language", () => {
+    const dynamicThemes = PLAY_THEMES.filter(theme => theme.labelKey);
+    expect(dynamicThemes.length).toBeGreaterThan(0);
+    for (const { code: locale } of LANGUAGES) {
+      for (const theme of dynamicThemes) {
+        const country = translateFor(locale, characterRegionLabel(theme.region!));
+        const label = translatedThemeLabel(theme, (key, params) => translateFor(locale, key, params));
+        expect(label, `${locale}/${theme.id}`).toContain(country);
+        expect(label, `${locale}/${theme.id}`).not.toContain("{{country}}");
+        expect(label, `${locale}/${theme.id}`).toBe(translateFor(locale, theme.labelKey!, { country }));
+      }
+    }
+    expect(translatedThemeLabel(PLAY_THEMES.find(theme => theme.id === "personnes-br")!, (key, params) => translateFor("en", key, params))).toBe("Celebrities · Brazil");
+    expect(translatedThemeLabel(PLAY_THEMES.find(theme => theme.id === "histoire-de")!, (key, params) => translateFor("de", key, params))).toBe("Geschichte · Deutschland");
+    expect(translatedThemeLabel(PLAY_THEMES.find(theme => theme.id === "politique-us")!, (key, params) => translateFor("en", key, params))).toBe("American politics");
   });
 
   it("selects French, English and Russian plurals", () => {

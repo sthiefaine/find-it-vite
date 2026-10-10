@@ -477,5 +477,141 @@
       "label": "Sénat",
       "url": "https://www.senat.fr/senateur/retailleau_bruno04033b.html"
     }
+  },
+  "ludwig-van-beethoven": {
+    "period": "1770–1827",
+    "description": "Compositeur né à Bonn, Ludwig van Beethoven s’installe à Vienne en 1792. Son œuvre occupe une place majeure dans l’histoire de la musique classique.",
+    "source": {
+      "label": "Beethoven-Haus Bonn",
+      "url": "https://www.beethoven.de/de/beethoven"
+    }
+  },
+  "piotr-ilitch-tchaikovski": {
+    "period": "1840–1893",
+    "description": "Compositeur russe né à Votkinsk, Piotr Ilitch Tchaïkovski crée des symphonies, des opéras et des ballets. Son parcours est documenté par le musée de sa maison à Klin.",
+    "source": {
+      "label": "Musée national P. I. Tchaïkovski de Klin",
+      "url": "https://tchaikovsky.house/chaykovskiy/biography/"
+    }
+  },
+  "george-washington": {
+    "description": "Né en Virginie en 1732, George Washington commande l’armée continentale pendant la guerre d’indépendance. Il devient le premier président des États-Unis en 1789.",
+    "source": {
+      "label": "Maison-Blanche — Archives de la présidence Obama",
+      "url": "https://obamawhitehouse.archives.gov/1600/presidents/georgewashington"
+    }
+  },
+  "abraham-lincoln": {
+    "description": "Né dans le Kentucky en 1809, Abraham Lincoln devient le seizième président des États-Unis en 1861. Il publie la proclamation d’émancipation en 1863.",
+    "source": {
+      "label": "Maison-Blanche — Archives de la présidence Obama",
+      "url": "https://obamawhitehouse.archives.gov/1600/presidents/abrahamlincoln"
+    }
+  },
+  "john-f-kennedy": {
+    "description": "Né à Brookline en 1917, John F. Kennedy exerce la présidence des États-Unis de 1961 à 1963. Il a auparavant servi à la Chambre des représentants puis au Sénat.",
+    "source": {
+      "label": "Maison-Blanche — Archives de la présidence Obama",
+      "url": "https://obamawhitehouse.archives.gov/1600/presidents/johnfkennedy"
+    }
+  },
+  "barack-obama": {
+    "description": "Barack Obama devient le quarante-quatrième président des États-Unis en 2009. Son parcours politique passe par le Sénat de l’Illinois puis le Sénat fédéral.",
+    "source": {
+      "label": "Maison-Blanche — Archives de la présidence Obama",
+      "url": "https://obamawhitehouse.archives.gov/1600/presidents/barackobama"
+    }
+  },
+  "joe-biden": {
+    "description": "Joe Biden est une personnalité politique américaine qui a siégé au Sénat fédéral. Il exerce la vice-présidence pendant les deux mandats de Barack Obama.",
+    "source": {
+      "label": "Maison-Blanche — Archives de la présidence Obama",
+      "url": "https://obamawhitehouse.archives.gov/administration/vice-president-biden"
+    }
+  },
+  "donald-trump": {
+    "description": "Donald Trump travaille dans l’immobilier avant d’entrer dans la vie politique américaine. Élu en novembre 2016, il devient le quarante-cinquième président des États-Unis.",
+    "source": {
+      "label": "Maison-Blanche — Archives de la première présidence Trump",
+      "url": "https://trumpwhitehouse.archives.gov/people/donald-j-trump/"
+    }
+  },
+  "kamala-harris": {
+    "description": "Née à Oakland en 1964, Kamala Harris exerce la vice-présidence des États-Unis de 2021 à 2025. Elle a auparavant été procureure générale de Californie et sénatrice.",
+    "source": {
+      "label": "National Archives — Kamala Harris",
+      "url": "https://www.archives.gov/presidential-records/vice-presidential-records/selected-vice-presidential-records/harris-records"
+    }
+  },
+  "hillary-clinton": {
+    "description": "Née à Chicago en 1947, Hillary Rodham Clinton est élue au Sénat pour l’État de New York. Elle dirige le département d’État américain de 2009 à 2013.",
+    "source": {
+      "label": "Département d’État — Office of the Historian",
+      "url": "https://history.state.gov/departmenthistory/people/clinton-hillary-rodham"
+    }
+  },
+  "luiz-inacio-lula-da-silva": {
+    "description": "Né à Garanhuns en 1945, Luiz Inácio Lula da Silva travaille comme métallurgiste avant son engagement syndical. Il est élu à la présidence du Brésil en 2002 puis réélu en 2006.",
+    "source": {
+      "label": "Présidence du Brésil — Secretaria-Geral",
+      "url": "https://www.gov.br/secretariageral/pt-br/centrais-de-conteudo/biblioteca-da-pr/galeria-dos-ex-presidentes/luiz-inacio-lula-da-silva/biografia-completa"
+    }
+  },
+  "jair-bolsonaro": {
+    "description": "Jair Bolsonaro commence sa carrière élective au conseil municipal de Rio de Janeiro en 1988. Il siège ensuite à la Chambre des députés et est élu à la présidence du Brésil en 2018.",
+    "source": {
+      "label": "Bibliothèque de la Présidence du Brésil",
+      "url": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/bolsonaro/biografia/biografia"
+    }
+  },
+  "dilma-rousseff": {
+    "description": "Née à Belo Horizonte en 1947, Dilma Rousseff est la première femme élue à la présidence du Brésil. Son parcours comprend des fonctions ministérielles avant son élection de 2010.",
+    "source": {
+      "label": "Bibliothèque de la Présidence du Brésil",
+      "url": "https://www.biblioteca.presidencia.gov.br/presidencia/ex-presidentes/dilma-rousseff/biografia"
+    }
+  },
+  "fernando-henrique-cardoso": {
+    "description": "Né à Rio de Janeiro en 1931, Fernando Henrique Cardoso est sociologue et universitaire. Il exerce la présidence du Brésil pendant deux mandats, de 1995 à 2002.",
+    "source": {
+      "label": "Fondation Alexandre de Gusmão — FUNAG",
+      "url": "https://www.gov.br/funag/pt-br/chdd/historia-diplomatica/ministros-de-estado-das-relacoes-exteriores/fernando-henrique-cardoso"
+    }
+  },
+  "marina-silva": {
+    "description": "Née à Rio Branco en 1958, Marina Silva représente l’État de l’Acre au Sénat brésilien. Son activité parlementaire comprend des travaux sur la biodiversité et les changements climatiques.",
+    "source": {
+      "label": "Sénat fédéral du Brésil — Marina Silva",
+      "url": "https://www25.senado.leg.br/web/senadores/senador/-/perfil/59"
+    }
+  },
+  "michel-temer": {
+    "description": "Juriste et professeur de droit, Michel Temer préside la Chambre des députés du Brésil. Il exerce ensuite la vice-présidence de 2011 à 2016, puis la présidence de 2016 à 2018.",
+    "source": {
+      "label": "Chambre des députés du Brésil — Michel Temer",
+      "url": "https://www.camara.leg.br/deputados/73552/biografia"
+    }
+  },
+  "getulio-vargas": {
+    "description": "Getúlio Vargas dirige le Brésil de 1930 à 1945, dont la période de l’Estado Novo à partir de 1937. Élu à nouveau en 1950, il revient à la présidence de 1951 à 1954.",
+    "source": {
+      "label": "Académie brésilienne des lettres — Getúlio Vargas",
+      "url": "https://academia.org.br/academicos/getulio-vargas/biografia"
+    }
+  },
+  "juscelino-kubitschek": {
+    "description": "Médecin de formation, Juscelino Kubitschek est maire de Belo Horizonte puis gouverneur du Minas Gerais. Il exerce la présidence du Brésil de 1956 à 1961 et fonde Brasília.",
+    "source": {
+      "label": "Chambre des députés du Brésil — Juscelino Kubitschek",
+      "url": "https://www.camara.leg.br/deputados/2876/biografia"
+    }
+  },
+  "max-planck": {
+    "period": "1858–1947",
+    "description": "Physicien né à Kiel, Max Planck introduit les quanta d’énergie dans ses travaux sur le rayonnement. Cette découverte lui vaut le prix Nobel de physique de 1918.",
+    "source": {
+      "label": "Nobel Prize — Max Planck",
+      "url": "https://www.nobelprize.org/prizes/physics/1918/planck/facts/"
+    }
   }
 }

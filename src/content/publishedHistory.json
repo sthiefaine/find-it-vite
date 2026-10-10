@@ -391,5 +391,87 @@
     "tags": [
       "droits-civiques"
     ]
+  },
+  {
+    "name": "ludwig-van-beethoven",
+    "label": "Ludwig van Beethoven",
+    "imageSrc": "/assets/images/characters/history/ludwig-van-beethoven.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "histoire",
+      "musique",
+      "allemagne",
+      "de"
+    ],
+    "countryLinks": [
+      {
+        "code": "DE",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.beethoven.de/de/beethoven"
+      }
+    ]
+  },
+  {
+    "name": "piotr-ilitch-tchaikovski",
+    "label": "Piotr Ilitch Tchaïkovski",
+    "imageSrc": "/assets/images/characters/history/piotr-ilitch-tchaikovski.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "barbe",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "histoire",
+      "musique",
+      "russie",
+      "ru"
+    ],
+    "countryLinks": [
+      {
+        "code": "RU",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://tchaikovsky.house/chaykovskiy/biography/"
+      }
+    ]
+  },
+  {
+    "name": "max-planck",
+    "label": "Max Planck",
+    "imageSrc": "/assets/images/characters/history/max-planck.png",
+    "serie": "history",
+    "color": "grey",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "pink"
+    ],
+    "tags": [
+      "histoire",
+      "sciences",
+      "allemagne",
+      "de"
+    ],
+    "countryLinks": [
+      {
+        "code": "DE",
+        "relation": "historical-contribution",
+        "sourceUrl": "https://www.mpg.de/19252700/max-planck-biographical-overview"
+      }
+    ]
   }
 ]

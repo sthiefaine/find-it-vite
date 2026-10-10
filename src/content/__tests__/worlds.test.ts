@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import legacyAnimalIds from "../legacyAnimalIds.json";
 import { animalsPack, charactersDetails } from "../../helpers/characters";
 import { generateLevel, validateSpec } from "../../engine";
 import type { Tier } from "../../engine";
@@ -35,8 +36,9 @@ describe("mondes", () => {
     }
   });
 
-  it("animaux = le catalogue publié, préfixe de monde pour les autres", () => {
-    expect(getWorld("animaux")!.characters).toEqual(animalsPack);
+  it("la campagne conserve son pool historique et les autres mondes leurs préfixes", () => {
+    expect(getWorld("animaux")!.characters.map(c => c.name)).toEqual(legacyAnimalIds);
+    expect(allCharacters()).toEqual(expect.arrayContaining(animalsPack));
     expect(charactersDetails).toEqual(animalsPack);
     for (const w of WORLDS.slice(1)) {
       for (const c of w.characters) {

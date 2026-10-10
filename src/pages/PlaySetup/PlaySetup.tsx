@@ -1,8 +1,8 @@
 import { useTranslation } from "../../i18n";
 import { useState } from "react";
 import { UserRound } from "lucide-react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { defaultThemeForFamily, PLAY_THEMES, playThemeFromSearch, publishedThemePool, THEME_FAMILIES, themeOptions } from "../../content/playThemes";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { defaultThemeForFamily, PLAY_THEMES, playThemeFromSearch, publishedThemePool, THEME_FAMILIES, themeOptions, translatedThemeLabel } from "../../content/playThemes";
 import type { PlayMode, PlayTheme, PlayThemeId, ThemeFamilyId } from "../../content/playThemes";
 import { isPortraitUnlocked } from "../../content/portraitUnlocks";
 import { useSaveStore } from "../../save/saveStore";
@@ -10,6 +10,7 @@ import { GameIcon } from "../../components/Icons/GameIcon";
 import { portraitStyle } from "../../helpers/portraitScale";
 import type { CharacterDetails } from "../../helpers/characters";
 import type { Save } from "../../save/schema";
+import { characterRegionFlag } from "../../content/characterRegions";
 import "../../components/Buttons/ui.css";
 import "../../components/Buttons/Tile.css";
 import "./PlaySetup.css";
@@ -21,7 +22,6 @@ const personGroups = [
   { id: "histoire", theme: "histoire", label: "Histoire" },
   { id: "celebrites", theme: "personnes", label: "Célébrités" },
 ] as const;
-const countryFlags = { fr: "🇫🇷", br: "🇧🇷", us: "🇺🇸" };
 
 // Keep each illustration inside its theme and prefer three different silhouettes.
 const themePreviews = new Map(PLAY_THEMES.map(theme => {
@@ -60,10 +60,10 @@ function ThemePortraits({ theme, save }: { theme: PlayTheme; save: Save }) {
 }
 
 function albumLink(theme: PlayTheme) {
-  const collection = theme.id === "personnes" ? "personnes" : theme.family === "personnages" ? theme.group : "animaux";
+  const collection = theme.group === "celebrites" ? "personnes" : theme.family === "personnages" ? theme.group : "animaux";
   const params = new URLSearchParams({ collection: collection ?? "animaux" });
   if (theme.family === "animaux" && theme.id !== "animaux") params.set("category", theme.id);
-  if (theme.group === "histoire" && theme.region) params.set("category", theme.region);
+  if (theme.family === "personnages" && theme.region) params.set("country", theme.region);
   return `/album?${params}`;
 }
 
@@ -133,19 +133,19 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
           </button>)}
         </div> : null}
 
-        {family !== "drapeaux" && !(family === "personnages" && (group === "tous" || group === "celebrites")) ? <div className={`play-subthemes play-subthemes--${family}`} role="group"
+        {family !== "drapeaux" && !(family === "personnages" && group === "tous") && visibleOptions.length > 1 ? <div className={`play-subthemes play-subthemes--${family}`} role="group"
           aria-label={tr(family === "animaux" ? "Habitats" : "Pays")}>
           {visibleOptions.map(({ theme: option, enabled: playable }) => <button
             type="button" key={option.id} aria-pressed={theme.id === option.id} onClick={() => selectTheme(option.id)}
             className={`play-subtheme${theme.id === option.id ? " is-selected" : ""}${option.comingSoon ? " is-soon" : ""}`}
           >
             <ThemePortraits theme={option} save={save} />
-            <span className="play-subtheme-label">{option.region ? <span aria-hidden="true">{countryFlags[option.region]} </span> : null}{tr(option.shortLabel)}</span>
+            <span className="play-subtheme-label">{option.region ? <span aria-hidden="true">{characterRegionFlag(option.region)} </span> : null}{tr(option.region || option.family === "animaux" ? option.shortLabel : "Tous")}</span>
             {option.comingSoon ? <small>{tr("Bientôt")}</small> : !playable && loaded ? <span className="play-subtheme-lock" aria-hidden="true">✦</span> : null}
           </button>)}
         </div> : null}
 
-        <section className={`play-theme-spotlight play-theme-spotlight--${family}`} aria-label={tr(theme.label)}>
+        <section className={`play-theme-spotlight play-theme-spotlight--${family}`} aria-label={translatedThemeLabel(theme, tr)}>
           <div className="play-theme-art" aria-hidden="true">
             <span className="play-theme-glow" />
             <ThemePortraits key={theme.id} theme={theme} save={save} />
@@ -153,7 +153,7 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
             <span className="play-theme-spark play-theme-spark--right">✦</span>
           </div>
           <div className="play-theme-copy">
-            <h3>{tr(family === "personnages" && theme.id !== "personnages" ? theme.shortLabel : theme.label)}</h3>
+            <h3>{family === "personnages" && theme.id !== "personnages" ? tr(theme.shortLabel) : translatedThemeLabel(theme, tr)}</h3>
             {theme.comingSoon ? <p className="play-theme-count">{tr("Ce thème arrive bientôt.")}</p> : <>
               <span className="fi-chip play-theme-count">
                 <GameIcon name={family === "drapeaux" ? "flags" : "album"} />
@@ -161,10 +161,11 @@ function ThemeSelection({ mode, search }: { mode: PlayMode; search: string }) {
               </span>
               {needsPortraits ? <div className="play-theme-unlock">
                 <div className="play-theme-unlock-track" role="progressbar" aria-valuemin={0} aria-valuemax={3}
-                  aria-valuenow={availableCount} aria-label={tr(theme.label)}>
+                  aria-valuenow={availableCount} aria-label={translatedThemeLabel(theme, tr)}>
                   <span style={{ width: `${Math.min(100, availableCount / 3 * 100)}%` }} />
                 </div>
                 <p>{tr("Débloque encore {{count}} portraits pour jouer ici.", { count: 3 - availableCount })}</p>
+                {theme.region ? <Link className="fi-chip play-theme-chapters" to="/adventure">{tr("Chapitres")}</Link> : null}
               </div> : null}
             </>}
           </div>

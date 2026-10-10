@@ -1702,5 +1702,949 @@
       "celebrites",
       "sport"
     ]
+  },
+  {
+    "name": "george-clooney",
+    "label": "George Clooney",
+    "imageSrc": "/assets/images/characters/celebrities/george-clooney.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis et carrière dans le cinéma américain",
+        "sourceUrl": "https://goldenglobes.com/person/george-clooney/"
+      }
+    ]
+  },
+  {
+    "name": "samuel-l-jackson",
+    "label": "Samuel L. Jackson",
+    "imageSrc": "/assets/images/characters/celebrities/samuel-l-jackson.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "acteur américain ; carrière cinéma et télévision",
+        "sourceUrl": "https://walkoffame.com/samuel-l-jackson/"
+      }
+    ]
+  },
+  {
+    "name": "viola-davis",
+    "label": "Viola Davis",
+    "imageSrc": "/assets/images/characters/celebrities/viola-davis.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-boucles",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis et carrière dans le cinéma américain",
+        "sourceUrl": "https://goldenglobes.com/person/viola-davis/"
+      }
+    ]
+  },
+  {
+    "name": "anne-hathaway",
+    "label": "Anne Hathaway",
+    "imageSrc": "/assets/images/characters/celebrities/anne-hathaway.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis et carrière dans le cinéma américain",
+        "sourceUrl": "https://goldenglobes.com/person/anne-hathaway/"
+      }
+    ]
+  },
+  {
+    "name": "eddie-murphy",
+    "label": "Eddie Murphy",
+    "imageSrc": "/assets/images/characters/celebrities/eddie-murphy.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "moustache",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "humour"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "acteur et humoriste américain",
+        "sourceUrl": "https://walkoffame.com/eddie-murphy/"
+      }
+    ]
+  },
+  {
+    "name": "madonna",
+    "label": "Madonna",
+    "imageSrc": "/assets/images/characters/celebrities/madonna.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-blonds",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "musique"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "carrière dans la musique populaire américaine",
+        "sourceUrl": "https://rockhall.com/inductees/madonna/"
+      }
+    ]
+  },
+  {
+    "name": "elvis-presley",
+    "label": "Elvis Presley",
+    "imageSrc": "/assets/images/characters/celebrities/elvis-presley.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-coiffes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "musique"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "naissance aux États-Unis ; carrière musicale à Memphis",
+        "sourceUrl": "https://www.graceland.com/biography"
+      }
+    ]
+  },
+  {
+    "name": "prince",
+    "label": "Prince",
+    "imageSrc": "/assets/images/characters/celebrities/prince.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-boucles",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "musique"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "musicien né à Minneapolis ; ancrage musical américain",
+        "sourceUrl": "https://becoming.prince.com/map/paisley-park/"
+      }
+    ]
+  },
+  {
+    "name": "michael-jordan",
+    "label": "Michael Jordan",
+    "imageSrc": "/assets/images/characters/celebrities/michael-jordan.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "chauve",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "sport"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "basketteur identifié USA par la NBA",
+        "sourceUrl": "https://www.nba.com/player/893/michael-jordan/profile"
+      }
+    ]
+  },
+  {
+    "name": "simone-biles",
+    "label": "Simone Biles",
+    "imageSrc": "/assets/images/characters/celebrities/simone-biles.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-attaches",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "sport"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "gymnaste de la sélection nationale des États-Unis",
+        "sourceUrl": "https://members.usagym.org/pages/athletes/nationalTeamWomen.html?id=164887"
+      }
+    ]
+  },
+  {
+    "name": "michael-phelps",
+    "label": "Michael Phelps",
+    "imageSrc": "/assets/images/characters/celebrities/michael-phelps.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "sport"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "nageur identifié USA dans les résultats officiels de la fédération",
+        "sourceUrl": "https://www.usaswimming.org/docs/default-source/eventsdocuments/meet-results/olympic-trials-results/2008-us-olympic-team-trials.pdf"
+      }
+    ]
+  },
+  {
+    "name": "fernanda-montenegro",
+    "label": "Fernanda Montenegro",
+    "imageSrc": "/assets/images/characters/celebrities/fernanda-montenegro.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "cheveux-gris",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "actrice rattachée au Brésil par le Festival de Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/fernanda-montenegro/"
+      }
+    ]
+  },
+  {
+    "name": "fernanda-torres",
+    "label": "Fernanda Torres",
+    "imageSrc": "/assets/images/characters/celebrities/fernanda-torres.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "interprète dans le cinéma brésilien ; film identifié Brazil par Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/f/eu-sei-que-vou-te-amar/"
+      }
+    ]
+  },
+  {
+    "name": "wagner-moura",
+    "label": "Wagner Moura",
+    "imageSrc": "/assets/images/characters/celebrities/wagner-moura.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black",
+      "grey"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "acteur rattaché au Brésil par le Festival de Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/wagner-moura/"
+      }
+    ]
+  },
+  {
+    "name": "silvio-santos",
+    "label": "Silvio Santos",
+    "imageSrc": "/assets/images/characters/celebrities/silvio-santos.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-coiffes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "television"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "carrière dans la télévision brésilienne documentée par SBT",
+        "sourceUrl": "https://silviosantos.sbt.com.br/animador.html"
+      }
+    ]
+  },
+  {
+    "name": "caetano-veloso",
+    "label": "Caetano Veloso",
+    "imageSrc": "/assets/images/characters/celebrities/caetano-veloso.png",
+    "serie": "celebrity",
+    "color": "white",
+    "family": "lunettes",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "white",
+      "grey",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "musique"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "carrière musicale au Brésil documentée par le site officiel",
+        "sourceUrl": "https://www.caetanoveloso.com.br/"
+      }
+    ]
+  },
+  {
+    "name": "gilberto-gil",
+    "label": "Gilberto Gil",
+    "imageSrc": "/assets/images/characters/celebrities/gilberto-gil.png",
+    "serie": "celebrity",
+    "color": "grey",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "grey",
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "musique"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "carrière dans la musique brésilienne documentée par le site officiel",
+        "sourceUrl": "https://gilbertogil.com.br/gilberto-gil/"
+      }
+    ]
+  },
+  {
+    "name": "anitta",
+    "label": "Anitta",
+    "imageSrc": "/assets/images/characters/celebrities/anitta.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "musique"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "chanteuse brésilienne documentée par un entretien de la Recording Academy",
+        "sourceUrl": "https://www.grammy.com/news/anitta-funk-generation-new-album-interview-review/"
+      }
+    ]
+  },
+  {
+    "name": "pele",
+    "label": "Pelé",
+    "imageSrc": "/assets/images/characters/celebrities/pele.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "sport"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "football avec la sélection brésilienne documenté par la FIFA",
+        "sourceUrl": "https://www.fifa.com/pt/articles/pele-apresentou-o-brasil-ao-mundo"
+      }
+    ]
+  },
+  {
+    "name": "neymar",
+    "label": "Neymar",
+    "imageSrc": "/assets/images/characters/celebrities/neymar.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black",
+      "yellow"
+    ],
+    "tags": [
+      "celebrites",
+      "sport"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "joueur du football brésilien identifié par la CBF",
+        "sourceUrl": "https://www.cbf.com.br/futebol-brasileiro/atletas/copa-do-brasil/masculino/2026/292791"
+      }
+    ]
+  },
+  {
+    "name": "marta",
+    "label": "Marta",
+    "imageSrc": "/assets/images/characters/celebrities/marta.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-attaches",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "sport"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "footballeuse de la sélection brésilienne documentée par la FIFA",
+        "sourceUrl": "https://www.fifa.com/en/tournaments/womens/u20womensworldcup/poland-2026/articles/u20-stars-marta-tribute"
+      }
+    ]
+  },
+  {
+    "name": "ayrton-senna",
+    "label": "Ayrton Senna",
+    "imageSrc": "/assets/images/characters/celebrities/ayrton-senna.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "sport"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "pilote né à São Paulo ; parcours brésilien documenté par son institution officielle",
+        "sourceUrl": "https://www.senna.com/en/jornada-senna/"
+      }
+    ]
+  },
+  {
+    "name": "daniel-craig",
+    "label": "Daniel Craig",
+    "imageSrc": "/assets/images/characters/celebrities/daniel-craig.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "yellow"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "GB",
+        "relation": "ancrage dans le cinéma britannique documenté dans un entretien BAFTA",
+        "sourceUrl": "https://www.bafta.org/media-centre/press-releases/bafta-a-life-in-pictures-daniel-craig/"
+      }
+    ]
+  },
+  {
+    "name": "benedict-cumberbatch",
+    "label": "Benedict Cumberbatch",
+    "imageSrc": "/assets/images/characters/celebrities/benedict-cumberbatch.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "GB",
+        "relation": "acteur né à Londres ; carrière dans le cinéma et la télévision britanniques",
+        "sourceUrl": "https://goldenglobes.com/person/benedict-cumberbatch/"
+      }
+    ]
+  },
+  {
+    "name": "antonio-banderas",
+    "label": "Antonio Banderas",
+    "imageSrc": "/assets/images/characters/celebrities/antonio-banderas.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "barbe-courte",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "grey"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "ES",
+        "relation": "acteur né à Málaga ; carrière dans le cinéma espagnol",
+        "sourceUrl": "https://goldenglobes.com/person/antonio-banderas/"
+      }
+    ]
+  },
+  {
+    "name": "penelope-cruz",
+    "label": "Penélope Cruz",
+    "imageSrc": "/assets/images/characters/celebrities/penelope-cruz.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema"
+    ],
+    "countryLinks": [
+      {
+        "code": "ES",
+        "relation": "actrice rattachée à l'Espagne par le Festival de Cannes",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/penelope-cruz/"
+      }
+    ]
+  },
+  {
+    "name": "whitney-houston",
+    "label": "Whitney Houston",
+    "imageSrc": "/assets/images/characters/celebrities/whitney-houston.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "musique"
+    ],
+    "countryLinks": [
+      {
+        "code": "US",
+        "relation": "chanteuse née à Newark ; ancrage dans la musique américaine",
+        "sourceUrl": "https://www.whitneyhouston.com/biography/"
+      }
+    ]
+  },
+  {
+    "name": "helena-rizzo",
+    "label": "Helena Rizzo",
+    "imageSrc": "/assets/images/characters/celebrities/helena-rizzo.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-attaches",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown"
+    ],
+    "tags": [
+      "celebrites",
+      "cuisine"
+    ],
+    "countryLinks": [
+      {
+        "code": "BR",
+        "relation": "cheffe née au Rio Grande do Sul ; ancrage gastronomique à São Paulo",
+        "sourceUrl": "https://www.band.com.br/entretenimento/realities/masterchef/helena-rizzo-e-a-nova-jurada-do-masterchef-brasil-na-band-16342855"
+      }
+    ]
+  },
+  {
+    "name": "sophia-loren",
+    "label": "Sophia Loren",
+    "imageSrc": "/assets/images/characters/celebrities/sophia-loren.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema",
+      "italie",
+      "it"
+    ],
+    "countryLinks": [
+      {
+        "code": "IT",
+        "relation": "nationality",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/sophia-loren/"
+      }
+    ]
+  },
+  {
+    "name": "monica-bellucci",
+    "label": "Monica Bellucci",
+    "imageSrc": "/assets/images/characters/celebrities/monica-bellucci.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-longs",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema",
+      "italie",
+      "it"
+    ],
+    "countryLinks": [
+      {
+        "code": "IT",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/monica-bellucci/"
+      }
+    ]
+  },
+  {
+    "name": "zhang-ziyi",
+    "label": "Zhang Ziyi",
+    "imageSrc": "/assets/images/characters/celebrities/zhang-ziyi.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-attaches",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema",
+      "chine",
+      "cn"
+    ],
+    "countryLinks": [
+      {
+        "code": "CN",
+        "relation": "nationality",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/zhang-ziyi/"
+      }
+    ]
+  },
+  {
+    "name": "lang-lang",
+    "label": "Lang Lang",
+    "imageSrc": "/assets/images/characters/celebrities/lang-lang.png",
+    "serie": "celebrity",
+    "color": "black",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "black",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "musique",
+      "chine",
+      "cn"
+    ],
+    "countryLinks": [
+      {
+        "code": "CN",
+        "relation": "cultural-work",
+        "sourceUrl": "https://www.langlangofficial.com/"
+      }
+    ]
+  },
+  {
+    "name": "maria-sharapova",
+    "label": "Maria Sharapova",
+    "imageSrc": "/assets/images/characters/celebrities/maria-sharapova.png",
+    "serie": "celebrity",
+    "color": "yellow",
+    "family": "cheveux-attaches",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "yellow",
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "sport",
+      "russie",
+      "ru"
+    ],
+    "countryLinks": [
+      {
+        "code": "RU",
+        "relation": "nationality",
+        "sourceUrl": "https://www.wtatennis.com/players/310137/maria-sharapova"
+      }
+    ]
+  },
+  {
+    "name": "cristiano-ronaldo",
+    "label": "Cristiano Ronaldo",
+    "imageSrc": "/assets/images/characters/celebrities/cristiano-ronaldo.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "sport",
+      "portugal",
+      "pt"
+    ],
+    "countryLinks": [
+      {
+        "code": "PT",
+        "relation": "birthplace",
+        "sourceUrl": "https://www.fpf.pt/pt/Jogadores/Cristiano-Ronaldo/contextId/178"
+      }
+    ]
+  },
+  {
+    "name": "eusebio",
+    "label": "Eusébio",
+    "imageSrc": "/assets/images/characters/celebrities/eusebio.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "black"
+    ],
+    "tags": [
+      "celebrites",
+      "sport",
+      "portugal",
+      "pt"
+    ],
+    "countryLinks": [
+      {
+        "code": "PT",
+        "relation": "cultural-work",
+        "sourceUrl": "https://www.slbenfica.pt/pt-pt/agora/noticias/2016_2017/06/historia-eusebio"
+      }
+    ]
+  },
+  {
+    "name": "juliette-binoche",
+    "label": "Juliette Binoche",
+    "imageSrc": "/assets/images/characters/celebrities/juliette-binoche.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-courts",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema",
+      "france",
+      "fr"
+    ],
+    "countryLinks": [
+      {
+        "code": "FR",
+        "relation": "nationality",
+        "sourceUrl": "https://www.festival-cannes.com/en/p/juliette-binoche/"
+      }
+    ]
+  },
+  {
+    "name": "pierre-niney",
+    "label": "Pierre Niney",
+    "imageSrc": "/assets/images/characters/celebrities/pierre-niney.png",
+    "serie": "celebrity",
+    "color": "brown",
+    "family": "cheveux-boucles",
+    "species": "",
+    "breed": "",
+    "dominantColors": [
+      "brown",
+      "pink"
+    ],
+    "tags": [
+      "celebrites",
+      "cinema",
+      "france",
+      "fr"
+    ],
+    "countryLinks": [
+      {
+        "code": "FR",
+        "relation": "cultural-work",
+        "sourceUrl": "https://comedie-francaise.fr/2013-2014/pierre-niney"
+      }
+    ]
   }
 ]

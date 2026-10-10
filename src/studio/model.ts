@@ -1,5 +1,7 @@
 import { ANIMAL_COLORS, animalSpeciesLabel, normalizedAnimalMetadata } from "../content/animalTaxonomy";
 import type { AnimalMetadata } from "../content/animalTaxonomy";
+import type { CountryLink } from "../helpers/characters";
+import { validatedCountryLinks } from "../content/countryLinks";
 
 export const CATEGORIES = {
   animals: "Animaux", people: "Personnes", history: "Histoire",
@@ -13,10 +15,11 @@ export type Theme = { id: string; name: string; category: Category; destination:
 export type Sprite = AnimalMetadata & {
   id: string; themeId: string; label: string; subject: string; color: SpriteColor;
   family: string; status: "draft" | "ready"; source: string | null; notes: string;
+  countryLinks?: CountryLink[];
 };
 export type Catalog = { version: 1; revision: number; themes: Theme[]; sprites: Sprite[] };
 export type AssetInfo = { source: string; width: number; height: number; transparent: boolean };
-export type PublishedCharacter = AnimalMetadata & { name: string; label: string; imageSrc: string; serie: string; color: SpriteColor; family: string };
+export type PublishedCharacter = AnimalMetadata & { name: string; label: string; imageSrc: string; serie: string; color: SpriteColor; family: string; countryLinks?: CountryLink[] };
 
 export const ANIMAL_PROMPT = "Un visage de {sujet} amical et expressif sans cou vu de face, avec une tête beaucoup plus grande que la normale et de petites oreilles pour un effet mignon et stylisé. La tête occupe le maximum d’espace. Le style doit être semi-réaliste sauf pour les oreilles avec une finition lisse et détaillée, inspiré des jeux vidéo modernes sans ajout de lumière et d’ombre. Les yeux doivent être grands et captivants, avec des cils délicats et une expression chaleureuse. Le pelage ou la peau doit être finement texturé, avec des couleurs riches et naturelles. Le museau doit être légèrement arrondi pour accentuer le côté doux et attachant. Aucun ajout de cheveux. Aucune brillance, reflet ou source lumineuse directe. {fond} L’image doit être en haute résolution, avec des bords parfaitement nets et aucune pixellisation. L’ensemble doit dégager un charme nostalgique de jeu vidéo tout en restant moderne.";
 
@@ -67,13 +70,14 @@ export function validateCatalog(input: unknown): Catalog {
     if ((sprite.species !== undefined && !text(sprite.species, 64, false)) || (sprite.breed !== undefined && !text(sprite.breed, 80, false))) throw new Error("L’espèce ou la race du sprite est invalide.");
     if (sprite.dominantColors !== undefined && (!Array.isArray(sprite.dominantColors) || sprite.dominantColors.length < 1 || sprite.dominantColors.length > 3 || sprite.dominantColors.some((color) => !COLORS.includes(color as SpriteColor)) || !sprite.dominantColors.includes(sprite.color) || new Set(sprite.dominantColors).size !== sprite.dominantColors.length)) throw new Error("Choisis de 1 à 3 couleurs dominantes différentes, avec la couleur principale.");
     if (sprite.tags !== undefined && (!Array.isArray(sprite.tags) || sprite.tags.length > 12 || sprite.tags.some((tag) => !isId(tag)) || new Set(sprite.tags).size !== sprite.tags.length)) throw new Error("Les catégories du sprite sont invalides (12 maximum, sans doublon).");
+    validatedCountryLinks(sprite.countryLinks);
     ids.add(sprite.id);
   }
   // Reconstituer les données : aucun champ inconnu n'est persisté.
   return {
     version: 1, revision: input.revision as number,
     themes: input.themes.map(({ id, name, category, destination }) => ({ id, name, category, destination })),
-    sprites: input.sprites.map(({ id, themeId, label, subject, color, family, status, source, notes, species, breed, dominantColors, tags }) => ({ id, themeId, label, subject, color, family, status, source, notes, ...normalizedAnimalMetadata({ color, species, breed, dominantColors, tags }) })),
+    sprites: input.sprites.map(({ id, themeId, label, subject, color, family, status, source, notes, species, breed, dominantColors, tags, countryLinks }) => ({ id, themeId, label, subject, color, family, status, source, notes, ...normalizedAnimalMetadata({ color, species, breed, dominantColors, tags }), ...(countryLinks === undefined ? {} : { countryLinks: validatedCountryLinks(countryLinks) }) })),
   };
 }
 

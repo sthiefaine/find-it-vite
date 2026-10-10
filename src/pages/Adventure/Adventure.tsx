@@ -1,6 +1,6 @@
 import { useTranslation } from "../../i18n";
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Lock, Play } from "lucide-react";
 import { useSaveStore } from "../../save/saveStore";
 import { getWorld, LEVELS_PER_WORLD, WORLDS } from "../../content/worlds";
@@ -12,6 +12,9 @@ import { levelUrl, nextLevel, nodeX, unlockHint, worldStars } from "./adventureM
 import type { LevelRef } from "./adventureMap";
 import "../../components/Buttons/ui.css";
 import "./Adventure.css";
+import Campaign from "./Campaign";
+import { classicContinuePath, classicContinueStep } from "./campaignContinue";
+import { stepInfo } from "../../game/adventureRun";
 
 const STEP = 120; // place pour le nom de l'étape et ses étoiles, même sur mobile
 const LEVELS = Array.from({ length: LEVELS_PER_WORLD }, (_, i) => i + 1);
@@ -102,12 +105,13 @@ function WorldSection({ world, save, current, currentRef }: WorldProps) {
   );
 }
 
-const Adventure = () => {
+const LegacyAdventure = () => {
   const { t: tr } = useTranslation();
   const save = useSaveStore((s) => s.save);
   const loaded = useSaveStore((s) => s.loaded);
   const navigate = useNavigate();
-  const current = nextLevel(save);
+  const resumeInfo = stepInfo(classicContinueStep(save));
+  const current = resumeInfo.worldId ? { worldId: resumeInfo.worldId, level: resumeInfo.level } : nextLevel(save);
   const currentWorld = getWorld(current.worldId);
   const currentRef = useRef<HTMLButtonElement>(null);
   const currentKey = `${current.worldId}:${current.level}`;
@@ -121,6 +125,7 @@ const Adventure = () => {
   return (
     <div className="fi-screen adv-screen">
       <div className="adv-map">
+        <button className="fi-chip" onClick={() => navigate("/adventure")}>{tr("Chapitres")}</button>
         {WORLDS.map((w) => (
           <WorldSection key={w.id} world={w} save={save} current={current} currentRef={currentRef} />
         ))}
@@ -128,19 +133,26 @@ const Adventure = () => {
       <div className="adv-continue-bar">
         <button
           className="adv-continue"
-          onClick={() => navigate(levelUrl(current.worldId, current.level))}
+          onClick={() => navigate(classicContinuePath(save))}
         >
           <Play size={30} fill="currentColor" aria-hidden="true" />
           <span className="adv-continue-text">
             <strong>{tr("Continuer l'aventure")}</strong>
             <small>
+              {!resumeInfo.worldId ? tr("Grand Mélange") : <>
               {currentWorld?.emoji} {currentWorld ? tr(sceneForIndex(currentWorld.startIndex + current.level - 1).name) : tr("Étape {{level}}", { level: current.level })}
+              </>}
             </small>
           </span>
         </button>
       </div>
     </div>
   );
+};
+
+const Adventure = () => {
+  const location = useLocation();
+  return new URLSearchParams(location.search).get("track") === "legacy" ? <LegacyAdventure /> : <Campaign />;
 };
 
 export default Adventure;

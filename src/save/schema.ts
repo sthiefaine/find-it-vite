@@ -4,7 +4,7 @@
 // 3. ajouter la migration n → n+1 dans migrations.ts.
 import type { Tier } from "../engine/types";
 
-export const SAVE_VERSION = 12 as const;
+export const SAVE_VERSION = 13 as const;
 export const DEFAULT_SOUND_VOLUME = 0.65;
 export const SAVE_KEY = "find-it:save";
 
@@ -112,6 +112,17 @@ export type SaveV12 = Omit<SaveV11, "version" | "settings"> & {
   settings: SaveSettingsV12;
 };
 
+export type CampaignResume = { kind: "chapter"; chapterId: string; mission: number } | { kind: "legacy"; step: number };
+export type SaveCampaign = {
+  chapterStars: Record<string, Record<string, number>>;
+  grantedPortraits: string[];
+  rewardReceipts: string[];
+  resume: CampaignResume | null;
+  legacyStep: number | null;
+  legacyMixUnlocked: boolean;
+};
+export type SaveV13 = Omit<SaveV12, "version"> & { version: 13; campaign: SaveCampaign };
+
 export const ADVENTURE_WORLD_IDS: readonly string[] = ["animaux", "ocean", "dinos", "halloween", "espace"];
 
 export const TIERS: readonly Tier[] = ["easy", "normal", "expert"];
@@ -120,7 +131,7 @@ export const DEFAULT_TIER: PlayerTier = "normal";
 export const FRAME_IDS: readonly FrameId[] = ["classic", "neon", "gold", "ice"];
 
 // Format courant
-export type Save = SaveV12;
+export type Save = SaveV13;
 
 export function defaultSave(): Save {
   return {
@@ -136,6 +147,7 @@ export function defaultSave(): Save {
     purchasedPeople: [],
     purchasedAnimals: [],
     dailyRewards: {},
+    campaign: { chapterStars: {}, grantedPortraits: [], rewardReceipts: [], resume: null, legacyStep: null, legacyMixUnlocked: false },
   };
 }
 

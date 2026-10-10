@@ -54,14 +54,13 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("ignore les anciens liens serie et les thèmes inconnus ou à venir", () => {
-    for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=politique-br", "?theme=__proto__"]) {
+    for (const search of ["", "?serie=ferme", "?theme=inconnu", "?theme=__proto__", ...PLAY_THEMES.filter(theme => theme.comingSoon).map(theme => `?theme=${theme.id}`)]) {
       expect(playThemeFromSearch(search)).toBe("ferme");
     }
     expect(playThemeFromSearch("?theme=foret&serie=ferme")).toBe("foret");
-    for (const id of ["politique-br", "inconnu"] as PlayThemeId[]) {
-      expect(playThemePool("endless", id, defaultSave())).toEqual(unlockedAnimals(defaultSave()));
-      expect(playThemePool("duel", id, defaultSave())).toEqual(animalsPack);
-    }
+    const unknownId = "inconnu" as unknown as PlayThemeId;
+    expect(playThemePool("endless", unknownId, defaultSave())).toEqual(unlockedAnimals(defaultSave()));
+    expect(playThemePool("duel", unknownId, defaultSave())).toEqual(animalsPack);
   });
 
   it("limite toutes les cibles et tous les leurres de l'Infini au thème autorisé", () => {
@@ -106,7 +105,7 @@ describe("thèmes proposés avant une partie", () => {
   });
 
   it("rend 12 portraits historiques disponibles avec des tenues progressives", () => {
-    expect(historyPack).toHaveLength(24);
+    expect(historyPack.length).toBeGreaterThanOrEqual(24);
     expect(playThemeFromSearch("?theme=histoire")).toBe("histoire");
     for (const mode of ["endless", "duel"] as const) {
       expect(playThemePool(mode, "histoire", defaultSave())).toEqual(unlockedPeople({}, historyPack));
@@ -122,15 +121,17 @@ describe("thèmes proposés avant une partie", () => {
 
   it("rend la politique disponible dès le départ sans élargir les thèmes animaliers", () => {
     const save = defaultSave();
+    const french = charactersInRegion(peoplePack, "fr");
+    expect(french).toHaveLength(41);
     for (const mode of ["endless", "duel"] as const) {
       expect(themeOptions(mode, save).find(({ theme }) => theme.id === "politique"))
-        .toMatchObject({ availableCount: 12, totalCount: peoplePack.length, enabled: true });
-      expect(playThemePool(mode, "politique", save)).toEqual(unlockedPeople({}, peoplePack));
+        .toMatchObject({ availableCount: 12, totalCount: french.length, enabled: true });
+      expect(playThemePool(mode, "politique", save)).toEqual(unlockedPeople({}, french));
       expect(playThemePool(mode, "animaux", save).every((character) => character.serie === "animal")).toBe(true);
     }
     expect(playThemeFromSearch("?theme=politique")).toBe("politique");
     for (const index of [1, 13, 47, 100]) {
-      const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool: peoplePack });
+      const spec = generatePlayableLevel(index, { seed: 42, tier: "normal", pool: french });
       expect([spec.wanted, ...spec.decoys].every((character) => character.serie === "politics")).toBe(true);
       if (index < 13) expect(spec.accessories).toBeUndefined();
       if (index === 13) expect(spec.accessories?.target).toBeTruthy();
@@ -150,12 +151,20 @@ describe("thèmes proposés avant une partie", () => {
     }
   });
 
-  it("n'invente pas de catalogues politiques brésilien ou américain", () => {
+  it("propose les catalogues politiques brésilien et américain en exigeant trois portraits débloqués", () => {
     for (const id of ["politique-br", "politique-us"] as const) {
-      expect(publishedThemePool(id)).toEqual([]);
-      expect(themeOptions("duel", defaultSave()).find(option => option.theme.id === id))
-        .toMatchObject({ availableCount: 0, totalCount: 0, enabled: false, theme: { comingSoon: true, family: "personnages", group: "politique" } });
-      expect(playThemeFromSearch(`?theme=${id}`)).toBe("ferme");
+      const pool = charactersInRegion(peoplePack, id === "politique-br" ? "br" : "us");
+      expect(pool.length).toBeGreaterThanOrEqual(3);
+      expect(publishedThemePool(id)).toEqual(pool);
+      expect(playThemeFromSearch(`?theme=${id}`)).toBe(id);
+      for (const mode of ["endless", "duel"] as const) {
+        for (const count of [0, 2, 3]) {
+          const save = { ...defaultSave(), purchasedPeople: pool.slice(0, count).map(person => person.name) };
+          expect(themeOptions(mode, save).find(option => option.theme.id === id))
+            .toMatchObject({ availableCount: count, totalCount: pool.length, enabled: count >= 3, theme: { comingSoon: false, family: "personnages", group: "politique" } });
+          expect(playThemePool(mode, id, save)).toEqual(pool.slice(0, count));
+        }
+      }
     }
   });
 

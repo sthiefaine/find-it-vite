@@ -6,10 +6,10 @@ const STARTERS = new Set<string>(STARTER_ANIMAL_IDS);
 
 // La collection suffit : les anciennes sauvegardes bénéficient immédiatement
 // des cinq portraits de départ, sans ajouter de fausses captures à l'album.
-export type AnimalUnlockSave = { collection?: Readonly<Record<string, number>>; purchasedAnimals?: readonly string[] };
+export type AnimalUnlockSave = { collection?: Readonly<Record<string, number>>; purchasedAnimals?: readonly string[]; campaign?: { grantedPortraits?: readonly string[] } };
 
 export function isAnimalUnlocked(save: AnimalUnlockSave, animalId: string): boolean {
-  return STARTERS.has(animalId) || (save.collection?.[animalId] ?? 0) > 0 || !!save.purchasedAnimals?.includes(animalId);
+  return STARTERS.has(animalId) || (save.collection?.[animalId] ?? 0) > 0 || !!save.purchasedAnimals?.includes(animalId) || !!save.campaign?.grantedPortraits?.includes(animalId);
 }
 
 export function unlockedAnimals(

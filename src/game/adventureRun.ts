@@ -1,6 +1,6 @@
 // Aventure en partie continue : les étapes (5 avis) s'enchaînent sans écran
 // intermédiaire, d'un monde à l'autre, puis dans le Grand Mélange. Logique pure.
-import { allCharacters, LEVELS_PER_WORLD, WORLDS } from "../content/worlds";
+import { LEVELS_PER_WORLD, WORLDS } from "../content/worlds";
 import type { World, WorldId } from "../content/worlds";
 import type { CharacterDetails } from "../helpers/characters";
 import { isLevelUnlocked } from "../content/progress";
@@ -87,7 +87,7 @@ let mixPool: CharacterDetails[] | null = null;
 export function poolOfStep(step: number): CharacterDetails[] {
   const info = stepInfo(step);
   if (info.worldId) return WORLDS.find((w) => w.id === info.worldId)!.characters;
-  mixPool ??= allCharacters();
+  mixPool ??= WORLDS.flatMap(world => world.characters);
   return mixPool;
 }
 
