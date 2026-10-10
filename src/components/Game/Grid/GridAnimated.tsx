@@ -6,7 +6,7 @@ import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction"
 import { HitCandidate } from "../../../helpers/hitTest";
 import { FederatedPointerEvent } from "@pixi/events";
 import { Rectangle } from "pixi.js";
-import { getBoard } from "../../../helpers/board";
+import type { Board } from "../../../helpers/board";
 import type { LevelSpec } from "../../../engine/types";
 import { pickTap, targetName } from "./crowd";
 import { layoutScroll } from "./layouts";
@@ -20,8 +20,7 @@ import "./Grid.css";
 
 // Disposition "scroll" : des lignes (ou colonnes) qui défilent en boucle.
 // Placement et défilement en px logiques (layoutScroll), rendu × board.scale.
-const GridAnimated = ({ spec }: { spec: LevelSpec }) => {
-  const board = useMemo(() => getBoard(), []);
+const GridAnimated = ({ spec, board }: { spec: LevelSpec; board: Board }) => {
   const releaseStage = useReleaseStage();
   const animationFrameRef = useRef<number | null>(null);
   const appActiveRef = useRef(isPageVisible());

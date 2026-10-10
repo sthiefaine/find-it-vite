@@ -4302,7 +4302,7 @@
       "family": "gris",
       "status": "ready",
       "source": "/assets/images/characters/animals/narval.png",
-      "notes": "Nouveau portrait créé le 8 octobre 2026 avec image_gen intégré : tête frontale, finition mate, iris naturels propres à l’animal et fond transparent. PNG 512 × 512. Prompt : content/sprites/narval.prompt.txt.",
+      "notes": "Portrait corrigé le 10 octobre 2026 avec image_gen intégré d’après anatomie réelle du narval, peau mouchetée et défense issue de la mâchoire supérieure. Tête de face, deux yeux visibles, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/narval.prompt.txt.",
       "species": "narval",
       "breed": "",
       "dominantColors": [
@@ -4775,7 +4775,7 @@
       "family": "cheveux-courts",
       "status": "ready",
       "source": "/assets/images/characters/celebrities/omar-sy.png",
-      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/omar-sy.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/omar-sy.png.",
+      "notes": "Portrait corrigé le 10 octobre 2026 avec image_gen intégré d’après photo d’Omar Sy à la Berlinale 2020. Tête de face, deux yeux visibles, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/celebrities/omar-sy.prompt.txt.",
       "tags": [
         "celebrites",
         "cinema"
@@ -5075,7 +5075,7 @@
       "family": "chauve-barbe",
       "status": "ready",
       "source": "/assets/images/characters/celebrities/philippe-etchebest.png",
-      "notes": "Portrait généré avec image_gen intégré le 9 octobre 2026. Tête seule de face, fond transparent, PNG 512 × 512. Prompt : content/sprites/celebrities/philippe-etchebest.prompt.txt. Original : artifacts/sprite-originals/celebrities-2026-10-09/philippe-etchebest.png.",
+      "notes": "Portrait corrigé le 10 octobre 2026 avec image_gen intégré d’après photos du chef Philippe Etchebest (M6 et site officiel). Tête de face, deux yeux visibles, finition mate et fond transparent. PNG 512 × 512. Prompt : content/sprites/celebrities/philippe-etchebest.prompt.txt.",
       "tags": [
         "celebrites",
         "cuisine"

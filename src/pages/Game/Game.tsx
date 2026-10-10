@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo, useRef } from "react";
+import { CSSProperties, useLayoutEffect, useRef, useState } from "react";
 import GameHeader from "../../components/Game/Header/GameHeader.tsx";
 import "./Game.css";
 import GameGrid from "../../components/Game/Grid/Grid.tsx";
@@ -10,7 +10,7 @@ import GridAnimated from "../../components/Game/Grid/GridAnimated.tsx";
 import GridAnimated2 from "../../components/Game/Grid/GridAnimated2.tsx";
 import GridAnimated3 from "../../components/Game/Grid/GridAnimated3.tsx";
 import InGameActionButton from "../../components/Game/InGameActionButton/inGameActionButton.tsx";
-import { getBoard } from "../../helpers/board.ts";
+import { boardWithin, getBoard, type Board } from "../../helpers/board.ts";
 import type { LevelSpec } from "../../engine/types.ts";
 import Flashlight from "../../components/Flashlight/Flashlight.tsx";
 import { stepInfo } from "../../game/adventureRun.ts";
@@ -20,16 +20,16 @@ import Foliage from "../../components/Foliage/Foliage.tsx";
 import { PortraitReveal } from "../../components/PortraitReveal/PortraitReveal";
 import { CaptureCelebration } from "../../components/Game/CaptureCelebration/CaptureCelebration";
 
-const renderGrid = (spec: LevelSpec) => {
+const renderGrid = (spec: LevelSpec, board: Board) => {
   switch (spec.layout) {
     case "grid":
-      return <GameGrid spec={spec} key={spec.seed} />;
+      return <GameGrid spec={spec} board={board} key={spec.seed} />;
     case "scroll":
-      return <GridAnimated spec={spec} key={spec.seed} />;
+      return <GridAnimated spec={spec} board={board} key={spec.seed} />;
     case "pile":
-      return <GridAnimated2 spec={spec} key={spec.seed} />;
+      return <GridAnimated2 spec={spec} board={board} key={spec.seed} />;
     case "swarm":
-      return <GridAnimated3 spec={spec} key={spec.seed} />;
+      return <GridAnimated3 spec={spec} board={board} key={spec.seed} />;
   }
 };
 
@@ -47,7 +47,30 @@ const Game = () => {
         adventureStep: state.adventureStep,
       }))
     );
-  const board = useMemo(() => getBoard(), []);
+  const [board, setBoard] = useState(getBoard);
+  const boardSpaceRef = useRef<HTMLDivElement>(null);
+  useLayoutEffect(() => {
+    const space = boardSpaceRef.current;
+    if (!space) return;
+    const resize = (width: number, height: number) => {
+      if (width <= 0 || height <= 0) return;
+      const next = boardWithin(width, height);
+      setBoard(previous => previous.width === next.width && previous.height === next.height ? previous : next);
+    };
+    // Mesurer avant le premier affichage ; ResizeObserver suit ensuite le viewport,
+    // les traductions et les lignes ajoutées au score sans redémarrer le niveau.
+    const style = getComputedStyle(space);
+    resize(
+      space.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight),
+      space.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom),
+    );
+    const observer = new ResizeObserver(entries => {
+      const { width, height } = entries[0].contentRect;
+      resize(width, height);
+    });
+    observer.observe(space);
+    return () => observer.disconnect();
+  }, []);
   const unlock = useGameStore(state => state.unlockQueue[0]);
   const dismissUnlock = useGameStore(state => state.dismissUnlock);
   const boardRef = useRef<HTMLDivElement>(null);
@@ -72,28 +95,30 @@ const Game = () => {
       }
     >
       <GameHeader />
-      <div
-        ref={boardRef}
-        className={`boardWrap${hasFlashlight ? " boardWrap--flashlight" : ""}`}
-      >
-        {spec ? renderGrid(spec) : <div className="gridContainer" />}
-        {!isOver && <CaptureCelebration />}
-        {spec && hasFlashlight && (
-          <Flashlight
-            key={`flashlight-${spec.seed}`}
-            boardRef={boardRef}
-            width={board.width}
-            height={board.height}
-            scale={board.scale}
-            tier={tier}
-            // Chrono en pause pendant la carte de découverte : la pulsation attend
-            active={!loading && !pauseTimer}
-            hidden={wantedFound || isOver}
-          />
-        )}
-        <Seagulls boardRef={boardRef} />
-        {spec?.scene?.foliage && <Foliage key={`foliage-${spec.seed}`} boardRef={boardRef} spec={spec} />}
-        {mode === "adventure" && !isOver && <StepToast />}
+      <div ref={boardSpaceRef} className="boardSpace">
+        <div
+          ref={boardRef}
+          className={`boardWrap${hasFlashlight ? " boardWrap--flashlight" : ""}`}
+        >
+          {spec ? renderGrid(spec, board) : <div className="gridContainer" />}
+          {!isOver && <CaptureCelebration />}
+          {spec && hasFlashlight && (
+            <Flashlight
+              key={`flashlight-${spec.seed}`}
+              boardRef={boardRef}
+              width={board.width}
+              height={board.height}
+              scale={board.scale}
+              tier={tier}
+              // Chrono en pause pendant la carte de découverte : la pulsation attend
+              active={!loading && !pauseTimer}
+              hidden={wantedFound || isOver}
+            />
+          )}
+          <Seagulls boardRef={boardRef} />
+          {spec?.scene?.foliage && <Foliage key={`foliage-${spec.seed}`} boardRef={boardRef} spec={spec} />}
+          {mode === "adventure" && !isOver && <StepToast />}
+        </div>
       </div>
       <div className="gameActions">
         <InGameActionButton />

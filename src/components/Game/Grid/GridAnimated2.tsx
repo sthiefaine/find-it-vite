@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Stage, Container, Graphics } from "@pixi/react";
 import { FederatedPointerEvent } from "@pixi/events";
 import { useShallow } from "zustand/shallow";
@@ -8,7 +8,7 @@ import "@pixi/events";
 import { Rectangle } from "pixi.js";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
 import type { HitCandidate } from "../../../helpers/hitTest";
-import { getBoard } from "../../../helpers/board";
+import type { Board } from "../../../helpers/board";
 import type { LevelSpec } from "../../../engine/types";
 import { pickTap, targetName } from "./crowd";
 import { placePile } from "./layouts";
@@ -20,7 +20,7 @@ import { pileDebugZones } from "./pileVisibility";
 // Disposition "pile" : un tas de persos qui se chevauchent.
 // Placement en px logiques sur le plateau fixe 390×520 (placePile), rendu × board.scale.
 
-const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
+const GridAnimated2 = ({ spec, board }: { spec: LevelSpec; board: Board }) => {
 
   const {
     canvasRef,
@@ -32,8 +32,7 @@ const GridAnimated2 = ({ spec }: { spec: LevelSpec }) => {
     handleCharacterClick,
   } = useCharacterInteraction();
 
-  // Monté avec key={spec.seed} : plateau et placement calculés une fois par niveau
-  const [board] = useState(getBoard);
+  // Monté avec key={spec.seed} : le placement logique reste figé durant le niveau.
   const releaseStage = useReleaseStage();
   const placedCharacters = useMemo(() => placePile(spec), [spec]);
 

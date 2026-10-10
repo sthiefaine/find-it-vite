@@ -194,7 +194,7 @@ const ANIMAL_PROFILES: Readonly<Record<string, AnimalAccessoryProfile>> = {
   "ours-polaire": {"eyesY":0.43,"muzzleY":0.69},
   "renard-polaire": {"eyesY":0.55,"muzzleY":0.79,"hat":{"centerY":0.3,"scale":0.9}},
   "panthere-des-neiges": {"eyesY":0.44,"muzzleY":0.75},
-  "narval": {"eyesY":0.45,"muzzleY":0.66},
+  "narval": {"eyesY":0.585,"muzzleY":0.725,"hat":{"centerY":0.32,"scale":0.85}},
 };
 
 export function getAccessoryBox(accessory: Accessory, imageSrc: string, fitting?: AnimalAccessoryProfile): Accessory["box"] {

@@ -7,7 +7,7 @@ import "./Grid.css";
 import { Rectangle } from "pixi.js";
 import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction";
 import { HIT_RADIUS_RATIO, HitCandidate } from "../../../helpers/hitTest";
-import { getBoard } from "../../../helpers/board";
+import type { Board } from "../../../helpers/board";
 import type { LayoutParams, LevelSpec } from "../../../engine/types";
 import { pickTap, targetName } from "./crowd";
 import { SwarmCharacter, areaOf, placeSwarm, stepSwarm } from "./layouts";
@@ -22,7 +22,7 @@ import { advanceMovementClock, createMovementClock, createSwarmMovement, suspend
 
 const DEFAULT_EDGE: NonNullable<LayoutParams["edgeBehavior"]> = "bounce";
 
-const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
+const GridAnimated3 = ({ spec, board }: { spec: LevelSpec; board: Board }) => {
   const animationFrameRef = useRef<number | null>(null);
   const appActiveRef = useRef(isPageVisible());
   const movementClock = useRef(createMovementClock());
@@ -41,8 +41,7 @@ const GridAnimated3 = ({ spec }: { spec: LevelSpec }) => {
   const isCorrectSelectionRef = useRef(isCorrectSelection);
   isCorrectSelectionRef.current = isCorrectSelection;
 
-  // Monté avec key={spec.seed} : plateau et placement calculés une fois par niveau
-  const [board] = useState(getBoard);
+  // Monté avec key={spec.seed} : le placement logique reste figé durant le niveau.
   const releaseStage = useReleaseStage();
   const area = useMemo(() => areaOf(spec), [spec]);
   const edge = spec.params.edgeBehavior ?? DEFAULT_EDGE;

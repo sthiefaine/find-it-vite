@@ -7,7 +7,7 @@ import { useCharacterInteraction } from "../../../hooks/useCharacterInteraction"
 import { FederatedPointerEvent } from "@pixi/events";
 import { Rectangle } from "pixi.js";
 import { HitCandidate } from "../../../helpers/hitTest";
-import { getBoard } from "../../../helpers/board";
+import type { Board } from "../../../helpers/board";
 import type { LevelSpec } from "../../../engine/types";
 import { pickTap, targetName } from "./crowd";
 import { layoutGrid } from "./layouts";
@@ -16,8 +16,7 @@ import { CrowdSprite, FoundMarker } from "./CrowdSprite";
 import { useReleaseStage } from "./useReleaseStage";
 
 // Disposition "grid". Placement en px logiques (layoutGrid), rendu × board.scale.
-const GameGrid = ({ spec }: { spec: LevelSpec }) => {
-  const board = useMemo(() => getBoard(), []);
+const GameGrid = ({ spec, board }: { spec: LevelSpec; board: Board }) => {
   const releaseStage = useReleaseStage();
 
   const {

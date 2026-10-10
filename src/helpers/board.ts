@@ -5,15 +5,21 @@ import { BOARD } from "../engine/types";
 // Le rendu est ensuite mis à l'échelle uniformément (× scale) et centré.
 export type Board = { width: number; height: number; scale: number };
 
-const HEADER_AND_BUTTONS = 286; // navigation, avis avec nom sur deux lignes, espacements et boutons
+const HEADER_AND_BUTTONS = 286; // estimation initiale ; la partie mesure ensuite son espace réel
 const MAX_WIDTH = 450;
+
+// L'espace réservé au plateau par le layout, après l'en-tête, les commandes et les insets.
+// La géométrie logique reste fixe ; seul le rendu et les coordonnées de toucher changent.
+export function boardWithin(availableW: number, availableH: number): Board {
+  const width = Math.max(1, Math.min(availableW, MAX_WIDTH));
+  const height = Math.max(1, availableH);
+  const scale = Math.min(width / BOARD.w, height / BOARD.h);
+  return { width: BOARD.w * scale, height: BOARD.h * scale, scale };
+}
 
 // Fonction pure : plateau pour une fenêtre de viewW × viewH px CSS
 export function boardFor(viewW: number, viewH: number): Board {
-  const availW = Math.max(1, Math.min(viewW, MAX_WIDTH));
-  const availH = Math.max(1, viewH - HEADER_AND_BUTTONS);
-  const scale = Math.min(availW / BOARD.w, availH / BOARD.h);
-  return { width: BOARD.w * scale, height: BOARD.h * scale, scale };
+  return boardWithin(viewW, viewH - HEADER_AND_BUTTONS);
 }
 
 export function getBoard(): Board {
