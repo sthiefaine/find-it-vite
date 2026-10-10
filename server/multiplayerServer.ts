@@ -1,7 +1,7 @@
 import { randomBytes, randomInt, timingSafeEqual } from "node:crypto";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { createReadStream } from "node:fs";
-import { realpath, stat } from "node:fs/promises";
+import { readFile, realpath, stat } from "node:fs/promises";
 import path from "node:path";
 import { WebSocket, WebSocketServer } from "ws";
 import { levelCharacterIds, multiplayerLevel, multiplayerPool, MULTIPLAYER_THEMES } from "../src/multiplayer/multiplayerRules";
@@ -10,6 +10,9 @@ import type { ClientMessage, LastResult, MatchRules, MultiplayerTheme, PublicPla
 
 import { validPurchasedPeople } from "../src/content/personUnlocks";
 import { MIN_POOL_SIZE } from "../src/engine/generateLevel";
+import { BOARD } from "../src/engine/types";
+import { createMatchBoard } from "../src/pages/Multiplayer/boardModel";
+import { decorateShareHtml } from "../src/multiplayer/shareMetadata";
 
 const CODE_ALPHABET = "ABCDEFGHJKMNPQRSTUVWXYZ23456789";
 const WAITING_TTL_MS = 10 * 60_000;
@@ -70,9 +73,17 @@ function validMessage(value: unknown): value is ClientMessage {
     case "create": return cleanName(v.name) !== null && MULTIPLAYER_THEMES.includes(v.theme as MultiplayerTheme);
     case "join": return cleanName(v.name) !== null && typeof v.code === "string" && ROOM_CODE_PATTERN.test(v.code);
     case "resume": return typeof v.code === "string" && ROOM_CODE_PATTERN.test(v.code) && typeof v.token === "string" && /^[a-f0-9]{64}$/.test(v.token);
-    case "ready": return typeof v.ready === "boolean";
+    case "ready":
+    case "rematch": return typeof v.ready === "boolean";
     case "assetsReady": return typeof v.levelNonce === "string" && v.levelNonce.length <= 64;
-    case "tap": return typeof v.levelNonce === "string" && v.levelNonce.length <= 64 && Number.isSafeInteger(v.characterId) && (v.characterId as number) >= 0;
+    case "tap": {
+      const point = v.point as Record<string, unknown> | undefined;
+      const validPoint = !!point && typeof point.x === "number" && Number.isFinite(point.x) && point.x >= 0 && point.x <= BOARD.w &&
+        typeof point.y === "number" && Number.isFinite(point.y) && point.y >= 0 && point.y <= BOARD.h;
+      return typeof v.levelNonce === "string" && v.levelNonce.length <= 64 &&
+        ((Number.isSafeInteger(v.characterId) && (v.characterId as number) >= 0) || (v.characterId === null && validPoint)) &&
+        (v.point === undefined || validPoint);
+    }
     case "leave": return true;
     case "ping": return typeof v.clientTime === "number" && Number.isFinite(v.clientTime);
     default: return false;
@@ -88,6 +99,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
   const rules = { ...DEFAULT_MATCH_RULES, ...options.rules };
   for (const [key, value] of Object.entries(rules)) if (!Number.isFinite(value) || (key === "maxMatchMs" ? value < 0 : value <= 0)) throw new Error("Règles multijoueur invalides");
   const distDir = options.distDir ? path.resolve(options.distDir) : null;
+  let indexHtml: Promise<string> | undefined;
 
   function send(peer: Peer, message: ServerMessage) {
     if (peer.socket.readyState !== WebSocket.OPEN) return;
@@ -99,7 +111,8 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
   function publicRoom(room: Room): RoomSnapshot {
     return {
       code: room.code, status: room.status, theme: room.theme, rules: room.rules, winnerIds: room.winnerIds, finishReason: room.finishReason,
-      players: room.players.map(({ id, name, connected, ready, score, lives, level, phase, remainingMs, deadline }) => ({ id, name, connected, ready, score, lives, level, phase, remainingMs, deadline })),
+      matchNumber: room.matchNumber, taps: room.taps, reveal: room.reveal,
+      players: room.players.map(({ id, name, connected, ready, score, lives, level, phase, remainingMs, deadline, mistakes, bestResponseMs }) => ({ id, name, connected, ready, score, lives, level, phase, remainingMs, deadline, mistakes, bestResponseMs })),
     };
   }
   function broadcast(room: Room) {
@@ -126,7 +139,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       score: 0, lives: rules.lives, level: 1, phase: "waiting", levelNonce: null, spec: null, startsAt: null, deadline: null,
       prepareDeadline: null, lastResult: null, resultSequence: 0, assetsReady: false, disconnectedAt: null,
       allIds: new Set(), wantedIds: new Set(), lastTapAt: -Infinity,
-      remainingMs: rules.initialTimeMs, purchasedPeople: [],
+      remainingMs: rules.initialTimeMs, purchasedPeople: [], mistakes: 0, bestResponseMs: null,
     };
   }
   function freezeClocks(room: Room) {
@@ -142,6 +155,11 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
     room.finishedAt = now();
     room.finishReason = reason;
     room.winnerIds = winners;
+    room.players.forEach(player => { player.ready = false; });
+    if (!room.reveal) {
+      const player = room.players.find(other => other.levelNonce && other.startsAt !== null && other.startsAt <= now());
+      if (player) room.reveal = { levelNonce: player.levelNonce!, at: now(), until: now(), elapsedMs: now() - player.startsAt!, winnerId: null };
+    }
   }
   function eliminate(player: Player, result: LastResult) {
     if (result === "timeout") player.remainingMs = 0;
@@ -166,6 +184,8 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
     const ids = levelCharacterIds(spec);
     const nonce = randomBytes(16).toString("hex");
     room.status = "countdown";
+    room.reveal = null;
+    room.taps = [];
     for (const player of room.players) {
       player.spec = spec;
       player.allIds = ids.all;
@@ -195,9 +215,13 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       freezeClocks(room);
       player.score++;
       player.remainingMs = Math.min(rules.maxTimeMs, player.remainingMs + rules.correctBonusMs);
-      room.players.forEach((other) => other.level++);
-      prepare(room);
+      const responseMs = Math.max(0, now() - player.startsAt!);
+      player.bestResponseMs = player.bestResponseMs === null ? responseMs : Math.min(player.bestResponseMs, responseMs);
+      room.reveal = { levelNonce: player.levelNonce!, at: now(), until: now() + rules.revealMs, elapsedMs: responseMs, winnerId: player.id };
+      room.status = "revealing";
+      room.players.forEach(other => { other.phase = "revealing"; });
     } else {
+      player.mistakes++;
       player.lives--;
       if (player.lives === 0) {
         finish(room, "lives", room.players.filter((other) => other !== player).map((other) => other.id));
@@ -247,7 +271,7 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       if (multiplayerPool(message.theme, player.purchasedPeople).length < MIN_POOL_SIZE) {
         error(peer, "NOT_ENOUGH_PORTRAITS", "Débloque au moins 3 portraits dans ce thème avant de créer un salon."); return;
       }
-      const room: Room = { code, status: "waiting", theme: message.theme, players: [player], rules, seed: randomInt(0x100000000), createdAt: now(), startedAt: null, finishedAt: null, winnerIds: [], finishReason: null };
+      const room: Room = { code, status: "waiting", theme: message.theme, players: [player], rules, seed: randomInt(0x100000000), createdAt: now(), startedAt: null, finishedAt: null, winnerIds: [], finishReason: null, matchNumber: 1, taps: [], reveal: null };
       rooms.set(code, room);
       bind(peer, room, player);
       return;
@@ -279,6 +303,29 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
     }
     const { room, player } = peer;
     if (!room || !player) { error(peer, "NOT_JOINED", "Rejoins d’abord un salon."); return; }
+    if (message.type === "rematch") {
+      if (room.status !== "finished" || room.players.length !== 2) return;
+      player.ready = message.ready;
+      if (room.players.every(other => other.ready && other.connected)) {
+        room.matchNumber++;
+        room.seed = randomInt(0x100000000);
+        room.startedAt = now();
+        room.finishedAt = null;
+        room.finishReason = null;
+        room.winnerIds = [];
+        room.reveal = null;
+        room.taps = [];
+        for (const other of room.players) {
+          other.score = 0; other.lives = rules.lives; other.level = 1;
+          other.remainingMs = rules.initialTimeMs;
+          other.mistakes = 0; other.bestResponseMs = null;
+          other.lastResult = null; other.resultSequence = 0; other.lastTapAt = -Infinity;
+        }
+        prepare(room);
+      }
+      broadcast(room);
+      return;
+    }
     if (message.type === "ready") {
       if (room.status !== "waiting") return;
       player.ready = message.ready;
@@ -300,10 +347,14 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       // point. Old/replayed taps never mutate the next level or its lives.
       if (room.status !== "playing" || player.phase !== "playing" || player.levelNonce !== message.levelNonce) return;
       if (player.deadline === null || now() >= player.deadline) { tick(); return; }
-      if (!player.allIds.has(message.characterId)) { error(peer, "INVALID_CHARACTER", "Ce portrait n’appartient pas au niveau."); return; }
+      if (message.characterId !== null && !player.allIds.has(message.characterId)) { error(peer, "INVALID_CHARACTER", "Ce portrait n’appartient pas au niveau."); return; }
       if (now() - player.lastTapAt < 180) return;
       player.lastTapAt = now();
-      resolveTap(room, player, player.wantedIds.has(message.characterId) ? "correct" : "wrong");
+      const result = message.characterId === null ? "empty" : player.wantedIds.has(message.characterId) ? "correct" : "wrong";
+      const sprite = message.point ? null : createMatchBoard(player.spec!)(Math.max(0, (now() - player.startsAt!) / 1_000)).find(sprite => sprite.id === message.characterId);
+      const point = message.point ?? (sprite ? { x: Math.max(0, Math.min(BOARD.w, sprite.cx)), y: Math.max(0, Math.min(BOARD.h, sprite.cy)) } : null);
+      if (point) room.taps = [...room.taps.slice(-7), { ...point, sequence: (room.taps.at(-1)?.sequence ?? 0) + 1, playerId: player.id, levelNonce: player.levelNonce!, at: now(), result }];
+      if (result !== "empty") resolveTap(room, player, result);
       broadcast(room);
     }
   }
@@ -345,6 +396,11 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
           changed = true;
         }
       }
+      if (room.status === "revealing" && room.reveal && t >= room.reveal.until) {
+        room.players.forEach(player => { player.level++; });
+        prepare(room);
+        changed = true;
+      }
       // Resolve a clock loss once for the shared board. If both deadlines are
       // exactly equal, nobody wins; arrival order in this loop cannot decide it.
       if (room.status === "playing") {
@@ -374,6 +430,15 @@ export function createMultiplayerServer(options: MultiplayerServerOptions = {}) 
       response.end(JSON.stringify({ ok: true })); return;
     }
     if (!distDir || !["GET", "HEAD"].includes(request.method ?? "")) { response.writeHead(404); response.end(); return; }
+    if (pathname === "/multiplayer" || pathname === "/") {
+      indexHtml ??= readFile(path.join(distDir, "index.html"), "utf8");
+      const forwarded = options.trustProxy ? request.headers["x-forwarded-proto"] : undefined;
+      const protocol = typeof forwarded === "string" && forwarded.split(",")[0].trim() === "https" ? "https" : "http";
+      const html = decorateShareHtml(await indexHtml, `${protocol}://${request.headers.host}`, request.url ?? "/");
+      response.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "Content-Length": Buffer.byteLength(html) });
+      response.end(request.method === "HEAD" ? undefined : html);
+      return;
+    }
     let decoded: string;
     try { decoded = decodeURIComponent(pathname); } catch { response.writeHead(400); response.end(); return; }
     if (decoded.split("/").some((part) => part.startsWith("."))) { response.writeHead(404); response.end(); return; }

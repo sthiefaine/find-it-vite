@@ -5,6 +5,7 @@ import path from 'path';
 import { readFileSync } from 'node:fs';
 import { studioPlugin } from './scripts/studioPlugin';
 import { buildVersion, versionPlugin } from './scripts/buildVersion';
+import { shareMetadataPlugin } from './scripts/shareMetadataPlugin';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -25,6 +26,7 @@ export default defineConfig(({ mode }) => {
   plugins: [
     react(),
     versionPlugin(build),
+    shareMetadataPlugin(env.VITE_SITE_URL || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : '')),
     ...(mode === 'studio' ? [studioPlugin()] : []),
     VitePWA({
       registerType: 'autoUpdate',

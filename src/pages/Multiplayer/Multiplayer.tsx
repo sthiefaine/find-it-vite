@@ -9,11 +9,13 @@ import { playThemeFromSearch, playThemePool, publishedThemePool, PLAY_THEMES, tr
 import { ACCESSORIES } from "../../content/accessories";
 import { levelAssetUrls, preloadImages } from "../../game/assetReadiness";
 import { useMultiplayer } from "../../multiplayer/useMultiplayer";
-import { invitationUrl, normalizeRoomCode, playerTimeSeconds, remainingSeconds } from "../../multiplayer/clientUtils";
+import { invitationUrl, matchRewardId, normalizeRoomCode, playerTimeSeconds, remainingSeconds } from "../../multiplayer/clientUtils";
 import { generateNickname, NICKNAME_MAX_LENGTH, readNickname, saveNickname } from "../../multiplayer/nickname";
-import type { PublicPlayer, MultiplayerTheme } from "../../multiplayer/protocol";
+import type { PublicPlayer, MultiplayerTheme, TapPoint } from "../../multiplayer/protocol";
 import { useSaveStore } from "../../save/saveStore";
 import { MatchBoard } from "./MatchBoard";
+import { MatchResult } from "./MatchResult";
+import { matchObstacleAssets } from "../../multiplayer/distractions";
 import { playSound } from "../../audio/engine";
 import { emptyMatchSoundSnapshot, matchSoundEvents, type MatchSoundSnapshot } from "../../multiplayer/audioFeedback";
 import { useGameStore } from "../../../store/store";
@@ -92,7 +94,7 @@ export default function Multiplayer() {
   const outcome = room?.winnerIds.length !== 1 ? "draw" : room.winnerIds.includes(self?.playerId ?? "") ? "win" : "lose";
   useEffect(() => {
     const next: MatchSoundSnapshot = {
-      matchId: roomCode && self?.playerId ? `${roomCode}:${self.playerId}` : null,
+      matchId: roomCode && self?.playerId ? `${roomCode}:${room?.matchNumber}:${self.playerId}` : null,
       connectionEpoch: match?.connectionEpoch ?? 0,
       sequence: self?.resultSequence ?? 0, result: self?.lastResult ?? null,
       phase: self?.phase ?? null, nonce: self?.levelNonce ?? null,
@@ -101,7 +103,7 @@ export default function Multiplayer() {
     const cues = matchSoundEvents(soundSnapshot.current, next);
     soundSnapshot.current = next;
     cues.forEach(cue => playSound(cue));
-  }, [roomCode, match?.connectionEpoch, self?.playerId, self?.resultSequence, self?.lastResult, self?.phase, self?.levelNonce, countdown, room?.status, outcome, connected]);
+  }, [roomCode, room?.matchNumber, match?.connectionEpoch, self?.playerId, self?.resultSequence, self?.lastResult, self?.phase, self?.levelNonce, countdown, room?.status, outcome, connected]);
 
   useEffect(() => {
     const timer = setInterval(() => setClock(serverNow()), 100);
@@ -138,15 +140,15 @@ export default function Multiplayer() {
 
   const ownScore = me?.score;
   useEffect(() => {
-    if (roomCode && self?.playerId && ownScore !== undefined) useSaveStore.getState().recordOnlineScore(`${roomCode}:${self.playerId}`, ownScore);
-  }, [roomCode, self?.playerId, ownScore]);
+    if (roomCode && room?.matchNumber && self?.playerId && ownScore !== undefined) useSaveStore.getState().recordOnlineScore(matchRewardId(roomCode, room.matchNumber, self.playerId), ownScore);
+  }, [roomCode, room?.matchNumber, self?.playerId, ownScore]);
 
   useEffect(() => {
     if (!spec || !self?.levelNonce) return;
     const nonce = self.levelNonce;
     const controller = new AbortController();
     setAssetLoad({ nonce, status: "loading" });
-    void preloadImages(levelAssetUrls(spec), controller.signal).then(() => {
+    void preloadImages([...levelAssetUrls(spec), ...matchObstacleAssets(spec)], controller.signal).then(() => {
       if (!controller.signal.aborted) setAssetLoad({ nonce, status: "ready" });
     }, () => { if (!controller.signal.aborted) setAssetLoad({ nonce, status: "error" }); });
     return () => controller.abort();
@@ -159,6 +161,7 @@ export default function Multiplayer() {
 
   const resultSequence = self?.resultSequence;
   const lastResult = self?.lastResult;
+  useEffect(() => { lastSequence.current = 0; setFeedback(""); }, [room?.matchNumber]);
   useEffect(() => {
     if (resultSequence === undefined || resultSequence === lastSequence.current) return;
     lastSequence.current = resultSequence;
@@ -169,10 +172,10 @@ export default function Multiplayer() {
     return () => clearTimeout(timer);
   }, [resultSequence, lastResult, tr]);
 
-  const tap = useCallback((characterId: number) => {
+  const tap = useCallback((characterId: number | null, point: TapPoint) => {
     if (!self?.levelNonce || self.phase !== "playing" || !connected || Date.now() - lastTap.current < 250) return;
     lastTap.current = Date.now();
-    send({ type: "tap", levelNonce: self.levelNonce, characterId });
+    send({ type: "tap", levelNonce: self.levelNonce, characterId, point });
   }, [self?.levelNonce, self?.phase, connected, send]);
 
   const quit = () => { leave(); navigate("/"); };
@@ -198,8 +201,9 @@ export default function Multiplayer() {
   };
 
   const playing = self?.phase === "playing" && room?.status !== "finished";
+  const revealing = room?.status === "revealing";
   const inMatch = room && room.status !== "waiting" && room.status !== "finished";
-  const readyAssetsError = poolStatus === "error" || (inMatch && assetsStatus === "error");
+  const readyAssetsError = poolStatus === "error" || ((inMatch || room?.status === "finished") && assetsStatus === "error");
   const currentThemeDetails = PLAY_THEMES.find(item => item.id === currentTheme);
   const themeLabel = currentThemeDetails ? translatedThemeLabel(currentThemeDetails, tr) : tr("Animaux");
   const entryPortraits = useMemo(() => {
@@ -279,27 +283,34 @@ export default function Multiplayer() {
         {spec && <>
           <div className="mp-game-header">
             <div className="mp-wanted"><span className="mp-wanted-picture" key={self?.levelNonce}><AnimalPortrait imageSrc={spec.wanted.imageSrc} label={tr(spec.wanted.label)} accessoryId={spec.accessories?.target} size={62} />
-                {!playing && <span className="mp-count-badge" aria-label={tr("Départ dans {{count}}", { count: self?.phase === "countdown" ? Math.max(1, remainingSeconds(self.startsAt, clock)) : 3 })} key={Math.max(1, remainingSeconds(self?.startsAt ?? null, clock))}>{self?.phase === "countdown" ? Math.max(1, remainingSeconds(self.startsAt, clock)) : 3}</span>}</span>
+                {!playing && !revealing && <span className="mp-count-badge" aria-label={tr("Départ dans {{count}}", { count: self?.phase === "countdown" ? Math.max(1, remainingSeconds(self.startsAt, clock)) : 3 })} key={Math.max(1, remainingSeconds(self?.startsAt ?? null, clock))}>{self?.phase === "countdown" ? Math.max(1, remainingSeconds(self.startsAt, clock)) : 3}</span>}</span>
               <span><small>{tr("RECHERCHÉ")}</small><strong>{tr(spec.wanted.label)}</strong></span></div>
             <div className="mp-level"><small>{tr("Niveau")}</small><strong>{spec.index}</strong></div>
           </div>
           <div className="mp-board-frame" style={{ background: spec.scene?.background }}>
-            {playing && assetsStatus === "ready" ? <MatchBoard key={self?.levelNonce} spec={spec} startsAt={self?.startsAt ?? clock}
-              serverNow={serverNow} enabled={connected && !confirmQuit} onTap={tap} /> : <div className="mp-empty-board" role="status" aria-label={tr("Niveau {{level}}, {{name}}, départ dans un instant", { level: spec.index, name: tr(spec.wanted.label) })} />}
-            {feedback && <span className={`mp-feedback ${feedback.startsWith("+") ? "is-good" : ""}`} role="status">{tr(feedback)}</span>}
+            {(playing || revealing) && assetsStatus === "ready" ? <MatchBoard key={self?.levelNonce} spec={spec} startsAt={self?.startsAt ?? clock}
+              serverNow={serverNow} enabled={playing && connected && !confirmQuit} onTap={tap} playerId={self!.playerId}
+              opponentName={other?.name ?? tr("Ton adversaire")} levelNonce={self!.levelNonce!} taps={room.taps}
+              revealElapsedMs={revealing ? room.reveal?.elapsedMs : undefined} /> : <div className="mp-empty-board" role="status" aria-label={tr("Niveau {{level}}, {{name}}, départ dans un instant", { level: spec.index, name: tr(spec.wanted.label) })} />}
+            {revealing && <span className="mp-round-reveal" role="status"><GameIcon name="check" />
+              {room.reveal?.winnerId === self?.playerId ? <>{tr("Tu l’as trouvé !")}<small>+1 · +{room.rules.correctBonusMs / 1_000} s</small></>
+                : <>{tr("{{name}} l’a trouvé !", { name: other?.name ?? tr("Ton adversaire") })}<small>{tr("Voici où il était.")}</small></>}
+            </span>}
+            {feedback && !revealing && <span className={`mp-feedback ${feedback.startsWith("+") ? "is-good" : ""}`} role="status">{tr(feedback)}</span>}
           </div>
+          <div className="mp-tap-legend"><span><i />{tr("Tes clics")}</span><span><i />{other?.name ?? tr("Ton adversaire")}</span>
+            {spec.index >= 3 && <small>{tr("Attention aux perturbations !")}</small>}</div>
         </>}
       </>}
 
-      {room?.status === "finished" && <section className="mp-card mp-victory">
-        <GameIcon name="trophy" className="mp-hero-icon" />
-        <span className="mp-eyebrow">{tr("Duel terminé")}</span>
-        <h1>{room.winnerIds.length !== 1 ? tr("Égalité !") : room.winnerIds.includes(self?.playerId ?? "") ? tr("Tu as gagné !") : tr("{{name}} a gagné !", { name: other?.name ?? tr("Ton adversaire") })}</h1>
-        <div className="mp-players"><PlayerCard player={me} own now={clock} /><PlayerCard player={other} now={clock} /></div>
-        <p>{room.finishReason === "abandoned" ? tr("Le duel s’est arrêté après le départ d’un joueur.") : room.finishReason === "timeout" ? tr("Le chrono d’un joueur est arrivé à zéro.") : tr("Un joueur a épuisé ses trois vies.")}</p>
-        <button type="button" className="mp-button mp-button--gold" onClick={() => { leave(); setFeedback(""); lastSequence.current = 0; setNotice(""); }}>{tr("Nouveau salon")}</button>
-        <button type="button" className="mp-button" onClick={quit}>{tr("Accueil")}</button>
-      </section>}
+      {room?.status === "finished" && <MatchResult key={room.matchNumber} room={room} me={me} other={other} connected={connected}
+        onRematch={() => send({ type: "rematch", ready: !me?.ready })} onHome={quit}
+        onThemes={() => { leave(); navigate(`/play?mode=duel&theme=${encodeURIComponent(currentTheme)}`); }}
+        lastTarget={spec && room.reveal && assetsStatus === "ready" ? <div className="mp-board-frame" style={{ background: spec.scene?.background }}>
+          <MatchBoard spec={spec} startsAt={self?.startsAt ?? clock} serverNow={serverNow} enabled={false} onTap={tap}
+            playerId={self!.playerId} opponentName={other?.name ?? tr("Ton adversaire")} levelNonce={self!.levelNonce!}
+            taps={[]} revealElapsedMs={room.reveal.elapsedMs} />
+        </div> : undefined} />}
 
       {readyAssetsError && <div className="mp-error" role="alert">{tr("Les images n’ont pas toutes chargé.")} <button type="button" className="mp-button mp-button--small" onClick={() => setAttempt(value => value + 1)}>{tr("Réessayer")}</button>
       </div>}

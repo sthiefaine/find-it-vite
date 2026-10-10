@@ -1,5 +1,5 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/" }],
+  "rewrites": [{ "source": "/multiplayer", "destination": "/multiplayer.html" }, { "source": "/(.*)", "destination": "/" }],
   "headers": [
     {
       "source": "/((?!assets/|icons/).*)",

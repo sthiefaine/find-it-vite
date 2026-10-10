@@ -416,9 +416,11 @@ ambigus. Le QR et le lien d’invitation contiennent ce code, jamais le jeton pr
 de reconnexion.
 
 Les deux joueurs cherchent sur **la même grille**, avec les mêmes positions et
-mouvements. Le premier qui trouve marque un point et fait passer les deux joueurs
-au niveau suivant. Chacun commence avec trois vies et un chrono personnel de
-60 secondes. Une erreur enlève une vie ; trouver rapporte 5 secondes, sans dépasser
+mouvements. Le premier qui trouve marque un point ; la cible est entourée pendant
+1,8 seconde avant le passage commun au niveau suivant. Les clics de chaque joueur
+apparaissent brièvement sur les deux plateaux, avec son pseudo.
+Chacun commence avec trois vies et un chrono personnel de
+60 secondes. Une erreur enlève une vie ; trouver rapporte 2 secondes, sans dépasser
 60. Dès que les vies ou le chrono d’un joueur atteignent zéro, la partie se termine
 immédiatement et l’autre gagne, quel que soit le score. Si les deux chronos expirent
 exactement ensemble, la partie est une égalité. Les temps restants sont conservés
@@ -426,8 +428,19 @@ pendant le chargement commun et le décompte 3–2–1 dans le cadre Wanted ; le
 reste vide jusqu’au départ synchronisé. Un abandon ou une déconnexion de plus de
 20 secondes donne la victoire à l’autre joueur. Le serveur décide des scores,
 vies, délais et changements de niveau : aucun score déclaré par le client
-n’est accepté. Les grilles, tas, défilements, rondes et accessoires sont présents ;
-les feuilles et goélands restent pour l’instant réservés aux parties solo.
+n’est accepté. Les grilles, tas, défilements, rondes et accessoires sont présents.
+À partir du troisième niveau, des passages, feuilles et nuages perturbent
+progressivement la recherche. Leur graine et leur horloge sont communes aux deux
+joueurs ; toucher un obstacle est neutre. Ils disparaissent pendant la révélation.
+Le bilan affiche les points, erreurs, vies et meilleure vitesse de chaque joueur,
+permet de revoir la dernière cible et de voter une revanche dans le même salon.
+Chaque duel apporte ses propres étoiles, sans récompense répétée au rechargement.
+
+Les invitations ont une carte Open Graph/Twitter de 1200 × 630 pixels. Le serveur
+rend le titre du salon et ses métadonnées dans le HTML, sans JavaScript ni jeton
+privé. nginx lui relaie `/` et `/multiplayer`. Pour un hébergement statique,
+`VITE_SITE_URL=https://DOMAINE` fixe les URLs absolues des aperçus ; Vercel utilise
+aussi son domaine de production et sert la page dédiée `multiplayer.html`.
 
 Pour développer, garder deux terminaux ouverts :
 

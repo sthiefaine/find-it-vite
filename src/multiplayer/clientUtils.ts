@@ -31,6 +31,12 @@ export function invitationUrl(origin: string, roomCode: string): string {
   return url.href;
 }
 
+// Format compatible avec les anciennes sauvegardes ; chaque revanche a son
+// propre reçu, et une reconnexion ne peut pas redonner les mêmes étoiles.
+export function matchRewardId(code: string, matchNumber: number, playerId: string): string {
+  return `${normalizeRoomCode(code)}${matchNumber > 1 ? matchNumber.toString(36).toUpperCase() : ""}:${playerId}`;
+}
+
 export function hydrateMultiplayerSpec(spec: LevelSpec): LevelSpec {
   const hydrate = (character: LevelSpec["wanted"]) => character.imageSrc || !character.emoji
     ? character : { ...character, imageSrc: emojiImage(character.emoji) };

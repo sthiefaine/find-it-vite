@@ -1,6 +1,10 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it } from "vitest";
 import { WebSocket, type ClientOptions } from "ws";
+import { mkdtemp, writeFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { request } from "node:http";
 import { createMultiplayerServer, type MultiplayerServerOptions } from "./multiplayerServer";
 import { levelCharacterIds } from "../src/multiplayer/multiplayerRules";
 import type { ClientMessage, ServerMessage } from "../src/multiplayer/protocol";
@@ -37,7 +41,7 @@ async function connect(url: string, options?: ClientOptions) {
       if (message) return message;
       await new Promise((resolve) => setTimeout(resolve, 3));
     }
-    throw new Error(`Message absent : ${JSON.stringify(messages.slice(from))}`);
+    throw new Error(`Message absent : ${JSON.stringify(messages.slice(from).map(m => m.type === "state" ? { type: m.type, phase: m.self.phase, level: m.self.spec?.index, scores: m.room.players.map(p => p.score) } : { type: m.type }))}`);
   };
   return {
     socket, messages,
@@ -77,6 +81,40 @@ function ids(state: State) {
 }
 
 describe("real multiplayer WebSocket server", () => {
+  it("serves public invitation metadata to crawlers over GET and HEAD behind HTTPS", async () => {
+    const directory = await mkdtemp(path.join(tmpdir(), "find-it-share-"));
+    try {
+      await writeFile(path.join(directory, "index.html"), '<html><head><title>Find It</title></head><body><div id="root"></div><script src="/game.js"></script></body></html>');
+      const f = await fixture({ distDir: directory, trustProxy: true });
+      const headers = { Host: "duel.example", "X-Forwarded-Proto": "https" };
+      const read = (route: string, method = "GET") => new Promise<{ status: number; headers: import("node:http").IncomingHttpHeaders; body: string }>((resolve, reject) => {
+        const req = request(`${f.http}${route}`, { method, headers }, res => {
+          let body = "";
+          res.setEncoding("utf8");
+          res.on("data", chunk => { body += chunk; });
+          res.on("end", () => resolve({ status: res.statusCode!, headers: res.headers, body }));
+          res.on("error", reject);
+        });
+        req.on("error", reject);
+        req.end();
+      });
+      const response = await read("/multiplayer?room=A3B7K&token=secret");
+      const html = response.body;
+      expect(response.status).toBe(200);
+      expect(response.headers["cache-control"]).toBe("no-store");
+      expect(html).toContain('property="og:url" content="https://duel.example/multiplayer?room=A3B7K"');
+      expect(html).toContain('property="og:image" content="https://duel.example/social/find-it-duel.jpg"');
+      expect(html).toContain("Salon A3B7K");
+      expect(html).not.toContain("secret");
+      expect(html).toContain('<script src="/game.js"></script>');
+      const head = await read("/multiplayer?room=A3B7K&token=secret", "HEAD");
+      expect(head.status).toBe(200);
+      expect(head.headers["content-length"]).toBe(String(Buffer.byteLength(html)));
+      expect(head.body).toBe("");
+      const home = await read("/");
+      expect(home.body).toContain("animaux");
+    } finally { await rm(directory, { recursive: true, force: true }); }
+  });
   it("starts an all-characters room using every collection and only shared purchases", async () => {
     const f = await fixture();
     const host = await connect(f.url);
@@ -157,11 +195,17 @@ describe("real multiplayer WebSocket server", () => {
     expect(f.stateA.self.startsAt).toBe(f.stateB.self.startsAt);
     expect(JSON.stringify(f.stateA)).not.toContain(f.sessionB.token);
     f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wanted });
-    const next = await f.a.state((s) => s.room.players[0].score === 1);
+    const reveal = await f.a.state((s) => s.room.players[0].score === 1);
+    expect(reveal.self.phase).toBe("revealing");
+    expect(reveal.self.spec?.index).toBe(1);
+    expect(reveal.room.reveal?.winnerId).toBe(f.sessionA.playerId);
+    expect(reveal.room.players.map(p => p.deadline)).toEqual([null, null]);
+    f.step(reveal.room.rules.revealMs);
+    const next = await f.a.state((s) => s.self.phase === "preparing" && s.self.spec?.index === 2);
     expect(next.self.phase).toBe("preparing");
     expect(next.self.spec?.index).toBe(2);
     expect(next.room.players.map((p) => p.remainingMs)).toEqual([60_000, 60_000]);
-    const opponent = await f.b.state((s) => s.room.players[0].score === 1);
+    const opponent = await f.b.state((s) => s.room.players[0].score === 1 && s.self.spec?.index === 2);
     expect(opponent.self.spec).toEqual(next.self.spec);
     expect(opponent.self.levelNonce).toBe(next.self.levelNonce);
     expect(opponent.room.players[1].lives).toBe(3);
@@ -181,13 +225,17 @@ describe("real multiplayer WebSocket server", () => {
     f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wanted });
     f.b.send({ type: "tap", levelNonce: f.stateB.self.levelNonce!, characterId: ids(f.stateB).wanted });
     const [a, b] = await Promise.all([
-      f.a.state((s) => s.self.spec?.index === 2),
-      f.b.state((s) => s.self.spec?.index === 2),
+      f.a.state((s) => s.self.phase === "revealing"),
+      f.b.state((s) => s.self.phase === "revealing"),
     ]);
     expect(a.room.players.reduce((sum, p) => sum + p.score, 0)).toBe(1);
-    expect(a.room.players.map((p) => p.level)).toEqual([2, 2]);
+    expect(a.room.players.map((p) => p.level)).toEqual([1, 1]);
     expect(a.self.spec).toEqual(b.self.spec);
     expect(a.self.levelNonce).toBe(b.self.levelNonce);
+    expect(a.room.reveal).toEqual(b.room.reveal);
+    f.step(a.room.rules.revealMs);
+    const prepared = await f.a.state(s => s.self.spec?.index === 2);
+    expect(prepared.room.players.map(p => p.level)).toEqual([2, 2]);
   });
 
   it.each(["ferme", "drapeaux", "personnes"] as const)("waits for both asset acknowledgements before the first shared countdown (%s)", async (theme) => {
@@ -259,7 +307,9 @@ describe("real multiplayer WebSocket server", () => {
   it("ignores claimed scores and makes a player lose on zero lives even with a higher score", async () => {
     const f = await match();
     f.a.socket.send(JSON.stringify({ type: "tap", levelNonce: f.stateA.self.levelNonce, characterId: ids(f.stateA).wanted, score: 9000, lives: 99 }));
-    const next = await f.a.state((s) => s.room.players[0].score === 1);
+    const reveal = await f.a.state((s) => s.room.players[0].score === 1);
+    f.step(reveal.room.rules.revealMs);
+    const next = await f.a.state((s) => s.self.spec?.index === 2);
     expect(next.room.players[0].lives).toBe(3);
     f.a.send({ type: "assetsReady", levelNonce: next.self.levelNonce! });
     f.b.send({ type: "assetsReady", levelNonce: next.self.levelNonce! });
@@ -332,6 +382,8 @@ describe("real multiplayer WebSocket server", () => {
   it("bounds preparation so an unready browser cannot hold its opponent forever", async () => {
     const f = await match();
     f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wanted });
+    const reveal = await f.a.state(s => s.self.phase === "revealing");
+    f.step(reveal.room.rules.revealMs);
     const prep = await f.a.state((s) => s.self.phase === "preparing" && s.room.players[0].score === 1);
     await f.b.state((s) => s.self.spec?.index === 2);
     const from = f.b.messages.length;
@@ -347,21 +399,26 @@ describe("real multiplayer WebSocket server", () => {
     const f = await match();
     f.step(10_000);
     f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wanted });
+    const reveal = await f.a.state(s => s.self.phase === "revealing");
+    expect(reveal.room.reveal?.elapsedMs).toBe(10_000);
+    expect(reveal.room.players[0].bestResponseMs).toBe(10_000);
+    f.step(reveal.room.rules.revealMs);
     const prep = await f.a.state((s) => s.self.spec?.index === 2);
-    expect(prep.room.players.map((p) => p.remainingMs)).toEqual([55_000, 50_000]);
+    expect(prep.room.rules.correctBonusMs).toBe(2000);
+    expect(prep.room.players.map((p) => p.remainingMs)).toEqual([52_000, 50_000]);
     expect(prep.room.players.map((p) => p.deadline)).toEqual([null, null]);
     f.step(2000);
     f.a.send({ type: "assetsReady", levelNonce: prep.self.levelNonce! });
     f.b.send({ type: "assetsReady", levelNonce: prep.self.levelNonce! });
     const countdown = await f.a.state((s) => s.self.spec?.index === 2 && s.self.phase === "countdown");
-    expect(countdown.room.players.map((p) => p.deadline! - countdown.self.startsAt!)).toEqual([55_000, 50_000]);
+    expect(countdown.room.players.map((p) => p.deadline! - countdown.self.startsAt!)).toEqual([52_000, 50_000]);
     f.step(3000);
     await f.b.state((s) => s.self.spec?.index === 2 && s.self.phase === "playing");
     f.step(50_000);
     const ended = await f.a.state((s) => s.room.status === "finished");
     expect(ended.room.winnerIds).toEqual([f.sessionA.playerId]);
     expect(ended.room.players[1].remainingMs).toBe(0);
-    expect(ended.room.players[0].remainingMs).toBe(5000);
+    expect(ended.room.players[0].remainingMs).toBe(2000);
     expect(ended.room.players[1].lives).toBe(3);
   });
 
@@ -371,6 +428,81 @@ describe("real multiplayer WebSocket server", () => {
     const failure = await new Promise<Error>((resolve) => rejected.once("error", resolve));
     expect(failure.message).toContain("403");
     expect(await (await fetch(`${f.http}/health`)).json()).toEqual({ ok: true });
+  });
+
+  it("shares bounded tap positions, including empty space, without consuming a life", async () => {
+    const f = await match();
+    const point = { x: 23, y: 38 };
+    f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: null, point });
+    const [a, b] = await Promise.all([f.a.state(s => s.room.taps.length === 1), f.b.state(s => s.room.taps.length === 1)]);
+    expect(a.room.taps).toEqual(b.room.taps);
+    expect(a.room.taps[0]).toMatchObject({ ...point, playerId: f.sessionA.playerId, result: "empty" });
+    expect(a.room.players.map(p => [p.lives, p.score, p.mistakes])).toEqual([[3, 0, 0], [3, 0, 0]]);
+    for (let i = 0; i < 12; i++) {
+      f.step(200);
+      f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: null, point: { x: i, y: 50 } });
+      await f.a.state(s => s.room.taps.at(-1)?.sequence === i + 2);
+    }
+    const bounded = await f.b.state(s => s.room.taps.at(-1)?.sequence === 13);
+    expect(bounded.room.taps).toHaveLength(8);
+    const from = f.a.messages.length;
+    f.step(200);
+    f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wrong, point: { x: -1, y: 50 } });
+    await f.a.error("INVALID_MESSAGE", from);
+    f.a.send({ type: "tap", levelNonce: "old-round", characterId: null, point });
+    f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wrong, point: { x: 195, y: 260 } });
+    const wrong = await f.b.state(s => s.room.players[0].mistakes === 1);
+    expect(wrong.room.players[0].lives).toBe(2);
+    expect(wrong.room.taps.at(-1)).toMatchObject({ sequence: 14, result: "wrong", x: 195, y: 260 });
+  });
+
+  it("holds the old board during reveal and ignores taps until the next shared round", async () => {
+    const f = await match();
+    f.step(4_000);
+    f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wanted, point: { x: 120, y: 180 } });
+    const revealed = await f.a.state(s => s.self.phase === "revealing");
+    expect(revealed.room.reveal).toMatchObject({ elapsedMs: 4_000, levelNonce: f.stateA.self.levelNonce, winnerId: f.sessionA.playerId });
+    expect(revealed.room.taps.at(-1)?.result).toBe("correct");
+    expect(revealed.self.spec).toEqual(f.stateA.self.spec);
+    f.b.send({ type: "tap", levelNonce: f.stateB.self.levelNonce!, characterId: ids(f.stateB).wanted });
+    f.step(1_799);
+    f.b.send({ type: "ping", clientTime: 0 });
+    await new Promise(resolve => setTimeout(resolve, 10));
+    expect(f.b.messages.filter(m => m.type === "state").at(-1)?.room.status).toBe("revealing");
+    f.step(1);
+    const next = await f.a.state(s => s.self.spec?.index === 2);
+    expect(next.room.players.map(p => p.score)).toEqual([1, 0]);
+    expect(next.room.players.map(p => p.remainingMs)).toEqual([58_000, 56_000]);
+    expect(next.room.reveal).toBeNull();
+    expect(next.room.taps).toEqual([]);
+  });
+
+  it("keeps final target timing and starts a rematch only after both players accept", async () => {
+    const f = await match();
+    for (let life = 2; life >= 0; life--) {
+      f.step(200);
+      f.a.send({ type: "tap", levelNonce: f.stateA.self.levelNonce!, characterId: ids(f.stateA).wrong });
+      await f.a.state(s => s.room.players[0].lives === life);
+    }
+    const end = await f.b.state(s => s.room.status === "finished");
+    expect(end.room.reveal?.elapsedMs).toBe(600);
+    expect(end.room.players[0].mistakes).toBe(3);
+    expect(end.room.players.every(p => !p.ready)).toBe(true);
+    f.a.send({ type: "rematch", ready: true });
+    const waiting = await f.b.state(s => s.room.status === "finished" && s.room.players[0].ready);
+    expect(waiting.room.status).toBe("finished");
+    expect(waiting.room.matchNumber).toBe(1);
+    f.b.send({ type: "rematch", ready: true });
+    const [a, b] = await Promise.all([f.a.state(s => s.room.matchNumber === 2), f.b.state(s => s.room.matchNumber === 2)]);
+    expect(a.room.code).toBe(f.sessionA.code);
+    expect(a.self.spec?.index).toBe(1);
+    expect(a.self.phase).toBe("preparing");
+    expect(a.self.levelNonce).not.toBe(f.stateA.self.levelNonce);
+    expect(a.self.levelNonce).toBe(b.self.levelNonce);
+    expect(a.self.spec).toEqual(b.self.spec);
+    expect(a.room.players.map(p => [p.score, p.lives, p.remainingMs, p.mistakes, p.bestResponseMs])).toEqual([[0, 3, 60000, 0, null], [0, 3, 60000, 0, null]]);
+    expect(a.room.winnerIds).toEqual([]);
+    expect(a.room.finishReason).toBeNull();
   });
 
   it("creates and joins a room behind a proxy preserving the public host and HTTPS origin", async () => {
